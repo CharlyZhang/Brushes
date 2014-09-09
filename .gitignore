@@ -1,0 +1,11 @@
+*.exe
+obj/
+*.ilk
+*.pdb
+ipch/
+*.sdf
+*.opensdf
+*.filters
+*.user
+Brush_opengl/Makefile
+Common/Lib/
