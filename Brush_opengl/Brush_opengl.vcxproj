@@ -39,11 +39,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>./</OutDir>
+    <OutDir>./bin\</OutDir>
+    <IntDir>.\obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>./</OutDir>
+    <OutDir>./bin\</OutDir>
+    <IntDir>.\obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -56,7 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glut32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -74,21 +76,35 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glut32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CZ3DPoint.h" />
+    <ClInclude Include="CZAffineTransform.h" />
+    <ClInclude Include="CZBezierNode.h" />
+    <ClInclude Include="CZBezierSegment.h" />
+    <ClInclude Include="CZBrush.h" />
+    <ClInclude Include="CZGeometry.h" />
+    <ClInclude Include="CZPath.h" />
+    <ClInclude Include="CZProperty.h" />
+    <ClInclude Include="CZUtil.h" />
     <ClInclude Include="drand48.h" />
     <ClInclude Include="glut\glut.h" />
     <ClInclude Include="noise.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="polyfill.h" />
     <ClInclude Include="Stroke.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CZ3DPoint.cpp" />
+    <ClCompile Include="CZAffineTransform.cpp" />
+    <ClCompile Include="CZBezierNode.cpp" />
+    <ClCompile Include="CZBezierSegment.cpp" />
+    <ClCompile Include="CZGeometry.cpp" />
+    <ClCompile Include="CZPath.cpp" />
+    <ClCompile Include="CZUtil.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="noise.cpp" />
-    <ClCompile Include="polyfill.cpp" />
     <ClCompile Include="Stroke.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -199,7 +199,7 @@ void Stroke::drawThickCurve(vector<Point> * curve, float radius,bool cap)
   float textureU = ustart;
   float textureV = vstart;
 
-  glColor3ub(0,0,255);
+  glColor3ub(0,255,0);
 
   if (cap)
     drawCap(p0, dx, dy,textureU,textureV);

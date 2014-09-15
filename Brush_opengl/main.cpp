@@ -10,7 +10,7 @@
 
 Stroke curve;
 
-int windowWidth = 512, windowHeight = 512;
+int windowWidth = 600, windowHeight = 600;
 
 bool opaque = true;
 bool controlPolygon = true;
@@ -31,7 +31,14 @@ void Redraw(void)
       glColor3ub(0, 64, 16);
     else
       glColor4ub(0, 64, 16, 128);
-    curve.render();
+   
+	//curve.render();
+	glBegin(GL_QUADS);
+		glTexCoord2f(0,0);	glVertex2f(100,100);
+		glTexCoord2f(1,0);	glVertex2f(300,100);
+		glTexCoord2f(1,1);	glVertex2f(100,300);
+		glTexCoord2f(0,1);	glVertex2f(300,300);
+	glEnd();
 
     if (controlPolygon)
       {
@@ -129,7 +136,7 @@ int main(int argc, char *argv[])
   //  glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH);
   glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH);
   glutInitWindowSize(windowWidth, windowHeight);
-  glutCreateWindow("Square");
+  glutCreateWindow("Brushes");
   
   // set up world space to screen mapping
   glMatrixMode(GL_PROJECTION);
@@ -159,7 +166,7 @@ int main(int argc, char *argv[])
 
 
 // make a texture map
-  texWidth = texHeight = 512;
+  texWidth = texHeight = 600;
 
   texture = new GLubyte[4*texWidth*texHeight];
 
