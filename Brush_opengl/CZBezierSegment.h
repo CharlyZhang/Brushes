@@ -17,23 +17,24 @@ class CZBezierSegment
 {
 public:
 	/// 依次为该贝塞尔曲线四个控制点
-	CZ3DPoint *start;
-	CZ3DPoint *outHandle;
-	CZ3DPoint *inHandle;
-	CZ3DPoint *end;
+	CZ3DPoint start;
+	CZ3DPoint outHandle;
+	CZ3DPoint inHandle;
+	CZ3DPoint end;
 
-	CZBezierSegment(CZ3DPoint *start_=NULL, CZ3DPoint *out_=NULL, CZ3DPoint *in_=NULL, CZ3DPoint *end_=NULL);
+	CZBezierSegment(){};
+	CZBezierSegment(CZ3DPoint start_, CZ3DPoint out_, CZ3DPoint in_, CZ3DPoint end_);
 	~CZBezierSegment();
 	/// 由两点构造贝塞尔线段（静态函数）
 	/// 
 	///		/param start_	- 贝塞尔曲线起点
 	///		/param end_		- 贝塞尔曲线终点
 	///		/return			- 生成的贝塞尔曲线
-	static CZBezierSegment* segmentBetweenNodes(CZBezierNode *start_, CZBezierNode *end_);
+	static CZBezierSegment* segmentBetweenNodes(const CZBezierNode &start_, const CZBezierNode &end_);
 	/// 将贝塞尔曲线打散成绘制点
 	///
 	///		/param &points	- 盛装打散的绘制点的容器
-	void flattenIntoArray(std::vector<CZ3DPoint*> & points);
+	void flattenIntoArray(std::vector<CZ3DPoint> & points);
 	/// 判断贝塞尔曲线是否平整？
 	///
 	///		暂时还不明白，细节算法.
@@ -50,6 +51,7 @@ public:
 	///		/param *R	- 分割后右部分的贝塞尔曲线
 	///		/return		- 分割处曲线上的点
 	/// 
-	CZ3DPoint* splitAtT(float t, CZBezierSegment *L, CZBezierSegment *R);
-
+	CZ3DPoint splitAtT(float t, CZBezierSegment *L, CZBezierSegment *R);
+	/// 判断是否退化
+	bool isDegenerate();
 };

@@ -17,18 +17,18 @@
 class CZBezierNode
 {
 public:
-	CZ3DPoint *inPoint;
-	CZ3DPoint *anchorPoint;
-	CZ3DPoint *outPoint;
+	/// 锚点和其两个控制点
+	CZ3DPoint inPoint;
+	CZ3DPoint anchorPoint;
+	CZ3DPoint outPoint;
 
 	float inPressure;
 	float outPressure;
 	float anchorPressure;
 
-	CZBezierNode(CZ3DPoint *in=NULL, CZ3DPoint *anchor=NULL, CZ3DPoint *out=NULL):inPoint(in),outPoint(out),anchorPoint(anchor){};
+	CZBezierNode(){}
+	CZBezierNode(const CZ3DPoint & anchor_);
+	CZBezierNode(CZ3DPoint in_, CZ3DPoint anchor_, CZ3DPoint out_):inPoint(in_),outPoint(out_),anchorPoint(anchor_){};
 	~CZBezierNode();
-
-	/// 判断是否与另外一指针指向的对象相等
-	bool isEqual(CZBezierNode *ptrNode_);
 };
 #endif

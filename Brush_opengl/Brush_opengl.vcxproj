@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -80,32 +80,47 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CFbo.h" />
     <ClInclude Include="CZ3DPoint.h" />
     <ClInclude Include="CZAffineTransform.h" />
     <ClInclude Include="CZBezierNode.h" />
     <ClInclude Include="CZBezierSegment.h" />
     <ClInclude Include="CZBrush.h" />
+    <ClInclude Include="CZBrushPreview.h" />
     <ClInclude Include="CZGeometry.h" />
     <ClInclude Include="CZPath.h" />
     <ClInclude Include="CZProperty.h" />
+    <ClInclude Include="CZShader.h" />
     <ClInclude Include="CZUtil.h" />
     <ClInclude Include="drand48.h" />
+    <ClInclude Include="CZShader.h" />
+    <ClInclude Include="glsl.h" />
     <ClInclude Include="glut\glut.h" />
+    <ClInclude Include="Macro.h" />
     <ClInclude Include="noise.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Stroke.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CFbo.cpp" />
     <ClCompile Include="CZ3DPoint.cpp" />
     <ClCompile Include="CZAffineTransform.cpp" />
     <ClCompile Include="CZBezierNode.cpp" />
     <ClCompile Include="CZBezierSegment.cpp" />
+    <ClCompile Include="CZBrushPreview.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
     <ClCompile Include="CZPath.cpp" />
+    <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZUtil.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CZShader.cpp" />
+    <ClCompile Include="glsl.cpp" />
+    <ClCompile Include="main_brushes.cpp" />
     <ClCompile Include="noise.cpp" />
     <ClCompile Include="Stroke.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="temp.frag" />
+    <None Include="temp.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esUtil", "Common\esUtil.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brush_opengl", "Brush_opengl\Brush_opengl.vcxproj", "{CAFCED1D-4251-4432-9E79-30A344A74455}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLSL_example", "GLSL_example\GLSL_example.vcxproj", "{D95D14B1-61C0-450F-B97A-10C593FAC08F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -28,6 +30,10 @@ Global
 		{CAFCED1D-4251-4432-9E79-30A344A74455}.Debug|Win32.Build.0 = Debug|Win32
 		{CAFCED1D-4251-4432-9E79-30A344A74455}.Release|Win32.ActiveCfg = Release|Win32
 		{CAFCED1D-4251-4432-9E79-30A344A74455}.Release|Win32.Build.0 = Release|Win32
+		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Debug|Win32.Build.0 = Debug|Win32
+		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Release|Win32.ActiveCfg = Release|Win32
+		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

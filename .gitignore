@@ -9,3 +9,6 @@ ipch/
 *.user
 Brush_opengl/Makefile
 Common/Lib/
+*.obj
+*.log
+GLSL_example/

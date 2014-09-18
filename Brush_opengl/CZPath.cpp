@@ -12,30 +12,32 @@
 #include "CZPath.h"
 #include "CZAffineTransform.h"
 #include "CZUtil.h"
+#include "Macro.h"
 #include <cmath>
 #include "gl/glew.h"
-#include "glut/glut.h"
+#include "gl/glut.h"
+
 
 /// 绘制路径
 CZRect CZPath::paint(/*randomizer*/)
 {    
-	this->points_.clear();
-	this->sizes_.clear();
-	this->alphas_.clear();
-	this->angles_.clear();
+	this->points.clear();
+	this->sizes.clear();
+	this->alphas.clear();
+	this->angles.clear();
 
-	if (this->nodes_.size() == 1) 
+	if (this->nodes.size() == 1) 
 	{
 		//[self paintStamp:randomizer];
 	} 
 	else 
 	{
-		std::vector<CZ3DPoint> points;
-		int numPoints = this->flattenedPoints(points);
+		std::vector<CZ3DPoint> linePoints;		/// <贝塞尔曲线的绘制点
+		int numPoints = this->flattenedPoints(linePoints);
 
 		for (int ix = 0; ix < numPoints - 1; ix++) 
 		{
-			this->paintBetweenPoints(points[ix],points[ix+1]);
+			this->paintBetweenPoints(linePoints[ix],linePoints[ix+1]);
 		}
 	}
 
@@ -54,17 +56,17 @@ CZRect CZPath::drawData()
 		GLfloat     a;
 	} vertexData;
 
-	int iPointSize = points_.size();
+	int iPointSize = points.size();
 	vertexData *vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
 	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
 	int n = 0;
 	for (int i = 0; i < iPointSize; i++) 
 	{
-		CZ2DPoint result = points_[i];
-		float angle = angles_[i];
-		float size = sizes_[i] / 2;
-		float alpha = alphas_[i];
+		CZ2DPoint result = points[i];
+		float angle = angles[i];
+		float size = sizes[i] / 2;
+		float alpha = alphas[i];
 
 		// get the four corners of the dot
 		CZRect rect = CZRect(result.x - size, result.y - size, size*2, size*2);
@@ -153,22 +155,23 @@ CZRect CZPath::drawData()
 
 /// 绘制两点之间的线.
 ///
-///		将两绘制点(points)之间的线离散成更小粒度的离散点(points_)
+///		将两绘制点(linePoints)之间的线离散成更小粒度的离散点(points)
+///		更新points,sizes,alphas,angles等向量
 ///
 ///		/param lastLocation - 路径最后离散点的位置
 ///		/param location		- 当前绘制点的位置
 ///		/param randomizer	- 随机器
 ///		/note	我用系统自带的随机参数暂时替代了randomizer
 ///				利用画笔参数生成部分的算法没看懂
-void CZPath::paintBetweenPoints(CZ3DPoint &lastLocation, CZ3DPoint &location/*,randomizer randomizer*/)
+void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location/*,randomizer randomizer*/)
 {
 	float           pA = lastLocation.z;
 	float           pB = location.z;
 	float           pDelta = (pB - pA);
 
-	CZ2DPoint		lastLoaction2D	= CZ2DPoint(lastLocation.x, lastLocation.y);
-	CZ2DPoint		loaction2D		= CZ2DPoint(location.x, location.y);
-	float           distance = lastLoaction2D.distanceTo2DPoint(loaction2D);
+	CZ2DPoint		lastLocation2D	= CZ2DPoint(lastLocation.x, lastLocation.y);
+	CZ2DPoint		location2D		= CZ2DPoint(location.x, location.y);
+	float           distance = lastLocation2D.distanceTo2DPoint(location2D);
 	CZ2DPoint       vector = location2D -lastLocation2D;
 	CZ2DPoint       unitVector = CZ2DPoint(1.0f, 1.0f);
 	float           vectorAngle = atan2(vector.y, vector.x);
@@ -180,45 +183,45 @@ void CZPath::paintBetweenPoints(CZ3DPoint &lastLocation, CZ3DPoint &location/*,r
 		unitVector = vector / distance;
 	}
 
-	CZ2DPoint start = lastLocation2D + (unitVector*this->remainder_);
+	CZ2DPoint start = lastLocation2D + (unitVector*this->remainder);
 
-	float step = pressureStep = 0.0f;
+	float step = 0.0f, pressureStep = 0.0f;
+	float f;
 	/// step linearly from last to current, pasting brush image
-	for (float f = this->remainder_; f <= distance; f += step, pressure += pressureStep) {
+	for (f = this->remainder; f <= distance; f += step, pressure += pressureStep) {
 
 		int sign = this->brush->weightDynamics.value >= 0 ? 0:1;
 		float p = sign ? pressure : (1.0f - pressure);
-		float p = pressure;
-		float brushSize = Max(1, weight - fabs(this->brush.weightDynamics.value) * p * weight);
+		float brushSize = Max(1, weight - fabs(brush->weightDynamics.value) * p * weight);
 
-		float rotationalScatter = /*[randomizer nextFloat]*/rand() * this->brush.rotationalScatter.value * M_PI * 2;
-		float angleOffset = this->brush.angle.value * (M_PI / 180.0f);
+		float rotationalScatter = /*[randomizer nextFloat]*/rand() * brush->rotationalScatter.value * M_PI * 2;
+		float angleOffset = brush->angle.value * (M_PI / 180.0f);
 
 		float positionalScatter = /*[randomizer nextFloatMin:-1.0f max:1.0f]*/rand()*2 - 1.0f;
-		positionalScatter *= this->brush.positionalScatter.value;
+		positionalScatter *= brush->positionalScatter.value;
 		CZ2DPoint orthog;
 		orthog.x = unitVector.y;
 		orthog.y = -unitVector.x;
 		orthog = orthog * weight / 2.0f * positionalScatter;
 		CZ2DPoint pos = start + orthog;
 
-		sign = sign = this->brush->intensityDynamics.value >= 0 ? 0:1;
+		sign = sign = brush->intensityDynamics.value >= 0 ? 0:1;
 		p = sign ? pressure : (1.0f - pressure);
-		float alpha = Max(0.01, this->brush.intensity.value - fabs(this->brush.intensityDynamics.value) * p * this->brush.intensity.value);
+		float alpha = Max(0.01, brush->intensity.value - fabs(brush->intensityDynamics.value) * p * brush->intensity.value);
 
-		this->points_.push_back(pos);
-		this->sizes_.push_back(brushSize);
-		this->angles_.push_back(vectorAngle * this->brush.angleDynamics.value + rotationalScatter + angleOffset);
-		this->alphas_.push_back(alpha);
+		this->points.push_back(pos);
+		this->sizes.push_back(brushSize);
+		this->angles.push_back(vectorAngle * brush->angleDynamics.value + rotationalScatter + angleOffset);
+		this->alphas.push_back(alpha);
 
-		step = Max(1.0, brush.spacing * brushSize);
+		step = Max(1.0, brush->spacing.value * brushSize);
 		start = start + (unitVector * step);
 		pressureStep = pDelta / (distance / step);
 	}
 
 	// how much extra spacing should we add when we paint the next time?
 	// this keeps the spacing uniform across move events
-	this->remainder_ = (f - distance);
+	this->remainder = (f - distance);
 }
 
 /// 将结点打散成绘制点
@@ -227,26 +230,31 @@ void CZPath::paintBetweenPoints(CZ3DPoint &lastLocation, CZ3DPoint &location/*,r
 /// 
 ///		/param points		- 离散后得到的绘制点容器
 ///		/ret				- 离散后得到的绘制点数目
-int CZPath::flattenedPoints(std::vector<CZ3DPoint> & points)
+int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
 {
-	int numNodes = this->nodes_.size();
+	/// 清空绘制点
+	linePoints.clear();
+
+	int numNodes = this->nodes.size();
 	if (numNodes == 1)
 	{
-		//WDBezierNode *lonelyNode = [nodes_ lastObject];
-		//return @[lonelyNode.anchorPoint];
+		CZBezierNode lonelyNode = nodes.back();
+		linePoints.push_back(lonelyNode.anchorPoint);
+		return 1;
 	}
 
-	int numSegs = this->closed_ ? numNodes : numNodes - 1;
-	WDBezierSegment     *segment = nil;
-
+	int numSegs = this->closed ? numNodes : numNodes - 1;
+	
+	CZBezierSegment   *segment = NULL;
 	for (int i = 0; i < numSegs; i++) 
 	{
-		WDBezierNode *a = this->nodes_[i];
-		WDBezierNode *b = this->nodes_[(i+1) % numNodes];
+		CZBezierNode a = this->nodes[i];
+		CZBezierNode b = this->nodes[(i+1) % numNodes];
 
-		segment = [WDBezierSegment segmentWithStart:a end:b];
-		segment->flattenIntoArray(points);
+		segment = CZBezierSegment::segmentBetweenNodes(a,b);
+		segment->flattenIntoArray(linePoints);
+		delete segment;
 	}
 
-	return points_.size();
+	return points.size();
 }

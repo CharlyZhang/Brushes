@@ -1,4 +1,4 @@
-#include "GLUT/glut.h"
+#include "GL/glut.h"
 #include <math.h>
 #include <vector>
 #include "Point.h"

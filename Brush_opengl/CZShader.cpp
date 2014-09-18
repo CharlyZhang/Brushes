@@ -1,0 +1,361 @@
+#include "CZShader.h"
+#include <iostream>
+using namespace std;
+
+// Error, Warning and Info Strings
+char* aGLSLStrings[] = {
+	"[e00] GLSL is not available!",
+	"[e01] Not a valid program object!",
+	"[e02] Not a valid object!",
+	"[e03] Out of memory!",
+	"[e04] Unknown compiler error!",
+	"[e05] Linker log is not available!",
+	"[e06] Compiler log is not available!",
+	"[Empty]"
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+// GL ERROR CHECK
+int CheckGLError(const string& file, int line)
+{
+	GLenum glErr;
+	int    retCode = 0;
+
+	glErr = glGetError();
+	while (glErr != GL_NO_ERROR) 
+	{
+		const GLubyte* sError = gluErrorString(glErr);
+
+		if (sError)
+			cout << "GL Error #" << glErr << "(" << gluErrorString(glErr) << ") " << " in File " << file.c_str() << " at line: " << line << endl;
+		else
+			cout << "GL Error #" << glErr << " (no message available)" << " in File " << file.c_str() << " at line: " << line << endl;
+
+		retCode = 1;
+		glErr = glGetError();
+	}
+	return retCode;
+}
+
+#define CHECK_GL_ERROR() CheckGLError(__FILE__, __LINE__)
+
+//////////////////////////////////////////////////////////////////////////
+
+bool CZShader::extensionsInit = false;
+bool CZShader::useGLSL = false;
+bool CZShader::bGeometryShader = false;
+bool CZShader::bGPUShader4 = false;
+
+CZShader::CZShader()
+{
+	this->useGLSL = false;
+	initOpenGLExtensions();
+
+	this->m_VertexShader = NULL;
+	this->m_FragmentShader = NULL;
+	this->m_Program = NULL;
+	this->m_Frag = NULL;
+	this->m_Vert = NULL;
+}
+
+CZShader::~CZShader()
+{
+	if(NULL != m_VertexShader)
+		delete[] m_VertexShader;
+	if(NULL != m_FragmentShader)
+		delete[] m_FragmentShader;
+
+	//解除shader与program的绑定关系
+	glDetachShader(m_Program,m_Vert);
+	glDetachShader(m_Program,m_Frag);
+
+	//删除shader和program
+	glDeleteShader(m_Vert);
+	glDeleteShader(m_Frag);
+	glDeleteProgram(m_Program);
+}
+
+bool CZShader::textFileRead(char *_fn, GLchar *&_shader)
+{
+	if(NULL == _fn)
+		return false;
+
+	FILE *fp;
+	int count = 0;
+
+	fp = fopen(_fn,"rt");
+	if(NULL == fp)
+		return false;
+
+	// 将文件指针指向文件流末尾
+	fseek(fp,0,SEEK_END);
+	// 计算文件尾相对文件头的偏移量（文件长度）
+	count = ftell(fp);
+	// 把文件指针重新指向文件流头部
+	rewind(fp);
+
+	if(count<=0)
+		return false;
+
+	_shader = new GLchar[count];
+	count = fread(_shader,sizeof(GLchar),count,fp);
+	_shader[count] = '\0';
+	fclose(fp);
+
+	return true;
+}
+
+/// 初始化OpenGL扩展
+bool CZShader::initOpenGLExtensions()
+{
+	if (extensionsInit) return true;
+	extensionsInit = true;
+
+	GLenum err = glewInit();
+	CHECK_GL_ERROR();  
+
+	if (GLEW_OK != err)
+	{
+		std::cout << "Error:" << glewGetErrorString(err) << std::endl;
+		extensionsInit = false;
+		return false;
+	}
+
+	hasGLSLSupport();
+
+	return true;
+}
+
+/// 是否支持GLSL
+bool CZShader::hasGLSLSupport()
+{
+	if (useGLSL) return true;							///< already initialized and GLSL is available
+	useGLSL = true;
+
+	if (!initOpenGLExtensions) initOpenGLExtensions();  ///< extensions were not yet initialized!!
+
+
+	if(GLEW_VERSION_3_2)
+	{
+		cout << "OpenGL 3.2 (or higher) is available!" << endl;
+		useGLSL = true;
+		bGeometryShader = true;
+		bGPUShader4 = true;
+		cout << "[OK] OpenGL Shading Language is available!\n\n";
+		return true;
+	}
+	else if(GLEW_VERSION_3_1)
+	{
+		cout << "OpenGL 3.1 core functions are available!" << endl;
+	}
+	else if(GLEW_VERSION_3_0)
+	{
+		cout << "OpenGL 3.0 core functions are available!" << endl;
+	}
+	else if(GLEW_VERSION_2_1)
+	{
+		cout << "OpenGL 2.1 core functions are available!" << endl;
+	}
+	else if (GLEW_VERSION_2_0)
+	{
+		cout << "OpenGL 2.0 core functions are available!" << endl;
+	}
+	else if (GLEW_VERSION_1_5)
+	{
+		cout << "OpenGL 1.5 core functions are available" << endl;
+	}
+	else if (GLEW_VERSION_1_4)
+	{
+		cout << "OpenGL 1.4 core functions are available" << endl;
+	}
+	else if (GLEW_VERSION_1_3)
+	{
+		cout << "OpenGL 1.3 core functions are available" << endl;
+	}
+	else if (GLEW_VERSION_1_2)
+	{
+		cout << "OpenGL 1.2 core functions are available" << endl;
+	}
+
+	/// if we have opengl ver < 3.2, need to load extensions.
+	cout<<"Checking for Extensions: "<<endl;
+
+	//Extensions supported
+	if (!glewIsSupported("GL_ARB_fragment_shader"))
+	{
+		cout << "[WARNING] GL_ARB_fragment_shader extension is not available!\n";
+		useGLSL = false;
+	}else{
+		cout << "[OK] GL_ARB_fragment_shader extension is available!\n";
+
+	}
+
+	if (!glewIsSupported("GL_ARB_vertex_shader"))
+	{
+		cout << "[WARNING] GL_ARB_vertex_shader extension is not available!\n";
+		useGLSL = false;
+	}else{
+		cout << "[OK] GL_ARB_vertex_shader extension is available!\n";
+	}
+
+	if (!glewIsSupported("GL_ARB_shader_objects"))
+	{
+		cout << "[WARNING] GL_ARB_shader_objects extension is not available!\n";
+		useGLSL = false;
+	}else{
+		cout << "[OK] GL_ARB_shader_objects extension is available!\n";
+	}
+
+
+	if (!glewIsSupported("GL_ARB_geometry_shader4"))
+	{
+		cout << "[WARNING] GL_ARB_geometry_shader4 extension is not available!\n";
+		bGeometryShader = false;
+	}else{
+		cout << "[OK] GL_ARB_geometry_shader4 extension is available!\n";
+		bGeometryShader = true;
+	}
+
+	if(!glewIsSupported("GL_EXT_gpu_shader4")){
+		cout << "[WARNING] GL_EXT_gpu_shader4 extension is not available!\n";
+		bGPUShader4 = false;
+	}else{
+		cout << "[OK] GL_EXT_gpu_shader4 extension is available!\n";
+		bGPUShader4 = true;
+	}
+
+	///end detecting extensions
+	if (useGLSL)
+	{
+		cout << "[OK] OpenGL Shading Language is available!\n\n";
+	}
+	else
+	{
+		cout << "[FAILED] OpenGL Shading Language is not available...\n\n";
+	}   
+
+	return useGLSL;
+}
+
+void printShaderInfoLog(GLuint obj)
+{
+	int infologLength = 0;
+	int charsWritten  = 0;
+	char *infoLog;
+
+	glGetShaderiv(obj, GL_INFO_LOG_LENGTH,&infologLength);
+
+	if (infologLength > 0)
+	{
+		infoLog = (char *)malloc(infologLength);
+		glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
+		printf("%s\n",infoLog);
+		free(infoLog);
+	}
+}
+void printProgramInfoLog(GLuint obj)
+{
+	int infologLength = 0;
+	int charsWritten  = 0;
+	char *infoLog;
+
+	glGetProgramiv(obj, GL_INFO_LOG_LENGTH,&infologLength);
+
+	if (infologLength > 0)
+	{
+		infoLog = (char *)malloc(infologLength);
+		glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
+		printf("%s\n",infoLog);
+		free(infoLog);
+	}
+}
+
+
+/// 编译程序
+bool CZShader::compile()
+{
+	if (!useGLSL) return false;
+
+	isCompiled = false;
+
+	GLint compiled = 0;
+
+	const GLchar *vv = m_VertexShader;
+	const GLchar *ff = m_FragmentShader;
+	GLint	vertLen = (GLint) strlen((const char*)vv);
+	GLint	fragLen = (GLint) strlen((const char*)ff);
+
+	if (vv == NULL || ff == NULL) return false;
+
+	//添加shader
+	glShaderSource(m_Vert,1,&vv, &vertLen);
+	CHECK_GL_ERROR();
+	glShaderSource(m_Frag,1,&ff, &fragLen);
+	CHECK_GL_ERROR();
+	
+	//编译shader
+	glCompileShader(m_Vert);
+	CHECK_GL_ERROR();
+	glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &compiled);
+	CHECK_GL_ERROR();
+	if (compiled) isCompiled = true;
+
+	glCompileShader(m_Frag);
+	CHECK_GL_ERROR();
+	glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &compiled);
+	CHECK_GL_ERROR();
+	if (compiled) isCompiled = true;
+
+	return isCompiled;
+}
+
+bool CZShader::readVertextShader(char *_fn)
+{
+	if(textFileRead(_fn,m_VertexShader))
+		return true;
+	else
+		return false;
+}
+
+bool CZShader::readFragmentShader(char *_fn)
+{
+	if(textFileRead(_fn,m_FragmentShader))
+		return true;
+	else
+		return false;
+}
+
+void CZShader::setShader()
+{
+	//创建shader对象
+	m_Vert = glCreateShader(GL_VERTEX_SHADER);
+	m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
+
+	compile();
+	printShaderInfoLog(m_Vert);
+	printShaderInfoLog(m_Frag);
+
+	//创建程序对象
+	m_Program = glCreateProgram();
+
+	//绑定shader到程序对象
+	glAttachShader(m_Program,m_Vert);
+	glAttachShader(m_Program,m_Frag);
+
+	//链接程序
+	glLinkProgram(m_Program);
+	printProgramInfoLog(m_Program);
+}
+
+void CZShader::begin()
+{
+	//使用程序
+	glUseProgram(m_Program);
+}
+
+void CZShader::end()
+{
+	//停止使用
+	glUseProgram(0);
+}

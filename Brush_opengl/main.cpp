@@ -1,12 +1,17 @@
+#include "GL/glew.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "GLUT/glut.h"
+#include "GL/glut.h"
 #include <assert.h>
 #include "Stroke.h"
 #include "noise.h"
+#include "CZShader.h"
 
 //#include "polyfill.h"
+
+CZShader *shader;
 
 Stroke curve;
 
@@ -32,13 +37,18 @@ void Redraw(void)
     else
       glColor4ub(0, 64, 16, 128);
    
-	//curve.render();
+	shader->begin();
+	curve.render();
+	/*
 	glBegin(GL_QUADS);
 		glTexCoord2f(0,0);	glVertex2f(100,100);
 		glTexCoord2f(1,0);	glVertex2f(300,100);
 		glTexCoord2f(1,1);	glVertex2f(100,300);
 		glTexCoord2f(0,1);	glVertex2f(300,300);
 	glEnd();
+	*/
+
+	shader->end();
 
     if (controlPolygon)
       {
@@ -130,6 +140,18 @@ void menuSelect(int value)
     }
 }
 
+void initShader()
+{
+	 shader = new CZShader;
+
+	if(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
+	{
+		shader->readVertextShader("temp.vert");
+		shader->readFragmentShader("temp.frag");
+		shader->setShader();
+	}
+}
+
 int main(int argc, char *argv[])
 {
   glutInit(&argc, argv);
@@ -138,6 +160,8 @@ int main(int argc, char *argv[])
   glutInitWindowSize(windowWidth, windowHeight);
   glutCreateWindow("Brushes");
   
+  initShader();
+
   // set up world space to screen mapping
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

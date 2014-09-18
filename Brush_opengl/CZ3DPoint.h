@@ -72,6 +72,8 @@ public:
 
 	/// 判断是否与某指针指向的对象相等
 	bool isEqual(CZ3DPoint *ptrPoint_);
+	/// 判断是否退化
+	bool isDegenerate();
 };
 
 #endif

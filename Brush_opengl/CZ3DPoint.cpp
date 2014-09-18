@@ -10,6 +10,7 @@
 ///  \note
 
 #include "CZ3DPoint.h"
+#include <float.h>		// _isnan
 #include <cmath>
 
 /// ÖØÔØÔËËã·û
@@ -73,4 +74,11 @@ bool CZ3DPoint::isEqual(CZ3DPoint *ptrPoint_)
 	return (this->x==ptrPoint_->x &&
 			this->y==ptrPoint_->y &&
 			this->z==ptrPoint_->z);
+}
+
+/// ÅĞ¶ÏÊÇ·ñÍË»¯
+bool CZ3DPoint::isDegenerate()
+{
+	//return (_isnanf(x) || _isnanf(y) || _isnanf(z));
+	return false;
 }
