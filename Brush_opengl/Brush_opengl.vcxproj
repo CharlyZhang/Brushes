@@ -93,7 +93,6 @@
     <ClInclude Include="CZShader.h" />
     <ClInclude Include="CZUtil.h" />
     <ClInclude Include="drand48.h" />
-    <ClInclude Include="CZShader.h" />
     <ClInclude Include="glsl.h" />
     <ClInclude Include="glut\glut.h" />
     <ClInclude Include="Macro.h" />
@@ -107,12 +106,12 @@
     <ClCompile Include="CZAffineTransform.cpp" />
     <ClCompile Include="CZBezierNode.cpp" />
     <ClCompile Include="CZBezierSegment.cpp" />
+    <ClCompile Include="CZBrush.cpp" />
     <ClCompile Include="CZBrushPreview.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
     <ClCompile Include="CZPath.cpp" />
     <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZUtil.cpp" />
-    <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="glsl.cpp" />
     <ClCompile Include="main_brushes.cpp" />
     <ClCompile Include="noise.cpp" />

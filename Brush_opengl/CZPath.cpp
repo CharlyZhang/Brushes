@@ -18,7 +18,7 @@
 #include "gl/glut.h"
 
 
-/// 绘制路径
+/// 绘制轨迹
 CZRect CZPath::paint(/*randomizer*/)
 {    
 	this->points.clear();
@@ -44,6 +44,12 @@ CZRect CZPath::paint(/*randomizer*/)
 	return this->drawData();
 }
 
+/// 设置闭合
+void CZPath::setClosed(bool closed_)
+{
+	closed = closed_;
+}
+
 /// 绘制数据（利用OpenGL等图形接口）
 /// 
 ///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过图形接口绘制出来。
@@ -60,6 +66,23 @@ CZRect CZPath::drawData()
 	vertexData *vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
 	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
+	//////////////////////////////////////////////////////////////////////////
+#ifdef DEBUG_
+	delete [] vertexD;
+	points.clear();
+	angles.clear();
+	sizes.clear();
+	alphas.clear();
+
+	points.push_back(CZ2DPoint(300,300));
+	angles.push_back(0);
+	sizes.push_back(100);
+	alphas.push_back(1.0);
+	
+	iPointSize = points.size();
+	vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
+#endif
+	//////////////////////////////////////////////////////////////////////////
 	int n = 0;
 	for (int i = 0; i < iPointSize; i++) 
 	{
@@ -139,12 +162,61 @@ CZRect CZPath::drawData()
 		}
 	}
 
+#if USE_OPENGL_ES
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &vertexD[0].x);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].s);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
 	glEnableVertexAttribArray(2);
+#endif
+
+#if USE_OPENGL
+	/*
+	glEnableClientState (GL_VERTEX_ARRAY);
+	glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &vertexD[0].x); 
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2,GL_FLOAT, sizeof(vertexData), &vertexD[0].s);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
+	*/
+	GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
+	// 装载顶点
+	glGenBuffers(1, &mVertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &vertexD[0].x, GL_STREAM_DRAW);
+	// 装载纹理
+	glGenBuffers(1, &mTexCoordBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &vertexD[0].s, GL_STREAM_DRAW);
+	// 装载属性
+	glGenBuffers(1, &mAttributeBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &vertexD[0].a, GL_STREAM_DRAW);
+
+	// 绑定顶点
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2,GL_FLOAT,sizeof(vertexData),0);
+	// 绑定纹理
+	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2,GL_FLOAT,sizeof(vertexData),0);
+	// 绑定属性
+	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
+	GLuint alphaLoc = shader->getAttributeLocation("alpha");
+	glEnableVertexAttribArray(alphaLoc);
+	glVertexAttribPointer(alphaLoc, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
+
+	/// 绘制
+	glDrawArrays(GL_TRIANGLE_STRIP,0,n);
+
+	glDisableVertexAttribArray(alphaLoc);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+#endif
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
 	delete [] vertexD;
@@ -155,10 +227,11 @@ CZRect CZPath::drawData()
 
 /// 绘制两点之间的线.
 ///
-///		将两绘制点(linePoints)之间的线离散成更小粒度的离散点(points)
-///		更新points,sizes,alphas,angles等向量
+///		将两绘制点(linePoints)之间的线离散成更小粒度的离散点(points)，
+///		更新points,sizes,alphas,angles等向量，
+///		这里利用到了画刷的参数。
 ///
-///		/param lastLocation - 路径最后离散点的位置
+///		/param lastLocation - 轨迹最后离散点的位置
 ///		/param location		- 当前绘制点的位置
 ///		/param randomizer	- 随机器
 ///		/note	我用系统自带的随机参数暂时替代了randomizer
@@ -194,10 +267,10 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 		float p = sign ? pressure : (1.0f - pressure);
 		float brushSize = Max(1, weight - fabs(brush->weightDynamics.value) * p * weight);
 
-		float rotationalScatter = /*[randomizer nextFloat]*/rand() * brush->rotationalScatter.value * M_PI * 2;
+		float rotationalScatter = /*[randomizer nextFloat]*/rand()*1.0/RAND_MAX * brush->rotationalScatter.value * M_PI * 2;
 		float angleOffset = brush->angle.value * (M_PI / 180.0f);
 
-		float positionalScatter = /*[randomizer nextFloatMin:-1.0f max:1.0f]*/rand()*2 - 1.0f;
+		float positionalScatter = /*[randomizer nextFloatMin:-1.0f max:1.0f]*/rand()*2.0/RAND_MAX - 1.0f;
 		positionalScatter *= brush->positionalScatter.value;
 		CZ2DPoint orthog;
 		orthog.x = unitVector.y;
@@ -232,9 +305,6 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 ///		/ret				- 离散后得到的绘制点数目
 int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
 {
-	/// 清空绘制点
-	linePoints.clear();
-
 	int numNodes = this->nodes.size();
 	if (numNodes == 1)
 	{
@@ -256,5 +326,5 @@ int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
 		delete segment;
 	}
 
-	return points.size();
+	return linePoints.size();
 }

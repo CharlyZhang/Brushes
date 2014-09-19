@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "GL/glew.h"
 #include "GL/glut.h"
+#include "CZBrush.h"
 #include "CZBrushPreview.h"
 #include "CZShader.h"
 #include "CFbo.h"
@@ -11,6 +12,9 @@
 
 CZShader *shader;
 CFbo *fbo;
+
+CZBrush *brush = new CZBrush;
+CZBrushPreview *priew = CZBrushPreview::getInstance();
 
 int windowWidth = 600, windowHeight = 600;
 
@@ -69,6 +73,7 @@ void display(void)
 	fbo->begin();
 	shader->begin();
 
+	/*
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2,GL_FLOAT,0,0);
@@ -83,6 +88,10 @@ void display(void)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	*/
+
+	priew->path->paint();	///< 绘制曲线轨迹
 
 	shader->end();
 
@@ -137,6 +146,10 @@ void initGL()
 		exit (0);	
 	}
 	glEnable(GL_TEXTURE_2D);
+
+	priew->setBrush(brush);
+	priew->previewWithSize(CZSize(windowWidth,windowHeight));	///< 初始化数据
+	priew->path->shader = shader;
 }
 
 void initShader()
@@ -156,7 +169,7 @@ void initShader()
 	float texcoord[] = {0,0,	1,0,	0,1,	1,1,
 						1,1,	0,0,
 						0,0,	1,0,	0,1,	1,1};
-
+/*
 	glGenBuffers(1, &mVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), vertices, GL_STREAM_DRAW);
@@ -164,6 +177,7 @@ void initShader()
 	glGenBuffers(1, &mTexCoordBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), texcoord, GL_STREAM_DRAW);
+	*/
 
 }
 

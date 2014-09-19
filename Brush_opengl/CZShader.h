@@ -15,6 +15,7 @@ public:
 	void setShader();
 	void begin();
 	void end();
+	GLuint getAttributeLocation(const char* atrrName);
 private:
 	bool textFileRead(char *_fn,GLchar *&_shader);
 	/// ≥ı ºªØOpenGL¿©’π

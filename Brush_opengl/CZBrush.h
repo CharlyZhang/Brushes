@@ -29,5 +29,18 @@ public:
 	CZProperty weightDynamics;     // [-1.0, 1.0]
 	CZProperty intensityDynamics;  // [-1.0, 1.0]
 
+	CZBrush()
+	{
+		weight.value = 80;
+		intensity.value = 0.3;
+		angle.value = 0;
+		spacing.value = 0.02;
+		rotationalScatter.value =0;
+		positionalScatter.value =0.5;
+		angleDynamics.value = 1;
+		weightDynamics.value = 0;
+		intensityDynamics.value = 1;
+	}
+
 };
 #endif

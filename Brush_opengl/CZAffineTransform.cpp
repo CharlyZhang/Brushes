@@ -43,7 +43,7 @@ CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_)
 {
 	CZ2DPoint ret;
 	ret.x = float( (double)a*p_.x + (double)c*p_.y + tx);
-	ret.x = float( (double)b*p_.x + (double)d*p_.y + ty);
+	ret.y = float( (double)b*p_.x + (double)d*p_.y + ty);
 
 	return ret;
 }

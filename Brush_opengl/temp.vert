@@ -1,6 +1,6 @@
 
-//attribute float alpha;
-//varying float varIntensity;
+attribute float alpha;
+varying float varIntensity;
 
 void main(void) 
 {
@@ -8,5 +8,5 @@ void main(void)
 	gl_FrontColor = gl_Color;
     //gl_Position = ftransform();  
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex; 
-    //varIntensity = alpha;
+    varIntensity = alpha;
 }

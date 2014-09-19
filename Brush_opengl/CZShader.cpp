@@ -359,3 +359,8 @@ void CZShader::end()
 	//Õ£÷π π”√
 	glUseProgram(0);
 }
+
+GLuint CZShader::getAttributeLocation(const char* atrrName)
+{
+	return glGetAttribLocation(m_Program, atrrName);
+}

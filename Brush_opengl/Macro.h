@@ -3,3 +3,5 @@
 
 #define USE_OPENGL		1
 #define USE_OPENGL_ES	0
+
+#define DEBUG

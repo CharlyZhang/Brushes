@@ -16,6 +16,7 @@
 #include "CZ3DPoint.h"
 #include "CZBrush.h"
 #include "CZBezierSegment.h"
+#include "CZShader.h"
 #include <vector>
 
 //#include "WDCoding.h"
@@ -35,14 +36,11 @@ class CZPath
 {
 private:
 	bool					closed;
-	CZBrush					*brush;
+	
 	//WDColor *color;
 	//@property (nonatomic) WDPathAction action;
 	float					scale;
 
-
-	// rendering assistance
-	float					remainder;			///< 绘制路径最后离散点后多占用的线空间
 	/// 最终绘制点的参数
 	std::vector<CZ2DPoint>	points;
 	std::vector<float>		sizes;
@@ -50,21 +48,19 @@ private:
 	std::vector<float>		alphas;
 
 public:
-	std::vector<CZBezierNode>		nodes;		///< 贝塞尔曲线所有控制点
+	CZBrush							*brush;				///< 只是引用，不负责建立和销毁
+	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点
 	bool							limitBrushSize;
+	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
+	CZShader						*shader;			///< !目前做测试用，只是引用
 
 	CZPath()
 	{
 		this->brush = NULL;
+		scale = 1.0f;
 	}
 	~CZPath()
 	{
-		if(this->brush)
-		{
-			delete this->brush;
-			this->brush = NULL;
-		}
-
 		nodes.clear();
 		points.clear();
 		sizes.clear();
@@ -72,8 +68,10 @@ public:
 		alphas.clear();
 	}
 
-	/// 绘制路径
+	/// 绘制轨迹
 	CZRect paint(/*randomizer*/);
+	/// 设置闭合
+	void setClosed(bool closed_);
 
 private:
 	/// 绘制数据（利用OpenGL等图形接口）
@@ -83,12 +81,15 @@ private:
 	CZRect drawData();
 	/// 绘制两点之间的线.
 	///
-	///		将两绘制点(linePoints)之间的线离散成更小粒度的离散点(points)
-	///		更新points,sizes,alphas,angles等向量
+	///		将两绘制点(linePoints)之间的线离散成更小粒度的离散点(points)，
+	///		更新points,sizes,alphas,angles等向量，
+	///		这里利用到了画刷的参数。
 	///
-	///		/param lastLocation - 路径最后离散点的位置
+	///		/param lastLocation - 轨迹最后离散点的位置
 	///		/param location		- 当前绘制点的位置
 	///		/param randomizer	- 随机器
+	///		/note	我用系统自带的随机参数暂时替代了randomizer
+	///				利用画笔参数生成部分的算法没看懂
 	void paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location/*, float remainder*/);
 	/// 将结点打散成绘制点
 	/// 
