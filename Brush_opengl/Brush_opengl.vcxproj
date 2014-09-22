@@ -91,14 +91,12 @@
     <ClInclude Include="CZPath.h" />
     <ClInclude Include="CZProperty.h" />
     <ClInclude Include="CZShader.h" />
+    <ClInclude Include="CZSpiralGenerator.h" />
+    <ClInclude Include="CZStampGenerator.h" />
+    <ClInclude Include="CZTexture.h" />
     <ClInclude Include="CZUtil.h" />
-    <ClInclude Include="drand48.h" />
     <ClInclude Include="glsl.h" />
-    <ClInclude Include="glut\glut.h" />
     <ClInclude Include="Macro.h" />
-    <ClInclude Include="noise.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="Stroke.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CFbo.cpp" />
@@ -111,11 +109,12 @@
     <ClCompile Include="CZGeometry.cpp" />
     <ClCompile Include="CZPath.cpp" />
     <ClCompile Include="CZShader.cpp" />
+    <ClCompile Include="CZSpiralGenerator.cpp" />
+    <ClCompile Include="CZStampGenerator.cpp" />
+    <ClCompile Include="CZTexture.cpp" />
     <ClCompile Include="CZUtil.cpp" />
     <ClCompile Include="glsl.cpp" />
     <ClCompile Include="main_brushes.cpp" />
-    <ClCompile Include="noise.cpp" />
-    <ClCompile Include="Stroke.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="temp.frag" />

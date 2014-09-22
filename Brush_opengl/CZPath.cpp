@@ -13,13 +13,15 @@
 #include "CZAffineTransform.h"
 #include "CZUtil.h"
 #include "Macro.h"
-#include <cmath>
 #include "gl/glew.h"
 #include "gl/glut.h"
+#include <cmath>				
+#include <iostream>
 
-
+#define M_PI       3.14159265358979323846
+ 
 /// 绘制轨迹
-CZRect CZPath::paint(/*randomizer*/)
+CZRect CZPath::paint(bool withBrush/* = true*//*randomizer*/)
 {    
 	this->points.clear();
 	this->sizes.clear();
@@ -35,13 +37,31 @@ CZRect CZPath::paint(/*randomizer*/)
 		std::vector<CZ3DPoint> linePoints;		/// <贝塞尔曲线的绘制点
 		int numPoints = this->flattenedPoints(linePoints);
 
-		for (int ix = 0; ix < numPoints - 1; ix++) 
+		if(withBrush)
 		{
-			this->paintBetweenPoints(linePoints[ix],linePoints[ix+1]);
+			if(brush == NULL) 
+			{
+				std::cerr << "CZPath::paint - Brush is NULL\n";
+				return CZRect();
+			}
+
+			for (int ix = 0; ix < numPoints - 1; ix++) 
+			{
+				this->paintBetweenPoints(linePoints[ix],linePoints[ix+1]);
+			}
+
+			return this->drawData();
+		}
+		else
+		{
+			for (int ix = 0; ix < numPoints; ix++) 
+			{
+				points.push_back(CZ2DPoint(linePoints[ix].x, linePoints[ix].y));
+			}
+			drawDataDirectly();
 		}
 	}
 
-	return this->drawData();
 }
 
 /// 设置闭合
@@ -169,6 +189,8 @@ CZRect CZPath::drawData()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
 	glEnableVertexAttribArray(2);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
 #endif
 
 #if USE_OPENGL
@@ -216,13 +238,63 @@ CZRect CZPath::drawData()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	/// 消除
+	glDeleteBuffers(1, &mVertexBufferObject);
+	glDeleteBuffers(1, &mTexCoordBufferObject);
+	glDeleteBuffers(1, &mAttributeBufferObject);
+
 #endif
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
 	delete [] vertexD;
 	//WDCheckGLError();
 
 	return dataBounds;
+}
+
+/// 直接绘制数据（利用OpenGL等图形接口）
+/// 
+///		利用图形接口直接将数据绘制出来。
+///
+CZRect CZPath::drawDataDirectly()
+{
+	
+
+#if USE_OPENGL
+	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+	GLfloat w = rand()*9.0/RAND_MAX +1;
+	glLineWidth(w);
+	glPointSize(w*0.7);
+
+	GLfloat c = rand()*1.0/RAND_MAX;
+	glColor4f(c,c,c,0.8);
+	int n = points.size();
+
+	GLuint mVertexBufferObject;
+	// 装载顶点
+	glGenBuffers(1, &mVertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ2DPoint), &points[0].x, GL_STREAM_DRAW);
+	
+
+	// 绑定顶点
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(2,GL_FLOAT,0,0);
+	
+
+	/// 绘制
+	glDrawArrays(GL_LINE_STRIP,0,n);
+	glDrawArrays(GL_POINTS,0,n);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	/// 消除
+	glDeleteBuffers(1, &mVertexBufferObject);
+
+#endif
+
+	return CZRect();
 }
 
 /// 绘制两点之间的线.

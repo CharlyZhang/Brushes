@@ -6,12 +6,14 @@
 #include "CZBrushPreview.h"
 #include "CZShader.h"
 #include "CFbo.h"
+#include "CZSpiralGenerator.h"
 #include "gl/GLAUX.H"			///< 为了载入图片纹理
 
 #pragma comment(lib,"glaux.lib") 
 
 CZShader *shader;
 CFbo *fbo;
+CZSpiralGenerator gen;
 
 CZBrush *brush = new CZBrush;
 CZBrushPreview *priew = CZBrushPreview::getInstance();
@@ -68,11 +70,14 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	glColor4f(1.0,1.0,1.0,0.5);
+
+	gen.getStamp();
+/*
 	glEnable(GL_TEXTURE_2D);
 
 	fbo->begin();
 	shader->begin();
-
+*/
 	/*
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -90,14 +95,16 @@ void display(void)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	*/
-
+/*
 	priew->path->paint();	///< 绘制曲线轨迹
 
 	shader->end();
 
 	fbo->end();
 
+	
 	fbo->showTextureOnScreen(0,0,windowWidth,windowHeight);
+	*/
     glutSwapBuffers();
     
     checkForError("swap");
@@ -147,9 +154,13 @@ void initGL()
 	}
 	glEnable(GL_TEXTURE_2D);
 
+	/*
 	priew->setBrush(brush);
 	priew->previewWithSize(CZSize(windowWidth,windowHeight));	///< 初始化数据
+	
 	priew->path->shader = shader;
+	*/
+	glDisable(GL_TEXTURE_2D);
 }
 
 void initShader()

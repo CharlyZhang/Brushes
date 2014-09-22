@@ -58,6 +58,8 @@ public:
 	{
 		this->brush = NULL;
 		scale = 1.0f;
+		remainder = 0.0f;
+		limitBrushSize = false;
 	}
 	~CZPath()
 	{
@@ -69,7 +71,7 @@ public:
 	}
 
 	/// 绘制轨迹
-	CZRect paint(/*randomizer*/);
+	CZRect paint(bool withBrush = true/*randomizer*/);
 	/// 设置闭合
 	void setClosed(bool closed_);
 
@@ -79,6 +81,13 @@ private:
 	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过图形接口绘制出来。
 	///
 	CZRect drawData();
+	
+	/// 直接绘制数据（利用OpenGL等图形接口）
+	/// 
+	///		利用图形接口直接将数据绘制出来。
+	///
+	CZRect drawDataDirectly();
+
 	/// 绘制两点之间的线.
 	///
 	///		将两绘制点(linePoints)之间的线离散成更小粒度的离散点(points)，
@@ -91,6 +100,7 @@ private:
 	///		/note	我用系统自带的随机参数暂时替代了randomizer
 	///				利用画笔参数生成部分的算法没看懂
 	void paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location/*, float remainder*/);
+	
 	/// 将结点打散成绘制点
 	/// 
 	///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）

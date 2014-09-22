@@ -15,6 +15,9 @@
 #include "Macro.h"
 
 #include <vector>
+#include <cmath>
+
+#define M_PI       3.14159265358979323846
 
 /// ³õÊ¼»¯º¯Êý
 bool CZBrushPreview::initial()

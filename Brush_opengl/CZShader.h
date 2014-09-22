@@ -1,3 +1,14 @@
+
+///  \file CZShader.h
+///  \brief This is the file declare the Class CZShader.
+///
+///		(description)
+///
+///  \version	1.0.0
+///	 \author	Charly Zhang<chicboi@hotmail.com>
+///  \date		2014-09-17
+///  \note
+
 #ifndef __CZSHADER_H_
 #define __CZSHADER_H_
 

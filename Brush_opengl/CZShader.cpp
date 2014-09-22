@@ -1,3 +1,14 @@
+
+///  \file CZShader.cpp
+///  \brief This is the file implement the Class CZShader.
+///
+///		(description)
+///
+///  \version	1.0.0
+///	 \author	Charly Zhang<chicboi@hotmail.com>
+///  \date		2014-09-17
+///  \note
+
 #include "CZShader.h"
 #include <iostream>
 using namespace std;

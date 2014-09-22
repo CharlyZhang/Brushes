@@ -16,5 +16,7 @@ class CZProperty
 {
 public:
 	float value;
+	float maxValue, minValue;
+	float conversionFactor;
 };
 #endif

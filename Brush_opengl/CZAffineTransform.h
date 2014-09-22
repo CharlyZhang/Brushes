@@ -2,7 +2,7 @@
 ///  \file CZAffineTransform.h
 ///  \brief This is the file declare the Class CZAffineTransform.
 ///
-///		(description)
+///		recode as 2D in ios
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -41,6 +41,8 @@ public:
 	static CZAffineTransform makeFromTranslation(float tx_, float ty_);
 	/// 生成选择转换
 	static CZAffineTransform makeFromRotate(float angle_);
+	/// 生成单位转换
+	static CZAffineTransform makeIndentity();
 };
 
 #endif
