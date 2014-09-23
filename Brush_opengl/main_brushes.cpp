@@ -5,14 +5,16 @@
 #include "CZBrush.h"
 #include "CZBrushPreview.h"
 #include "CZShader.h"
-#include "CFbo.h"
+#include "CZFbo.h"
+#include "CZTexture.h"
 #include "CZSpiralGenerator.h"
 #include "gl/GLAUX.H"			///< 为了载入图片纹理
 
 #pragma comment(lib,"glaux.lib") 
 
 CZShader *shader;
-CFbo *fbo;
+CZFbo *fbo;
+CZTexture *tex;
 CZSpiralGenerator gen;
 
 #if RENDER_PATH
@@ -162,6 +164,7 @@ void key(unsigned char key, int x, int y)
 	{
 		delete shader;
 		delete fbo;
+		delete tex;
 		exit(0);
 	}
 }
@@ -189,8 +192,8 @@ void initGL()
 #endif
 #if BRUSH_TEX
 	glClearColor(0,0,0,0);
-	CFbo *f = gen.getStamp();
-	glBindTexture(GL_TEXTURE_2D,f->getTexID());
+	CZTexture *t = gen.getStamp();
+	glBindTexture(GL_TEXTURE_2D,t->id);
 #endif
 
 #if RENDER_PATH
@@ -235,8 +238,9 @@ void initShader()
 
 void initFBO()
 {
-	fbo = new CFbo(windowWidth, windowHeight,2);
-	fbo->init();
+	tex = new CZTexture(windowWidth,windowHeight);
+	fbo = new CZFbo(windowWidth, windowHeight);
+	fbo->setTexture(tex);
 }
 
 int main(int argc, char *argv[])

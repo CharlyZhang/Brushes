@@ -2,7 +2,7 @@
 ///  \file CZTexture.h
 ///  \brief This is the file declare the Class CZTexture and other related classes.
 ///
-///		This file includes CZImage, CZTexture.
+///		This file includes CZImage, CZTexture, and all are about 2D.
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -22,7 +22,7 @@
 class CZImage
 {
 public:
-	enum ImageMode{RGB, RGBA};			///< 声明枚举类型
+	enum ImageMode {RGB, RGBA};			///< 声明枚举类型
 	CZImage(int w_=0, int h_=0, ImageMode mode_ = RGB);
 	~CZImage();
 
@@ -35,13 +35,23 @@ public:
 class CZTexture
 {
 public:
-	CZTexture();
+	enum TexType {BrushTex,RenderTex};
+	CZTexture(int width_, int height_, TexType texType_ = RenderTex);
 	~CZTexture();
 
+protected:
+	/// 初始化渲染纹理
+	void initRenderTex();
+	/// 初始化笔刷纹理
+	void initBrushTex();
 
-#if USE_OPENGL
-	GLuint texId;
+public:
+#if USE_OPENGL	///< ？是否需要宏，待定
+	GLuint id;
 #endif
+
+	int width,height;
+	TexType texType;
 	CZImage *img;
 };
 #endif

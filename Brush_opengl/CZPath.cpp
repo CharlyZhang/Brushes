@@ -374,7 +374,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 ///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）
 /// 
 ///		/param points		- 离散后得到的绘制点容器
-///		/ret				- 离散后得到的绘制点数目
+///		/return				- 离散后得到的绘制点数目
 int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
 {
 	int numNodes = this->nodes.size();
@@ -395,7 +395,6 @@ int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
 
 		segment = CZBezierSegment::segmentBetweenNodes(a,b);
 		segment->flattenIntoArray(linePoints);
-		//linePoints.push_back(b.anchorPoint);
 		delete segment;
 	}
 

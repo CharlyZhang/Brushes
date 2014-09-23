@@ -10,7 +10,7 @@
 ///  \note
 
 #include "CZTexture.h"
-#include <cstdlib>		//for NULL
+#include <iostream>
 
 CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGB */)
 {
@@ -38,11 +38,29 @@ CZImage::~CZImage()
 	if(data != NULL) delete [] data;
 }
 
-CZTexture::CZTexture()
+//////////////////////////////////////////////////////////////////////////
+
+CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */)
 {
-#if USE_OPENGL
-	texId  = -1;
-#endif
+	width = width_;
+	height = height_;
+
+	texType = texType_;
+
+	// 根据纹理作用不同，分别初始化
+	switch(texType)
+	{
+	case RenderTex:
+		initRenderTex();
+		break;
+		
+	case BrushTex:
+		initBrushTex();
+		break;
+		
+	default:
+		std::cerr << "CZTexture::CZTexture - Wrong Textype \n";
+	}
 
 	img = NULL;
 }
@@ -50,8 +68,40 @@ CZTexture::CZTexture()
 CZTexture::~CZTexture()
 {
 #if USE_OPENGL
-	if(texId >= 0) glDeleteTextures(1, &texId);
+	glDeleteTextures(1, &id);
 #endif
 
 	if(img !=NULL) delete img;
+}
+
+/// 初始化渲染纹理
+void CZTexture::initRenderTex()
+{
+	glGenTextures (1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0,
+		GL_RGBA, GL_FLOAT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+/// 初始化笔刷纹理
+void CZTexture::initBrushTex()
+{
+	glGenTextures (1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0,
+		GL_LUMINANCE_ALPHA, GL_FLOAT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

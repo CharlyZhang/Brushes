@@ -11,8 +11,8 @@
 
 #include "CZStampGenerator.h"
 #include <stdlib.h>				// for rand()
+#include "CZFbo.h"
 #include <iostream>
-#include "CFbo.h"
 
 #define kSmallStampSize 64
 #define kBrushDimension 512		///< 笔刷图案默认大小
@@ -49,14 +49,14 @@ void CZStampGenerator::renderStamp()
 }
 
 /// 获取笔刷图案
-CFbo *CZStampGenerator::getStamp()
+CZTexture *CZStampGenerator::getStamp()
 {
 	if(stamp == NULL) stamp = generateStamp();
 	return stamp;
 }
 
 /// 生成笔刷图案
-CFbo *CZStampGenerator::generateStamp()
+CZTexture *CZStampGenerator::generateStamp()
 {
 	float  width = size.width;
 	float  height = size.height;
@@ -78,8 +78,8 @@ CFbo *CZStampGenerator::generateStamp()
 
 	//WDRandom *random = [[WDRandom alloc] initWithSeed:self.seed];
 	*/
-	CFbo *fbo =  new CFbo(width,height);
-	fbo->init();
+	CZTexture *tex = new CZTexture(width,height);
+	CZFbo *fbo =  new CZFbo(width,height,tex);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -116,7 +116,7 @@ CFbo *CZStampGenerator::generateStamp()
 		glMatrixMode(GL_PROJECTION);
 		glPopMatrix();
 
-		fbo->showTextureOnScreen(0,0,600,600);
+		//fbo->showTextureOnScreen(0,0,600,600);
 	}
 
 	if (blurRadius != 0) 
@@ -158,5 +158,5 @@ CFbo *CZStampGenerator::generateStamp()
 	//CZTexture *ret = new CZTexture;
 	//ret->texId = fbo->getTexID();
 	//delete ret;
-	return fbo;
+	return tex;
 }

@@ -15,7 +15,6 @@
 
 #include "CZGeometry.h"
 #include "CZTexture.h"			// for CZImage
-#include "CFbo.h"
 
 class CZStampGenerator
 {
@@ -32,7 +31,7 @@ public:
 	/// 绘制图案
 	virtual void renderStamp();//:(CGContextRef)ctx randomizer:(WDRandom *)randomizer;
 	/// 获取笔刷图案
-	CFbo *getStamp();
+	CZTexture *getStamp();
 /*
 	- (void) configureBrush:(WDBrush *)brush;
 
@@ -41,6 +40,11 @@ public:
 	- (CGRect) randomRect:(WDRandom *)randomizer minPercentage:(float)minP maxPercentage:(float)maxP;
 	*/
 
+protected:
+	/// 生成笔刷图案
+	CZTexture* generateStamp();
+
+public:
 	unsigned int seed;
 	CZSize size;
 	float baseDimension;
@@ -56,10 +60,7 @@ public:
 	bool canRandomize;
 
 protected:
-	/// 生成笔刷图案
-	CFbo* generateStamp();
-
-	CFbo *stamp;				///< 笔刷图案
+	CZTexture *stamp;				///< 笔刷图案
 };
 
 #endif
