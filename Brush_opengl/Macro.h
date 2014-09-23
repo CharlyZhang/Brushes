@@ -8,6 +8,7 @@
 
 #define RENDER_RECT		0		///< »æÖÆÁ½¸ö¾ØÐÎ
 #define RENDER_PATH		1		///< »æÖÆ±ÊË¢¹ì¼£
+#define RENDER_STAMP	0		///< »æÖÆ±ÊË¢ÎÆÀí
 
 #define BRUSH_TEX		1		///< ±ÊË¢ÎÆÀí
 #define PIC_TEX			0		///< Í¼»­ÎÆÀí

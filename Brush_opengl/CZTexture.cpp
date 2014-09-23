@@ -35,7 +35,11 @@ CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGB */)
 
 CZImage::~CZImage()
 {
-	if(data != NULL) delete [] data;
+	if(data != NULL)
+	{
+		delete [] data;
+		data = NULL;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -83,6 +87,7 @@ void CZTexture::initRenderTex()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 3);  // 设置自动生成的最大层数
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0,
@@ -90,7 +95,7 @@ void CZTexture::initRenderTex()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-/// 初始化笔刷纹理
+/// 初始化笔刷纹理（！目前仍然未能实现FBO直接渲染灰度图）
 void CZTexture::initBrushTex()
 {
 	glGenTextures (1, &id);
@@ -101,7 +106,7 @@ void CZTexture::initBrushTex()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, width, height, 0,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA32F_ARB, width, height, 0,
 		GL_LUMINANCE_ALPHA, GL_FLOAT, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

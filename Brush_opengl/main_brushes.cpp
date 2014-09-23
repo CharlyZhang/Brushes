@@ -16,6 +16,7 @@ CZShader *shader;
 CZFbo *fbo;
 CZTexture *tex;
 CZSpiralGenerator gen;
+CZTexture *stampTex;
 
 #if RENDER_PATH
 CZBrush *brush = new CZBrush;
@@ -137,9 +138,12 @@ void display(void)
 
 	fbo->end();
 
-	
+#if RENDER_STAMP && BRUSH_TEX
+	fbo->setTexture(stampTex);
+#endif
+
 	fbo->showTextureOnScreen(0,0,windowWidth,windowHeight);
-	
+
     glutSwapBuffers();
     
     checkForError("swap");
@@ -192,8 +196,8 @@ void initGL()
 #endif
 #if BRUSH_TEX
 	glClearColor(0,0,0,0);
-	CZTexture *t = gen.getStamp();
-	glBindTexture(GL_TEXTURE_2D,t->id);
+	stampTex = gen.getStamp();
+	glBindTexture(GL_TEXTURE_2D,stampTex->id);
 #endif
 
 #if RENDER_PATH

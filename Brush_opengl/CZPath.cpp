@@ -260,6 +260,7 @@ CZRect CZPath::drawDataDirectly()
 {
 	
 #if USE_OPENGL
+	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
 	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
 	glLineWidth(w);
@@ -280,11 +281,10 @@ CZRect CZPath::drawDataDirectly()
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2,GL_FLOAT,0,0);
-	
 
 	/// 绘制
 	glDrawArrays(GL_LINE_STRIP,0,n);
-	glDrawArrays(GL_POINTS,0,n);
+	//glDrawArrays(GL_POINTS,0,n);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -292,6 +292,7 @@ CZRect CZPath::drawDataDirectly()
 	/// 消除
 	glDeleteBuffers(1, &mVertexBufferObject);
 
+	glDisable(GL_LINE_SMOOTH);
 #endif
 
 	return CZRect();
