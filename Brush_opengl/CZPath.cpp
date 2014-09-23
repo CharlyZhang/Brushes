@@ -87,16 +87,17 @@ CZRect CZPath::drawData()
 	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
 	//////////////////////////////////////////////////////////////////////////
-#ifdef DEBUG_
+#if RENDER_STAMP		///< Render One Rect Use Brush	
 	delete [] vertexD;
 	points.clear();
 	angles.clear();
+	float s = sizes.front();
 	sizes.clear();
 	alphas.clear();
 
 	points.push_back(CZ2DPoint(300,300));
 	angles.push_back(0);
-	sizes.push_back(100);
+	sizes.push_back(s);
 	alphas.push_back(1.0);
 	
 	iPointSize = points.size();
@@ -258,15 +259,14 @@ CZRect CZPath::drawData()
 CZRect CZPath::drawDataDirectly()
 {
 	
-
 #if USE_OPENGL
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = rand()*9.0/RAND_MAX +1;
+	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
 	glLineWidth(w);
 	glPointSize(w*0.7);
 
 	GLfloat c = rand()*1.0/RAND_MAX;
-	glColor4f(c,c,c,0.8);
+	glColor4f(c,c,c,c);
 	int n = points.size();
 
 	GLuint mVertexBufferObject;
@@ -395,6 +395,7 @@ int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
 
 		segment = CZBezierSegment::segmentBetweenNodes(a,b);
 		segment->flattenIntoArray(linePoints);
+		//linePoints.push_back(b.anchorPoint);
 		delete segment;
 	}
 

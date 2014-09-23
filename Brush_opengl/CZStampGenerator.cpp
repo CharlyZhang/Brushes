@@ -102,6 +102,13 @@ CFbo *CZStampGenerator::generateStamp()
 	{
 		renderStamp();//:context randomizer:random];
 		
+		//float *pix = new float[width*height*4];
+		//glReadPixels(0,0,width,height,GL_RGBA,GL_FLOAT,pix);
+		//for(int ii=0; ii<width*height*4; ii+=4)
+			//if(pix[ii]!=0)
+		//		std::cout<<pix[ii]<<"\t"<<pix[ii+1]<<"\t"<<pix[ii+2]<<"\t"<<pix[ii+3]<<"\n";
+		//delete []pix;
+
 		fbo->end();
 		
 		glMatrixMode(GL_MODELVIEW);

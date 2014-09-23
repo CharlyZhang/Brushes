@@ -56,7 +56,7 @@ public:
 	bool canRandomize;
 
 protected:
-	///< 生成笔刷图案
+	/// 生成笔刷图案
 	CFbo* generateStamp();
 
 	CFbo *stamp;				///< 笔刷图案

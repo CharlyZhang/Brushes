@@ -1,6 +1,9 @@
+#define RENDER_BRUSH 1 
 
+#if RENDER_BRUSH
 attribute float alpha;
 varying float varIntensity;
+#endif
 
 void main(void) 
 {
@@ -8,5 +11,7 @@ void main(void)
 	gl_FrontColor = gl_Color;
     //gl_Position = ftransform();  
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex; 
-    varIntensity = alpha;
+#if RENDER_BRUSH    
+	varIntensity = alpha;
+#endif
 }

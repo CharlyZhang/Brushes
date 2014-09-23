@@ -15,8 +15,10 @@ CZShader *shader;
 CFbo *fbo;
 CZSpiralGenerator gen;
 
+#if RENDER_PATH
 CZBrush *brush = new CZBrush;
 CZBrushPreview *priew = CZBrushPreview::getInstance();
+#endif
 
 int windowWidth = 600, windowHeight = 600;
 
@@ -64,21 +66,50 @@ int LoadGLTextures(char *filename)					// 载入位图(调用上面的代码)并转换成纹理
 	return textureID;								// 返回 Status
 }
 
+void ShowTextureToScreen(int x,int y,int width,int height,GLuint texID)
+{
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glPushAttrib(GL_VIEWPORT_BIT);
+	glViewport(x,y,width,height);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glBindTexture(GL_TEXTURE_2D,texID);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  0.0f);
+	glEnd();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glPopAttrib();
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_DEPTH_TEST);
+}
+//////////////////////////////////////////////////////////////////////////
+
 void display(void)
 {
-	glClearColor(0.0,0.0,0.0,1.0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glClearColor(1.0,1.0,1.0,1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glColor4f(1.0,1.0,1.0,0.5);
-
-	gen.getStamp();
-/*
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-
+	
 	fbo->begin();
 	shader->begin();
-*/
-	/*
+	
+#if RENDER_RECT	
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2,GL_FLOAT,0,0);
@@ -94,9 +125,11 @@ void display(void)
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	*/
-/*
+#endif		/// < 绘制矩形纹理
+
+#if RENDER_PATH
 	priew->path->paint();	///< 绘制曲线轨迹
+#endif
 
 	shader->end();
 
@@ -104,7 +137,7 @@ void display(void)
 
 	
 	fbo->showTextureOnScreen(0,0,windowWidth,windowHeight);
-	*/
+	
     glutSwapBuffers();
     
     checkForError("swap");
@@ -144,7 +177,7 @@ void initGL()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-
+#if PIC_TEX
 	int stru=LoadGLTextures("tex.bmp");
 	if (stru==-1)
 	{
@@ -153,13 +186,20 @@ void initGL()
 		exit (0);	
 	}
 	glEnable(GL_TEXTURE_2D);
+#endif
+#if BRUSH_TEX
+	glClearColor(0,0,0,0);
+	CFbo *f = gen.getStamp();
+	glBindTexture(GL_TEXTURE_2D,f->getTexID());
+#endif
 
-	/*
+#if RENDER_PATH
 	priew->setBrush(brush);
 	priew->previewWithSize(CZSize(windowWidth,windowHeight));	///< 初始化数据
 	
 	priew->path->shader = shader;
-	*/
+#endif
+
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -174,13 +214,14 @@ void initShader()
 		shader->setShader();
 	}
 
+#if RENDER_RECT
 	float vertices[] = {100,100,	200,100,	100,200,	200,200,
-						200,200,	150,150,
-						150,150,	300,150,	150,300,	300,300};
+		200,200,	150,150,
+		150,150,	300,150,	150,300,	300,300};
 	float texcoord[] = {0,0,	1,0,	0,1,	1,1,
-						1,1,	0,0,
-						0,0,	1,0,	0,1,	1,1};
-/*
+		1,1,	0,0,
+		0,0,	1,0,	0,1,	1,1};
+
 	glGenBuffers(1, &mVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), vertices, GL_STREAM_DRAW);
@@ -188,7 +229,7 @@ void initShader()
 	glGenBuffers(1, &mTexCoordBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), texcoord, GL_STREAM_DRAW);
-	*/
+#endif
 
 }
 

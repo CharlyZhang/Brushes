@@ -17,7 +17,7 @@
 class CZBrush
 {
 public:
-	CZProperty weight;             // [1.0, 512.0] -- pixels
+	CZProperty weight;             ///< 画笔的粗细 [1.0, 512.0] -- pixels	
 	CZProperty intensity;          // [0.0, 1.0]
 
 	CZProperty angle;              // [0.0, 1.0];
@@ -26,7 +26,7 @@ public:
 	CZProperty positionalScatter;  // [0.0, 1.0]
 
 	CZProperty angleDynamics;      // [-1.0, 1.0]
-	CZProperty weightDynamics;     // [-1.0, 1.0]
+	CZProperty weightDynamics;     ///< 目测是画笔滑动时的粗细的缩小值 [-1.0, 1.0]
 	CZProperty intensityDynamics;  // [-1.0, 1.0]
 
 	CZBrush()

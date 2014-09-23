@@ -93,7 +93,7 @@ void CZBrushPreview::buildPath()
 	{
 		CZ2DPoint start( 30, backingHeight / (2.0f * scale) );
 		float   width = (backingWidth / scale) - 2.0f * 30;
-		float amplitude  = 10.0f;
+		float amplitude  = 10.0f;			///< Õñ·ù
 
 		float kNumLineSegments = 100;
 		for (int i = 0; i < kNumLineSegments; i++) 
