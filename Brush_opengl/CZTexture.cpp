@@ -75,7 +75,14 @@ CZTexture::~CZTexture()
 	glDeleteTextures(1, &id);
 #endif
 
-	if(img !=NULL) delete img;
+	if(img !=NULL) { delete img; img = NULL; }
+}
+
+/// 获取其对应的图像数据
+CZImage *CZTexture::getImage()
+{
+	if (img == NULL) img = convert2Image();
+	return img;
 }
 
 /// 初始化渲染纹理
@@ -109,4 +116,10 @@ void CZTexture::initBrushTex()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA32F_ARB, width, height, 0,
 		GL_LUMINANCE_ALPHA, GL_FLOAT, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+/// 将纹理转换为相应的图形数据 !~
+CZImage *CZTexture::convert2Image()
+{
+	return NULL;
 }

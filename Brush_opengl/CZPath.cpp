@@ -13,8 +13,6 @@
 #include "CZAffineTransform.h"
 #include "CZUtil.h"
 #include "Macro.h"
-#include "gl/glew.h"
-#include "gl/glut.h"
 #include <cmath>				
 #include <iostream>
 
@@ -22,7 +20,7 @@
  
 /// 绘制轨迹
 CZRect CZPath::paint(bool withBrush/* = true*//*randomizer*/)
-{    
+{   
 	this->points.clear();
 	this->sizes.clear();
 	this->alphas.clear();
@@ -39,7 +37,7 @@ CZRect CZPath::paint(bool withBrush/* = true*//*randomizer*/)
 
 		if(withBrush)
 		{
-			if(brush == NULL) 
+			if(pBrush == NULL) 
 			{
 				std::cerr << "CZPath::paint - Brush is NULL\n";
 				return CZRect();
@@ -70,24 +68,24 @@ void CZPath::setClosed(bool closed_)
 	closed = closed_;
 }
 
-/// 绘制数据（利用OpenGL等图形接口）
+/// 设置笔刷
+void CZPath::setBrush(CZBrush *brush_)
+{
+	pBrush = brush_;
+}
+
+/// 绘制数据（调用Util中的外部函数）
 /// 
-///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过图形接口绘制出来。
+///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过Util中的外部函数调用图形接口绘制出来。
 ///
 CZRect CZPath::drawData()
 {
-	typedef struct {
-		GLfloat     x, y;
-		GLfloat     s, t;
-		GLfloat     a;
-	} vertexData;
-
 	int iPointSize = points.size();
 	vertexData *vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
 	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
 	//////////////////////////////////////////////////////////////////////////
-#if RENDER_STAMP		///< Render One Rect Use Brush	
+#if STAMP_PATH		///< Render One Rect Use Brush	
 	delete [] vertexD;
 	points.clear();
 	angles.clear();
@@ -97,7 +95,7 @@ CZRect CZPath::drawData()
 
 	points.push_back(CZ2DPoint(300,300));
 	angles.push_back(0);
-	sizes.push_back(s);
+	sizes.push_back(100);
 	alphas.push_back(1.0);
 	
 	iPointSize = points.size();
@@ -182,69 +180,9 @@ CZRect CZPath::drawData()
 			n++;
 		}
 	}
-
-#if USE_OPENGL_ES
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &vertexD[0].x);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].s);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
-	glEnableVertexAttribArray(2);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
-#endif
-
-#if USE_OPENGL
-	/*
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &vertexD[0].x); 
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2,GL_FLOAT, sizeof(vertexData), &vertexD[0].s);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
-	*/
-	GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
-	// 装载顶点
-	glGenBuffers(1, &mVertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &vertexD[0].x, GL_STREAM_DRAW);
-	// 装载纹理
-	glGenBuffers(1, &mTexCoordBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &vertexD[0].s, GL_STREAM_DRAW);
-	// 装载属性
-	glGenBuffers(1, &mAttributeBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &vertexD[0].a, GL_STREAM_DRAW);
-
-	// 绑定顶点
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2,GL_FLOAT,sizeof(vertexData),0);
-	// 绑定纹理
-	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2,GL_FLOAT,sizeof(vertexData),0);
-	// 绑定属性
-	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-	GLuint alphaLoc = shader->getAttributeLocation("alpha");
-	glEnableVertexAttribArray(alphaLoc);
-	glVertexAttribPointer(alphaLoc, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
-
-	/// 绘制
-	glDrawArrays(GL_TRIANGLE_STRIP,0,n);
-
-	glDisableVertexAttribArray(alphaLoc);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	/// 消除
-	glDeleteBuffers(1, &mVertexBufferObject);
-	glDeleteBuffers(1, &mTexCoordBufferObject);
-	glDeleteBuffers(1, &mAttributeBufferObject);
-
-#endif
+	
+	/// 调用外部函数绘制数据
+	drawPathData(vertexD,n,shader);
 
 	delete [] vertexD;
 	//WDCheckGLError();
@@ -252,48 +190,14 @@ CZRect CZPath::drawData()
 	return dataBounds;
 }
 
-/// 直接绘制数据（利用OpenGL等图形接口）
+/// 直接绘制数据（调用Util中的外部函数）
 /// 
-///		利用图形接口直接将数据绘制出来。
+///		通过Util中的外部函数调用图形接口，将轨迹数据不带纹理绘制地直接出来。
 ///
 CZRect CZPath::drawDataDirectly()
 {
 	
-#if USE_OPENGL
-	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
-	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
-	glLineWidth(w);
-	glPointSize(w*0.7);
-
-	GLfloat c = rand()*1.0/RAND_MAX;
-	glColor4f(c,c,c,c);
-	int n = points.size();
-
-	GLuint mVertexBufferObject;
-	// 装载顶点
-	glGenBuffers(1, &mVertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ2DPoint), &points[0].x, GL_STREAM_DRAW);
-	
-
-	// 绑定顶点
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2,GL_FLOAT,0,0);
-
-	/// 绘制
-	glDrawArrays(GL_LINE_STRIP,0,n);
-	//glDrawArrays(GL_POINTS,0,n);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	/// 消除
-	glDeleteBuffers(1, &mVertexBufferObject);
-
-	glDisable(GL_LINE_SMOOTH);
-#endif
+	drawPathDataDirectly(this->points);
 
 	return CZRect();
 }
@@ -322,7 +226,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 	CZ2DPoint       unitVector = CZ2DPoint(1.0f, 1.0f);
 	float           vectorAngle = atan2(vector.y, vector.x);
 	float           pressure = pA;
-	float           weight = this->scale * (this->limitBrushSize ? 50 : this->brush->weight.value);
+	float           weight = this->scale * (this->limitBrushSize ? 50 : this->pBrush->weight.value);
 
 	if (distance > 0.0f) 
 	{
@@ -336,31 +240,31 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 	/// step linearly from last to current, pasting brush image
 	for (f = this->remainder; f <= distance; f += step, pressure += pressureStep) {
 
-		int sign = this->brush->weightDynamics.value >= 0 ? 0:1;
+		int sign = this->pBrush->weightDynamics.value >= 0 ? 0:1;
 		float p = sign ? pressure : (1.0f - pressure);
-		float brushSize = Max(1, weight - fabs(brush->weightDynamics.value) * p * weight);
+		float brushSize = Max(1, weight - fabs(pBrush->weightDynamics.value) * p * weight);
 
-		float rotationalScatter = /*[randomizer nextFloat]*/rand()*1.0/RAND_MAX * brush->rotationalScatter.value * M_PI * 2;
-		float angleOffset = brush->angle.value * (M_PI / 180.0f);
+		float rotationalScatter = /*[randomizer nextFloat]*/rand()*1.0/RAND_MAX * pBrush->rotationalScatter.value * M_PI * 2;
+		float angleOffset = pBrush->angle.value * (M_PI / 180.0f);
 
 		float positionalScatter = /*[randomizer nextFloatMin:-1.0f max:1.0f]*/rand()*2.0/RAND_MAX - 1.0f;
-		positionalScatter *= brush->positionalScatter.value;
+		positionalScatter *= pBrush->positionalScatter.value;
 		CZ2DPoint orthog;
 		orthog.x = unitVector.y;
 		orthog.y = -unitVector.x;
 		orthog = orthog * weight / 2.0f * positionalScatter;
 		CZ2DPoint pos = start + orthog;
 
-		sign = sign = brush->intensityDynamics.value >= 0 ? 0:1;
+		sign = sign = pBrush->intensityDynamics.value >= 0 ? 0:1;
 		p = sign ? pressure : (1.0f - pressure);
-		float alpha = Max(0.01, brush->intensity.value - fabs(brush->intensityDynamics.value) * p * brush->intensity.value);
+		float alpha = Max(0.01, pBrush->intensity.value - fabs(pBrush->intensityDynamics.value) * p * pBrush->intensity.value);
 
 		this->points.push_back(pos);
 		this->sizes.push_back(brushSize);
-		this->angles.push_back(vectorAngle * brush->angleDynamics.value + rotationalScatter + angleOffset);
+		this->angles.push_back(vectorAngle * pBrush->angleDynamics.value + rotationalScatter + angleOffset);
 		this->alphas.push_back(alpha);
 
-		step = Max(1.0, brush->spacing.value * brushSize);
+		step = Max(1.0, pBrush->spacing.value * brushSize);
 		start = start + (unitVector * step);
 		pressureStep = pDelta / (distance / step);
 	}

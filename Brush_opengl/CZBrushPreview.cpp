@@ -12,6 +12,8 @@
 #include "CZBrushPreview.h"
 #include "CZBezierNode.h"
 #include "CZGeometry.h"
+#include "CZUtil.h"
+#include "GL/glut.h"
 #include "Macro.h"
 
 #include <vector>
@@ -23,21 +25,11 @@
 bool CZBrushPreview::initial()
 {
 	path = NULL;
-	brush = NULL;
-
-#if USE_OPENGL_ES
-	context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-
-	if (!context || ![EAGLContext setCurrentContext:context]) {
-		return nil;
-	}
-
-	// create system framebuffer object. The backing will be allocated in -reshapeFramebuffer
-	glGenFramebuffers(1, &defaultFramebuffer);
-	glGenRenderbuffers(1, &colorRenderbuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
+	ptrBrush = NULL;
+	brushShader = NULL;
+	fbo = NULL;
+	tex = NULL;
+	backingWidth = backingHeight = 0.0f;
 
 	// configure some default GL state
 	glDisable(GL_DITHER);
@@ -46,18 +38,9 @@ bool CZBrushPreview::initial()
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-/*
-	[[NSNotificationCenter defaultCenter] addObserver:self
-selector:@selector(brushGeneratorChanged:)
-name:WDBrushGeneratorChanged
-object:nil];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self
-selector:@selector(brushGeneratorChanged:)
-name:WDBrushGeneratorReplaced
-object:nil];
-*/
-#endif
+	/// 添加监听器
+	addObserver2Preview();
 
 	return true;
 
@@ -66,18 +49,37 @@ object:nil];
 /// 销毁函数
 bool CZBrushPreview::destroy()
 {
-	if(path) delete path;
+	if(path)	{	delete path; path = NULL; }
+	if(brushShader) { delete brushShader; brushShader = NULL;}
+	if(fbo)		{	delete fbo;	fbo = NULL; }
+	if(tex)		{	delete tex;	tex = NULL; }
 	return true;
 }
-/// 启动新预览图（生成绘制的轨迹）
+/// 启动新预览图（生成FBO和纹理，生成绘制的轨迹）
 void CZBrushPreview::setup(const CZSize &size_)
 {
+	if (backingWidth == size_.width && backingHeight == size_.height) return;
+
 	backingWidth = size_.width;
 	backingHeight = size_.height;
+
+	/// 初始化FBO和纹理
+	if(tex != NULL) delete tex;
+	tex = new CZTexture(backingWidth,backingHeight);
+	if(fbo != NULL) delete fbo;
+	fbo = new CZFbo(backingWidth,backingHeight,tex);
 
 	/// 创建路径
 	if(path) delete path;
 	buildPath();
+
+	/// 设置投影环境
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0f, (GLfloat) backingWidth, 0.0f, 
+		(GLfloat) backingHeight, -1.0f, 1.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 /// 构建轨迹（绘制一条sin曲线）
@@ -106,24 +108,70 @@ void CZBrushPreview::buildPath()
 	}
 }
 
-/// 展现指定尺寸大小预览图
-void CZBrushPreview::previewWithSize(const CZSize &size_)
+/// 配置画刷（配置shader，绑定纹理）
+void CZBrushPreview::configureBrush()
 {
+	if(brushShader == NULL)
+	{
+		brushShader = new CZShader;
+		brushShader->readVertextShader("brush.vert");
+		brushShader->readFragmentShader("brush.frag");
+		brushShader->setShader();
+	}
+
+	/// 绑定纹理
+	CZTexture *stampTex = ptrBrush->getTexture(true);
+	if(stampTex == NULL)
+	{
+		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";
+		return;
+	}
+	glBindTexture(GL_TEXTURE_2D,stampTex->id);
+}
+
+/// 展现指定尺寸大小预览图
+CZTexture* CZBrushPreview::previewWithSize(const CZSize &size_)
+{
+	if(ptrBrush == NULL)
+	{
+		std::cerr << "Error - CZBrushPreview::previewWithSize : ptrBrush is NULL\n";
+		return NULL;
+	}
+
 	/// 生成新轨迹
 	setup(size_);
+	/// 配置笔刷
+	configureBrush();
+
+	fbo->begin();
+	
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	///< 背景颜色 !原代码中这里置为全0
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	{	/// 以防其他地方破坏了上下文状态
+		glEnable(GL_BLEND);							
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	}
 
 	/// 设置轨迹参数
-	path->brush = brush;
+	path->setBrush(ptrBrush);
 	path->remainder = 0.0f;
 	path->setClosed(false);
-	
-	/// 绘制轨迹
-	//path->paint();
+	path->shader = brushShader;		///< !没有必要
 
+	glColor4f(1.0,1.0,1.0,0.5);
+	brushShader->begin();
+	/// 绘制轨迹
+	path->paint();
+	brushShader->end();
+
+	fbo->end();
+	
+	return tex;
 }
 
 /// 设置画刷
 void CZBrushPreview::setBrush(CZBrush *brush_)
 {
-	brush = brush_;
+	ptrBrush = brush_;
 }

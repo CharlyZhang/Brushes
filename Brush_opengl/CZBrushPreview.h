@@ -10,6 +10,9 @@
 ///  \note
 
 #include "CZPath.h"
+#include "CZFbo.h"
+#include "CZShader.h"
+#include "CZTexture.h"
 
 class CZBrushPreview
 {
@@ -23,10 +26,12 @@ private:
 	bool initial();
 	/// 销毁函数
 	bool destroy();
-	/// 启动新预览图（生成绘制的轨迹）
+	/// 启动新预览图（生成FBO和纹理，生成绘制的轨迹）
 	void setup(const CZSize &size_);
 	/// 构建轨迹（绘制一条sin曲线）
 	void buildPath();
+	/// 配置画刷（配置shader，绑定纹理）
+	void configureBrush();
 
 public:
 	/// 完成单例获取函数
@@ -37,13 +42,16 @@ public:
 	}
 
 	/// 成员变量
-	CZPath *path;
-	CZBrush *brush;						///< 仅引用，不负责建立和销毁
+	CZPath *path;							///< 绘制的轨迹
+	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
+	CZShader *brushShader;					
+	CZFbo *fbo;
+	CZTexture *tex;							///< 呈现预览图的纹理		
 	float backingWidth, backingHeight;
 
 	
 	/// 展现指定尺寸大小预览图
-	void previewWithSize(const CZSize &size_ = CZSize(0,0));
+	CZTexture *previewWithSize(const CZSize &size_);
 	/// 设置画刷
 	void setBrush(CZBrush *brush_);
 };

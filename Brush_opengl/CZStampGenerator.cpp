@@ -93,6 +93,8 @@ CZTexture *CZStampGenerator::generateStamp()
 	glPushMatrix();
 
 	fbo->begin();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT);
 	if (scale != 1.0) 
 	{
 		/*

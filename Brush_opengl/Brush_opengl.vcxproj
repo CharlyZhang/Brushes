@@ -117,8 +117,9 @@
     <ClCompile Include="main_brushes.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="temp.frag" />
-    <None Include="temp.vert" />
+    <None Include="memo.txt" />
+    <None Include="brush.frag" />
+    <None Include="brush.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

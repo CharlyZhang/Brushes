@@ -34,29 +34,10 @@ typedef enum {
 */
 class CZPath
 {
-private:
-	bool					closed;
-	
-	//WDColor *color;
-	//@property (nonatomic) WDPathAction action;
-	float					scale;
-
-	/// 最终绘制点的参数
-	std::vector<CZ2DPoint>	points;
-	std::vector<float>		sizes;
-	std::vector<float>		angles;
-	std::vector<float>		alphas;
-
 public:
-	CZBrush							*brush;				///< 只是引用，不负责建立和销毁
-	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点
-	bool							limitBrushSize;
-	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
-	CZShader						*shader;			///< !目前做测试用，只是引用
-
 	CZPath()
 	{
-		this->brush = NULL;
+		pBrush = NULL;
 		scale = 1.0f;
 		remainder = 0.0f;
 		limitBrushSize = false;
@@ -74,17 +55,19 @@ public:
 	CZRect paint(bool withBrush = true/*randomizer*/);
 	/// 设置闭合
 	void setClosed(bool closed_);
+	/// 设置笔刷
+	void setBrush(CZBrush *brush_);
 
 private:
-	/// 绘制数据（利用OpenGL等图形接口）
+	/// 绘制数据（调用Util中的外部函数）
 	/// 
-	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过图形接口绘制出来。
+	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过Util中的外部函数调用图形接口绘制出来。
 	///
 	CZRect drawData();
 	
-	/// 直接绘制数据（利用OpenGL等图形接口）
+	/// 直接绘制数据（调用Util中的外部函数）
 	/// 
-	///		利用图形接口直接将数据绘制出来。
+	///		通过Util中的外部函数调用图形接口，将轨迹数据不带纹理绘制地直接出来。
 	///
 	CZRect drawDataDirectly();
 
@@ -108,6 +91,26 @@ private:
 	///		/param points		- 离散后得到的绘制点容器
 	///		/ret				- 离散后得到的绘制点数目
 	int flattenedPoints(std::vector<CZ3DPoint> & linePoints);
+
+public:
+	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点
+	bool							limitBrushSize;
+	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
+	CZShader						*shader;			///< !目前做测试用，只是引用
+
+private:
+	CZBrush					*pBrush;					///< 只是引用，不负责建立和销毁
+	bool					closed;
+
+	//WDColor *color;
+	//@property (nonatomic) WDPathAction action;
+	float					scale;
+
+	/// 最终绘制点的参数
+	std::vector<CZ2DPoint>	points;
+	std::vector<float>		sizes;
+	std::vector<float>		angles;
+	std::vector<float>		alphas;
 };
 
 /*

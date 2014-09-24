@@ -4,11 +4,12 @@
 #define USE_OPENGL		1
 #define USE_OPENGL_ES	0
 
-#define RENDER_STAMP	0		///< render one stamp of the brush			
+#define STAMP_PATH			0		///< render one stamp of the brush£¬ ¸Ä±ä¹ì¼£			
 
-#define RENDER_RECT		0		///< »æÖÆÁ½¸ö¾ØÐÎ
-#define RENDER_PATH		1		///< »æÖÆ±ÊË¢¹ì¼£
-#define RENDER_STAMP	0		///< »æÖÆ±ÊË¢ÎÆÀí
+#define RENDER_TWO_RECT		0		///< »æÖÆÁ½¸ö¾ØÐÎ
+#define RENDER_FULL_RECT	1		///< »æÖÆÈ«ÆÁÎÆÀí
+#define RENDER_STAMP		0		///< »æÖÆ±ÊË¢ÎÆÀí
 
-#define BRUSH_TEX		1		///< ±ÊË¢ÎÆÀí
+#define BRUSH_TEX		0		///< ±ÊË¢ÎÆÀí
+#define PATH_TEX		1		///< ¹ì¼£ÎÆÀí
 #define PIC_TEX			0		///< Í¼»­ÎÆÀí

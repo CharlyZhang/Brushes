@@ -4,29 +4,23 @@
 #include "GL/glut.h"
 #include "CZBrush.h"
 #include "CZBrushPreview.h"
-#include "CZShader.h"
-#include "CZFbo.h"
 #include "CZTexture.h"
+#include "CZFbo.h"
 #include "CZSpiralGenerator.h"
 #include "gl/GLAUX.H"			///< 为了载入图片纹理
 
 #pragma comment(lib,"glaux.lib") 
 
-CZShader *shader;
-CZFbo *fbo;
-CZTexture *tex;
-CZSpiralGenerator gen;
-CZTexture *stampTex;
-
-#if RENDER_PATH
-CZBrush *brush = new CZBrush;
-CZBrushPreview *priew = CZBrushPreview::getInstance();
+#if PATH_TEX || BRUSH_TEX
+CZBrush *brush = new CZBrush(new CZSpiralGenerator);
+CZBrushPreview *priew;// = CZBrushPreview::getInstance();
+CZTexture *brushTex = 0;
 #endif
 
 int windowWidth = 600, windowHeight = 600;
 
 GLuint mVertexBufferObject, mTexCoordBufferObject;
-
+int verNum;
 GLenum checkForError(char *loc);
 
 GLuint		textureID=0;							// 存储一个纹理
@@ -101,18 +95,20 @@ void ShowTextureToScreen(int x,int y,int width,int height,GLuint texID)
 
 void display(void)
 {
+#if BRUSH_TEX
+	glClearColor(0.0,0.0,0.0,1.0);
+#else
 	glClearColor(1.0,1.0,1.0,1.0);
+#endif
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glColor4f(1.0,1.0,1.0,0.5);
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	
-	fbo->begin();
-	shader->begin();
-	
-#if RENDER_RECT	
+
+	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);	//由于得到的path纹理，alpha不全为1，所以用覆盖模式
+
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2,GL_FLOAT,0,0);
@@ -122,27 +118,12 @@ void display(void)
 	glTexCoordPointer(2,GL_FLOAT,0,0);
 
 	/// 绘制
-	glDrawArrays(GL_TRIANGLE_STRIP,0,10);
+	glDrawArrays(GL_TRIANGLE_STRIP,0,verNum);
 	
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-#endif		/// < 绘制矩形纹理
-
-#if RENDER_PATH
-	priew->path->paint();	///< 绘制曲线轨迹
-#endif
-
-	shader->end();
-
-	fbo->end();
-
-#if RENDER_STAMP && BRUSH_TEX
-	fbo->setTexture(stampTex);
-#endif
-
-	fbo->showTextureOnScreen(0,0,windowWidth,windowHeight);
 
     glutSwapBuffers();
     
@@ -166,9 +147,6 @@ void key(unsigned char key, int x, int y)
 
 	if (key == 27) 
 	{
-		delete shader;
-		delete fbo;
-		delete tex;
 		exit(0);
 	}
 }
@@ -181,9 +159,6 @@ void initGL()
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 #if PIC_TEX
 	int stru=LoadGLTextures("tex.bmp");
 	if (stru==-1)
@@ -194,34 +169,16 @@ void initGL()
 	}
 	glEnable(GL_TEXTURE_2D);
 #endif
-#if BRUSH_TEX
-	glClearColor(0,0,0,0);
-	stampTex = gen.getStamp();
-	glBindTexture(GL_TEXTURE_2D,stampTex->id);
-#endif
-
-#if RENDER_PATH
+#if PATH_TEX || BRUSH_TEX
+	priew = CZBrushPreview::getInstance();
 	priew->setBrush(brush);
-	priew->previewWithSize(CZSize(windowWidth,windowHeight));	///< 初始化数据
-	
-	priew->path->shader = shader;
+	brushTex = priew->previewWithSize(CZSize(windowWidth,windowHeight));
+#endif
+#if PATH_TEX
+	glBindTexture(GL_TEXTURE_2D, brushTex->id);
 #endif
 
-	glDisable(GL_TEXTURE_2D);
-}
-
-void initShader()
-{
-	 shader = new CZShader;
-
-	if(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
-	{
-		shader->readVertextShader("temp.vert");
-		shader->readFragmentShader("temp.frag");
-		shader->setShader();
-	}
-
-#if RENDER_RECT
+#if RENDER_TWO_RECT
 	float vertices[] = {100,100,	200,100,	100,200,	200,200,
 		200,200,	150,150,
 		150,150,	300,150,	150,300,	300,300};
@@ -229,23 +186,27 @@ void initShader()
 		1,1,	0,0,
 		0,0,	1,0,	0,1,	1,1};
 
+	verNum = 10;
+#endif
+
+#if RENDER_FULL_RECT
+	float vertices[] = {0,0,	windowWidth,0,	0,windowHeight,	windowWidth,windowHeight};
+	float texcoord[] = {0,0,	1,0,	0,1,	1,1};
+
+	verNum = 4;
+#endif
+
 	glGenBuffers(1, &mVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), vertices, GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 2*verNum * sizeof(float), vertices, GL_STREAM_DRAW);
 
 	glGenBuffers(1, &mTexCoordBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(float), texcoord, GL_STREAM_DRAW);
-#endif
+	glBufferData(GL_ARRAY_BUFFER, 2*verNum * sizeof(float), texcoord, GL_STREAM_DRAW);
 
+	glDisable(GL_TEXTURE_2D);
 }
 
-void initFBO()
-{
-	tex = new CZTexture(windowWidth,windowHeight);
-	fbo = new CZFbo(windowWidth, windowHeight);
-	fbo->setTexture(tex);
-}
 
 int main(int argc, char *argv[])
 {
@@ -254,11 +215,8 @@ int main(int argc, char *argv[])
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
   glutInitWindowSize(windowWidth, windowHeight);
   glutCreateWindow("Brushes");
-  
-  initShader();
 
-  initFBO();
-
+  glewInit();
   initGL();
 
   glutDisplayFunc(display);

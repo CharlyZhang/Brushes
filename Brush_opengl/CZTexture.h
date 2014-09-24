@@ -38,12 +38,16 @@ public:
 	enum TexType {BrushTex,RenderTex};
 	CZTexture(int width_, int height_, TexType texType_ = RenderTex);
 	~CZTexture();
+	/// 获取其对应的图像数据
+	CZImage *getImage();
 
 protected:
 	/// 初始化渲染纹理
 	void initRenderTex();
 	/// 初始化笔刷纹理
 	void initBrushTex();
+	/// 将纹理转换为相应的图形数据
+	CZImage *convert2Image();
 
 public:
 #if USE_OPENGL	///< ？是否需要宏，待定
