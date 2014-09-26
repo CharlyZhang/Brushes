@@ -18,6 +18,22 @@
 
 #define M_PI       3.14159265358979323846
  
+CZPath::CZPath(std::vector<CZBezierNode> *nodes_ /* = NULL */)
+{
+	nodes.clear();
+	if(nodes_ != NULL)
+	{
+		int n = nodes_->size();
+		for(int i=0; i<n; i++) nodes.push_back((*nodes_)[i]);
+	}
+
+	pBrush = NULL;
+	scale = 1.0f;
+	remainder = 0.0f;
+	limitBrushSize = false;
+	boundsDirty = true;
+}
+
 /// »æÖÆ¹ì¼£
 CZRect CZPath::paint(bool withBrush/* = true*//*randomizer*/)
 {   
@@ -185,7 +201,6 @@ CZRect CZPath::drawData()
 	drawPathData(vertexD,n,shader);
 
 	delete [] vertexD;
-	//WDCheckGLError();
 
 	return dataBounds;
 }

@@ -17,14 +17,12 @@
 #include "CZBrush.h"
 #include "CZBezierSegment.h"
 #include "CZShader.h"
+#include "CZRandom.h"
+#include "CZColor.h"
+#include "CZCoding.h"
 #include <vector>
 
-//#include "WDCoding.h"
 /*
-@class WDBezierNode;
-@class WDBrush;
-@class WDColor;
-@class WDRandom;
 
 typedef enum {
     WDPathActionPaint,
@@ -32,16 +30,10 @@ typedef enum {
 } WDPathAction;
 
 */
-class CZPath
+class CZPath /*: public CZCoding*/
 {
 public:
-	CZPath()
-	{
-		pBrush = NULL;
-		scale = 1.0f;
-		remainder = 0.0f;
-		limitBrushSize = false;
-	}
+	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
 	~CZPath()
 	{
 		nodes.clear();
@@ -101,6 +93,7 @@ public:
 private:
 	CZBrush					*pBrush;					///< 只是引用，不负责建立和销毁
 	bool					closed;
+	bool					boundsDirty;				///< 用于标记是否需要重新计算包围区域
 
 	//WDColor *color;
 	//@property (nonatomic) WDPathAction action;

@@ -8,6 +8,7 @@
 #include "CZFbo.h"
 #include "CZSpiralGenerator.h"
 #include "gl/GLAUX.H"			///< 为了载入图片纹理
+#include "CZUtil.h"				///< For checkPixels()
 
 #pragma comment(lib,"glaux.lib") 
 
@@ -102,12 +103,10 @@ void display(void)
 #endif
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glColor4f(1.0,1.0,1.0,0.5);
+	glColor4f(1.0,1.0,1.0,1.0);	///< 参与片段颜色的混合
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-
-	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);	//由于得到的path纹理，alpha不全为1，所以用覆盖模式
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -123,7 +122,6 @@ void display(void)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 
     glutSwapBuffers();
     

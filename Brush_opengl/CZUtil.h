@@ -14,8 +14,15 @@
 
 #include "CZGeometry.h"
 #include "CZShader.h"
+#include "Macro.h"
 //#include "gl/glew.h"
 #include <vector>
+
+#if CZ_DEBUG
+	#define CZCheckGLError()	CZCheckGLError_(__FILE__, __LINE__));
+#else
+	#define CZCheckGLError()
+#endif
 
 /// 定义最终绘制数据格式
 typedef struct 
@@ -38,5 +45,8 @@ void drawPathDataDirectly(std::vector<CZ2DPoint> &points);
 
 /// 添加监听器到预览 -CZBrushPreview类引用
 void addObserver2Preview();
+
+/// 调试用，检测绘制的像素
+void checkPixels(int w_, int h_);
 #endif
 

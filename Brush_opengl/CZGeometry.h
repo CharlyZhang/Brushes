@@ -85,6 +85,8 @@ public:
 		return CZ2DPoint(origin.x + size.width/2, origin.y + size.height/2); 
 	};
 
+	/// 返回零矩形
+	static CZRect zeroRect(){ return CZRect(); };
 	/// 判断是否为零矩形
 	bool isZeroRect();
 	/// 合并其他矩形

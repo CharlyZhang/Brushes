@@ -11,22 +11,26 @@
 
 #include "CZFbo.h"
 
-CZFbo::CZFbo(int width_,int height_, CZTexture *tex_ /* = NULL */)
+CZFbo::CZFbo(int width_ /* = 0 */,int height_ /* = 0 */, CZTexture *tex_ /* = NULL */)
 {
 	width = width_;
 	height = height_;
+	depthId = 0;
 	tex = tex_;
 
 	glGenFramebuffers(1, &id);
 	glBindFramebuffer(GL_FRAMEBUFFER, id);	
 
-	//申请Z BUFFER
-	glGenRenderbuffers(1,&depthId);
-	glBindRenderbuffer(GL_RENDERBUFFER,depthId);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,width,height);
-	//将深度缓冲与FBO绑定
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,depthId);
-
+	if (width_ != 0 && height_ != 0)
+	{
+		//申请Z BUFFER
+		glGenRenderbuffers(1,&depthId);
+		glBindRenderbuffer(GL_RENDERBUFFER,depthId);
+		glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,width,height);
+		//将深度缓冲与FBO绑定
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,depthId);
+	}
+	
 	if(tex)
 	{
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
@@ -57,6 +61,28 @@ void CZFbo::setTexture(CZTexture *tex_)
 	}
 	else
 		std::cerr << "CZFbo::setTexture - Tex is null \n";
+}
+
+/// 设置绘制缓冲区
+void CZFbo::setRenderBuffer(int w_, int h_, GLenum internalFormat /* = GL_DEPTH_COMPONENT */)
+{
+	if (depthId)	glDeleteRenderbuffers(1,&depthId);
+	
+	if (w_ != 0 && h_ != 0)
+	{
+		//申请Z BUFFER
+		glGenRenderbuffers(1,&depthId);
+		glBindFramebuffer(GL_FRAMEBUFFER, id);
+		glBindRenderbuffer(GL_RENDERBUFFER,depthId);
+		glRenderbufferStorage(GL_RENDERBUFFER,internalFormat,w_,h_);
+		//将深度缓冲与FBO绑定
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,depthId);
+		//check status
+		checkFramebufferStatus();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+	else
+		std::cerr << "CZFbo::setRenderBuffer - width or height is 0 \n";
 }
 
 /// 开始FBO

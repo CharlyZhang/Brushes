@@ -86,10 +86,16 @@
     <ClInclude Include="CZBezierSegment.h" />
     <ClInclude Include="CZBrush.h" />
     <ClInclude Include="CZBrushPreview.h" />
+    <ClInclude Include="CZCoder.h" />
+    <ClInclude Include="CZCoding.h" />
+    <ClInclude Include="CZColor.h" />
+    <ClInclude Include="CZDecoder.h" />
     <ClInclude Include="CZFbo.h" />
     <ClInclude Include="CZGeometry.h" />
+    <ClInclude Include="CZPainting.h" />
     <ClInclude Include="CZPath.h" />
     <ClInclude Include="CZProperty.h" />
+    <ClInclude Include="CZRandom.h" />
     <ClInclude Include="CZShader.h" />
     <ClInclude Include="CZSpiralGenerator.h" />
     <ClInclude Include="CZStampGenerator.h" />
@@ -105,8 +111,10 @@
     <ClCompile Include="CZBezierSegment.cpp" />
     <ClCompile Include="CZBrush.cpp" />
     <ClCompile Include="CZBrushPreview.cpp" />
+    <ClCompile Include="CZColor.cpp" />
     <ClCompile Include="CZFbo.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
+    <ClCompile Include="CZPainting.cpp" />
     <ClCompile Include="CZPath.cpp" />
     <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZSpiralGenerator.cpp" />
@@ -115,6 +123,7 @@
     <ClCompile Include="CZUtil.cpp" />
     <ClCompile Include="glsl.cpp" />
     <ClCompile Include="main_brushes.cpp" />
+    <ClCompile Include="CZRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="memo.txt" />

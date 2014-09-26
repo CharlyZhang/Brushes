@@ -119,6 +119,8 @@ void CZBrushPreview::configureBrush()
 		brushShader->setShader();
 	}
 
+
+
 	/// 绑定纹理
 	CZTexture *stampTex = ptrBrush->getTexture(true);
 	if(stampTex == NULL)
@@ -144,8 +146,8 @@ CZTexture* CZBrushPreview::previewWithSize(const CZSize &size_)
 	configureBrush();
 
 	fbo->begin();
-	
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	///< 背景颜色 !原代码中这里置为全0
+
+	glClearColor(.0f, .0f, .0f, .0f);	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	{	/// 以防其他地方破坏了上下文状态
@@ -163,6 +165,7 @@ CZTexture* CZBrushPreview::previewWithSize(const CZSize &size_)
 	brushShader->begin();
 	/// 绘制轨迹
 	path->paint();
+
 	brushShader->end();
 
 	fbo->end();

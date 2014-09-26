@@ -2,7 +2,7 @@
 ///  \file CZBrushPreview.h
 ///  \brief This is the file declare the Class CZBrushPreview.
 ///
-///		这是一个单例，展现笔刷的预览图.
+///		这是一个单例，展现笔刷的预览图。
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -16,6 +16,27 @@
 
 class CZBrushPreview
 {
+public:
+	/// 完成单例获取函数
+	static CZBrushPreview * getInstance()
+	{
+		static CZBrushPreview instance;   //局部静态变量  
+		return &instance; 
+	}
+
+	/// 展现指定尺寸大小预览图
+	///		
+	///		这里根据指定的大小，绘制出相应的纹理。主要包括内部资源的建立以及画笔轨迹的绘制。
+	///		不处理缩，窗口缩放由外部控制，这里只以参数中的尺寸为准。
+	///		主要采用OpenGL的FBO和Shader。
+	/// 
+	///		/param size - 绘制预览的尺寸大小
+	///		/return		- 绘制得到的纹理
+	///		/note		使用之前应该先调用setBrush设定笔刷。
+	CZTexture *previewWithSize(const CZSize &size_);
+	/// 设置画刷
+	void setBrush(CZBrush *brush_);
+
 private:
 	CZBrushPreview(){ initial(); }   //构造函数是私有的
 	CZBrushPreview(const CZBrushPreview &);
@@ -34,24 +55,13 @@ private:
 	void configureBrush();
 
 public:
-	/// 完成单例获取函数
-	static CZBrushPreview * getInstance()
-	{
-		static CZBrushPreview instance;   //局部静态变量  
-		return &instance; 
-	}
-
 	/// 成员变量
 	CZPath *path;							///< 绘制的轨迹
-	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
 	CZShader *brushShader;					
 	CZFbo *fbo;
 	CZTexture *tex;							///< 呈现预览图的纹理		
 	float backingWidth, backingHeight;
 
-	
-	/// 展现指定尺寸大小预览图
-	CZTexture *previewWithSize(const CZSize &size_);
-	/// 设置画刷
-	void setBrush(CZBrush *brush_);
+private:
+	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
 };

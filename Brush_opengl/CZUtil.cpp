@@ -89,6 +89,7 @@ void drawPathData(vertexData *data, unsigned int n, CZShader *shader)
 	glDeleteBuffers(1, &mAttributeBufferObject);
 
 #endif
+	CZCheckGLError();
 }
 /// 直接绘制轨迹数据（不带纹理）
 void drawPathDataDirectly(std::vector<CZ2DPoint> &points)
@@ -145,3 +146,37 @@ name:WDBrushGeneratorReplaced
 object:nil];
 */
 };
+
+#include <iostream>
+
+void checkPixels(int w_, int h_)
+{
+	float *pix = new float[w_*h_*4];
+	glReadPixels(0,0,w_,h_,GL_RGBA, GL_FLOAT,pix);
+	
+	bool over = false;
+	for(int i=0; i<h_; i++)
+	{
+		for(int j=0; j<w_; j++)
+		{
+			int ind = i*w_+j;
+			if( pix[4*ind+0] != 0 ||
+				pix[4*ind+1] != 0 ||
+				pix[4*ind+2] != 0 ||
+				pix[4*ind+3] != 1.0)
+				
+				std::cout << i <<"\t" << j << std::endl;
+				std::cout << pix[4*ind+0] << "\t"
+						  << pix[4*ind+1] << "\t"
+						  << pix[4*ind+2] << "\t"
+						  << pix[4*ind+3] << "\n";
+				over =true;
+				break;
+		}
+		if(over) break;
+	}
+
+	std::cout << "finished!\n";
+
+	delete [] pix;
+}

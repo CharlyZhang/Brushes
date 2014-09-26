@@ -3,6 +3,8 @@
 ///  \brief This is the file implement the Class CZFbo.
 ///
 ///		This file includes FBO. It should be used with CZTexuture.
+///		This FBO is detached from CZTexture and glRenderBuffer, you can change them by calling
+///		the function setTexture and setRenderBuffer distinctly.
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -19,10 +21,12 @@
 class CZFbo
 {
 public:
-	CZFbo(int width_,int height_, CZTexture *tex_ = NULL);
+	CZFbo(int width_ = 0,int height_ = 0, CZTexture *tex_ = NULL);
 	~CZFbo();
 	/// 设置绘制纹理
 	void setTexture(CZTexture *tex_);
+	/// 设置绘制缓冲区
+	void setRenderBuffer(int w_, int h_, GLenum internalFormat = GL_DEPTH_COMPONENT);
 	/// 开始FBO（不负责清除缓存）
 	void begin();
 	/// 结束FBO
