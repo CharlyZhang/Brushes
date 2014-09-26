@@ -67,7 +67,7 @@ void CZBrushPreview::setup(const CZSize &size_)
 	if(tex != NULL) delete tex;
 	tex = new CZTexture(backingWidth,backingHeight);
 	if(fbo != NULL) delete fbo;
-	fbo = new CZFbo(backingWidth,backingHeight,tex);
+	fbo = new CZFbo(tex);
 
 	/// ´´½¨Â·¾¶
 	if(path) delete path;

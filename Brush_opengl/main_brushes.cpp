@@ -101,11 +101,10 @@ void display(void)
 #else
 	glClearColor(1.0,1.0,1.0,1.0);
 #endif
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor4f(1.0,1.0,1.0,1.0);	///< 参与片段颜色的混合
 	glDisable(GL_ALPHA_TEST);
-	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
@@ -155,7 +154,6 @@ void initGL()
 
 	glDisable(GL_DITHER);
 	glDisable(GL_STENCIL_TEST);
-	glDisable(GL_DEPTH_TEST);
 
 #if PIC_TEX
 	int stru=LoadGLTextures("tex.bmp");
@@ -210,7 +208,7 @@ int main(int argc, char *argv[])
 {
   glutInit(&argc, argv);
   //  glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH);
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
   glutInitWindowSize(windowWidth, windowHeight);
   glutCreateWindow("Brushes");
 

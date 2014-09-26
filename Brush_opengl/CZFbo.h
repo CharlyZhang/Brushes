@@ -3,13 +3,13 @@
 ///  \brief This is the file implement the Class CZFbo.
 ///
 ///		This file includes FBO. It should be used with CZTexuture.
-///		This FBO is detached from CZTexture and glRenderBuffer, you can change them by calling
-///		the function setTexture and setRenderBuffer distinctly.
+///		This FBO is detached from CZTexture and glColorRenderBuffer, you can change them by calling
+///		the function setTexture and setColorRenderBuffer distinctly.
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-23
-///  \note
+///  \note	we only consider color render buffer in this FBO, and we don't consider depth buffer.
 
 #ifndef _CZFBO_H_
 #define _CZFBO_H_
@@ -21,12 +21,15 @@
 class CZFbo
 {
 public:
-	CZFbo(int width_ = 0,int height_ = 0, CZTexture *tex_ = NULL);
+	/// 构造函数（用作绘制到纹理）
+	CZFbo(CZTexture *tex_ = NULL);
+	/// 构造函数（用于离线绘制）
+	CZFbo(int width_,int height_);
 	~CZFbo();
 	/// 设置绘制纹理
 	void setTexture(CZTexture *tex_);
 	/// 设置绘制缓冲区
-	void setRenderBuffer(int w_, int h_, GLenum internalFormat = GL_DEPTH_COMPONENT);
+	void setColorRenderBuffer(int w_, int h_);
 	/// 开始FBO（不负责清除缓存）
 	void begin();
 	/// 结束FBO
@@ -35,12 +38,13 @@ public:
 	void showTextureOnScreen(int x,int y,int width_ = 128,int height_ = 128);
 private:
 	/// 检查状态
-	void checkFramebufferStatus();
+	int checkFramebufferStatus();
 
 	int width,height;
 	GLuint id;
 	GLint preFbo;
-	GLuint depthId;				///< 深度缓存
+	bool isReady;				///< FBO状态
+	GLuint renderId;			///< 渲染缓存
 	CZTexture *tex;				///< 只是引用，不负责创建和销毁
 };
 

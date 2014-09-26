@@ -11,32 +11,48 @@
 
 #include "CZFbo.h"
 
-CZFbo::CZFbo(int width_ /* = 0 */,int height_ /* = 0 */, CZTexture *tex_ /* = NULL */)
+CZFbo::CZFbo(CZTexture *tex_ /* = NULL */)
+{
+	width = 0;
+	height = 0;
+	renderId = 0;
+	tex = tex_;
+	isReady = false;
+
+	glGenFramebuffers(1, &id);
+	glBindFramebuffer(GL_FRAMEBUFFER, id);	
+	
+	if(tex)
+	{
+		width = tex->width;
+		height = tex->height;
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
+		//check status
+		if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = true;
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+CZFbo::CZFbo(int width_,int height_)
 {
 	width = width_;
 	height = height_;
-	depthId = 0;
-	tex = tex_;
+	renderId = 0;
+	tex = NULL;
+	isReady = false;
 
 	glGenFramebuffers(1, &id);
 	glBindFramebuffer(GL_FRAMEBUFFER, id);	
 
-	if (width_ != 0 && height_ != 0)
-	{
-		//申请Z BUFFER
-		glGenRenderbuffers(1,&depthId);
-		glBindRenderbuffer(GL_RENDERBUFFER,depthId);
-		glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,width,height);
-		//将深度缓冲与FBO绑定
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,depthId);
-	}
-	
-	if(tex)
-	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
-		//check status
-		checkFramebufferStatus();
-	}
+	//申请绘制缓冲区
+	glGenRenderbuffers(1,&renderId);
+	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
+	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,width,height);
+	//将颜色绘制缓冲与FBO绑定
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
+	//check status
+	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = true;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -44,7 +60,7 @@ CZFbo::CZFbo(int width_ /* = 0 */,int height_ /* = 0 */, CZTexture *tex_ /* = NU
 CZFbo::~CZFbo()
 {
 	glDeleteFramebuffers(1,&id);
-	glDeleteRenderbuffers(1,&depthId);
+	if(renderId) glDeleteRenderbuffers(1,&renderId);
 }
 
 /// 设置绘制纹理
@@ -56,7 +72,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
 		//check status
-		checkFramebufferStatus();
+		if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = true;
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	else
@@ -64,33 +80,30 @@ void CZFbo::setTexture(CZTexture *tex_)
 }
 
 /// 设置绘制缓冲区
-void CZFbo::setRenderBuffer(int w_, int h_, GLenum internalFormat /* = GL_DEPTH_COMPONENT */)
+void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
-	if (depthId)	glDeleteRenderbuffers(1,&depthId);
-	
-	if (w_ != 0 && h_ != 0)
-	{
-		//申请Z BUFFER
-		glGenRenderbuffers(1,&depthId);
-		glBindFramebuffer(GL_FRAMEBUFFER, id);
-		glBindRenderbuffer(GL_RENDERBUFFER,depthId);
-		glRenderbufferStorage(GL_RENDERBUFFER,internalFormat,w_,h_);
-		//将深度缓冲与FBO绑定
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,depthId);
-		//check status
-		checkFramebufferStatus();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-	else
-		std::cerr << "CZFbo::setRenderBuffer - width or height is 0 \n";
+	if (renderId)	glDeleteRenderbuffers(1,&renderId);
+	width = w_;
+	height = h_;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, id);
+	//申请绘制缓冲区
+	glGenRenderbuffers(1,&renderId);
+	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
+	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGBA,width,height);
+	//将颜色绘制缓冲与FBO绑定
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
+	//check status
+	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = true;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 /// 开始FBO
 void CZFbo::begin()
 {
-	if(tex == NULL) 
+	if(!isReady) 
 	{
-		std::cerr << "CZFbo::begin - Tex is NULL \n";
+		std::cerr << "CZFbo::begin - The FBO is not ready \n";
 		return;
 	}
 
@@ -105,7 +118,7 @@ void CZFbo::begin()
 /// 结束FBO
 void CZFbo::end()
 {
-	if(tex == NULL) return;
+	if(!isReady) return;
 
 	glPopAttrib();
 	glBindFramebuffer(GL_FRAMEBUFFER, preFbo);
@@ -114,7 +127,7 @@ void CZFbo::end()
 /// 将纹理绘制到屏幕
 void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
 {
-	if(tex == NULL) 
+	if(tex == NULL || !isReady) 
 	{
 		std::cerr << "CZFbo::showTextureOnScreen - Tex is NULL \n";
 		return;
@@ -149,7 +162,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 }
 
 /// 检查状态
-void CZFbo::checkFramebufferStatus()
+int CZFbo::checkFramebufferStatus()
 {
 	int status;
 	status = (GLenum) glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -179,6 +192,9 @@ void CZFbo::checkFramebufferStatus()
 		std::cout << "Framebuffer incomplete, missing read buffer\n";
 		break;
 	default:
-		exit(0);
+		std::cout << "Framebuffer incomplete, unknown error\n";
+		break;
 	}
+
+	return status;
 }
