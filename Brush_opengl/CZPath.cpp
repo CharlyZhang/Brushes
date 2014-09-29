@@ -27,7 +27,7 @@ CZPath::CZPath(std::vector<CZBezierNode> *nodes_ /* = NULL */)
 		for(int i=0; i<n; i++) nodes.push_back((*nodes_)[i]);
 	}
 
-	pBrush = NULL;
+	ptrBrush = NULL;
 	scale = 1.0f;
 	remainder = 0.0f;
 	limitBrushSize = false;
@@ -53,7 +53,7 @@ CZRect CZPath::paint(bool withBrush/* = true*//*randomizer*/)
 
 		if(withBrush)
 		{
-			if(pBrush == NULL) 
+			if(ptrBrush == NULL) 
 			{
 				std::cerr << "CZPath::paint - Brush is NULL\n";
 				return CZRect();
@@ -87,8 +87,16 @@ void CZPath::setClosed(bool closed_)
 /// 设置笔刷
 void CZPath::setBrush(CZBrush *brush_)
 {
-	pBrush = brush_;
+	ptrBrush = brush_;
 }
+
+/// 生成随机数器（根据该轨迹的笔刷参数）
+///		\note 调用者负责销毁
+CZRandom *CZPath::newRandomizer()
+{
+	return new CZRandom(ptrBrush->generator->seed);
+}
+
 
 /// 绘制数据（调用Util中的外部函数）
 /// 
@@ -198,7 +206,7 @@ CZRect CZPath::drawData()
 	}
 	
 	/// 调用外部函数绘制数据
-	drawPathData(vertexD,n,shader);
+	drawPathData(vertexD,n,ptrShader);
 
 	delete [] vertexD;
 
@@ -241,7 +249,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 	CZ2DPoint       unitVector = CZ2DPoint(1.0f, 1.0f);
 	float           vectorAngle = atan2(vector.y, vector.x);
 	float           pressure = pA;
-	float           weight = this->scale * (this->limitBrushSize ? 50 : this->pBrush->weight.value);
+	float           weight = this->scale * (this->limitBrushSize ? 50 : this->ptrBrush->weight.value);
 
 	if (distance > 0.0f) 
 	{
@@ -255,31 +263,31 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 	/// step linearly from last to current, pasting brush image
 	for (f = this->remainder; f <= distance; f += step, pressure += pressureStep) {
 
-		int sign = this->pBrush->weightDynamics.value >= 0 ? 0:1;
+		int sign = this->ptrBrush->weightDynamics.value >= 0 ? 0:1;
 		float p = sign ? pressure : (1.0f - pressure);
-		float brushSize = Max(1, weight - fabs(pBrush->weightDynamics.value) * p * weight);
+		float brushSize = Max(1, weight - fabs(ptrBrush->weightDynamics.value) * p * weight);
 
-		float rotationalScatter = /*[randomizer nextFloat]*/rand()*1.0/RAND_MAX * pBrush->rotationalScatter.value * M_PI * 2;
-		float angleOffset = pBrush->angle.value * (M_PI / 180.0f);
+		float rotationalScatter = /*[randomizer nextFloat]*/rand()*1.0/RAND_MAX * ptrBrush->rotationalScatter.value * M_PI * 2;
+		float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);
 
 		float positionalScatter = /*[randomizer nextFloatMin:-1.0f max:1.0f]*/rand()*2.0/RAND_MAX - 1.0f;
-		positionalScatter *= pBrush->positionalScatter.value;
+		positionalScatter *= ptrBrush->positionalScatter.value;
 		CZ2DPoint orthog;
 		orthog.x = unitVector.y;
 		orthog.y = -unitVector.x;
 		orthog = orthog * weight / 2.0f * positionalScatter;
 		CZ2DPoint pos = start + orthog;
 
-		sign = sign = pBrush->intensityDynamics.value >= 0 ? 0:1;
+		sign = sign = ptrBrush->intensityDynamics.value >= 0 ? 0:1;
 		p = sign ? pressure : (1.0f - pressure);
-		float alpha = Max(0.01, pBrush->intensity.value - fabs(pBrush->intensityDynamics.value) * p * pBrush->intensity.value);
+		float alpha = Max(0.01, ptrBrush->intensity.value - fabs(ptrBrush->intensityDynamics.value) * p * ptrBrush->intensity.value);
 
 		this->points.push_back(pos);
 		this->sizes.push_back(brushSize);
-		this->angles.push_back(vectorAngle * pBrush->angleDynamics.value + rotationalScatter + angleOffset);
+		this->angles.push_back(vectorAngle * ptrBrush->angleDynamics.value + rotationalScatter + angleOffset);
 		this->alphas.push_back(alpha);
 
-		step = Max(1.0, pBrush->spacing.value * brushSize);
+		step = Max(1.0, ptrBrush->spacing.value * brushSize);
 		start = start + (unitVector * step);
 		pressureStep = pDelta / (distance / step);
 	}

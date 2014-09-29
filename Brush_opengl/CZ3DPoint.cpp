@@ -82,3 +82,21 @@ bool CZ3DPoint::isDegenerate()
 	//return (_isnanf(x) || _isnanf(y) || _isnanf(z));
 	return false;
 }
+
+/// 求点的级数（到零点的距离）
+float CZ3DPoint::magnitude()
+{
+	return sqrt(x*x + y*y + z*z);
+}
+
+/// 求点的规范化点
+CZ3DPoint CZ3DPoint::normalizedPoint()
+{
+	return *this / magnitude();
+}
+
+/// 规范化本点
+void CZ3DPoint::normalize()
+{
+	*this = *this / magnitude();
+}

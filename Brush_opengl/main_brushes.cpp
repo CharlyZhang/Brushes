@@ -9,6 +9,7 @@
 #include "CZSpiralGenerator.h"
 #include "gl/GLAUX.H"			///< 为了载入图片纹理
 #include "CZUtil.h"				///< For checkPixels()
+#include "CZFreehandTool.h"
 
 #pragma comment(lib,"glaux.lib") 
 
@@ -16,6 +17,10 @@
 CZBrush *brush = new CZBrush(new CZSpiralGenerator);
 CZBrushPreview *priew;// = CZBrushPreview::getInstance();
 CZTexture *brushTex = 0;
+#endif
+
+#if RENDER_FREEHAND
+	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
 #endif
 
 int windowWidth = 600, windowHeight = 600;
@@ -107,6 +112,10 @@ void display(void)
 	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_TEXTURE_2D);
 
+#if RENDER_FREEHAND
+	glBindTexture(GL_TEXTURE_2D,freeHand->texture->id);
+#endif
+
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(2,GL_FLOAT,0,0);
@@ -144,8 +153,49 @@ void key(unsigned char key, int x, int y)
 
 	if (key == 27) 
 	{
+		glDeleteBuffers(1,&mVertexBufferObject);
+		glDeleteBuffers(1,&mTexCoordBufferObject);
+#if RENDER_FREEHAND
+		if(freeHand) delete freeHand;
+#endif
 		exit(0);
 	}
+}
+
+static bool mouseDown = false;
+void mouse(int btn,int state,int x, int y)
+{
+	y = windowHeight - y;
+
+#if RENDER_FREEHAND
+	if(btn == GLUT_LEFT_BUTTON)
+	{
+		if(state == GLUT_DOWN)
+		{
+			mouseDown = true;
+			freeHand->moveBegin(CZ2DPoint(x,y));
+		}
+		else if(state == GLUT_UP)
+		{
+			mouseDown = false;
+			freeHand->moveEnd(CZ2DPoint(x,y));
+		}
+	}
+	glutPostRedisplay();
+#endif
+}
+
+void motion(int x, int y)
+{
+	y = windowHeight - y;
+
+#if RENDER_FREEHAND
+	if(mouseDown)
+	{
+		freeHand->moving(CZ2DPoint(x,y),1.0);
+	}
+	glutPostRedisplay();
+#endif
 }
 
 void initGL()
@@ -185,7 +235,7 @@ void initGL()
 	verNum = 10;
 #endif
 
-#if RENDER_FULL_RECT
+#if RENDER_FULL_RECT || RENDER_FREEHAND
 	float vertices[] = {0,0,	windowWidth,0,	0,windowHeight,	windowWidth,windowHeight};
 	float texcoord[] = {0,0,	1,0,	0,1,	1,1};
 
@@ -201,6 +251,10 @@ void initGL()
 	glBufferData(GL_ARRAY_BUFFER, 2*verNum * sizeof(float), texcoord, GL_STREAM_DRAW);
 
 	glDisable(GL_TEXTURE_2D);
+
+#if RENDER_FREEHAND
+	freeHand = new CZFreehandTool;
+#endif
 }
 
 
@@ -218,6 +272,8 @@ int main(int argc, char *argv[])
   glutDisplayFunc(display);
   glutReshapeFunc(reshape);
   glutKeyboardFunc(key);
+  glutMouseFunc(mouse);
+  glutMotionFunc(motion);
 
   glutMainLoop();
 

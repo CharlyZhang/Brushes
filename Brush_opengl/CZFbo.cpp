@@ -69,6 +69,8 @@ void CZFbo::setTexture(CZTexture *tex_)
 	if(tex_)
 	{
 		tex = tex_;
+		width = tex->width;
+		height = tex->height;
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
 		//check status

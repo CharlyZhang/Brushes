@@ -23,7 +23,7 @@ class CZBrush
 public:
 	CZBrush(CZStampGenerator *gen_)
 	{
-		weight.value = 80;
+		weight.value = 30;//80;
 		intensity.value = 0.3;
 		angle.value = 0;
 		spacing.value = 0.02;

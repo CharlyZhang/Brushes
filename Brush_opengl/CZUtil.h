@@ -18,12 +18,14 @@
 //#include "gl/glew.h"
 #include <vector>
 
+void CZCheckGLError_(const char *file, int line);
 #if CZ_DEBUG
-	#define CZCheckGLError()	CZCheckGLError_(__FILE__, __LINE__));
+	#define CZCheckGLError()	CZCheckGLError_(__FILE__, __LINE__);
 #else
 	#define CZCheckGLError()
 #endif
 
+	
 /// 定义最终绘制数据格式
 typedef struct 
 {
@@ -41,12 +43,18 @@ float Min(float a, float);
 /// 绘制轨迹数据（利用图形接口）-CZPath类引用
 void drawPathData(vertexData *data, unsigned int n, CZShader *shader);
 /// 直接绘制轨迹数据（不带纹理）-CZPath类引用
-void drawPathDataDirectly(std::vector<CZ2DPoint> &points);
+void drawPathDataDirectly(::std::vector<CZ2DPoint> &points);
 
 /// 添加监听器到预览 -CZBrushPreview类引用
 void addObserver2Preview();
 
+/// 正弦函数,由[0,1]到[0,1] -CZFreehandTool类引用
+float sineCurve(float input);
+
 /// 调试用，检测绘制的像素
 void checkPixels(int w_, int h_);
+
+
+
 #endif
 

@@ -81,6 +81,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CZ3DPoint.h" />
+    <ClInclude Include="CZActiveState.h" />
     <ClInclude Include="CZAffineTransform.h" />
     <ClInclude Include="CZBezierNode.h" />
     <ClInclude Include="CZBezierSegment.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="CZColor.h" />
     <ClInclude Include="CZDecoder.h" />
     <ClInclude Include="CZFbo.h" />
+    <ClInclude Include="CZFreehandTool.h" />
     <ClInclude Include="CZGeometry.h" />
     <ClInclude Include="CZPainting.h" />
     <ClInclude Include="CZPath.h" />
@@ -100,6 +102,7 @@
     <ClInclude Include="CZSpiralGenerator.h" />
     <ClInclude Include="CZStampGenerator.h" />
     <ClInclude Include="CZTexture.h" />
+    <ClInclude Include="CZTool.h" />
     <ClInclude Include="CZUtil.h" />
     <ClInclude Include="glsl.h" />
     <ClInclude Include="Macro.h" />
@@ -113,6 +116,7 @@
     <ClCompile Include="CZBrushPreview.cpp" />
     <ClCompile Include="CZColor.cpp" />
     <ClCompile Include="CZFbo.cpp" />
+    <ClCompile Include="CZFreehandTool.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
     <ClCompile Include="CZPainting.cpp" />
     <ClCompile Include="CZPath.cpp" />
@@ -120,6 +124,7 @@
     <ClCompile Include="CZSpiralGenerator.cpp" />
     <ClCompile Include="CZStampGenerator.cpp" />
     <ClCompile Include="CZTexture.cpp" />
+    <ClCompile Include="CZTool.cpp" />
     <ClCompile Include="CZUtil.cpp" />
     <ClCompile Include="glsl.cpp" />
     <ClCompile Include="main_brushes.cpp" />

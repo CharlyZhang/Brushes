@@ -12,6 +12,13 @@
 #include "CZBezierNode.h"
 
 CZBezierNode::~CZBezierNode(){}
+CZBezierNode::CZBezierNode(const CZ2DPoint &location_, float pressure_)
+{
+	CZ3DPoint p(location_.x, location_.y, pressure_);
+	inPoint = p;
+	anchorPoint = p;
+	outPoint = p;
+}
 CZBezierNode::CZBezierNode(const CZ3DPoint & anchor_)
 {
 	inPoint = anchor_;

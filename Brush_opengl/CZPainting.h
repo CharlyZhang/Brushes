@@ -16,6 +16,7 @@
 #include "CZPath.h"
 #include "CZRandom.h"
 #include "CZFbo.h"
+#include "CZTexture.h"
 #include <map>
 #include <string>
 
@@ -35,11 +36,18 @@ private:
 	///		/return			- 该画刷对应的Shader
 	CZShader* configureBrush(CZBrush *brush_);
 	/// 获取相应的Shader（同时设定当前GL上下文）
-	CZShader* getShader(std::string shaderName){return NULL;};
+	CZShader* getShader(std::string shaderName);
+	/// 获取绘制用纹理
+	CZTexture* getPaintTexture();
+	/// 载入Shader
+	void loadShaders();
 
 private:
 	CZFbo *fbo;						///< 绘制用的FBO
+	CZFbo reusableFBo;				///< 重复使用的FBO，绘制到纹理
 	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用
+	CZTexture *activePaintTexture;	///< 绘制用的纹理
+	CZSize dimensions;				///< 绘制范围
 
 	std::map<std::string,CZShader *> shaders;	///< 绘制会用到的各种shader
 

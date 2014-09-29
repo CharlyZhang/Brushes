@@ -119,8 +119,6 @@ void CZBrushPreview::configureBrush()
 		brushShader->setShader();
 	}
 
-
-
 	/// 绑定纹理
 	CZTexture *stampTex = ptrBrush->getTexture(true);
 	if(stampTex == NULL)
@@ -159,7 +157,7 @@ CZTexture* CZBrushPreview::previewWithSize(const CZSize &size_)
 	path->setBrush(ptrBrush);
 	path->remainder = 0.0f;
 	path->setClosed(false);
-	path->shader = brushShader;		///< !没有必要
+	path->ptrShader = brushShader;		///< !没有必要
 
 	glColor4f(1.0,1.0,1.0,0.5);
 	brushShader->begin();

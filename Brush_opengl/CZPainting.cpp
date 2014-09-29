@@ -17,10 +17,14 @@ CZPainting::CZPainting()
 {
 	fbo = NULL;
 	ptrActivePath = NULL;
+	activePaintTexture = NULL;
+
+	loadShaders();
 }
 CZPainting::~CZPainting()
 {
 	if(fbo != NULL) {delete fbo; fbo = NULL;}
+	if(activePaintTexture != NULL) {delete activePaintTexture; activePaintTexture = NULL;}
 }
 
 /// 绘制一条轨迹
@@ -54,8 +58,10 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 	WDCheckGLError();
 #endif
 
-#if USE_OPENGL && 0
-	fbo
+#if USE_OPENGL
+	CZTexture *tex = getPaintTexture();
+	reusableFBo.setTexture(tex);
+
 	fbo->begin();
 
 	glClearColor(.0f, .0f, .0f, .0f);
@@ -67,15 +73,11 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 	}
 
 	/// 设置轨迹参数
-	path->setBrush(ptrBrush);
-	path->remainder = 0.0f;
-	path->setClosed(false);
-	path->shader = brushShader;		///< !没有必要
-
-	glColor4f(1.0,1.0,1.0,0.5);
+	CZShader *brushShader = configureBrush(path_->ptrBrush);
+	path_->ptrShader = brushShader;	///< !没有必要
 	brushShader->begin();
 	/// 绘制轨迹
-	path->paint();
+	pathBounds = path_->paint(randomizer);
 	brushShader->end();
 
 	fbo->end();
@@ -115,4 +117,60 @@ CZShader* CZPainting::configureBrush(CZBrush *brush_)
 	glBindTexture(GL_TEXTURE_2D,stampTex->id);
 
 	CZCheckGLError();
+}
+
+/// 获取相应的Shader（同时设定当前GL上下文）
+CZShader* CZPainting::getShader(std::string shaderName)
+{
+	return shaders[shaderName];
+}
+
+/// 获取绘制用纹理
+CZTexture* CZPainting::getPaintTexture()
+{
+	if(!activePaintTexture)
+		activePaintTexture = new CZTexture(dimensions.width,dimensions.height);
+	return activePaintTexture;
+}
+
+/// 载入Shader
+void CZPainting::loadShaders()
+{
+#if 0
+	NSString        *shadersJSONPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Shaders.json"];
+	NSData          *JSONData = [NSData dataWithContentsOfFile:shadersJSONPath];
+	NSError         *error = nil;
+	NSDictionary    *shaderDict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
+
+	if (!shaderDict) {
+		WDLog(@"Error loading 'Shaders.json': %@", error);
+		return;
+	}
+
+	NSMutableDictionary *tempShaders = [NSMutableDictionary dictionary];
+
+	for (NSString *key in shaderDict.keyEnumerator) {
+		NSDictionary *description = shaderDict[key];
+		NSString *vertex = description[@"vertex"];
+		NSString *fragment = description[@"fragment"];
+		NSArray *attributes = description[@"attributes"];
+		NSArray *uniforms = description[@"uniforms"];
+
+		WDShader *shader = [[WDShader alloc] initWithVertexShader:vertex
+fragmentShader:fragment
+attributesNames:attributes
+uniformNames:uniforms];
+		tempShaders[key] = shader;
+	}
+	WDCheckGLError();
+
+	shaders = tempShaders;
+#endif
+	/// ！暂时只载入一个shader
+	CZShader *shader = new CZShader;
+	shader->readVertextShader("brush.vert");
+	shader->readFragmentShader("brush.frag");
+	shader->setShader();
+
+	shaders.insert(std::pair<std::string,CZShader*>("brush",shader));
 }

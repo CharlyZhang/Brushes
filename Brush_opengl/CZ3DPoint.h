@@ -74,6 +74,12 @@ public:
 	bool isEqual(CZ3DPoint *ptrPoint_);
 	/// 判断是否退化
 	bool isDegenerate();
+	/// 求点的级数（到零点的距离）
+	float magnitude();
+	/// 求点的规范化点
+	CZ3DPoint normalizedPoint();
+	/// 规范化本点
+	void normalize();
 };
 
 #endif

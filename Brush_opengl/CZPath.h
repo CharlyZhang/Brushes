@@ -49,7 +49,9 @@ public:
 	void setClosed(bool closed_);
 	/// 设置笔刷
 	void setBrush(CZBrush *brush_);
-
+	/// 生成随机数器（根据该轨迹的笔刷参数）
+	///		\note 调用者负责销毁
+	CZRandom *newRandomizer();
 private:
 	/// 绘制数据（调用Util中的外部函数）
 	/// 
@@ -88,10 +90,10 @@ public:
 	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点
 	bool							limitBrushSize;
 	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
-	CZShader						*shader;			///< !目前做测试用，只是引用
+	CZShader						*ptrShader;			///< !目前做测试用，只是引用
+	CZBrush							*ptrBrush;			///< 只是引用，不负责建立和销毁
 
 private:
-	CZBrush					*pBrush;					///< 只是引用，不负责建立和销毁
 	bool					closed;
 	bool					boundsDirty;				///< 用于标记是否需要重新计算包围区域
 

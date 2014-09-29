@@ -13,6 +13,8 @@
 #include "Macro.h"
 #include "gl/glut.h"
 
+using namespace std;
+
 /// 求最大最小值
 float Max(float a, float b)
 {
@@ -92,7 +94,7 @@ void drawPathData(vertexData *data, unsigned int n, CZShader *shader)
 	CZCheckGLError();
 }
 /// 直接绘制轨迹数据（不带纹理）
-void drawPathDataDirectly(std::vector<CZ2DPoint> &points)
+void drawPathDataDirectly(vector<CZ2DPoint> &points)
 {
 #if USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
@@ -147,6 +149,20 @@ object:nil];
 */
 };
 
+/// 正弦函数,由[0,1]到[0,1] -CZFreehandTool类引用
+float sineCurve(float input)
+{
+	float result;
+
+	input *= M_PI; // move from [0.0, 1.0] tp [0.0, Pi]
+	input -= M_PI_2; // shift back onto a trough
+
+	result = sin(input) + 1; // add 1 to put in range [0.0,2.0]
+	result /= 2; // back to [0.0, 1.0];
+
+	return result;
+}
+
 #include <iostream>
 
 void checkPixels(int w_, int h_)
@@ -165,8 +181,8 @@ void checkPixels(int w_, int h_)
 				pix[4*ind+2] != 0 ||
 				pix[4*ind+3] != 1.0)
 				
-				std::cout << i <<"\t" << j << std::endl;
-				std::cout << pix[4*ind+0] << "\t"
+				cout << i <<"\t" << j << endl;
+				cout << pix[4*ind+0] << "\t"
 						  << pix[4*ind+1] << "\t"
 						  << pix[4*ind+2] << "\t"
 						  << pix[4*ind+3] << "\n";
@@ -176,7 +192,10 @@ void checkPixels(int w_, int h_)
 		if(over) break;
 	}
 
-	std::cout << "finished!\n";
+	cout << "finished!\n";
 
 	delete [] pix;
 }
+
+
+void CZCheckGLError_(const char *file, int line){};
