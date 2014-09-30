@@ -15,16 +15,82 @@
 
 using namespace std;
 
-/// 求最大最小值
-float Max(float a, float b)
+/// 取随机数[0,1]
+float CZRandomFloat()
 {
-	return a>b ? a:b;
-}
-float Min(float a, float b)
-{
-	return a<b ? a:b;
+	return rand()*1.0f / RAND_MAX;
 }
 
+/// 不同颜色模式的转换
+void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b)
+{
+	if (s == 0) 
+	{
+		r = g = b = v;
+	} 
+	else 
+	{
+		float   f,p,q,t;
+		int     i;
+
+		h *= 360;
+
+		if (h == 360.0f) 
+		{
+			h = 0.0f;
+		}
+
+		h /= 60;
+		i = floor(h);
+
+		f = h - i;
+		p = v * (1.0 - s);
+		q = v * (1.0 - (s*f));
+		t = v * (1.0 - (s * (1.0 - f)));
+
+		switch (i) {
+		case 0: r = v; g = t; b = p; break;
+		case 1: r = q; g = v; b = p; break;
+		case 2: r = p; g = v; b = t; break;
+		case 3: r = p; g = q; b = v; break;
+		case 4: r = t; g = p; b = v; break;
+		case 5: r = v; g = p; b = q; break;
+		}
+	}
+}   
+void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
+{
+	float max = Max(r, Max(g, b));
+	float min = Min(r, Min(g, b));
+	float delta = max - min;
+
+	v = max;
+	s = (max != 0.0f) ? (delta / max) : 0.0f;
+
+	if (s == 0.0f) 
+	{
+		h = 0.0f;
+	} 
+	else
+	{
+		if (r == max) {
+			h = (g - b) / delta;
+		} else if (g == max) {
+			h = 2.0f + (b - r) / delta;
+		} else if (b == max) {
+			h = 4.0f + (r - g) / delta;
+		}
+
+		h *= 60.0f;
+
+		if (h < 0.0f) 
+		{
+			h += 360.0f;
+		}
+	}
+
+	h /= 360.0f;
+}
 
 /// 绘制轨迹数据（利用图形接口）
 void drawPathData(vertexData *data, unsigned int n, CZShader *shader)

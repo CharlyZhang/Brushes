@@ -34,11 +34,36 @@ typedef struct
 	GLfloat     a;
 } vertexData;
 
-/// 取最大值
-float Max(float a, float b);
-/// 取最小值
-float Min(float a, float);
 
+/******************************
+ * static inline functions
+ *****************************/
+/// 取最大值
+static inline float Max(float a, float b)
+{
+	return a>b ? a:b;
+}
+/// 取最小值
+static inline float Min(float a, float b)
+{
+	return a<b ? a:b;
+}
+
+/// 规范化
+static inline float CZClamp(float min, float max, float value) 
+{
+	return (value < min) ? min : (value > max) ? max : value;
+}
+
+/******************************
+ * other functions
+ *****************************/
+/// 取随机数[0,1]
+float CZRandomFloat();
+
+/// 不同颜色模式的转换
+void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
+void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v);
 
 /// 绘制轨迹数据（利用图形接口）-CZPath类引用
 void drawPathData(vertexData *data, unsigned int n, CZShader *shader);
