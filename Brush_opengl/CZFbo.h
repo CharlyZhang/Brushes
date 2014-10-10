@@ -21,14 +21,12 @@
 class CZFbo
 {
 public:
-	/// 构造函数（用作绘制到纹理）
-	CZFbo(CZTexture *tex_ = NULL);
-	/// 构造函数（用于离线绘制）
-	CZFbo(int width_,int height_);
+	/// 构造函数
+	CZFbo();
 	~CZFbo();
-	/// 设置绘制纹理
+	/// 设置绘制纹理（用作绘制到纹理）
 	void setTexture(CZTexture *tex_);
-	/// 设置绘制缓冲区
+	/// 设置绘制缓冲区（用于离线绘制）
 	void setColorRenderBuffer(int w_, int h_);
 	/// 开始FBO（不负责清除缓存）
 	void begin();

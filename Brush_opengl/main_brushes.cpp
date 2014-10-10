@@ -9,6 +9,7 @@
 #include "gl/GLAUX.H"			///< 为了载入图片纹理
 #include "CZUtil.h"				///< For checkPixels()
 #include "CZFreehandTool.h"
+#include "stdio.h"				///< for freopen
 
 static HGLRC           hRC=NULL;                           // 窗口着色描述表句柄  
 static HDC             hDC=NULL;                           // OpenGL渲染描述表句柄  
@@ -28,6 +29,7 @@ CZBrush *brush = new CZBrush(new CZSpiralGenerator);
 CZBrushPreview *priew;// = CZBrushPreview::getInstance();
 CZTexture *brushTex = 0;
 #endif
+FILE *fp = freopen("../debug.txt","w",stdout);
 
 #if RENDER_FREEHAND
 	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
@@ -116,6 +118,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	glDisable(GL_DITHER);
 	glDisable(GL_STENCIL_TEST);
 
+	glewInit();
+
 #if PIC_TEX
 	int stru=LoadGLTextures("tex.bmp");
 	if (stru==-1)
@@ -129,6 +133,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #if PATH_TEX || BRUSH_TEX
 	priew = CZBrushPreview::getInstance();
 	priew->setBrush(brush);
+	//CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
+	//brushTex = img->toTexture();
 	brushTex = priew->previewWithSize(CZSize(windowWidth,windowHeight));
 #endif
 #if PATH_TEX
@@ -152,7 +158,6 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 
 	verNum = 4;
 #endif
-	glewInit();
 
 	glGenBuffers(1, &mVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
@@ -261,18 +266,24 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 
 	case WM_LBUTTONDOWN:
 		GetCursorPos(&mousePos);
+#if RENDER_FREEHAND
 		freeHand->moveBegin(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+#endif
 		break;
 
 	case WM_MOUSEMOVE:
 		GetCursorPos(&mousePos);
+#if RENDER_FREEHAND
 		if (wParam & MK_LBUTTON)
 			freeHand->moving(CZ2DPoint(mousePos.x,windowHeight-mousePos.y),1.0);
+#endif
 		break;
 
 	case WM_LBUTTONUP:
+#if RENDER_FREEHAND
 		GetCursorPos(&mousePos);
 		freeHand->moveEnd(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+#endif
 		break;
 
 	case WM_SIZE:

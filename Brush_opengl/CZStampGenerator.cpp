@@ -113,7 +113,8 @@ CZTexture *CZStampGenerator::generateStamp()
 	//WDRandom *random = [[WDRandom alloc] initWithSeed:self.seed];
 	*/
 	CZTexture *tex = new CZTexture(width,height);
-	CZFbo *fbo =  new CZFbo(tex);
+	CZFbo *fbo =  new CZFbo;
+	fbo->setTexture(tex);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();

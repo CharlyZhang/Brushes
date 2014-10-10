@@ -64,6 +64,18 @@ public:
 
 	CZSize(){};
 	CZSize(float w_, float  h_): width(w_), height(h_){};
+
+	/*void operator=(const CZSize & s_)
+	{
+		this->width = s_.width;
+		this->height = s_.height;
+	}
+	*/
+	CZSize operator*(float num) const 
+	{
+		// Return the scaled vector
+		return CZSize(width * num, height * num);
+	}
 };
 
 /// æÿ–Œ¿‡

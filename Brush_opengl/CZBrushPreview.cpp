@@ -19,7 +19,7 @@
 #include <vector>
 #include <cmath>
 
-#define M_PI       3.14159265358979323846
+using namespace std;
 
 /// 初始化函数
 bool CZBrushPreview::initial()
@@ -27,20 +27,11 @@ bool CZBrushPreview::initial()
 	path = NULL;
 	ptrBrush = NULL;
 	brushShader = NULL;
-	fbo = NULL;
 	tex = NULL;
 	backingWidth = backingHeight = 0.0f;
+	mainScreenScale = 1.0f;
 
-	// configure some default GL state
-	glDisable(GL_DITHER);
-	glDisable(GL_STENCIL_TEST);
-	glDisable(GL_DEPTH_TEST);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-	/// 添加监听器
-	addObserver2Preview();
+	render.init();
 
 	return true;
 
@@ -51,10 +42,10 @@ bool CZBrushPreview::destroy()
 {
 	if(path)	{	delete path; path = NULL; }
 	if(brushShader) { delete brushShader; brushShader = NULL;}
-	if(fbo)		{	delete fbo;	fbo = NULL; }
 	if(tex)		{	delete tex;	tex = NULL; }
 	return true;
 }
+
 /// 启动新预览图（生成FBO和纹理，生成绘制的轨迹）
 void CZBrushPreview::setup(const CZSize &size_)
 {
@@ -63,11 +54,11 @@ void CZBrushPreview::setup(const CZSize &size_)
 	backingWidth = size_.width;
 	backingHeight = size_.height;
 
-	/// 初始化FBO和纹理
+	/// 初始化纹理和绘制器
 	if(tex != NULL) delete tex;
 	tex = new CZTexture(backingWidth,backingHeight);
-	if(fbo != NULL) delete fbo;
-	fbo = new CZFbo(tex);
+	
+	render.fbo.setTexture(tex);
 
 	/// 创建路径
 	if(path) delete path;
@@ -89,7 +80,7 @@ void CZBrushPreview::buildPath()
 	path = new CZPath;
 	path->limitBrushSize = true;
 
-	float scale = 1.0;//[UIScreen mainScreen].scale;
+	float scale = mainScreenScale;
 
 	// build a nice little sin curve
 	{
@@ -113,10 +104,8 @@ void CZBrushPreview::configureBrush()
 {
 	if(brushShader == NULL)
 	{
-		brushShader = new CZShader;
-		brushShader->readVertextShader("brush.vert");
-		brushShader->readFragmentShader("brush.frag");
-		brushShader->setShader();
+		vector<string> tmp1,tmp2;
+		brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
 	}
 
 	/// 绑定纹理
@@ -126,11 +115,13 @@ void CZBrushPreview::configureBrush()
 		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";
 		return;
 	}
+
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,stampTex->id);
 }
 
 /// 展现指定尺寸大小预览图
-CZImage* CZBrushPreview::previewWithSize(const CZSize &size_)
+CZTexture* CZBrushPreview::previewWithSize(CZSize size_)
 {
 	if(ptrBrush == NULL)
 	{
@@ -138,20 +129,12 @@ CZImage* CZBrushPreview::previewWithSize(const CZSize &size_)
 		return NULL;
 	}
 
+	/// 根据设备分辨率进行调整
+	size_ = size_ * mainScreenScale;
 	/// 生成新轨迹
 	setup(size_);
 	/// 配置笔刷
 	configureBrush();
-
-	fbo->begin();
-
-	glClearColor(.0f, .0f, .0f, .0f);	
-	glClear(GL_COLOR_BUFFER_BIT);
-	
-	{	/// 以防其他地方破坏了上下文状态
-		glEnable(GL_BLEND);							
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	}
 
 	/// 设置轨迹参数
 	path->setBrush(ptrBrush);
@@ -159,20 +142,34 @@ CZImage* CZBrushPreview::previewWithSize(const CZSize &size_)
 	path->setClosed(false);
 	path->ptrShader = brushShader;		///< !没有必要
 
-	glColor4f(1.0,1.0,1.0,0.5);
+	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
+
+	render.begin();
 	brushShader->begin();
 	/// 绘制轨迹
 	path->paint();
-
 	brushShader->end();
 
-	fbo->end();
+	checkPixels(backingWidth,backingHeight);
+	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
+
+	render.end();
 	
-	return tex->img;
+	return tex;
+	//return tex->img;
 }
 
 /// 设置画刷
 void CZBrushPreview::setBrush(CZBrush *brush_)
 {
 	ptrBrush = brush_;
+	
+	ptrBrush->addGenChangeDelegate(this);
+	ptrBrush->addGenReplaceDelegate(this);
+}
+
+/// 设置设备屏幕分辨率倍数
+void CZBrushPreview::setMainScreenScale(float s)
+{
+	mainScreenScale = s;
 }

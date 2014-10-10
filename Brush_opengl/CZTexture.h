@@ -14,6 +14,7 @@
 
 #include "Macro.h"
 #include "CZImage.h"
+#include <iostream>
 
 #if USE_OPENGL
 	#include "GL/glew.h"
@@ -23,18 +24,16 @@ class CZTexture
 {
 public:
 	enum TexType {BrushTex,RenderTex};
-	CZTexture(int width_, int height_, TexType texType_ = RenderTex);
+	CZTexture(int width_, int height_, TexType texType_ = RenderTex, float *data = NULL);
 	~CZTexture();
 	/// 获取其对应的图像数据
-	CZImage *getImage();
+	CZImage *toImage();
 
 protected:
 	/// 初始化渲染纹理
-	void initRenderTex();
+	void initRenderTex(float *data = NULL);
 	/// 初始化笔刷纹理
-	void initBrushTex();
-	/// 将纹理转换为相应的图形数据
-	CZImage *convert2Image();
+	void initBrushTex(float *data = NULL);
 
 public:
 #if USE_OPENGL	///< ？是否需要宏，待定
@@ -43,6 +42,5 @@ public:
 
 	int width,height;
 	TexType texType;
-	CZImage *img;
 };
 #endif

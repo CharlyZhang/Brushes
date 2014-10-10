@@ -253,9 +253,9 @@ void checkPixels(int w_, int h_)
 						  << pix[4*ind+2] << "\t"
 						  << pix[4*ind+3] << "\n";
 				over =true;
-				break;
+				//break;
 		}
-		if(over) break;
+		//if(over) break;
 	}
 
 	cout << "finished!\n";

@@ -13,6 +13,8 @@
 #define __CZSHADER_H_
 
 #include <stdio.h>
+#include <vector>
+#include <string>
 #include "GL/glew.h"
 
 
@@ -20,15 +22,17 @@ class CZShader
 {
 public:
 	CZShader();
+	CZShader(const char* vertFileName, const char* fragFileName, \
+		std::vector<std::string>& atrributes, std::vector<std::string>& uniforms);
 	~CZShader();
-	bool readVertextShader(char *_fn);
-	bool readFragmentShader(char *_fn);
+	bool readVertextShader(const char *_fn);
+	bool readFragmentShader(const char *_fn);
 	void setShader();
 	void begin();
 	void end();
 	GLuint getAttributeLocation(const char* atrrName);
 private:
-	bool textFileRead(char *_fn,GLchar *&_shader);
+	bool textFileRead(const char *_fn,GLchar *&_shader);
 	/// 初始化OpenGL扩展
 	///		\note 包含glew的初始化，应该在OpenGL和glut的初始化之后
 	static bool initOpenGLExtensions();

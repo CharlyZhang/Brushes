@@ -13,7 +13,7 @@
 #include <iostream>
 
 
-CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */)
+CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */, float *data /* = NULL */)
 {
 	width = width_;
 	height = height_;
@@ -24,18 +24,16 @@ CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */
 	switch(texType)
 	{
 	case RenderTex:
-		initRenderTex();
+		initRenderTex(data);
 		break;
 		
 	case BrushTex:
-		initBrushTex();
+		initBrushTex(data);
 		break;
 		
 	default:
 		std::cerr << "CZTexture::CZTexture - Wrong Textype \n";
 	}
-
-	img = NULL;
 }
 
 CZTexture::~CZTexture()
@@ -43,19 +41,16 @@ CZTexture::~CZTexture()
 #if USE_OPENGL
 	glDeleteTextures(1, &id);
 #endif
-
-	if(img !=NULL) { delete img; img = NULL; }
 }
 
 /// 获取其对应的图像数据
-CZImage *CZTexture::getImage()
+CZImage *CZTexture::toImage()
 {
-	if (img == NULL) img = convert2Image();
-	return img;
+	return NULL;
 }
 
 /// 初始化渲染纹理
-void CZTexture::initRenderTex()
+void CZTexture::initRenderTex(float *data /* = NULL */)
 {
 	glGenTextures (1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
@@ -67,12 +62,12 @@ void CZTexture::initRenderTex()
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0,
-		GL_RGBA, GL_FLOAT, 0);
+		GL_RGBA, GL_FLOAT,(void*)data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 /// 初始化笔刷纹理（！目前仍然未能实现FBO直接渲染灰度图）
-void CZTexture::initBrushTex()
+void CZTexture::initBrushTex(float *data /* = NULL */)
 {
 	glGenTextures (1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
@@ -83,12 +78,7 @@ void CZTexture::initBrushTex()
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA32F_ARB, width, height, 0,
-		GL_LUMINANCE_ALPHA, GL_FLOAT, 0);
+		GL_LUMINANCE_ALPHA, GL_FLOAT, (void*)data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-/// 将纹理转换为相应的图形数据 !~
-CZImage *CZTexture::convert2Image()
-{
-	return NULL;
-}

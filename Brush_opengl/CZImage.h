@@ -12,12 +12,16 @@
 #ifndef _CZIMAGE_H_
 #define _CZIMAGE_H_
 
+class CZTexture;
+
 class CZImage
 {
 public:
 	enum ImageMode {RGB, RGBA};			///< 声明枚举类型
 	CZImage(int w_=0, int h_=0, ImageMode mode_ = RGB);
 	~CZImage();
+	/// 转换成纹理
+	CZTexture * toTexture();
 
 	int width,height;
 	float *data;

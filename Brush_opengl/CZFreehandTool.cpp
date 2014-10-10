@@ -47,7 +47,8 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 
 		/// 初始化FBO和纹理
 		texture = new CZTexture(SIZE,SIZE);
-		fbo = new CZFbo(texture);
+		fbo = new CZFbo;
+		fbo->setTexture(texture);
 
 		fbo->begin();
 		glClearColor(.0f, .0f, .0f, .0f);	

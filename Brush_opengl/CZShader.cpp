@@ -70,6 +70,14 @@ CZShader::CZShader()
 	this->m_Vert = NULL;
 }
 
+CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
+	vector<string>& atrributes, vector<string>& uniforms)
+{
+	readVertextShader(vertFileName);
+	readFragmentShader(fragFileName);
+	setShader();
+}
+
 CZShader::~CZShader()
 {
 	if(NULL != m_VertexShader)
@@ -87,7 +95,7 @@ CZShader::~CZShader()
 	glDeleteProgram(m_Program);
 }
 
-bool CZShader::textFileRead(char *_fn, GLchar *&_shader)
+bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
 {
 	if(NULL == _fn)
 		return false;
@@ -321,7 +329,7 @@ bool CZShader::compile()
 	return isCompiled;
 }
 
-bool CZShader::readVertextShader(char *_fn)
+bool CZShader::readVertextShader(const char *_fn)
 {
 	if(textFileRead(_fn,m_VertexShader))
 		return true;
@@ -329,7 +337,7 @@ bool CZShader::readVertextShader(char *_fn)
 		return false;
 }
 
-bool CZShader::readFragmentShader(char *_fn)
+bool CZShader::readFragmentShader(const char *_fn)
 {
 	if(textFileRead(_fn,m_FragmentShader))
 		return true;
