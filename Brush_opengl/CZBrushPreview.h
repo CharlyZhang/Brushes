@@ -33,18 +33,19 @@ public:
 	///		主要采用OpenGL的FBO和Shader。
 	/// 
 	///		/param size - 绘制预览的尺寸大小
-	///		/return		- 绘制得到的纹理
+	///		/return		- 绘制得到的笔刷轨迹图
 	///		/note		使用之前应该先调用setBrush设定笔刷。
-	CZTexture *previewWithSize(CZSize size_);
-	//CZImage *previewWithSize(CZSize size_){return NULL;};
+	CZImage *previewWithSize(CZSize size_);
 	/// 设置画刷
 	void setBrush(CZBrush *brush_);
 	/// 设置设备屏幕分辨率倍数
 	void setMainScreenScale(float s);
+	/// 获取笔刷纹理
+	CZTexture *getBrushTexture();
 
 	/// 实现Brush改变的委托接口
-	void brushPropertyChanged(std::vector<CZProperty> &properties){};	///< 改变属性时实现该接口
-	void brushGeneratorChanged(CZStampGenerator &gen){};				///< 改变和替换生成器时都实现该接口
+	void brushPropertyChanged(std::vector<CZProperty> &properties);	///< 改变属性时实现该接口
+	void brushGeneratorChanged(CZStampGenerator &gen);				///< 改变和替换生成器时都实现该接口
 
 private:
 	CZBrushPreview(){ initial(); }   //构造函数是私有的
@@ -67,12 +68,12 @@ public:
 	/// 成员变量
 	CZPath *path;							///< 绘制的轨迹
 	CZShader *brushShader;					
-	CZTexture *tex;							///< 呈现预览图的纹理		
+	CZTexture *tex;							///< 呈现预览图的纹理	
+	CZTexture *brushTexture;				///< 笔刷纹理，随生成器改变而改变（由委托机制实现） 
 	float backingWidth, backingHeight;
 
 private:
 	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
 	float mainScreenScale;					///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
 	CZStampRender render;					///< 绘制器
-
 };

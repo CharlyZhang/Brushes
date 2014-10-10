@@ -82,7 +82,7 @@ CZImage *CZBrush::previewImageWithSize(const CZSize &size)
 	CZBrushPreview *preview = CZBrushPreview::getInstance();
 
 	preview->setBrush(this);
-//	strokePreview = preview->previewWithSize(size);
+	strokePreview = preview->previewWithSize(size);
 
 	return strokePreview;
 }

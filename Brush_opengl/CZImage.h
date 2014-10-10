@@ -20,7 +20,7 @@ public:
 	enum ImageMode {RGB, RGBA};			///< 声明枚举类型
 	CZImage(int w_=0, int h_=0, ImageMode mode_ = RGB);
 	~CZImage();
-	/// 转换成纹理
+	/// 转换成纹理（生成一个纹理，不负责销毁）
 	CZTexture * toTexture();
 
 	int width,height;

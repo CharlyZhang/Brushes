@@ -5,7 +5,7 @@
 #define USE_OPENGL		1
 #define USE_OPENGL_ES	0
 
-#define STAMP_PATH			1		///< render one stamp of the brush， 改变轨迹			
+#define STAMP_PATH			0		///< render one stamp of the brush， 改变轨迹			
 
 #define RENDER_TWO_RECT		0		///< 绘制两个矩形
 #define RENDER_FULL_RECT	1		///< 绘制全屏纹理

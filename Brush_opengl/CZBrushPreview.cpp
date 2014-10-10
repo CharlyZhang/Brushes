@@ -28,6 +28,7 @@ bool CZBrushPreview::initial()
 	ptrBrush = NULL;
 	brushShader = NULL;
 	tex = NULL;
+	brushTexture = NULL;
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
 
@@ -43,6 +44,7 @@ bool CZBrushPreview::destroy()
 	if(path)	{	delete path; path = NULL; }
 	if(brushShader) { delete brushShader; brushShader = NULL;}
 	if(tex)		{	delete tex;	tex = NULL; }
+	if(brushTexture) {delete brushTexture; brushTexture = NULL;}
 	return true;
 }
 
@@ -121,7 +123,7 @@ void CZBrushPreview::configureBrush()
 }
 
 /// 展现指定尺寸大小预览图
-CZTexture* CZBrushPreview::previewWithSize(CZSize size_)
+CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 {
 	if(ptrBrush == NULL)
 	{
@@ -150,13 +152,11 @@ CZTexture* CZBrushPreview::previewWithSize(CZSize size_)
 	path->paint();
 	brushShader->end();
 
-	checkPixels(backingWidth,backingHeight);
 	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
 
 	render.end();
 	
-	return tex;
-	//return tex->img;
+	return ret;
 }
 
 /// 设置画刷
@@ -173,3 +173,28 @@ void CZBrushPreview::setMainScreenScale(float s)
 {
 	mainScreenScale = s;
 }
+
+/// 获取笔刷纹理
+CZTexture* CZBrushPreview::getBrushTexture()
+{
+	if(brushTexture == NULL)
+	{
+		CZStampGenerator *gen = ptrBrush->generator;
+		CZImage *smallStamp = gen->getStamp(true);		///< get the small stamp
+		brushTexture = smallStamp->toTexture();
+	}
+	
+	return brushTexture;
+}
+
+
+/// 实现Brush改变的委托接口
+void CZBrushPreview::brushPropertyChanged(std::vector<CZProperty> &properties){};	///< 改变属性时实现该接口
+void CZBrushPreview::brushGeneratorChanged(CZStampGenerator &gen)					///< 改变和替换生成器时都实现该接口
+{
+	if(brushTexture)
+	{
+		delete brushTexture;
+		brushTexture = NULL;
+	}
+};				

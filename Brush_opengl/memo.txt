@@ -34,4 +34,5 @@
 2014年10月10日14:29:23
 	1.! 完善preview类，将绘制部分放入render类
 	2.! 改写fbo类，其类型由set后决定，增加复用性
-	3.! 修改stampGenerator,生成的笔刷以图片格式取代纹理格式
+	3.? 修改stampGenerator,生成的笔刷以图片格式取代纹理格式
+	4.? texture,fbo等类应该与context相关

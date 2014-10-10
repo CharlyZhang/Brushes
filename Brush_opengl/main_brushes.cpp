@@ -133,9 +133,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #if PATH_TEX || BRUSH_TEX
 	priew = CZBrushPreview::getInstance();
 	priew->setBrush(brush);
-	//CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
-	//brushTex = img->toTexture();
-	brushTex = priew->previewWithSize(CZSize(windowWidth,windowHeight));
+	CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
+	brushTex = img->toTexture();
 #endif
 #if PATH_TEX
 	glBindTexture(GL_TEXTURE_2D, brushTex->id);

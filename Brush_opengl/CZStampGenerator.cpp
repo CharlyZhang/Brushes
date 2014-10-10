@@ -55,8 +55,8 @@ void CZStampGenerator::renderStamp()
 	std::cout<<" CZStampGenerator::renderStamp - Unimplemented method \n";
 }
 
-/// 获取笔刷图案
-CZTexture *CZStampGenerator::getStamp()
+/// 获取笔刷图案 ~
+CZImage *CZStampGenerator::getStamp(bool isSmall /* = false */)
 {
 	if(stamp == NULL) stamp = generateStamp();
 	return stamp;

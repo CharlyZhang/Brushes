@@ -37,7 +37,7 @@ public:
 	/// 绘制图案
 	virtual void renderStamp();//:(CGContextRef)ctx randomizer:(WDRandom *)randomizer;
 	/// 获取笔刷图案
-	CZTexture *getStamp();
+	CZImage *getStamp(bool isSmall = false);
 	/// 配置笔刷参数
 	void configureBrush(CZBrush *brush);
 	/// 返回属性值
