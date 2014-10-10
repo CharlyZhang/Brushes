@@ -12,37 +12,6 @@
 #include "CZTexture.h"
 #include <iostream>
 
-CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGB */)
-{
-	width = w_;
-	height = h_;
-	mode = mode_;
-
-	int n;
-	switch (mode)
-	{
-	case RGB:
-		n = 3;
-		break;
-	case RGBA:
-		n = 4;
-		break;
-	default:
-		n = 0;
-	}
-	data  = new float[n*width*height];
-}
-
-CZImage::~CZImage()
-{
-	if(data != NULL)
-	{
-		delete [] data;
-		data = NULL;
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////
 
 CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */)
 {

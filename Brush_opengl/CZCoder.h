@@ -12,8 +12,16 @@
 #ifndef _CZCODER_H_
 #define _CZCODER_H_
 
+#include "CZCoding.h"
+
+class CZCoding;
+
 class CZCoder
 {
 public:
+	virtual void encodeObject(CZCoding* obj, const char* key, bool deep) = 0;
+	virtual void encodeFloat(float value, const char* key) = 0;
+	virtual void encodeString(char *str, const char * key) = 0;
+	virtual void encodeUint(unsigned int value, const char * key) = 0;
 };
 #endif

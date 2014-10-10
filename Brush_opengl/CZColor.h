@@ -66,7 +66,7 @@ public:
 
 	/// 编解码
 	void update(CZDecoder *decoder_, bool deep = false);
-	void encode(CZCoder *coder_);
+	void encode(CZCoder *coder_, bool deep = false);
 
 	/// 成员变量
 	float hue;				///< 色调

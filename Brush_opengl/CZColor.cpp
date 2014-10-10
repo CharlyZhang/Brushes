@@ -147,7 +147,7 @@ void CZColor::update(CZDecoder *decoder_, bool deep /* = false */)
 	alpha_ = WDClamp(0.0f, 1.0f, [decoder decodeFloatForKey:WDAlphaKey]);
 	*/
 };
-void CZColor::encode(CZCoder *coder_)
+void CZColor::encode(CZCoder *coder_, bool deep /* = false */)
 {
 	/*
 	[coder encodeFloat:hue_ forKey:WDHueKey];

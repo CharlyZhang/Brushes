@@ -19,6 +19,6 @@ class CZCoding
 {
 public:
 	virtual void update(CZDecoder *decoder_, bool deep = false) = 0;
-	virtual void encode(CZCoder *coder_) = 0;
+	virtual void encode(CZCoder *coder_, bool deep = false) = 0;
 };
 #endif

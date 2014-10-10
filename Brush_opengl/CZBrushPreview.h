@@ -13,6 +13,7 @@
 #include "CZFbo.h"
 #include "CZShader.h"
 #include "CZTexture.h"
+#include "CZImage.h"
 
 class CZBrushPreview
 {
@@ -33,7 +34,7 @@ public:
 	///		/param size - 绘制预览的尺寸大小
 	///		/return		- 绘制得到的纹理
 	///		/note		使用之前应该先调用setBrush设定笔刷。
-	CZTexture *previewWithSize(const CZSize &size_);
+	CZImage *previewWithSize(const CZSize &size_);
 	/// 设置画刷
 	void setBrush(CZBrush *brush_);
 

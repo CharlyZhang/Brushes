@@ -3,8 +3,11 @@
 #define _CZACTIVESTATE_H_
 
 #include "CZSpiralGenerator.h"
+#include "CZStampGenerator.h"
 
-class CZActiveState
+class CZBrushDelegate;
+
+class CZActiveState : public CZBrushDelegate
 {
 public:
 	/// 完成单例获取函数
@@ -13,6 +16,12 @@ public:
 		static CZActiveState instance;   //局部静态变量  
 		return &instance; 
 	}
+	/// 获取随机一个笔刷生成器
+	CZStampGenerator * getRandomGenerator(){return NULL;};
+	/// 实现笔刷改变委托的接口
+	void brushPropertyChanged(std::vector<CZProperty> &properties){};	///< 改变属性时实现该接口
+	void brushGeneratorChanged(CZStampGenerator &gen){/// to do
+	};		
 
 private:
 	CZActiveState(){ initial(); }   //构造函数是私有的

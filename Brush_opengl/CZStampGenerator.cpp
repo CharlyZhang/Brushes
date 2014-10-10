@@ -12,6 +12,7 @@
 #include "CZStampGenerator.h"
 #include <stdlib.h>				// for rand()
 #include "CZFbo.h"
+#include "CZBrush.h"
 #include <iostream>
 
 #define kSmallStampSize 64
@@ -29,6 +30,8 @@ CZStampGenerator::CZStampGenerator()
 	baseDimension = kBrushDimension;
 
 	stamp = NULL;
+
+	ptrDelegate = NULL;
 }
 
 CZStampGenerator::~CZStampGenerator()
@@ -57,6 +60,33 @@ CZTexture *CZStampGenerator::getStamp()
 {
 	if(stamp == NULL) stamp = generateStamp();
 	return stamp;
+}
+
+/// 配置笔刷参数
+void CZStampGenerator::configureBrush(CZBrush *brush)
+{
+
+	/*
+	/// 默认参数值
+	brush->intensity.value = 0.2f;
+	brush->angle.value = 0;
+	brush->spacing.value = 0.02;
+	brush->rotationalScatter.value = 0.0f;
+	brush->positionalScatter.value = 0.0f;
+	brush->angleDynamics.value = 0.0f;
+	brush->weightDynamics.value = 0.0f;
+	brush->intensityDynamics.value = 0.0f;
+	*/
+
+	brush->weight.value = 30;//80;
+	brush->intensity.value = 0.3;
+	brush->angle.value = 0;
+	brush->spacing.value = 0.02;
+	brush->rotationalScatter.value =0;
+	brush->positionalScatter.value =0.5;
+	brush->angleDynamics.value = 1;
+	brush->weightDynamics.value = 0;
+	brush->intensityDynamics.value = 1;
 }
 
 /// 生成笔刷图案

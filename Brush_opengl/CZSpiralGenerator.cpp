@@ -28,8 +28,8 @@ void CZSpiralGenerator::buildProperties()
 {
 	//density.title = NSLocalizedString(@"Density", @"Density");
 	density.value = 15;		///< £¡ÏÈ¼ÙÉèµÄ
-	density.minValue = 1;
-	density.maxValue = 20;
+	density.minimumValue = 1;
+	density.maximumValue = 20;
 	density.conversionFactor = 1;
 	//density.delegate = self;
 	//(self.rawProperties)[@"density"] = density;

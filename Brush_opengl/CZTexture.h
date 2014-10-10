@@ -1,8 +1,8 @@
 
 ///  \file CZTexture.h
-///  \brief This is the file declare the Class CZTexture and other related classes.
+///  \brief This is the file declare the Class CZTexture.
 ///
-///		This file includes CZImage, CZTexture, and all are about 2D.
+///		This file includes CZTexture, and all are about 2D.
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -13,25 +13,12 @@
 #define _CZTEXTURE_H_
 
 #include "Macro.h"
+#include "CZImage.h"
 
 #if USE_OPENGL
 	#include "GL/glew.h"
 #endif
 
-/// CZImage class
-class CZImage
-{
-public:
-	enum ImageMode {RGB, RGBA};			///< 声明枚举类型
-	CZImage(int w_=0, int h_=0, ImageMode mode_ = RGB);
-	~CZImage();
-
-	int width,height;
-	float *data;
-	ImageMode mode;
-};
-
-/// CZTexture class
 class CZTexture
 {
 public:

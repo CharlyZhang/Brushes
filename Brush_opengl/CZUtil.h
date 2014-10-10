@@ -25,6 +25,7 @@ void CZCheckGLError_(const char *file, int line);
 	#define CZCheckGLError()
 #endif
 
+#define LOG
 	
 /// 定义最终绘制数据格式
 typedef struct 

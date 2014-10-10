@@ -332,7 +332,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 		glLoadIdentity();
 
 		/// 绑定纹理
-		CZTexture *stampTex = ptrBrush->getTexture(true);
+		CZTexture *stampTex = ptrBrush->generator->getStamp();
 		glBindTexture(GL_TEXTURE_2D,stampTex->id);
 
 		/// 设置轨迹参数

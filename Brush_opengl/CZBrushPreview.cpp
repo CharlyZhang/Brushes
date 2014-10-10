@@ -120,7 +120,7 @@ void CZBrushPreview::configureBrush()
 	}
 
 	/// 绑定纹理
-	CZTexture *stampTex = ptrBrush->getTexture(true);
+	CZTexture *stampTex = ptrBrush->generator->getStamp();
 	if(stampTex == NULL)
 	{
 		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";
@@ -130,7 +130,7 @@ void CZBrushPreview::configureBrush()
 }
 
 /// 展现指定尺寸大小预览图
-CZTexture* CZBrushPreview::previewWithSize(const CZSize &size_)
+CZImage* CZBrushPreview::previewWithSize(const CZSize &size_)
 {
 	if(ptrBrush == NULL)
 	{
@@ -168,7 +168,7 @@ CZTexture* CZBrushPreview::previewWithSize(const CZSize &size_)
 
 	fbo->end();
 	
-	return tex;
+	return tex->img;
 }
 
 /// 设置画刷

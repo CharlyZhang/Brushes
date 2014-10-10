@@ -108,7 +108,7 @@ CZShader* CZPainting::configureBrush(CZBrush *brush_)
 #endif
 
 	/// °ó¶¨ÎÆÀí
-	CZTexture *stampTex = brush_->getTexture(true);
+	CZTexture *stampTex = brush_->generator->getStamp();
 	if(stampTex == NULL)
 	{
 		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";

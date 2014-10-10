@@ -17,7 +17,7 @@ static HINSTANCE       hInstance;                          // 保存程序的实例
 
 BOOL	keys[256];			// Array Used For The Keyboard Routine
 bool    active = TRUE;      // 窗口的活动标志，缺省为TRUE  
-bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式
+bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证长宽比为4:3)
 
 #pragma comment(lib,"glaux.lib") 
 
