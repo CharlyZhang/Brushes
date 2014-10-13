@@ -1,10 +1,21 @@
 
-#ifndef _CZSTAMPRENDER_H_
-#define _CZSTAMPRENDER_H_
+///  \file CZPathRender.h
+///  \brief This is the file declare the class CZPathRender.
+///
+///	
+///
+///  \version	1.0.0
+///	 \author	Charly Zhang<chicboi@hotmail.com>
+///  \date		2014-10-13
+///  \note
+
+
+#ifndef _CZPATHRENDER_H_
+#define _CZPATHRENDER_H_
 
 #include "CZRender.h"
 
-class CZStampRender :public CZRender
+class CZPathRender :public CZRender
 {
 public:
 	/// 初始化状态
@@ -23,7 +34,7 @@ public:
 	{
 		width  = w;
 		height = h;
-		
+
 		//~ 设置context
 
 		fbo.setColorRenderBuffer(width,height);
@@ -50,7 +61,7 @@ public:
 		}
 
 		glColor4f(1.0,1.0,1.0,0.5);
-		
+
 	};
 
 	/// 结束

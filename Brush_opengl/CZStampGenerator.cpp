@@ -13,6 +13,7 @@
 #include <stdlib.h>				// for rand()
 #include "CZFbo.h"
 #include "CZBrush.h"
+#include "CZTexture.h"
 #include <iostream>
 
 #define kSmallStampSize 64
@@ -90,7 +91,7 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
 }
 
 /// Éú³É±ÊË¢Í¼°¸
-CZTexture *CZStampGenerator::generateStamp()
+CZImage *CZStampGenerator::generateStamp()
 {
 	float  width = size.width;
 	float  height = size.height;
@@ -115,6 +116,7 @@ CZTexture *CZStampGenerator::generateStamp()
 	CZTexture *tex = new CZTexture(width,height);
 	CZFbo *fbo =  new CZFbo;
 	fbo->setTexture(tex);
+	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -138,6 +140,8 @@ CZTexture *CZStampGenerator::generateStamp()
 	else 
 	{
 		renderStamp();//:context randomizer:random];
+
+		glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
 
 		fbo->end();
 		
@@ -188,5 +192,5 @@ CZTexture *CZStampGenerator::generateStamp()
 	//CZTexture *ret = new CZTexture;
 	//ret->texId = fbo->getTexID();
 	//delete ret;
-	return tex;
+	return ret;
 }

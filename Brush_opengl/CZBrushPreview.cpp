@@ -27,7 +27,6 @@ bool CZBrushPreview::initial()
 	path = NULL;
 	ptrBrush = NULL;
 	brushShader = NULL;
-	tex = NULL;
 	brushTexture = NULL;
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
@@ -43,7 +42,6 @@ bool CZBrushPreview::destroy()
 {
 	if(path)	{	delete path; path = NULL; }
 	if(brushShader) { delete brushShader; brushShader = NULL;}
-	if(tex)		{	delete tex;	tex = NULL; }
 	if(brushTexture) {delete brushTexture; brushTexture = NULL;}
 	return true;
 }
@@ -56,23 +54,25 @@ void CZBrushPreview::setup(const CZSize &size_)
 	backingWidth = size_.width;
 	backingHeight = size_.height;
 
-	/// 初始化纹理和绘制器
-	if(tex != NULL) delete tex;
-	tex = new CZTexture(backingWidth,backingHeight);
-	
-	render.fbo.setTexture(tex);
+	/// 配置绘制器
+	render.configure(backingWidth,backingHeight);
 
 	/// 创建路径
 	if(path) delete path;
 	buildPath();
 
-	/// 设置投影环境
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0f, (GLfloat) backingWidth, 0.0f, 
-		(GLfloat) backingHeight, -1.0f, 1.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+#if 0
+	// handle viewing matrices
+	GLfloat proj[16], scale[16];
+	// setup projection matrix (orthographic)
+	mat4f_LoadOrtho(0, backingWidth, 0, backingHeight, -1.0f, 1.0f, proj);
+
+	float s = [UIScreen mainScreen].scale;
+	CGAffineTransform tX = CGAffineTransformMakeScale(s, s);
+	mat4f_LoadCGAffineTransform(scale, tX);
+
+	mat4f_MultiplyMat4f(proj, scale, projection);
+#endif
 }
 
 /// 构建轨迹（绘制一条sin曲线）
@@ -111,18 +111,13 @@ void CZBrushPreview::configureBrush()
 	}
 
 	/// 绑定纹理
-	CZTexture *stampTex = ptrBrush->generator->getStamp();
-	if(stampTex == NULL)
-	{
-		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";
-		return;
-	}
+	CZTexture *stampTex = getBrushTexture();
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,stampTex->id);
 }
 
-/// 展现指定尺寸大小预览图
+/// 生成指定尺寸大小预览图
 CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 {
 	if(ptrBrush == NULL)
@@ -135,6 +130,8 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	size_ = size_ * mainScreenScale;
 	/// 生成新轨迹
 	setup(size_);
+	/// 返回的图像
+	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
 	/// 配置笔刷
 	configureBrush();
 
@@ -143,8 +140,6 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	path->remainder = 0.0f;
 	path->setClosed(false);
 	path->ptrShader = brushShader;		///< !没有必要
-
-	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
 
 	render.begin();
 	brushShader->begin();
@@ -162,6 +157,13 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 /// 设置画刷
 void CZBrushPreview::setBrush(CZBrush *brush_)
 {
+	/// 如果刷子生成器改变了，则笔刷图案改变
+	if(ptrBrush && brush_ && ptrBrush->generator->isEqual(brush_->generator))
+	{
+		delete brushTexture;
+		brushTexture = NULL;
+	}
+
 	ptrBrush = brush_;
 	
 	ptrBrush->addGenChangeDelegate(this);

@@ -14,7 +14,7 @@
 #define _CZSTAMPGENERATOR_H_
 
 #include "CZGeometry.h"
-#include "CZTexture.h"			// for CZImage
+#include "CZImage.h"			
 #include "CZCoding.h"
 #include "CZProperty.h"
 #include <vector>
@@ -42,6 +42,9 @@ public:
 	void configureBrush(CZBrush *brush);
 	/// 返回属性值
 	std::vector<CZProperty> & getProperties(){ static std::vector<CZProperty> temp; return temp;};
+	/// 判断生成器是否相等
+	bool isEqual(const CZStampGenerator * gen){return true;}
+	/// 实现coding接口
 	void update(CZDecoder *decoder_, bool deep = false){};
 	void encode(CZCoder *coder_, bool deep = false){};
 /*
@@ -52,7 +55,7 @@ public:
 
 protected:
 	/// 生成笔刷图案
-	CZTexture* generateStamp();
+	CZImage* generateStamp();
 
 public:
 	unsigned int seed;
@@ -71,7 +74,7 @@ public:
 	bool canRandomize;
 
 protected:
-	CZTexture *stamp;				///< 笔刷图案
+	CZImage *stamp;				///< 笔刷图案
 };
 
 class CZGeneratorDelegate

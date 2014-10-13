@@ -29,7 +29,7 @@ CZBrush *brush = new CZBrush(new CZSpiralGenerator);
 CZBrushPreview *priew;// = CZBrushPreview::getInstance();
 CZTexture *brushTex = 0;
 #endif
-FILE *fp = freopen("../debug.txt","w",stdout);
+FILE *fp = freopen("../info.txt","w",stdout);
 
 #if RENDER_FREEHAND
 	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
@@ -444,7 +444,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 
 	/// 设置窗口的绘制属性
 	GLuint  PixelFormat;                    // 保存查找匹配的结果 
-	static	PIXELFORMATDESCRIPTOR pfd=
+	static	PIXELFORMATDESCRIPTOR pfd =
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),		// Size Of This Pixel Format Descriptor
 		1,									// Version Number (?)

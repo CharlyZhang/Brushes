@@ -19,7 +19,7 @@ CZFbo::CZFbo()
 	height = 0;
 	renderId = 0;
 	tex = NULL;
-	isReady = false;
+	isReady = NONE;
 
 	glGenFramebuffers(1, &id);
 }
@@ -33,10 +33,9 @@ CZFbo::~CZFbo()
 /// 设置绘制纹理
 void CZFbo::setTexture(CZTexture *tex_)
 {
-	if (isReady)
+	if (isReady == OFFLINE_RENDER)
 	{
-		cerr << "CZFbo::setTexture - has already been set as  offline rendering\n";
-		return;
+		if(renderId) glDeleteRenderbuffers(1,&renderId);
 	}
 
 	if(tex_)
@@ -47,7 +46,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
 		//check status
-		if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = true;
+		if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = RENDER2TEX;
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	else
@@ -57,11 +56,11 @@ void CZFbo::setTexture(CZTexture *tex_)
 /// 设置绘制缓冲区
 void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
-	if (isReady)
+	if (isReady == OFFLINE_RENDER)
 	{
-		cerr << "CZFbo::setColorRenderBuffer - has already been set as  render to texture\n";
-		return;
+		if(renderId) glDeleteRenderbuffers(1,&renderId);
 	}
+
 	if (renderId)	glDeleteRenderbuffers(1,&renderId);
 	width = w_;
 	height = h_;
@@ -74,14 +73,14 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	//将颜色绘制缓冲与FBO绑定
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
 	//check status
-	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = true;
+	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 /// 开始FBO
 void CZFbo::begin()
 {
-	if(!isReady) 
+	if(isReady == NONE) 
 	{
 		std::cerr << "CZFbo::begin - The FBO is not ready \n";
 		return;
@@ -98,7 +97,7 @@ void CZFbo::begin()
 /// 结束FBO
 void CZFbo::end()
 {
-	if(!isReady) return;
+	if(isReady == NONE) return;
 
 	glPopAttrib();
 	glBindFramebuffer(GL_FRAMEBUFFER, preFbo);
@@ -107,7 +106,7 @@ void CZFbo::end()
 /// 将纹理绘制到屏幕
 void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
 {
-	if(tex == NULL || !isReady) 
+	if(tex == NULL || isReady!=RENDER2TEX) 
 	{
 		std::cerr << "CZFbo::showTextureOnScreen - Tex is NULL \n";
 		return;

@@ -21,6 +21,7 @@
 class CZFbo
 {
 public:
+	enum FboState {NONE=0, RENDER2TEX, OFFLINE_RENDER};
 	/// 构造函数
 	CZFbo();
 	~CZFbo();
@@ -41,7 +42,7 @@ private:
 	int width,height;
 	GLuint id;
 	GLint preFbo;
-	bool isReady;				///< FBO状态
+	FboState isReady;			///< FBO状态
 	GLuint renderId;			///< 渲染缓存
 	CZTexture *tex;				///< 只是引用，不负责创建和销毁
 };

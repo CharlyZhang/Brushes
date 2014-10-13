@@ -333,7 +333,8 @@ void CZFreehandTool::paintPath(CZPath &path)
 		glLoadIdentity();
 
 		/// 绑定纹理
-		CZTexture *stampTex = ptrBrush->generator->getStamp();
+		CZImage *stamp = ptrBrush->generator->getStamp();
+		CZTexture *stampTex = stamp->toTexture();
 		glBindTexture(GL_TEXTURE_2D,stampTex->id);
 
 		/// 设置轨迹参数
@@ -348,6 +349,8 @@ void CZFreehandTool::paintPath(CZPath &path)
 		brushShader->end();
 
 		fbo->end();
+
+		delete stampTex;
 	}
 
 	strokeBounds.unionWith(pathBounds);

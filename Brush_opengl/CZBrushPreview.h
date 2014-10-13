@@ -13,7 +13,7 @@
 #include "CZFbo.h"
 #include "CZShader.h"
 #include "CZTexture.h"
-#include "CZStampRender.h"
+#include "CZPathRender.h"
 #include "CZImage.h"
 
 class CZBrushPreview : public CZBrushDelegate
@@ -26,9 +26,9 @@ public:
 		return &instance; 
 	}
 
-	/// 展现指定尺寸大小预览图
+	/// 生成指定尺寸大小预览图
 	///		
-	///		这里根据指定的大小，绘制出相应的纹理。主要包括内部资源的建立以及画笔轨迹的绘制。
+	///		这里根据指定的大小，绘制出相应的图像。主要包括内部资源的建立以及画笔轨迹的绘制。
 	///		不处理缩，窗口缩放由外部控制，这里只以参数中的尺寸为准。
 	///		主要采用OpenGL的FBO和Shader。
 	/// 
@@ -68,12 +68,11 @@ public:
 	/// 成员变量
 	CZPath *path;							///< 绘制的轨迹
 	CZShader *brushShader;					
-	CZTexture *tex;							///< 呈现预览图的纹理	
 	CZTexture *brushTexture;				///< 笔刷纹理，随生成器改变而改变（由委托机制实现） 
 	float backingWidth, backingHeight;
 
 private:
 	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
 	float mainScreenScale;					///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
-	CZStampRender render;					///< 绘制器
+	CZPathRender render;					///< 绘制器
 };

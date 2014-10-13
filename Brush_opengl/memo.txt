@@ -27,12 +27,19 @@
 
 2014年10月8日17:25:21:
 2014年10月9日17:22:21：
-	1.! NotificationCenter的解决方案-用委托模式解决
+	1.? NotificationCenter的解决方案-用委托模式解决，存在的问题是当监听者remove的时候
 	2.! 完善Brush类，对于uuid，采用的是uint代替了字符串
 	3.! Brush只负责保存参数，以及预览图，strokePreview应该存为图片，该图片的生成由生成器负责。
 
 2014年10月10日14:29:23
 	1.! 完善preview类，将绘制部分放入render类
 	2.! 改写fbo类，其类型由set后决定，增加复用性
-	3.? 修改stampGenerator,生成的笔刷以图片格式取代纹理格式
+	3.! 修改stampGenerator,生成的笔刷以图片格式取代纹理格式
 	4.? texture,fbo等类应该与context相关
+
+2014年10月11日16:34:17
+	1.? preview的setup里面，关于给proj乘以scale是为了增加对原轨迹数据的缩放，待到IOS平台后验证。
+	2.! 修改fbo，让其可以反复设置绘制模式 
+
+2014年10月13日10:11:31
+	1.! 修改path类，将绘制部分用render实现。

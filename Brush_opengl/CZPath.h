@@ -22,15 +22,16 @@
 #include "CZCoding.h"
 #include <vector>
 
-/*
 
-typedef enum {
-    WDPathActionPaint,
-    WDPathActionErase
-} WDPathAction;
 
-*/
-class CZPath /*: public CZCoding*/
+typedef enum 
+{
+    CZPathActionPaint,
+    CZPathActionErase
+} CZPathAction;
+
+
+class CZPath : public CZCoding
 {
 public:
 	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
@@ -44,7 +45,7 @@ public:
 	}
 
 	/// 绘制轨迹
-	CZRect paint(bool withBrush = true/*randomizer*/);
+	CZRect paint(bool withBrush = true/*randomizer = newRandomizer*/);
 	/// 设置闭合
 	void setClosed(bool closed_);
 	/// 设置笔刷
@@ -52,6 +53,9 @@ public:
 	/// 生成随机数器（根据该轨迹的笔刷参数）
 	///		\note 调用者负责销毁
 	CZRandom *newRandomizer();
+	/// 实现coding 接口
+	void update(CZDecoder *decoder_, bool deep = false){};
+	void encode(CZCoder *coder_, bool deep = false){};
 private:
 	/// 绘制数据（调用Util中的外部函数）
 	/// 

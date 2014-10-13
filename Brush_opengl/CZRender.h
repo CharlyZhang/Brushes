@@ -26,14 +26,20 @@ public:
 		}
 		*/
 	};
-	~CZRender(){};
-	/// 初始化
+	~CZRender()
+	{
+	};
+	/// 初始化绘制状态
 	virtual void init() = 0;
-	/// 开始
+	/// 配置绘制区域
+	virtual void configure(int w, int h) = 0;
+	/// 开始绘制
 	virtual void begin() = 0;
-	/// 结束
+	/// 结束绘制
 	virtual void end() = 0;
 
+protected:
+	int width, height;
 	CZFbo fbo;
 
 };
