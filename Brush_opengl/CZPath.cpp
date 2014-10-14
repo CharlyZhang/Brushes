@@ -31,47 +31,72 @@ CZPath::CZPath(std::vector<CZBezierNode> *nodes_ /* = NULL */)
 	limitBrushSize = false;
 	boundsDirty = true;
 }
+CZPath::~CZPath()
+{
+	nodes.clear();
+	points.clear();
+	sizes.clear();
+	angles.clear();
+	alphas.clear();
+}
+
+/// 设置所有结点
+void CZPath::setNodes(const std::vector<CZBezierNode> &nodes_)
+{
+	nodes.clear();
+	invalidatePath();
+
+	int n = nodes_.size();
+	for(int i=0; i<n; i++) nodes.push_back(nodes_[i]);
+}
+
+/// 添加结点
+void CZPath::addNode(CZBezierNode &node)
+{
+	nodes.push_back(node);
+}
+
+/// 获取首尾结点
+CZBezierNode CZPath::firstNode()
+{
+	return nodes.front();
+}
+CZBezierNode CZPath::lastNode()
+{
+	return (closed ? nodes.front() : nodes.back());
+}
 
 /// 绘制轨迹
-CZRect CZPath::paint(bool withBrush/* = true*//*randomizer*/)
+CZRect CZPath::paint(CZPathRender *render_, CZRandom *randomizer_)
 {   
 	this->points.clear();
 	this->sizes.clear();
 	this->alphas.clear();
 	this->angles.clear();
+	
+	ptrRender = render_;
 
 	if (this->nodes.size() == 1) 
 	{
-		//[self paintStamp:randomizer];
+		paintStamp(randomizer_);
 	} 
 	else 
 	{
 		std::vector<CZ3DPoint> linePoints;		/// <贝塞尔曲线的绘制点
-		int numPoints = this->flattenedPoints(linePoints);
+		int numPoints = flattenNodes2Points(nodes,closed,linePoints);
 
-		if(withBrush)
+		if(ptrBrush == NULL) 
 		{
-			if(ptrBrush == NULL) 
-			{
-				std::cerr << "CZPath::paint - Brush is NULL\n";
-				return CZRect();
-			}
-
-			for (int ix = 0; ix < numPoints - 1; ix++) 
-			{
-				this->paintBetweenPoints(linePoints[ix],linePoints[ix+1]);
-			}
-
-			return this->drawData();
+			std::cerr << "CZPath::paint - Brush is NULL\n";
+			return CZRect();
 		}
-		else
+
+		for (int ix = 0; ix < numPoints - 1; ix++) 
 		{
-			for (int ix = 0; ix < numPoints; ix++) 
-			{
-				points.push_back(CZ2DPoint(linePoints[ix].x, linePoints[ix].y));
-			}
-			drawDataDirectly();
+			this->paintBetweenPoints(linePoints[ix],linePoints[ix+1],randomizer_);
 		}
+
+		return this->drawData();
 	}
 
 }
@@ -88,17 +113,115 @@ void CZPath::setBrush(CZBrush *brush_)
 	ptrBrush = brush_;
 }
 
-/// 生成随机数器（根据该轨迹的笔刷参数）
-///		\note 调用者负责销毁
-CZRandom *CZPath::newRandomizer()
+/// 设置颜色
+void CZPath::setColor(CZColor &color_)
 {
-	return new CZRandom(ptrBrush->generator->seed);
+	this->color = color_;
 }
 
+/// 获取随机数器（根据该轨迹的笔刷的生成器）
+CZRandom *CZPath::getRandomizer()
+{
+	return ptrBrush->generator->getRandomizer();
+}
 
-/// 绘制数据（调用Util中的外部函数）
+/// 实现coding 接口
+void CZPath::update(CZDecoder *decoder_, bool deep /* = false */)
+{
+	/*
+	self.color = [decoder decodeObjectForKey:WDColorKey];
+	NSString *brushID = [decoder decodeObjectForKey:WDBrushIDKey];
+	self.brush = [[WDActiveState sharedInstance] brushWithID:brushID];
+	self.scale = [decoder decodeFloatForKey:WDScaleKey defaultTo:1.f];
+
+	NSString *cnodes = [decoder decodeStringForKey:WDNodesKey];
+	if (!cnodes) {
+		// handle legacy formats
+		NSArray *nodeList = nil;
+		nodeList = [decoder decodeArrayForKey:WDNodesKeyV1];
+		if (nodeList) {
+			self.nodes = [self decodeLegacyNodesA:nodeList v1:YES];
+		} else {
+			nodeList = [decoder decodeArrayForKey:WDNodesKeyV2];
+			if (nodeList) {
+				self.nodes = [self decodeLegacyNodesA:nodeList v1:NO];
+			} else {
+				nodeList = [decoder decodeArrayForKey:WDNodesKeyV3];
+				self.nodes = [self decodeLegacyNodesB:nodeList];
+			}
+		}
+	} else {
+		NSData *binaryNodes = [NSData dataFromBase64String:cnodes];
+		NSMutableArray *nodes = [NSMutableArray arrayWithCapacity:(binaryNodes.length / (9 * sizeof(CFSwappedFloat32)))];
+		for (int i = 0; i < binaryNodes.length; i += 9 * sizeof(CFSwappedFloat32)) {
+			CFSwappedFloat32 f;
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 0 * sizeof(f), sizeof(f))];
+			float ix = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 1 * sizeof(f), sizeof(f))];
+			float iy = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 2 * sizeof(f), sizeof(f))];
+			float ip = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 3 * sizeof(f), sizeof(f))];
+			float ax = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 4 * sizeof(f), sizeof(f))];
+			float ay = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 5 * sizeof(f), sizeof(f))];
+			float ap = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 6 * sizeof(f), sizeof(f))];
+			float ox = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 7 * sizeof(f), sizeof(f))];
+			float oy = CFConvertFloat32SwappedToHost(f);
+			[binaryNodes getBytes:&f range:NSMakeRange(i + 8 * sizeof(f), sizeof(f))];
+			float op = CFConvertFloat32SwappedToHost(f);
+			WDBezierNode *node = [WDBezierNode bezierNodeWithInPoint:[WD3DPoint pointWithX:ix y:iy z:ip]
+anchorPoint:[WD3DPoint pointWithX:ax y:ay z:ap]
+outPoint:[WD3DPoint pointWithX:ox y:oy z:op]];
+			[nodes addObject:node];
+		}
+		self.nodes = nodes;
+	}
+
+	boundsDirty_ = YES;
+	*/
+}
+void CZPath::encode(CZCoder *coder_, bool deep /* = false */)
+{
+	/*
+	[coder encodeObject:self.color forKey:WDColorKey deep:deep];
+	[coder encodeString:self.brush.uuid forKey:WDBrushIDKey];
+	if (self.scale != 1.f) {
+		[coder encodeFloat:self.scale forKey:WDScaleKey];
+	}
+
+	NSMutableData *binaryNodes = [NSMutableData dataWithCapacity:self.nodes.count * 9 * sizeof(CFSwappedFloat32)];
+	for (WDBezierNode *node in self.nodes) {
+		CFSwappedFloat32 f;
+		f = CFConvertFloat32HostToSwapped(node.inPoint.x);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.inPoint.y);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.inPressure);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.anchorPoint.x);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.anchorPoint.y);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.anchorPressure);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.outPoint.x);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.outPoint.y);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+		f = CFConvertFloat32HostToSwapped(node.outPressure);
+		[binaryNodes appendBytes:&f length:sizeof(f)];
+	}
+	[coder encodeString:[[binaryNodes base64EncodedString] stringByReplacingOccurrencesOfString:@"\n" withString:@""]forKey:WDNodesKey];
+	*/
+}
+
+/// 绘制数据（调用轨迹绘制器绘制）
 /// 
-///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过Util中的外部函数调用图形接口绘制出来。
+///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过CZPathRender调用图形接口绘制出来。
 ///
 CZRect CZPath::drawData()
 {
@@ -203,24 +326,30 @@ CZRect CZPath::drawData()
 		}
 	}
 	
-	/// 调用外部函数绘制数据
-	drawPathData(vertexD,n,ptrShader);
+	/// 调用绘制器绘制数据
+	ptrRender->drawPathData(vertexD,n);
 
 	delete [] vertexD;
 
 	return dataBounds;
 }
 
-/// 直接绘制数据（调用Util中的外部函数）
-/// 
-///		通过Util中的外部函数调用图形接口，将轨迹数据不带纹理绘制地直接出来。
-///
-CZRect CZPath::drawDataDirectly()
+/// 绘制一个stamp点
+void CZPath::paintStamp(CZRandom *randomizer)
 {
-	
-	drawPathDataDirectly(this->points);
+	float weight = scale * (limitBrushSize ? 50 : ptrBrush->weight.value);
 
-	return CZRect();
+	CZ2DPoint start(nodes[0].anchorPoint.x, nodes[0].anchorPoint.y);
+
+	float brushSize = weight;
+	float rotationalScatter = randomizer->nextFloat() * ptrBrush->rotationalScatter.value * M_PI * 2;
+	float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);
+	float alpha = Max(0.01, ptrBrush->intensity.value);
+
+	points.push_back(start);
+	sizes.push_back(brushSize);
+	angles.push_back(rotationalScatter+angleOffset);
+	alphas.push_back(alpha);
 }
 
 /// 绘制两点之间的线.
@@ -232,9 +361,8 @@ CZRect CZPath::drawDataDirectly()
 ///		/param lastLocation - 轨迹最后离散点的位置
 ///		/param location		- 当前绘制点的位置
 ///		/param randomizer	- 随机器
-///		/note	我用系统自带的随机参数暂时替代了randomizer
-///				利用画笔参数生成部分的算法没看懂
-void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location/*,randomizer randomizer*/)
+///		/note	利用画笔参数生成部分的算法没看懂
+void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location, CZRandom *randomizer)
 {
 	float           pA = lastLocation.z;
 	float           pB = location.z;
@@ -265,10 +393,10 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 		float p = sign ? pressure : (1.0f - pressure);
 		float brushSize = Max(1, weight - fabs(ptrBrush->weightDynamics.value) * p * weight);
 
-		float rotationalScatter = /*[randomizer nextFloat]*/rand()*1.0/RAND_MAX * ptrBrush->rotationalScatter.value * M_PI * 2;
+		float rotationalScatter = randomizer->nextFloat() * ptrBrush->rotationalScatter.value * M_PI * 2;
 		float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);
 
-		float positionalScatter = /*[randomizer nextFloatMin:-1.0f max:1.0f]*/rand()*2.0/RAND_MAX - 1.0f;
+		float positionalScatter = randomizer->nextFloat(-1.0f,1.0f);
 		positionalScatter *= ptrBrush->positionalScatter.value;
 		CZ2DPoint orthog;
 		orthog.x = unitVector.y;
@@ -295,34 +423,12 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 	this->remainder = (f - distance);
 }
 
-/// 将结点打散成绘制点
-/// 
-///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）
-/// 
-///		/param points		- 离散后得到的绘制点容器
-///		/return				- 离散后得到的绘制点数目
-int CZPath::flattenedPoints(std::vector<CZ3DPoint> & linePoints)
+/// 使轨迹无效化
+void CZPath::invalidatePath()
 {
-	int numNodes = this->nodes.size();
-	if (numNodes == 1)
-	{
-		CZBezierNode lonelyNode = nodes.back();
-		linePoints.push_back(lonelyNode.anchorPoint);
-		return 1;
-	}
 
-	int numSegs = this->closed ? numNodes : numNodes - 1;
-	
-	CZBezierSegment   *segment = NULL;
-	for (int i = 0; i < numSegs; i++) 
-	{
-		CZBezierNode a = this->nodes[i];
-		CZBezierNode b = this->nodes[(i+1) % numNodes];
+	//CGPathRelease(pathRef_);
+	//pathRef_ = NULL;
 
-		segment = CZBezierSegment::segmentBetweenNodes(a,b);
-		segment->flattenIntoArray(linePoints);
-		delete segment;
-	}
-
-	return linePoints.size();
+	boundsDirty = true;
 }

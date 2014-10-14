@@ -14,9 +14,11 @@
 #include "CZUtil.h"
 #include "CZAffineTransform.h"
 #include <stdlib.h>				//for rand()
+#include "CZStampRender.h"
 #include <cmath>
-#include "CZPath.h"
 #include "CZBezierNode.h"
+
+using namespace std;
 
 CZSpiralGenerator::CZSpiralGenerator()
 {
@@ -62,8 +64,7 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_)
 	float       a = radius_ / pow(M_E, b * segments * M_PI_4);
 
 	//CGMutablePathRef pathRef = CGPathCreateMutable();
-	CZPath path;
-	path.setClosed(false);
+	vector<CZBezierNode> nodes;
 	CZ2DPoint lastOut(0,0);
 
 	CZAffineTransform transform = CZAffineTransform::makeIndentity();
@@ -103,13 +104,15 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_)
 			CZ3DPoint(P2.x,P2.y,0),
 			CZ3DPoint(P3.x,P3.y,0),
 			CZ3DPoint(P1.x,P1.y,0));
-		path.nodes.push_back(node);
+		nodes.push_back(node);
 
 
 		lastOut = P1;
 	}
 
-	path.paint(false);
+	vector<CZ3DPoint> points;
+	flattenNodes2Points(nodes,false,points);
+	CZStampRender::getInstance()->drawSpiralData(points);
 	/*
 	CGContextAddPath(ctx, pathRef);
 	CGContextSetGrayStrokeColor(ctx, [random nextFloat], 1.0f);

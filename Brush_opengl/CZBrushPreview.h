@@ -15,8 +15,9 @@
 #include "CZTexture.h"
 #include "CZPathRender.h"
 #include "CZImage.h"
+#include "CZNotificationCenter.h"
 
-class CZBrushPreview : public CZBrushDelegate
+class CZBrushPreview : public CZObserver
 {
 public:
 	/// 完成单例获取函数
@@ -43,9 +44,8 @@ public:
 	/// 获取笔刷纹理
 	CZTexture *getBrushTexture();
 
-	/// 实现Brush改变的委托接口
-	void brushPropertyChanged(std::vector<CZProperty> &properties);	///< 改变属性时实现该接口
-	void brushGeneratorChanged(CZStampGenerator &gen);				///< 改变和替换生成器时都实现该接口
+	/// 实现Observer接口
+	void updateObserver(std::string &notificationName, void* data = NULL);
 
 private:
 	CZBrushPreview(){ initial(); }   //构造函数是私有的

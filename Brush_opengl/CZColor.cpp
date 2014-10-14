@@ -137,6 +137,18 @@ bool CZColor::operator ==( const  CZColor& c_) const
 	}
 }
 
+/// ¸³Öµ
+void  CZColor::operator =( const  CZColor & p_)
+{
+	this->red = p_.red;
+	this->green = p_.green;
+	this->blue = p_.blue;
+	this->alpha = p_.alpha;
+	this->hue = p_.hue;
+	this->saturation = p_.saturation;
+	this->brightness = p_.brightness;
+}
+
 /// ±à½âÂë
 void CZColor::update(CZDecoder *decoder_, bool deep /* = false */)
 {

@@ -17,6 +17,7 @@
 #include "CZImage.h"			
 #include "CZCoding.h"
 #include "CZProperty.h"
+#include "CZRandom.h"
 #include <vector>
 
 class CZGeneratorDelegate;
@@ -38,6 +39,8 @@ public:
 	virtual void renderStamp();//:(CGContextRef)ctx randomizer:(WDRandom *)randomizer;
 	/// 获取笔刷图案
 	CZImage *getStamp(bool isSmall = false);
+	/// 获取随机化器
+	CZRandom *getRandomizer();
 	/// 配置笔刷参数
 	void configureBrush(CZBrush *brush);
 	/// 返回属性值
@@ -75,6 +78,7 @@ public:
 
 protected:
 	CZImage *stamp;				///< 笔刷图案
+	CZRandom *randomizer;		///< 与seed相关的随机化器
 };
 
 class CZGeneratorDelegate

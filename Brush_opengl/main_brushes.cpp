@@ -29,7 +29,8 @@ CZBrush *brush = new CZBrush(new CZSpiralGenerator);
 CZBrushPreview *priew;// = CZBrushPreview::getInstance();
 CZTexture *brushTex = 0;
 #endif
-FILE *fp = freopen("../info.txt","w",stdout);
+FILE *fp1 = freopen("../info.txt","w",stdout);
+FILE *fp2 = freopen("../error.txt","w",stderr);
 
 #if RENDER_FREEHAND
 	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
@@ -133,12 +134,15 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #if PATH_TEX || BRUSH_TEX
 	priew = CZBrushPreview::getInstance();
 	priew->setBrush(brush);
+#endif
+#if BRUSH_TEX
+	brushTex = priew->getBrushTexture();
+#endif
+#if PATH_TEX
 	CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
 	brushTex = img->toTexture();
 #endif
-#if PATH_TEX
 	glBindTexture(GL_TEXTURE_2D, brushTex->id);
-#endif
 
 #if RENDER_TWO_RECT
 	float vertices[] = {100,100,	200,100,	100,200,	200,200,

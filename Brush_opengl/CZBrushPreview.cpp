@@ -33,6 +33,9 @@ bool CZBrushPreview::initial()
 
 	render.init();
 
+	CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorChanged,this,NULL);
+	CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorReplaced,this,NULL);
+
 	return true;
 
 }
@@ -43,6 +46,9 @@ bool CZBrushPreview::destroy()
 	if(path)	{	delete path; path = NULL; }
 	if(brushShader) { delete brushShader; brushShader = NULL;}
 	if(brushTexture) {delete brushTexture; brushTexture = NULL;}
+
+	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorChanged,this);
+	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorReplaced,this);
 	return true;
 }
 
@@ -96,7 +102,7 @@ void CZBrushPreview::buildPath()
 			float fraction = (float)i / (kNumLineSegments - 1);
 			CZ2DPoint pt(start.x + width * fraction, start.y + sin(fraction * 2 * M_PI) * amplitude );
 			CZBezierNode node(CZ3DPoint(pt.x, pt.y, fraction));
-			path->nodes.push_back(node);
+			path->addNode(node);
 		}
 	}
 }
@@ -109,6 +115,8 @@ void CZBrushPreview::configureBrush()
 		vector<string> tmp1,tmp2;
 		brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
 	}
+
+	render.ptrShader = brushShader;
 
 	/// 绑定纹理
 	CZTexture *stampTex = getBrushTexture();
@@ -139,13 +147,10 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	path->setBrush(ptrBrush);
 	path->remainder = 0.0f;
 	path->setClosed(false);
-	path->ptrShader = brushShader;		///< !没有必要
 
 	render.begin();
-	brushShader->begin();
 	/// 绘制轨迹
-	path->paint();
-	brushShader->end();
+	path->paint(&render,path->getRandomizer());
 
 	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
 
@@ -165,9 +170,6 @@ void CZBrushPreview::setBrush(CZBrush *brush_)
 	}
 
 	ptrBrush = brush_;
-	
-	ptrBrush->addGenChangeDelegate(this);
-	ptrBrush->addGenReplaceDelegate(this);
 }
 
 /// 设置设备屏幕分辨率倍数
@@ -189,14 +191,11 @@ CZTexture* CZBrushPreview::getBrushTexture()
 	return brushTexture;
 }
 
-
-/// 实现Brush改变的委托接口
-void CZBrushPreview::brushPropertyChanged(std::vector<CZProperty> &properties){};	///< 改变属性时实现该接口
-void CZBrushPreview::brushGeneratorChanged(CZStampGenerator &gen)					///< 改变和替换生成器时都实现该接口
+/// 实现Observer接口
+void CZBrushPreview::updateObserver(std::string &notificationName, void* data /* = NULL */)
 {
-	if(brushTexture)
+	if (notificationName == CZBrushGeneratorChanged)
 	{
-		delete brushTexture;
-		brushTexture = NULL;
+		if(brushTexture) {delete brushTexture; brushTexture = NULL;}
 	}
-};				
+}

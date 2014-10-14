@@ -13,9 +13,14 @@
 #include "CZActiveState.h"
 #include "CZUtil.h"
 #include "CZBrushPreview.h"
+#include "CZNotificationCenter.h"
 #include <iostream>
 
 using namespace std;
+
+string CZBrushPropertyChanged = "BrushPropertyChanged";
+string CZBrushGeneratorChanged = "BrushGeneratorChanged";
+string CZBrushGeneratorReplaced = "BrushGeneratorReplaced";
 
 static char *CZGeneratorKey = "generator";
 static char *CZWeightKey = "weight";
@@ -40,9 +45,6 @@ CZBrush::CZBrush(CZStampGenerator *gen_)
 	generator->ptrDelegate = this;
 	generator->configureBrush(this);
 
-	proChangeDelegate.clear();
-	genChangeDelegate.clear();
-	genReplaceDelegate.clear();
 	strokePreview = NULL;
 	suppressNum = 0;
 }
@@ -51,9 +53,6 @@ CZBrush::~CZBrush()
 	if (generator) { delete generator; generator = NULL;}
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 	changedProperties.clear();
-	proChangeDelegate.clear();
-	genChangeDelegate.clear();
-	genReplaceDelegate.clear();
 
 	brushNum--;
 }
@@ -102,12 +101,11 @@ void CZBrush::restoreDefaults()
 	generator->configureBrush(this);
 	suppressNotifications(false);
 
-	if (changedProperties.size() && proChangeDelegate.size()) 
+	if (changedProperties.size()) 
 	{
 		if (strokePreview) { delete strokePreview; strokePreview = NULL;}	
-		int n = proChangeDelegate.size();
-		for(int i=0; i<n; i++)
-			proChangeDelegate[i]->brushPropertyChanged(changedProperties);
+		
+		CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
 	}
 
 	changedProperties.clear();
@@ -124,16 +122,7 @@ void CZBrush::setGenerator(CZStampGenerator *gen_)
 
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 
-	if(genReplaceDelegate.size())
-	{
-		int n = genReplaceDelegate.size();
-		for(int i=0; i<n; i++)
-			genReplaceDelegate[i]->brushGeneratorChanged(*gen_);
-	}
-	else
-	{
-		cerr << "CZBrush::setGenerator - genReplaceDelegate is empty \n";
-	}
+	CZNotificationCenter::getInstance()->notify(CZBrushGeneratorReplaced,this,gen_);
 }
 
 /// 笔刷属性有多少组（生成器不存在属性时，只有2组属性）
@@ -183,16 +172,14 @@ vector<CZProperty> & CZBrush::propertiesGroupAt(int i)
 /// 处理属性变化（实现属性委托接口）
 void CZBrush::propertyChanged(CZProperty &property_)
 {
-	if (suppressNum == 0 && proChangeDelegate.size())
+	if (suppressNum == 0)
 	{
 		if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 
 		changedProperties.clear();
 		changedProperties.push_back(property_);
 		
-		int n = proChangeDelegate.size();
-		for(int i=0; i<n; i++)
-			proChangeDelegate[i]->brushPropertyChanged(changedProperties);
+		CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
 	} 
 	else 
 	{
@@ -205,16 +192,7 @@ void CZBrush::generatorChanged(CZStampGenerator &gen_)
 {
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 
-	if (genChangeDelegate.size())
-	{
-		int n = genChangeDelegate.size();
-		for(int i=0; i<n; i++)
-			genChangeDelegate[i]->brushGeneratorChanged(gen_);
-	} 
-	else 
-	{
-		cerr << "CZBrush::generatorChanged - genChangeDelegate is empty \n";
-	}
+	CZNotificationCenter::getInstance()->notify(CZBrushGeneratorChanged,this,&gen_);
 }
 
 /// 实现coding接口
@@ -258,19 +236,6 @@ void CZBrush::encode(CZCoder *coder, bool deep/* = false*/)
 	coder->encodeFloat(intensityDynamics.value, CZIntensityDynamicsKey);
 }
 
-/// 添加三种事件的委托
-void CZBrush::addProChangeDelegate(CZBrushDelegate* ptr)
-{
-	proChangeDelegate.push_back(ptr);
-}
-void CZBrush::addGenChangeDelegate(CZBrushDelegate* ptr)
-{
-	genChangeDelegate.push_back(ptr);
-}
-void CZBrush::addGenReplaceDelegate(CZBrushDelegate* ptr)
-{
-	genReplaceDelegate.push_back(ptr);
-}
 
 /// 创建属性(不包括值)
 void CZBrush::buildProperties()

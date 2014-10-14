@@ -173,7 +173,8 @@ void CZFreehandTool::moveEnd(CZ2DPoint &p_)
 	//CZColor     color;// = [WDActiveState sharedInstance].paintColor;
 	//CZBrush     brush(new CZSpiralGenerator);// = [WDActiveState sharedInstance].brush;
 	//CZCanvas    canvas;// = (WDCanvas *) recognizer.view;
-	CZPainting  painting;// = canvas.painting;
+	CZSize size;
+	CZPainting  painting(size);// = canvas.painting;
 
 	CZ2DPoint   &location = p_;
 	
@@ -182,7 +183,7 @@ void CZFreehandTool::moveEnd(CZ2DPoint &p_)
 		CZBezierNode node(location,1.0);
 		
 		CZPath path;
-		path.nodes.push_back(node);
+		path.addNode(node);
 		accumulatedStrokePoints.push_back(node);
 
 		paintPath(path);
@@ -269,11 +270,10 @@ void CZFreehandTool::paintFittedPoints()
 	/// 生成一个轨迹path
 	CZPath path;
 	path.limitBrushSize = true;
-	std::vector<CZBezierNode> &nodes = path.nodes;
 
 	for (int i = 0; i <= drawBound; i++) 
 	{
-		nodes.push_back(pointsToFit[i]);
+		path.addNode(pointsToFit[i]);
 
 		if (i == 0 && accumulatedStrokePoints.size())
 		{	/// 移去上轮绘制最后的结点
@@ -314,7 +314,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 	if (clearBuffer)
 	{
 		// depends on the path's brush
-		randomizer = path.newRandomizer();
+		randomizer = path.getRandomizer();
 		lastRemainder = 0.f;
 	}
 
@@ -339,12 +339,13 @@ void CZFreehandTool::paintPath(CZPath &path)
 
 		/// 设置轨迹参数
 		path.setClosed(false);
-		path.ptrShader = brushShader;		///< !没有必要
+//		path.ptrShader = brushShader;		///< !没有必要
 
 		fbo->begin();
 		brushShader->begin();
+		CZPathRender *render;
 		/// 绘制轨迹
-		path.paint();
+		path.paint(render,path.getRandomizer());
 
 		brushShader->end();
 

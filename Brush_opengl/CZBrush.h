@@ -19,9 +19,13 @@
 #include "CZCoding.h"
 #include <iostream>		// for NULL
 #include <vector>
+#include <string>
 
-class CZBrushDelegate;
 class CZStampGenerator;
+
+extern std::string CZBrushPropertyChanged;
+extern std::string CZBrushGeneratorChanged;
+extern std::string CZBrushGeneratorReplaced;
 
 class CZBrush :public CZCoding, public CZPropertyDelegate, public CZGeneratorDelegate
 {
@@ -51,11 +55,6 @@ public:
 	void update(CZDecoder *decoder, bool deep = false);
 	void encode(CZCoder *coder, bool deep = false);
 
-	/// 添加三种事件的委托
-	void addProChangeDelegate(CZBrushDelegate* ptr);
-	void addGenChangeDelegate(CZBrushDelegate* ptr);
-	void addGenReplaceDelegate(CZBrushDelegate* ptr);
-
 private:
 	/// 创建属性（不包括值）
 	void buildProperties();
@@ -79,20 +78,10 @@ public:
 
 private:
 	int suppressNum;								///< 抑制通知的数目
-	std::vector<CZProperty> changedProperties;			///< 改变了的属性（用vector代替了set，避免写CZProperty的比较函数）
-	std::vector<CZBrushDelegate*> proChangeDelegate;			///< 用委托直接模拟消息中心，处理笔刷属性改变
-	std::vector<CZBrushDelegate*> genChangeDelegate;			///< 处理笔刷生成器改变
-	std::vector<CZBrushDelegate*> genReplaceDelegate;			///< 处理笔刷生成器替换
+	std::vector<CZProperty> changedProperties;		///< 改变了的属性（用vector代替了set，避免写CZProperty的比较函数）
 
 	static int brushNum;							///< 记录笔刷数目
 	CZImage *strokePreview;							///< 笔刷的预览图
 };
 
-/// 定义一个笔刷委托类，用以替代消息中心
-class CZBrushDelegate
-{
-public:
-	virtual void brushPropertyChanged(std::vector<CZProperty> &properties) = 0;	///< 改变属性时实现该接口
-	virtual void brushGeneratorChanged(CZStampGenerator &gen) = 0;				///< 改变和替换生成器时都实现该接口
-};
 #endif

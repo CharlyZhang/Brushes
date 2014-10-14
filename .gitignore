@@ -12,3 +12,5 @@ Common/Lib/
 *.obj
 *.log
 GLSL_example/
+error.txt
+info.txt

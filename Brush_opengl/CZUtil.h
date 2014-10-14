@@ -14,6 +14,7 @@
 
 #include "CZGeometry.h"
 #include "CZShader.h"
+#include "CZBezierNode.h"
 #include "Macro.h"
 //#include "gl/glew.h"
 #include <vector>
@@ -25,7 +26,7 @@ void CZCheckGLError_(const char *file, int line);
 	#define CZCheckGLError()
 #endif
 
-#define LOG
+#define LOG_STRING 
 
 #define NULL		0
 #define M_E        2.71828182845904523536
@@ -33,14 +34,6 @@ void CZCheckGLError_(const char *file, int line);
 #define M_PI_2     1.57079632679489661923
 #define M_PI_4     0.785398163397448309616
 	
-/// 定义最终绘制数据格式
-typedef struct 
-{
-	GLfloat     x, y;
-	GLfloat     s, t;
-	GLfloat     a;
-} vertexData;
-
 
 /******************************
  * static inline functions
@@ -72,13 +65,18 @@ float CZRandomFloat();
 void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
 void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v);
 
-/// 绘制轨迹数据（利用图形接口）-CZPath类引用
-void drawPathData(vertexData *data, unsigned int n, CZShader *shader);
-/// 直接绘制轨迹数据（不带纹理）-CZPath类引用
-void drawPathDataDirectly(::std::vector<CZ2DPoint> &points);
-
 /// 添加监听器到预览 -CZBrushPreview类引用
 void addObserver2Preview();
+
+/// 将一连串结点打散，相邻结点用三次贝塞尔曲线连接
+/// 
+///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）
+/// 
+///		/param nodes		- 连续的三维结点
+///		/param closed		- 是否形成闭环
+///		/param points		- 离散后得到的绘制点容器
+///		/return				- 离散后得到的绘制点数目
+unsigned int flattenNodes2Points(const std::vector<CZBezierNode> &nodes, bool closed,std::vector<CZ3DPoint> &points);
 
 /// 正弦函数,由[0,1]到[0,1] -CZFreehandTool类引用
 float sineCurve(float input);

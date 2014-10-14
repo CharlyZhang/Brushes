@@ -32,6 +32,8 @@ CZStampGenerator::CZStampGenerator()
 
 	stamp = NULL;
 
+	randomizer = NULL;
+
 	ptrDelegate = NULL;
 }
 
@@ -41,6 +43,12 @@ CZStampGenerator::~CZStampGenerator()
 	{
 		delete stamp;
 		stamp = NULL;
+	}
+
+	if(randomizer != NULL)
+	{
+		delete randomizer;
+		randomizer = NULL;
 	}
 }
 
@@ -63,6 +71,12 @@ CZImage *CZStampGenerator::getStamp(bool isSmall /* = false */)
 	return stamp;
 }
 
+/// 获取随机化器
+CZRandom *CZStampGenerator::getRandomizer()
+{
+	if(randomizer == NULL) randomizer = new CZRandom(seed);
+	return randomizer;
+}
 /// 配置笔刷参数
 void CZStampGenerator::configureBrush(CZBrush *brush)
 {

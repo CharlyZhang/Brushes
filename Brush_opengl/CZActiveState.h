@@ -4,10 +4,10 @@
 
 #include "CZSpiralGenerator.h"
 #include "CZStampGenerator.h"
+#include "CZNotificationCenter.h"
+#include <string>
 
-class CZBrushDelegate;
-
-class CZActiveState : public CZBrushDelegate
+class CZActiveState :public CZObserver
 {
 public:
 	/// 完成单例获取函数
@@ -18,10 +18,8 @@ public:
 	}
 	/// 获取随机一个笔刷生成器
 	CZStampGenerator * getRandomGenerator(){return NULL;};
-	/// 实现笔刷改变委托的接口
-	void brushPropertyChanged(std::vector<CZProperty> &properties){};	///< 改变属性时实现该接口
-	void brushGeneratorChanged(CZStampGenerator &gen){/// to do
-	};		
+	/// 实现Observer接口
+	void updateObserver(std::string &notificationName, void* data = NULL){};
 
 private:
 	CZActiveState(){ initial(); }   //构造函数是私有的

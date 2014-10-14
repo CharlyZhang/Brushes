@@ -16,6 +16,7 @@
 #include "CZPath.h"
 #include "CZRandom.h"
 #include "CZFbo.h"
+#include "CZCanvasRender.h"
 #include "CZTexture.h"
 #include <map>
 #include <string>
@@ -23,7 +24,7 @@
 class CZPainting
 {
 public:
-	CZPainting();
+	CZPainting(const CZSize &size);
 	~CZPainting();
 	/// 绘制一条轨迹
 	CZRect paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer = false);
@@ -49,7 +50,15 @@ private:
 	CZTexture *activePaintTexture;	///< 绘制用的纹理
 	CZSize dimensions;				///< 绘制范围
 
+	std::vector<CZColor*>	colors;	
+	std::vector<CZBrush*>	brushes;
+	std::vector<CZBrush*>	undoBrushes;
+	int						strokeCount;	///< 笔画数目
+	unsigned int			uid;
+	
+
 	std::map<std::string,CZShader *> shaders;	///< 绘制会用到的各种shader
+	CZCanvasRender			render;
 
 };
 #endif

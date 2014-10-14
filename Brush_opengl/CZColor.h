@@ -63,6 +63,8 @@ public:
 
 	/// 判断是否相等
 	bool  operator==( const  CZColor & c_) const ;
+	/// 赋值
+	void  operator =( const  CZColor & p_); 
 
 	/// 编解码
 	void update(CZDecoder *decoder_, bool deep = false);

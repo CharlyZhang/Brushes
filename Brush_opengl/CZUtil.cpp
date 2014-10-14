@@ -10,6 +10,7 @@
 ///  \note
 
 #include "CZUtil.h"
+#include "CZBezierSegment.h"
 #include "Macro.h"
 #include "gl/glut.h"
 
@@ -92,111 +93,40 @@ void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
 	h /= 360.0f;
 }
 
-/// 绘制轨迹数据（利用图形接口）
-void drawPathData(vertexData *data, unsigned int n, CZShader *shader)
+/// 将一连串结点打散，相邻结点用三次贝塞尔曲线连接
+/// 
+///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）
+/// 
+///		/param nodes		- 连续的三维结点
+///		/param points		- 离散后得到的绘制点容器
+///		/return				- 离散后得到的绘制点数目
+unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
 {
-#if USE_OPENGL_ES
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &data[0].x);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
-	glEnableVertexAttribArray(2);
+	int numNodes = nodes.size();
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
-#endif
+	points.clear();
 
-#if USE_OPENGL
-	/*
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x); 
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2,GL_FLOAT, sizeof(vertexData), &data[0].s);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
-	*/
-	GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
-	// 装载顶点
-	glGenBuffers(1, &mVertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].x, GL_STREAM_DRAW);
-	// 装载纹理
-	glGenBuffers(1, &mTexCoordBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].s, GL_STREAM_DRAW);
-	// 装载属性
-	glGenBuffers(1, &mAttributeBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].a, GL_STREAM_DRAW);
+	if (numNodes == 1)
+	{
+		CZBezierNode lonelyNode = nodes.back();
+		points.push_back(lonelyNode.anchorPoint);
+		return 1;
+	}
 
-	// 绑定顶点
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2,GL_FLOAT,sizeof(vertexData),0);
-	// 绑定纹理
-	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2,GL_FLOAT,sizeof(vertexData),0);
-	// 绑定属性
-	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-	GLuint alphaLoc = shader->getAttributeLocation("alpha");
-	glEnableVertexAttribArray(alphaLoc);
-	glVertexAttribPointer(alphaLoc, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
+	int numSegs = closed ? numNodes : numNodes - 1;
 
-	/// 绘制
-	glDrawArrays(GL_TRIANGLE_STRIP,0,n);
+	CZBezierSegment   *segment = NULL;
+	for (int i = 0; i < numSegs; i++) 
+	{
+		CZBezierNode a = nodes[i];
+		CZBezierNode b = nodes[(i+1) % numNodes];
 
-	glDisableVertexAttribArray(alphaLoc);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		segment = CZBezierSegment::segmentBetweenNodes(a,b);
+		segment->flattenIntoArray(points);
+		delete segment;
+	}
 
-	/// 消除
-	glDeleteBuffers(1, &mVertexBufferObject);
-	glDeleteBuffers(1, &mTexCoordBufferObject);
-	glDeleteBuffers(1, &mAttributeBufferObject);
-
-#endif
-	CZCheckGLError();
-}
-/// 直接绘制轨迹数据（不带纹理）
-void drawPathDataDirectly(vector<CZ2DPoint> &points)
-{
-#if USE_OPENGL
-	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
-	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
-	glLineWidth(w);
-	glPointSize(w*0.7);
-
-	GLfloat c = rand()*1.0/RAND_MAX;
-	glColor4f(c,c,c,c);
-	int n = points.size();
-
-	GLuint mVertexBufferObject;
-	// 装载顶点
-	glGenBuffers(1, &mVertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ2DPoint), &points[0].x, GL_STREAM_DRAW);
-
-
-	// 绑定顶点
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2,GL_FLOAT,0,0);
-
-	/// 绘制
-	glDrawArrays(GL_LINE_STRIP,0,n);
-	//glDrawArrays(GL_POINTS,0,n);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	/// 消除
-	glDeleteBuffers(1, &mVertexBufferObject);
-
-	glDisable(GL_LINE_SMOOTH);
-#endif
+	return points.size();
 }
 
 /// 添加监听器到预览 -CZBrushPreview类引用

@@ -16,7 +16,7 @@
 #include "CZ3DPoint.h"
 #include "CZBrush.h"
 #include "CZBezierSegment.h"
-#include "CZShader.h"
+#include "CZPathRender.h"
 #include "CZRandom.h"
 #include "CZColor.h"
 #include "CZCoding.h"
@@ -35,39 +35,36 @@ class CZPath : public CZCoding
 {
 public:
 	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
-	~CZPath()
-	{
-		nodes.clear();
-		points.clear();
-		sizes.clear();
-		angles.clear();
-		alphas.clear();
-	}
-
+	~CZPath();
+	/// 设置所有结点
+	void setNodes(const std::vector<CZBezierNode> &nodes_);
+	/// 添加结点
+	void addNode(CZBezierNode &node);
+	/// 获取首尾结点
+	CZBezierNode firstNode();
+	CZBezierNode lastNode();
 	/// 绘制轨迹
-	CZRect paint(bool withBrush = true/*randomizer = newRandomizer*/);
+	CZRect paint(CZPathRender *render_, CZRandom *randomizer_);
 	/// 设置闭合
 	void setClosed(bool closed_);
 	/// 设置笔刷
 	void setBrush(CZBrush *brush_);
-	/// 生成随机数器（根据该轨迹的笔刷参数）
-	///		\note 调用者负责销毁
-	CZRandom *newRandomizer();
+	/// 设置颜色
+	void setColor(CZColor &color_);
+	/// 获取随机数器（根据该轨迹的笔刷的生成器）
+	CZRandom *getRandomizer();
 	/// 实现coding 接口
-	void update(CZDecoder *decoder_, bool deep = false){};
-	void encode(CZCoder *coder_, bool deep = false){};
+	void update(CZDecoder *decoder_, bool deep = false);
+	void encode(CZCoder *coder_, bool deep = false);
 private:
-	/// 绘制数据（调用Util中的外部函数）
+	/// 绘制数据（调用轨迹绘制器绘制）
 	/// 
-	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过Util中的外部函数调用图形接口绘制出来。
+	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过CZPathRender调用图形接口绘制出来。
 	///
 	CZRect drawData();
 	
-	/// 直接绘制数据（调用Util中的外部函数）
-	/// 
-	///		通过Util中的外部函数调用图形接口，将轨迹数据不带纹理绘制地直接出来。
-	///
-	CZRect drawDataDirectly();
+	/// 绘制一个stamp点
+	void paintStamp(CZRandom *randomizer);
 
 	/// 绘制两点之间的线.
 	///
@@ -78,33 +75,27 @@ private:
 	///		/param lastLocation - 轨迹最后离散点的位置
 	///		/param location		- 当前绘制点的位置
 	///		/param randomizer	- 随机器
-	///		/note	我用系统自带的随机参数暂时替代了randomizer
-	///				利用画笔参数生成部分的算法没看懂
-	void paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location/*, float remainder*/);
+	///		/note	利用画笔参数生成部分的算法没看懂
+	void paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location, CZRandom *randomizer);
 	
-	/// 将结点打散成绘制点
-	/// 
-	///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）
-	/// 
-	///		/param points		- 离散后得到的绘制点容器
-	///		/ret				- 离散后得到的绘制点数目
-	int flattenedPoints(std::vector<CZ3DPoint> & linePoints);
+	/// 使轨迹无效化
+	void invalidatePath();
 
 public:
-	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点
 	bool							limitBrushSize;
 	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
-	CZShader						*ptrShader;			///< !目前做测试用，只是引用
+	CZPathRender					*ptrRender;			///< 路径绘制器
 	CZBrush							*ptrBrush;			///< 只是引用，不负责建立和销毁
 
 private:
 	bool					closed;
 	bool					boundsDirty;				///< 用于标记是否需要重新计算包围区域
-
-	//WDColor *color;
-	//@property (nonatomic) WDPathAction action;
+	CZColor					color;
+	CZRect					bounds;						///< 轨迹的范围
+	CZPathAction			action;
 	float					scale;
 
+	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点
 	/// 最终绘制点的参数
 	std::vector<CZ2DPoint>	points;
 	std::vector<float>		sizes;

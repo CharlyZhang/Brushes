@@ -3,10 +3,20 @@
 #define _CZSTAMPRENDER_H_
 
 #include "CZRender.h"
+#include "CZGeometry.h"
+#include "CZ3DPoint.h"
+#include <vector>
 
 class CZStampRender :public CZRender
 {
 public:
+	/// 完成单例获取函数
+	static CZStampRender * getInstance()
+	{
+		static CZStampRender instance;   //局部静态变量  
+		return &instance; 
+	}
+
 	/// 初始化状态
 	void init()
 	{
@@ -58,6 +68,84 @@ public:
 	{
 		fbo.end();
 	};
+
+	/// 绘制螺旋纹
+	void drawSpiralData(std::vector<CZ2DPoint> &points)
+	{
+#if USE_OPENGL
+		//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
+		glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+		GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
+		glLineWidth(w);
+		glPointSize(w*0.7);
+
+		GLfloat c = rand()*1.0/RAND_MAX;
+		glColor4f(c,c,c,c);
+		int n = points.size();
+
+		GLuint mVertexBufferObject;
+		// 装载顶点
+		glGenBuffers(1, &mVertexBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ2DPoint), &points[0].x, GL_STREAM_DRAW);
+
+
+		// 绑定顶点
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2,GL_FLOAT,0,0);
+
+		/// 绘制
+		glDrawArrays(GL_LINE_STRIP,0,n);
+		//glDrawArrays(GL_POINTS,0,n);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/// 消除
+		glDeleteBuffers(1, &mVertexBufferObject);
+
+		glDisable(GL_LINE_SMOOTH);
+#endif
+	}
+	void drawSpiralData(std::vector<CZ3DPoint> &points)
+	{
+#if USE_OPENGL
+		//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
+		glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+		GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
+		glLineWidth(w);
+		glPointSize(w*0.7);
+
+		GLfloat c = rand()*1.0/RAND_MAX;
+		glColor4f(c,c,c,c);
+		int n = points.size();
+
+		GLuint mVertexBufferObject;
+		// 装载顶点
+		glGenBuffers(1, &mVertexBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ3DPoint), &points[0].x, GL_STREAM_DRAW);
+
+
+		// 绑定顶点
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(2,GL_FLOAT,sizeof(CZ3DPoint),0);
+
+		/// 绘制
+		glDrawArrays(GL_LINE_STRIP,0,n);
+		//glDrawArrays(GL_POINTS,0,n);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/// 消除
+		glDeleteBuffers(1, &mVertexBufferObject);
+
+		glDisable(GL_LINE_SMOOTH);
+#endif
+	}
 };
 
 #endif

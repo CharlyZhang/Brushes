@@ -89,6 +89,7 @@
     <ClInclude Include="CZBrushCell.h" />
     <ClInclude Include="CZBrushController.h" />
     <ClInclude Include="CZBrushPreview.h" />
+    <ClInclude Include="CZCanvas.h" />
     <ClInclude Include="CZCoder.h" />
     <ClInclude Include="CZCoding.h" />
     <ClInclude Include="CZColor.h" />
@@ -97,8 +98,10 @@
     <ClInclude Include="CZFreehandTool.h" />
     <ClInclude Include="CZGeometry.h" />
     <ClInclude Include="CZImage.h" />
+    <ClInclude Include="CZNotificationCenter.h" />
     <ClInclude Include="CZPainting.h" />
     <ClInclude Include="CZPath.h" />
+    <ClInclude Include="CZPathRender.h" />
     <ClInclude Include="CZProperty.h" />
     <ClInclude Include="CZRandom.h" />
     <ClInclude Include="CZRender.h" />
@@ -119,13 +122,17 @@
     <ClCompile Include="CZBezierSegment.cpp" />
     <ClCompile Include="CZBrush.cpp" />
     <ClCompile Include="CZBrushPreview.cpp" />
+    <ClCompile Include="CZCanvas.cpp" />
+    <ClCompile Include="CZCanvasRender.h" />
     <ClCompile Include="CZColor.cpp" />
     <ClCompile Include="CZFbo.cpp" />
     <ClCompile Include="CZFreehandTool.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
     <ClCompile Include="CZImage.cpp" />
+    <ClCompile Include="CZNotificationCenter.cpp" />
     <ClCompile Include="CZPainting.cpp" />
     <ClCompile Include="CZPath.cpp" />
+    <ClCompile Include="CZProperty.cpp" />
     <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZSpiralGenerator.cpp" />
     <ClCompile Include="CZStampGenerator.cpp" />

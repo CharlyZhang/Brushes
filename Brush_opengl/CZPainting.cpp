@@ -13,12 +13,19 @@
 #include "Macro.h"
 #include "CZUtil.h"
 
-CZPainting::CZPainting()
+CZPainting::CZPainting(const CZSize &size)
 {
+	dimensions = size;
+	colors.clear();
+	brushes.clear();
+	undoBrushes.clear();
+	strokeCount = 0;
+
 	fbo = NULL;
 	ptrActivePath = NULL;
 	activePaintTexture = NULL;
 
+	render.init();
 	loadShaders();
 }
 CZPainting::~CZPainting()
@@ -74,10 +81,10 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 
 	/// 设置轨迹参数
 	CZShader *brushShader = configureBrush(path_->ptrBrush);
-	path_->ptrShader = brushShader;	///< !没有必要
+	//path_->ptrShader = brushShader;	///< !没有必要
 	brushShader->begin();
 	/// 绘制轨迹
-	pathBounds = path_->paint(randomizer);
+	//pathBounds = path_->paint(randomizer);
 	brushShader->end();
 
 	fbo->end();
