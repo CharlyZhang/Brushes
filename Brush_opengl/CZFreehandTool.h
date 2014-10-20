@@ -35,7 +35,6 @@ public:
 	{ 
 		if(brushShader) {delete brushShader; brushShader=0;}
 		if(texture) {delete texture; texture=0;}
-		if(fbo) {delete fbo; fbo=0;}
 	};
 
 	/// 开始移动（如果支持压力，则参数为压力值）
@@ -85,7 +84,7 @@ public:
 	CZShader					*brushShader;
 	CZBrush						*ptrBrush;
 	CZTexture					*texture;
-	CZFbo						*fbo;
+	CZPathRender				render;
 };
 
 #endif

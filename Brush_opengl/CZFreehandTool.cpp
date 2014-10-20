@@ -45,15 +45,10 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 		brushShader->readFragmentShader("brush.frag");
 		brushShader->setShader();
 
-		/// 初始化FBO和纹理
+		/// 初始化纹理
 		texture = new CZTexture(SIZE,SIZE);
-		fbo = new CZFbo;
-		fbo->setTexture(texture);
+		render.configTexture(texture);
 
-		fbo->begin();
-		glClearColor(.0f, .0f, .0f, .0f);	
-		glClear(GL_COLOR_BUFFER_BIT);
-		fbo->end();
 	}
 }
 
@@ -321,7 +316,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 	path.remainder = lastRemainder;
 
 	CZRect pathBounds;// = [canvas.painting paintStroke:path randomizer:randomizer clear:clearBuffer];
-
+	
 	///! 测试用
 	{
 		/// 设置投影环境
@@ -332,24 +327,27 @@ void CZFreehandTool::paintPath(CZPath &path)
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		/// 绑定纹理
-		CZImage *stamp = ptrBrush->generator->getStamp();
-		CZTexture *stampTex = stamp->toTexture();
-		glBindTexture(GL_TEXTURE_2D,stampTex->id);
+		
 
 		/// 设置轨迹参数
 		path.setClosed(false);
 //		path.ptrShader = brushShader;		///< !没有必要
 
-		fbo->begin();
-		brushShader->begin();
-		CZPathRender *render;
+
+		/// 配置绘制器
+		render.ptrShader = brushShader;
+
+		/// 绑定纹理
+		CZImage *stamp = ptrBrush->generator->getStamp();
+		CZTexture *stampTex = stamp->toTexture();
+		glBindTexture(GL_TEXTURE_2D,stampTex->id);
+		
+		render.begin();
+
 		/// 绘制轨迹
-		path.paint(render,path.getRandomizer());
+		path.paint(&render,path.getRandomizer());
 
-		brushShader->end();
-
-		fbo->end();
+		render.end();
 
 		delete stampTex;
 	}

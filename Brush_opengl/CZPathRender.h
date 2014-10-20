@@ -39,6 +39,20 @@ public:
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	}
+	void configTexture(CZTexture *tex)
+	{
+		width = tex->width;
+		height = tex->height;
+
+		fbo.setTexture(tex);
+
+		fbo.begin();
+
+		glClearColor(.0f, .0f, .0f, .0f);	
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		fbo.end();
+	}
 	/// 配置绘制区域
 	void configure(int w, int h)
 	{
@@ -55,15 +69,16 @@ public:
 		glOrtho(0.0f, (GLfloat) width, 0.0f, 
 			(GLfloat) height, -1.0f, 1.0f);
 		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity(); 
+		glLoadIdentity();
+
 	}
 	/// 开始
 	void begin()
 	{
 		fbo.begin();
 
-		glClearColor(.0f, .0f, .0f, .0f);	
-		glClear(GL_COLOR_BUFFER_BIT);
+		//glClearColor(.0f, .0f, .0f, .0f);	
+		//glClear(GL_COLOR_BUFFER_BIT);
 
 		{	/// 以防其他地方破坏了上下文状态
 			glEnable(GL_BLEND);							
