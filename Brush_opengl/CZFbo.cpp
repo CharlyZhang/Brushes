@@ -58,10 +58,11 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
 	if (isReady == OFFLINE_RENDER)
 	{
+		if(width == w_ && height == h_) return;
+
 		if(renderId) glDeleteRenderbuffers(1,&renderId);
 	}
 
-	if (renderId)	glDeleteRenderbuffers(1,&renderId);
 	width = w_;
 	height = h_;
 
@@ -69,7 +70,11 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	//申请绘制缓冲区
 	glGenRenderbuffers(1,&renderId);
 	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
+#if		USE_OPENGL
 	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGBA,width,height);
+#elif	USE_OPENGL_ES
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
+#endif
 	//将颜色绘制缓冲与FBO绑定
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
 	//check status

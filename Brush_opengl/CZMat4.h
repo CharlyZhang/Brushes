@@ -21,10 +21,9 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#ifndef MATRIX4X4_H
-#define MATRIX4X4_H
+#ifndef _CZMAT4_H_
+#define _CZMAT4_H_
 #include <math.h>
-#include "Vector3.h"
 
 // VECTOR3D
 class VECTOR3D
@@ -334,7 +333,7 @@ public:
 	
 	//multiply a vector by this matrix
 	VECTOR4D operator*(const VECTOR4D rhs) const;
-	CVector3 operator*(const CVector3 rhs) const;	// convert the Cvector3 to homogeneous coordinates by setting the w=1
+	VECTOR3D operator*(const VECTOR3D rhs) const;	// convert the VECTOR3D to homogeneous coordinates by setting the w=1
 
 	//rotate a 3d vector by rotation part
 	void RotateVector3D(VECTOR3D & rhs) const

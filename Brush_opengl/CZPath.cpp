@@ -67,7 +67,7 @@ CZBezierNode CZPath::lastNode()
 }
 
 /// 绘制轨迹
-CZRect CZPath::paint(CZPathRender *render_, CZRandom *randomizer_)
+CZRect CZPath::paint(CZRender *render_, CZRandom *randomizer_)
 {   
 	this->points.clear();
 	this->sizes.clear();
@@ -327,7 +327,7 @@ CZRect CZPath::drawData()
 	}
 	
 	/// 调用绘制器绘制数据
-	ptrRender->drawPathData(vertexD,n);
+	ptrRender->draw(CZRender::kDrawPath,vertexD,n);
 
 	delete [] vertexD;
 

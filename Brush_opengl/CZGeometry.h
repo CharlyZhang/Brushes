@@ -62,8 +62,7 @@ class CZSize
 public:
 	float width,height;
 
-	CZSize(){};
-	CZSize(float w_, float  h_): width(w_), height(h_){};
+	CZSize(float w_ = 0.0f, float  h_ = 0.0f): width(w_), height(h_){};
 
 	/*void operator=(const CZSize & s_)
 	{
@@ -71,6 +70,12 @@ public:
 		this->height = s_.height;
 	}
 	*/
+	bool operator==(const CZSize &s_)
+	{
+		if(width == s_.width && height == s_.height) return true;
+		else										 return false;
+	}
+
 	CZSize operator*(float num) const 
 	{
 		// Return the scaled vector
@@ -88,10 +93,10 @@ public:
 	CZRect(): origin(0.0f,0.0f), size(0.0f,0.0f){};
 	CZRect(float x_, float y_, float w_, float h_): origin(x_,y_), size(w_,h_){};
 
-	inline float getMinX(){ return origin.x; };
-	inline float getMinY(){ return origin.y; };
-	inline float getMaxX(){ return origin.x + size.width; };
-	inline float getMaxY(){ return origin.y + size.height; };
+	inline float getMinX() const { return origin.x; };
+	inline float getMinY() const { return origin.y; };
+	inline float getMaxX() const { return origin.x + size.width; };
+	inline float getMaxY() const { return origin.y + size.height; };
 	inline CZ2DPoint getCenter()
 	{ 
 		return CZ2DPoint(origin.x + size.width/2, origin.y + size.height/2); 

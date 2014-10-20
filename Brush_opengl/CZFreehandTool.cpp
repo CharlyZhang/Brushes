@@ -11,6 +11,7 @@
 
 #include "CZFreehandTool.h"
 #include "CZSpiralGenerator.h"		///< for moveEnd() Brush
+#include <vector>
 
 #include "gl/glew.h"				///< for paintPath GL render
 
@@ -20,6 +21,8 @@
 
 /// !²âÊÔÓÃ
 #define SIZE	600
+
+using namespace std;
 
 CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 {
@@ -40,10 +43,16 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 		/// ÅäÖÃ»­Ë¢£¨ÅäÖÃshader£¬°ó¶¨ÎÆÀí£©
 		ptrBrush = CZActiveState::getInstance()->brush;
 
-		brushShader = new CZShader;
-		brushShader->readVertextShader("brush.vert");
-		brushShader->readFragmentShader("brush.frag");
-		brushShader->setShader();
+		vector<string> attributes;
+		attributes.push_back("inPosition");
+		attributes.push_back("inTexcoord");
+		attributes.push_back("alpha");
+
+		vector<string> uniforms;
+		uniforms.push_back("mvpMat");
+		uniforms.push_back("texture");
+
+		CZShader *shader = new CZShader("brush.vert","brush.frag",attributes,uniforms);
 
 		/// ³õÊ¼»¯FBOºÍÎÆÀí
 		texture = new CZTexture(SIZE,SIZE);
@@ -334,7 +343,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 
 		/// °ó¶¨ÎÆÀí
 		CZImage *stamp = ptrBrush->generator->getStamp();
-		CZTexture *stampTex = stamp->toTexture();
+		CZTexture *stampTex = CZTexture::produceFromImage(stamp);
 		glBindTexture(GL_TEXTURE_2D,stampTex->id);
 
 		/// ÉèÖÃ¹ì¼£²ÎÊý
@@ -343,9 +352,9 @@ void CZFreehandTool::paintPath(CZPath &path)
 
 		fbo->begin();
 		brushShader->begin();
-		CZPathRender *render;
+		CZPaintingRender *render;
 		/// »æÖÆ¹ì¼£
-		path.paint(render,path.getRandomizer());
+		path.paint((CZRender*)render,path.getRandomizer());
 
 		brushShader->end();
 

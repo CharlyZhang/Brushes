@@ -26,12 +26,8 @@ bool CZBrushPreview::initial()
 {
 	path = NULL;
 	ptrBrush = NULL;
-	brushShader = NULL;
-	brushTexture = NULL;
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
-
-	render.init();
 
 	CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorChanged,this,NULL);
 	CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorReplaced,this,NULL);
@@ -44,15 +40,13 @@ bool CZBrushPreview::initial()
 bool CZBrushPreview::destroy()
 {
 	if(path)	{	delete path; path = NULL; }
-	if(brushShader) { delete brushShader; brushShader = NULL;}
-	if(brushTexture) {delete brushTexture; brushTexture = NULL;}
 
 	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorChanged,this);
 	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorReplaced,this);
 	return true;
 }
 
-/// 启动新预览图（生成FBO和纹理，生成绘制的轨迹）
+/// 启动新预览图（生成绘制的轨迹）
 void CZBrushPreview::setup(const CZSize &size_)
 {
 	if (backingWidth == size_.width && backingHeight == size_.height) return;
@@ -61,7 +55,10 @@ void CZBrushPreview::setup(const CZSize &size_)
 	backingHeight = size_.height;
 
 	/// 配置绘制器
-	render.configure(backingWidth,backingHeight);
+	map<string,void*> conf;
+	conf["width"] = &backingWidth;
+	conf["height"] = &backingHeight;
+	render.configure(conf);
 
 	/// 创建路径
 	if(path) delete path;
@@ -107,24 +104,6 @@ void CZBrushPreview::buildPath()
 	}
 }
 
-/// 配置画刷（配置shader，绑定纹理）
-void CZBrushPreview::configureBrush()
-{
-	if(brushShader == NULL)
-	{
-		vector<string> tmp1,tmp2;
-		brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
-	}
-
-	render.ptrShader = brushShader;
-
-	/// 绑定纹理
-	CZTexture *stampTex = getBrushTexture();
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,stampTex->id);
-}
-
 /// 生成指定尺寸大小预览图
 CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 {
@@ -138,23 +117,25 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	size_ = size_ * mainScreenScale;
 	/// 生成新轨迹
 	setup(size_);
-	/// 返回的图像
-	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
-	/// 配置笔刷
-	configureBrush();
 
 	/// 设置轨迹参数
 	path->setBrush(ptrBrush);
 	path->remainder = 0.0f;
 	path->setClosed(false);
 
-	render.begin();
+	/// 配置笔刷
+	render.configureBrush(getBrushImage());
+	render.width = backingWidth;
+	render.height = backingHeight;
+
+	render.begin(CZRender::kDrawPath);
 	/// 绘制轨迹
 	path->paint(&render,path->getRandomizer());
 
-	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
+	/// 返回的图像
+	CZImage *ret = render.imageForLastDraw();
 
-	render.end();
+	render.end(CZRender::kDrawPath);
 	
 	return ret;
 }
@@ -165,8 +146,7 @@ void CZBrushPreview::setBrush(CZBrush *brush_)
 	/// 如果刷子生成器改变了，则笔刷图案改变
 	if(ptrBrush && brush_ && ptrBrush->generator->isEqual(brush_->generator))
 	{
-		delete brushTexture;
-		brushTexture = NULL;
+		render.clearBrush();
 	}
 
 	ptrBrush = brush_;
@@ -179,16 +159,10 @@ void CZBrushPreview::setMainScreenScale(float s)
 }
 
 /// 获取笔刷纹理
-CZTexture* CZBrushPreview::getBrushTexture()
+CZImage* CZBrushPreview::getBrushImage()
 {
-	if(brushTexture == NULL)
-	{
-		CZStampGenerator *gen = ptrBrush->generator;
-		CZImage *smallStamp = gen->getStamp(true);		///< get the small stamp
-		brushTexture = smallStamp->toTexture();
-	}
-	
-	return brushTexture;
+	CZStampGenerator *gen = ptrBrush->generator;
+	return gen->getStamp(true);		///< get the small stamp;
 }
 
 /// 实现Observer接口
@@ -196,6 +170,6 @@ void CZBrushPreview::updateObserver(std::string &notificationName, void* data /*
 {
 	if (notificationName == CZBrushGeneratorChanged)
 	{
-		if(brushTexture) {delete brushTexture; brushTexture = NULL;}
+		render.clearBrush();
 	}
 }

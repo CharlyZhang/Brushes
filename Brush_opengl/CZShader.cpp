@@ -58,6 +58,9 @@ bool CZShader::useGLSL = false;
 bool CZShader::bGeometryShader = false;
 bool CZShader::bGPUShader4 = false;
 
+void printShaderInfoLog(GLuint obj);
+void printProgramInfoLog(GLuint obj);
+
 CZShader::CZShader()
 {
 	this->useGLSL = false;
@@ -71,7 +74,7 @@ CZShader::CZShader()
 }
 
 CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
-	vector<string>& atrributes, vector<string>& uniforms)
+	vector<string>& attributes, vector<string>& uniforms)
 {
 	this->useGLSL = false;
 	initOpenGLExtensions();
@@ -82,9 +85,56 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	this->m_Frag = NULL;
 	this->m_Vert = NULL;
 
-	readVertextShader(vertFileName);
-	readFragmentShader(fragFileName);
-	setShader();
+	if(!textFileRead(vertFileName,m_VertexShader))	return;
+	if(!textFileRead(fragFileName,m_FragmentShader))return;
+
+	
+	//创建shader对象
+	m_Vert = glCreateShader(GL_VERTEX_SHADER);
+	m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
+
+	//创建程序对象
+	m_Program = glCreateProgram();
+
+	if(!compile()) 
+	{
+		printShaderInfoLog(m_Vert);
+		printShaderInfoLog(m_Frag);
+		destroyShaders(m_Vert,m_Frag,m_Program);
+		return;
+	}
+
+	//绑定shader到程序对象
+	glAttachShader(m_Program,m_Vert);
+	glAttachShader(m_Program,m_Frag);
+
+	//绑定属性名
+	for(int i=0; i<attributes.size(); i++)
+		glBindAttribLocation(m_Program, (GLuint) i, (const GLchar*) attributes[i].c_str());
+
+	//链接程序
+	glLinkProgram(m_Program);
+	printProgramInfoLog(m_Program);
+
+	//绑定uniform对象
+	for(int i=0; i<uniforms.size(); i++)
+	{
+		GLuint location = glGetUniformLocation(m_Program, uniforms[i].c_str());
+		m_uniforms[uniforms[i]] = location;
+	}
+
+	// release vertex and fragment shaders
+	if (m_Vert) 
+	{
+		glDeleteShader(m_Vert);
+		m_Vert = NULL;
+	}
+	if (m_Frag) 
+	{
+		glDeleteShader(m_Frag);
+		m_Frag = NULL;
+	}
+	
 }
 
 CZShader::~CZShader()
@@ -94,14 +144,16 @@ CZShader::~CZShader()
 	if(NULL != m_FragmentShader)
 		delete[] m_FragmentShader;
 
-	//解除shader与program的绑定关系
-	glDetachShader(m_Program,m_Vert);
-	glDetachShader(m_Program,m_Frag);
-
-	//删除shader和program
-	glDeleteShader(m_Vert);
-	glDeleteShader(m_Frag);
+	//删除program
 	glDeleteProgram(m_Program);
+}
+
+/// 销毁着色器
+void CZShader::destroyShaders(GLuint vertShader,GLuint fragShader, GLuint prog)
+{
+	if(vertShader) glDeleteShader(vertShader);
+	if(fragShader) glDeleteShader(fragShader);
+	if(prog) glDeleteProgram(prog);
 }
 
 bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
@@ -334,47 +386,12 @@ bool CZShader::compile()
 	CHECK_GL_ERROR();
 	glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &compiled);
 	CHECK_GL_ERROR();
-	if (compiled) isCompiled = true;
+	if (!compiled) isCompiled = false;
+
+	if(NULL != m_VertexShader) {	delete[] m_VertexShader;	m_VertexShader = NULL;}
+	if(NULL != m_FragmentShader){	delete[] m_FragmentShader;	m_FragmentShader = NULL;}
 
 	return isCompiled;
-}
-
-bool CZShader::readVertextShader(const char *_fn)
-{
-	if(textFileRead(_fn,m_VertexShader))
-		return true;
-	else
-		return false;
-}
-
-bool CZShader::readFragmentShader(const char *_fn)
-{
-	if(textFileRead(_fn,m_FragmentShader))
-		return true;
-	else
-		return false;
-}
-
-void CZShader::setShader()
-{
-	//创建shader对象
-	m_Vert = glCreateShader(GL_VERTEX_SHADER);
-	m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
-
-	compile();
-	printShaderInfoLog(m_Vert);
-	printShaderInfoLog(m_Frag);
-
-	//创建程序对象
-	m_Program = glCreateProgram();
-
-	//绑定shader到程序对象
-	glAttachShader(m_Program,m_Vert);
-	glAttachShader(m_Program,m_Frag);
-
-	//链接程序
-	glLinkProgram(m_Program);
-	printProgramInfoLog(m_Program);
 }
 
 void CZShader::begin()
@@ -392,4 +409,9 @@ void CZShader::end()
 GLuint CZShader::getAttributeLocation(const char* atrrName)
 {
 	return glGetAttribLocation(m_Program, atrrName);
+}
+
+GLuint CZShader::getUniformLocation(const std::string& str)
+{
+	return m_uniforms[str];
 }

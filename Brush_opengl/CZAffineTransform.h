@@ -33,16 +33,18 @@ public:
 	/// 将变换再平移
 	int translate(float tx_, float ty_);
 	/// 应用于二维点p
-	CZ2DPoint applyTo2DPoint(CZ2DPoint & p_);
+	CZ2DPoint applyTo2DPoint(CZ2DPoint & p_) const;
 	/// 应用于矩形
 	CZRect applyToRect(CZRect & rect_);
+	/// 是否是单位矩阵
+	bool isIdentity();
 
 	/// 生成平移转换
 	static CZAffineTransform makeFromTranslation(float tx_, float ty_);
 	/// 生成选择转换
 	static CZAffineTransform makeFromRotate(float angle_);
 	/// 生成单位转换
-	static CZAffineTransform makeIndentity();
+	static CZAffineTransform makeIdentity();
 };
 
 #endif

@@ -16,7 +16,7 @@
 #include "CZ3DPoint.h"
 #include "CZBrush.h"
 #include "CZBezierSegment.h"
-#include "CZPathRender.h"
+#include "CZRender.h"
 #include "CZRandom.h"
 #include "CZColor.h"
 #include "CZCoding.h"
@@ -44,7 +44,7 @@ public:
 	CZBezierNode firstNode();
 	CZBezierNode lastNode();
 	/// 绘制轨迹
-	CZRect paint(CZPathRender *render_, CZRandom *randomizer_);
+	CZRect paint(CZRender *render_, CZRandom *randomizer_);
 	/// 设置闭合
 	void setClosed(bool closed_);
 	/// 设置笔刷
@@ -84,15 +84,15 @@ private:
 public:
 	bool							limitBrushSize;
 	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
-	CZPathRender					*ptrRender;			///< 路径绘制器
+	CZRender						*ptrRender;			///< 路径绘制器
 	CZBrush							*ptrBrush;			///< 只是引用，不负责建立和销毁
+	CZPathAction					action;				///< 标记轨迹的动作是绘制还是擦除
+	CZColor							color;
 
 private:
 	bool					closed;
 	bool					boundsDirty;				///< 用于标记是否需要重新计算包围区域
-	CZColor					color;
 	CZRect					bounds;						///< 轨迹的范围
-	CZPathAction			action;
 	float					scale;
 
 	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点

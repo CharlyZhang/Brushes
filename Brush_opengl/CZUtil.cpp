@@ -129,21 +129,11 @@ unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed,
 	return points.size();
 }
 
-/// 添加监听器到预览 -CZBrushPreview类引用
-void addObserver2Preview()
+/// 判断是否支持深度颜色
+bool CZcanUseHDTexture()
 {
-	/*
-	[[NSNotificationCenter defaultCenter] addObserver:self
-selector:@selector(brushGeneratorChanged:)
-name:WDBrushGeneratorChanged
-object:nil];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-selector:@selector(brushGeneratorChanged:)
-name:WDBrushGeneratorReplaced
-object:nil];
-*/
-};
+	return true;
+}
 
 /// 正弦函数,由[0,1]到[0,1] -CZFreehandTool类引用
 float sineCurve(float input)
@@ -195,3 +185,12 @@ void checkPixels(int w_, int h_)
 
 
 void CZCheckGLError_(const char *file, int line){};
+
+/// 读取json文件内容
+map<string,vector<string> > & readJsonContent(const char* jsonFile)
+{
+	static map<string,vector<string> >content;
+	content.clear();
+
+	return content;
+}

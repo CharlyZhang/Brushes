@@ -35,11 +35,14 @@ public:
 	void end();
 	/// 将纹理绘制到屏幕
 	void showTextureOnScreen(int x,int y,int width_ = 128,int height_ = 128);
+
+public:
+	int width,height;
+
 private:
 	/// 检查状态
 	int checkFramebufferStatus();
 
-	int width,height;
 	GLuint id;
 	GLint preFbo;
 	FboState isReady;			///< FBO状态

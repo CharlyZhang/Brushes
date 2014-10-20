@@ -67,7 +67,7 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_)
 	vector<CZBezierNode> nodes;
 	CZ2DPoint lastOut(0,0);
 
-	CZAffineTransform transform = CZAffineTransform::makeIndentity();
+	CZAffineTransform transform = CZAffineTransform::makeIdentity();
 	transform.translate(center_.x, center_.y);
 	transform.rotate(/*[random nextFloat]*/rand()*1.0/RAND_MAX * M_PI * 2);
 

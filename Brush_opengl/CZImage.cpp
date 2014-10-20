@@ -10,7 +10,6 @@
 ///  \note
 
 #include "CZImage.h"
-#include "CZTexture.h"
 #include <iostream>
 
 CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGB */)
@@ -41,11 +40,4 @@ CZImage::~CZImage()
 		delete [] data;
 		data = NULL;
 	}
-}
-
-/// ×ª»»³ÉÎÆÀí
-CZTexture * CZImage::toTexture()
-{
-	CZTexture * ret = new CZTexture(width,height,CZTexture::RenderTex,data);
-	return ret;
 }
