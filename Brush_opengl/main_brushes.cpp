@@ -137,12 +137,14 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #endif
 #if BRUSH_TEX
 	brushTex = priew->getBrushTexture();
+	glBindTexture(GL_TEXTURE_2D, brushTex->id);
 #endif
 #if PATH_TEX
 	CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
 	brushTex = img->toTexture();
-#endif
 	glBindTexture(GL_TEXTURE_2D, brushTex->id);
+#endif
+	
 
 #if RENDER_TWO_RECT
 	float vertices[] = {100,100,	200,100,	100,200,	200,200,

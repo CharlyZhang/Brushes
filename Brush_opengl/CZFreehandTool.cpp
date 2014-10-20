@@ -327,8 +327,6 @@ void CZFreehandTool::paintPath(CZPath &path)
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		
-
 		/// 设置轨迹参数
 		path.setClosed(false);
 //		path.ptrShader = brushShader;		///< !没有必要
