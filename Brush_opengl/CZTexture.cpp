@@ -10,8 +10,12 @@
 ///  \note
 
 #include "CZTexture.h"
+#include "CZUtil.h"
 #include <iostream>
 
+using namespace std;
+
+bool CZTexture::supportColor = CZcanUseHDTexture();
 
 CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */, float *data /* = NULL */)
 {
@@ -43,10 +47,33 @@ CZTexture::~CZTexture()
 #endif
 }
 
+CZTexture* CZTexture::produceFromImage(CZImage *img, bool deepColor /*= false*/)
+{
+	if(img == NULL)
+	{
+		cerr << "CZTexture::produceFromImage - img is NULL\n";
+		return NULL;
+	}
+
+	/// 如果要求深度颜色，则其由硬件是否支持决定
+	if(deepColor) deepColor = supportColor;
+
+	CZTexture * ret = new CZTexture(img->width,img->height,RenderTex,img->data);
+	return ret;
+}
+
 /// 获取其对应的图像数据
 CZImage *CZTexture::toImage()
 {
 	return NULL;
+}
+
+/// 开关线性差值
+void CZTexture::enableLinearInterprolation(float flag)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, flag ? GL_LINEAR : GL_NEAREST);
 }
 
 /// 初始化渲染纹理
@@ -64,6 +91,22 @@ void CZTexture::initRenderTex(float *data /* = NULL */)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0,
 		GL_RGBA, GL_FLOAT,(void*)data);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+#if 0 /// painting 里的生成纹理
+	// Set up filter and wrap modes for this texture object
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	GLenum      type = deepColor ? GL_HALF_FLOAT_OES : GL_UNSIGNED_BYTE;
+	NSUInteger  bytesPerPixel = deepColor ? 8 : 4;
+
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, type, pixels);
+
+	WDCheckGLError();
+#endif
+
 }
 
 /// 初始化笔刷纹理（！目前仍然未能实现FBO直接渲染灰度图）

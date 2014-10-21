@@ -18,6 +18,8 @@
 #include "Macro.h"
 //#include "gl/glew.h"
 #include <vector>
+#include <string>
+#include <map>
 
 void CZCheckGLError_(const char *file, int line);
 #if CZ_DEBUG
@@ -34,6 +36,11 @@ void CZCheckGLError_(const char *file, int line);
 #define M_PI_2     1.57079632679489661923
 #define M_PI_4     0.785398163397448309616
 	
+/******************************
+ * common define
+ *****************************/
+#define PAINTING_BASE_UID	10000
+#define LAYER_BASE_UID		20000
 
 /******************************
  * static inline functions
@@ -65,8 +72,8 @@ float CZRandomFloat();
 void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
 void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v);
 
-/// 添加监听器到预览 -CZBrushPreview类引用
-void addObserver2Preview();
+/// 判断是否支持深度颜色
+bool CZcanUseHDTexture();
 
 /// 将一连串结点打散，相邻结点用三次贝塞尔曲线连接
 /// 
@@ -84,7 +91,8 @@ float sineCurve(float input);
 /// 调试用，检测绘制的像素
 void checkPixels(int w_, int h_);
 
-
+/// 读取json文件内容
+std::map<std::string,std::vector<std::string> > & readJsonContent(const char* jsonFile);
 
 #endif
 
