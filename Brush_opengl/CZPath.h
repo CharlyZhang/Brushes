@@ -26,8 +26,6 @@
 #include "CZCoding.h"
 #include <vector>
 
-
-
 typedef enum 
 {
     CZPathActionPaint,

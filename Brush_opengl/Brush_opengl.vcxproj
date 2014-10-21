@@ -104,6 +104,7 @@
     <ClInclude Include="CZPainting.h" />
     <ClInclude Include="CZPath.h" />
     <ClInclude Include="CZPathRender.h" />
+    <ClInclude Include="CZPreviewRender.h" />
     <ClInclude Include="CZProperty.h" />
     <ClInclude Include="CZRandom.h" />
     <ClInclude Include="CZRender.h" />
@@ -135,6 +136,7 @@
     <ClCompile Include="CZNotificationCenter.cpp" />
     <ClCompile Include="CZPainting.cpp" />
     <ClCompile Include="CZPath.cpp" />
+    <ClCompile Include="CZPreviewRender.cpp" />
     <ClCompile Include="CZProperty.cpp" />
     <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZSpiralGenerator.cpp" />

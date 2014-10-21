@@ -15,26 +15,21 @@
 
 #include "CZRender.h"
 #include "CZImage.h"
-#include "CZUtil.h"
-#include <string>
-#include <vector>
+#include "CZPath.h"
+#include "CZMat4.h"
+#include "CZCommon.h"
+
+class CZBrushPreview;
 
 class CZPreviewRender :public CZRender
 {
 public:
 	CZPreviewRender();
 	~CZPreviewRender();
-	/// 配置绘制信息（改变内部变量）
-	void configure(std::map<std::string,void*> &conf);
-	/// 开始绘制（执行具体的绘制调用）
-	void begin(DrawType type);
-	/// 调用接口绘制
-	void draw(DrawType type, void* data = NULL, unsigned int num = 0);
-	/// 生成图像数据并返回
-	CZImage* imageForLastDraw();
-	/// 结束绘制
-	void end(DrawType type);
-
+	/// 配置绘制信息
+	void configure(int w, int h);
+	/// 绘制一条轨迹,并返回图像
+	CZImage *drawPath(CZPath *path);
 	/// 设置笔刷纹理
 	void configureBrush(CZImage *img);
 	/// 清除笔刷纹理
@@ -45,9 +40,10 @@ private:
 	void drawPathData(vertexData *data, unsigned int n);
 
 private:
-	CZShader *brushShader;
-	CZTexture *brushTexture;
-
+	CZShader		*brushShader;
+	CZTexture		*brushTexture;
+	CZMat4			projMat;		///< 绘制的投影矩阵
+	CZBrushPreview	*ptrPreview;	///< 指向调用其绘制的preview
 };
 
 #endif

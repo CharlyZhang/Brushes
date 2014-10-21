@@ -10,10 +10,7 @@
 ///  \note
 
 #include "CZPath.h"
-#include "CZFbo.h"
-#include "CZShader.h"
-#include "CZTexture.h"
-#include "CZPathRender.h"
+#include "CZPreviewRender.h"
 #include "CZImage.h"
 #include "CZNotificationCenter.h"
 
@@ -41,8 +38,8 @@ public:
 	void setBrush(CZBrush *brush_);
 	/// 设置设备屏幕分辨率倍数
 	void setMainScreenScale(float s);
-	/// 获取笔刷纹理
-	CZTexture *getBrushTexture();
+	/// 获取笔刷图像
+	CZImage *getBrushImage();
 
 	/// 实现Observer接口
 	void updateObserver(std::string &notificationName, void* data = NULL);
@@ -57,22 +54,18 @@ private:
 	bool initial();
 	/// 销毁函数
 	bool destroy();
-	/// 启动新预览图（生成FBO和纹理，生成绘制的轨迹）
+	/// 启动新预览图（配置绘制器，生成绘制的轨迹）
 	void setup(const CZSize &size_);
 	/// 构建轨迹（绘制一条sin曲线）
 	void buildPath();
-	/// 配置画刷（配置shader，绑定纹理）
-	void configureBrush();
 
 public:
 	/// 成员变量
-	CZPath *path;							///< 绘制的轨迹
-	CZShader *brushShader;					
-	CZTexture *brushTexture;				///< 笔刷纹理，随生成器改变而改变（由委托机制实现） 
+	CZPath *path;							///< 绘制的轨迹 
 	float backingWidth, backingHeight;
 
 private:
 	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
 	float mainScreenScale;					///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
-	CZPathRender render;					///< 绘制器
+	CZPreviewRender render;					///< 绘制器
 };

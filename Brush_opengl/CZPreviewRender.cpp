@@ -11,17 +11,27 @@
 
 
 #include "CZPreviewRender.h"
+#include "CZBrushPreview.h"
+#include "CZUtil.h"
 
 using namespace  std;
 
 CZPreviewRender::CZPreviewRender()
 {
+	ptrPreview = CZBrushPreview::getInstance();
+
 	brushShader = NULL;
 	brushTexture = NULL;
 
 	if(brushShader == NULL)
 	{
-		std::vector<std::string> tmp1,tmp2;
+		vector<string> tmp1,tmp2;
+		tmp1.push_back("inPosition");
+		tmp1.push_back("inTexcoord");
+		tmp1.push_back("alpha");
+		tmp2.push_back("mvpMat");
+		tmp2.push_back("texture");
+
 		brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
 	}
 
@@ -48,70 +58,51 @@ CZPreviewRender::~CZPreviewRender()
 }
 
 
-/// 配置绘制信息（改变内部变量）
-void CZPreviewRender::configure(map<string,void*> &conf)
+/// 配置绘制信息
+void CZPreviewRender::configure(int w, int h)
 {
-	int *pW = (int*)conf["width"];
-	int *pH = (int*)conf["height"];
-	width  = *pW;
-	height = *pH;
+	width  = w;
+	height = h;
 
-	//~ 设置context
+	//~ 设置context(如果context和尺寸相关，则更改context)
 
 	fbo.setColorRenderBuffer(width,height);
 
 	/// 设置投影环境
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0f, (GLfloat) width, 0.0f, 
-		(GLfloat) height, -1.0f, 1.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity(); 
+	projMat.SetOrtho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
+
 }
 
-/// 开始
-void CZPreviewRender::begin(DrawType type)
+/// 绘制一条轨迹,并返回图像
+CZImage *CZPreviewRender::drawPath(CZPath *path)
 {
 	fbo.begin();
 
 	glClearColor(.0f, .0f, .0f, .0f);	
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	{	/// 以防其他地方破坏了上下文状态
-		glEnable(GL_BLEND);							
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
-	glColor4f(1.0,1.0,1.0,0.5);
-
 	brushShader->begin();
-};
 
-/// 绘制
-void CZPreviewRender::draw(DrawType type, void* data /*= NULL*/, unsigned int num /*= 0*/)
-{
-	switch(type)
-	{
-	case kDrawPath:
-		drawPathData((vertexData*)data,num);
-	}
-}
+	glUniform1i(brushShader->getUniformLocation("texture"),0);
+	glUniformMatrix4fv(brushShader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	CZCheckGLError();
 
-/// 生成图像数据并返回
-CZImage* CZPreviewRender::imageForLastDraw()
-{
-	CZImage *ret = new CZImage(fbo.width,fbo.height,CZImage::RGBA);
-	glReadPixels(0, 0, fbo.width, fbo.height, GL_RGBA, GL_FLOAT, ret->data);
-	
+	/// 绘制轨迹
+	vertexData *data;
+	unsigned int dataNum;
+	path->getPaintData(path->getRandomizer(),dataNum,data);
+	drawPathData(data,dataNum);
+	delete [] data;
+
+	brushShader->end();
+
+	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
+
+	fbo.end();
+
 	return ret;
 }
-
-/// 结束
-void CZPreviewRender::end(DrawType type)
-{
-	brushShader->end();
-	fbo.end();
-};
 
 /// 设置笔刷纹理
 void CZPreviewRender::configureBrush(CZImage *img)
@@ -135,66 +126,71 @@ void CZPreviewRender::clearBrush()
 void CZPreviewRender::drawPathData(vertexData *data, unsigned int n)
 {
 #if USE_OPENGL_ES
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &data[0].x);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
-	glEnableVertexAttribArray(2);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &data[0].x);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glEnableVertexAttribArray(2);
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
-#endif
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
+	#endif
 
-#if USE_OPENGL
-	/*
-	glEnableClientState (GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x); 
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2,GL_FLOAT, sizeof(vertexData), &data[0].s);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
-	*/
-	GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
-	// 装载顶点
-	glGenBuffers(1, &mVertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].x, GL_STREAM_DRAW);
-	// 装载纹理
-	glGenBuffers(1, &mTexCoordBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].s, GL_STREAM_DRAW);
-	// 装载属性
-	glGenBuffers(1, &mAttributeBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].a, GL_STREAM_DRAW);
+	#if USE_OPENGL
+		
+	/*	// 对于opengl 顶点位置必须通过以下方式导入
+		glEnableClientState (GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x);
 
-	// 绑定顶点
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2,GL_FLOAT,sizeof(vertexData),0);
-	// 绑定纹理
-	glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2,GL_FLOAT,sizeof(vertexData),0);
-	// 绑定属性
-	glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-	GLuint alphaLoc = brushShader->getAttributeLocation("alpha");
-	glEnableVertexAttribArray(alphaLoc);
-	glVertexAttribPointer(alphaLoc, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glEnableVertexAttribArray(2);
 
-	/// 绘制
-	glDrawArrays(GL_TRIANGLE_STRIP,0,n);
+		/// 绘制
+		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
+		*/
+		
+		GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
+		// 装载顶点
+		glGenBuffers(1, &mVertexBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].x, GL_STREAM_DRAW);
+		// 装载纹理
+		glGenBuffers(1, &mTexCoordBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].s, GL_STREAM_DRAW);
+		// 装载属性
+		glGenBuffers(1, &mAttributeBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].a, GL_STREAM_DRAW);
 
-	glDisableVertexAttribArray(alphaLoc);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// 绑定顶点
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(vertexData),0);
+		// 绑定纹理
+		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1,2,GL_FLOAT, GL_TRUE, sizeof(vertexData),0);
+		// 绑定属性
+		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
 
-	/// 消除
-	glDeleteBuffers(1, &mVertexBufferObject);
-	glDeleteBuffers(1, &mTexCoordBufferObject);
-	glDeleteBuffers(1, &mAttributeBufferObject);
+		/// 绘制
+		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
 
-#endif
-	CZCheckGLError();
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/// 消除
+		glDeleteBuffers(1, &mVertexBufferObject);
+		glDeleteBuffers(1, &mTexCoordBufferObject);
+		glDeleteBuffers(1, &mAttributeBufferObject);
+		
+	#endif
+		CZCheckGLError();
 }
