@@ -93,6 +93,7 @@
     <ClInclude Include="CZCoder.h" />
     <ClInclude Include="CZCoding.h" />
     <ClInclude Include="CZColor.h" />
+    <ClInclude Include="CZCommon.h" />
     <ClInclude Include="CZDecoder.h" />
     <ClInclude Include="CZFbo.h" />
     <ClInclude Include="CZFreehandTool.h" />

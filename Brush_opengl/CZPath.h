@@ -7,7 +7,11 @@
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-11
-///  \note
+///
+///  \version	1.1.0
+///	 \author	Charly Zhang<chicboi@hotmail.com>
+///  \date		2014-09-11
+///  \note		将绘制部分从CZPath中剔除，其只负责整理数据。同时修改相应函数名。
 
 #ifndef _CZPATH_H_
 #define _CZPATH_H_
@@ -16,8 +20,8 @@
 #include "CZ3DPoint.h"
 #include "CZBrush.h"
 #include "CZBezierSegment.h"
-#include "CZPathRender.h"
 #include "CZRandom.h"
+#include "CZCommon.h"
 #include "CZColor.h"
 #include "CZCoding.h"
 #include <vector>
@@ -43,8 +47,8 @@ public:
 	/// 获取首尾结点
 	CZBezierNode firstNode();
 	CZBezierNode lastNode();
-	/// 绘制轨迹
-	CZRect paint(CZPathRender *render_, CZRandom *randomizer_);
+	/// 生成轨迹的绘制数据（返回所有数据的范围）
+	CZRect getPaintData(CZRandom *randomizer_,unsigned int &dataNum, vertexData* &data);
 	/// 设置闭合
 	void setClosed(bool closed_);
 	/// 设置笔刷
@@ -57,11 +61,11 @@ public:
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 private:
-	/// 绘制数据（调用轨迹绘制器绘制）
+	/// 生成绘制数据
 	/// 
-	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过CZPathRender调用图形接口绘制出来。
+	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据返回。
 	///
-	CZRect drawData();
+	CZRect drawData(unsigned int &dataNum, vertexData* &data);
 	
 	/// 绘制一个stamp点
 	void paintStamp(CZRandom *randomizer);
@@ -84,15 +88,14 @@ private:
 public:
 	bool							limitBrushSize;
 	float							remainder;			///< 绘制轨迹最后离散点后多占用的线空间
-	CZPathRender					*ptrRender;			///< 路径绘制器
 	CZBrush							*ptrBrush;			///< 只是引用，不负责建立和销毁
+	CZPathAction					action;				///< 标记轨迹的动作是绘制还是擦除
+	CZColor							color;
 
 private:
 	bool					closed;
 	bool					boundsDirty;				///< 用于标记是否需要重新计算包围区域
-	CZColor					color;
 	CZRect					bounds;						///< 轨迹的范围
-	CZPathAction			action;
 	float					scale;
 
 	std::vector<CZBezierNode>		nodes;				///< 贝塞尔曲线所有控制点

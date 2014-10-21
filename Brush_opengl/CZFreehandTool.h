@@ -21,7 +21,7 @@
 #include "CZActiveState.h"
 #include "CZUtil.h"
 #include <vector>
-
+#include "CZPathRender.h"
 #include "CZBrush.h"
 #include "CZShader.h"
 #include "CZTexture.h"

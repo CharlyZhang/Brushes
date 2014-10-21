@@ -66,15 +66,13 @@ CZBezierNode CZPath::lastNode()
 	return (closed ? nodes.front() : nodes.back());
 }
 
-/// 绘制轨迹
-CZRect CZPath::paint(CZPathRender *render_, CZRandom *randomizer_)
+/// 生成轨迹的绘制数据（返回所有数据的范围）
+CZRect CZPath::getPaintData(CZRandom *randomizer_,unsigned int &dataNum, vertexData* &data)
 {   
 	this->points.clear();
 	this->sizes.clear();
 	this->alphas.clear();
 	this->angles.clear();
-	
-	ptrRender = render_;
 
 	if (this->nodes.size() == 1) 
 	{
@@ -95,9 +93,9 @@ CZRect CZPath::paint(CZPathRender *render_, CZRandom *randomizer_)
 		{
 			this->paintBetweenPoints(linePoints[ix],linePoints[ix+1],randomizer_);
 		}
-
-		return this->drawData();
 	}
+
+	return this->drawData(dataNum, data);
 
 }
 
@@ -219,34 +217,16 @@ void CZPath::encode(CZCoder *coder_, bool deep /* = false */)
 	*/
 }
 
-/// 绘制数据（调用轨迹绘制器绘制）
+/// 生成绘制数据
 /// 
-///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据通过CZPathRender调用图形接口绘制出来。
+///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据返回。
 ///
-CZRect CZPath::drawData()
+CZRect CZPath::drawData(unsigned int &dataNum, vertexData* &data)
 {
 	int iPointSize = points.size();
 	vertexData *vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
 	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
-	//////////////////////////////////////////////////////////////////////////
-#if STAMP_PATH		///< Render One Rect Use Brush	
-	delete [] vertexD;
-	points.clear();
-	angles.clear();
-	float s = sizes.front();
-	sizes.clear();
-	alphas.clear();
-
-	points.push_back(CZ2DPoint(300,300));
-	angles.push_back(0);
-	sizes.push_back(100);
-	alphas.push_back(1.0);
-	
-	iPointSize = points.size();
-	vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
-#endif
-	//////////////////////////////////////////////////////////////////////////
 	int n = 0;
 	for (int i = 0; i < iPointSize; i++) 
 	{
@@ -326,10 +306,8 @@ CZRect CZPath::drawData()
 		}
 	}
 	
-	/// 调用绘制器绘制数据
-	ptrRender->drawPathData(vertexD,n);
-
-	delete [] vertexD;
+	dataNum = n;
+	data = vertexD;
 
 	return dataBounds;
 }

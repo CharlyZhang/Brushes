@@ -166,7 +166,11 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	CZCheckGLError();
 
 	/// »æÖÆ¹ì¼£
-	path->paint(&render,path->getRandomizer());
+	vertexData *data;
+	unsigned int dataNum;
+	path->getPaintData(path->getRandomizer(),dataNum,data);
+	render.drawPathData(data,dataNum);
+	delete [] data;
 
 	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
 

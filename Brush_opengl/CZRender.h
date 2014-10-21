@@ -20,13 +20,7 @@
 #include <map>
 #include <string>
 
-/// 定义最终绘制数据格式
-typedef struct 
-{
-	GLfloat     x, y;
-	GLfloat     s, t;
-	GLfloat     a;
-} vertexData;
+
 
 class CZRender
 {

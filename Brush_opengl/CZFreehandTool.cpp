@@ -350,7 +350,11 @@ void CZFreehandTool::paintPath(CZPath &path)
 
 
 		/// »æÖÆ¹ì¼£
-		path.paint(&render,path.getRandomizer());
+		vertexData *data;
+		unsigned int dataNum;
+		path.getPaintData(path.getRandomizer(),dataNum,data);
+		render.drawPathData(data,dataNum);
+		delete [] data;
 
 		render.end();
 
