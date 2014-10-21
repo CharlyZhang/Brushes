@@ -13,6 +13,8 @@
 #include "Macro.h"
 #include "CZUtil.h"
 
+using namespace  std;
+
 CZPainting::CZPainting(const CZSize &size)
 {
 	dimensions = size;
@@ -175,6 +177,12 @@ uniformNames:uniforms];
 	shaders = tempShaders;
 #endif
 	/// ！暂时只载入一个shader
-	CZShader *shader = new CZShader("brush.vert","brush.frag");
+	vector<string> tmp1,tmp2;
+	tmp1.push_back("inPosition");
+	tmp1.push_back("inTexcoord");
+	tmp1.push_back("alpha");
+	tmp2.push_back("mvpMat");
+	tmp2.push_back("texture");
+	CZShader *shader = new CZShader("brush.vert","brush.frag",tmp1,tmp2);
 	shaders.insert(std::pair<std::string,CZShader*>("brush",shader));
 }

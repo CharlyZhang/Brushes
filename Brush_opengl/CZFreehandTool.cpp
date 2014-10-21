@@ -11,6 +11,7 @@
 
 #include "CZFreehandTool.h"
 #include "CZSpiralGenerator.h"		///< for moveEnd() Brush
+#include "CZMat4.h"
 
 #include "gl/glew.h"				///< for paintPath GL render
 
@@ -20,6 +21,8 @@
 
 /// !≤‚ ‘”√
 #define SIZE	600
+
+using namespace  std;
 
 CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 {
@@ -40,7 +43,13 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 		/// ≈‰÷√ª≠À¢£®≈‰÷√shader£¨∞Û∂®Œ∆¿Ì£©
 		ptrBrush = CZActiveState::getInstance()->brush;
 
-		brushShader = new CZShader("brush.vert","brush.frag");
+		vector<string> tmp1,tmp2;
+		tmp1.push_back("inPosition");
+		tmp1.push_back("inTexcoord");
+		tmp1.push_back("alpha");
+		tmp2.push_back("mvpMat");
+		tmp2.push_back("texture");
+		brushShader = new CZShader("brush.vert","brush.frag",tmp1,tmp2);
 
 		/// ≥ı ºªØŒ∆¿Ì
 		texture = new CZTexture(SIZE,SIZE);
@@ -290,13 +299,6 @@ void CZFreehandTool::paintFittedPoints()
 
 void CZFreehandTool::paintPath(CZPath &path) 
 {
-#if CZ_DEBUG
-	int n = path.nodes.size();
-	std::cout << "path node number " << n << std::endl;
-	for(int i=0; i<n; i++)
-		std::cout << path.nodes[i].anchorPoint << std::endl;
-#endif
-
 	path.ptrBrush = this->ptrBrush;//CZActiveState::getInstance()->brush;
 	//path.color = CZColor[WDActiveState sharedInstance].paintColor;
 	//path.action = eraseMode ? WDPathActionErase : WDPathActionPaint;
@@ -338,6 +340,14 @@ void CZFreehandTool::paintPath(CZPath &path)
 		glBindTexture(GL_TEXTURE_2D,stampTex->id);
 		
 		render.begin();
+
+		CZMat4 proj;
+		proj.SetOrtho(0.0f, SIZE, 0.0f, SIZE, -1.0f, 1.0f);
+
+		glUniform1i(brushShader->getUniformLocation("texture"),0);
+		glUniformMatrix4fv(brushShader->getUniformLocation("mvpMat"),1,GL_FALSE,proj);
+		CZCheckGLError();
+
 
 		/// ªÊ÷∆πÏº£
 		path.paint(&render,path.getRandomizer());

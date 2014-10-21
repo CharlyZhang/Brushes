@@ -149,7 +149,10 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 
 	//绑定属性名
 	for(int i=0; i<attributes.size(); i++)
+	{
 		glBindAttribLocation(m_Program, (GLuint) i, (const GLchar*) attributes[i].c_str());
+		CHECK_GL_ERROR();
+	}
 
 	//链接程序
 	glLinkProgram(m_Program);
@@ -159,6 +162,7 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	for(int i=0; i<uniforms.size(); i++)
 	{
 		GLuint location = glGetUniformLocation(m_Program, uniforms[i].c_str());
+		CHECK_GL_ERROR();
 		m_uniforms[uniforms[i]] = location;
 	}
 

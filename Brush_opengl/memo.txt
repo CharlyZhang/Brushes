@@ -1,6 +1,6 @@
 2014年9月24日14:17:23
 	1.! preview内的时事件注册函数需要在Util中实现
-	2.? Shader中的参数传递是死的，需要更新
+	2.! Shader中的参数传递是死的，需要更新
 	3.! 所有指针，如果只是简单引用，则变量名应该改为以ptr开始
 	4.! FBO中或许不要添加深度缓存
 	5.? 为了减少空间，绘制纹理可以采用8uint类型
@@ -22,7 +22,7 @@
 	1.! 初步完成鼠标控制生成轨迹
 
 2014年9月30日10:39:07:
-	1.? 设计渲染器，（与平台相关）
+	1.! 设计渲染器，（与平台相关）
 	2.! 实现了windows平台渲染窗口
 
 2014年10月8日17:25:21:
@@ -35,7 +35,7 @@
 	1.! 完善preview类，将绘制部分放入render类
 	2.! 改写fbo类，其类型由set后决定，增加复用性
 	3.! 修改stampGenerator,生成的笔刷以图片格式取代纹理格式
-	4.? texture,fbo等类应该与context相关
+	4.! texture,fbo等类应该与context相关
 
 2014年10月11日16:34:17
 	1.? preview的setup里面，关于给proj乘以scale是为了增加对原轨迹数据的缩放，待到IOS平台后验证。
@@ -48,3 +48,30 @@
 
 2014年10月14日11:32:29
 	1.！ 编写NotificationCenter类，实现消息通知。
+	2.！ 将shader,texture移到render中
+	3.！ 确定PaintingRender,PreviewRender,StampRender三种绘制器。
+	4.！ 在render中确定绘制流程
+
+2014年10月15日17:14:29
+	1.? 尝试将所有和gl有关的放进render中
+	2.! 完善render的接口
+	3.! 将CZImage转换成CZTexture的功能放到CZTexture中，CZImage为model，应该平台无关。
+
+2014年10月16日09:50:19
+	1.？ 窗口中应该加模板缓存
+	2.？ UUID是字符串，这里没实现
+	3.？ 没有实现撤销动作
+
+2014年10月17日11:32:39
+	1.? painting中的width,和bounds都直接和dimensions相关，layer中的imageDataInRect用参数可以规范，以后测试。
+	2.! 增加render接口，使读取图像数据代码归入其中。
+	3.! 假设CZPainting只有一个实例，且CZPaintingRender的大小与其保持一致，activatePaintTexture也是同样大小。
+
+2014年10月20日14:09:20
+	1.! CZPainting中的imageForCurrentState投影矩阵的重构无意义，删除代码。
+	2.! 完善shader。
+
+2014年10月21日15:31:20
+	1.! 收获：同一个shader程序load两遍会出问题。
+	2.! 收获：传uniform变量之前，必须要use该shader的程序。
+	3.! 收获：对于pc上的glsl的顶点属性数据传输，用VAO没有问题，用属性数组不能传递位置数据。

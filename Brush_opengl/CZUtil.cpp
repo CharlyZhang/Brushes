@@ -184,7 +184,26 @@ void checkPixels(int w_, int h_)
 }
 
 
-void CZCheckGLError_(const char *file, int line){};
+void CZCheckGLError_(const char *file, int line)
+{
+	GLenum glErr;
+	int    retCode = 0;
+
+	glErr = glGetError();
+	while (glErr != GL_NO_ERROR) 
+	{
+		const GLubyte* sError = gluErrorString(glErr);
+
+		if (sError)
+			cout << "GL Error #" << glErr << "(" << gluErrorString(glErr) << ") " << " in File " << file << " at line: " << line << endl;
+		else
+			cout << "GL Error #" << glErr << " (no message available)" << " in File " << file << " at line: " << line << endl;
+
+		retCode = 1;
+		glErr = glGetError();
+	}
+	//return retCode;
+};
 
 /// 读取json文件内容
 map<string,vector<string> > & readJsonContent(const char* jsonFile)

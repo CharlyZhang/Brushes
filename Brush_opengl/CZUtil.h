@@ -22,6 +22,7 @@
 #include <map>
 
 void CZCheckGLError_(const char *file, int line);
+
 #if CZ_DEBUG
 	#define CZCheckGLError()	CZCheckGLError_(__FILE__, __LINE__);
 #else

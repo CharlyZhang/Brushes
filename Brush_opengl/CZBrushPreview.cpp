@@ -13,6 +13,7 @@
 #include "CZBezierNode.h"
 #include "CZGeometry.h"
 #include "CZUtil.h"
+#include "CZMat4.h"
 #include "GL/glut.h"
 #include "Macro.h"
 
@@ -113,6 +114,12 @@ void CZBrushPreview::configureBrush()
 	if(brushShader == NULL)
 	{
 		vector<string> tmp1,tmp2;
+		tmp1.push_back("inPosition");
+		tmp1.push_back("inTexcoord");
+		tmp1.push_back("alpha");
+		tmp2.push_back("mvpMat");
+		tmp2.push_back("texture");
+		
 		brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
 	}
 
@@ -123,6 +130,7 @@ void CZBrushPreview::configureBrush()
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,stampTex->id);
+
 }
 
 /// 生成指定尺寸大小预览图
@@ -149,6 +157,14 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	path->setClosed(false);
 
 	render.begin();
+
+	CZMat4 proj;
+	proj.SetOrtho(0.0f, backingWidth, 0.0f, backingHeight, -1.0f, 1.0f);
+
+	glUniform1i(brushShader->getUniformLocation("texture"),0);
+	glUniformMatrix4fv(brushShader->getUniformLocation("mvpMat"),1,GL_FALSE,proj);
+	CZCheckGLError();
+
 	/// 绘制轨迹
 	path->paint(&render,path->getRandomizer());
 

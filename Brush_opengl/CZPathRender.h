@@ -18,12 +18,12 @@
 #include "CZUtil.h"
 
 /// 定义最终绘制数据格式
-typedef struct 
-{
-	GLfloat     x, y;
-	GLfloat     s, t;
-	GLfloat     a;
-} vertexData;
+// typedef struct 
+// {
+// 	GLfloat     x, y;
+// 	GLfloat     s, t;
+// 	GLfloat     a;
+// } vertexData;
 
 class CZPathRender :public CZRender
 {
@@ -112,14 +112,20 @@ public:
 	#endif
 
 	#if USE_OPENGL
-		/*
+		
+	/*	// 对于opengl 顶点位置必须通过以下方式导入
 		glEnableClientState (GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x); 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2,GL_FLOAT, sizeof(vertexData), &data[0].s);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x);
+
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glEnableVertexAttribArray(2);
+
+		/// 绘制
+		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
 		*/
+		
 		GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
 		// 装载顶点
 		glGenBuffers(1, &mVertexBufferObject);
@@ -136,34 +142,34 @@ public:
 
 		// 绑定顶点
 		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2,GL_FLOAT,sizeof(vertexData),0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(vertexData),0);
 		// 绑定纹理
 		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2,GL_FLOAT,sizeof(vertexData),0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1,2,GL_FLOAT, GL_TRUE, sizeof(vertexData),0);
 		// 绑定属性
 		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
-		GLuint alphaLoc = ptrShader->getAttributeLocation("alpha");
-		glEnableVertexAttribArray(alphaLoc);
-		glVertexAttribPointer(alphaLoc, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
 
 		/// 绘制
 		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
 
-		glDisableVertexAttribArray(alphaLoc);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		/// 消除
 		glDeleteBuffers(1, &mVertexBufferObject);
 		glDeleteBuffers(1, &mTexCoordBufferObject);
 		glDeleteBuffers(1, &mAttributeBufferObject);
-
+		
 	#endif
 		CZCheckGLError();
 	}
+
 
 	CZShader *ptrShader;
 

@@ -98,6 +98,7 @@
     <ClInclude Include="CZFreehandTool.h" />
     <ClInclude Include="CZGeometry.h" />
     <ClInclude Include="CZImage.h" />
+    <ClInclude Include="CZMat4.h" />
     <ClInclude Include="CZNotificationCenter.h" />
     <ClInclude Include="CZPainting.h" />
     <ClInclude Include="CZPath.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="CZFreehandTool.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
     <ClCompile Include="CZImage.cpp" />
+    <ClCompile Include="CZMat4.cpp" />
     <ClCompile Include="CZNotificationCenter.cpp" />
     <ClCompile Include="CZPainting.cpp" />
     <ClCompile Include="CZPath.cpp" />
