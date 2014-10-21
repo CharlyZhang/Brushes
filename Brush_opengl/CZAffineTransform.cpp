@@ -39,7 +39,7 @@ int CZAffineTransform::translate(float tx_, float ty_)
 }
 
 /// 应用于二维点p
-CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_)
+CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_) const
 {
 	CZ2DPoint ret;
 	ret.x = float( (double)a*p_.x + (double)c*p_.y + tx);
@@ -69,6 +69,16 @@ CZRect CZAffineTransform::applyToRect(CZRect & rect_)
 	return CZRect(minX,minY, maxX-minX, maxY-minY);
 }
 
+/// 是否是单位矩阵
+bool CZAffineTransform::isIdentity()
+{
+	if(a == 1 && b == 0 && c == 0 &&
+		d == 1 && tx == 0 && ty == 0) 
+		return true;
+	else
+		return false;
+}
+
 /// 生成平移转换
 CZAffineTransform CZAffineTransform::makeFromTranslation(float tx_, float ty_)
 {
@@ -82,7 +92,7 @@ CZAffineTransform CZAffineTransform::makeFromRotate(float angle_)
 }
 
 /// 生成单位转换
-CZAffineTransform CZAffineTransform::makeIndentity()
+CZAffineTransform CZAffineTransform::makeIdentity()
 {
 	return CZAffineTransform(1, 0, 0, 1, 0,0);
 };

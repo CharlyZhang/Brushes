@@ -185,7 +185,7 @@ CZTexture* CZBrushPreview::getBrushTexture()
 	{
 		CZStampGenerator *gen = ptrBrush->generator;
 		CZImage *smallStamp = gen->getStamp(true);		///< get the small stamp
-		brushTexture = smallStamp->toTexture();
+		brushTexture = CZTexture::produceFromImage(smallStamp);
 	}
 	
 	return brushTexture;

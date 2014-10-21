@@ -116,7 +116,7 @@ CZShader* CZPainting::configureBrush(CZBrush *brush_)
 
 	/// 绑定纹理
 	CZImage *stamp = brush_->generator->getStamp();
-	CZTexture *stampTex = stamp->toTexture();
+	CZTexture *stampTex = CZTexture::produceFromImage(stamp);
 	if(stampTex == NULL)
 	{
 		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";
@@ -175,10 +175,6 @@ uniformNames:uniforms];
 	shaders = tempShaders;
 #endif
 	/// ！暂时只载入一个shader
-	CZShader *shader = new CZShader;
-	shader->readVertextShader("brush.vert");
-	shader->readFragmentShader("brush.frag");
-	shader->setShader();
-
+	CZShader *shader = new CZShader("brush.vert","brush.frag");
 	shaders.insert(std::pair<std::string,CZShader*>("brush",shader));
 }

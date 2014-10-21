@@ -591,14 +591,14 @@ VECTOR4D CZMat4::operator*(const VECTOR4D rhs) const
 					+	entries[11]*rhs.z
 					+	entries[15]*rhs.w);
 }
-CVector3 CZMat4::operator*(const CVector3 rhs_) const
+VECTOR3D CZMat4::operator*(const VECTOR3D rhs_) const
 {
 	VECTOR4D rhs(rhs_.x,rhs_.y,rhs_.z,1);
 
 	//Optimise for matrices in which bottom row is (0, 0, 0, 1)
 	if(entries[3]==0.0f && entries[7]==0.0f && entries[11]==0.0f && entries[15]==1.0f)
 	{
-		return CVector3(entries[0]*rhs.x
+		return VECTOR3D(entries[0]*rhs.x
 			+	entries[4]*rhs.y
 			+	entries[8]*rhs.z
 			+	entries[12],
@@ -634,7 +634,7 @@ CVector3 CZMat4::operator*(const CVector3 rhs_) const
 		+	entries[11]*rhs.z
 		+	entries[15]*rhs.w);
 
-	return CVector3(result.x/result.w,result.y/result.w,result.z/result.w);
+	return VECTOR3D(result.x/result.w,result.y/result.w,result.z/result.w);
 }
 
 VECTOR3D CZMat4::GetRotatedVector3D(const VECTOR3D & rhs) const

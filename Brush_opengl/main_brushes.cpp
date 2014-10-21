@@ -141,7 +141,7 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #endif
 #if PATH_TEX
 	CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
-	brushTex = img->toTexture();
+	brushTex = CZTexture::produceFromImage(img);
 	glBindTexture(GL_TEXTURE_2D, brushTex->id);
 #endif
 	

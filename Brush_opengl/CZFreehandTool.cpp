@@ -40,10 +40,7 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 		/// ÅäÖÃ»­Ë¢£¨ÅäÖÃshader£¬°ó¶¨ÎÆÀí£©
 		ptrBrush = CZActiveState::getInstance()->brush;
 
-		brushShader = new CZShader;
-		brushShader->readVertextShader("brush.vert");
-		brushShader->readFragmentShader("brush.frag");
-		brushShader->setShader();
+		brushShader = new CZShader("brush.vert","brush.frag");
 
 		/// ³õÊ¼»¯ÎÆÀí
 		texture = new CZTexture(SIZE,SIZE);
@@ -337,7 +334,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 
 		/// °ó¶¨ÎÆÀí
 		CZImage *stamp = ptrBrush->generator->getStamp();
-		CZTexture *stampTex = stamp->toTexture();
+		CZTexture *stampTex = CZTexture::produceFromImage(stamp);
 		glBindTexture(GL_TEXTURE_2D,stampTex->id);
 		
 		render.begin();
