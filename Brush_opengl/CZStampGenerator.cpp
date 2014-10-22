@@ -106,7 +106,7 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
 CZImage *CZStampGenerator::generateStamp()
 {
 	CZStampRender *ptrRender = CZStampRender::getInstance();
-	
+
 	ptrRender->configure(size.width, size.height);
 	ptrRender->ptrGenerator = this;
 

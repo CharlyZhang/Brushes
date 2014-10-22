@@ -20,19 +20,18 @@ CZStampRender::CZStampRender()
 	// 生成context 并设置
 
 	// configure some default GL state
-	/*glDisable(GL_DITHER);
+	glDisable(GL_DITHER);
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);*/
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
 	vector<string> attributes, uniforms;
 	attributes.push_back("inPosition");
 	uniforms.push_back("mvpMat");
-	shader = NULL;//new CZShader("stamp.vert","stamp.frag",attributes,uniforms);
+	shader = new CZShader("stamp.vert","stamp.frag",attributes,uniforms);
 
-	CZCheckGLError();
 }
 CZStampRender::~CZStampRender()
 {
@@ -53,30 +52,18 @@ void CZStampRender::configure(int w, int h)
 /// 生成stamp图像
 CZImage *CZStampRender::drawStamp()
 {
+	glDisable(GL_TEXTURE_2D);
 
 	fbo.begin();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	//shader->begin();
+	shader->begin();
 	
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0,width,0,height,-1,1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glPushMatrix();
-
-	//glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 	ptrGenerator->renderStamp();
 
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-
-	//shader->end();
+	shader->end();
 
 	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
@@ -128,7 +115,7 @@ void CZStampRender::drawSpiralData(std::vector<CZ3DPoint> &points)
 {
 #if USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
-	//glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
 	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
 	glLineWidth(w);
 	glPointSize(w*0.7);
@@ -146,16 +133,13 @@ void CZStampRender::drawSpiralData(std::vector<CZ3DPoint> &points)
 
 	// 绑定顶点
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2,GL_FLOAT,sizeof(CZ3DPoint),0);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(CZ3DPoint),0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(CZ3DPoint),0);
 
 	/// 绘制
 	glDrawArrays(GL_LINE_STRIP,0,n);
 
-	//glDisableVertexAttribArray(0);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	/// 消除
