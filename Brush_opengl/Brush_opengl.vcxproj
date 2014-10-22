@@ -148,6 +148,7 @@
     <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZSpiralGenerator.cpp" />
     <ClCompile Include="CZStampGenerator.cpp" />
+    <ClCompile Include="CZStampRender.cpp" />
     <ClCompile Include="CZTexture.cpp" />
     <ClCompile Include="CZTool.cpp" />
     <ClCompile Include="CZUtil.cpp" />
@@ -160,6 +161,8 @@
     <None Include="memo.txt" />
     <None Include="brush.frag" />
     <None Include="brush.vert" />
+    <None Include="stamp.frag" />
+    <None Include="stamp.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

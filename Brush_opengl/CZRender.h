@@ -16,6 +16,7 @@
 #include "CZShader.h"
 #include "CZTexture.h"
 #include "CZImage.h"
+#include "CZUtil.h"
 #include "GL/glut.h"
 #include <map>
 #include <string>

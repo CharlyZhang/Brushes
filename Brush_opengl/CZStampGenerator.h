@@ -18,6 +18,7 @@
 #include "CZCoding.h"
 #include "CZProperty.h"
 #include "CZRandom.h"
+#include "CZStampRender.h"
 #include <vector>
 
 class CZGeneratorDelegate;
