@@ -93,17 +93,20 @@
     <ClInclude Include="CZCoder.h" />
     <ClInclude Include="CZCoding.h" />
     <ClInclude Include="CZColor.h" />
+    <ClInclude Include="CZColorBalance.h" />
     <ClInclude Include="CZCommon.h" />
     <ClInclude Include="CZDecoder.h" />
     <ClInclude Include="CZFbo.h" />
     <ClInclude Include="CZFreehandTool.h" />
     <ClInclude Include="CZGeometry.h" />
+    <ClInclude Include="CZHueSaturation.h" />
     <ClInclude Include="CZImage.h" />
+    <ClInclude Include="CZLayer.h" />
     <ClInclude Include="CZMat4.h" />
     <ClInclude Include="CZNotificationCenter.h" />
     <ClInclude Include="CZPainting.h" />
+    <ClInclude Include="CZPaintingRender.h" />
     <ClInclude Include="CZPath.h" />
-    <ClInclude Include="CZPathRender.h" />
     <ClInclude Include="CZPreviewRender.h" />
     <ClInclude Include="CZProperty.h" />
     <ClInclude Include="CZRandom.h" />
@@ -128,13 +131,17 @@
     <ClCompile Include="CZCanvas.cpp" />
     <ClCompile Include="CZCanvasRender.h" />
     <ClCompile Include="CZColor.cpp" />
+    <ClCompile Include="CZColorBalance.cpp" />
     <ClCompile Include="CZFbo.cpp" />
     <ClCompile Include="CZFreehandTool.cpp" />
     <ClCompile Include="CZGeometry.cpp" />
+    <ClCompile Include="CZHueSaturation.cpp" />
     <ClCompile Include="CZImage.cpp" />
+    <ClCompile Include="CZLayer.cpp" />
     <ClCompile Include="CZMat4.cpp" />
     <ClCompile Include="CZNotificationCenter.cpp" />
     <ClCompile Include="CZPainting.cpp" />
+    <ClCompile Include="CZPaintingRender.cpp" />
     <ClCompile Include="CZPath.cpp" />
     <ClCompile Include="CZPreviewRender.cpp" />
     <ClCompile Include="CZProperty.cpp" />
@@ -149,6 +156,7 @@
     <ClCompile Include="CZRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Brush_opengl.vcxproj.user" />
     <None Include="memo.txt" />
     <None Include="brush.frag" />
     <None Include="brush.vert" />

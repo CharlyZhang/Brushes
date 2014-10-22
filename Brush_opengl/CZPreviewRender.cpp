@@ -76,6 +76,7 @@ void CZPreviewRender::configure(int w, int h)
 /// 绘制一条轨迹,并返回图像
 CZImage *CZPreviewRender::drawPath(CZPath *path)
 {
+	// set context
 	fbo.begin();
 
 	glClearColor(.0f, .0f, .0f, .0f);	
@@ -107,9 +108,9 @@ CZImage *CZPreviewRender::drawPath(CZPath *path)
 /// 设置笔刷纹理
 void CZPreviewRender::configureBrush(CZImage *img)
 {
+	// setContext
 	if(brushTexture == NULL)
 	{
-		// setContext
 		brushTexture = CZTexture::produceFromImage(img);
 	}
 
@@ -119,6 +120,7 @@ void CZPreviewRender::configureBrush(CZImage *img)
 /// 清除笔刷纹理
 void CZPreviewRender::clearBrush()
 {
+	// set context
 	if(brushTexture) {delete brushTexture; brushTexture=NULL;}
 }
 

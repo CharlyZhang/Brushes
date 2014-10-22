@@ -13,7 +13,12 @@
 #include "CZGeometry.h"
 #include "CZStampGenerator.h"
 #include "CZLayer.h"
+#include "CZPainting.h"
 #include "CZBrush.h"
+#include "CZPath.h"
+#include "CZRandom.h"
+#include "CZColorBalance.h"
+#include "CZHueSaturation.h"
 
 using namespace  std;
 
@@ -24,25 +29,27 @@ CZPaintingRender::CZPaintingRender(const CZSize &size)
 	quadVAO = 0;
 	quadVBO = 0;
 	
-	resize(size);
-
 	layerTextures.clear();
 	layerHueChromaLumaTex.clear();
 
 	brushTex = NULL;
-	ptrClearColor = NULL;
+	activePaintTexture = NULL;
+
+	resize(size);
 
 	loadShaders();
 
 	// configure some default GL state
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_DITHER);
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 }
 CZPaintingRender::~CZPaintingRender()
 {
-	//setContext();
+	setContext();
+	
 	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
 	if (quadVAO) { glDeleteVertexArrays(1,&quadVAO); quadVAO = 0;}
 	if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
@@ -62,340 +69,391 @@ CZPaintingRender::~CZPaintingRender()
 	layerHueChromaLumaTex.clear();
 };
 
-/// 配置绘制信息（改变内部变量）
-void CZPaintingRender::configure(map<string,void*> &conf)
+/// 生成Painting当前状态的图像
+CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor, std::vector<CZLayer*> &layers)
 {
-	// setContext
-	map<string,void*>::iterator itr;
+	setContext();
+
+	fbo.setColorRenderBuffer(width,height);
 	
-	/// 设置离线绘制缓存
-	itr = conf.find("colorBuffer");
-	if(itr != conf.end())
+	fbo.begin();
+
+	// 用背景颜色清除缓存
+	if (bgColor) 
+		glClearColor(bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
+	else 
+		glClearColor(0,0,0,0);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++) 
 	{
-		CZSize *size = (CZSize*) itr->second;
-		fbo.setColorRenderBuffer(size->width,size->height);
-	}
+		CZLayer *layer = *itr;
+		if (!layer->visible) continue;
 
-	itr = conf.find("size");
-	if(itr != conf.end())
-	{
-		CZSize *size = (CZSize*) itr->second;
-		resize(*size);
-	}
-
-	itr = conf.find("layer");
-	if(itr != conf.end()) ptrRenderingLayer = (CZLayer *)itr->second;
-
-	itr = conf.find("bgColor");
-	if(itr != conf.end()) ptrClearColor = (CZColor *)itr->second;
-}
-
-/// 开始绘制
-void CZPaintingRender::begin(DrawType type)
-{
-	CZShader *shader;
-	switch(type)
-	{
-	case kDrawPath:
-		// 开启fbo
-		fbo.begin();
-		if (clearBuffer) 
+		if (ptrPainting->ptrActiveLayer == layer && ptrPainting->ptrActivePath) 
 		{
-			glClearColor(0, 0, 0, 0);
-			glClear(GL_COLOR_BUFFER_BIT);
-		}
-
-		// use shader program
-		shader = shaders["brush"];
-		shader->begin();
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, brushTex->id);
-
-		glUniform1i(shader->getUniformLocation("texture"),0);
-		///glUniformMatrix4fv([brushShader locationForUniform:@"modelViewProjectionMatrix"), 1, GL_FALSE, projection_);
-		
-		break;
-
-		/// ===  以下是CZLayer中的绘制 ===
-	case kPaintingErase:
-		// use shader program
-		shader = shaders["blitWithEraseMask"];
-		shader->begin();
-
-		glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,ptrRenderingLayer->ptrProjection);
-		glUniform1i(shader->getUniformLocation("texture"), 0);
-		glUniform1f(shader->getUniformLocation("opacity"), ptrRenderingLayer->opacity);
-		glUniform1i(shader->getUniformLocation("mask"), 1);
-
-
-		// Bind the texture to be used
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrRenderingLayer)->id);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
-
-		/// 配置绘制模式
-		configureBlendMode(ptrRenderingLayer->blendMode);
-
-		break;
-
-	case kPaintingMask:
-		// use shader program
-		shader = shaders["blitWithMask"];
-		shader->begin();
-
-		glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, ptrRenderingLayer->ptrProjection);
-		glUniform1i(shader->getUniformLocation("texture"), 0);
-		glUniform1f(shader->getUniformLocation("opacity"), ptrRenderingLayer->opacity);
-		glUniform4f(shader->getUniformLocation("color"), ptrRenderingLayer->ptrColor->red, ptrRenderingLayer->ptrColor->green, \
-			ptrRenderingLayer->ptrColor->blue, ptrRenderingLayer->ptrColor->alpha);
-		glUniform1i(shader->getUniformLocation("mask"), 1);
-		glUniform1i(shader->getUniformLocation("lockAlpha"), ptrRenderingLayer->alphaLocked);
-
-		// Bind the texture to be used
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrRenderingLayer)->id);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
-
-		/// 配置绘制模式
-		configureBlendMode(ptrRenderingLayer->blendMode);
-
-		break;
-
-	case kPaintingBlit:
-		// use shader program
-		shader = shaders["blit"];
-		shader->begin();
-
-		glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, ptrRenderingLayer->ptrProjection);
-		glUniform1i(shader->getUniformLocation("texture"), 0);
-		glUniform1f(shader->getUniformLocation("opacity"), ptrRenderingLayer->opacity);
-
-		// Bind the texture to be used
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrRenderingLayer)->id);
-		/// 配置绘制模式
-		configureBlendMode(ptrRenderingLayer->blendMode);
-
-		break;
-
-	case kPaintingBlitColorBalance:
-		// use shader program
-		shader = shaders["colorBalanceBlit"];
-		shader->begin();
-
-		glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, ptrRenderingLayer->ptrProjection);
-		glUniform1i(shader->getUniformLocation("texture"), 0);
-		glUniform1f(shader->getUniformLocation("opacity"), ptrRenderingLayer->opacity);
-
-		glUniform1f(shader->getUniformLocation("redShift"), ptrRenderingLayer->colorBalance->redShift);
-		glUniform1f(shader->getUniformLocation("greenShift"), ptrRenderingLayer->colorBalance->greenShift);
-		glUniform1f(shader->getUniformLocation("blueShift"), ptrRenderingLayer->colorBalance->blueShift);
-		glUniform1i(shader->getUniformLocation("premultiply"), 1);
-
-
-		// Bind the texture to be used
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrRenderingLayer)->id);
-		/// 配置绘制模式
-		configureBlendMode(ptrRenderingLayer->blendMode);
-
-		break;
-		
-	case kPaintingBlitHueSaturation:
-		// use shader program
-		shader = shaders["blitFromHueChromaLuma"];
-		shader->begin();
-
-		glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, ptrRenderingLayer->ptrProjection);
-		glUniform1i(shader->getUniformLocation("texture"), 0);
-		glUniform1f(shader->getUniformLocation("opacity"), ptrRenderingLayer->opacity);
-
-		//glUniform1f(shader->getUniformLocation("hueShift"), hueSaturation.hueShift);
-		//glUniform1f(shader->getUniformLocation("saturationShift"), hueSaturation_.saturationShift);
-		//glUniform1f(shader->getUniformLocation("brightnessShift"), hueSaturation_.brightnessShift);
-		glUniform1i(shader->getUniformLocation("premultiply"), 1);
-
-
-		// Bind the texture to be used
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, getLayerHCLTexture(ptrRenderingLayer)->id);
-		/// 配置绘制模式
-		configureBlendMode(ptrRenderingLayer->blendMode);
-
-		break;
-
-	case kPaintingBlitTransform:
-		// use shader program
-		shader = shaders["blit"];
-		shader->begin();
-
-		glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, ptrRenderingLayer->ptrProjection);
-		glUniform1i(shader->getUniformLocation("texture"), 0);
-		glUniform1f(shader->getUniformLocation("opacity"), ptrRenderingLayer->opacity);
-
-		// Bind the texture to be used
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrRenderingLayer)->id);
-
-		/// 配置绘制模式
-		configureBlendMode(ptrRenderingLayer->blendMode);
-
-		break;
-
-	case kPaingtingImageData:
-		/// 开始fbo
-		fbo.begin();
-
-		glViewport(0, 0, width, height);
-
-		// use shader program
-		shader = shaders["nonPremultipliedBlit"];
-		shader->begin();
-
-		glUniform1i(shader->getUniformLocation("texture"), (GLuint) 0);
-		glUniform1f(shader->getUniformLocation("opacity"), 1.0f); // fully opaque
-
-		glActiveTexture(GL_TEXTURE0);
-		// Bind the texture to be used
-		glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrRenderingLayer)->id);
-
-		// clear the buffer to get a transparent background
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		// set up premultiplied normal blend
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		break;
-
-	case kPaintingImageForCurrent:
-		fbo.setColorRenderBuffer(width,height);
-		fbo.begin();
-
-		// 用背景颜色清除缓存
-		if (ptrClearColor) 
-		{
-			glClearColor(ptrClearColor->red, ptrClearColor->green, ptrClearColor->blue, ptrClearColor->alpha);
-		} 
-		else 
-		{
-			glClearColor(0,0,0,0);
-		}
-
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		ptrClearColor = NULL;		// restore the pointer
-		break;
+			if (ptrPainting->ptrActivePath->action == CZPathActionErase) 
+				layer->blitWithEraseMask(this,projectionMat);
+			else 
+				layer->blitWithMask(this,projectionMat,bgColor);
+		} else 
+				layer->blit(this,projectionMat);
 	}
-}
 
-/// 绘制
-void CZPaintingRender::draw(DrawType type, void* data /*= NULL*/, unsigned int num /*= 0*/)
-{
-	GLfloat proj[16], effectiveProj[16],final[16];
-	CZRect *rect = (CZRect*) data;
-
-	switch(type)
-	{
-	case kPaintingErase:
-	case kPaintingMask:
-	case kPaintingBlit:
-	case kPaintingBlitColorBalance:
-	case kPaintingBlitHueSaturation:
-	case kPaingtingImageData:
-		// setup projection matrix (orthographic)
-		//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
-
-		//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
-		//mat4f_LoadCGAffineTransform(effectiveProj, translate);
-		//mat4f_MultiplyMat4f(proj, effectiveProj, final);
-
-		//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
-		//glBindVertexArrayOES(self.painting.quadVAO);
-		glBindVertexArray(quadVAO);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-		break;
-	case kPaintingBlitTransform:
-		//CZRect rect(0,0,width,height);
-
-		if (ptrRenderingLayer->clipWhenTransformed) 
-		{
-			glEnable(GL_STENCIL_TEST);
-			glClearStencil(0);
-			glClear(GL_STENCIL_BUFFER_BIT);
-
-			// All drawing commands fail the stencil test, and are not drawn, but increment the value in the stencil buffer.
-			glStencilFunc(GL_NEVER, 0, 0);
-			glStencilOp(GL_INCR, GL_INCR, GL_INCR);
-
-			drawRect(*rect,CZAffineTransform::makeIdentity());
-
-			// now, allow drawing, except where the stencil pattern is 0x1 and do not make any further changes to the stencil buffer
-			glStencilFunc(GL_EQUAL, 1, 1);
-			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-		}
-		
-		drawRect(*rect, ptrRenderingLayer->transform);
-
-		if (ptrRenderingLayer->clipWhenTransformed) 
-			glDisable(GL_STENCIL_TEST);
-
-		CZCheckGLError();
-
-		break;
-	}
-}
-
-/// 结束绘制
-void CZPaintingRender::end(DrawType type)
-{
-	switch(type)
-	{
-	case kDrawPath:
-	case kPaintingImageForCurrent:
-		// 关闭启fbo
-		fbo.end();
-		break;
-
-		/// ===  以下是CZLayer中的绘制 ===
-	case kPaintingErase:
-	case kPaintingMask:
-	case kPaintingBlit:
-	case kPaintingBlitColorBalance:
-	case kPaintingBlitHueSaturation:
-		// unbind VAO
-		//glBindVertexArrayOES(0);
-		glBindVertexArray(0);
-		break;
-
-	case kPaingtingImageData:
-		glBindVertexArray(0);
-		fbo.end();
-		break;
-
-	case kPaintingBlitTransform:
-		break;
-	}
-}
-
-/// 生成图像数据并返回
-CZImage* CZPaintingRender::imageForLastDraw()
-{
+	CZImage *ret;
 #if USE_OPENGL
-	CZImage *ret = new CZImage(fbo.width,fbo.height,CZImage::RGBA);
-	glReadPixels(0, 0, fbo.width, fbo.height, GL_RGBA, GL_FLOAT, ret->data);
+	ret = new CZImage(width,height,CZImage::RGBA);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
 #elif USE_OPENGL_ES
 	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 #endif
+
+	fbo.end();
+
 	return ret;
 }
+CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer)
+{
+	setContext();
+	
+	fbo.setTexture(getPaintTexture());
 
+	// 开启fbo
+	fbo.begin();
+	
+	if (clearBuffer) 
+	{
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
+	// use shader program
+	CZShader *shader = shaders["brush"];
+	shader->begin();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, brushTex->id);
+
+	glUniform1i(shader->getUniformLocation("texture"),0);
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projectionMat);
+
+	CZRect pathBounds;// = path_->paint(render,randomizer);
+
+	/// 绘制轨迹
+	vertexData *data;
+	unsigned int dataNum;
+	pathBounds = path_->getPaintData(randomizer,dataNum,data);
+	drawPathData(data,dataNum);
+	delete [] data;
+
+	shader->end();
+	// 关闭启fbo
+	fbo.end();
+
+	//CZNotificationCenter::getInstance()->notify(CZStrokeAddedNotification,this,(void*)&pathBounds);
+
+	return pathBounds;
+}
+
+/// 生成当前图层图像		- for CZLayer
+CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
+{
+	setContext();
+
+	fbo.setColorRenderBuffer(rect.size.width, rect.size.height);
+
+	/// 开始fbo
+	fbo.begin();
+
+	glViewport(0, 0, width, height);
+
+	CZMat4 proj;
+	proj.SetTranslation(-rect.origin.x, -rect.origin.y, 0);
+	proj = projectionMat * proj;
+
+	// use shader program
+	CZShader *shader = shaders["nonPremultipliedBlit"];
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,proj);
+	glUniform1i(shader->getUniformLocation("texture"), (GLuint) 0);
+	glUniform1f(shader->getUniformLocation("opacity"), 1.0f); // fully opaque
+
+	glActiveTexture(GL_TEXTURE0);
+	// Bind the texture to be used
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+
+	// clear the buffer to get a transparent background
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// set up premultiplied normal blend
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+	
+	shader->end();
+
+	CZImage *ret;
+#if USE_OPENGL
+	ret = new CZImage(width,height,CZImage::RGBA);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
+#elif USE_OPENGL_ES
+	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+#endif
+
+	fbo.end();
+
+	fbo.setTexture(activePaintTexture);
+
+	return ret;
+}
+/// 绘制Layer的擦除轨迹
+void CZPaintingRender::drawLayerWithEraseMask(CZMat4 &projection)
+{
+	// use shader program
+	CZShader *shader = shaders["blitWithEraseMask"];
+	
+	shader->begin();
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projection);
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
+	glUniform1i(shader->getUniformLocation("mask"), 1);
+
+	// Bind the texture to be used
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
+
+	/// 配置绘制模式
+	configureBlendMode(ptrLayer->blendMode);
+
+	// setup projection matrix (orthographic)
+	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
+
+	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
+	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
+	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
+
+	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
+	//glBindVertexArrayOES(self.painting.quadVAO);
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	// unbind VAO
+	//glBindVertexArrayOES(0);
+	glBindVertexArray(0);
+
+	shader->end();
+}
+/// 绘制Layer的绘画轨迹
+void CZPaintingRender::drawLayerWithMask(CZMat4 &projection,CZColor *bgColor)
+{
+	// use shader program
+	CZShader *shader = shaders["blitWithMask"];
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
+	glUniform4f(shader->getUniformLocation("color"), bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
+	glUniform1i(shader->getUniformLocation("mask"), 1);
+	glUniform1i(shader->getUniformLocation("lockAlpha"), ptrLayer->alphaLocked);
+
+	// Bind the texture to be used
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
+
+	/// 配置绘制模式
+	configureBlendMode(ptrLayer->blendMode);
+	// setup projection matrix (orthographic)
+	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
+
+	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
+	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
+	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
+
+	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
+	//glBindVertexArrayOES(self.painting.quadVAO);
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	// unbind VAO
+	//glBindVertexArrayOES(0);
+	glBindVertexArray(0);
+
+	shader->end();
+}
+/// 将Layer的纹理绘制
+void CZPaintingRender::drawLayer(CZMat4 &projection)
+{
+	// use shader program
+	CZShader *shader = shaders["blit"];
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
+
+	// Bind the texture to be used
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+	/// 配置绘制模式
+	configureBlendMode(ptrLayer->blendMode);
+	// setup projection matrix (orthographic)
+	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
+
+	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
+	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
+	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
+
+	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
+	//glBindVertexArrayOES(self.painting.quadVAO);
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	// unbind VAO
+	//glBindVertexArrayOES(0);
+	glBindVertexArray(0);
+
+	shader->end();
+}
+/// 将Layer的纹理转换后绘制	
+void CZPaintingRender::drawLayerWithTransform(CZMat4 &projection, const CZAffineTransform &transform)
+{
+	// use shader program
+	CZShader *shader = shaders["blit"];
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
+
+	// Bind the texture to be used
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+
+	/// 配置绘制模式
+	configureBlendMode(ptrLayer->blendMode);
+
+	CZRect rect(0,0,width,height);
+
+	if (ptrLayer->clipWhenTransformed) 
+	{
+		glEnable(GL_STENCIL_TEST);
+		glClearStencil(0);
+		glClear(GL_STENCIL_BUFFER_BIT);
+
+		// All drawing commands fail the stencil test, and are not drawn, but increment the value in the stencil buffer.
+		glStencilFunc(GL_NEVER, 0, 0);
+		glStencilOp(GL_INCR, GL_INCR, GL_INCR);
+
+		drawRect(rect,CZAffineTransform::makeIdentity());
+
+		// now, allow drawing, except where the stencil pattern is 0x1 and do not make any further changes to the stencil buffer
+		glStencilFunc(GL_EQUAL, 1, 1);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	}
+
+	drawRect(rect, ptrLayer->transform);
+
+	if (ptrLayer->clipWhenTransformed) 
+		glDisable(GL_STENCIL_TEST);
+
+	shader->end();
+
+	CZCheckGLError();
+}
+/// 将Layer的纹理带颜色调整后绘制	- for CZLayer
+void CZPaintingRender::drawLayerWithcolorBalance(CZMat4 &projection, CZColorBalance *colorBalance)
+{
+	// use shader program
+	CZShader *shader = shaders["colorBalanceBlit"];
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
+
+	glUniform1f(shader->getUniformLocation("redShift"), colorBalance->redShift);
+	glUniform1f(shader->getUniformLocation("greenShift"), colorBalance->greenShift);
+	glUniform1f(shader->getUniformLocation("blueShift"), colorBalance->blueShift);
+	glUniform1i(shader->getUniformLocation("premultiply"), 1);
+
+
+	// Bind the texture to be used
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+	/// 配置绘制模式
+	configureBlendMode(ptrLayer->blendMode);
+
+	// setup projection matrix (orthographic)
+	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
+
+	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
+	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
+	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
+
+	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
+	//glBindVertexArrayOES(self.painting.quadVAO);
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	// unbind VAO
+	//glBindVertexArrayOES(0);
+	glBindVertexArray(0);
+
+	shader->end();
+
+}
+/// 将Layer的纹理带色彩调整后绘制	- for CZLayer
+void CZPaintingRender::drawLayerWithhueSaturation(CZMat4 &projection, CZHueSaturation *hueSaturation)
+{
+	// use shader program
+	CZShader *shader = shaders["blitFromHueChromaLuma"];
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
+
+	glUniform1f(shader->getUniformLocation("hueShift"), hueSaturation->hueShift);
+	glUniform1f(shader->getUniformLocation("saturationShift"), hueSaturation->saturationShift);
+	glUniform1f(shader->getUniformLocation("brightnessShift"), hueSaturation->brightnessShift);
+	glUniform1i(shader->getUniformLocation("premultiply"), 1);
+
+	// Bind the texture to be used
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, getLayerHCLTexture(ptrLayer)->id);
+	/// 配置绘制模式
+	configureBlendMode(ptrLayer->blendMode);
+
+	// setup projection matrix (orthographic)
+	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
+
+	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
+	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
+	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
+
+	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
+	//glBindVertexArrayOES(self.painting.quadVAO);
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	// unbind VAO
+	//glBindVertexArrayOES(0);
+	glBindVertexArray(0);
+
+	shader->end();
+}
 
 /// 载入着色器
 void CZPaintingRender::loadShaders()
@@ -572,19 +630,6 @@ void CZPaintingRender::clearLayerHCLTexture(CZLayer *layer)
 	//}
 }
 
-/// 设置成绘制到纹理
-void CZPaintingRender::setRenderToTexture()
-{
-	// setContext
-	fbo.setTexture(activePaintTexture);
-}
-
-/// 设置是否清楚缓存
-void CZPaintingRender::setClearBuffer(bool flag)
-{
-	clearBuffer = flag;
-}
-
 /// 更换笔刷纹理
 void CZPaintingRender::changeBrushTex(CZBrush *brush)
 {
@@ -601,6 +646,8 @@ void CZPaintingRender::resize(const CZSize &size)
 	height = size.height;
 
 	if(activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
+
+	projectionMat.SetOrtho(0,width,0,height,-1.0f,1.0f);
 }
 
 /// 绘制矩形
@@ -642,4 +689,77 @@ void CZPaintingRender::drawRect(const CZRect &rect, const CZAffineTransform &tra
 
 	glDeleteBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+/// 绘制轨迹数据（利用图形接口）
+void CZPaintingRender::drawPathData(vertexData *data, unsigned int n)
+{
+#if USE_OPENGL_ES
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &data[0].x);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glEnableVertexAttribArray(2);
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
+	#endif
+
+	#if USE_OPENGL
+		
+	/*	// 对于opengl 顶点位置必须通过以下方式导入
+		glEnableClientState (GL_VERTEX_ARRAY);
+		glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x);
+
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glEnableVertexAttribArray(2);
+
+		/// 绘制
+		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
+		*/
+		
+		GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
+		// 装载顶点
+		glGenBuffers(1, &mVertexBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].x, GL_STREAM_DRAW);
+		// 装载纹理
+		glGenBuffers(1, &mTexCoordBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].s, GL_STREAM_DRAW);
+		// 装载属性
+		glGenBuffers(1, &mAttributeBufferObject);
+		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
+		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].a, GL_STREAM_DRAW);
+
+		// 绑定顶点
+		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(vertexData),0);
+		// 绑定纹理
+		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1,2,GL_FLOAT, GL_TRUE, sizeof(vertexData),0);
+		// 绑定属性
+		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
+
+		/// 绘制
+		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/// 消除
+		glDeleteBuffers(1, &mVertexBufferObject);
+		glDeleteBuffers(1, &mTexCoordBufferObject);
+		glDeleteBuffers(1, &mAttributeBufferObject);
+		
+	#endif
+		CZCheckGLError();
 }

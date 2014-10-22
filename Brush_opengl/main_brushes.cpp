@@ -207,7 +207,7 @@ GLvoid DrawGLScene(GLvoid)
 	glEnable(GL_TEXTURE_2D);
 
 #if RENDER_FREEHAND
-	glBindTexture(GL_TEXTURE_2D,freeHand->texture->id);
+	glBindTexture(GL_TEXTURE_2D,freeHand->ptrPainting->render->getPaintTexture()->id);
 #endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);

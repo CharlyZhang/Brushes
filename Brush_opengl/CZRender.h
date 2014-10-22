@@ -25,26 +25,6 @@
 class CZRender
 {
 public:
-	enum DrawType		///< 绘制的类型
-	{
-		//-- Common --
-		DrawGeneral,		///< 通用
-		DrawStamp,			///< 画刷纹理
-		kDrawPath,			///< 画轨迹
-
-		//-- CZPaintingRender-- 
-		//	used in CZLayer
-		kPaintingErase,				///< 擦除轨迹
-		kPaintingMask,				///< 添加轨迹
-		kPaintingBlit,				///< 展现图层
-		kPaintingBlitTransform,		///< 位置变换后展现图层
-		kPaintingBlitColorBalance,	///< 颜色调整后展现图层
-		kPaintingBlitHueSaturation,	///< 饱和度色调调整后展现图层
-		kPaingtingImageData,		///< 获取图像数据
-		//	used in CZPainting
-		kPaintingStroke,			///< 画一笔轨迹
-		kPaintingImageForCurrent	///< 绘制当前状态图像
-	};
 	enum BlendMode		///< 混合模式
 	{
 		kBlendModeNormal,
@@ -65,6 +45,11 @@ public:
 	};
 	~CZRender()
 	{
+	};
+	/// 设置当前上下文
+	void setContext()
+	{
+		//如果不存在，则生成，并设置为当前
 	};
 
 public:

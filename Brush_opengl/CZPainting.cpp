@@ -12,177 +12,248 @@
 #include "CZPainting.h"
 #include "Macro.h"
 #include "CZUtil.h"
+#include "CZLayer.h"
+#include "CZPaintingRender.h"
+#include <map>
 
 using namespace  std;
 
+// Notifications
+string CZStrokeAddedNotification = "StrokeAddedNotification";
+string CZLayersReorderedNotification = "LayersReorderedNotification";
+string CZLayerAddedNotification = "LayerAddedNotification";
+string CZLayerDeletedNotification = "LayerDeletedNotification";
+string CZActiveLayerChangedNotification = "ActiveLayerChangedNotification";
+
+unsigned int CZPainting::paintingNum = 0;
+
 CZPainting::CZPainting(const CZSize &size)
 {
-	dimensions = size;
+	render = new CZPaintingRender(size);
+	render->ptrPainting = this;
+
+	undoManager = new CZUndoManager;
+
+	setDimensions(size);
+
 	colors.clear();
 	brushes.clear();
 	undoBrushes.clear();
 	strokeCount = 0;
 
-	fbo = NULL;
 	ptrActivePath = NULL;
-	activePaintTexture = NULL;
+	ptrActiveLayer = NULL;
 
-	render.init();
-	loadShaders();
+	flattenMode = false;
+	layers.clear();
+
+	ptrLastBrush = NULL;
+
+	// register for undo notification
+
+	uid = PAINTING_BASE_UID + (paintingNum++);
 }
 CZPainting::~CZPainting()
 {
-	if(fbo != NULL) {delete fbo; fbo = NULL;}
-	if(activePaintTexture != NULL) {delete activePaintTexture; activePaintTexture = NULL;}
+	if(render) { delete render; render = NULL;}
+	if(undoManager) { delete undoManager; undoManager = NULL;}
+
+	colors.clear();
+	brushes.clear();
+	undoBrushes.clear();
+	layers.clear();
+
+	//registerForUndoNotifications()
+
+	paintingNum --;
 }
 
-/// 绘制一条轨迹
+/// 将图像绘制出来（没绑定FBO）
+void CZPainting::blit(CZMat4 &projection)
+{
+	if (flattenMode) 
+	{
+		//[self blitFlattenedTexture:projection];
+		return;
+	}
+
+	for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++) 
+	{
+		CZLayer *layer = *itr;
+		if (!layer->visible) continue;
+
+		render->ptrLayer = layer;
+		if (ptrActiveLayer == layer && ptrActivePath) 
+		{
+			if (ptrActivePath->action == CZPathActionErase)
+				layer->blitWithEraseMask(render,projection);
+			else 
+				layer->blitWithMask(render,projection,&(ptrActivePath->color));
+		} else 
+			layer->blit(render,projection);
+	}
+}
+
+/// 生成当前状态的图像
+CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
+{
+	return render->drawPaintingCurrentState(backgroundColor, layers);
+}
+
+/// 绘制一条轨迹（绘制到纹理）
 CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer /* = false */)
 {
 	ptrActivePath = path_;
 
-	CZRect pathBounds = CZRect::zeroRect();
-
-#if USE_OPENGL_ES
-	[EAGLContext setCurrentContext:self.context];
-	glBindFramebuffer(GL_FRAMEBUFFER, self.reusableFramebuffer);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.activePaintTexture, 0);
-
-	GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-	if (status == GL_FRAMEBUFFER_COMPLETE) {
-		glViewport(0, 0, self.width, self.height);
-
-		if (clearBuffer) {
-			glClearColor(0, 0, 0, 0);
-			glClear(GL_COLOR_BUFFER_BIT);
-		}
-
-		[self configureBrush:path.brush];
-		pathBounds = [path paint:randomizer];
+	if(path_->ptrBrush != ptrLastBrush)
+	{
+		render->changeBrushTex(path_->ptrBrush);
+		ptrLastBrush = path_->ptrBrush;
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	WDCheckGLError();
-#endif
 
-#if USE_OPENGL
-	CZTexture *tex = getPaintTexture();
-	reusableFBo.setTexture(tex);
-
-	fbo->begin();
-
-	glClearColor(.0f, .0f, .0f, .0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	{	/// 以防其他地方破坏了上下文状态
-		glEnable(GL_BLEND);							
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	}
-
-	/// 设置轨迹参数
-	CZShader *brushShader = configureBrush(path_->ptrBrush);
-	//path_->ptrShader = brushShader;	///< !没有必要
-	brushShader->begin();
-	/// 绘制轨迹
-	//pathBounds = path_->paint(randomizer);
-	brushShader->end();
-
-	fbo->end();
-#endif
-
-	//NSDictionary *userInfo = @{@"rect": [NSValue valueWithCGRect:pathBounds]};
-	//[[NSNotificationCenter defaultCenter] postNotificationName:WDStrokeAddedNotification object:self userInfo:userInfo];
+	CZRect pathBounds = render->drawPaintingStroke(path_,randomizer,clearBuffer);
 
 	return pathBounds;
 }
 
-/// 配置笔刷
-///	
-///		配置好绘制用笔刷的纹理以及Shader。由于CZPainting会涉及到多种笔刷，所以在作画前需要将当前用的笔刷配置好。
-/// 
-CZShader* CZPainting::configureBrush(CZBrush *brush_)
+/// 设置范围
+void CZPainting::setDimensions(const CZSize &size)
 {
-	CZShader *brushShader = getShader("brush");
+	if(dimensions == size) return;
 
-#if USE_OPENGL_ES
-	glUseProgram(brushShader.program);
+	dimensions = size;
+	render->resize(size);
+}
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, [self brushTexture:brush].textureName);
-
-	glUniform1i([brushShader locationForUniform:@"texture"], 0);
-	glUniformMatrix4fv([brushShader locationForUniform:@"modelViewProjectionMatrix"], 1, GL_FALSE, projection_);
-#endif
-
-	/// 绑定纹理
-	CZImage *stamp = brush_->generator->getStamp();
-	CZTexture *stampTex = CZTexture::produceFromImage(stamp);
-	if(stampTex == NULL)
+/// 设置当前图层
+void CZPainting::setActiveLayer(CZLayer *layer)
+{
+	if (!layer) 
 	{
-		std::cerr << "CZBrushPreview::configureBrush - stampTex is NULL\n";
-		return NULL;
-	}
-	glBindTexture(GL_TEXTURE_2D,stampTex->id);
-
-	CZCheckGLError();
-}
-
-/// 获取相应的Shader（同时设定当前GL上下文）
-CZShader* CZPainting::getShader(std::string shaderName)
-{
-	return shaders[shaderName];
-}
-
-/// 获取绘制用纹理
-CZTexture* CZPainting::getPaintTexture()
-{
-	if(!activePaintTexture)
-		activePaintTexture = new CZTexture(dimensions.width,dimensions.height);
-	return activePaintTexture;
-}
-
-/// 载入Shader
-void CZPainting::loadShaders()
-{
-#if 0
-	NSString        *shadersJSONPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Shaders.json"];
-	NSData          *JSONData = [NSData dataWithContentsOfFile:shadersJSONPath];
-	NSError         *error = nil;
-	NSDictionary    *shaderDict = [NSJSONSerialization JSONObjectWithData:JSONData options:0 error:&error];
-
-	if (!shaderDict) {
-		WDLog(@"Error loading 'Shaders.json': %@", error);
+		cout << "CZPainting::setActiveLayer - layer is NULL\n";
 		return;
 	}
 
-	NSMutableDictionary *tempShaders = [NSMutableDictionary dictionary];
-
-	for (NSString *key in shaderDict.keyEnumerator) {
-		NSDictionary *description = shaderDict[key];
-		NSString *vertex = description[@"vertex"];
-		NSString *fragment = description[@"fragment"];
-		NSArray *attributes = description[@"attributes"];
-		NSArray *uniforms = description[@"uniforms"];
-
-		WDShader *shader = [[WDShader alloc] initWithVertexShader:vertex
-fragmentShader:fragment
-attributesNames:attributes
-uniformNames:uniforms];
-		tempShaders[key] = shader;
+	if (layer == ptrActiveLayer)
+	{
+		return;
 	}
-	WDCheckGLError();
 
-	shaders = tempShaders;
-#endif
-	/// ！暂时只载入一个shader
-	vector<string> tmp1,tmp2;
-	tmp1.push_back("inPosition");
-	tmp1.push_back("inTexcoord");
-	tmp1.push_back("alpha");
-	tmp2.push_back("mvpMat");
-	tmp2.push_back("texture");
-	CZShader *shader = new CZShader("brush.vert","brush.frag",tmp1,tmp2);
-	shaders.insert(std::pair<std::string,CZShader*>("brush",shader));
+	int oldIndex = indexOfLayers(ptrActiveLayer);
+
+	ptrActiveLayer = layer;
+
+	if (!isSuppressingNotifications()) 
+	{
+		//CZNotificationCenter::getInstance()->notify(CZActiveLayerChangedNotification,this,(void*)&oldIndex);
+	}
 }
+
+/// 是否抑制消息
+bool CZPainting::isSuppressingNotifications()
+{
+	return (suppressNotifications > 0) ? true : false;
+}
+
+/// 通过UID获取图层
+CZLayer *CZPainting::layerWithUID(unsigned int uid_)
+{
+	int num = layers.size();
+	for(int i = 0; i < num; i ++)
+		if(uid_ == layers[i]->uid) return layers[i];
+
+	return NULL;
+}
+
+/// 删除图层
+void CZPainting::removeLayer(CZLayer *layer)
+{
+	//	undoManager->prepareForUndo()
+	//[[undoManager_ prepareWithInvocationTarget:self] insertLayer:layer atIndex:[layers_ indexOfObject:layer]];    
+
+	if (layer == ptrActiveLayer && layers.size()> 1)
+	{
+		// choose another layer to be active before we remove it
+		int index = indexOfLayers(ptrActiveLayer);
+		if (index >= 1)
+		{
+			index--;
+		}
+		else
+		{
+			index = 1;
+		}
+		ptrActiveLayer = layers[index];
+	}
+
+	// do this before decrementing index
+	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
+		if(*itr == layer)
+		{
+			layers.erase(itr);
+			break;
+		}
+
+		//[layer freeze];
+
+		if (!isSuppressingNotifications())
+		{
+			//	NSValue *dirtyRect = [NSValue valueWithCGRect:self.bounds];
+			//	NSDictionary *userInfo = @{@"index": @(index), @"rect": dirtyRect, @"layer": layer};
+			//	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:WDLayerDeletedNotification object:self userInfo:userInfo]];
+		}
+}
+
+/// 插入图层
+void CZPainting::insertLayer(int idx, CZLayer *layer)
+{
+	//[[undoManager_ prepareWithInvocationTarget:self] removeLayer:layer];
+
+	//	layers.insert(idx,layer);
+	if (!isSuppressingNotifications()) 
+	{
+		//NSDictionary *userInfo = @{@"layer": layer, @"rect": [NSValue valueWithCGRect:self.bounds]};
+		//[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:WDLayerAddedNotification object:self userInfo:userInfo]];
+	}
+}
+
+/// 添加图层
+void CZPainting::addLayer(CZLayer *layer)
+{
+	layer->ptrPainting = this;
+	insertLayer(indexOfLayers(ptrActiveLayer)+1, layer);
+	ptrActiveLayer = layer;
+}
+
+/// 开始抑制消息发送
+void CZPainting::beginSuppressingNotifications()
+{
+	suppressNotifications ++;
+}
+/// 结束抑制消息发送
+void CZPainting::endSuppressingNotifications()
+{
+	suppressNotifications --;
+
+	if (suppressNotifications < 0) 
+	{
+		cout << "CZPainting::endSuppressingNotifications - Unbalanced notification suppression: " 
+			<< suppressNotifications;
+	}
+}
+
+/// 获得图层在所有图层中的标号，不存在返回负值
+int CZPainting::indexOfLayers(CZLayer *layer)
+{
+	int ret;
+	int num = layers.size();
+	for(ret = 0; ret < num; ret ++)
+		if(layer == layers[ret]) return ret;
+
+	return -1;
+}
+
+/// 实现CZCoding接口
+void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/){};
+void CZPainting::encode(CZCoder *coder_, bool deep /*= false*/){};

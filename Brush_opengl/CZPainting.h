@@ -15,50 +15,79 @@
 #include "CZGeometry.h"
 #include "CZPath.h"
 #include "CZRandom.h"
-#include "CZFbo.h"
-#include "CZCanvasRender.h"
-#include "CZTexture.h"
-#include <map>
+#include "CZMat4.h"
+#include "CZLayer.h"
+#include "CZCoding.h"
+#include "CZPaintingRender.h"
+#include "CZUndoManager.h"
 #include <string>
+#include <vector>
 
-class CZPainting
+extern std::string CZStrokeAddedNotification; //  "StrokeAddedNotification";
+extern std::string CZLayersReorderedNotification; //  "LayersReorderedNotification";
+extern std::string CZLayerAddedNotification; //  "LayerAddedNotification";
+extern std::string CZLayerDeletedNotification; //  "LayerDeletedNotification";
+extern std::string CZActiveLayerChangedNotification; //  "ActiveLayerChangedNotification";
+
+class CZPainting :public CZCoding
 {
 public:
 	CZPainting(const CZSize &size);
 	~CZPainting();
-	/// 绘制一条轨迹
+	/// 将图像绘制出来（没绑定FBO）
+	void blit(CZMat4 &projection);
+	/// 生成当前状态的图像
+	CZImage *imageForCurrentState(CZColor *backgroundColor);
+	/// 绘制一条轨迹（绘制到纹理）
 	CZRect paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer = false);
-private:
-	/// 配置笔刷
-	///	
-	///		配置好绘制用笔刷的纹理以及Shader。由于CZPainting会涉及到多种笔刷，所以在作画前需要将当前用的笔刷配置好。
-	/// 
-	///		/param brush_	- 配置的画刷
-	///		/return			- 该画刷对应的Shader
-	CZShader* configureBrush(CZBrush *brush_);
-	/// 获取相应的Shader（同时设定当前GL上下文）
-	CZShader* getShader(std::string shaderName);
-	/// 获取绘制用纹理
-	CZTexture* getPaintTexture();
-	/// 载入Shader
-	void loadShaders();
+	/// 是否抑制消息
+	bool isSuppressingNotifications();
+	/// 设置范围
+	void setDimensions(const CZSize &size);
+	/// 设置当前图层
+	void setActiveLayer(CZLayer *layer);
+	/// 通过UID获取图层
+	CZLayer *layerWithUID(unsigned int uid_);
+	/// 删除图层
+	void removeLayer(CZLayer *layer);
+	/// 插入图层
+	void insertLayer(int idx, CZLayer *layer);
+	/// 添加图层
+	void addLayer(CZLayer *layer);
+
+	/// 实现coding的接口
+	void update(CZDecoder *decoder_, bool deep = false);
+	void encode(CZCoder *coder_, bool deep = false);
 
 private:
-	CZFbo *fbo;						///< 绘制用的FBO
-	CZFbo reusableFBo;				///< 重复使用的FBO，绘制到纹理
-	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用
-	CZTexture *activePaintTexture;	///< 绘制用的纹理
+	/// 开始抑制消息发送
+	void beginSuppressingNotifications();
+	/// 结束抑制消息发送
+	void endSuppressingNotifications();
+	/// 获得图层在所有图层中的标号，不存在返回负值
+	int indexOfLayers(CZLayer *layer);
+
+public:
 	CZSize dimensions;				///< 绘制范围
+	CZPaintingRender *render;		///< 绘制器
+	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用
+	CZLayer *ptrActiveLayer;		///< 当前绘制层
+
+private:
+	static unsigned int paintingNum;///< 绘制的数目
+	CZUndoManager *undoManager;		///< 回撤控制器
+
+	bool flattenMode;
+	std::vector<CZLayer*>	layers;	///< 绘制的画层
 
 	std::vector<CZColor*>	colors;	
 	std::vector<CZBrush*>	brushes;
 	std::vector<CZBrush*>	undoBrushes;
 	int						strokeCount;	///< 笔画数目
 	unsigned int			uid;
-	
 
-	std::map<std::string,CZShader *> shaders;	///< 绘制会用到的各种shader
-	CZCanvasRender			render;
+	CZBrush					*ptrLastBrush;	///< 上一把画刷
 
+	unsigned int			suppressNotifications;	///< 抑制的消息数
 };
 #endif

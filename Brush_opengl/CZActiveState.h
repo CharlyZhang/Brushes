@@ -5,6 +5,7 @@
 #include "CZSpiralGenerator.h"
 #include "CZStampGenerator.h"
 #include "CZNotificationCenter.h"
+#include "CZColor.h"
 #include <string>
 
 class CZActiveState :public CZObserver
@@ -28,12 +29,18 @@ private:
 	~CZActiveState(){ destroy(); }
 
 	/// 初始化函数
-	bool initial(){ brush = new CZBrush(new CZSpiralGenerator); return true; };
+	bool initial()
+	{ 
+		brush = new CZBrush(new CZSpiralGenerator);
+		paintColor = CZColor::blackColor();
+		return true; 
+	};
 	/// 销毁函数
 	bool destroy() { if(brush != NULL) {delete brush; brush = NULL;} return true;};
 
 public:
 	CZBrush *brush;
+	CZColor paintColor;
 };
 
 #endif

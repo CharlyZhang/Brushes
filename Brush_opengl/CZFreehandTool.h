@@ -21,21 +21,13 @@
 #include "CZActiveState.h"
 #include "CZUtil.h"
 #include <vector>
-#include "CZPathRender.h"
 #include "CZBrush.h"
-#include "CZShader.h"
-#include "CZTexture.h"
-#include "CZFbo.h"
 
 class CZFreehandTool : public CZTool
 {
 public:
 	CZFreehandTool(bool supportPressure = false);
-	~CZFreehandTool()
-	{ 
-		if(brushShader) {delete brushShader; brushShader=0;}
-		if(texture) {delete texture; texture=0;}
-	};
+	~CZFreehandTool();
 
 	/// 开始移动（如果支持压力，则参数为压力值）
 	void moveBegin(CZ2DPoint &p_, float pressure_ = 0.0f);
@@ -78,13 +70,11 @@ private:
 	int							pointsIndex;					///< 处理的点标号
 	bool						clearBuffer;					///< 是否要清理缓存
 	float						lastRemainder;					///< 上轮绘制的多占空间
+	CZRandom					*ptrRandomizer;					///< 指向轨迹的随机器
 
 public:
-	/// 接下来是测试用的变量
-	CZShader					*brushShader;
-	CZBrush						*ptrBrush;
-	CZTexture					*texture;
-	CZPathRender				render;
+	CZPainting					*ptrPainting;					///< 指向绘制
+	bool						eraseMode;						///< 是否是擦除状态
 };
 
 #endif

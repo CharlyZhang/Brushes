@@ -12,7 +12,6 @@
 #include "CZFreehandTool.h"
 #include "CZSpiralGenerator.h"		///< for moveEnd() Brush
 #include "CZMat4.h"
-
 #include "gl/glew.h"				///< for paintPath GL render
 
 #define kMaxError                   10.0f
@@ -29,33 +28,15 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 	realPressure = supportPressure;
 	scale = 1.0f;
 	lastRemainder = 0.0f;
+	ptrRandomizer = NULL;
 
-	///！ 测试用
-	{
-		// configure some default GL state
-		glDisable(GL_DITHER);
-		glDisable(GL_STENCIL_TEST);
-		glDisable(GL_DEPTH_TEST);
+	ptrPainting = new CZPainting(CZSize(SIZE,SIZE));
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-		/// 配置画刷（配置shader，绑定纹理）
-		ptrBrush = CZActiveState::getInstance()->brush;
-
-		vector<string> tmp1,tmp2;
-		tmp1.push_back("inPosition");
-		tmp1.push_back("inTexcoord");
-		tmp1.push_back("alpha");
-		tmp2.push_back("mvpMat");
-		tmp2.push_back("texture");
-		brushShader = new CZShader("brush.vert","brush.frag",tmp1,tmp2);
-
-		/// 初始化纹理
-		texture = new CZTexture(SIZE,SIZE);
-		render.configTexture(texture);
-
-	}
+	eraseMode = false;
+}
+CZFreehandTool::~CZFreehandTool()
+{
+	if(ptrPainting) {delete ptrPainting; ptrPainting=0;}
 }
 
 /// 开始移动
@@ -171,11 +152,10 @@ void CZFreehandTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 /// 移动结束
 void CZFreehandTool::moveEnd(CZ2DPoint &p_)
 {
-	//CZColor     color;// = [WDActiveState sharedInstance].paintColor;
-	//CZBrush     brush(new CZSpiralGenerator);// = [WDActiveState sharedInstance].brush;
+	CZColor     color = CZActiveState::getInstance()->paintColor;
+	CZBrush     *ptrBrush = CZActiveState::getInstance()->brush;
 	//CZCanvas    canvas;// = (WDCanvas *) recognizer.view;
-	CZSize size;
-	CZPainting  painting(size);// = canvas.painting;
+	//CZPainting  painting(size);// = canvas.painting;
 
 	CZ2DPoint   &location = p_;
 	
@@ -299,67 +279,21 @@ void CZFreehandTool::paintFittedPoints()
 
 void CZFreehandTool::paintPath(CZPath &path) 
 {
-	path.ptrBrush = this->ptrBrush;//CZActiveState::getInstance()->brush;
-	//path.color = CZColor[WDActiveState sharedInstance].paintColor;
-	//path.action = eraseMode ? WDPathActionErase : WDPathActionPaint;
-
-	CZRandom *randomizer = NULL;
+	path.ptrBrush = CZActiveState::getInstance()->brush;
+	path.color = CZActiveState::getInstance()->paintColor;
+	path.action = eraseMode ? CZPathActionErase : CZPathActionPaint;
 
 	if (clearBuffer)
 	{
 		// depends on the path's brush
-		randomizer = path.getRandomizer();
+		ptrRandomizer = path.getRandomizer();
 		lastRemainder = 0.f;
 	}
 
 	path.remainder = lastRemainder;
+	path.setClosed(false);
 
-	CZRect pathBounds;// = [canvas.painting paintStroke:path randomizer:randomizer clear:clearBuffer];
-	
-	///! 测试用
-	{
-		/// 设置投影环境
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0.0f, (GLfloat) SIZE, 0.0f, 
-			(GLfloat) SIZE, -1.0f, 1.0f);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-		/// 设置轨迹参数
-		path.setClosed(false);
-//		path.ptrShader = brushShader;		///< !没有必要
-
-
-		/// 配置绘制器
-		render.ptrShader = brushShader;
-
-		/// 绑定纹理
-		CZImage *stamp = ptrBrush->generator->getStamp();
-		CZTexture *stampTex = CZTexture::produceFromImage(stamp);
-		glBindTexture(GL_TEXTURE_2D,stampTex->id);
-		
-		render.begin();
-
-		CZMat4 proj;
-		proj.SetOrtho(0.0f, SIZE, 0.0f, SIZE, -1.0f, 1.0f);
-
-		glUniform1i(brushShader->getUniformLocation("texture"),0);
-		glUniformMatrix4fv(brushShader->getUniformLocation("mvpMat"),1,GL_FALSE,proj);
-		CZCheckGLError();
-
-
-		/// 绘制轨迹
-		vertexData *data;
-		unsigned int dataNum;
-		path.getPaintData(path.getRandomizer(),dataNum,data);
-		render.drawPathData(data,dataNum);
-		delete [] data;
-
-		render.end();
-
-		delete stampTex;
-	}
+	CZRect pathBounds = ptrPainting->paintStroke(&path,ptrRandomizer,clearBuffer);
 
 	strokeBounds.unionWith(pathBounds);
 	lastRemainder = path.remainder;
