@@ -24,6 +24,7 @@
 #include "CZCommon.h"
 #include "CZColor.h"
 #include "CZCoding.h"
+#include "CZRender.h"
 #include <vector>
 
 typedef enum 
@@ -45,8 +46,8 @@ public:
 	/// 获取首尾结点
 	CZBezierNode firstNode();
 	CZBezierNode lastNode();
-	/// 生成轨迹的绘制数据（返回所有数据的范围）
-	CZRect getPaintData(CZRandom *randomizer_,unsigned int &dataNum, vertexData* &data);
+	/// 绘制轨迹（返回所有数据的范围）
+	CZRect paintPath(CZRender *render,CZRandom *randomizer_);
 	/// 设置闭合
 	void setClosed(bool closed_);
 	/// 设置笔刷
@@ -59,11 +60,11 @@ public:
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 private:
-	/// 生成绘制数据
+	/// 绘制数据
 	/// 
-	///		以最小粒度的离散点(points_)为中心，形成小矩形。并将此矩形数据返回。
+	///		以最小粒度的离散点(points_)为中心，形成小矩形，委托render绘制，并将此矩形数据返回。
 	///
-	CZRect drawData(unsigned int &dataNum, vertexData* &data);
+	CZRect drawData();
 	
 	/// 绘制一个stamp点
 	void paintStamp(CZRandom *randomizer);
@@ -102,6 +103,8 @@ private:
 	std::vector<float>		sizes;
 	std::vector<float>		angles;
 	std::vector<float>		alphas;
+
+	CZRender				*ptrRender;					///< 用于内部信息传递，指向绘制器						
 };
 
 /*

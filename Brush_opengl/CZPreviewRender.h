@@ -36,10 +36,6 @@ public:
 	void clearBrush();
 
 private:
-	/// 绘制轨迹数据（利用图形接口）
-	void drawPathData(vertexData *data, unsigned int n);
-
-private:
 	CZShader		*brushShader;
 	CZTexture		*brushTexture;
 	CZMat4			projMat;		///< 绘制的投影矩阵

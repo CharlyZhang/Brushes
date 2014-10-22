@@ -145,6 +145,7 @@
     <ClCompile Include="CZPath.cpp" />
     <ClCompile Include="CZPreviewRender.cpp" />
     <ClCompile Include="CZProperty.cpp" />
+    <ClCompile Include="CZRender.cpp" />
     <ClCompile Include="CZShader.cpp" />
     <ClCompile Include="CZSpiralGenerator.cpp" />
     <ClCompile Include="CZStampGenerator.cpp" />

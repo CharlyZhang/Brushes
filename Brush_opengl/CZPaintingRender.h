@@ -65,8 +65,6 @@ public:
 	void resize(const CZSize &size);
 	/// 更换笔刷纹理
 	void changeBrushTex(CZBrush *brush);
-	/// 绘制轨迹数据（利用图形接口）
-	void drawPathData(vertexData *data, unsigned int n);
 	/// 获取绘制用纹理
 	CZTexture* getPaintTexture();
 

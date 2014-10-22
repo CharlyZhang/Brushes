@@ -21,7 +21,13 @@
 #include <map>
 #include <string>
 
-
+/// 定义CZPath最终绘制数据格式
+typedef struct 
+{
+	GLfloat     x, y;
+	GLfloat     s, t;
+	GLfloat     a;
+} vertexData;
 
 class CZRender
 {
@@ -34,25 +40,14 @@ public:
 		kBlendModeExclusion
 	};
 
-	CZRender()
-	{
-		/*
-		self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+	CZRender();
+	~CZRender();
 
-		if (!context || ![EAGLContext setCurrentContext:context]) {
-		return nil;
-		}
-		*/
-	};
-	~CZRender()
-	{
-	};
 	/// 设置当前上下文
-	void setContext()
-	{
-		//如果不存在，则生成，并设置为当前
-	};
+	void setContext();
 
+	/// 绘制轨迹数据
+	void drawPathData(unsigned int n, vertexData *data);
 public:
 	int width, height;
 	CZFbo fbo;

@@ -12,13 +12,7 @@
 #ifndef _CZCOMMON_H_
 #define _CZCOMMON_H_
 
-/// 定义CZPath最终绘制数据格式
-typedef struct 
-{
-	GLfloat     x, y;
-	GLfloat     s, t;
-	GLfloat     a;
-} vertexData;
+
 
 
 #endif
