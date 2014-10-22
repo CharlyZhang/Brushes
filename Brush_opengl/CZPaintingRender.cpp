@@ -129,6 +129,10 @@ CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer,
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	}
 	// use shader program
 	CZShader *shader = shaders["brush"];
 	shader->begin();

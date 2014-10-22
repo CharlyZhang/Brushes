@@ -110,20 +110,11 @@ void CZFreehandTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 		pointsToFit[0].anchorPoint.z = pressure;
 		pointsToFit[0].outPoint.z = pressure;
 		firstEver = false;
-#if CZ_DEBUG
-		std::cout << "0 - " << pressure << std::endl;
-#endif
 	} 
 	else if (pointsIndex != 0)
 	{
-#if CZ_DEBUG
-		std::cout << pointsIndex-1 << " - " << pressure << std::endl;
-#endif
 		// average out the pressures
 		pressure = (pressure + pointsToFit[pointsIndex - 1].anchorPoint.z) / 2;
-#if CZ_DEBUG
-		std::cout << pointsIndex-1 << " - " << pressure << std::endl;
-#endif
 	}
 
 	pointsToFit[pointsIndex++] = CZBezierNode(location,pressure);
@@ -133,11 +124,6 @@ void CZFreehandTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 	{
 		// since we just incremented pointsIndex (it was really just 2)
 		averagePointsBetween(1,2);     
-#if CZ_DEBUG
-		std::cout << "averagePointsBetween(1,2)" << std::endl;
-		for(int i=0; i<pointsIndex; i++)
-			std::cout << pointsToFit[i].anchorPoint << std::endl;
-#endif
 	}
 
 	if (pointsIndex == 5) 
