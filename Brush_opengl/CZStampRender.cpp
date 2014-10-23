@@ -32,6 +32,7 @@ CZStampRender::CZStampRender()
 	uniforms.push_back("mvpMat");
 	shader = new CZShader("stamp.vert","stamp.frag",attributes,uniforms);
 
+	CZCheckGLError();
 }
 CZStampRender::~CZStampRender()
 {
@@ -57,9 +58,9 @@ CZImage *CZStampRender::drawStamp()
 	fbo.begin();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
 	shader->begin();
-	
+
 	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 	ptrGenerator->renderStamp();
 

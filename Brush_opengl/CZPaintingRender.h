@@ -37,7 +37,7 @@ public:
 	~CZPaintingRender();
 
 	/// 绘制某区域内视图（到屏幕）- for CZCanvas
-	void drawViewInRect(const CZRect &rect);
+	void drawViewInRect(/*const CZRect &rect*/);
 
 	/// 生成当前绘制状态的图像	- for CZPainting
 	CZImage *drawPaintingCurrentState(CZColor *bgColor, std::vector<CZLayer*> &layers);

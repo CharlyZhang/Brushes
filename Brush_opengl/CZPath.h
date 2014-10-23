@@ -39,6 +39,8 @@ class CZPath : public CZCoding
 public:
 	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
 	~CZPath();
+	/// 初始化
+	void initital();
 	/// 设置所有结点
 	void setNodes(const std::vector<CZBezierNode> &nodes_);
 	/// 添加结点

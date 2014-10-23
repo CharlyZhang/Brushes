@@ -225,7 +225,9 @@ void CZFreehandTool::paintFittedPoints()
 	}
 
 	/// 生成一个轨迹path
-	CZPath path;
+	static CZPath path;
+	path.initital();
+
 	path.limitBrushSize = true;
 
 	for (int i = 0; i <= drawBound; i++) 
@@ -275,7 +277,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 	lastRemainder = path.remainder;
 
 	//[canvas drawViewInRect:pathBounds];
-	ptrPainting->
+	//ptrPainting->drawViewInRect();
 
 	clearBuffer = false;
 }

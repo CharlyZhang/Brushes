@@ -159,6 +159,9 @@
     <ClCompile Include="CZRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="blit.frag" />
+    <None Include="blit.vert" />
+    <None Include="blitWithMask.frag" />
     <None Include="Brush_opengl.vcxproj.user" />
     <None Include="memo.txt" />
     <None Include="brush.frag" />

@@ -18,18 +18,13 @@
  
 CZPath::CZPath(std::vector<CZBezierNode> *nodes_ /* = NULL */)
 {
-	nodes.clear();
+	initital();
+
 	if(nodes_ != NULL)
 	{
 		int n = nodes_->size();
 		for(int i=0; i<n; i++) nodes.push_back((*nodes_)[i]);
 	}
-
-	ptrBrush = NULL;
-	scale = 1.0f;
-	remainder = 0.0f;
-	limitBrushSize = false;
-	boundsDirty = true;
 }
 CZPath::~CZPath()
 {
@@ -38,6 +33,17 @@ CZPath::~CZPath()
 	sizes.clear();
 	angles.clear();
 	alphas.clear();
+}
+
+/// 初始化
+void CZPath::initital()
+{
+	nodes.clear();
+	ptrBrush = NULL;
+	scale = 1.0f;
+	remainder = 0.0f;
+	limitBrushSize = false;
+	boundsDirty = true;
 }
 
 /// 设置所有结点

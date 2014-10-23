@@ -63,7 +63,6 @@ void printProgramInfoLog(GLuint obj);
 
 CZShader::CZShader(const char* vertFileName, const char* fragFileName)
 {
-	this->useGLSL = false;
 	initOpenGLExtensions();
 
 	this->m_VertexShader = NULL;
@@ -115,7 +114,6 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName)
 CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	vector<string>& attributes, vector<string>& uniforms)
 {
-	this->useGLSL = false;
 	initOpenGLExtensions();
 
 	this->m_VertexShader = NULL;
@@ -221,7 +219,7 @@ bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
 	if(count<=0)
 		return false;
 
-	_shader = new GLchar[count];
+	_shader = new GLchar[count+1];
 	count = fread(_shader,sizeof(GLchar),count,fp);
 	_shader[count] = '\0';
 	fclose(fp);
@@ -373,7 +371,8 @@ void printShaderInfoLog(GLuint obj)
 	{
 		infoLog = (char *)malloc(infologLength);
 		glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
-		printf("%s\n",infoLog);
+		//printf("%s\n",infoLog);
+		std::cout << infoLog << std::endl;
 		free(infoLog);
 	}
 }

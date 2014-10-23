@@ -60,8 +60,8 @@ CZPaintingRender::~CZPaintingRender()
 		delete itr->second;
 	shaders.clear();
 	/// 删除图层纹理
-	/*for(map<CZLayer*,CZTexture*>::iterator itr = layerTextures.begin(); itr!=layerTextures.end(); itr++)
-		delete itr->second;*/
+	for(map<CZLayer*,CZTexture*>::iterator itr = layerTextures.begin(); itr!=layerTextures.end(); itr++)
+		delete itr->second;
 	layerTextures.clear();
 	/// 删除图层色调/浓度/亮度纹理
 	/*for(map<CZLayer*,CZTexture*>::iterator itr = layerHueChromaLumaTex.begin(); itr!=layerHueChromaLumaTex.end(); itr++)
@@ -70,11 +70,12 @@ CZPaintingRender::~CZPaintingRender()
 };
 
 /// 绘制某区域内视图（到屏幕）- for CZCanvas
-void CZPaintingRender::drawViewInRect(const CZRect &rect)
+void CZPaintingRender::drawViewInRect(/*const CZRect &rect*/)
 {
 	setContext();
-	float scale = [UIScreen mainScreen].scale;
+	//float scale = [UIScreen mainScreen].scale;
 
+	/*
 	[EAGLContext setCurrentContext:self.context];
 
 	glBindFramebuffer(GL_FRAMEBUFFER, mainRegion.framebuffer);
@@ -88,9 +89,12 @@ void CZPaintingRender::drawViewInRect(const CZRect &rect)
 		glEnable(GL_SCISSOR_TEST);
 	}
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	*/
+	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// 为了模拟填充白色底板
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	/*
 	// handle viewing matrices
 	GLfloat proj[16], effectiveProj[16], final[16];
 	// setup projection matrix (orthographic)        
@@ -101,12 +105,14 @@ void CZPaintingRender::drawViewInRect(const CZRect &rect)
 
 	[self drawWhiteBackground:final];
 
+	*/
 	// ask the painter to render
-	[self.painting blit:final];
+	//[self.painting blit:final];
+	ptrPainting->blit(projectionMat);
 
 	// restore blending functions
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
+/*
 	if (photoPlacementMode_) {
 		[self renderPhoto:final withTransform:photoTransform_];
 	}
@@ -129,6 +135,7 @@ void CZPaintingRender::drawViewInRect(const CZRect &rect)
 	WDCheckGLError();
 
 	self.dirtyRect = CGRectZero;
+	*/
 }
 
 /// 生成Painting当前状态的图像
@@ -318,12 +325,16 @@ void CZPaintingRender::drawLayerWithMask(CZMat4 &projection,CZColor *bgColor)
 	CZShader *shader = shaders["blitWithMask"];
 	shader->begin();
 
+	CZCheckGLError();
+
 	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
 	glUniform1i(shader->getUniformLocation("texture"), 0);
 	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
 	glUniform4f(shader->getUniformLocation("color"), bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
 	glUniform1i(shader->getUniformLocation("mask"), 1);
 	glUniform1i(shader->getUniformLocation("lockAlpha"), ptrLayer->alphaLocked);
+
+	CZCheckGLError();
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
@@ -551,14 +562,28 @@ uniformNames:uniforms];
 	attributes.push_back("inPosition");
 	attributes.push_back("inTexcoord");
 	attributes.push_back("alpha");
-	
 	vector<string> uniforms;
 	uniforms.push_back("mvpMat");
 	uniforms.push_back("texture");
 
 	CZShader *shader = new CZShader("brush.vert","brush.frag",attributes,uniforms);
-
 	shaders.insert(make_pair("brush",shader));
+
+	attributes.clear();
+	attributes.push_back("inPosition");
+	attributes.push_back("inTexcoord");
+	uniforms.clear();
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("texture");
+	uniforms.push_back("opacity");
+	uniforms.push_back("mask");
+	uniforms.push_back("color");
+	uniforms.push_back("lockAlpha");
+
+	shader = new CZShader("blit.vert","blitWithMask.frag",attributes,uniforms);
+	shaders.insert(make_pair("blitWithMask",shader));
+
+	CZCheckGLError();
 }
 
 /// 配置混合模式
@@ -637,12 +662,12 @@ CZTexture* CZPaintingRender::getLayerTexture(CZLayer* layer)
 {
 	pair<map<CZLayer*,CZTexture*>::iterator, bool> ret;  
 
-//	ret = layerTextures.insert(make_pair(layer,NULL));
+	ret = layerTextures.insert(make_pair(layer,(CZTexture*)NULL));
 
 	if(ret.second)	
 	{	
 		/// 生成图层纹理
-		CZTexture *tex = CZTexture::produceFromImage(layer->image);
+		CZTexture *tex = new CZTexture(width,height);//CZTexture::produceFromImage(layer->image);
 		ret.first->second = tex;
 	}
 

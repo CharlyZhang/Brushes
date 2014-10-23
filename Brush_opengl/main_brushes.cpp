@@ -35,6 +35,7 @@ FILE *fp2 = freopen("../error.txt","w",stderr);
 #if RENDER_FREEHAND
 	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
 	CZPainting *painting  = NULL;
+	CZLayer *layer = NULL;
 #endif
 
 int windowWidth = 600, windowHeight = 600;
@@ -178,6 +179,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #if RENDER_FREEHAND
 	freeHand = new CZFreehandTool;
 	painting = new CZPainting(CZSize(windowWidth,windowHeight));
+	layer = new CZLayer();
+	painting->addLayer(layer);
 	freeHand->ptrPainting = painting;
 #endif
 
@@ -198,6 +201,7 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 
 GLvoid DrawGLScene(GLvoid)
 {
+	/*
 #if BRUSH_TEX
 	glClearColor(0.0,0.0,0.0,1.0);
 #else
@@ -208,7 +212,7 @@ GLvoid DrawGLScene(GLvoid)
 	glColor4f(1.0,1.0,1.0,1.0);	///< 参与片段颜色的混合
 	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_TEXTURE_2D);
-
+	
 #if RENDER_FREEHAND
 	glBindTexture(GL_TEXTURE_2D,painting->render->getPaintTexture()->id);
 #endif
@@ -227,7 +231,8 @@ GLvoid DrawGLScene(GLvoid)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+	*/
+	painting->render->drawViewInRect();
 	//glutSwapBuffers();
 
 	checkForError("swap");
@@ -569,6 +574,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 #if RENDER_FREEHAND
 				if(freeHand) {	delete freeHand; freeHand = NULL;}
 				if(painting) {  delete painting; painting = NULL;}
+				if(layer)	 {  delete layer;	 layer = NULL;}
 #endif
 				break;
 			}

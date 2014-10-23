@@ -210,7 +210,7 @@ void CZPainting::insertLayer(int idx, CZLayer *layer)
 {
 	//[[undoManager_ prepareWithInvocationTarget:self] removeLayer:layer];
 
-	//	layers.insert(idx,layer);
+	layers.insert(layers.begin()+idx,layer);
 	if (!isSuppressingNotifications()) 
 	{
 		//NSDictionary *userInfo = @{@"layer": layer, @"rect": [NSValue valueWithCGRect:self.bounds]};
