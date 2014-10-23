@@ -18,9 +18,6 @@
 #define kSpeedFactor                3
 #define kBezierInterpolationSteps   5
 
-/// !测试用
-#define SIZE	600
-
 using namespace  std;
 
 CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
@@ -30,13 +27,12 @@ CZFreehandTool::CZFreehandTool(bool supportPressure /* = false */)
 	lastRemainder = 0.0f;
 	ptrRandomizer = NULL;
 
-	ptrPainting = new CZPainting(CZSize(SIZE,SIZE));
+	ptrPainting = NULL;
 
 	eraseMode = false;
 }
 CZFreehandTool::~CZFreehandTool()
 {
-	if(ptrPainting) {delete ptrPainting; ptrPainting=0;}
 }
 
 /// 开始移动
@@ -208,12 +204,6 @@ void CZFreehandTool::paintFittedPoints()
 
 	averagePointsBetween(2, loopBound);
 
-#if CZ_DEBUG
-	std::cout << "averagePointsBetween(2,loopBound)" << loopBound << std::endl;
-	for(int i=0; i<pointsIndex; i++)
-		std::cout << pointsToFit[i].anchorPoint << std::endl;
-#endif
-
 	/// 计算除首尾点外其他点的，入射控制点和出射控制点。
 	for (int i = 1; i < loopBound; i++) 
 	{
@@ -285,6 +275,7 @@ void CZFreehandTool::paintPath(CZPath &path)
 	lastRemainder = path.remainder;
 
 	//[canvas drawViewInRect:pathBounds];
+	ptrPainting->
 
 	clearBuffer = false;
 }

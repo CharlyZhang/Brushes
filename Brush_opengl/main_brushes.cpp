@@ -34,6 +34,7 @@ FILE *fp2 = freopen("../error.txt","w",stderr);
 
 #if RENDER_FREEHAND
 	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
+	CZPainting *painting  = NULL;
 #endif
 
 int windowWidth = 600, windowHeight = 600;
@@ -176,6 +177,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 
 #if RENDER_FREEHAND
 	freeHand = new CZFreehandTool;
+	painting = new CZPainting(CZSize(windowWidth,windowHeight));
+	freeHand->ptrPainting = painting;
 #endif
 
 	return true;
@@ -207,7 +210,7 @@ GLvoid DrawGLScene(GLvoid)
 	glEnable(GL_TEXTURE_2D);
 
 #if RENDER_FREEHAND
-	glBindTexture(GL_TEXTURE_2D,freeHand->ptrPainting->render->getPaintTexture()->id);
+	glBindTexture(GL_TEXTURE_2D,painting->render->getPaintTexture()->id);
 #endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
@@ -565,6 +568,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				glDeleteBuffers(1,&mTexCoordBufferObject);
 #if RENDER_FREEHAND
 				if(freeHand) {	delete freeHand; freeHand = NULL;}
+				if(painting) {  delete painting; painting = NULL;}
 #endif
 				break;
 			}

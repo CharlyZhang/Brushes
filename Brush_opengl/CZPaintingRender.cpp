@@ -69,6 +69,68 @@ CZPaintingRender::~CZPaintingRender()
 	layerHueChromaLumaTex.clear();
 };
 
+/// 绘制某区域内视图（到屏幕）- for CZCanvas
+void CZPaintingRender::drawViewInRect(const CZRect &rect)
+{
+	setContext();
+	float scale = [UIScreen mainScreen].scale;
+
+	[EAGLContext setCurrentContext:self.context];
+
+	glBindFramebuffer(GL_FRAMEBUFFER, mainRegion.framebuffer);
+	glViewport(0, 0, mainRegion.width, mainRegion.height);
+
+	if (WDCanUseScissorTest()) {
+		CGRect scissorRect = [self convertRectFromDocument:rect];
+		scissorRect = WDMultiplyRectScalar(scissorRect, scale);
+		scissorRect = CGRectIntegral(scissorRect);
+		glScissor(scissorRect.origin.x, scissorRect.origin.y, scissorRect.size.width, scissorRect.size.height);
+		glEnable(GL_SCISSOR_TEST);
+	}
+
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// handle viewing matrices
+	GLfloat proj[16], effectiveProj[16], final[16];
+	// setup projection matrix (orthographic)        
+	mat4f_LoadOrtho(0, mainRegion.width / scale, 0, mainRegion.height / scale, -1.0f, 1.0f, proj);
+
+	mat4f_LoadCGAffineTransform(effectiveProj, canvasTransform_);
+	mat4f_MultiplyMat4f(proj, effectiveProj, final);
+
+	[self drawWhiteBackground:final];
+
+	// ask the painter to render
+	[self.painting blit:final];
+
+	// restore blending functions
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+	if (photoPlacementMode_) {
+		[self renderPhoto:final withTransform:photoTransform_];
+	}
+
+	WDShader *blitShader = [self.painting getShader:@"straightBlit"];
+	[WDShadowQuad configureBlit:final withShader:blitShader];
+	for (WDShadowQuad *shadowSegment in self.shadowSegments) {
+		[shadowSegment blitWithScale:self.scale];
+	}
+
+	if (DEBUG_DIRTY_RECTS) {
+		WDColor *randomColor = [WDColor randomColor];
+		glClearColor(randomColor.red, randomColor.green, randomColor.blue, 0.5f);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+	glDisable(GL_SCISSOR_TEST);
+
+	[mainRegion present];
+
+	WDCheckGLError();
+
+	self.dirtyRect = CGRectZero;
+}
+
 /// 生成Painting当前状态的图像
 CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor, std::vector<CZLayer*> &layers)
 {

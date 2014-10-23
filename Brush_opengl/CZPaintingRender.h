@@ -36,10 +36,12 @@ public:
 	CZPaintingRender(const CZSize &size);
 	~CZPaintingRender();
 
+	/// 绘制某区域内视图（到屏幕）- for CZCanvas
+	void drawViewInRect(const CZRect &rect);
 
 	/// 生成当前绘制状态的图像	- for CZPainting
 	CZImage *drawPaintingCurrentState(CZColor *bgColor, std::vector<CZLayer*> &layers);
-	/// 绘制一笔轨迹
+	/// 绘制一笔轨迹			- for CZPainting
 	CZRect drawPaintingStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer);
 
 	/// 生成当前图层图像		- for CZLayer
@@ -89,7 +91,7 @@ public:
 private:
 	std::map<std::string,CZShader*>	shaders;///< 着色器
 	GLuint quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
-	CZTexture *activePaintTexture;			///< 绘制用的纹理
+	CZTexture *activePaintTexture;			///< 绘制用的纹理	- painting
 	CZMat4					projectionMat;	///< 投影矩阵
 	std::map<CZLayer*,CZTexture*> layerTextures;			///< 各层的纹理（避免反复生成纹理）
 	std::map<CZLayer*,CZTexture*> layerHueChromaLumaTex;	///< 各层的色调/浓度/亮度纹理（避免反复生成纹理）

@@ -76,10 +76,18 @@
 	2.! 收获：传uniform变量之前，必须要use该shader的程序。
 	3.! 收获：对于pc上的glsl的顶点属性数据传输，用VAO没有问题，用属性数组不能传递位置数据。
 	4.! render还是主要采用委托模式，即painting,layer等都有自己的绘制动作，只是将其委托给render绘制。
-	5.? 需要按照上述思想，重新改回path，其也应该有独立的绘制动作，可以考虑通过函数重载接受两种不同的render。
+	5.! 需要按照上述思想，重新改回path，其也应该有独立的绘制动作，可以考虑通过函数重载接受两种不同的render。
 	6.! 收获：被委托者作为参数出现，委托者调用被委托者时可以将自己赋值给被委托者的内部指针，便于被委托者获取外部数据。
 
 2014年10月22日21:44:25
 	1.! 重新编写三个render，将平台相关的绘制代码归于其中。
 	2.! 实现了用painting等参与的freetool.
 	3.! 将path的绘制功能恢复，仍然采用委托模型。
+
+2014年10月23日18:27:15
+	1.! 思路：freehand将点收集，形成path；利用painting将轨迹绘制到activePaintTexture;
+	2.! 思路：最终绘制时调用painting的blit，painting将当前的轨迹activePaintTexture带颜色地合并（添加或擦除）
+			到当前层activeLayer,同时遍历所有layer,将其texture混合出来。
+	3.? layer的commitStroke中会用textureName纹理同时做输入输出，按照es文档上说这会导致不确定性。
+	4.! 思路：painting将轨迹绘制到activePaintTexture后，会通过NotificationCenter让canvas定时刷新view,
+			调用drawViewInRect将轨迹绘制到屏幕上。在鼠标弹起后，layer调用commitStroke将轨迹融合到其texture中。
