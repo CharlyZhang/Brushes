@@ -58,6 +58,8 @@ public:
 	void drawLayerWithcolorBalance(CZMat4 &projection, CZColorBalance *colorBalance);
 	/// 将Layer的纹理带色彩调整后绘制	- for CZLayer
 	void drawLayerWithhueSaturation(CZMat4 &projection, CZHueSaturation *hueSaturation);
+	/// 将绘制的轨迹合并到当前图层		- for CZLayer
+	void composeActivePaintTexture(CZColor &color,bool erase);
 
 	/// 清除图层的色调/浓度/亮度纹理
 	void clearLayerHCLTexture(CZLayer *layer);

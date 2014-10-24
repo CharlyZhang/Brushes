@@ -163,6 +163,8 @@
     <None Include="blit.vert" />
     <None Include="blitWithMask.frag" />
     <None Include="Brush_opengl.vcxproj.user" />
+    <None Include="compositeWithEraseMask.frag" />
+    <None Include="compositeWithMask.frag" />
     <None Include="memo.txt" />
     <None Include="brush.frag" />
     <None Include="brush.vert" />

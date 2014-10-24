@@ -55,15 +55,16 @@ public:
 	/// 添加图层
 	void addLayer(CZLayer *layer);
 
+	/// 开始抑制消息发送
+	void beginSuppressingNotifications();
+	/// 结束抑制消息发送
+	void endSuppressingNotifications();
+
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 
 private:
-	/// 开始抑制消息发送
-	void beginSuppressingNotifications();
-	/// 结束抑制消息发送
-	void endSuppressingNotifications();
 	/// 获得图层在所有图层中的标号，不存在返回负值
 	int indexOfLayers(CZLayer *layer);
 

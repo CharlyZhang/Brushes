@@ -91,3 +91,7 @@
 	3.? layer的commitStroke中会用textureName纹理同时做输入输出，按照es文档上说这会导致不确定性。
 	4.! 思路：painting将轨迹绘制到activePaintTexture后，会通过NotificationCenter让canvas定时刷新view,
 			调用drawViewInRect将轨迹绘制到屏幕上。在鼠标弹起后，layer调用commitStroke将轨迹融合到其texture中。
+
+2014年10月24日14:04:59
+	1.!	解决绘制笔画到屏幕时的黑屏问题。
+	2.! 完成将绘制笔画合并到图层以及图层到屏幕的绘制。

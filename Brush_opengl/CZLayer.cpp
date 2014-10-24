@@ -84,6 +84,8 @@ void CZLayer::blit(CZPaintingRender* ptrRender, CZMat4 &projection)
 		ptrRender->drawLayerWithcolorBalance(projection,colorBalance);
 	else if(hueSaturation)
 		ptrRender->drawLayerWithhueSaturation(projection,hueSaturation);
+	else
+		ptrRender->drawLayer(projection);
 }
 /// 叠加擦除纹理
 void CZLayer::blitWithEraseMask(CZPaintingRender* ptrRender, CZMat4 &projection)
@@ -96,6 +98,37 @@ void CZLayer::blitWithMask(CZPaintingRender* ptrRender, CZMat4 &projection,CZCol
 {
 	ptrRender->ptrLayer = this;
 	ptrRender->drawLayerWithMask(projection,bgColor);
+}
+
+/// 将绘制的笔画合并到当前图层
+void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable)
+{
+	//if (undoable) [self registerUndoInRect:bounds];
+
+	ptrPainting->beginSuppressingNotifications();
+
+	isSaved = kSaveStatusUnsaved;
+
+	CZPaintingRender * render = ptrPainting->render;
+
+	render->ptrLayer = this;
+
+	render->composeActivePaintTexture(color,erase);
+/*
+	[self invalidateThumbnail];
+
+	if (!self.isSuppressingNotifications) {
+		NSDictionary *userInfo = @{@"layer": self,
+			@"rect": [NSValue valueWithCGRect:bounds]};
+
+		[[NSNotificationCenter defaultCenter] postNotificationName:WDLayerContentsChangedNotification
+object:self.painting
+userInfo:userInfo];
+	}
+
+*/
+
+	ptrPainting->endSuppressingNotifications();
 }
 
 /// 设置转换矩阵

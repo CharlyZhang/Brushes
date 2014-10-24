@@ -166,13 +166,14 @@ void CZFreehandTool::moveEnd(CZ2DPoint &p_)
 			changeDocument(painting, [WDAddPath addPath:accumulatedPath erase:eraseMode layer:painting.activeLayer sourcePainting:painting]);
 		}
 	}
-
-	if (CGRectIntersectsRect(strokeBounds_, painting.bounds)) {
-		[painting.activeLayer commitStroke:strokeBounds_ color:color erase:eraseMode undoable:YES];
-	}
-
-	painting.activePath = NULL;
 	*/
+	//if (CGRectIntersectsRect(strokeBounds_, painting.bounds)) {
+	//	[painting.activeLayer commitStroke:strokeBounds_ color:color erase:eraseMode undoable:YES];
+	//}
+	ptrPainting->ptrActiveLayer->commitStroke(strokeBounds,color,eraseMode,true);
+
+	ptrPainting->ptrActivePath = NULL;
+	
 	CZTool::moveEnd(p_);
 }
 

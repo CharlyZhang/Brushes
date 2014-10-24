@@ -201,7 +201,7 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 
 GLvoid DrawGLScene(GLvoid)
 {
-	painting->render->drawViewInRect();
+	painting->render->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
 	return;
 
 #if BRUSH_TEX

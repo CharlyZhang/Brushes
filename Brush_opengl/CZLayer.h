@@ -34,6 +34,7 @@ extern std::string CZLayerThumbnailChangedNotification;   // LayerThumbnailChang
 extern std::string CZLayerTransformChangedNotification;   // LayerTransformChangedNotification";
 
 class CZPainting;
+class CZRect;
 
 class CZLayer : public CZCoding
 {
@@ -50,6 +51,8 @@ public:
 	void blitWithEraseMask(CZPaintingRender* ptrRender, CZMat4 &projection);
 	/// 叠加绘制纹理
 	void blitWithMask(CZPaintingRender* ptrRender, CZMat4 &projection,CZColor *bgColor);
+	/// 将绘制的笔画合并到当前图层
+	void commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable);
 
 	/// 设置转换矩阵
 	void setTransform(CZAffineTransform &trans);

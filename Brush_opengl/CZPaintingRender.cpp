@@ -519,6 +519,58 @@ void CZPaintingRender::drawLayerWithhueSaturation(CZMat4 &projection, CZHueSatur
 
 	shader->end();
 }
+/// 将绘制的轨迹合并到当前图层		- for CZLayer
+void CZPaintingRender::composeActivePaintTexture(CZColor &color,bool erase)
+{
+	CZTexture *tex =  getLayerTexture(ptrLayer);
+	
+	fbo.setTexture(tex);
+
+	fbo.begin();
+
+	CZShader *shader = erase ? shaders["compositeWithEraseMask"] : shaders["compositeWithMask"];
+
+	shader->begin();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tex->id);
+	// temporarily turn off linear interpolation to work around "emboss" bug
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
+
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1i(shader->getUniformLocation("mask"), 1);
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projectionMat);
+	glUniform1i(shader->getUniformLocation("lockAlpha"), ptrLayer->alphaLocked);
+
+	if (!erase) 
+	{
+		glUniform4f(shader->getUniformLocation("color"), color.red, color.green, color.blue, color.alpha);
+	}
+
+	glBlendFunc(GL_ONE, GL_ZERO);
+
+	//glBindVertexArrayOES(self.painting.quadVAO);
+	glBindVertexArray(getQuadVAO());
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	// unbind VAO
+	//glBindVertexArrayOES(0);
+	glBindVertexArray(0);
+
+	// turn linear interpolation back on
+	glBindTexture(GL_TEXTURE_2D, tex->id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	CZCheckGLError();
+
+	fbo.end();
+
+	fbo.setTexture(getPaintTexture());
+
+}
 
 /// 载入着色器
 void CZPaintingRender::loadShaders()
@@ -553,7 +605,7 @@ uniformNames:uniforms];
 
 	shaders = tempShaders;
 #endif
-	/// ！暂时只载入一个shader
+	/// 笔刷shader
 	vector<string> attributes;
 	attributes.push_back("inPosition");
 	attributes.push_back("inTexcoord");
@@ -565,6 +617,7 @@ uniformNames:uniforms];
 	CZShader *shader = new CZShader("brush.vert","brush.frag",attributes,uniforms);
 	shaders.insert(make_pair("brush",shader));
 
+	/// 将图层和绘制笔画输出到屏幕
 	attributes.clear();
 	attributes.push_back("inPosition");
 	attributes.push_back("inTexcoord");
@@ -579,6 +632,36 @@ uniformNames:uniforms];
 	shader = new CZShader("blit.vert","blitWithMask.frag",attributes,uniforms);
 	shaders.insert(make_pair("blitWithMask",shader));
 
+	/// 将图层纹理绘制出来
+	uniforms.clear();
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("texture");
+	uniforms.push_back("opacity");
+
+	shader = new CZShader("blit.vert","blit.frag",attributes,uniforms);
+	shaders.insert(make_pair("blit",shader));
+
+	/// 合并绘制笔画到图层
+	uniforms.clear();
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("texture");
+	uniforms.push_back("mask");
+	uniforms.push_back("color");
+	uniforms.push_back("lockAlpha");
+
+	shader = new CZShader("blit.vert","compositeWithMask.frag",attributes,uniforms);
+	shaders.insert(make_pair("compositeWithMask",shader));
+
+	/// 合并擦除笔画到图层
+	uniforms.clear();
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("texture");
+	uniforms.push_back("mask");
+	uniforms.push_back("lockAlpha");
+
+	shader = new CZShader("blit.vert","compositeWithEraseMask.frag",attributes,uniforms);
+	shaders.insert(make_pair("compositeWithEraseMask",shader));
+	
 	CZCheckGLError();
 }
 
