@@ -201,7 +201,9 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 
 GLvoid DrawGLScene(GLvoid)
 {
-	/*
+	painting->render->drawViewInRect();
+	return;
+
 #if BRUSH_TEX
 	glClearColor(0.0,0.0,0.0,1.0);
 #else
@@ -214,6 +216,7 @@ GLvoid DrawGLScene(GLvoid)
 	glEnable(GL_TEXTURE_2D);
 	
 #if RENDER_FREEHAND
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,painting->render->getPaintTexture()->id);
 #endif
 
@@ -231,8 +234,7 @@ GLvoid DrawGLScene(GLvoid)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	*/
-	painting->render->drawViewInRect();
+	
 	//glutSwapBuffers();
 
 	checkForError("swap");

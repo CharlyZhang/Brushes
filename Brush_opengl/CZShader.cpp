@@ -146,7 +146,7 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	glAttachShader(m_Program,m_Frag);
 
 	//绑定属性名
-	for(int i=0; i<attributes.size(); i++)
+	for(unsigned int i=0; i<attributes.size(); i++)
 	{
 		glBindAttribLocation(m_Program, (GLuint) i, (const GLchar*) attributes[i].c_str());
 		CHECK_GL_ERROR();
@@ -157,7 +157,7 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	printProgramInfoLog(m_Program);
 
 	//绑定uniform对象
-	for(int i=0; i<uniforms.size(); i++)
+	for(unsigned int i=0; i<uniforms.size(); i++)
 	{
 		GLuint location = glGetUniformLocation(m_Program, uniforms[i].c_str());
 		CHECK_GL_ERROR();

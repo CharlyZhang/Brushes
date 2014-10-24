@@ -25,7 +25,6 @@ using namespace  std;
 CZPaintingRender::CZPaintingRender(const CZSize &size)
 {
 	// create context
-
 	quadVAO = 0;
 	quadVBO = 0;
 	
@@ -108,6 +107,7 @@ void CZPaintingRender::drawViewInRect(/*const CZRect &rect*/)
 	*/
 	// ask the painter to render
 	//[self.painting blit:final];
+
 	ptrPainting->blit(projectionMat);
 
 	// restore blending functions
@@ -325,16 +325,12 @@ void CZPaintingRender::drawLayerWithMask(CZMat4 &projection,CZColor *bgColor)
 	CZShader *shader = shaders["blitWithMask"];
 	shader->begin();
 
-	CZCheckGLError();
-
 	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
 	glUniform1i(shader->getUniformLocation("texture"), 0);
 	glUniform1f(shader->getUniformLocation("opacity"), ptrLayer->opacity);
 	glUniform4f(shader->getUniformLocation("color"), bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
 	glUniform1i(shader->getUniformLocation("mask"), 1);
 	glUniform1i(shader->getUniformLocation("lockAlpha"), ptrLayer->alphaLocked);
-
-	CZCheckGLError();
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);

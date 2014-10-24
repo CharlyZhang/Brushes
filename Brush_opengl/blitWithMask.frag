@@ -17,14 +17,19 @@ uniform bool lockAlpha;
 
 void main (void)
 {
-    vec4 dst = vec4(1,1,1,1);//texture2D(texture, varTexcoord.st, 0.0);
+	vec4 dst = texture2D(texture, varTexcoord.st, 0.0);
     float srcAlpha = color.a * texture2D(mask, varTexcoord.st, 0.0).a;
     
     float outAlpha = srcAlpha + dst.a * (1.0 - srcAlpha);
     
-    gl_FragColor.rgb = (color.rgb * srcAlpha + dst.rgb * dst.a * (1.0 - srcAlpha)) / outAlpha;
+    if(outAlpha != 0.0f)
+		gl_FragColor.rgb = (color.rgb * srcAlpha + dst.rgb * dst.a * (1.0 - srcAlpha)) / outAlpha;
+	else
+		gl_FragColor.rgb = vec3(0,0,0);
+
     gl_FragColor.a = lockAlpha ? dst.a : outAlpha;
     
     gl_FragColor.a *= opacity;
     gl_FragColor.rgb *= gl_FragColor.a;
+
 }
