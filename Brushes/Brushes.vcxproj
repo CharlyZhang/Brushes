@@ -11,11 +11,91 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\main.c" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="..\memo.txt" />
     <None Include="..\src\shader\blit.frag" />
     <None Include="..\src\shader\blit.vert" />
+    <None Include="..\src\shader\blitWithMask.frag" />
+    <None Include="..\src\shader\brush.frag" />
+    <None Include="..\src\shader\brush.vert" />
+    <None Include="..\src\shader\compositeWithEraseMask.frag" />
+    <None Include="..\src\shader\compositeWithMask.frag" />
+    <None Include="..\src\shader\stamp.frag" />
+    <None Include="..\src\shader\stamp.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\CZNotificationCenter.cpp" />
+    <ClCompile Include="..\src\CZShader.cpp" />
+    <ClCompile Include="..\src\CZUtil.cpp" />
+    <ClCompile Include="..\src\CZFreehandTool.cpp" />
+    <ClCompile Include="..\src\CZTool.cpp" />
+    <ClCompile Include="..\src\main_brushes.cpp" />
+    <ClCompile Include="..\src\CZ3DPoint.cpp" />
+    <ClCompile Include="..\src\CZAffineTransform.cpp" />
+    <ClCompile Include="..\src\CZBezierNode.cpp" />
+    <ClCompile Include="..\src\CZBezierSegment.cpp" />
+    <ClCompile Include="..\src\CZBrush.cpp" />
+    <ClCompile Include="..\src\CZColor.cpp" />
+    <ClCompile Include="..\src\CZColorBalance.cpp" />
+    <ClCompile Include="..\src\CZGeometry.cpp" />
+    <ClCompile Include="..\src\CZHueSaturation.cpp" />
+    <ClCompile Include="..\src\CZImage.cpp" />
+    <ClCompile Include="..\src\CZLayer.cpp" />
+    <ClCompile Include="..\src\CZMat4.cpp" />
+    <ClCompile Include="..\src\CZPainting.cpp" />
+    <ClCompile Include="..\src\CZPath.cpp" />
+    <ClCompile Include="..\src\CZProperty.cpp" />
+    <ClCompile Include="..\src\CZRandom.cpp" />
+    <ClCompile Include="..\src\CZSpiralGenerator.cpp" />
+    <ClCompile Include="..\src\CZStampGenerator.cpp" />
+    <ClCompile Include="..\src\CZPaintingRender.cpp" />
+    <ClCompile Include="..\src\CZPreviewRender.cpp" />
+    <ClCompile Include="..\src\CZRender.cpp" />
+    <ClCompile Include="..\src\CZStampRender.cpp" />
+    <ClCompile Include="..\src\CZFbo.cpp" />
+    <ClCompile Include="..\src\CZTexture.cpp" />
+    <ClCompile Include="..\src\CZBrushPreview.cpp" />
+    <ClCompile Include="..\src\CZCanvas.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\CZNotificationCenter.h" />
+    <ClInclude Include="..\src\CZShader.h" />
+    <ClInclude Include="..\src\CZUndoManager.h" />
+    <ClInclude Include="..\src\CZBrushController.h" />
+    <ClInclude Include="..\src\CZUtil.h" />
+    <ClInclude Include="..\src\CZFreehandTool.h" />
+    <ClInclude Include="..\src\CZTool.h" />
+    <ClInclude Include="..\src\Macro.h" />
+    <ClInclude Include="..\src\CZ3DPoint.h" />
+    <ClInclude Include="..\src\CZActiveState.h" />
+    <ClInclude Include="..\src\CZAffineTransform.h" />
+    <ClInclude Include="..\src\CZBezierNode.h" />
+    <ClInclude Include="..\src\CZBezierSegment.h" />
+    <ClInclude Include="..\src\CZBrush.h" />
+    <ClInclude Include="..\src\CZColor.h" />
+    <ClInclude Include="..\src\CZColorBalance.h" />
+    <ClInclude Include="..\src\CZGeometry.h" />
+    <ClInclude Include="..\src\CZHueSaturation.h" />
+    <ClInclude Include="..\src\CZImage.h" />
+    <ClInclude Include="..\src\CZLayer.h" />
+    <ClInclude Include="..\src\CZMat4.h" />
+    <ClInclude Include="..\src\CZPainting.h" />
+    <ClInclude Include="..\src\CZPath.h" />
+    <ClInclude Include="..\src\CZProperty.h" />
+    <ClInclude Include="..\src\CZRandom.h" />
+    <ClInclude Include="..\src\CZSpiralGenerator.h" />
+    <ClInclude Include="..\src\CZStampGenerator.h" />
+    <ClInclude Include="..\src\serialization\CZCoder.h" />
+    <ClInclude Include="..\src\serialization\CZCoding.h" />
+    <ClInclude Include="..\src\serialization\CZDecoder.h" />
+    <ClInclude Include="..\src\CZPaintingRender.h" />
+    <ClInclude Include="..\src\CZPreviewRender.h" />
+    <ClInclude Include="..\src\CZRender.h" />
+    <ClInclude Include="..\src\CZStampRender.h" />
+    <ClInclude Include="..\src\CZFbo.h" />
+    <ClInclude Include="..\src\CZTexture.h" />
+    <ClInclude Include="..\src\CZBrushCell.h" />
+    <ClInclude Include="..\src\CZBrushPreview.h" />
+    <ClInclude Include="..\src\CZCanvas.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}</ProjectGuid>
@@ -26,13 +106,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -67,9 +147,9 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libGLESv2.lib;libEGL.lib;esUtil_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glut32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\lib\;..\Common\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -88,7 +168,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libGLESv2.lib;libEGL.lib;esUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libGLESv2.lib;libEGL.lib;glut32.lib;glew32.lib;esUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\lib\;..\Common\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

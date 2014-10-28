@@ -1,22 +1,24 @@
+
+
 #ifdef GL_ES
 precision highp float;
 #endif
 
 #if __VERSION__ >= 140
 in vec2      varTexcoord;
+in float     varIntensity;
 out vec4     fragColor;
 #else
 varying vec2 varTexcoord;
+varying float varIntensity;
 #endif
 
 uniform sampler2D texture;
-uniform float opacity;
 
 void main (void)
 {
-    gl_FragColor = texture2D(texture, varTexcoord.st, 0.0);
+    float f = texture2D(texture, varTexcoord.st, 0.0).a;
+    float v = varIntensity * f;
     
-    // -- layer with un-premultiplied data
-    gl_FragColor.a *= opacity;
-    gl_FragColor.rgb *= gl_FragColor.a;
+    gl_FragColor = vec4(0, 0, 0, v);
 }

@@ -130,7 +130,6 @@
     <ClCompile Include="CZBrush.cpp" />
     <ClCompile Include="CZBrushPreview.cpp" />
     <ClCompile Include="CZCanvas.cpp" />
-    <ClCompile Include="CZCanvasRender.h" />
     <ClCompile Include="CZColor.cpp" />
     <ClCompile Include="CZColorBalance.cpp" />
     <ClCompile Include="CZFbo.cpp" />
