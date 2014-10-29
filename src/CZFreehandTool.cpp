@@ -38,7 +38,7 @@ CZFreehandTool::~CZFreehandTool()
 /// 开始移动
 void CZFreehandTool::moveBegin(CZ2DPoint &p_, float pressure_ /* = 0.0f */)
 {
-	CZTool::moveBegin(p_);
+	moved = false;
 
 	firstEver = true;
 
@@ -75,7 +75,7 @@ void CZFreehandTool::moveBegin(CZ2DPoint &p_, float pressure_ /* = 0.0f */)
 ///		/param pressureOrSpeed	  - 当设备支持压力值时，为压力值；否则为移动速度值
 void CZFreehandTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 {
-	CZTool::moving(p_);
+	moved = true;
 
 	CZ2DPoint &location = p_;
 	float       distanceMoved = location.distanceTo2DPoint(lastLocation);
@@ -134,8 +134,8 @@ void CZFreehandTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 /// 移动结束
 void CZFreehandTool::moveEnd(CZ2DPoint &p_)
 {
-	CZColor     color = CZActiveState::getInstance()->paintColor;
-	CZBrush     *ptrBrush = CZActiveState::getInstance()->brush;
+	CZColor     color = CZActiveState::getInstance()->getPaintColor();
+	CZBrush     *ptrBrush = CZActiveState::getInstance()->getActiveBrush();
 	//CZCanvas    canvas;// = (WDCanvas *) recognizer.view;
 	//CZPainting  painting(size);// = canvas.painting;
 
@@ -173,8 +173,7 @@ void CZFreehandTool::moveEnd(CZ2DPoint &p_)
 	ptrPainting->ptrActiveLayer->commitStroke(strokeBounds,color,eraseMode,true);
 
 	ptrPainting->ptrActivePath = NULL;
-	
-	CZTool::moveEnd(p_);
+
 }
 
 /// 对临时连续点中start_到end_的点进行平均处理
@@ -258,8 +257,8 @@ void CZFreehandTool::paintFittedPoints()
 
 void CZFreehandTool::paintPath(CZPath &path) 
 {
-	path.ptrBrush = CZActiveState::getInstance()->brush;
-	path.color = CZActiveState::getInstance()->paintColor;
+	path.ptrBrush = CZActiveState::getInstance()->getActiveBrush();
+	path.color = CZActiveState::getInstance()->getPaintColor();
 	path.action = eraseMode ? CZPathActionErase : CZPathActionPaint;
 
 	if (clearBuffer)

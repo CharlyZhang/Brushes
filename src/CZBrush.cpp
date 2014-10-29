@@ -58,7 +58,7 @@ CZBrush::~CZBrush()
 }
 
 /// 随机生成笔刷（静态函数）
-CZBrush * randomBrush()
+CZBrush* CZBrush::randomBrush()
 {
 	CZStampGenerator *generator= CZActiveState::getInstance()->getRandomGenerator();
 	generator->randomize();

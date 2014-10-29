@@ -12,46 +12,76 @@
 #ifndef _CZACTIVESTATE_H_
 #define _CZACTIVESTATE_H_
 
-#include "CZSpiralGenerator.h"
 #include "CZStampGenerator.h"
-#include "CZNotificationCenter.h"
 #include "CZColor.h"
+#include "CZBrush.h"
+#include "CZTool.h"
 #include <string>
+#include <vector>
+#include <map>
 
 /// 激活状态类
-class CZActiveState :public CZObserver
+class CZActiveState
 {
 public:
 	/// 获取单例
 	static CZActiveState * getInstance()
 	{
-		static CZActiveState instance;   //局部静态变量  
+		static CZActiveState instance;   
 		return &instance; 
 	}
+
+	/// 设置绘制模式
+	void setEraseMode(bool flag);
+	/// 获取绘制模式
+	bool isEraseMode();
+	/// 设置绘制颜色
+	void setPaintColor(CZColor &pc);
+	/// 获取绘制颜色
+	CZColor getPaintColor();
+	/// 设置可用画刷
+	void setBrushes(std::vector<CZBrush*> &bs);
+	/// 添加画刷
+	/// 
+	///		\note 添加在当前激活的画刷之后
+	void addBrush(CZBrush *b);
+	/// 获得可用画刷
+	std::vector<CZBrush*> &getBrushes();
+	/// 设置当前激活画刷
+	///
+	///		\param idx - 可用画刷的序号，当非法时默认为0
+	///		\note	当前设置的画刷种类由模式决定
+	void setActiveBrush(int idx);
+	/// 获取当前画刷
+	/// 
+	///		\note 画刷种类由当前的状态eraseMode决定
+	CZBrush *getActiveBrush();
+	/// 删除当前画刷
+	void deleteActiveBrush();
+	/// 获取当前工具
+	/// 
+	///		\note 工具种类由当前的状态eraseMode决定
+	CZTool *getActiveTool();
+	
+
 	/// 获取随机一个笔刷生成器
-	CZStampGenerator * getRandomGenerator(){return NULL;};
-	/// 实现Observer接口
-	void updateObserver(std::string &notificationName, void* data = NULL){};
+	CZStampGenerator * getRandomGenerator();
 
 private:
-	CZActiveState(){ initial(); }   //构造函数是私有的
+	CZActiveState();
 	CZActiveState(const CZActiveState &);
 	CZActiveState & operator = (const CZActiveState &);
-	~CZActiveState(){ destroy(); }
+	~CZActiveState();
 
-	/// 初始化函数
-	bool initial()
-	{ 
-		brush = new CZBrush(new CZSpiralGenerator);
-		paintColor = CZColor::greenColor();
-		return true; 
-	};
-	/// 销毁函数
-	bool destroy() { if(brush != NULL) {delete brush; brush = NULL;} return true;};
+private:
+	std::vector<CZBrush*> brushes;						///< 所有可用的画刷，负责销毁
+	std::vector<CZTool*> tools;							///< 可用工具，目前为绘制画刷和擦除刷两种
+	std::map<std::string,CZStampGenerator*>	generators;	///< 所有可用的画刷生成器，负责销毁
+	bool eraseMode;										///< 标记是否处在擦除模式
+	CZBrush *ptrPaintBrush;								///< 绘制用笔刷
+	CZBrush *ptrEraseBrush;								///< 擦除用笔刷 
 
-public:
-	CZBrush *brush;
-	CZColor paintColor;
+	CZColor paintColor;									///< 绘制颜色
 };
 
 #endif

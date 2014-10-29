@@ -23,6 +23,7 @@
     <None Include="..\src\shader\stamp.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\CZActiveState.cpp" />
     <ClCompile Include="..\src\CZNotificationCenter.cpp" />
     <ClCompile Include="..\src\CZShader.cpp" />
     <ClCompile Include="..\src\CZUtil.cpp" />
@@ -57,6 +58,10 @@
     <ClCompile Include="..\src\CZCanvas.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\CZCoder.h" />
+    <ClInclude Include="..\src\CZCoding.h" />
+    <ClInclude Include="..\src\CZDecoder.h" />
+    <ClInclude Include="..\src\CZEraserTool.h" />
     <ClInclude Include="..\src\CZNotificationCenter.h" />
     <ClInclude Include="..\src\CZShader.h" />
     <ClInclude Include="..\src\CZUndoManager.h" />
@@ -84,9 +89,6 @@
     <ClInclude Include="..\src\CZRandom.h" />
     <ClInclude Include="..\src\CZSpiralGenerator.h" />
     <ClInclude Include="..\src\CZStampGenerator.h" />
-    <ClInclude Include="..\src\serialization\CZCoder.h" />
-    <ClInclude Include="..\src\serialization\CZCoding.h" />
-    <ClInclude Include="..\src\serialization\CZDecoder.h" />
     <ClInclude Include="..\src\CZPaintingRender.h" />
     <ClInclude Include="..\src\CZPreviewRender.h" />
     <ClInclude Include="..\src\CZRender.h" />
