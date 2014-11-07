@@ -55,6 +55,10 @@ void CZActiveState::setPaintColor(CZColor &pc)
 {
 	paintColor = pc;
 }
+void CZActiveState::setPaintColor(float r, float g, float b, float a /* = 1.0f */)
+{
+	paintColor = CZColor(r,g,b,a);
+}
 
 /// 获取绘制颜色
 CZColor CZActiveState::getPaintColor()
@@ -95,15 +99,21 @@ vector<CZBrush*>& CZActiveState::getBrushes()
 /// 设置当前激活画刷
 ///
 ///		\param idx - 可用画刷的序号，当非法时默认为0
+///		\ret	   - 原来的激活画刷序号
 ///		\note	当前设置的画刷种类由模式决定
-void CZActiveState::setActiveBrush(int idx)
+int CZActiveState::setActiveBrush(int idx)
 {
-	if (idx < 0 || idx >= brushes.size()) return;
+	int oldIdx = eraseMode ? indexOfBrushes(ptrEraseBrush) : indexOfBrushes(ptrPaintBrush);
+
+	if (idx < 0 || idx >= brushes.size()) return oldIdx;
 	
+
 	if (eraseMode)
 		ptrEraseBrush = brushes[idx];
 	else
 		ptrPaintBrush = brushes[idx];
+
+	return oldIdx;
 }
 
 /// 获取当前画刷
@@ -161,5 +171,17 @@ CZTool* CZActiveState::getActiveTool()
 CZStampGenerator * CZActiveState::getRandomGenerator()
 {
 	return new CZSpiralGenerator;
+}
+
+
+/// 获得画刷在所有画刷中的标号，不存在返回负值
+int CZActiveState::indexOfBrushes(CZBrush *brush)
+{
+	int ret;
+	int num = brushes.size();
+	for(ret = 0; ret < num; ret ++)
+		if(brush == brushes[ret]) return ret;
+
+	return -1;
 }
 

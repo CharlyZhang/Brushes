@@ -11,20 +11,11 @@
 
 #include "CZLayer.h"
 #include "CZPainting.h"
-#include "CZNotificationCenter.h"
+#include "CZUtil.h"
 
 using namespace std;
 
-string CZColorBalanceChanged = "ColorBalanceChanged";
-string CZHueSaturationChanged = "HueSaturationChanged";
-string CZLayerVisibilityChanged = "LayerVisibilityChanged";
-string CZLayerLockedStatusChanged = "LayerLockedStatusChanged";
-string CZLayerAlphaLockedStatusChanged = "LayerAlphaLockedStatusChanged";
-string CZLayerOpacityChanged = "LayerOpacityChanged";
-string CZLayerBlendModeChanged = "LayerBlendModeChanged";
-string CZLayerContentsChangedNotification = "LayerContentsChangedNotification";
-string CZLayerThumbnailChangedNotification = "LayerThumbnailChangedNotification";
-string CZLayerTransformChangedNotification = "LayerTransformChangedNotification";
+unsigned int CZLayer::layerNumber = 0;
 
 CZLayer::CZLayer()
 {
@@ -41,6 +32,8 @@ CZLayer::CZLayer()
 	opacity = 1.0f;
 	isSaved = kSaveStatusUnsaved;
 	image = NULL;
+
+	uid = LAYER_BASE_UID + (layerNumber++);
 }
 CZLayer::~CZLayer()
 {
@@ -52,7 +45,7 @@ CZLayer::~CZLayer()
 /// 图层的图像数据
 CZImage *CZLayer::imageData()
 {
-	CZRect bounds(0,0,ptrPainting->dimensions.width, ptrPainting->dimensions.height);
+	CZRect bounds = ptrPainting->getBounds();
 	return imageDataInRect(bounds);
 }
 
@@ -65,7 +58,7 @@ CZImage *CZLayer::imageDataInRect(const CZRect &rect)
 		return NULL;
 	}
 
-	CZPaintingRender *ptrRender = ptrPainting->render;
+	CZPaintingRender *ptrRender = ptrPainting->getRender();
 	
 	ptrRender->ptrLayer = this;
 	CZImage *ret = ptrRender->drawLayerInRect(rect);
@@ -73,9 +66,18 @@ CZImage *CZLayer::imageDataInRect(const CZRect &rect)
 	return ret;
 }
 
-/// 将图层内容按类型绘制
-void CZLayer::blit(CZPaintingRender* ptrRender, CZMat4 &projection)
+/// 绘制图层
+void CZLayer::basicBlit(CZMat4 &projection)
 {
+	CZPaintingRender *ptrRender = ptrPainting->getRender();
+	ptrRender->ptrLayer = this;
+
+	ptrRender->drawLayer(projection);
+}
+/// 绘制图层（考虑移动转换、颜色调整等）
+void CZLayer::blit(CZMat4 &projection)
+{
+	CZPaintingRender *ptrRender = ptrPainting->getRender();
 	ptrRender->ptrLayer = this;
 
 	if(!transform.isIdentity())
@@ -88,14 +90,16 @@ void CZLayer::blit(CZPaintingRender* ptrRender, CZMat4 &projection)
 		ptrRender->drawLayer(projection);
 }
 /// 叠加擦除纹理
-void CZLayer::blitWithEraseMask(CZPaintingRender* ptrRender, CZMat4 &projection)
+void CZLayer::blitWithEraseMask(CZMat4 &projection)
 {
+	CZPaintingRender *ptrRender = ptrPainting->getRender();
 	ptrRender->ptrLayer = this;
 	ptrRender->drawLayerWithEraseMask(projection);
 }
 /// 叠加绘制纹理
-void CZLayer::blitWithMask(CZPaintingRender* ptrRender, CZMat4 &projection,CZColor *bgColor)
+void CZLayer::blitWithMask(CZMat4 &projection,CZColor *bgColor)
 {
+	CZPaintingRender *ptrRender = ptrPainting->getRender();
 	ptrRender->ptrLayer = this;
 	ptrRender->drawLayerWithMask(projection,bgColor);
 }
@@ -105,72 +109,14 @@ void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undo
 {
 	//if (undoable) [self registerUndoInRect:bounds];
 
-	ptrPainting->beginSuppressingNotifications();
+	//ptrPainting->beginSuppressingNotifications();
 
 	isSaved = kSaveStatusUnsaved;
 
-	CZPaintingRender * render = ptrPainting->render;
-
+	CZPaintingRender * render = ptrPainting->getRender();
 	render->ptrLayer = this;
 
 	render->composeActivePaintTexture(color,erase);
-/*
-	[self invalidateThumbnail];
-
-	if (!self.isSuppressingNotifications) {
-		NSDictionary *userInfo = @{@"layer": self,
-			@"rect": [NSValue valueWithCGRect:bounds]};
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:WDLayerContentsChangedNotification
-object:self.painting
-userInfo:userInfo];
-	}
-
-*/
-
-	ptrPainting->endSuppressingNotifications();
-}
-
-/// 设置转换矩阵
-void CZLayer::setTransform(CZAffineTransform &trans)
-{
-	transform = trans;
-
-	CZNotificationCenter::getInstance()->notify(CZLayerTransformChangedNotification,ptrPainting);
-}
-/// 设置混合模式
-void CZLayer::setBlendMode(CZRender::BlendMode &bm)
-{
-	if(bm == blendMode) return;
-
-	//[[[self.painting undoManager] prepareWithInvocationTarget:self] setBlendMode:blendMode_];
-
-	blendMode = bm;
-
-	if (!isSuppressingNotifications()) 
-	{
-		CZNotificationCenter::getInstance()->notify(CZLayerBlendModeChanged,ptrPainting,this);
-	
-		/*NSDictionary *userInfo = @{@"layer": self,
-			@"rect": [NSValue valueWithCGRect:self.painting.bounds]};
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:WDLayerBlendModeChanged
-object:self.painting
-userInfo:userInfo]; */
-	}
-
-}
-/// 设置调整颜色
-void CZLayer::setColorBalance(CZColorBalance *cb)
-{
-	if(cb && *cb ==  *colorBalance) return;
-	
-	colorBalance = cb;
-
-	if (!isSuppressingNotifications()) 
-	{
-		CZNotificationCenter::getInstance()->notify(CZColorBalanceChanged,ptrPainting);
-	}
 }
 
 /// 调整颜色
@@ -231,6 +177,94 @@ void CZLayer::commitColorAdjustments()
 	*/
 }
 
+
+/// 合并另以图层
+bool CZLayer::merge(CZLayer *layer)
+{
+	return true;
+}
+
+/// 设置绘制指针
+void CZLayer::setPainting(CZPainting *painting)
+{
+	ptrPainting = painting;
+}
+/// 设置转换矩阵
+bool CZLayer::setTransform(CZAffineTransform &trans)
+{
+	if(transform == trans) return false;
+
+	transform = trans;
+	return true;
+}
+/// 获取转换矩阵
+CZAffineTransform & CZLayer::getTransform()
+{
+	return transform;
+}
+/// 设置混合模式
+bool CZLayer::setBlendMode(CZRender::BlendMode &bm)
+{
+	if(bm == blendMode) return false;
+
+	blendMode = bm;
+	return true;
+}
+/// 获取混合模式
+CZRender::BlendMode CZLayer::getBlendMode()
+{
+	return blendMode;
+}
+/// 设置不透明度
+bool CZLayer::setOpacity(float o)
+{
+	if(opacity == o) return false;
+
+	opacity = CZClamp(0.0f,1.0f,o);
+	return true;
+}
+/// 获取不透明度
+float CZLayer::getOpacity()
+{
+	return opacity;
+}
+/// 设置调整颜色
+bool CZLayer::setColorBalance(CZColorBalance *cb)
+{
+	if(cb && *cb ==  *colorBalance) return false;
+	
+	colorBalance = cb;
+	return true;
+}
+/// 设置色调调整
+bool CZLayer::setHueSaturation(CZHueSaturation *hs)
+{
+	return true;
+}
+/// 设置图层图像
+/// 
+///		\param img - 设置的图像
+///		\ret	   - 若img不为空，则设置陈宫
+///		\note 调用此函数将覆盖之前对该层的所有绘制
+bool CZLayer::setImage(CZImage *img)
+{
+	if(img == NULL)
+	{
+		cerr << "CZLayer::setImage - image is NULL\n";
+		return false;
+	}
+
+	if(image)
+	{
+		delete image;
+		/// 删除对应的老纹理
+		CZPaintingRender *ptrRender = ptrPainting->getRender();
+		ptrRender->clearLayerTexture(this);
+	}
+
+	image = img;
+}
+
 /// 切换可见性
 void CZLayer::toggleVisibility()
 {
@@ -246,12 +280,47 @@ void CZLayer::toggleLocked()
 {
 	locked = !locked;
 }
-
-/// 是否抑制消息
-bool CZLayer::isSuppressingNotifications()
+/// 设置可见性
+void CZLayer::setVisiblility(bool flag)
 {
-	if(!ptrPainting || ptrPainting->isSuppressingNotifications()) return true; // 没有被绘制，也不能发送消息
-	return false;
+	visible = flag;
+}
+/// 设置alpha锁定
+void CZLayer::setAlphaLocked(bool flag)
+{
+	alphaLocked = flag;
+}
+/// 设置图层锁定
+void CZLayer::setLocked(bool flag)
+{
+	locked = flag;
+}
+/// 是否被锁住图层
+bool CZLayer::isLocked()
+{
+	return locked;
+};
+/// 是否被锁住alpha
+bool CZLayer::isAlphaLocked()
+{
+	return alphaLocked;
+}
+/// 是否可见
+bool CZLayer::isVisible()
+{
+	return visible;
+}
+
+/// 是否可编辑
+bool CZLayer::isEditable()
+{
+	return (!locked && visible);
+}
+
+/// 获取编号
+unsigned int CZLayer::getUID()
+{
+	return uid;
 }
 
 /// 实现coding的接口

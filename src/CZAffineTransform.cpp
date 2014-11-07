@@ -23,6 +23,11 @@ CZAffineTransform CZAffineTransform::operator*(const CZAffineTransform &aTrans_)
 							 tx*aTrans_.a + ty*aTrans_.c + aTrans_.tx,
 							 tx*aTrans_.b + ty*aTrans_.d + aTrans_.ty);
 }
+bool CZAffineTransform::operator==(const CZAffineTransform &aTrans_) const
+{
+	return(a == aTrans_.a && b == aTrans_.b && c == aTrans_.c
+		&& d == aTrans_.d && tx == aTrans_.tx && ty == aTrans_.ty);
+}
 
 /// 将变换再旋转
 int CZAffineTransform::rotate(float angle_)

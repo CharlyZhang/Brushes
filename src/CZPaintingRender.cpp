@@ -56,15 +56,28 @@ CZPaintingRender::~CZPaintingRender()
 
 	/// 删除着色器
 	for(map<string,CZShader*>::iterator itr = shaders.begin(); itr!=shaders.end(); itr++)
-		delete itr->second;
+		if(itr->second)
+		{
+			delete itr->second;
+			itr->second = NULL;
+		}
+		
 	shaders.clear();
 	/// 删除图层纹理
-	for(map<CZLayer*,CZTexture*>::iterator itr = layerTextures.begin(); itr!=layerTextures.end(); itr++)
-		delete itr->second;
+	for(map<unsigned int,CZTexture*>::iterator itr = layerTextures.begin(); itr!=layerTextures.end(); itr++)
+		if(itr->second)
+		{
+			delete itr->second;
+			itr->second = NULL;
+		}
 	layerTextures.clear();
 	/// 删除图层色调/浓度/亮度纹理
-	/*for(map<CZLayer*,CZTexture*>::iterator itr = layerHueChromaLumaTex.begin(); itr!=layerHueChromaLumaTex.end(); itr++)
-		delete itr->second;*/
+	for(map<unsigned int,CZTexture*>::iterator itr = layerHueChromaLumaTex.begin(); itr!=layerHueChromaLumaTex.end(); itr++)
+		if(itr->second)
+		{
+			delete itr->second;
+			itr->second = NULL;
+		}
 	layerHueChromaLumaTex.clear();
 };
 
@@ -138,9 +151,60 @@ void CZPaintingRender::drawViewInRect(/*const CZRect &rect*/)
 	*/
 }
 
-/// 生成Painting当前状态的图像
-CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor, std::vector<CZLayer*> &layers)
+/// 绘制当前状态的图像（不包含绘制轨迹）
+CZImage * CZPaintingRender::drawPaintingImage(CZSize & size, CZColor *bgColor)
 {
+	/// 获得运行所需要的数据
+	std::vector<CZLayer*> &layers = ptrPainting->getAllLayers();
+	int w = size.width;
+	int h = size.height;
+	CZMat4 projection;
+	projection.SetOrtho(0,w,0,h,-1.0f,1.0f);
+
+	/// 开始绘制
+	setContext();
+
+	fbo.setColorRenderBuffer(w,h);
+
+	fbo.begin();
+
+	// 用背景颜色清除缓存
+	if (bgColor) 
+		glClearColor(bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
+	else 
+		glClearColor(0,0,0,0);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++) 
+	{
+		CZLayer *layer = *itr;
+		if (!layer->visible) continue;
+
+		layer->blit(projection);
+	}
+
+	CZImage *ret;
+#if USE_OPENGL
+	ret = new CZImage(w,h,CZImage::RGBA);
+	glReadPixels(0, 0, w, h, GL_RGBA, GL_FLOAT, ret->data);
+#elif USE_OPENGL_ES
+	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+#endif
+
+	fbo.end();
+
+	fbo.setTexture(getPaintTexture());
+
+	return ret;
+}
+/// 生成当前绘制状态的图像 
+CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor)
+{
+	/// 获得运行所需要的数据
+	std::vector<CZLayer*> &layers = ptrPainting->getAllLayers();
+	
 	setContext();
 
 	fbo.setColorRenderBuffer(width,height);
@@ -160,14 +224,14 @@ CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor, std::vecto
 		CZLayer *layer = *itr;
 		if (!layer->visible) continue;
 
-		if (ptrPainting->ptrActiveLayer == layer && ptrPainting->ptrActivePath) 
+		if (ptrPainting->getActiveLayer() == layer && ptrPainting->getActivePath()) 
 		{
-			if (ptrPainting->ptrActivePath->action == CZPathActionErase) 
-				layer->blitWithEraseMask(this,projectionMat);
+			if (ptrPainting->getActivePath()->action == CZPathActionErase) 
+				layer->blitWithEraseMask(projectionMat);
 			else 
-				layer->blitWithMask(this,projectionMat,bgColor);
+				layer->blitWithMask(projectionMat,bgColor);
 		} else 
-				layer->blit(this,projectionMat);
+				layer->blit(projectionMat);
 	}
 
 	CZImage *ret;
@@ -181,8 +245,10 @@ CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor, std::vecto
 
 	fbo.end();
 
+	fbo.setTexture(getPaintTexture());
 	return ret;
 }
+/// 绘制一笔轨迹（绘制到纹理）
 CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer)
 {
 	setContext();
@@ -208,16 +274,15 @@ CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer,
 	glUniform1i(shader->getUniformLocation("texture"),0);
 	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projectionMat);
 
-	CZRect pathBounds;// = path_->paint(render,randomizer);
+	CZRect pathBounds;
 
 	/// 绘制轨迹
 	pathBounds = path_->paintPath(this,randomizer);
 
 	shader->end();
+	
 	// 关闭启fbo
 	fbo.end();
-
-	//CZNotificationCenter::getInstance()->notify(CZStrokeAddedNotification,this,(void*)&pathBounds);
 
 	return pathBounds;
 }
@@ -225,9 +290,14 @@ CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer,
 /// 生成当前图层图像		- for CZLayer
 CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 {
+	int w = rect.size.width;
+	int h = rect.size.height;
+	int x = rect.origin.x;
+	int y = rect.origin.y;
+
 	setContext();
 
-	fbo.setColorRenderBuffer(rect.size.width, rect.size.height);
+	fbo.setColorRenderBuffer(w, h);
 
 	/// 开始fbo
 	fbo.begin();
@@ -235,7 +305,7 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 	glViewport(0, 0, width, height);
 
 	CZMat4 proj;
-	proj.SetTranslation(-rect.origin.x, -rect.origin.y, 0);
+	proj.SetTranslation(-x, -y, 0);
 	proj = projectionMat * proj;
 
 	// use shader program
@@ -265,8 +335,8 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 
 	CZImage *ret;
 #if USE_OPENGL
-	ret = new CZImage(width,height,CZImage::RGBA);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
+	ret = new CZImage(w,h,CZImage::RGBA);
+	glReadPixels(0, 0, w, h, GL_RGBA, GL_FLOAT, ret->data);
 #elif USE_OPENGL_ES
 	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
@@ -274,7 +344,7 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 
 	fbo.end();
 
-	fbo.setTexture(activePaintTexture);
+	fbo.setTexture(getPaintTexture());
 
 	return ret;
 }
@@ -300,15 +370,6 @@ void CZPaintingRender::drawLayerWithEraseMask(CZMat4 &projection)
 	/// 配置绘制模式
 	configureBlendMode(ptrLayer->blendMode);
 
-	// setup projection matrix (orthographic)
-	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
-
-	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
-	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
-	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
-
-	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
-	//glBindVertexArrayOES(self.painting.quadVAO);
 	glBindVertexArray(getQuadVAO());
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -341,15 +402,7 @@ void CZPaintingRender::drawLayerWithMask(CZMat4 &projection,CZColor *bgColor)
 
 	/// 配置绘制模式
 	configureBlendMode(ptrLayer->blendMode);
-	// setup projection matrix (orthographic)
-	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
-
-	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
-	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
-	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
-
-	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
-	//glBindVertexArrayOES(self.painting.quadVAO);
+	
 	glBindVertexArray(getQuadVAO());
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	// unbind VAO
@@ -374,15 +427,7 @@ void CZPaintingRender::drawLayer(CZMat4 &projection)
 	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
 	/// 配置绘制模式
 	configureBlendMode(ptrLayer->blendMode);
-	// setup projection matrix (orthographic)
-	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
-
-	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
-	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
-	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
-
-	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
-	//glBindVertexArrayOES(self.painting.quadVAO);
+	
 	glBindVertexArray(getQuadVAO());
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	// unbind VAO
@@ -460,15 +505,6 @@ void CZPaintingRender::drawLayerWithcolorBalance(CZMat4 &projection, CZColorBala
 	/// 配置绘制模式
 	configureBlendMode(ptrLayer->blendMode);
 
-	// setup projection matrix (orthographic)
-	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
-
-	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
-	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
-	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
-
-	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
-	//glBindVertexArrayOES(self.painting.quadVAO);
 	glBindVertexArray(getQuadVAO());
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -501,15 +537,6 @@ void CZPaintingRender::drawLayerWithhueSaturation(CZMat4 &projection, CZHueSatur
 	/// 配置绘制模式
 	configureBlendMode(ptrLayer->blendMode);
 
-	// setup projection matrix (orthographic)
-	//mat4f_LoadOrtho(0, (GLuint) rect->size.width, 0, (GLuint) rect->size.height, -1.0f, 1.0f, proj);
-
-	//CZAffineTransform translate = CZAffineTransform::makeFromTranslation(-rect->origin.x, -rect->origin.y);
-	//mat4f_LoadCGAffineTransform(effectiveProj, translate);
-	//mat4f_MultiplyMat4f(proj, effectiveProj, final);
-
-	//glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, final);
-	//glBindVertexArrayOES(self.painting.quadVAO);
 	glBindVertexArray(getQuadVAO());
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -739,15 +766,17 @@ CZTexture* CZPaintingRender::getPaintTexture()
 /// 获取图层纹理
 CZTexture* CZPaintingRender::getLayerTexture(CZLayer* layer)
 {
-	pair<map<CZLayer*,CZTexture*>::iterator, bool> ret;  
+	pair<map<unsigned int,CZTexture*>::iterator, bool> ret;  
 
-	ret = layerTextures.insert(make_pair(layer,(CZTexture*)NULL));
+	ret = layerTextures.insert(make_pair(layer->getUID(),(CZTexture*)NULL));
 
 	if(ret.second)	
 	{	
 		/// 生成图层纹理
-		CZTexture *tex = new CZTexture(width,height);//CZTexture::produceFromImage(layer->image);
-		ret.first->second = tex;
+		if(layer->image)
+			ret.first->second = CZTexture::produceFromImage(layer->image);
+		else
+			ret.first->second = new CZTexture(width,height);
 	}
 
 	return ret.first->second;
@@ -755,27 +784,34 @@ CZTexture* CZPaintingRender::getLayerTexture(CZLayer* layer)
 /// 清除图层纹理
 void CZPaintingRender::clearLayerTexture(CZLayer* layer)
 {
-	//map<CZLayer*, CZTexture*>::iterator itr = layerTextures.find(layer);
+	setContext();
 
-	//if(itr != layerTextures.end())
-	//{
-	//	delete itr->second;
-	//	layerTextures.erase(itr);
-	//}
+	map<unsigned int, CZTexture*>::iterator itr = layerTextures.find(layer->getUID());
+
+	if(itr != layerTextures.end())
+	{
+		if(itr->second)
+		{
+			delete itr->second;
+			itr->second = NULL;
+		}
+
+		layerTextures.erase(itr);
+	}
 }
 
 /// 获取图层的色调/浓度/亮度纹理
 CZTexture* CZPaintingRender::getLayerHCLTexture(CZLayer *layer)
 {
-	pair<map<CZLayer*,CZTexture*>::iterator, bool> ret;  
+	pair<map<unsigned int,CZTexture*>::iterator, bool> ret;  
 
-	//ret = layerHueChromaLumaTex.insert(make_pair(layer,NULL));
+	ret = layerHueChromaLumaTex.insert(make_pair(layer->getUID(),(CZTexture*)NULL));
 
 	if(ret.second)	
 	{	
 		/// 生成图层纹理
-		CZTexture *tex = CZTexture::produceFromImage(layer->image);
-		ret.first->second = tex;
+		//CZTexture *tex = CZTexture::produceFromImage(layer->image);
+		ret.first->second = new CZTexture(width,height);
 	}
 
 	return ret.first->second;
@@ -783,13 +819,21 @@ CZTexture* CZPaintingRender::getLayerHCLTexture(CZLayer *layer)
 /// 清除图层的色调/浓度/亮度纹理
 void CZPaintingRender::clearLayerHCLTexture(CZLayer *layer)
 {
-	//map<CZLayer*, CZTexture*>::iterator itr ;//= layerHueChromaLumaTex.find(layer);
+	return;
+	setContext();
 
-	//if(itr != layerHueChromaLumaTex.end())
-	//{
-	//	delete itr->second;
-	//	layerHueChromaLumaTex.erase(itr);
-	//}
+	map<unsigned int, CZTexture*>::iterator itr = layerHueChromaLumaTex.find(layer->getUID());
+
+	if(itr != layerHueChromaLumaTex.end())
+	{
+		if(itr->second)
+		{
+			delete itr->second;
+			itr->second = NULL;
+		}
+
+		layerHueChromaLumaTex.erase(itr);
+	}
 }
 
 /// 更换笔刷纹理
@@ -810,6 +854,9 @@ void CZPaintingRender::resize(const CZSize &size)
 	if(activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
 
 	projectionMat.SetOrtho(0,width,0,height,-1.0f,1.0f);
+
+	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
+	if (quadVAO) { glDeleteVertexArrays(1,&quadVAO); quadVAO = 0;}
 }
 
 /// 绘制矩形

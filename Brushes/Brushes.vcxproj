@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\CZActiveState.cpp" />
+    <ClCompile Include="..\src\CZEraserTool.cpp" />
     <ClCompile Include="..\src\CZNotificationCenter.cpp" />
     <ClCompile Include="..\src\CZShader.cpp" />
     <ClCompile Include="..\src\CZUtil.cpp" />

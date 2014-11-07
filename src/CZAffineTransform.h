@@ -27,6 +27,7 @@ public:
 	
 	/// 重载运算符
 	CZAffineTransform operator*(const CZAffineTransform &aTrans_) const;
+	bool operator==(const CZAffineTransform &aTrans_) const;
 
 	/// 将变换再旋转
 	int rotate(float angle_);

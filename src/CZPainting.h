@@ -19,64 +19,106 @@
 #include "CZLayer.h"
 #include "CZCoding.h"
 #include "CZPaintingRender.h"
-#include "CZUndoManager.h"
 #include <string>
 #include <vector>
 
-extern std::string CZStrokeAddedNotification; //  "StrokeAddedNotification";
-extern std::string CZLayersReorderedNotification; //  "LayersReorderedNotification";
-extern std::string CZLayerAddedNotification; //  "LayerAddedNotification";
-extern std::string CZLayerDeletedNotification; //  "LayerDeletedNotification";
-extern std::string CZActiveLayerChangedNotification; //  "ActiveLayerChangedNotification";
-
+/// 绘制类
 class CZPainting :public CZCoding
 {
 public:
 	CZPainting(const CZSize &size);
 	~CZPainting();
+	
 	/// 将图像绘制出来（没绑定FBO）
 	void blit(CZMat4 &projection);
+	
+	/// 生成所有图层的图像（不包括当前绘制的笔画）
+	CZImage *imageWithSize(CZSize &size, CZColor *backgroundColor);
+
 	/// 生成当前状态的图像
 	CZImage *imageForCurrentState(CZColor *backgroundColor);
+	
 	/// 绘制一条轨迹（绘制到纹理）
 	CZRect paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer = false);
-	/// 是否抑制消息
-	bool isSuppressingNotifications();
-	/// 设置范围
+	
+	/// 设置范围（让render的范围与其保持一致）
 	void setDimensions(const CZSize &size);
-	/// 设置当前图层
-	void setActiveLayer(CZLayer *layer);
+	
+	/// 设置当前激活图层
+	///
+	///		\param idx - 当前需要激活的图层序号
+	///		\ret	   - 原来激活的图层序号
+	int setActiveLayer(int idx);
+	
 	/// 通过UID获取图层
+	/// 
+	///		\note 不存在该UID的图层则返回NULL
 	CZLayer *layerWithUID(unsigned int uid_);
+	
 	/// 删除图层
-	void removeLayer(CZLayer *layer);
+	/// 
+	///		\param - 需要删除的图层
+	///		\ret   - 原图层所在的序号
+	///		\note 当layer被锁住的时候不能被删除 
+	int removeLayer(CZLayer *layer);
+	
 	/// 插入图层
 	void insertLayer(int idx, CZLayer *layer);
+	
 	/// 添加图层
-	void addLayer(CZLayer *layer);
+	/// 
+	///		\param layer - 添加的图层
+	///		\ret		 - 在所有图层中的序号,失败返回-1
+	int addLayer(CZLayer *layer);
+	
+	/// 向下合并当前图层
+	/// 
+	///		\ret - 是否合并成功
+	bool mergeActiveLayerDown();
 
-	/// 开始抑制消息发送
-	void beginSuppressingNotifications();
-	/// 结束抑制消息发送
-	void endSuppressingNotifications();
+	/// 移动图层
+	/// 
+	///		\param layer - 需要移动的图层
+	///		\param idx	 - 移动到的位置
+	bool moveLayer(CZLayer* layer, int idx);
+
+	/// 获取所有图层
+	std::vector<CZLayer*> & getAllLayers();
+
+	/// 获得图层在所有图层中的标号，不存在返回负值
+	int indexOfLayers(CZLayer *layer);
+
+	/// 设置激活轨迹
+	void setActivePath(CZPath *path);
+
+	/// 获取激活轨迹
+	CZPath* getActivePath();
+
+	/// 设置激活图层
+	void setActiveLayer(CZLayer *layer);
+
+	/// 获取激活图层
+	CZLayer* getActiveLayer();
+
+	/// 获取渲染器
+	CZPaintingRender* getRender();
+	
+	/// 获取范围
+	CZSize& getDimensions();
+	/// 获取绘制矩形
+	CZRect& getBounds();
 
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 
 private:
-	/// 获得图层在所有图层中的标号，不存在返回负值
-	int indexOfLayers(CZLayer *layer);
+	static unsigned int paintingNum;///< 绘制的数目
 
-public:
 	CZSize dimensions;				///< 绘制范围
 	CZPaintingRender *render;		///< 绘制器
 	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用
 	CZLayer *ptrActiveLayer;		///< 当前绘制层
-
-private:
-	static unsigned int paintingNum;///< 绘制的数目
-	CZUndoManager *undoManager;		///< 回撤控制器
 
 	bool flattenMode;
 	std::vector<CZLayer*>	layers;	///< 绘制的画层
@@ -89,6 +131,5 @@ private:
 
 	CZBrush					*ptrLastBrush;	///< 上一把画刷
 
-	unsigned int			suppressNotifications;	///< 抑制的消息数
 };
 #endif

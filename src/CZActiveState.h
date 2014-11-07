@@ -37,6 +37,7 @@ public:
 	bool isEraseMode();
 	/// 设置绘制颜色
 	void setPaintColor(CZColor &pc);
+	void setPaintColor(float r, float g, float b, float a = 1.0f);
 	/// 获取绘制颜色
 	CZColor getPaintColor();
 	/// 设置可用画刷
@@ -50,8 +51,9 @@ public:
 	/// 设置当前激活画刷
 	///
 	///		\param idx - 可用画刷的序号，当非法时默认为0
+	///		\ret	   - 原来的激活画刷序号
 	///		\note	当前设置的画刷种类由模式决定
-	void setActiveBrush(int idx);
+	int setActiveBrush(int idx);
 	/// 获取当前画刷
 	/// 
 	///		\note 画刷种类由当前的状态eraseMode决定
@@ -72,6 +74,9 @@ private:
 	CZActiveState(const CZActiveState &);
 	CZActiveState & operator = (const CZActiveState &);
 	~CZActiveState();
+
+	/// 获得画刷在所有画刷中的标号，不存在返回负值
+	int indexOfBrushes(CZBrush *brush);
 
 private:
 	std::vector<CZBrush*> brushes;						///< 所有可用的画刷，负责销毁

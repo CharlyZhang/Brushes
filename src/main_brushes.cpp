@@ -7,7 +7,9 @@
 #include "CZFbo.h"
 #include "CZSpiralGenerator.h"
 #include "CZUtil.h"				///< For checkPixels()
-#include "CZFreehandTool.h"
+#include "CZTool.h"
+#include "CZActiveState.h"
+#include "CZPainting.h"
 #include "stdio.h"				///< for freopen
 
 static HGLRC           hRC=NULL;                           // 窗口着色描述表句柄  
@@ -30,9 +32,8 @@ FILE *fp1 = freopen("../info.txt","w",stdout);
 FILE *fp2 = freopen("../error.txt","w",stderr);
 
 #if RENDER_FREEHAND
-	CZFreehandTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
+	CZTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
 	CZPainting *painting  = NULL;
-	CZLayer *layer = NULL;
 #endif
 
 int windowWidth = 600, windowHeight = 600;
@@ -124,10 +125,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	glDisable(GL_TEXTURE_2D);
 
 #if RENDER_FREEHAND
-	freeHand = new CZFreehandTool;
+	freeHand = CZActiveState::getInstance()->getActiveTool();
 	painting = new CZPainting(CZSize(windowWidth,windowHeight));
-	layer = new CZLayer();
-	painting->addLayer(layer);
 	freeHand->ptrPainting = painting;
 #endif
 
@@ -148,7 +147,7 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 
 GLvoid DrawGLScene(GLvoid)
 {
-	painting->render->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
+	painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
 	return;
 
 #if BRUSH_TEX
@@ -164,7 +163,7 @@ GLvoid DrawGLScene(GLvoid)
 	
 #if RENDER_FREEHAND
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,painting->render->getPaintTexture()->id);
+	glBindTexture(GL_TEXTURE_2D,painting->getRender()->getPaintTexture()->id);
 #endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
@@ -521,9 +520,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				glDeleteBuffers(1,&mVertexBufferObject);
 				glDeleteBuffers(1,&mTexCoordBufferObject);
 #if RENDER_FREEHAND
-				if(freeHand) {	delete freeHand; freeHand = NULL;}
 				if(painting) {  delete painting; painting = NULL;}
-				if(layer)	 {  delete layer;	 layer = NULL;}
 #endif
 				break;
 			}
@@ -541,7 +538,23 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 
 				// 重建 OpenGL 窗口  
 				if (!CreateGLWindow("Brushes",windowWidth,windowHeight,16,fullscreen))  return 0;               // 如果窗口未能创建，程序退出 
-			}  
+			} 
+
+			if (keys['R'])
+			{
+				CZActiveState::getInstance()->setPaintColor(1,0,0,1);
+				keys['R'] = false;
+			}
+			if (keys['G'])
+			{
+				CZActiveState::getInstance()->setPaintColor(0,1,0,1);
+				keys['G'] = false;
+			}
+			if (keys['B'])
+			{
+				CZActiveState::getInstance()->setPaintColor(0,0,1,1);
+				keys['B'] = false;
+			}
 		}
 
 	}

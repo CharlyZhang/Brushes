@@ -12,18 +12,11 @@
 #include "CZPainting.h"
 #include "Macro.h"
 #include "CZUtil.h"
-#include "CZLayer.h"
-#include "CZPaintingRender.h"
 #include <map>
 
 using namespace  std;
 
-// Notifications
-string CZStrokeAddedNotification = "StrokeAddedNotification";
-string CZLayersReorderedNotification = "LayersReorderedNotification";
-string CZLayerAddedNotification = "LayerAddedNotification";
-string CZLayerDeletedNotification = "LayerDeletedNotification";
-string CZActiveLayerChangedNotification = "ActiveLayerChangedNotification";
+const int iMaxLayerNumber = 10;		///< 支持的最大图层数目
 
 unsigned int CZPainting::paintingNum = 0;
 
@@ -32,38 +25,36 @@ CZPainting::CZPainting(const CZSize &size)
 	render = new CZPaintingRender(size);
 	render->ptrPainting = this;
 
-	undoManager = new CZUndoManager;
-
 	setDimensions(size);
 
+	flattenMode = false;
+	
 	colors.clear();
 	brushes.clear();
+	layers.clear();
 	undoBrushes.clear();
 	strokeCount = 0;
 
 	ptrActivePath = NULL;
-	ptrActiveLayer = NULL;
-
-	flattenMode = false;
-	layers.clear();
-
 	ptrLastBrush = NULL;
 
-	// register for undo notification
+	/// add the default blank layer
+	ptrActiveLayer = new CZLayer;
+	addLayer(ptrActiveLayer);
 
 	uid = PAINTING_BASE_UID + (paintingNum++);
 }
 CZPainting::~CZPainting()
 {
 	if(render) { delete render; render = NULL;}
-	if(undoManager) { delete undoManager; undoManager = NULL;}
 
 	colors.clear();
 	brushes.clear();
 	undoBrushes.clear();
-	layers.clear();
 
-	//registerForUndoNotifications()
+	for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
+		delete *itr;
+	layers.clear();
 
 	paintingNum --;
 }
@@ -80,24 +71,29 @@ void CZPainting::blit(CZMat4 &projection)
 	for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++) 
 	{
 		CZLayer *layer = *itr;
-		if (!layer->visible) continue;
+		if (!layer->isVisible()) continue;
 
-		render->ptrLayer = layer;
 		if (ptrActiveLayer == layer && ptrActivePath) 
 		{
 			if (ptrActivePath->action == CZPathActionErase)
-				layer->blitWithEraseMask(render,projection);
+				layer->blitWithEraseMask(projection);
 			else 
-				layer->blitWithMask(render,projection,&(ptrActivePath->color));
+				layer->blitWithMask(projection,&(ptrActivePath->color));
 		} else 
-			layer->blit(render,projection);
+			layer->blit(projection);
 	}
+}
+
+/// 生成所有图层的图像（不包括当前绘制的笔画）
+CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor)
+{
+	return render->drawPaintingImage(size,backgroundColor);
 }
 
 /// 生成当前状态的图像
 CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
 {
-	return render->drawPaintingCurrentState(backgroundColor, layers);
+	return render->drawPaintingCurrentState(backgroundColor);
 }
 
 /// 绘制一条轨迹（绘制到纹理）
@@ -126,34 +122,24 @@ void CZPainting::setDimensions(const CZSize &size)
 	render->resize(size);
 }
 
-/// 设置当前图层
-void CZPainting::setActiveLayer(CZLayer *layer)
+/// 设置当前激活图层
+///
+///		\param idx - 当前需要激活的图层序号
+///		\ret	   - 原来激活的图层序号
+int CZPainting::setActiveLayer(int idx)
 {
-	if (!layer) 
-	{
-		cout << "CZPainting::setActiveLayer - layer is NULL\n";
-		return;
-	}
-
-	if (layer == ptrActiveLayer)
-	{
-		return;
-	}
-
 	int oldIndex = indexOfLayers(ptrActiveLayer);
 
-	ptrActiveLayer = layer;
-
-	if (!isSuppressingNotifications()) 
+	if (idx < 0 || idx >= layers.size()) 
 	{
-		//CZNotificationCenter::getInstance()->notify(CZActiveLayerChangedNotification,this,(void*)&oldIndex);
+		cerr << "CZPainting::setActiveLayer - idx is out of range\n";
+		return oldIndex;
 	}
-}
 
-/// 是否抑制消息
-bool CZPainting::isSuppressingNotifications()
-{
-	return (suppressNotifications > 0) ? true : false;
+	ptrActiveLayer = layers[idx];
+
+	return oldIndex;
+
 }
 
 /// 通过UID获取图层
@@ -161,24 +147,38 @@ CZLayer *CZPainting::layerWithUID(unsigned int uid_)
 {
 	int num = layers.size();
 	for(int i = 0; i < num; i ++)
-		if(uid_ == layers[i]->uid) return layers[i];
+		if(uid_ == layers[i]->getUID()) return layers[i];
 
 	return NULL;
 }
 
 /// 删除图层
-void CZPainting::removeLayer(CZLayer *layer)
+/// 
+///		\param - 需要删除的图层
+///		\ret   - 原图层所在的序号
+int CZPainting::removeLayer(CZLayer *layer)
 {
-	//	undoManager->prepareForUndo()
-	//[[undoManager_ prepareWithInvocationTarget:self] insertLayer:layer atIndex:[layers_ indexOfObject:layer]];    
+	if(layer == NULL)
+	{
+		cerr << "CZPainting::removeLayer - layer is NULL\n";
+		return -1;
+	}
+
+	int oldIdx = indexOfLayers(layer);
+
+	if(layer->isLocked())
+	{
+		cerr << "CZPainting::removeLayer - layer is locked\n";
+		return oldIdx;
+	}
 
 	if (layer == ptrActiveLayer && layers.size()> 1)
 	{
 		// choose another layer to be active before we remove it
-		int index = indexOfLayers(ptrActiveLayer);
-		if (index >= 1)
+		int index;
+		if (oldIdx >= 1)
 		{
-			index--;
+			index = oldIdx-1;
 		}
 		else
 		{
@@ -191,57 +191,108 @@ void CZPainting::removeLayer(CZLayer *layer)
 	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
 		if(*itr == layer)
 		{
+			/// 删除图层的纹理资源
+			render->clearLayerTexture(layer);
+			render->clearLayerHCLTexture(layer);
+
 			layers.erase(itr);
 			break;
 		}
 
-		//[layer freeze];
-
-		if (!isSuppressingNotifications())
-		{
-			//	NSValue *dirtyRect = [NSValue valueWithCGRect:self.bounds];
-			//	NSDictionary *userInfo = @{@"index": @(index), @"rect": dirtyRect, @"layer": layer};
-			//	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:WDLayerDeletedNotification object:self userInfo:userInfo]];
-		}
+	return oldIdx;
 }
 
 /// 插入图层
 void CZPainting::insertLayer(int idx, CZLayer *layer)
 {
-	//[[undoManager_ prepareWithInvocationTarget:self] removeLayer:layer];
+	if(idx < 0 || idx > layers.size())
+	{
+		cerr << "CZPainting::insertLayer - idx is out of range\n";
+		return;
+	}
 
 	layers.insert(layers.begin()+idx,layer);
-	if (!isSuppressingNotifications()) 
-	{
-		//NSDictionary *userInfo = @{@"layer": layer, @"rect": [NSValue valueWithCGRect:self.bounds]};
-		//[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:WDLayerAddedNotification object:self userInfo:userInfo]];
-	}
 }
 
 /// 添加图层
-void CZPainting::addLayer(CZLayer *layer)
+/// 
+///		\param layer - 添加的图层
+///		\ret		 - 在所有图层中的序号
+int CZPainting::addLayer(CZLayer *layer)
 {
-	layer->ptrPainting = this;
-	insertLayer(indexOfLayers(ptrActiveLayer)+1, layer);
-	ptrActiveLayer = layer;
-}
-
-/// 开始抑制消息发送
-void CZPainting::beginSuppressingNotifications()
-{
-	suppressNotifications ++;
-}
-/// 结束抑制消息发送
-void CZPainting::endSuppressingNotifications()
-{
-	suppressNotifications --;
-
-	if (suppressNotifications < 0) 
+	if(layer == NULL)
 	{
-		cout << "CZPainting::endSuppressingNotifications - Unbalanced notification suppression: " 
-			<< suppressNotifications;
+		cerr << "CZPainting::addLayer - layer is NULL\n";
+		return -1;
 	}
+
+	if(layers.size() > iMaxLayerNumber)
+	{
+		cerr << "CZPainting::addLayer - has reached the max number of Layers\n";
+		return -1;
+	}
+
+	int newIdx = indexOfLayers(ptrActiveLayer)+1;
+	
+	layer->setPainting(this);
+	insertLayer(newIdx, layer);
+	ptrActiveLayer = layer;
+
+	return newIdx;
 }
+
+/// 向下合并当前图层
+/// 
+///		\ret - 是否合并成功
+bool CZPainting::mergeActiveLayerDown()
+{
+	int activeIdx = indexOfLayers(ptrActiveLayer);
+	
+	/// in case the active layer is at bottom
+	if(activeIdx <= 0)
+	{
+		cerr << "CZPainting::mergeActiveLayerDown - active layer is NULL or at bottom\n";
+		return false;
+	}
+
+	/// in case there's only one layer
+	if(layers.size() <= 1)
+	{
+		cerr << "CZPainting::mergeActiveLayerDown - layers number is no more than 1\n";
+		return false;
+	}
+
+	CZLayer *bottomLayer = layers[activeIdx - 1];
+
+	/// in case the layer to merged with is not editable
+	if(!bottomLayer->isEditable())
+	{
+		cerr << "CZPainting::mergeActiveLayerDown - layer to be merged with is not editable\n";
+		return false;
+	}
+
+	bool ret = bottomLayer->merge(ptrActiveLayer);
+	removeLayer(ptrActiveLayer);
+	ptrActiveLayer = bottomLayer;
+
+	return ret;
+}
+
+/// 移动图层
+/// 
+///		\param layer - 需要移动的图层
+///		\param idx	 - 移动到的位置
+bool CZPainting::moveLayer(CZLayer* layer, int idx)
+{ 
+	return false;
+}
+
+/// 获取所有图层
+std::vector<CZLayer*> & CZPainting::getAllLayers()
+{
+	return layers;
+}
+
 
 /// 获得图层在所有图层中的标号，不存在返回负值
 int CZPainting::indexOfLayers(CZLayer *layer)
@@ -252,6 +303,49 @@ int CZPainting::indexOfLayers(CZLayer *layer)
 		if(layer == layers[ret]) return ret;
 
 	return -1;
+}
+
+
+/// 设置激活轨迹
+void CZPainting::setActivePath(CZPath *path)
+{
+	ptrActivePath = path;
+}
+
+/// 获取激活轨迹
+CZPath* CZPainting::getActivePath()
+{
+	return ptrActivePath;
+}
+
+/// 设置激活图层
+void CZPainting::setActiveLayer(CZLayer *layer)
+{
+	ptrActiveLayer = layer;
+}
+
+/// 获取激活图层
+CZLayer* CZPainting::getActiveLayer()
+{
+	return ptrActiveLayer;
+}
+
+/// 获取渲染器
+CZPaintingRender* CZPainting::getRender()
+{
+	return render;
+}
+
+/// 获取范围
+CZSize& CZPainting::getDimensions()
+{
+	return dimensions;
+}
+
+/// 获取绘制矩形
+CZRect& CZPainting::getBounds()
+{
+	return CZRect(0,0,dimensions.width,dimensions.height);
 }
 
 /// 实现CZCoding接口

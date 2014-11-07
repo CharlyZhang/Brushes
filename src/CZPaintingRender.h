@@ -39,20 +39,22 @@ public:
 	/// 绘制某区域内视图（到屏幕）- for CZCanvas
 	void drawViewInRect(/*const CZRect &rect*/);
 
-	/// 生成当前绘制状态的图像	- for CZPainting
-	CZImage *drawPaintingCurrentState(CZColor *bgColor, std::vector<CZLayer*> &layers);
-	/// 绘制一笔轨迹			- for CZPainting
+	/// 绘制当前状态的图像（不包含绘制轨迹）	- for CZPainting
+	CZImage *drawPaintingImage(CZSize & size, CZColor *bgColor);
+	/// 生成当前绘制状态的图像				- for CZPainting
+	CZImage *drawPaintingCurrentState(CZColor *bgColor);
+	/// 绘制一笔轨迹（到纹理）				- for CZPainting
 	CZRect drawPaintingStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer);
 
-	/// 生成当前图层图像		- for CZLayer
+	/// 生成当前图层图像				- for CZLayer
 	CZImage *drawLayerInRect(const CZRect &rect);
-	/// 绘制Layer的擦除轨迹	- for CZLayer
+	/// 绘制Layer的擦除轨迹			- for CZLayer
 	void drawLayerWithEraseMask(CZMat4 &projection);
-	/// 绘制Layer的绘画轨迹	- for CZLayer
+	/// 绘制Layer的绘画轨迹			- for CZLayer
 	void drawLayerWithMask(CZMat4 &projection,CZColor *bgColor);
-	/// 将Layer的纹理绘制	- for CZLayer
+	/// 将Layer的纹理绘制				- for CZLayer
 	void drawLayer(CZMat4 &projection);
-	/// 将Layer的纹理转换后绘制	- for CZLayer
+	/// 将Layer的纹理转换后绘制			- for CZLayer
 	void drawLayerWithTransform(CZMat4 &projection, const CZAffineTransform &transform);
 	/// 将Layer的纹理带颜色调整后绘制	- for CZLayer
 	void drawLayerWithcolorBalance(CZMat4 &projection, CZColorBalance *colorBalance);
@@ -95,8 +97,8 @@ private:
 	GLuint quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
 	CZTexture *activePaintTexture;			///< 绘制用的纹理	- painting
 	CZMat4					projectionMat;	///< 投影矩阵
-	std::map<CZLayer*,CZTexture*> layerTextures;			///< 各层的纹理（避免反复生成纹理）
-	std::map<CZLayer*,CZTexture*> layerHueChromaLumaTex;	///< 各层的色调/浓度/亮度纹理（避免反复生成纹理）
+	std::map<unsigned int,CZTexture*> layerTextures;			///< 各层的纹理（避免反复生成纹理）
+	std::map<unsigned int,CZTexture*> layerHueChromaLumaTex;	///< 各层的色调/浓度/亮度纹理（避免反复生成纹理）
 
 	CZTexture *brushTex;					///< 笔刷纹理
 };
