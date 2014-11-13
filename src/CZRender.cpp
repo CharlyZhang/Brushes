@@ -2,7 +2,7 @@
 ///  \file CZRender.cpp
 ///  \brief This is the file implements the Class CZRender.
 ///
-///		ÕâÀïÓÃÀ´»æÖÆ£¬Ã¿¸örender¶¼ÓĞµ¥¶ÀµÄcontext,Óë»æÖÆÏà¹Ø¡£
+///		è¿™é‡Œç”¨æ¥ç»˜åˆ¶ï¼Œæ¯ä¸ªrenderéƒ½æœ‰å•ç‹¬çš„context,ä¸ç»˜åˆ¶ç›¸å…³ã€‚
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -26,13 +26,13 @@ CZRender::~CZRender()
 {
 };
 	
-/// ÉèÖÃµ±Ç°ÉÏÏÂÎÄ
+/// è®¾ç½®å½“å‰ä¸Šä¸‹æ–‡
 void CZRender::setContext()
 {
-	//Èç¹û²»´æÔÚ£¬ÔòÉú³É£¬²¢ÉèÖÃÎªµ±Ç°
+	//å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™ç”Ÿæˆï¼Œå¹¶è®¾ç½®ä¸ºå½“å‰
 };
 
-/// »æÖÆ¹ì¼£Êı¾İ
+/// ç»˜åˆ¶è½¨è¿¹æ•°æ®
 void CZRender::drawPathData(unsigned int n, vertexData *data)
 {
 	#if USE_OPENGL_ES
@@ -48,7 +48,7 @@ void CZRender::drawPathData(unsigned int n, vertexData *data)
 
 	#if USE_OPENGL
 		
-	/*	// ¶ÔÓÚopenglÊôĞÔÊı×éĞÎÊ½£¬ ¶¥µãÎ»ÖÃ±ØĞëÍ¨¹ıÒÔÏÂ·½Ê½µ¼Èë
+	/*	// å¯¹äºopenglå±æ€§æ•°ç»„å½¢å¼ï¼Œ é¡¶ç‚¹ä½ç½®å¿…é¡»é€šè¿‡ä»¥ä¸‹æ–¹å¼å¯¼å…¥
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x);
 
@@ -57,38 +57,38 @@ void CZRender::drawPathData(unsigned int n, vertexData *data)
 		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
 		glEnableVertexAttribArray(2);
 
-		/// »æÖÆ
+		/// ç»˜åˆ¶
 		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
 		*/
 		
 		GLuint mVertexBufferObject, mTexCoordBufferObject, mAttributeBufferObject;
-		// ×°ÔØ¶¥µã
+		// è£…è½½é¡¶ç‚¹
 		glGenBuffers(1, &mVertexBufferObject);
 		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].x, GL_STREAM_DRAW);
-		// ×°ÔØÎÆÀí
+		// è£…è½½çº¹ç†
 		glGenBuffers(1, &mTexCoordBufferObject);
 		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
 		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].s, GL_STREAM_DRAW);
-		// ×°ÔØÊôĞÔ
+		// è£…è½½å±æ€§
 		glGenBuffers(1, &mAttributeBufferObject);
 		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
 		glBufferData(GL_ARRAY_BUFFER, n * sizeof(vertexData), &data[0].a, GL_STREAM_DRAW);
 
-		// °ó¶¨¶¥µã
+		// ç»‘å®šé¡¶ç‚¹
 		glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(vertexData),0);
-		// °ó¶¨ÎÆÀí
+		// ç»‘å®šçº¹ç†
 		glBindBuffer(GL_ARRAY_BUFFER, mTexCoordBufferObject);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1,2,GL_FLOAT, GL_TRUE, sizeof(vertexData),0);
-		// °ó¶¨ÊôĞÔ
+		// ç»‘å®šå±æ€§
 		glBindBuffer(GL_ARRAY_BUFFER, mAttributeBufferObject);
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), NULL);
 
-		/// »æÖÆ
+		/// ç»˜åˆ¶
 		glDrawArrays(GL_TRIANGLE_STRIP,0,n);
 
 		glDisableVertexAttribArray(0);
@@ -96,7 +96,7 @@ void CZRender::drawPathData(unsigned int n, vertexData *data)
 		glDisableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		/// Ïû³ı
+		/// æ¶ˆé™¤
 		glDeleteBuffers(1, &mVertexBufferObject);
 		glDeleteBuffers(1, &mTexCoordBufferObject);
 		glDeleteBuffers(1, &mAttributeBufferObject);

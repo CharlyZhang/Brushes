@@ -14,7 +14,7 @@
 
 #include "CZGeometry.h"
 
-/// ¿Õ¼ä±ä»»Àà
+/// ç©ºé—´å˜æ¢ç±»
 class CZAffineTransform
 {
 public:
@@ -25,26 +25,26 @@ public:
 	CZAffineTransform(float a_, float b_, float c_, float d_, float tx_, float ty_): 
 		a(a_),b(b_),c(c_),d(d_),tx(tx_),ty(ty_){};
 	
-	/// ÖØÔØÔËËã·û
+	/// é‡è½½è¿ç®—ç¬¦
 	CZAffineTransform operator*(const CZAffineTransform &aTrans_) const;
 	bool operator==(const CZAffineTransform &aTrans_) const;
 
-	/// ½«±ä»»ÔÙĞı×ª
+	/// å°†å˜æ¢å†æ—‹è½¬
 	int rotate(float angle_);
-	/// ½«±ä»»ÔÙÆ½ÒÆ
+	/// å°†å˜æ¢å†å¹³ç§»
 	int translate(float tx_, float ty_);
-	/// Ó¦ÓÃÓÚ¶şÎ¬µãp
+	/// åº”ç”¨äºäºŒç»´ç‚¹p
 	CZ2DPoint applyTo2DPoint(CZ2DPoint & p_) const;
-	/// Ó¦ÓÃÓÚ¾ØĞÎ
+	/// åº”ç”¨äºçŸ©å½¢
 	CZRect applyToRect(CZRect & rect_);
-	/// ÊÇ·ñÊÇµ¥Î»¾ØÕó
+	/// æ˜¯å¦æ˜¯å•ä½çŸ©é˜µ
 	bool isIdentity();
 
-	/// Éú³ÉÆ½ÒÆ×ª»»
+	/// ç”Ÿæˆå¹³ç§»è½¬æ¢
 	static CZAffineTransform makeFromTranslation(float tx_, float ty_);
-	/// Éú³ÉÑ¡Ôñ×ª»»
+	/// ç”Ÿæˆé€‰æ‹©è½¬æ¢
 	static CZAffineTransform makeFromRotate(float angle_);
-	/// Éú³Éµ¥Î»×ª»»
+	/// ç”Ÿæˆå•ä½è½¬æ¢
 	static CZAffineTransform makeIdentity();
 };
 

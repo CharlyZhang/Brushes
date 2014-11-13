@@ -7,9 +7,10 @@
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-15
-///  \note		½«µãµÄÊı¾İÉùÃ÷Îª¾Ö²¿±äÁ¿£¬¶ø²»ÊÇÖ¸Õë»áµ¼ÖÂ¿Õ¼äÀË·Ñ
+///  \note		å°†ç‚¹çš„æ•°æ®å£°æ˜ä¸ºå±€éƒ¨å˜é‡ï¼Œè€Œä¸æ˜¯æŒ‡é’ˆä¼šå¯¼è‡´ç©ºé—´æµªè´¹
 
 #include "CZBezierSegment.h"
+#include <cmath>
 
 const float kDefaultFlatness = 1;
 
@@ -23,11 +24,11 @@ CZBezierSegment::CZBezierSegment(CZ3DPoint start_, CZ3DPoint out_, CZ3DPoint in_
 }
 CZBezierSegment::~CZBezierSegment(){};
 
-/// ÓÉÁ½µã¹¹Ôì±´Èû¶ûÏß¶Î£¨¾²Ì¬º¯Êı£©
+/// ç”±ä¸¤ç‚¹æ„é€ è´å¡å°”çº¿æ®µï¼ˆé™æ€å‡½æ•°ï¼‰
 /// 
-///		/param start_	- ±´Èû¶ûÇúÏßÆğµã
-///		/param end_		- ±´Èû¶ûÇúÏßÖÕµã
-///		/return			- Éú³ÉµÄ±´Èû¶ûÇúÏß
+///		/param start_	- è´å¡å°”æ›²çº¿èµ·ç‚¹
+///		/param end_		- è´å¡å°”æ›²çº¿ç»ˆç‚¹
+///		/return			- ç”Ÿæˆçš„è´å¡å°”æ›²çº¿
 CZBezierSegment * CZBezierSegment::segmentBetweenNodes(const CZBezierNode &start_, const CZBezierNode &end_)
 {
 	CZBezierSegment *segment = new CZBezierSegment;

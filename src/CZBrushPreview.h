@@ -2,7 +2,7 @@
 ///  \file CZBrushPreview.h
 ///  \brief This is the file declare the Class CZBrushPreview.
 ///
-///		ÕâÊÇÒ»¸öµ¥Àı£¬Õ¹ÏÖ±ÊË¢µÄÔ¤ÀÀÍ¼¡£
+///		è¿™æ˜¯ä¸€ä¸ªå•ä¾‹ï¼Œå±•ç°ç¬”åˆ·çš„é¢„è§ˆå›¾ã€‚
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -17,55 +17,55 @@
 class CZBrushPreview : public CZObserver
 {
 public:
-	/// Íê³Éµ¥Àı»ñÈ¡º¯Êı
+	/// å®Œæˆå•ä¾‹è·å–å‡½æ•°
 	static CZBrushPreview * getInstance()
 	{
-		static CZBrushPreview instance;   //¾Ö²¿¾²Ì¬±äÁ¿  
+		static CZBrushPreview instance;   //å±€éƒ¨é™æ€å˜é‡  
 		return &instance; 
 	}
 
-	/// Éú³ÉÖ¸¶¨³ß´ç´óĞ¡Ô¤ÀÀÍ¼
+	/// ç”ŸæˆæŒ‡å®šå°ºå¯¸å¤§å°é¢„è§ˆå›¾
 	///		
-	///		ÕâÀï¸ù¾İÖ¸¶¨µÄ´óĞ¡£¬»æÖÆ³öÏàÓ¦µÄÍ¼Ïñ¡£Ö÷Òª°üÀ¨ÄÚ²¿×ÊÔ´µÄ½¨Á¢ÒÔ¼°»­±Ê¹ì¼£µÄ»æÖÆ¡£
-	///		²»´¦ÀíËõ£¬´°¿ÚËõ·ÅÓÉÍâ²¿¿ØÖÆ£¬ÕâÀïÖ»ÒÔ²ÎÊıÖĞµÄ³ß´çÎª×¼¡£
-	///		Ö÷Òª²ÉÓÃOpenGLµÄFBOºÍShader¡£
+	///		è¿™é‡Œæ ¹æ®æŒ‡å®šçš„å¤§å°ï¼Œç»˜åˆ¶å‡ºç›¸åº”çš„å›¾åƒã€‚ä¸»è¦åŒ…æ‹¬å†…éƒ¨èµ„æºçš„å»ºç«‹ä»¥åŠç”»ç¬”è½¨è¿¹çš„ç»˜åˆ¶ã€‚
+	///		ä¸å¤„ç†ç¼©ï¼Œçª—å£ç¼©æ”¾ç”±å¤–éƒ¨æ§åˆ¶ï¼Œè¿™é‡Œåªä»¥å‚æ•°ä¸­çš„å°ºå¯¸ä¸ºå‡†ã€‚
+	///		ä¸»è¦é‡‡ç”¨OpenGLçš„FBOå’ŒShaderã€‚
 	/// 
-	///		/param size - »æÖÆÔ¤ÀÀµÄ³ß´ç´óĞ¡
-	///		/return		- »æÖÆµÃµ½µÄ±ÊË¢¹ì¼£Í¼
-	///		/note		Ê¹ÓÃÖ®Ç°Ó¦¸ÃÏÈµ÷ÓÃsetBrushÉè¶¨±ÊË¢¡£
+	///		/param size - ç»˜åˆ¶é¢„è§ˆçš„å°ºå¯¸å¤§å°
+	///		/return		- ç»˜åˆ¶å¾—åˆ°çš„ç¬”åˆ·è½¨è¿¹å›¾
+	///		/note		ä½¿ç”¨ä¹‹å‰åº”è¯¥å…ˆè°ƒç”¨setBrushè®¾å®šç¬”åˆ·ã€‚
 	CZImage *previewWithSize(CZSize size_);
-	/// ÉèÖÃ»­Ë¢
+	/// è®¾ç½®ç”»åˆ·
 	void setBrush(CZBrush *brush_);
-	/// ÉèÖÃÉè±¸ÆÁÄ»·Ö±æÂÊ±¶Êı
+	/// è®¾ç½®è®¾å¤‡å±å¹•åˆ†è¾¨ç‡å€æ•°
 	void setMainScreenScale(float s);
-	/// »ñÈ¡±ÊË¢Í¼Ïñ
+	/// è·å–ç¬”åˆ·å›¾åƒ
 	CZImage *getBrushImage();
 
-	/// ÊµÏÖObserver½Ó¿Ú
+	/// å®ç°Observeræ¥å£
 	void updateObserver(std::string &notificationName, void* data = NULL);
 
 private:
-	CZBrushPreview(){ initial(); }   //¹¹Ôìº¯ÊıÊÇË½ÓĞµÄ
+	CZBrushPreview(){ initial(); }   //æ„é€ å‡½æ•°æ˜¯ç§æœ‰çš„
 	CZBrushPreview(const CZBrushPreview &);
 	CZBrushPreview & operator = (const CZBrushPreview &);
 	~CZBrushPreview(){ destroy(); }
 
-	/// ³õÊ¼»¯º¯Êı
+	/// åˆå§‹åŒ–å‡½æ•°
 	bool initial();
-	/// Ïú»Ùº¯Êı
+	/// é”€æ¯å‡½æ•°
 	bool destroy();
-	/// Æô¶¯ĞÂÔ¤ÀÀÍ¼£¨ÅäÖÃ»æÖÆÆ÷£¬Éú³É»æÖÆµÄ¹ì¼££©
+	/// å¯åŠ¨æ–°é¢„è§ˆå›¾ï¼ˆé…ç½®ç»˜åˆ¶å™¨ï¼Œç”Ÿæˆç»˜åˆ¶çš„è½¨è¿¹ï¼‰
 	void setup(const CZSize &size_);
-	/// ¹¹½¨¹ì¼££¨»æÖÆÒ»ÌõsinÇúÏß£©
+	/// æ„å»ºè½¨è¿¹ï¼ˆç»˜åˆ¶ä¸€æ¡sinæ›²çº¿ï¼‰
 	void buildPath();
 
 public:
-	/// ³ÉÔ±±äÁ¿
-	CZPath *path;							///< »æÖÆµÄ¹ì¼£ 
+	/// æˆå‘˜å˜é‡
+	CZPath *path;							///< ç»˜åˆ¶çš„è½¨è¿¹ 
 	float backingWidth, backingHeight;
 
 private:
-	CZBrush *ptrBrush;						///< ½öÒıÓÃ£¬²»¸ºÔğ½¨Á¢ºÍÏú»Ù
-	float mainScreenScale;					///< Éè±¸ÆÁÄ»µÄ·Ö±æÂÊ±¶Êı£¬ÓëPPI£¨Ã¿Ó¢´çÏñËØÊı£©Ïà¹Ø
-	CZPreviewRender render;					///< »æÖÆÆ÷
+	CZBrush *ptrBrush;						///< ä»…å¼•ç”¨ï¼Œä¸è´Ÿè´£å»ºç«‹å’Œé”€æ¯
+	float mainScreenScale;					///< è®¾å¤‡å±å¹•çš„åˆ†è¾¨ç‡å€æ•°ï¼Œä¸PPIï¼ˆæ¯è‹±å¯¸åƒç´ æ•°ï¼‰ç›¸å…³
+	CZPreviewRender render;					///< ç»˜åˆ¶å™¨
 };

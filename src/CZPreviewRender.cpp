@@ -58,22 +58,22 @@ CZPreviewRender::~CZPreviewRender()
 }
 
 
-/// ÅäÖÃ»æÖÆĞÅÏ¢
+/// é…ç½®ç»˜åˆ¶ä¿¡æ¯
 void CZPreviewRender::configure(int w, int h)
 {
 	width  = w;
 	height = h;
 
-	//~ ÉèÖÃcontext(Èç¹ûcontextºÍ³ß´çÏà¹Ø£¬Ôò¸ü¸Äcontext)
+	//~ è®¾ç½®context(å¦‚æœcontextå’Œå°ºå¯¸ç›¸å…³ï¼Œåˆ™æ›´æ”¹context)
 
 	fbo.setColorRenderBuffer(width,height);
 
-	/// ÉèÖÃÍ¶Ó°»·¾³
+	/// è®¾ç½®æŠ•å½±ç¯å¢ƒ
 	projMat.SetOrtho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
 
 }
 
-/// »æÖÆÒ»Ìõ¹ì¼£,²¢·µ»ØÍ¼Ïñ
+/// ç»˜åˆ¶ä¸€æ¡è½¨è¿¹,å¹¶è¿”å›å›¾åƒ
 CZImage *CZPreviewRender::drawPath(CZPath *path)
 {
 	// set context
@@ -88,7 +88,7 @@ CZImage *CZPreviewRender::drawPath(CZPath *path)
 	glUniformMatrix4fv(brushShader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 	CZCheckGLError();
 
-	/// »æÖÆ¹ì¼£
+	/// ç»˜åˆ¶è½¨è¿¹
 	path->paintPath(this,path->getRandomizer());
 
 	brushShader->end();
@@ -101,7 +101,7 @@ CZImage *CZPreviewRender::drawPath(CZPath *path)
 	return ret;
 }
 
-/// ÉèÖÃ±ÊË¢ÎÆÀí
+/// è®¾ç½®ç¬”åˆ·çº¹ç†
 void CZPreviewRender::configureBrush(CZImage *img)
 {
 	// setContext
@@ -113,7 +113,7 @@ void CZPreviewRender::configureBrush(CZImage *img)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D,brushTexture->id);
 }
-/// Çå³ı±ÊË¢ÎÆÀí
+/// æ¸…é™¤ç¬”åˆ·çº¹ç†
 void CZPreviewRender::clearBrush()
 {
 	// set context

@@ -16,13 +16,13 @@
 
 using namespace std;
 
-/// È¡Ëæ»úÊı[0,1]
+/// å–éšæœºæ•°[0,1]
 float CZRandomFloat()
 {
 	return rand()*1.0f / RAND_MAX;
 }
 
-/// ²»Í¬ÑÕÉ«Ä£Ê½µÄ×ª»»
+/// ä¸åŒé¢œè‰²æ¨¡å¼çš„è½¬æ¢
 void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b)
 {
 	if (s == 0) 
@@ -93,13 +93,13 @@ void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
 	h /= 360.0f;
 }
 
-/// ½«Ò»Á¬´®½áµã´òÉ¢£¬ÏàÁÚ½áµãÓÃÈı´Î±´Èû¶ûÇúÏßÁ¬½Ó
+/// å°†ä¸€è¿ä¸²ç»“ç‚¹æ‰“æ•£ï¼Œç›¸é‚»ç»“ç‚¹ç”¨ä¸‰æ¬¡è´å¡å°”æ›²çº¿è¿æ¥
 /// 
-///		Á½¸ö½áµã£¨nodes£©ĞÎ³ÉÒ»¸ùÈı´Î±´Èû¶ûÇúÏß£¬ÔÙ½«ÇúÏß´òÉ¢³ÉÈô¸É¸ö»æÖÆµã£¨points£©
+///		ä¸¤ä¸ªç»“ç‚¹ï¼ˆnodesï¼‰å½¢æˆä¸€æ ¹ä¸‰æ¬¡è´å¡å°”æ›²çº¿ï¼Œå†å°†æ›²çº¿æ‰“æ•£æˆè‹¥å¹²ä¸ªç»˜åˆ¶ç‚¹ï¼ˆpointsï¼‰
 /// 
-///		/param nodes		- Á¬ĞøµÄÈıÎ¬½áµã
-///		/param points		- ÀëÉ¢ºóµÃµ½µÄ»æÖÆµãÈİÆ÷
-///		/return				- ÀëÉ¢ºóµÃµ½µÄ»æÖÆµãÊıÄ¿
+///		/param nodes		- è¿ç»­çš„ä¸‰ç»´ç»“ç‚¹
+///		/param points		- ç¦»æ•£åå¾—åˆ°çš„ç»˜åˆ¶ç‚¹å®¹å™¨
+///		/return				- ç¦»æ•£åå¾—åˆ°çš„ç»˜åˆ¶ç‚¹æ•°ç›®
 unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
 {
 	int numNodes = nodes.size();
@@ -129,13 +129,13 @@ unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed,
 	return points.size();
 }
 
-/// ÅĞ¶ÏÊÇ·ñÖ§³ÖÉî¶ÈÑÕÉ«
+/// åˆ¤æ–­æ˜¯å¦æ”¯æŒæ·±åº¦é¢œè‰²
 bool CZcanUseHDTexture()
 {
 	return true;
 }
 
-/// ÕıÏÒº¯Êı,ÓÉ[0,1]µ½[0,1] -CZFreehandToolÀàÒıÓÃ
+/// æ­£å¼¦å‡½æ•°,ç”±[0,1]åˆ°[0,1] -CZFreehandToolç±»å¼•ç”¨
 float sineCurve(float input)
 {
 	float result;
@@ -205,7 +205,7 @@ void CZCheckGLError_(const char *file, int line)
 	//return retCode;
 };
 
-/// ¶ÁÈ¡jsonÎÄ¼şÄÚÈİ
+/// è¯»å–jsonæ–‡ä»¶å†…å®¹
 map<string,vector<string> > & readJsonContent(const char* jsonFile)
 {
 	static map<string,vector<string> >content;

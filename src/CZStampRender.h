@@ -2,12 +2,12 @@
 ///  \file CZStampRender.h
 ///  \brief This is the file declares the Class CZStampRender.
 ///
-///		ÕâÀïÓÃÀ´»æÖÆ±ÊË¢Í¼ĞÎµÄ»æÖÆÆ÷£¬ÊÇ¸öµ¥Àı¡£
+///		è¿™é‡Œç”¨æ¥ç»˜åˆ¶ç¬”åˆ·å›¾å½¢çš„ç»˜åˆ¶å™¨ï¼Œæ˜¯ä¸ªå•ä¾‹ã€‚
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-10-15
-///  \note		Ö»ÓÃµ½ÀëÏß»æÖÆ
+///  \note		åªç”¨åˆ°ç¦»çº¿ç»˜åˆ¶
 
 #ifndef _CZSTAMPRENDER_H_
 #define _CZSTAMPRENDER_H_
@@ -23,32 +23,32 @@ class CZStampGenerator;
 class CZStampRender :public CZRender
 {
 public:
-	/// Íê³Éµ¥Àı»ñÈ¡º¯Êı
+	/// å®Œæˆå•ä¾‹è·å–å‡½æ•°
 	static CZStampRender * getInstance()
 	{
-		static CZStampRender instance;   //¾Ö²¿¾²Ì¬±äÁ¿  
+		static CZStampRender instance;   //å±€éƒ¨é™æ€å˜é‡  
 		return &instance; 
 	}
-	/// ÅäÖÃ´óĞ¡
+	/// é…ç½®å¤§å°
 	void configure(int w, int h);
-	/// Éú³ÉstampÍ¼Ïñ
+	/// ç”Ÿæˆstampå›¾åƒ
 	CZImage *drawStamp();
 	
-	/// »æÖÆÂİĞıÎÆ
+	/// ç»˜åˆ¶èºæ—‹çº¹
 	void drawSpiralData(std::vector<CZ2DPoint> &points);
 	void drawSpiralData(std::vector<CZ3DPoint> &points);
 
 private:
-	CZStampRender();  //¹¹Ôìº¯ÊıÊÇË½ÓĞµÄ
+	CZStampRender();  //æ„é€ å‡½æ•°æ˜¯ç§æœ‰çš„
 	CZStampRender(const CZStampRender &);
 	CZStampRender & operator = (const CZStampRender &);
 	~CZStampRender();
 
 public:
-	CZStampGenerator *ptrGenerator;		///< µ±Ç°»æÖÆµÄÉú³ÉÆ÷
+	CZStampGenerator *ptrGenerator;		///< å½“å‰ç»˜åˆ¶çš„ç”Ÿæˆå™¨
 private:
-	CZMat4 projMat;						///< Í¶Ó°¾ØÕó
-	CZShader *shader;					///< ×ÅÉ«Æ÷
+	CZMat4 projMat;						///< æŠ•å½±çŸ©é˜µ
+	CZShader *shader;					///< ç€è‰²å™¨
 };
 
 #endif

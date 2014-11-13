@@ -16,48 +16,52 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "Macro.h"
+
+#if USE_OPENGL
 #include "GL/glew.h"
+#endif
 
 
 class CZShader
 {
 public:
-	/// �������Ժ�ͳһ������shader
+	/// 不绑定属性和统一变量的shader
 	CZShader(const char* vertFileName, const char* fragFileName);
-	/// �����Ժ�ͳһ������shader
+	/// 绑定属性和统一变量的shader
 	CZShader(const char* vertFileName, const char* fragFileName, \
 		std::vector<std::string>& atrributes, std::vector<std::string>& uniforms);
 	~CZShader();
 	void begin();
 	void end();
-	GLuint getAttributeLocation(const char* atrrName);
-	GLuint getUniformLocation(const std::string& str);
+	unsigned int getAttributeLocation(const char* atrrName);
+	unsigned int getUniformLocation(const std::string& str);
 private:
-	/// ������ɫ��
-	void destroyShaders(GLuint vertShader,GLuint fragShader, GLuint prog);
-	/// ��ȡ��ɫ������
-	bool textFileRead(const char *_fn,GLchar *&_shader);
-	/// ��ʼ��OpenGL��չ
-	///		\note ����glew�ĳ�ʼ����Ӧ����OpenGL��glut�ĳ�ʼ��֮��
+	/// 销毁着色器
+	void destroyShaders(unsigned int vertShader,unsigned int fragShader, unsigned int prog);
+	/// 读取着色器程序
+	bool textFileRead(const char *_fn, char *&_shader);
+	/// 初始化OpenGL扩展
+	///		\note 包含glew的初始化，应该在OpenGL和glut的初始化之后
 	static bool initOpenGLExtensions();
-	/// �Ƿ�֧��GLSL
+	/// 是否支持GLSL
 	static bool hasGLSLSupport();
-	/// �������
+	/// 编译程序
 	bool compile();
 
-	static bool extensionsInit;			///< �Ƿ��ʼ��GL��չ
-	static bool useGLSL;				///< GLSL�Ƿ��Ѿ�׼��
-	static bool bGeometryShader;		///< �Ƿ�֧��G-Shader
-	static bool bGPUShader4;			///< �Ƿ�֧��Shader4
+	static bool extensionsInit;			///< 是否初始化GL扩展
+	static bool useGLSL;				///< GLSL是否已经准备
+	static bool bGeometryShader;		///< 是否支持G-Shader
+	static bool bGPUShader4;			///< 是否支持Shader4
 
-	GLchar *m_VertexShader;
-	GLchar *m_FragmentShader;
+	char *m_VertexShader;
+	char *m_FragmentShader;
 
-	GLuint m_Program;
-	GLuint m_Vert,m_Frag;
+	unsigned int m_Program;
+	unsigned int m_Vert,m_Frag;
 
-	bool isCompiled;					///< �Ƿ����
-	std::map<std::string,GLuint> m_uniforms;
+	bool isCompiled;					///< 是否编译
+	std::map<std::string,unsigned int> m_uniforms;
 };
 
 #endif

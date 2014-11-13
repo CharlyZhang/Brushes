@@ -24,32 +24,32 @@
 class CZGeneratorDelegate;
 class CZBrush;
 
-/// »­Ë¢ÎÆÀíÉú³ÉÆ÷»ùÀà
+/// ç”»åˆ·çº¹ç†ç”Ÿæˆå™¨åŸºç±»
 class CZStampGenerator : public CZCoding
 {
 public:
 	CZStampGenerator();
 	~CZStampGenerator();
 
-	/// ÖØÖÃÖÖ×Ó
+	/// é‡ç½®ç§å­
 	void resetSeed();
 	///
 	void randomize(){};
-	/// ´´½¨ÊôĞÔ
+	/// åˆ›å»ºå±æ€§
 	virtual void buildProperties();
-	/// »æÖÆÍ¼°¸
+	/// ç»˜åˆ¶å›¾æ¡ˆ
 	virtual void renderStamp();//:(CGContextRef)ctx randomizer:(WDRandom *)randomizer;
-	/// »ñÈ¡±ÊË¢Í¼°¸
+	/// è·å–ç¬”åˆ·å›¾æ¡ˆ
 	CZImage *getStamp(bool isSmall = false);
-	/// »ñÈ¡Ëæ»ú»¯Æ÷
+	/// è·å–éšæœºåŒ–å™¨
 	CZRandom *getRandomizer();
-	/// ÅäÖÃ±ÊË¢²ÎÊı
+	/// é…ç½®ç¬”åˆ·å‚æ•°
 	void configureBrush(CZBrush *brush);
-	/// ·µ»ØÊôĞÔÖµ
+	/// è¿”å›å±æ€§å€¼
 	std::vector<CZProperty> & getProperties(){ static std::vector<CZProperty> temp; return temp;};
-	/// ÅĞ¶ÏÉú³ÉÆ÷ÊÇ·ñÏàµÈ
+	/// åˆ¤æ–­ç”Ÿæˆå™¨æ˜¯å¦ç›¸ç­‰
 	bool isEqual(const CZStampGenerator * gen){return true;}
-	/// ÊµÏÖcoding½Ó¿Ú
+	/// å®ç°codingæ¥å£
 	void update(CZDecoder *decoder_, bool deep = false){};
 	void encode(CZCoder *coder_, bool deep = false){};
 /*
@@ -59,7 +59,7 @@ public:
 	*/
 
 protected:
-	/// Éú³É±ÊË¢Í¼°¸
+	/// ç”Ÿæˆç¬”åˆ·å›¾æ¡ˆ
 	CZImage* generateStamp();
 
 public:
@@ -79,8 +79,8 @@ public:
 	bool canRandomize;
 
 protected:
-	CZImage *stamp;				///< ±ÊË¢Í¼°¸
-	CZRandom *randomizer;		///< ÓëseedÏà¹ØµÄËæ»ú»¯Æ÷
+	CZImage *stamp;				///< ç¬”åˆ·å›¾æ¡ˆ
+	CZRandom *randomizer;		///< ä¸seedç›¸å…³çš„éšæœºåŒ–å™¨
 };
 
 class CZGeneratorDelegate

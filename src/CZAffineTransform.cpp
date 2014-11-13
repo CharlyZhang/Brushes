@@ -13,7 +13,7 @@
 #include "CZUtil.h"
 #include <cmath>
 
-/// ÖØÔØÔËËã·û
+/// é‡è½½è¿ç®—ç¬¦
 CZAffineTransform CZAffineTransform::operator*(const CZAffineTransform &aTrans_) const
 {
 	return CZAffineTransform(a*aTrans_.a + b*aTrans_.c,
@@ -29,21 +29,21 @@ bool CZAffineTransform::operator==(const CZAffineTransform &aTrans_) const
 		&& d == aTrans_.d && tx == aTrans_.tx && ty == aTrans_.ty);
 }
 
-/// ½«±ä»»ÔÙĞı×ª
+/// å°†å˜æ¢å†æ—‹è½¬
 int CZAffineTransform::rotate(float angle_)
 {
 	*this = CZAffineTransform::makeFromRotate(angle_) * (*this);
 	return 0;
 }
 
-/// ½«±ä»»ÔÙÆ½ÒÆ
+/// å°†å˜æ¢å†å¹³ç§»
 int CZAffineTransform::translate(float tx_, float ty_)
 {
 	*this = CZAffineTransform::makeFromTranslation(tx_,ty_) * (*this);
 	return 0;
 }
 
-/// Ó¦ÓÃÓÚ¶şÎ¬µãp
+/// åº”ç”¨äºäºŒç»´ç‚¹p
 CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_) const
 {
 	CZ2DPoint ret;
@@ -53,7 +53,7 @@ CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_) const
 	return ret;
 }
 
-/// Ó¦ÓÃÓÚ¾ØĞÎ
+/// åº”ç”¨äºçŸ©å½¢
 CZRect CZAffineTransform::applyToRect(CZRect & rect_)
 {
 	CZ2DPoint a = CZ2DPoint(rect_.getMinX(), rect_.getMinY());
@@ -74,7 +74,7 @@ CZRect CZAffineTransform::applyToRect(CZRect & rect_)
 	return CZRect(minX,minY, maxX-minX, maxY-minY);
 }
 
-/// ÊÇ·ñÊÇµ¥Î»¾ØÕó
+/// æ˜¯å¦æ˜¯å•ä½çŸ©é˜µ
 bool CZAffineTransform::isIdentity()
 {
 	if(a == 1 && b == 0 && c == 0 &&
@@ -84,19 +84,19 @@ bool CZAffineTransform::isIdentity()
 		return false;
 }
 
-/// Éú³ÉÆ½ÒÆ×ª»»
+/// ç”Ÿæˆå¹³ç§»è½¬æ¢
 CZAffineTransform CZAffineTransform::makeFromTranslation(float tx_, float ty_)
 {
 	return CZAffineTransform(1,0,0,1,tx_,ty_);
 }
 
-/// Éú³ÉĞı×ª×ª»»
+/// ç”Ÿæˆæ—‹è½¬è½¬æ¢
 CZAffineTransform CZAffineTransform::makeFromRotate(float angle_)
 {
 	return CZAffineTransform(cos(angle_), sin(angle_), -sin(angle_), cos(angle_), 0,0);
 }
 
-/// Éú³Éµ¥Î»×ª»»
+/// ç”Ÿæˆå•ä½è½¬æ¢
 CZAffineTransform CZAffineTransform::makeIdentity()
 {
 	return CZAffineTransform(1, 0, 0, 1, 0,0);

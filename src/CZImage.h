@@ -12,15 +12,18 @@
 #ifndef _CZIMAGE_H_
 #define _CZIMAGE_H_
 
+#include "CZCommon.h"
 class CZImage
 {
 public:
-	enum ImageMode {RGB, RGBA};			///< ÉùÃ÷Ã¶¾ÙÀàÐÍ
+	enum ImageMode {RGB, RGBA};			///< å£°æ˜Žæžšä¸¾ç±»åž‹
 	CZImage(int w_=0, int h_=0, ImageMode mode_ = RGB);
 	~CZImage();
 
 	int width,height;
-	float *data;
+
+    PixDataType *data;
+    
 	ImageMode mode;
 };
 

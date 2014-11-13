@@ -20,53 +20,53 @@
 #include <vector>
 #include <map>
 
-/// ¼¤»î×´Ì¬Àà
+/// æ¿€æ´»çŠ¶æ€ç±»
 class CZActiveState
 {
 public:
-	/// »ñÈ¡µ¥Àı
+	/// è·å–å•ä¾‹
 	static CZActiveState * getInstance()
 	{
 		static CZActiveState instance;   
 		return &instance; 
 	}
 
-	/// ÉèÖÃ»æÖÆÄ£Ê½
+	/// è®¾ç½®ç»˜åˆ¶æ¨¡å¼
 	void setEraseMode(bool flag);
-	/// »ñÈ¡»æÖÆÄ£Ê½
+	/// è·å–ç»˜åˆ¶æ¨¡å¼
 	bool isEraseMode();
-	/// ÉèÖÃ»æÖÆÑÕÉ«
+	/// è®¾ç½®ç»˜åˆ¶é¢œè‰²
 	void setPaintColor(CZColor &pc);
 	void setPaintColor(float r, float g, float b, float a = 1.0f);
-	/// »ñÈ¡»æÖÆÑÕÉ«
+	/// è·å–ç»˜åˆ¶é¢œè‰²
 	CZColor getPaintColor();
-	/// ÉèÖÃ¿ÉÓÃ»­Ë¢
+	/// è®¾ç½®å¯ç”¨ç”»åˆ·
 	void setBrushes(std::vector<CZBrush*> &bs);
-	/// Ìí¼Ó»­Ë¢
+	/// æ·»åŠ ç”»åˆ·
 	/// 
-	///		\note Ìí¼ÓÔÚµ±Ç°¼¤»îµÄ»­Ë¢Ö®ºó
+	///		\note æ·»åŠ åœ¨å½“å‰æ¿€æ´»çš„ç”»åˆ·ä¹‹å
 	void addBrush(CZBrush *b);
-	/// »ñµÃ¿ÉÓÃ»­Ë¢
+	/// è·å¾—å¯ç”¨ç”»åˆ·
 	std::vector<CZBrush*> &getBrushes();
-	/// ÉèÖÃµ±Ç°¼¤»î»­Ë¢
+	/// è®¾ç½®å½“å‰æ¿€æ´»ç”»åˆ·
 	///
-	///		\param idx - ¿ÉÓÃ»­Ë¢µÄĞòºÅ£¬µ±·Ç·¨Ê±Ä¬ÈÏÎª0
-	///		\ret	   - Ô­À´µÄ¼¤»î»­Ë¢ĞòºÅ
-	///		\note	µ±Ç°ÉèÖÃµÄ»­Ë¢ÖÖÀàÓÉÄ£Ê½¾ö¶¨
+	///		\param idx - å¯ç”¨ç”»åˆ·çš„åºå·ï¼Œå½“éæ³•æ—¶é»˜è®¤ä¸º0
+	///		\ret	   - åŸæ¥çš„æ¿€æ´»ç”»åˆ·åºå·
+	///		\note	å½“å‰è®¾ç½®çš„ç”»åˆ·ç§ç±»ç”±æ¨¡å¼å†³å®š
 	int setActiveBrush(int idx);
-	/// »ñÈ¡µ±Ç°»­Ë¢
+	/// è·å–å½“å‰ç”»åˆ·
 	/// 
-	///		\note »­Ë¢ÖÖÀàÓÉµ±Ç°µÄ×´Ì¬eraseMode¾ö¶¨
+	///		\note ç”»åˆ·ç§ç±»ç”±å½“å‰çš„çŠ¶æ€eraseModeå†³å®š
 	CZBrush *getActiveBrush();
-	/// É¾³ıµ±Ç°»­Ë¢
+	/// åˆ é™¤å½“å‰ç”»åˆ·
 	void deleteActiveBrush();
-	/// »ñÈ¡µ±Ç°¹¤¾ß
+	/// è·å–å½“å‰å·¥å…·
 	/// 
-	///		\note ¹¤¾ßÖÖÀàÓÉµ±Ç°µÄ×´Ì¬eraseMode¾ö¶¨
+	///		\note å·¥å…·ç§ç±»ç”±å½“å‰çš„çŠ¶æ€eraseModeå†³å®š
 	CZTool *getActiveTool();
 	
 
-	/// »ñÈ¡Ëæ»úÒ»¸ö±ÊË¢Éú³ÉÆ÷
+	/// è·å–éšæœºä¸€ä¸ªç¬”åˆ·ç”Ÿæˆå™¨
 	CZStampGenerator * getRandomGenerator();
 
 private:
@@ -75,18 +75,18 @@ private:
 	CZActiveState & operator = (const CZActiveState &);
 	~CZActiveState();
 
-	/// »ñµÃ»­Ë¢ÔÚËùÓĞ»­Ë¢ÖĞµÄ±êºÅ£¬²»´æÔÚ·µ»Ø¸ºÖµ
+	/// è·å¾—ç”»åˆ·åœ¨æ‰€æœ‰ç”»åˆ·ä¸­çš„æ ‡å·ï¼Œä¸å­˜åœ¨è¿”å›è´Ÿå€¼
 	int indexOfBrushes(CZBrush *brush);
 
 private:
-	std::vector<CZBrush*> brushes;						///< ËùÓĞ¿ÉÓÃµÄ»­Ë¢£¬¸ºÔğÏú»Ù
-	std::vector<CZTool*> tools;							///< ¿ÉÓÃ¹¤¾ß£¬Ä¿Ç°Îª»æÖÆ»­Ë¢ºÍ²Á³ıË¢Á½ÖÖ
-	std::map<std::string,CZStampGenerator*>	generators;	///< ËùÓĞ¿ÉÓÃµÄ»­Ë¢Éú³ÉÆ÷£¬¸ºÔğÏú»Ù
-	bool eraseMode;										///< ±ê¼ÇÊÇ·ñ´¦ÔÚ²Á³ıÄ£Ê½
-	CZBrush *ptrPaintBrush;								///< »æÖÆÓÃ±ÊË¢
-	CZBrush *ptrEraseBrush;								///< ²Á³ıÓÃ±ÊË¢ 
+	std::vector<CZBrush*> brushes;						///< æ‰€æœ‰å¯ç”¨çš„ç”»åˆ·ï¼Œè´Ÿè´£é”€æ¯
+	std::vector<CZTool*> tools;							///< å¯ç”¨å·¥å…·ï¼Œç›®å‰ä¸ºç»˜åˆ¶ç”»åˆ·å’Œæ“¦é™¤åˆ·ä¸¤ç§
+	std::map<std::string,CZStampGenerator*>	generators;	///< æ‰€æœ‰å¯ç”¨çš„ç”»åˆ·ç”Ÿæˆå™¨ï¼Œè´Ÿè´£é”€æ¯
+	bool eraseMode;										///< æ ‡è®°æ˜¯å¦å¤„åœ¨æ“¦é™¤æ¨¡å¼
+	CZBrush *ptrPaintBrush;								///< ç»˜åˆ¶ç”¨ç¬”åˆ·
+	CZBrush *ptrEraseBrush;								///< æ“¦é™¤ç”¨ç¬”åˆ· 
 
-	CZColor paintColor;									///< »æÖÆÑÕÉ«
+	CZColor paintColor;									///< ç»˜åˆ¶é¢œè‰²
 };
 
 #endif

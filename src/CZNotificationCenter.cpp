@@ -2,8 +2,8 @@
 ///  \file CZNotificationCenter.cpp
 ///  \brief This is the file implements the Class CZNotificationCenter and the Interface CZObserver.
 ///
-///		CZNotificationCenterÊÇÒ»¸öµ¥Àı£¬ÒÔ¹Û²ìÕßÄ£Ê½ÊµÏÖÁËÏûÏ¢µÄÊÕ¼¯ºÍ×ª·¢¡£
-///		ObserverÎª´¿ĞéÀà£¬Ìá¹©¹Û²ìÕß½Ó¿Ú
+///		CZNotificationCenteræ˜¯ä¸€ä¸ªå•ä¾‹ï¼Œä»¥è§‚å¯Ÿè€…æ¨¡å¼å®ç°äº†æ¶ˆæ¯çš„æ”¶é›†å’Œè½¬å‘ã€‚
+///		Observerä¸ºçº¯è™šç±»ï¼Œæä¾›è§‚å¯Ÿè€…æ¥å£
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -34,7 +34,7 @@ CZNotificationCenter::~CZNotificationCenter()
 	center.clear();
 }
 
-/// Ìí¼Ó¹Û²ìÕß
+/// æ·»åŠ è§‚å¯Ÿè€…
 void CZNotificationCenter::addObserver(std::string &notificationName,CZObserver *observer,void* sender /* = NULL */)
 {
 	map<string,vector<ObserverItem*>* >::iterator itr = center.find(notificationName);
@@ -65,7 +65,7 @@ void CZNotificationCenter::addObserver(std::string &notificationName,CZObserver 
 
 }
 
-/// ÒÆ³ı¹Û²ìÕß
+/// ç§»é™¤è§‚å¯Ÿè€…
 void CZNotificationCenter::removeObserver(std::string &notificationName,CZObserver *observer)
 {
 	map<string,vector<ObserverItem*> *>::iterator itr = center.find(notificationName);
@@ -91,7 +91,7 @@ void CZNotificationCenter::removeObserver(std::string &notificationName,CZObserv
 	}
 }
 
-/// ·¢ËÍÏûÏ¢
+/// å‘é€æ¶ˆæ¯
 void CZNotificationCenter::notify(std::string &notificationName, void* sender, void* data /* = NULL */)
 {
 	map<string,vector<ObserverItem*>* >::iterator itr = center.find(notificationName);

@@ -2,7 +2,7 @@
 ///  \file CZUndoManager.h
 ///  \brief This is the file declare the class CZUndoManager.
 ///
-///		×öÒ»¸öundomangerµÄÊÊÅäÆ÷
+///		åšä¸€ä¸ªundomangerçš„é€‚é…å™¨
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>

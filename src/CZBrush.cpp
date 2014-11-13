@@ -57,7 +57,7 @@ CZBrush::~CZBrush()
 	brushNum--;
 }
 
-/// Ëæ»úÉú³É±ÊË¢£¨¾²Ì¬º¯Êı£©
+/// éšæœºç”Ÿæˆç¬”åˆ·ï¼ˆé™æ€å‡½æ•°ï¼‰
 CZBrush* CZBrush::randomBrush()
 {
 	CZStampGenerator *generator= CZActiveState::getInstance()->getRandomGenerator();
@@ -72,27 +72,27 @@ CZBrush* CZBrush::randomBrush()
 	return random;
 }
 
-/// »ñÈ¡ÏàÓ¦´óĞ¡µÄ±ÊË¢Í¼
+/// è·å–ç›¸åº”å¤§å°çš„ç¬”åˆ·å›¾
 CZImage *CZBrush::previewImageWithSize(const CZSize &size)
 {
 	if (strokePreview && size.width==strokePreview->width && size.height==strokePreview->height) 
 		return strokePreview;
-
+#if 0   // for incremental compile
 	CZBrushPreview *preview = CZBrushPreview::getInstance();
 
 	preview->setBrush(this);
 	strokePreview = preview->previewWithSize(size);
-
+#endif
 	return strokePreview;
 }
 
-/// ÊÇ·ñÒÖÖÆÍ¨Öª
+/// æ˜¯å¦æŠ‘åˆ¶é€šçŸ¥
 void CZBrush::suppressNotifications(bool flag)
 {
 	suppressNum += flag ? 1 : (-1);
 }
 
-/// »Ö¸´Ä¬ÈÏÖµ
+/// æ¢å¤é»˜è®¤å€¼
 void CZBrush::restoreDefaults()
 {
 	changedProperties.clear();
@@ -105,13 +105,13 @@ void CZBrush::restoreDefaults()
 	{
 		if (strokePreview) { delete strokePreview; strokePreview = NULL;}	
 		
-		CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
+		//CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
 	}
 
 	changedProperties.clear();
 }
 
-/// ¸ü¸ÄÉú³ÉÆ÷
+/// æ›´æ”¹ç”Ÿæˆå™¨
 void CZBrush::setGenerator(CZStampGenerator *gen_)
 {
 	delete generator;
@@ -122,10 +122,10 @@ void CZBrush::setGenerator(CZStampGenerator *gen_)
 
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 
-	CZNotificationCenter::getInstance()->notify(CZBrushGeneratorReplaced,this,gen_);
+	//CZNotificationCenter::getInstance()->notify(CZBrushGeneratorReplaced,this,gen_);
 }
 
-/// ±ÊË¢ÊôĞÔÓĞ¶àÉÙ×é£¨Éú³ÉÆ÷²»´æÔÚÊôĞÔÊ±£¬Ö»ÓĞ2×éÊôĞÔ£©
+/// ç¬”åˆ·å±æ€§æœ‰å¤šå°‘ç»„ï¼ˆç”Ÿæˆå™¨ä¸å­˜åœ¨å±æ€§æ—¶ï¼Œåªæœ‰2ç»„å±æ€§ï¼‰
 int CZBrush::numberOfPropertyGroups()
 {
 	if(generator->getProperties().size())
@@ -133,7 +133,7 @@ int CZBrush::numberOfPropertyGroups()
 	else 
 		return 2;
 }
-/// »ñÈ¡Ä³×éÊôĞÔ
+/// è·å–æŸç»„å±æ€§
 vector<CZProperty> & CZBrush::propertiesGroupAt(int i)
 {
 	static vector<CZProperty> ret;
@@ -169,7 +169,7 @@ vector<CZProperty> & CZBrush::propertiesGroupAt(int i)
 	return ret;
 }
 
-/// ´¦ÀíÊôĞÔ±ä»¯£¨ÊµÏÖÊôĞÔÎ¯ÍĞ½Ó¿Ú£©
+/// å¤„ç†å±æ€§å˜åŒ–ï¼ˆå®ç°å±æ€§å§”æ‰˜æ¥å£ï¼‰
 void CZBrush::propertyChanged(CZProperty &property_)
 {
 	if (suppressNum == 0)
@@ -179,23 +179,23 @@ void CZBrush::propertyChanged(CZProperty &property_)
 		changedProperties.clear();
 		changedProperties.push_back(property_);
 		
-		CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
+		//CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
 	} 
 	else 
 	{
-		changedProperties.push_back(property_);	///< ·¢ÉúÔÚrestorePropertyÖĞgenÅäÖÃ»­Ë¢µÄ¹ı³ÌÖĞ
+		changedProperties.push_back(property_);	///< å‘ç”Ÿåœ¨restorePropertyä¸­gené…ç½®ç”»åˆ·çš„è¿‡ç¨‹ä¸­
 	}
 }
 
-/// ´¦ÀíÉú³ÉÆ÷±ä»¯£¨ÊµÏÖÉú³ÉÆ÷Î¯ÍĞ½Ó¿Ú£©
+/// å¤„ç†ç”Ÿæˆå™¨å˜åŒ–ï¼ˆå®ç°ç”Ÿæˆå™¨å§”æ‰˜æ¥å£ï¼‰
 void CZBrush::generatorChanged(CZStampGenerator &gen_)
 {
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 
-	CZNotificationCenter::getInstance()->notify(CZBrushGeneratorChanged,this,&gen_);
+	//CZNotificationCenter::getInstance()->notify(CZBrushGeneratorChanged,this,&gen_);
 }
 
-/// ÊµÏÖcoding½Ó¿Ú
+/// å®ç°codingæ¥å£
 void CZBrush::update(CZDecoder *decoder, bool deep /*= false*/)
 {
 	if (deep) 
@@ -237,7 +237,7 @@ void CZBrush::encode(CZCoder *coder, bool deep/* = false*/)
 }
 
 
-/// ´´½¨ÊôĞÔ(²»°üÀ¨Öµ)
+/// åˆ›å»ºå±æ€§(ä¸åŒ…æ‹¬å€¼)
 void CZBrush::buildProperties()
 {
 	weight.title = "Weight";
@@ -278,7 +278,7 @@ void CZBrush::buildProperties()
 	intensityDynamics.ptrDelegate = this;
 }
 
-/// ½âÑ¹ËõÖµ
+/// è§£å‹ç¼©å€¼
 float CZBrush::decodeValue(const char *key, CZDecoder *decoder, float deft)
 {
 	float value = decoder->decodeFloat(key,123456789);

@@ -2,12 +2,12 @@
 ///  \file CZPaintingRender.h
 ///  \brief This is the file declare the Class CZPaintingRender.
 ///
-///		¸ºÔğ»­Í¼ÇøÓòµÄ»æÖÆ£¬°üÀ¨CZPaintingºÍCZLayerµÄËùÓĞ»æÖÆ¡£
+///		è´Ÿè´£ç”»å›¾åŒºåŸŸçš„ç»˜åˆ¶ï¼ŒåŒ…æ‹¬CZPaintingå’ŒCZLayerçš„æ‰€æœ‰ç»˜åˆ¶ã€‚
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-10-14
-///  \note		Ä¬ÈÏÈÏÊÇ»æÖÆµ½activePaintTextureÎÆÀí£¬ĞèÒªÊ±¿ÉÒÔµ÷Õûµ½ÀëÏß»æÖÆ£¬µ«ĞèÒª»Ö¸´¡£
+///  \note		é»˜è®¤è®¤æ˜¯ç»˜åˆ¶åˆ°activePaintTextureçº¹ç†ï¼Œéœ€è¦æ—¶å¯ä»¥è°ƒæ•´åˆ°ç¦»çº¿ç»˜åˆ¶ï¼Œä½†éœ€è¦æ¢å¤ã€‚
 
 
 #ifndef _CZPAINTINGRENDER_H_
@@ -36,70 +36,73 @@ public:
 	CZPaintingRender(const CZSize &size);
 	~CZPaintingRender();
 
-	/// »æÖÆÄ³ÇøÓòÄÚÊÓÍ¼£¨µ½ÆÁÄ»£©- for CZCanvas
+	/// ç»˜åˆ¶æŸåŒºåŸŸå†…è§†å›¾ï¼ˆåˆ°å±å¹•ï¼‰- for CZCanvas
 	void drawViewInRect(/*const CZRect &rect*/);
 
-	/// »æÖÆµ±Ç°×´Ì¬µÄÍ¼Ïñ£¨²»°üº¬»æÖÆ¹ì¼££©	- for CZPainting
+	/// ç»˜åˆ¶å½“å‰çŠ¶æ€çš„å›¾åƒï¼ˆä¸åŒ…å«ç»˜åˆ¶è½¨è¿¹ï¼‰	- for CZPainting
 	CZImage *drawPaintingImage(CZSize & size, CZColor *bgColor);
-	/// Éú³Éµ±Ç°»æÖÆ×´Ì¬µÄÍ¼Ïñ				- for CZPainting
+	/// ç”Ÿæˆå½“å‰ç»˜åˆ¶çŠ¶æ€çš„å›¾åƒ				- for CZPainting
 	CZImage *drawPaintingCurrentState(CZColor *bgColor);
-	/// »æÖÆÒ»±Ê¹ì¼££¨µ½ÎÆÀí£©				- for CZPainting
+	/// ç»˜åˆ¶ä¸€ç¬”è½¨è¿¹ï¼ˆåˆ°çº¹ç†ï¼‰				- for CZPainting
 	CZRect drawPaintingStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer);
 
-	/// Éú³Éµ±Ç°Í¼²ãÍ¼Ïñ				- for CZLayer
+	/// ç”Ÿæˆå½“å‰å›¾å±‚å›¾åƒ				- for CZLayer
 	CZImage *drawLayerInRect(const CZRect &rect);
-	/// »æÖÆLayerµÄ²Á³ı¹ì¼£			- for CZLayer
+	/// ç»˜åˆ¶Layerçš„æ“¦é™¤è½¨è¿¹			- for CZLayer
 	void drawLayerWithEraseMask(CZMat4 &projection);
-	/// »æÖÆLayerµÄ»æ»­¹ì¼£			- for CZLayer
+	/// ç»˜åˆ¶Layerçš„ç»˜ç”»è½¨è¿¹			- for CZLayer
 	void drawLayerWithMask(CZMat4 &projection,CZColor *bgColor);
-	/// ½«LayerµÄÎÆÀí»æÖÆ				- for CZLayer
+	/// å°†Layerçš„çº¹ç†ç»˜åˆ¶				- for CZLayer
 	void drawLayer(CZMat4 &projection);
-	/// ½«LayerµÄÎÆÀí×ª»»ºó»æÖÆ			- for CZLayer
+	/// å°†Layerçš„çº¹ç†è½¬æ¢åç»˜åˆ¶			- for CZLayer
 	void drawLayerWithTransform(CZMat4 &projection, const CZAffineTransform &transform);
-	/// ½«LayerµÄÎÆÀí´øÑÕÉ«µ÷Õûºó»æÖÆ	- for CZLayer
+	/// å°†Layerçš„çº¹ç†å¸¦é¢œè‰²è°ƒæ•´åç»˜åˆ¶	- for CZLayer
 	void drawLayerWithcolorBalance(CZMat4 &projection, CZColorBalance *colorBalance);
-	/// ½«LayerµÄÎÆÀí´øÉ«²Êµ÷Õûºó»æÖÆ	- for CZLayer
+	/// å°†Layerçš„çº¹ç†å¸¦è‰²å½©è°ƒæ•´åç»˜åˆ¶	- for CZLayer
 	void drawLayerWithhueSaturation(CZMat4 &projection, CZHueSaturation *hueSaturation);
-	/// ½«»æÖÆµÄ¹ì¼£ºÏ²¢µ½µ±Ç°Í¼²ã		- for CZLayer
+	/// å°†ç»˜åˆ¶çš„è½¨è¿¹åˆå¹¶åˆ°å½“å‰å›¾å±‚		- for CZLayer
 	void composeActivePaintTexture(CZColor &color,bool erase);
 
-	/// Çå³ıÍ¼²ãµÄÉ«µ÷/Å¨¶È/ÁÁ¶ÈÎÆÀí
+	/// æ¸…é™¤å›¾å±‚çš„è‰²è°ƒ/æµ“åº¦/äº®åº¦çº¹ç†
 	void clearLayerHCLTexture(CZLayer *layer);
-	/// Çå³ıÍ¼²ãÎÆÀí
+	/// æ¸…é™¤å›¾å±‚çº¹ç†
 	void clearLayerTexture(CZLayer* layer);
-	/// µ÷Õû»æÖÆÆ÷´óĞ¡£¨µ÷Õûwidth,heightÒÔ¼°activePaintTexture£©
+	/// è°ƒæ•´ç»˜åˆ¶å™¨å¤§å°ï¼ˆè°ƒæ•´width,heightä»¥åŠactivePaintTextureï¼‰
 	void resize(const CZSize &size);
-	/// ¸ü»»±ÊË¢ÎÆÀí
+	/// æ›´æ¢ç¬”åˆ·çº¹ç†
 	void changeBrushTex(CZBrush *brush);
-	/// »ñÈ¡»æÖÆÓÃÎÆÀí
+	/// è·å–ç»˜åˆ¶ç”¨çº¹ç†
 	CZTexture* getPaintTexture();
 
 private:
-	/// ÔØÈë×ÅÉ«Æ÷
+	/// è½½å…¥ç€è‰²å™¨
 	void loadShaders();
-	/// ÅäÖÃ»ìºÏÄ£Ê½
+	/// é…ç½®æ··åˆæ¨¡å¼
 	void configureBlendMode(BlendMode mode);
-	/// ·µ»ØquadVAO
-	GLuint getQuadVAO();
-	/// »ñÈ¡Í¼²ãÎÆÀí
+	/// è¿”å›quadVAO
+	unsigned int getQuadVAO();
+	/// è·å–å›¾å±‚çº¹ç†
 	CZTexture* getLayerTexture(CZLayer* layer);	
-	/// »ñÈ¡Í¼²ãµÄÉ«µ÷/Å¨¶È/ÁÁ¶ÈÎÆÀí
+	/// è·å–å›¾å±‚çš„è‰²è°ƒ/æµ“åº¦/äº®åº¦çº¹ç†
 	CZTexture* getLayerHCLTexture(CZLayer *layer);
 	
-	/// »æÖÆ¾ØĞÎ
+	/// ç»˜åˆ¶çŸ©å½¢
 	void drawRect(const CZRect &rect, const CZAffineTransform &transform);
+    
+    /// draw quad
+    void drawQuad();
 
 public:
-	CZPainting	*ptrPainting;				///< µ±Ç°»æÖÆ
-	CZLayer		*ptrLayer;					///< µ±Ç°»æÖÆµÄÍ¼²ã£¬ÔÚÊÜÀíÎ¯ÍĞÊ±¿ÉÓÃÓÚ´«Êı¾İ
+	CZPainting	*ptrPainting;				///< å½“å‰ç»˜åˆ¶
+	CZLayer		*ptrLayer;					///< å½“å‰ç»˜åˆ¶çš„å›¾å±‚ï¼Œåœ¨å—ç†å§”æ‰˜æ—¶å¯ç”¨äºä¼ æ•°æ®
 private:
-	std::map<std::string,CZShader*>	shaders;///< ×ÅÉ«Æ÷
-	GLuint quadVAO,quadVBO;					///< »æÖÆ¾ØĞÎµÄVAO¡¢VBO
-	CZTexture *activePaintTexture;			///< »æÖÆÓÃµÄÎÆÀí	- painting
-	CZMat4					projectionMat;	///< Í¶Ó°¾ØÕó
-	std::map<unsigned int,CZTexture*> layerTextures;			///< ¸÷²ãµÄÎÆÀí£¨±ÜÃâ·´¸´Éú³ÉÎÆÀí£©
-	std::map<unsigned int,CZTexture*> layerHueChromaLumaTex;	///< ¸÷²ãµÄÉ«µ÷/Å¨¶È/ÁÁ¶ÈÎÆÀí£¨±ÜÃâ·´¸´Éú³ÉÎÆÀí£©
-
-	CZTexture *brushTex;					///< ±ÊË¢ÎÆÀí
+	std::map<std::string,CZShader*>	shaders;///< ç€è‰²å™¨
+	unsigned int quadVAO,quadVBO;					///< ç»˜åˆ¶çŸ©å½¢çš„VAOã€VBO
+	CZTexture *activePaintTexture;			///< ç»˜åˆ¶ç”¨çš„çº¹ç†	- painting
+	CZMat4					projectionMat;	///< æŠ•å½±çŸ©é˜µ
+	std::map<unsigned int,CZTexture*> layerTextures;			///< å„å±‚çš„çº¹ç†ï¼ˆé¿å…åå¤ç”Ÿæˆçº¹ç†ï¼‰
+	std::map<unsigned int,CZTexture*> layerHueChromaLumaTex;	///< å„å±‚çš„è‰²è°ƒ/æµ“åº¦/äº®åº¦çº¹ç†ï¼ˆé¿å…åå¤ç”Ÿæˆçº¹ç†ï¼‰
+public: ///! for debug
+	CZTexture *brushTex;					///< ç¬”åˆ·çº¹ç†
 };
 #endif

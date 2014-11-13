@@ -11,13 +11,13 @@
 
 #include "CZCanvas.h"
 
-/// »æÖÆÊÓÍ¼
+/// ç»˜åˆ¶è§†å›¾
 void CZCanvas::drawView()
 {
 	drawViewInRect(visibleRect);
 }
 
-/// ÔÚÒ»¶¨ÇøÓò»æÖÆÊÓÍ¼
+/// åœ¨ä¸€å®šåŒºåŸŸç»˜åˆ¶è§†å›¾
 void CZCanvas::drawViewInRect(CZRect &rect)
 {
 

@@ -7,7 +7,7 @@
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-12
-///  \note		uid´¦Àí¡¢Éî¶È¿½±´¡¢ÏàµÈ±È½ÏµÈÃ»´¦Àí
+///  \note		uidå¤„ç†ã€æ·±åº¦æ‹·è´ã€ç›¸ç­‰æ¯”è¾ƒç­‰æ²¡å¤„ç†
 
 #ifndef _CZBRUSH_H_
 #define _CZBRUSH_H_
@@ -33,55 +33,55 @@ public:
 	CZBrush(CZStampGenerator *gen_);
 	~CZBrush();
 
-	/// Ëæ»úÉú³É±ÊË¢£¨¾²Ì¬º¯Êı£©
+	/// éšæœºç”Ÿæˆç¬”åˆ·ï¼ˆé™æ€å‡½æ•°ï¼‰
 	static CZBrush * randomBrush(); 
-	/// »ñÈ¡ÏàÓ¦´óĞ¡µÄ±ÊË¢Í¼
+	/// è·å–ç›¸åº”å¤§å°çš„ç¬”åˆ·å›¾
 	CZImage *previewImageWithSize(const CZSize &size);
-	/// ÊÇ·ñÒÖÖÆÍ¨Öª
+	/// æ˜¯å¦æŠ‘åˆ¶é€šçŸ¥
 	void suppressNotifications(bool flag);
-	/// »Ö¸´Ä¬ÈÏÖµ
+	/// æ¢å¤é»˜è®¤å€¼
 	void restoreDefaults();
-	/// ¸ü¸ÄÉú³ÉÆ÷
+	/// æ›´æ”¹ç”Ÿæˆå™¨
 	void setGenerator(CZStampGenerator *gen_);
-	/// ±ÊË¢ÊôĞÔÓĞ¶àÉÙ×é£¨Éú³ÉÆ÷²»´æÔÚÊôĞÔÊ±£¬Ö»ÓĞ2×éÊôĞÔ£©
+	/// ç¬”åˆ·å±æ€§æœ‰å¤šå°‘ç»„ï¼ˆç”Ÿæˆå™¨ä¸å­˜åœ¨å±æ€§æ—¶ï¼Œåªæœ‰2ç»„å±æ€§ï¼‰
 	int numberOfPropertyGroups();
-	/// »ñÈ¡Ä³×éÊôĞÔ
+	/// è·å–æŸç»„å±æ€§
 	std::vector<CZProperty> & propertiesGroupAt(int i); 
-	/// ´¦ÀíÊôĞÔ±ä»¯£¨ÊµÏÖÊôĞÔÎ¯ÍĞ½Ó¿Ú£©
+	/// å¤„ç†å±æ€§å˜åŒ–ï¼ˆå®ç°å±æ€§å§”æ‰˜æ¥å£ï¼‰
 	void propertyChanged(CZProperty &property_);
-	/// ´¦ÀíÉú³ÉÆ÷±ä»¯£¨ÊµÏÖÉú³ÉÆ÷Î¯ÍĞ½Ó¿Ú£©
+	/// å¤„ç†ç”Ÿæˆå™¨å˜åŒ–ï¼ˆå®ç°ç”Ÿæˆå™¨å§”æ‰˜æ¥å£ï¼‰
 	void generatorChanged(CZStampGenerator &gen_);
-	/// ÊµÏÖcoding½Ó¿Ú
+	/// å®ç°codingæ¥å£
 	void update(CZDecoder *decoder, bool deep = false);
 	void encode(CZCoder *coder, bool deep = false);
 
 private:
-	/// ´´½¨ÊôĞÔ£¨²»°üÀ¨Öµ£©
+	/// åˆ›å»ºå±æ€§ï¼ˆä¸åŒ…æ‹¬å€¼ï¼‰
 	void buildProperties();
-	/// ½âÑ¹ËõÖµ
+	/// è§£å‹ç¼©å€¼
 	float decodeValue(const char *key, CZDecoder *decoder, float deft);
 
 public:
-	unsigned int uid;				///< £¡Ô­Éè¼ÆÖĞ£¬uidËæÊôĞÔºÍÉú³ÉÆ÷¸Ä±ä¶ø¸Ä±ä
-	CZStampGenerator *generator;	///< ±ÊË¢ÎÆÀíÉú³ÉÆ÷£¬¸ÃÀà¸ºÔğÏú»Ù
-	CZProperty weight;				///< »­±ÊµÄ´ÖÏ¸ [1.0, 512.0] -- pixels	
+	unsigned int uid;				///< ï¼åŸè®¾è®¡ä¸­ï¼Œuidéšå±æ€§å’Œç”Ÿæˆå™¨æ”¹å˜è€Œæ”¹å˜
+	CZStampGenerator *generator;	///< ç¬”åˆ·çº¹ç†ç”Ÿæˆå™¨ï¼Œè¯¥ç±»è´Ÿè´£é”€æ¯
+	CZProperty weight;				///< ç”»ç¬”çš„ç²—ç»† [1.0, 512.0] -- pixels	
 
-	CZProperty intensity;			///< [0.0, 1.0]	--±ÊË¢Å¨¶È£¨ÎÆÀíµÄÊıÄ¿£©
+	CZProperty intensity;			///< [0.0, 1.0]	--ç¬”åˆ·æµ“åº¦ï¼ˆçº¹ç†çš„æ•°ç›®ï¼‰
 	CZProperty angle;				// [0.0, 1.0];
-	CZProperty spacing;				/// [0.01, 2.0] --±ÊË¢µÄÃÜ¶È£¬percentage of brush width
+	CZProperty spacing;				/// [0.01, 2.0] --ç¬”åˆ·çš„å¯†åº¦ï¼Œpercentage of brush width
 	CZProperty rotationalScatter;  // [0.0, 1.0]
 	CZProperty positionalScatter;  // [0.0, 1.0]
 
 	CZProperty angleDynamics;      // [-1.0, 1.0]
-	CZProperty weightDynamics;     ///< Ä¿²âÊÇ»­±Ê»¬¶¯Ê±µÄ´ÖÏ¸µÄËõĞ¡Öµ [-1.0, 1.0]
+	CZProperty weightDynamics;     ///< ç›®æµ‹æ˜¯ç”»ç¬”æ»‘åŠ¨æ—¶çš„ç²—ç»†çš„ç¼©å°å€¼ [-1.0, 1.0]
 	CZProperty intensityDynamics;  // [-1.0, 1.0]
 
 private:
-	int suppressNum;								///< ÒÖÖÆÍ¨ÖªµÄÊıÄ¿
-	std::vector<CZProperty> changedProperties;		///< ¸Ä±äÁËµÄÊôĞÔ£¨ÓÃvector´úÌæÁËset£¬±ÜÃâĞ´CZPropertyµÄ±È½Ïº¯Êı£©
+	int suppressNum;								///< æŠ‘åˆ¶é€šçŸ¥çš„æ•°ç›®
+	std::vector<CZProperty> changedProperties;		///< æ”¹å˜äº†çš„å±æ€§ï¼ˆç”¨vectorä»£æ›¿äº†setï¼Œé¿å…å†™CZPropertyçš„æ¯”è¾ƒå‡½æ•°ï¼‰
 
-	static int brushNum;							///< ¼ÇÂ¼±ÊË¢ÊıÄ¿
-	CZImage *strokePreview;							///< ±ÊË¢µÄÔ¤ÀÀÍ¼
+	static int brushNum;							///< è®°å½•ç¬”åˆ·æ•°ç›®
+	CZImage *strokePreview;							///< ç¬”åˆ·çš„é¢„è§ˆå›¾
 };
 
 #endif

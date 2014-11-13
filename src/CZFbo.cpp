@@ -30,7 +30,7 @@ CZFbo::~CZFbo()
 	if(renderId) glDeleteRenderbuffers(1,&renderId);
 }
 
-/// ÉèÖÃ»æÖÆÎÆÀí
+/// è®¾ç½®ç»˜åˆ¶çº¹ç†
 void CZFbo::setTexture(CZTexture *tex_)
 {
 	if (isReady == OFFLINE_RENDER)
@@ -53,7 +53,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		std::cerr << "CZFbo::setTexture - Tex is null \n";
 }
 
-/// ÉèÖÃ»æÖÆ»º³åÇø
+/// è®¾ç½®ç»˜åˆ¶ç¼“å†²åŒº
 void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
 	if (isReady == OFFLINE_RENDER)
@@ -67,7 +67,7 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	height = h_;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
-	//ÉêÇë»æÖÆ»º³åÇø
+	//ç”³è¯·ç»˜åˆ¶ç¼“å†²åŒº
 	glGenRenderbuffers(1,&renderId);
 	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
 #if		USE_OPENGL
@@ -75,14 +75,14 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 #elif	USE_OPENGL_ES
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
 #endif
-	//½«ÑÕÉ«»æÖÆ»º³åÓëFBO°ó¶¨
+	//å°†é¢œè‰²ç»˜åˆ¶ç¼“å†²ä¸FBOç»‘å®š
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
 	//check status
 	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-/// ¿ªÊ¼FBO
+/// å¼€å§‹FBO
 void CZFbo::begin()
 {
 	if(isReady == NONE) 
@@ -91,7 +91,7 @@ void CZFbo::begin()
 		return;
 	}
 
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//»ñÈ¡µ±Ç°µÄFBO£¬ÓÃÓÚ»¹Ô­
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//è·å–å½“å‰çš„FBOï¼Œç”¨äºè¿˜åŸ
 	glBindFramebuffer(GL_FRAMEBUFFER, id); 
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
@@ -99,7 +99,7 @@ void CZFbo::begin()
 	glViewport(0,0,width,height);
 }
 
-/// ½áÊøFBO
+/// ç»“æŸFBO
 void CZFbo::end()
 {
 	if(isReady == NONE) return;
@@ -108,7 +108,7 @@ void CZFbo::end()
 	glBindFramebuffer(GL_FRAMEBUFFER, preFbo);
 }
 
-/// ½«ÎÆÀí»æÖÆµ½ÆÁÄ»
+/// å°†çº¹ç†ç»˜åˆ¶åˆ°å±å¹•
 void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
 {
 	if(tex == NULL || isReady!=RENDER2TEX) 
@@ -145,7 +145,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 	glEnable(GL_DEPTH_TEST);
 }
 
-/// ¼ì²é×´Ì¬
+/// æ£€æŸ¥çŠ¶æ€
 int CZFbo::checkFramebufferStatus()
 {
 	int status;

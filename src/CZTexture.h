@@ -13,6 +13,7 @@
 #define _CZTEXTURE_H_
 
 #include "Macro.h"
+#include "CZCommon.h"
 #include "CZImage.h"
 #include <iostream>
 
@@ -24,26 +25,24 @@ class CZTexture
 {
 public:
 	enum TexType {BrushTex,RenderTex};
-	CZTexture(int width_, int height_, TexType texType_ = RenderTex, float *data = NULL);
+	CZTexture(int width_, int height_, TexType texType_ = RenderTex, PixDataType *data = NULL);
 	~CZTexture();
-	/// ÓÉCZImageÉú³ÉÎÆÀí
+	/// ç”±CZImageç”Ÿæˆçº¹ç†
 	static CZTexture* produceFromImage(CZImage *img, bool deepColor = false);
-	/// »ñÈ¡Æä¶ÔÓ¦µÄÍ¼ÏñÊı¾İ
+	/// è·å–å…¶å¯¹åº”çš„å›¾åƒæ•°æ®
 	CZImage *toImage();
-	/// ¿ª¹ØÏßĞÔ²îÖµ
+	/// å¼€å…³çº¿æ€§å·®å€¼
 	void enableLinearInterprolation(float flag);
 
 protected:
-	/// ³õÊ¼»¯äÖÈ¾ÎÆÀí
-	void initRenderTex(float *data = NULL);
-	/// ³õÊ¼»¯±ÊË¢ÎÆÀí
-	void initBrushTex(float *data = NULL);
+	/// åˆå§‹åŒ–æ¸²æŸ“çº¹ç†
+	void initRenderTex(PixDataType *data = NULL);
+	/// åˆå§‹åŒ–ç¬”åˆ·çº¹ç†
+	void initBrushTex(PixDataType *data = NULL);
 
 public:
-#if USE_OPENGL	///< £¿ÊÇ·ñĞèÒªºê£¬´ı¶¨
-	GLuint id;
-#endif
-	static bool supportColor;		///< ÅĞ¶ÏÓ²¼şÊÇ·ñÖ§³ÖÉî¶ÈÑÕÉ«
+	unsigned int texId;
+	static bool supportColor;		///< åˆ¤æ–­ç¡¬ä»¶æ˜¯å¦æ”¯æŒæ·±åº¦é¢œè‰²
 	int width,height;
 	TexType texType;
 };

@@ -1,0 +1,617 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
+		2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53C1A0C9196003724D4 /* XCTest.framework */; };
+		2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
+		2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53F1A0C9196003724D4 /* UIKit.framework */; };
+		2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */; };
+		2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D2BE5471A0C9196003724D4 /* InfoPlist.strings */; };
+		2D2BE56A1A0C93E5003724D4 /* CZ3DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE5541A0C93E5003724D4 /* CZ3DPoint.cpp */; };
+		2D2BE56C1A0C93E5003724D4 /* CZGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE5591A0C93E5003724D4 /* CZGeometry.cpp */; };
+		2D2BE56D1A0C93E5003724D4 /* CZImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE55B1A0C93E5003724D4 /* CZImage.cpp */; };
+		2D2BE56F1A0C93E5003724D4 /* CZSpiralGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE55F1A0C93E5003724D4 /* CZSpiralGenerator.cpp */; };
+		2D2BE5701A0C93E5003724D4 /* CZStampGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE5611A0C93E5003724D4 /* CZStampGenerator.cpp */; };
+		2D2BE5871A0F5CA1003724D4 /* CZRender.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE5861A0F5CA1003724D4 /* CZRender.mm */; };
+		2D2BE5891A0F5F26003724D4 /* CZFbo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE5881A0F5F26003724D4 /* CZFbo.mm */; };
+		2D2BE58D1A0F6040003724D4 /* CZTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE58C1A0F6040003724D4 /* CZTexture.mm */; };
+		2D2BE58F1A0F6410003724D4 /* CZStampRender.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE58E1A0F6410003724D4 /* CZStampRender.mm */; };
+		2D2BE5911A0F64DF003724D4 /* CZShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D2BE5901A0F64DF003724D4 /* CZShader.mm */; };
+		2D7806AE1A11E5EB003F7479 /* CZActiveState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D78069D1A11E5EB003F7479 /* CZActiveState.cpp */; };
+		2D7806AF1A11E5EB003F7479 /* CZBrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D78069F1A11E5EB003F7479 /* CZBrush.cpp */; };
+		2D7806B01A11E5EB003F7479 /* CZColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806A11A11E5EB003F7479 /* CZColor.cpp */; };
+		2D7806B11A11E5EB003F7479 /* CZFreehandTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806A31A11E5EB003F7479 /* CZFreehandTool.cpp */; };
+		2D7806B21A11E5EB003F7479 /* CZLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806A51A11E5EB003F7479 /* CZLayer.cpp */; };
+		2D7806B41A11E5EB003F7479 /* CZPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806AA1A11E5EB003F7479 /* CZPath.cpp */; };
+		2D7806B51A11E5EB003F7479 /* CZProperty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806AC1A11E5EB003F7479 /* CZProperty.cpp */; };
+		2D7806B71A11F3B3003F7479 /* CZPaintingRender.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806B61A11F3B3003F7479 /* CZPaintingRender.mm */; };
+		2D7806B91A11F7BF003F7479 /* CZPainting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806B81A11F7BF003F7479 /* CZPainting.cpp */; };
+		2D7806BE1A11F8A1003F7479 /* CZColorBalance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806BA1A11F8A1003F7479 /* CZColorBalance.cpp */; };
+		2D7806BF1A11F8A1003F7479 /* CZHueSaturation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806BC1A11F8A1003F7479 /* CZHueSaturation.cpp */; };
+		2D7806C21A11FCD7003F7479 /* CZTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806C01A11FCD7003F7479 /* CZTool.cpp */; };
+		2D7806C51A11FFE7003F7479 /* CZEraserTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D7806C31A11FFE7003F7479 /* CZEraserTool.cpp */; };
+		2DB759161A109BF4009E05B8 /* CZUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759151A109BF4009E05B8 /* CZUtil.mm */; };
+		2DB759221A10B5F3009E05B8 /* CZAffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DB7591A1A10B5F3009E05B8 /* CZAffineTransform.cpp */; };
+		2DB759231A10B5F3009E05B8 /* CZBezierNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DB7591C1A10B5F3009E05B8 /* CZBezierNode.cpp */; };
+		2DB759241A10B5F3009E05B8 /* CZBezierSegment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DB7591E1A10B5F3009E05B8 /* CZBezierSegment.cpp */; };
+		2DB759251A10B5F3009E05B8 /* CZMat4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759201A10B5F3009E05B8 /* CZMat4.cpp */; };
+		2DB759281A10B668009E05B8 /* CZRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759261A10B668009E05B8 /* CZRandom.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2D2BE5411A0C9196003724D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D2BE5231A0C9196003724D4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D2BE52A1A0C9196003724D4;
+			remoteInfo = BrushesCore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2D2BE5291A0C9196003724D4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBrushesCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D2BE52E1A0C9196003724D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2D2BE5321A0C9196003724D4 /* BrushesCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BrushesCore-Prefix.pch"; sourceTree = "<group>"; };
+		2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrushesCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D2BE53C1A0C9196003724D4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		2D2BE53F1A0C9196003724D4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrushesCoreTests-Info.plist"; sourceTree = "<group>"; };
+		2D2BE5481A0C9196003724D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2D2BE5541A0C93E5003724D4 /* CZ3DPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZ3DPoint.cpp; path = ../../../src/CZ3DPoint.cpp; sourceTree = "<group>"; };
+		2D2BE5551A0C93E5003724D4 /* CZ3DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZ3DPoint.h; path = ../../../src/CZ3DPoint.h; sourceTree = "<group>"; };
+		2D2BE5561A0C93E5003724D4 /* CZDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZDecoder.h; path = ../../../src/CZDecoder.h; sourceTree = "<group>"; };
+		2D2BE5581A0C93E5003724D4 /* CZFbo.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZFbo.h; path = ../../../src/CZFbo.h; sourceTree = "<group>"; };
+		2D2BE5591A0C93E5003724D4 /* CZGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZGeometry.cpp; path = ../../../src/CZGeometry.cpp; sourceTree = "<group>"; };
+		2D2BE55A1A0C93E5003724D4 /* CZGeometry.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZGeometry.h; path = ../../../src/CZGeometry.h; sourceTree = "<group>"; };
+		2D2BE55B1A0C93E5003724D4 /* CZImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZImage.cpp; path = ../../../src/CZImage.cpp; sourceTree = "<group>"; };
+		2D2BE55C1A0C93E5003724D4 /* CZImage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZImage.h; path = ../../../src/CZImage.h; sourceTree = "<group>"; };
+		2D2BE55E1A0C93E5003724D4 /* CZShader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZShader.h; path = ../../../src/CZShader.h; sourceTree = "<group>"; };
+		2D2BE55F1A0C93E5003724D4 /* CZSpiralGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZSpiralGenerator.cpp; path = ../../../src/CZSpiralGenerator.cpp; sourceTree = "<group>"; };
+		2D2BE5601A0C93E5003724D4 /* CZSpiralGenerator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZSpiralGenerator.h; path = ../../../src/CZSpiralGenerator.h; sourceTree = "<group>"; };
+		2D2BE5611A0C93E5003724D4 /* CZStampGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZStampGenerator.cpp; path = ../../../src/CZStampGenerator.cpp; sourceTree = "<group>"; };
+		2D2BE5621A0C93E5003724D4 /* CZStampGenerator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZStampGenerator.h; path = ../../../src/CZStampGenerator.h; sourceTree = "<group>"; };
+		2D2BE5641A0C93E5003724D4 /* CZStampRender.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZStampRender.h; path = ../../../src/CZStampRender.h; sourceTree = "<group>"; };
+		2D2BE5661A0C93E5003724D4 /* CZTexture.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZTexture.h; path = ../../../src/CZTexture.h; sourceTree = "<group>"; };
+		2D2BE5681A0C93E5003724D4 /* CZUtil.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = CZUtil.h; path = ../../../src/CZUtil.h; sourceTree = "<group>"; };
+		2D2BE5691A0C93E5003724D4 /* Macro.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = Macro.h; path = ../../../src/Macro.h; sourceTree = "<group>"; };
+		2D2BE5741A0CB707003724D4 /* CZRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZRender.h; path = ../../../src/CZRender.h; sourceTree = "<group>"; };
+		2D2BE5861A0F5CA1003724D4 /* CZRender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZRender.mm; path = ../../../src/CZRender.mm; sourceTree = "<group>"; };
+		2D2BE5881A0F5F26003724D4 /* CZFbo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZFbo.mm; path = ../../../src/CZFbo.mm; sourceTree = "<group>"; };
+		2D2BE58C1A0F6040003724D4 /* CZTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZTexture.mm; path = ../../../src/CZTexture.mm; sourceTree = "<group>"; };
+		2D2BE58E1A0F6410003724D4 /* CZStampRender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZStampRender.mm; path = ../../../src/CZStampRender.mm; sourceTree = "<group>"; };
+		2D2BE5901A0F64DF003724D4 /* CZShader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZShader.mm; path = ../../../src/CZShader.mm; sourceTree = "<group>"; };
+		2D2BE5931A104F67003724D4 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.frag; sourceTree = "<group>"; };
+		2D2BE5941A104F67003724D4 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vert; sourceTree = "<group>"; };
+		2D2BE5951A104F67003724D4 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithMask.frag; sourceTree = "<group>"; };
+		2D2BE5961A104F67003724D4 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.frag; sourceTree = "<group>"; };
+		2D2BE5971A104F67003724D4 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.vert; sourceTree = "<group>"; };
+		2D2BE5981A104F67003724D4 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithEraseMask.frag; sourceTree = "<group>"; };
+		2D2BE5991A104F67003724D4 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithMask.frag; sourceTree = "<group>"; };
+		2D2BE59A1A104F67003724D4 /* stamp.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stamp.frag; sourceTree = "<group>"; };
+		2D2BE59B1A104F67003724D4 /* stamp.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stamp.vert; sourceTree = "<group>"; };
+		2D78069C1A11A86C003F7479 /* CZCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZCommon.h; path = ../../../src/CZCommon.h; sourceTree = "<group>"; };
+		2D78069D1A11E5EB003F7479 /* CZActiveState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZActiveState.cpp; path = ../../../src/CZActiveState.cpp; sourceTree = "<group>"; };
+		2D78069E1A11E5EB003F7479 /* CZActiveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZActiveState.h; path = ../../../src/CZActiveState.h; sourceTree = "<group>"; };
+		2D78069F1A11E5EB003F7479 /* CZBrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZBrush.cpp; path = ../../../src/CZBrush.cpp; sourceTree = "<group>"; };
+		2D7806A01A11E5EB003F7479 /* CZBrush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZBrush.h; path = ../../../src/CZBrush.h; sourceTree = "<group>"; };
+		2D7806A11A11E5EB003F7479 /* CZColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZColor.cpp; path = ../../../src/CZColor.cpp; sourceTree = "<group>"; };
+		2D7806A21A11E5EB003F7479 /* CZColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZColor.h; path = ../../../src/CZColor.h; sourceTree = "<group>"; };
+		2D7806A31A11E5EB003F7479 /* CZFreehandTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZFreehandTool.cpp; path = ../../../src/CZFreehandTool.cpp; sourceTree = "<group>"; };
+		2D7806A41A11E5EB003F7479 /* CZFreehandTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZFreehandTool.h; path = ../../../src/CZFreehandTool.h; sourceTree = "<group>"; };
+		2D7806A51A11E5EB003F7479 /* CZLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZLayer.cpp; path = ../../../src/CZLayer.cpp; sourceTree = "<group>"; };
+		2D7806A61A11E5EB003F7479 /* CZLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZLayer.h; path = ../../../src/CZLayer.h; sourceTree = "<group>"; };
+		2D7806A71A11E5EB003F7479 /* CZPainting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZPainting.h; path = ../../../src/CZPainting.h; sourceTree = "<group>"; };
+		2D7806A91A11E5EB003F7479 /* CZPaintingRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZPaintingRender.h; path = ../../../src/CZPaintingRender.h; sourceTree = "<group>"; };
+		2D7806AA1A11E5EB003F7479 /* CZPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZPath.cpp; path = ../../../src/CZPath.cpp; sourceTree = "<group>"; };
+		2D7806AB1A11E5EB003F7479 /* CZPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZPath.h; path = ../../../src/CZPath.h; sourceTree = "<group>"; };
+		2D7806AC1A11E5EB003F7479 /* CZProperty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZProperty.cpp; path = ../../../src/CZProperty.cpp; sourceTree = "<group>"; };
+		2D7806AD1A11E5EB003F7479 /* CZProperty.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CZProperty.h; path = ../../../src/CZProperty.h; sourceTree = "<group>"; };
+		2D7806B61A11F3B3003F7479 /* CZPaintingRender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZPaintingRender.mm; path = ../../../src/CZPaintingRender.mm; sourceTree = "<group>"; };
+		2D7806B81A11F7BF003F7479 /* CZPainting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZPainting.cpp; path = ../../../src/CZPainting.cpp; sourceTree = "<group>"; };
+		2D7806BA1A11F8A1003F7479 /* CZColorBalance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZColorBalance.cpp; path = ../../../src/CZColorBalance.cpp; sourceTree = "<group>"; };
+		2D7806BB1A11F8A1003F7479 /* CZColorBalance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZColorBalance.h; path = ../../../src/CZColorBalance.h; sourceTree = "<group>"; };
+		2D7806BC1A11F8A1003F7479 /* CZHueSaturation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZHueSaturation.cpp; path = ../../../src/CZHueSaturation.cpp; sourceTree = "<group>"; };
+		2D7806BD1A11F8A1003F7479 /* CZHueSaturation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZHueSaturation.h; path = ../../../src/CZHueSaturation.h; sourceTree = "<group>"; };
+		2D7806C01A11FCD7003F7479 /* CZTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZTool.cpp; path = ../../../src/CZTool.cpp; sourceTree = "<group>"; };
+		2D7806C31A11FFE7003F7479 /* CZEraserTool.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CZEraserTool.cpp; path = ../../../src/CZEraserTool.cpp; sourceTree = "<group>"; };
+		2D7806C41A11FFE7003F7479 /* CZEraserTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZEraserTool.h; path = ../../../src/CZEraserTool.h; sourceTree = "<group>"; };
+		2D7806E71A1343EA003F7479 /* CZTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZTool.h; path = ../../../src/CZTool.h; sourceTree = "<group>"; };
+		2DB759151A109BF4009E05B8 /* CZUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZUtil.mm; path = ../../../src/CZUtil.mm; sourceTree = "<group>"; };
+		2DB7591A1A10B5F3009E05B8 /* CZAffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZAffineTransform.cpp; path = ../../../src/CZAffineTransform.cpp; sourceTree = "<group>"; };
+		2DB7591B1A10B5F3009E05B8 /* CZAffineTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZAffineTransform.h; path = ../../../src/CZAffineTransform.h; sourceTree = "<group>"; };
+		2DB7591C1A10B5F3009E05B8 /* CZBezierNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZBezierNode.cpp; path = ../../../src/CZBezierNode.cpp; sourceTree = "<group>"; };
+		2DB7591D1A10B5F3009E05B8 /* CZBezierNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZBezierNode.h; path = ../../../src/CZBezierNode.h; sourceTree = "<group>"; };
+		2DB7591E1A10B5F3009E05B8 /* CZBezierSegment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZBezierSegment.cpp; path = ../../../src/CZBezierSegment.cpp; sourceTree = "<group>"; };
+		2DB7591F1A10B5F3009E05B8 /* CZBezierSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZBezierSegment.h; path = ../../../src/CZBezierSegment.h; sourceTree = "<group>"; };
+		2DB759201A10B5F3009E05B8 /* CZMat4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZMat4.cpp; path = ../../../src/CZMat4.cpp; sourceTree = "<group>"; };
+		2DB759211A10B5F3009E05B8 /* CZMat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZMat4.h; path = ../../../src/CZMat4.h; sourceTree = "<group>"; };
+		2DB759261A10B668009E05B8 /* CZRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZRandom.cpp; path = ../../../src/CZRandom.cpp; sourceTree = "<group>"; };
+		2DB759271A10B668009E05B8 /* CZRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZRandom.h; path = ../../../src/CZRandom.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2D2BE5281A0C9196003724D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D2BE5381A0C9196003724D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */,
+				2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */,
+				2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */,
+				2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2D2BE5221A0C9196003724D4 = {
+			isa = PBXGroup;
+			children = (
+				2D2BE5301A0C9196003724D4 /* BrushesCore */,
+				2D2BE5441A0C9196003724D4 /* BrushesCoreTests */,
+				2D2BE52D1A0C9196003724D4 /* Frameworks */,
+				2D2BE52C1A0C9196003724D4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2D2BE52C1A0C9196003724D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */,
+				2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2D2BE52D1A0C9196003724D4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2D2BE52E1A0C9196003724D4 /* Foundation.framework */,
+				2D2BE53C1A0C9196003724D4 /* XCTest.framework */,
+				2D2BE53F1A0C9196003724D4 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2D2BE5301A0C9196003724D4 /* BrushesCore */ = {
+			isa = PBXGroup;
+			children = (
+				2D7806C31A11FFE7003F7479 /* CZEraserTool.cpp */,
+				2D7806C41A11FFE7003F7479 /* CZEraserTool.h */,
+				2D7806E71A1343EA003F7479 /* CZTool.h */,
+				2D7806C01A11FCD7003F7479 /* CZTool.cpp */,
+				2D7806BA1A11F8A1003F7479 /* CZColorBalance.cpp */,
+				2D7806BB1A11F8A1003F7479 /* CZColorBalance.h */,
+				2D7806BC1A11F8A1003F7479 /* CZHueSaturation.cpp */,
+				2D7806BD1A11F8A1003F7479 /* CZHueSaturation.h */,
+				2D7806B81A11F7BF003F7479 /* CZPainting.cpp */,
+				2D78069D1A11E5EB003F7479 /* CZActiveState.cpp */,
+				2D78069E1A11E5EB003F7479 /* CZActiveState.h */,
+				2D78069F1A11E5EB003F7479 /* CZBrush.cpp */,
+				2D7806A01A11E5EB003F7479 /* CZBrush.h */,
+				2D7806A11A11E5EB003F7479 /* CZColor.cpp */,
+				2D7806A21A11E5EB003F7479 /* CZColor.h */,
+				2D7806A31A11E5EB003F7479 /* CZFreehandTool.cpp */,
+				2D7806A41A11E5EB003F7479 /* CZFreehandTool.h */,
+				2D7806A51A11E5EB003F7479 /* CZLayer.cpp */,
+				2D7806A61A11E5EB003F7479 /* CZLayer.h */,
+				2D7806A71A11E5EB003F7479 /* CZPainting.h */,
+				2D7806B61A11F3B3003F7479 /* CZPaintingRender.mm */,
+				2D7806A91A11E5EB003F7479 /* CZPaintingRender.h */,
+				2D7806AA1A11E5EB003F7479 /* CZPath.cpp */,
+				2D7806AB1A11E5EB003F7479 /* CZPath.h */,
+				2D7806AC1A11E5EB003F7479 /* CZProperty.cpp */,
+				2D7806AD1A11E5EB003F7479 /* CZProperty.h */,
+				2D2BE5921A104F67003724D4 /* shader */,
+				2DB759261A10B668009E05B8 /* CZRandom.cpp */,
+				2DB759271A10B668009E05B8 /* CZRandom.h */,
+				2D78069C1A11A86C003F7479 /* CZCommon.h */,
+				2DB7591A1A10B5F3009E05B8 /* CZAffineTransform.cpp */,
+				2DB7591B1A10B5F3009E05B8 /* CZAffineTransform.h */,
+				2DB7591C1A10B5F3009E05B8 /* CZBezierNode.cpp */,
+				2DB7591D1A10B5F3009E05B8 /* CZBezierNode.h */,
+				2DB7591E1A10B5F3009E05B8 /* CZBezierSegment.cpp */,
+				2DB7591F1A10B5F3009E05B8 /* CZBezierSegment.h */,
+				2DB759201A10B5F3009E05B8 /* CZMat4.cpp */,
+				2DB759211A10B5F3009E05B8 /* CZMat4.h */,
+				2D2BE5861A0F5CA1003724D4 /* CZRender.mm */,
+				2D2BE5741A0CB707003724D4 /* CZRender.h */,
+				2D2BE5541A0C93E5003724D4 /* CZ3DPoint.cpp */,
+				2D2BE5551A0C93E5003724D4 /* CZ3DPoint.h */,
+				2D2BE5561A0C93E5003724D4 /* CZDecoder.h */,
+				2D2BE5881A0F5F26003724D4 /* CZFbo.mm */,
+				2D2BE5581A0C93E5003724D4 /* CZFbo.h */,
+				2D2BE5591A0C93E5003724D4 /* CZGeometry.cpp */,
+				2D2BE55A1A0C93E5003724D4 /* CZGeometry.h */,
+				2D2BE55B1A0C93E5003724D4 /* CZImage.cpp */,
+				2D2BE55C1A0C93E5003724D4 /* CZImage.h */,
+				2D2BE5901A0F64DF003724D4 /* CZShader.mm */,
+				2D2BE55E1A0C93E5003724D4 /* CZShader.h */,
+				2D2BE55F1A0C93E5003724D4 /* CZSpiralGenerator.cpp */,
+				2D2BE5601A0C93E5003724D4 /* CZSpiralGenerator.h */,
+				2D2BE5611A0C93E5003724D4 /* CZStampGenerator.cpp */,
+				2D2BE5621A0C93E5003724D4 /* CZStampGenerator.h */,
+				2D2BE58E1A0F6410003724D4 /* CZStampRender.mm */,
+				2D2BE5641A0C93E5003724D4 /* CZStampRender.h */,
+				2D2BE58C1A0F6040003724D4 /* CZTexture.mm */,
+				2D2BE5661A0C93E5003724D4 /* CZTexture.h */,
+				2DB759151A109BF4009E05B8 /* CZUtil.mm */,
+				2D2BE5681A0C93E5003724D4 /* CZUtil.h */,
+				2D2BE5691A0C93E5003724D4 /* Macro.h */,
+				2D2BE5311A0C9196003724D4 /* Supporting Files */,
+			);
+			path = BrushesCore;
+			sourceTree = "<group>";
+		};
+		2D2BE5311A0C9196003724D4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2D2BE5321A0C9196003724D4 /* BrushesCore-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2D2BE5441A0C9196003724D4 /* BrushesCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				2D2BE5451A0C9196003724D4 /* Supporting Files */,
+			);
+			path = BrushesCoreTests;
+			sourceTree = "<group>";
+		};
+		2D2BE5451A0C9196003724D4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */,
+				2D2BE5471A0C9196003724D4 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2D2BE5921A104F67003724D4 /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				2D2BE5931A104F67003724D4 /* blit.frag */,
+				2D2BE5941A104F67003724D4 /* blit.vert */,
+				2D2BE5951A104F67003724D4 /* blitWithMask.frag */,
+				2D2BE5961A104F67003724D4 /* brush.frag */,
+				2D2BE5971A104F67003724D4 /* brush.vert */,
+				2D2BE5981A104F67003724D4 /* compositeWithEraseMask.frag */,
+				2D2BE5991A104F67003724D4 /* compositeWithMask.frag */,
+				2D2BE59A1A104F67003724D4 /* stamp.frag */,
+				2D2BE59B1A104F67003724D4 /* stamp.vert */,
+			);
+			name = shader;
+			path = ../../../src/shader;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2D2BE52A1A0C9196003724D4 /* BrushesCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D2BE54E1A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCore" */;
+			buildPhases = (
+				2D2BE5271A0C9196003724D4 /* Sources */,
+				2D2BE5281A0C9196003724D4 /* Frameworks */,
+				2D2BE5291A0C9196003724D4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BrushesCore;
+			productName = BrushesCore;
+			productReference = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2D2BE53A1A0C9196003724D4 /* BrushesCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D2BE5511A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCoreTests" */;
+			buildPhases = (
+				2D2BE5371A0C9196003724D4 /* Sources */,
+				2D2BE5381A0C9196003724D4 /* Frameworks */,
+				2D2BE5391A0C9196003724D4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2D2BE5421A0C9196003724D4 /* PBXTargetDependency */,
+			);
+			name = BrushesCoreTests;
+			productName = BrushesCoreTests;
+			productReference = 2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2D2BE5231A0C9196003724D4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = CharlyZhang;
+			};
+			buildConfigurationList = 2D2BE5261A0C9196003724D4 /* Build configuration list for PBXProject "BrushesCore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2D2BE5221A0C9196003724D4;
+			productRefGroup = 2D2BE52C1A0C9196003724D4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2D2BE52A1A0C9196003724D4 /* BrushesCore */,
+				2D2BE53A1A0C9196003724D4 /* BrushesCoreTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2D2BE5391A0C9196003724D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2D2BE5271A0C9196003724D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DB759231A10B5F3009E05B8 /* CZBezierNode.cpp in Sources */,
+				2D7806BE1A11F8A1003F7479 /* CZColorBalance.cpp in Sources */,
+				2D7806C21A11FCD7003F7479 /* CZTool.cpp in Sources */,
+				2DB759221A10B5F3009E05B8 /* CZAffineTransform.cpp in Sources */,
+				2D7806BF1A11F8A1003F7479 /* CZHueSaturation.cpp in Sources */,
+				2D2BE56C1A0C93E5003724D4 /* CZGeometry.cpp in Sources */,
+				2D7806B11A11E5EB003F7479 /* CZFreehandTool.cpp in Sources */,
+				2D7806B01A11E5EB003F7479 /* CZColor.cpp in Sources */,
+				2D2BE56A1A0C93E5003724D4 /* CZ3DPoint.cpp in Sources */,
+				2D2BE58D1A0F6040003724D4 /* CZTexture.mm in Sources */,
+				2D7806AF1A11E5EB003F7479 /* CZBrush.cpp in Sources */,
+				2D7806B91A11F7BF003F7479 /* CZPainting.cpp in Sources */,
+				2D2BE5911A0F64DF003724D4 /* CZShader.mm in Sources */,
+				2D7806C51A11FFE7003F7479 /* CZEraserTool.cpp in Sources */,
+				2D7806B71A11F3B3003F7479 /* CZPaintingRender.mm in Sources */,
+				2D2BE56F1A0C93E5003724D4 /* CZSpiralGenerator.cpp in Sources */,
+				2D2BE5891A0F5F26003724D4 /* CZFbo.mm in Sources */,
+				2D2BE58F1A0F6410003724D4 /* CZStampRender.mm in Sources */,
+				2DB759251A10B5F3009E05B8 /* CZMat4.cpp in Sources */,
+				2DB759241A10B5F3009E05B8 /* CZBezierSegment.cpp in Sources */,
+				2DB759281A10B668009E05B8 /* CZRandom.cpp in Sources */,
+				2D7806AE1A11E5EB003F7479 /* CZActiveState.cpp in Sources */,
+				2D7806B21A11E5EB003F7479 /* CZLayer.cpp in Sources */,
+				2D7806B51A11E5EB003F7479 /* CZProperty.cpp in Sources */,
+				2D2BE5701A0C93E5003724D4 /* CZStampGenerator.cpp in Sources */,
+				2D7806B41A11E5EB003F7479 /* CZPath.cpp in Sources */,
+				2DB759161A109BF4009E05B8 /* CZUtil.mm in Sources */,
+				2D2BE5871A0F5CA1003724D4 /* CZRender.mm in Sources */,
+				2D2BE56D1A0C93E5003724D4 /* CZImage.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D2BE5371A0C9196003724D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2D2BE5421A0C9196003724D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D2BE52A1A0C9196003724D4 /* BrushesCore */;
+			targetProxy = 2D2BE5411A0C9196003724D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2D2BE5471A0C9196003724D4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2D2BE5481A0C9196003724D4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2D2BE54C1A0C9196003724D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2D2BE54D1A0C9196003724D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2D2BE54F1A0C9196003724D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/BrushesCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2D2BE5501A0C9196003724D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/BrushesCore.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2D2BE5521A0C9196003724D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		2D2BE5531A0C9196003724D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
+				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D2BE5261A0C9196003724D4 /* Build configuration list for PBXProject "BrushesCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D2BE54C1A0C9196003724D4 /* Debug */,
+				2D2BE54D1A0C9196003724D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D2BE54E1A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D2BE54F1A0C9196003724D4 /* Debug */,
+				2D2BE5501A0C9196003724D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D2BE5511A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D2BE5521A0C9196003724D4 /* Debug */,
+				2D2BE5531A0C9196003724D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2D2BE5231A0C9196003724D4 /* Project object */;
+}

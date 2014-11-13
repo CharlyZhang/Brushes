@@ -22,7 +22,7 @@
 
 using namespace std;
 
-/// ³õÊ¼»¯º¯Êı
+/// åˆå§‹åŒ–å‡½æ•°
 bool CZBrushPreview::initial()
 {
 	path = NULL;
@@ -37,7 +37,7 @@ bool CZBrushPreview::initial()
 
 }
 
-/// Ïú»Ùº¯Êı
+/// é”€æ¯å‡½æ•°
 bool CZBrushPreview::destroy()
 {
 	if(path)	{	delete path; path = NULL; }
@@ -47,7 +47,7 @@ bool CZBrushPreview::destroy()
 	return true;
 }
 
-/// Æô¶¯ĞÂÔ¤ÀÀÍ¼£¨ÅäÖÃ»æÖÆÆ÷£¬Éú³É»æÖÆµÄ¹ì¼££©
+/// å¯åŠ¨æ–°é¢„è§ˆå›¾ï¼ˆé…ç½®ç»˜åˆ¶å™¨ï¼Œç”Ÿæˆç»˜åˆ¶çš„è½¨è¿¹ï¼‰
 void CZBrushPreview::setup(const CZSize &size_)
 {
 	if (backingWidth == size_.width && backingHeight == size_.height) return;
@@ -55,15 +55,15 @@ void CZBrushPreview::setup(const CZSize &size_)
 	backingWidth = size_.width;
 	backingHeight = size_.height;
 
-	/// ÅäÖÃ»æÖÆÆ÷
+	/// é…ç½®ç»˜åˆ¶å™¨
 	render.configure(backingWidth,backingHeight);
 
-	/// ´´½¨Â·¾¶
+	/// åˆ›å»ºè·¯å¾„
 	if(path) delete path;
 	buildPath();
 }
 
-/// ¹¹½¨¹ì¼££¨»æÖÆÒ»ÌõsinÇúÏß£©
+/// æ„å»ºè½¨è¿¹ï¼ˆç»˜åˆ¶ä¸€æ¡sinæ›²çº¿ï¼‰
 void CZBrushPreview::buildPath()
 {
 	if (path) 	return;
@@ -76,7 +76,7 @@ void CZBrushPreview::buildPath()
 	{
 		CZ2DPoint start( 30, backingHeight / (2.0f * scale) );
 		float   width = (backingWidth / scale) - 2.0f * 30;
-		float amplitude  = 10.0f;			///< Õñ·ù
+		float amplitude  = 10.0f;			///< æŒ¯å¹…
 
 		float kNumLineSegments = 100;
 		for (int i = 0; i < kNumLineSegments; i++) 
@@ -89,7 +89,7 @@ void CZBrushPreview::buildPath()
 	}
 }
 
-/// Éú³ÉÖ¸¶¨³ß´ç´óĞ¡Ô¤ÀÀÍ¼
+/// ç”ŸæˆæŒ‡å®šå°ºå¯¸å¤§å°é¢„è§ˆå›¾
 CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 {
 	if(ptrBrush == NULL)
@@ -98,14 +98,14 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 		return NULL;
 	}
 
-	/// ¸ù¾İÉè±¸·Ö±æÂÊ½øĞĞµ÷Õû
+	/// æ ¹æ®è®¾å¤‡åˆ†è¾¨ç‡è¿›è¡Œè°ƒæ•´
 	size_ = size_ * mainScreenScale;
-	/// Éú³ÉĞÂ¹ì¼£
+	/// ç”Ÿæˆæ–°è½¨è¿¹
 	setup(size_);
-	/// ÅäÖÃ±ÊË¢
+	/// é…ç½®ç¬”åˆ·
 	render.configureBrush(getBrushImage());
 
-	/// ÉèÖÃ¹ì¼£²ÎÊı
+	/// è®¾ç½®è½¨è¿¹å‚æ•°
 	path->setBrush(ptrBrush);
 	path->remainder = 0.0f;
 	path->setClosed(false);
@@ -114,10 +114,10 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	return ret;
 }
 
-/// ÉèÖÃ»­Ë¢
+/// è®¾ç½®ç”»åˆ·
 void CZBrushPreview::setBrush(CZBrush *brush_)
 {
-	/// Èç¹ûË¢×ÓÉú³ÉÆ÷¸Ä±äÁË£¬Ôò±ÊË¢Í¼°¸¸Ä±ä
+	/// å¦‚æœåˆ·å­ç”Ÿæˆå™¨æ”¹å˜äº†ï¼Œåˆ™ç¬”åˆ·å›¾æ¡ˆæ”¹å˜
 	if(ptrBrush && brush_ && ptrBrush->generator->isEqual(brush_->generator))
 	{
 		render.clearBrush();
@@ -126,20 +126,20 @@ void CZBrushPreview::setBrush(CZBrush *brush_)
 	ptrBrush = brush_;
 }
 
-/// ÉèÖÃÉè±¸ÆÁÄ»·Ö±æÂÊ±¶Êı
+/// è®¾ç½®è®¾å¤‡å±å¹•åˆ†è¾¨ç‡å€æ•°
 void CZBrushPreview::setMainScreenScale(float s)
 {
 	mainScreenScale = s;
 }
 
-/// »ñÈ¡±ÊË¢Í¼Ïñ
+/// è·å–ç¬”åˆ·å›¾åƒ
 CZImage* CZBrushPreview::getBrushImage()
 {
 	CZStampGenerator *gen = ptrBrush->generator;
 	return gen->getStamp(true);		///< get the small stamp;
 }
 
-/// ÊµÏÖObserver½Ó¿Ú
+/// å®ç°Observeræ¥å£
 void CZBrushPreview::updateObserver(std::string &notificationName, void* data /* = NULL */)
 {
 	if (notificationName == CZBrushGeneratorChanged)

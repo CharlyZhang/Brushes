@@ -21,59 +21,63 @@
 #include <vector>
 #include "CZBrush.h"
 
-/// ¹¤¾ßÀà
+/// å·¥å…·ç±»
 class CZTool 
 {
 public:
 	CZTool(bool supportPressure = false);
 	~CZTool();
 
-	/// ¿ªÊ¼ÒÆ¶¯£¨Èç¹ûÖ§³ÖÑ¹Á¦£¬Ôò²ÎÊıÎªÑ¹Á¦Öµ£©
+	/// å¼€å§‹ç§»åŠ¨ï¼ˆå¦‚æœæ”¯æŒå‹åŠ›ï¼Œåˆ™å‚æ•°ä¸ºå‹åŠ›å€¼ï¼‰
 	void moveBegin(CZ2DPoint &p_, float pressure_ = 0.0f);
+    void moveBegin(float x_, float y_, float pressure_ = 0.0f);
 
-	/// ÕıÔÚÒÆ¶¯
+	/// æ­£åœ¨ç§»åŠ¨
 	///		
-	///		½«Á¬Ğø5¸öµã´¦Àí£¬Ã¿´¦ÀíÒ»´Î»æÖÆÒ»±é¡£
+	///		å°†è¿ç»­5ä¸ªç‚¹å¤„ç†ï¼Œæ¯å¤„ç†ä¸€æ¬¡ç»˜åˆ¶ä¸€éã€‚
 	///
-	///		/param p_				  - µ±Ç°ÒÆ¶¯µÄµãÎ»ÖÃ
-	///		/param pressureOrSpeed	  - µ±Éè±¸Ö§³ÖÑ¹Á¦ÖµÊ±£¬ÎªÑ¹Á¦Öµ£»·ñÔòÎªÒÆ¶¯ËÙ¶ÈÖµ(pixels/millisecond)
+	///		/param p_				  - å½“å‰ç§»åŠ¨çš„ç‚¹ä½ç½®
+	///		/param pressureOrSpeed	  - å½“è®¾å¤‡æ”¯æŒå‹åŠ›å€¼æ—¶ï¼Œä¸ºå‹åŠ›å€¼ï¼›å¦åˆ™ä¸ºç§»åŠ¨é€Ÿåº¦å€¼(pixels/millisecond)
 	void moving(CZ2DPoint &p_, float pressureOrSpeed);
-
-	/// ÒÆ¶¯½áÊø
+    void moving(float x_, float y_, float pressureOrSpeed);
+    
+	/// ç§»åŠ¨ç»“æŸ
 	void moveEnd(CZ2DPoint &p_);
+    void moveEnd(float x_, float y_);
 
 protected:
-	/// ¶ÔÁÙÊ±Á¬ĞøµãÖĞstart_µ½end_µÄµã½øĞĞÆ½¾ù´¦Àí
+	/// å¯¹ä¸´æ—¶è¿ç»­ç‚¹ä¸­start_åˆ°end_çš„ç‚¹è¿›è¡Œå¹³å‡å¤„ç†
 	///		
-	///		¾ßÌå´¦Àí·½·¨£º½«µ±Ç°µã·Ö±ğÓëÇ°ºóÁ½¸öµãÁ¬Ïß³Él1ºÍl2,ÔÙ½«l1ºÍl2µÄÖĞµãÁ¬Ïß³Él3,
-	///					È¡l3µÄÖĞµãÎªµ±Ç°µãµÄÆ½¾ù´¦Àíµã
+	///		å…·ä½“å¤„ç†æ–¹æ³•ï¼šå°†å½“å‰ç‚¹åˆ†åˆ«ä¸å‰åä¸¤ä¸ªç‚¹è¿çº¿æˆl1å’Œl2,å†å°†l1å’Œl2çš„ä¸­ç‚¹è¿çº¿æˆl3,
+	///					å–l3çš„ä¸­ç‚¹ä¸ºå½“å‰ç‚¹çš„å¹³å‡å¤„ç†ç‚¹
 	void averagePointsBetween(int start_, int end_);
 
-	/// »æÖÆÊÊÅäµÄµã
+	/// ç»˜åˆ¶é€‚é…çš„ç‚¹
 	///
-	///		Ã¿´Î½«ÁÙ½üµÄ¼¸¸öµã½øĞĞ¾ù»¯£¬ÔÙ¼ÆËã³öµÚ¶ş¸öµãµ½µ¹ÊıµÚ¶ş¸ö½áµãµÄ¿ØÖÆµã£»
-	///		ÀûÓÃÇ°3¸öµãÉú³ÉÇúÏß£¬½øĞĞ»æÖÆ£»ºóÃæÁ½¸öµãÔòÁôµ½ÏÂÒ»ÂÖ»æÖÆ£¬ÒÔ±ãÆ½»¬¹ı¶É¡£
+	///		æ¯æ¬¡å°†ä¸´è¿‘çš„å‡ ä¸ªç‚¹è¿›è¡Œå‡åŒ–ï¼Œå†è®¡ç®—å‡ºç¬¬äºŒä¸ªç‚¹åˆ°å€’æ•°ç¬¬äºŒä¸ªç»“ç‚¹çš„æ§åˆ¶ç‚¹ï¼›
+	///		åˆ©ç”¨å‰3ä¸ªç‚¹ç”Ÿæˆæ›²çº¿ï¼Œè¿›è¡Œç»˜åˆ¶ï¼›åé¢ä¸¤ä¸ªç‚¹åˆ™ç•™åˆ°ä¸‹ä¸€è½®ç»˜åˆ¶ï¼Œä»¥ä¾¿å¹³æ»‘è¿‡æ¸¡ã€‚
 	void paintFittedPoints();
 
 	void paintPath(CZPath &path);
 
 public:
-	float						scale;							///< ÆÁÄ»µÄËõ·Å±È
-	CZPainting					*ptrPainting;					///< Ö¸Ïò»æÖÆ
-	bool						eraseMode;						///< ÊÇ·ñÊÇ²Á³ı×´Ì¬£¬Ä¬ÈÏÎªfalse
+	float						scale;							///< å±å¹•çš„ç¼©æ”¾æ¯”
+	CZPainting					*ptrPainting;					///< æŒ‡å‘ç»˜åˆ¶
+	bool						eraseMode;						///< æ˜¯å¦æ˜¯æ“¦é™¤çŠ¶æ€ï¼Œé»˜è®¤ä¸ºfalse
 
 protected:
-	std::vector<CZBezierNode>	accumulatedStrokePoints;		///< ÀÛ»ıµÄ±Ê»­µãÊı
-	bool						firstEver;						///< ÊÇ·ñÊÇÄ³¹ì¼£µÄÊ×´ÎÒÆ¶¯
-	CZRect						strokeBounds;					///< ±Ê»­¹ì¼£µÄ·¶Î§
-	CZ2DPoint					lastLocation;					///< ±Ê»­¹ì¼£µÄ×îºóÒ»¸öµã
-	bool						realPressure;					///< ÊÇ·ñÖ§³ÖÕæµÄÑ¹Á¦
-	CZBezierNode				pointsToFit[5];					///< ´¦ÀíµÄÁÙ½üÎå¸öµã
-	int							pointsIndex;					///< ´¦ÀíµÄµã±êºÅ
-	bool						clearBuffer;					///< ÊÇ·ñÒªÇåÀí»º´æ
-	float						lastRemainder;					///< ÉÏÂÖ»æÖÆµÄ¶àÕ¼¿Õ¼ä
-	CZRandom					*ptrRandomizer;					///< Ö¸Ïò¹ì¼£µÄËæ»úÆ÷
-	bool						moved;							///< ÊÇ·ñÔÚÒÆ¶¯		
+	std::vector<CZBezierNode>	accumulatedStrokePoints;		///< ç´¯ç§¯çš„ç¬”ç”»ç‚¹æ•°
+	bool						firstEver;						///< æ˜¯å¦æ˜¯æŸè½¨è¿¹çš„é¦–æ¬¡ç§»åŠ¨
+	CZRect						strokeBounds;					///< ç¬”ç”»è½¨è¿¹çš„èŒƒå›´
+	CZ2DPoint					lastLocation;					///< ç¬”ç”»è½¨è¿¹çš„æœ€åä¸€ä¸ªç‚¹
+	bool						realPressure;					///< æ˜¯å¦æ”¯æŒçœŸçš„å‹åŠ›
+	CZBezierNode				pointsToFit[5];					///< å¤„ç†çš„ä¸´è¿‘äº”ä¸ªç‚¹
+	int							pointsIndex;					///< å¤„ç†çš„ç‚¹æ ‡å·
+	bool						clearBuffer;					///< æ˜¯å¦è¦æ¸…ç†ç¼“å­˜
+	float						lastRemainder;					///< ä¸Šè½®ç»˜åˆ¶çš„å¤šå ç©ºé—´
+	CZRandom					*ptrRandomizer;					///< æŒ‡å‘è½¨è¿¹çš„éšæœºå™¨
+	bool						moved;							///< æ˜¯å¦åœ¨ç§»åŠ¨
+    CZPath                      path;
 };
 
 

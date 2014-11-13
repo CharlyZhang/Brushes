@@ -20,7 +20,7 @@ CZActiveState::CZActiveState()
 {
 	eraseMode = false;
 	paintColor = CZColor::blackColor();
-	brushes.push_back(CZBrush::randomBrush());
+	brushes.push_back(new CZBrush(new CZSpiralGenerator));  /// if invoke CZBrush::randomBrush, the CZActiveState constructor will be called again
 	ptrEraseBrush = ptrPaintBrush = brushes[0];
 
 	tools.push_back(new CZFreehandTool);
@@ -38,19 +38,19 @@ CZActiveState::~CZActiveState()
 		tools.clear();
 }
 
-/// ÉèÖÃ»æÖÆÄ£Ê½
+/// è®¾ç½®ç»˜åˆ¶æ¨¡å¼
 void CZActiveState::setEraseMode(bool flag)
 {
 	eraseMode = false;
 }
 
-/// »ñÈ¡»æÖÆÄ£Ê½
+/// è·å–ç»˜åˆ¶æ¨¡å¼
 bool CZActiveState::isEraseMode()
 {
 	return eraseMode;
 }
 
-/// ÉèÖÃ»æÖÆÑÕÉ«
+/// è®¾ç½®ç»˜åˆ¶é¢œè‰²
 void CZActiveState::setPaintColor(CZColor &pc)
 {
 	paintColor = pc;
@@ -60,22 +60,22 @@ void CZActiveState::setPaintColor(float r, float g, float b, float a /* = 1.0f *
 	paintColor = CZColor(r,g,b,a);
 }
 
-/// »ñÈ¡»æÖÆÑÕÉ«
+/// è·å–ç»˜åˆ¶é¢œè‰²
 CZColor CZActiveState::getPaintColor()
 {
 	return paintColor;
 }
 
-/// ÉèÖÃ¿ÉÓÃ»­Ë¢
+/// è®¾ç½®å¯ç”¨ç”»åˆ·
 void CZActiveState::setBrushes(std::vector<CZBrush*> &bs)
 {
 	for(vector<CZBrush*>::iterator itr = bs.begin(); itr != bs.end(); itr++)
 		brushes.push_back(*itr);
 }
 
-/// Ìí¼Ó»­Ë¢
+/// æ·»åŠ ç”»åˆ·
 /// 
-///		\note Ìí¼ÓÔÚµ±Ç°¼¤»îµÄ»­Ë¢Ö®ºó
+///		\note æ·»åŠ åœ¨å½“å‰æ¿€æ´»çš„ç”»åˆ·ä¹‹å
 void CZActiveState::addBrush(CZBrush *b)
 {
 	CZBrush *ptrActiveBrush = getActiveBrush();
@@ -90,17 +90,17 @@ void CZActiveState::addBrush(CZBrush *b)
 	brushes.insert(itr+1,b);
 }
 
-/// »ñµÃ¿ÉÓÃ»­Ë¢
+/// è·å¾—å¯ç”¨ç”»åˆ·
 vector<CZBrush*>& CZActiveState::getBrushes()
 {
 	return brushes;
 }
 
-/// ÉèÖÃµ±Ç°¼¤»î»­Ë¢
+/// è®¾ç½®å½“å‰æ¿€æ´»ç”»åˆ·
 ///
-///		\param idx - ¿ÉÓÃ»­Ë¢µÄĞòºÅ£¬µ±·Ç·¨Ê±Ä¬ÈÏÎª0
-///		\ret	   - Ô­À´µÄ¼¤»î»­Ë¢ĞòºÅ
-///		\note	µ±Ç°ÉèÖÃµÄ»­Ë¢ÖÖÀàÓÉÄ£Ê½¾ö¶¨
+///		\param idx - å¯ç”¨ç”»åˆ·çš„åºå·ï¼Œå½“éæ³•æ—¶é»˜è®¤ä¸º0
+///		\ret	   - åŸæ¥çš„æ¿€æ´»ç”»åˆ·åºå·
+///		\note	å½“å‰è®¾ç½®çš„ç”»åˆ·ç§ç±»ç”±æ¨¡å¼å†³å®š
 int CZActiveState::setActiveBrush(int idx)
 {
 	int oldIdx = eraseMode ? indexOfBrushes(ptrEraseBrush) : indexOfBrushes(ptrPaintBrush);
@@ -116,9 +116,9 @@ int CZActiveState::setActiveBrush(int idx)
 	return oldIdx;
 }
 
-/// »ñÈ¡µ±Ç°»­Ë¢
+/// è·å–å½“å‰ç”»åˆ·
 /// 
-///		\note »­Ë¢ÖÖÀàÓÉµ±Ç°µÄ×´Ì¬eraseMode¾ö¶¨
+///		\note ç”»åˆ·ç§ç±»ç”±å½“å‰çš„çŠ¶æ€eraseModeå†³å®š
 CZBrush *CZActiveState::getActiveBrush()
 {
 	CZBrush * ret = eraseMode ? ptrEraseBrush : ptrPaintBrush;
@@ -126,7 +126,7 @@ CZBrush *CZActiveState::getActiveBrush()
 	return ret;
 }
 
-/// É¾³ıµ±Ç°»­Ë¢
+/// åˆ é™¤å½“å‰ç”»åˆ·
 void CZActiveState::deleteActiveBrush()
 {
 	if(brushes.size() == 1) return;
@@ -159,22 +159,22 @@ void CZActiveState::deleteActiveBrush()
 	}
 }
 
-/// »ñÈ¡µ±Ç°¹¤¾ß
+/// è·å–å½“å‰å·¥å…·
 /// 
-///		\note ¹¤¾ßÖÖÀàÓÉµ±Ç°µÄ×´Ì¬eraseMode¾ö¶¨
+///		\note å·¥å…·ç§ç±»ç”±å½“å‰çš„çŠ¶æ€eraseModeå†³å®š
 CZTool* CZActiveState::getActiveTool()
 {
 	return eraseMode ? tools[1] : tools[0];
 }
 
-/// »ñÈ¡Ëæ»úÒ»¸ö±ÊË¢Éú³ÉÆ÷
+/// è·å–éšæœºä¸€ä¸ªç¬”åˆ·ç”Ÿæˆå™¨
 CZStampGenerator * CZActiveState::getRandomGenerator()
 {
 	return new CZSpiralGenerator;
 }
 
 
-/// »ñµÃ»­Ë¢ÔÚËùÓĞ»­Ë¢ÖĞµÄ±êºÅ£¬²»´æÔÚ·µ»Ø¸ºÖµ
+/// è·å¾—ç”»åˆ·åœ¨æ‰€æœ‰ç”»åˆ·ä¸­çš„æ ‡å·ï¼Œä¸å­˜åœ¨è¿”å›è´Ÿå€¼
 int CZActiveState::indexOfBrushes(CZBrush *brush)
 {
 	int ret;

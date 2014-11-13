@@ -4,7 +4,7 @@
 class CZBrushController : public CZBrushDelegate
 {
 public:
-	void brushPropertyChanged(std::vector<CZProperty> &properties){};	///< ¸Ä±äÊôÐÔÊ±ÊµÏÖ¸Ã½Ó¿Ú
+	void brushPropertyChanged(std::vector<CZProperty> &properties){};	///< æ”¹å˜å±žæ€§æ—¶å®žçŽ°è¯¥æŽ¥å£
 	void brushGeneratorChanged(CZStampGenerator &gen){/// to do
-	};				///< ¸Ä±äºÍÌæ»»Éú³ÉÆ÷Ê±¶¼ÊµÏÖ¸Ã½Ó¿Ú
+	};				///< æ”¹å˜å’Œæ›¿æ¢ç”Ÿæˆå™¨æ—¶éƒ½å®žçŽ°è¯¥æŽ¥å£
 };

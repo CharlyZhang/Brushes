@@ -2,7 +2,7 @@
 ///  \file CZRender.h
 ///  \brief This is the file declare the Class CZRender.
 ///
-///		ÕâÀïÓÃÀ´»æÖÆ£¬Ã¿¸örender¶¼ÓĞµ¥¶ÀµÄcontext,Óë»æÖÆÏà¹Ø¡£
+///		è¿™é‡Œç”¨æ¥ç»˜åˆ¶ï¼Œæ¯ä¸ªrenderéƒ½æœ‰å•ç‹¬çš„context,ä¸ç»˜åˆ¶ç›¸å…³ã€‚
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -17,22 +17,26 @@
 #include "CZTexture.h"
 #include "CZImage.h"
 #include "CZUtil.h"
+
+#if USE_OPENGL
 #include "GL/glut.h"
+#endif
+
 #include <map>
 #include <string>
 
-/// ¶¨ÒåCZPath×îÖÕ»æÖÆÊı¾İ¸ñÊ½
+/// å®šä¹‰CZPathæœ€ç»ˆç»˜åˆ¶æ•°æ®æ ¼å¼
 typedef struct 
 {
-	GLfloat     x, y;
-	GLfloat     s, t;
-	GLfloat     a;
+	float     x, y;
+	float     s, t;
+	float     a;
 } vertexData;
 
 class CZRender
 {
 public:
-	enum BlendMode		///< »ìºÏÄ£Ê½
+	enum BlendMode		///< æ··åˆæ¨¡å¼
 	{
 		kBlendModeNormal,
 		kBlendModeMultiply,
@@ -43,15 +47,25 @@ public:
 	CZRender();
 	~CZRender();
 
-	/// ÉèÖÃµ±Ç°ÉÏÏÂÎÄ
+	/// è®¾ç½®å½“å‰ä¸Šä¸‹æ–‡
 	void setContext();
+    
+    void changeContext(void *_ctx);
+    
+    void* getContext();
 
-	/// »æÖÆ¹ì¼£Êı¾İ
+	/// ç»˜åˆ¶è½¨è¿¹æ•°æ®
 	void drawPathData(unsigned int n, vertexData *data);
 public:
 	int width, height;
-	CZFbo fbo;
-	int context;			///< !Ä£ÄâÒ»ÏÂ
+	CZFbo *fbo;             ///< ! should be as a pointer, for it has to be created after context creation
+    
+private:
+#if USE_OPENGL
+	int context;			///< !æ¨¡æ‹Ÿä¸€ä¸‹
+#endif
+    struct  Impl;
+    Impl *imp;
 };
 
 

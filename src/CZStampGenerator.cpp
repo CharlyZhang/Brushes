@@ -15,7 +15,7 @@
 #include <iostream>
 
 #define kSmallStampSize 64
-#define kBrushDimension 512		///< ±ÊË¢Í¼°¸Ä¬ÈÏ´óÐ¡
+#define kBrushDimension 512		///< ç¬”åˆ·å›¾æ¡ˆé»˜è®¤å¤§å°
 
 CZStampGenerator::CZStampGenerator()
 {
@@ -50,37 +50,37 @@ CZStampGenerator::~CZStampGenerator()
 	}
 }
 
-/// ´´½¨ÊôÐÔ£¨Ðéº¯Êý£©
+/// åˆ›å»ºå±žæ€§ï¼ˆè™šå‡½æ•°ï¼‰
 void CZStampGenerator::buildProperties()
 {
 	std::cout<<" CZStampGenerator::buildProperties - Unimplemented method \n";
 }
 
-/// »æÖÆÍ¼°¸£¨Ðéº¯Êý£©
+/// ç»˜åˆ¶å›¾æ¡ˆï¼ˆè™šå‡½æ•°ï¼‰
 void CZStampGenerator::renderStamp()
 {
 	std::cout<<" CZStampGenerator::renderStamp - Unimplemented method \n";
 }
 
-/// »ñÈ¡±ÊË¢Í¼°¸ ~
+/// èŽ·å–ç¬”åˆ·å›¾æ¡ˆ ~
 CZImage *CZStampGenerator::getStamp(bool isSmall /* = false */)
 {
 	if(stamp == NULL) stamp = generateStamp();
 	return stamp;
 }
 
-/// »ñÈ¡Ëæ»ú»¯Æ÷
+/// èŽ·å–éšæœºåŒ–å™¨
 CZRandom *CZStampGenerator::getRandomizer()
 {
 	if(randomizer == NULL) randomizer = new CZRandom(seed);
 	return randomizer;
 }
-/// ÅäÖÃ±ÊË¢²ÎÊý
+/// é…ç½®ç¬”åˆ·å‚æ•°
 void CZStampGenerator::configureBrush(CZBrush *brush)
 {
 
 	/*
-	/// Ä¬ÈÏ²ÎÊýÖµ
+	/// é»˜è®¤å‚æ•°å€¼
 	brush->intensity.value = 0.2f;
 	brush->angle.value = 0;
 	brush->spacing.value = 0.02;
@@ -102,14 +102,13 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
 	brush->intensityDynamics.value = 1;
 }
 
-/// Éú³É±ÊË¢Í¼°¸~
+/// ç”Ÿæˆç¬”åˆ·å›¾æ¡ˆ~
 CZImage *CZStampGenerator::generateStamp()
 {
 	CZStampRender *ptrRender = CZStampRender::getInstance();
 
 	ptrRender->configure(size.width, size.height);
 	ptrRender->ptrGenerator = this;
-
 	CZImage *ret = ptrRender->drawStamp();
 
 	return ret;

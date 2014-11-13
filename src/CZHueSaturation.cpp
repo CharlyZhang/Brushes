@@ -23,7 +23,7 @@ bool CZHueSaturation::operator==(const CZHueSaturation & hs) const
 	return (hueShift == hs.hueShift && saturationShift == hs.saturationShift && brightnessShift == hs.brightnessShift);
 }
 
-/// 实现coding 接口
+/// 瀹炵幇coding 鎺ュ彛
 void CZHueSaturation::update(CZDecoder *decoder_, bool deep /*= false*/)
 {
 	hueShift = decoder_->decodeFloat("hue");

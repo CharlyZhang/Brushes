@@ -12,7 +12,7 @@
 #ifndef _CZGEOMETRY_H_
 #define _CZGEOMETRY_H_
 
-/// ¶şÎ¬µã
+/// äºŒç»´ç‚¹
 class CZ2DPoint
 {
 public:
@@ -52,11 +52,11 @@ public:
 	}
 
 
-	/// Çóµ½ÁíÍâÒ»µã¾àÀë
+	/// æ±‚åˆ°å¦å¤–ä¸€ç‚¹è·ç¦»
 	float distanceTo2DPoint(CZ2DPoint & p_);
 };
 
-/// ³ß´ç
+/// å°ºå¯¸
 class CZSize
 {
 public:
@@ -83,7 +83,7 @@ public:
 	}
 };
 
-/// ¾ØĞÎÀà
+/// çŸ©å½¢ç±»
 class CZRect
 {
 public:
@@ -102,13 +102,13 @@ public:
 		return CZ2DPoint(origin.x + size.width/2, origin.y + size.height/2); 
 	};
 
-	/// ·µ»ØÁã¾ØĞÎ
+	/// è¿”å›é›¶çŸ©å½¢
 	static CZRect zeroRect(){ return CZRect(); };
-	/// ÅĞ¶ÏÊÇ·ñÎªÁã¾ØĞÎ
-	bool isZeroRect();
-	/// ºÏ²¢ÆäËû¾ØĞÎ
-	CZRect unionWith(CZRect & rect_);
-	/// À©Õ¹µÄÕûÊı¾ØĞÎ
+	/// åˆ¤æ–­æ˜¯å¦ä¸ºé›¶çŸ©å½¢
+	bool isZeroRect() const;
+	/// åˆå¹¶å…¶ä»–çŸ©å½¢
+	CZRect unionWith(const CZRect & rect_);
+	/// æ‰©å±•çš„æ•´æ•°çŸ©å½¢
 	CZRect expandToIntergral();
 };
 

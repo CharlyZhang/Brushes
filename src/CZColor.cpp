@@ -10,8 +10,9 @@
 ///  \note
 
 #include "CZColor.h"
+#include <cmath>
 
-/// ²ÉÓÃRGBÄ£Ê½³õÊ¼»¯
+/// é‡‡ç”¨RGBæ¨¡å¼åˆå§‹åŒ–
 void CZColor::initWithRGB(float r, float g, float b, float a)
 {
 	red			= CZClamp(0.0f, 1.0f, r);
@@ -28,12 +29,12 @@ void CZColor::initWithRGB(float r, float g, float b, float a)
 	
 }
 
-/// ²ÉÓÃHSVÄ£Ê½³õÊ¼»¯
+/// é‡‡ç”¨HSVæ¨¡å¼åˆå§‹åŒ–
 /// 
-///		\param h - É«µ÷
-///		\param s - ±¥ºÍ¶È
-///		\param v - ÁÁ¶È
-///		\param a - ²»Í¸Ã÷¶È
+///		\param h - è‰²è°ƒ
+///		\param s - é¥±å’Œåº¦
+///		\param v - äº®åº¦
+///		\param a - ä¸é€æ˜åº¦
 void CZColor::initWithHSV(float h, float s, float v, float a)
 {
 	hue			= CZClamp(0.0f, 1.0f, h);
@@ -49,7 +50,7 @@ void CZColor::initWithHSV(float h, float s, float v, float a)
 	blue		= CZClamp(0.0f, 1.0f, b);
 }
 
-/// ·µ»ØËæ»úÑÕÉ« - ¾²Ì¬º¯Êı
+/// è¿”å›éšæœºé¢œè‰² - é™æ€å‡½æ•°
 CZColor CZColor::randomColor()
 {
 	float components[4];
@@ -65,7 +66,7 @@ CZColor CZColor::randomColor()
 	return color;
 }
 
-/// »ìºÏÆäËûÑÕÉ«
+/// æ··åˆå…¶ä»–é¢œè‰²
 CZColor CZColor::colorBlend(const CZColor &c_, float fraction_)
 {
 	float r = (fraction_ * c_.red) + (1.0f - fraction_) * red;
@@ -76,7 +77,7 @@ CZColor CZColor::colorBlend(const CZColor &c_, float fraction_)
 	return CZColor(r,g,b,a);
 }
 
-/// ÓÃRGBÄ£Ê½µ÷Õû
+/// ç”¨RGBæ¨¡å¼è°ƒæ•´
 void CZColor::balanceRGB(float rShift, float gShift, float bShift)
 {
 	red =	CZClamp(0, 1, red + rShift);
@@ -90,7 +91,7 @@ void CZColor::balanceRGB(float rShift, float gShift, float bShift)
 	saturation	= CZClamp(0.0f, 1.0f, s);
 	brightness	= CZClamp(0.0f, 1.0f, v);
 }
-/// ÓÃHSVÄ£Ê½µ÷Õû
+/// ç”¨HSVæ¨¡å¼è°ƒæ•´
 void CZColor::adjustHSV(float hShift, float sShift, float bShift)
 {
 	hue = hue + hShift;
@@ -114,7 +115,7 @@ void CZColor::adjustHSV(float hShift, float sShift, float bShift)
 	blue		= CZClamp(0.0f, 1.0f, b);
 }
 
-/// ½«HSVÄ£Ê½µÄÖµ×ª»»µ½Ò»¸öuint32ÖĞ£¬£¨·Ö±ğÊÇh,s,v,a£©
+/// å°†HSVæ¨¡å¼çš„å€¼è½¬æ¢åˆ°ä¸€ä¸ªuint32ä¸­ï¼Œï¼ˆåˆ†åˆ«æ˜¯h,s,v,aï¼‰
 uint32_t CZColor::hash2Int()
 {
 	uint32_t h = uint32_t (256.f * hue);
@@ -124,7 +125,7 @@ uint32_t CZColor::hash2Int()
 	return (h << 24) | (s << 16) | (b << 8) | (a);
 }
 
-/// ÅĞ¶ÏÊÇ·ñÏàµÈ
+/// åˆ¤æ–­æ˜¯å¦ç›¸ç­‰
 bool CZColor::operator ==( const  CZColor& c_) const
 {
 	if ( this->hue==c_.hue && this->saturation==c_.saturation && this->brightness==c_.brightness && this->alpha==c_.alpha )
@@ -137,7 +138,7 @@ bool CZColor::operator ==( const  CZColor& c_) const
 	}
 }
 
-/// ¸³Öµ
+/// èµ‹å€¼
 void  CZColor::operator =( const  CZColor & p_)
 {
 	this->red = p_.red;
@@ -149,7 +150,7 @@ void  CZColor::operator =( const  CZColor & p_)
 	this->brightness = p_.brightness;
 }
 
-/// ±à½âÂë
+/// ç¼–è§£ç 
 void CZColor::update(CZDecoder *decoder_, bool deep /* = false */)
 {
 	/*

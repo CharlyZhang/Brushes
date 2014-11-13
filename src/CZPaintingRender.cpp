@@ -2,7 +2,7 @@
 ///  \file CZPaintingRender.cpp
 ///  \brief This is the file implements the Class CZPaintingRender.
 ///
-///		¸ºÔğ»­Í¼ÇøÓòµÄ»æÖÆ¡£
+///		è´Ÿè´£ç”»å›¾åŒºåŸŸçš„ç»˜åˆ¶ã€‚
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -20,6 +20,11 @@
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
 
+#if USE_OPENGL_ES
+#include <OpenGLES/EAGL.h>
+#include <OpenGLES/ES2/gl.h>
+#include <OpenGLES/ES2/glext.h>
+#endif
 using namespace  std;
 
 CZPaintingRender::CZPaintingRender(const CZSize &size)
@@ -50,11 +55,19 @@ CZPaintingRender::~CZPaintingRender()
 	setContext();
 	
 	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
-	if (quadVAO) { glDeleteVertexArrays(1,&quadVAO); quadVAO = 0;}
+	if (quadVAO)
+    {
+#if USE_OPENGL
+        glDeleteVertexArrays(1,&quadVAO);
+#elif USE_OPENGL_ES
+        glDeleteVertexArraysOES(1, &quadVAO);
+#endif
+        quadVAO = 0;
+    }
 	if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
 	if (brushTex) { delete brushTex; brushTex = NULL;}
 
-	/// É¾³ı×ÅÉ«Æ÷
+	/// åˆ é™¤ç€è‰²å™¨
 	for(map<string,CZShader*>::iterator itr = shaders.begin(); itr!=shaders.end(); itr++)
 		if(itr->second)
 		{
@@ -63,7 +76,7 @@ CZPaintingRender::~CZPaintingRender()
 		}
 		
 	shaders.clear();
-	/// É¾³ıÍ¼²ãÎÆÀí
+	/// åˆ é™¤å›¾å±‚çº¹ç†
 	for(map<unsigned int,CZTexture*>::iterator itr = layerTextures.begin(); itr!=layerTextures.end(); itr++)
 		if(itr->second)
 		{
@@ -71,7 +84,7 @@ CZPaintingRender::~CZPaintingRender()
 			itr->second = NULL;
 		}
 	layerTextures.clear();
-	/// É¾³ıÍ¼²ãÉ«µ÷/Å¨¶È/ÁÁ¶ÈÎÆÀí
+	/// åˆ é™¤å›¾å±‚è‰²è°ƒ/æµ“åº¦/äº®åº¦çº¹ç†
 	for(map<unsigned int,CZTexture*>::iterator itr = layerHueChromaLumaTex.begin(); itr!=layerHueChromaLumaTex.end(); itr++)
 		if(itr->second)
 		{
@@ -81,7 +94,7 @@ CZPaintingRender::~CZPaintingRender()
 	layerHueChromaLumaTex.clear();
 };
 
-/// »æÖÆÄ³ÇøÓòÄÚÊÓÍ¼£¨µ½ÆÁÄ»£©- for CZCanvas
+/// ç»˜åˆ¶æŸåŒºåŸŸå†…è§†å›¾ï¼ˆåˆ°å±å¹•ï¼‰- for CZCanvas
 void CZPaintingRender::drawViewInRect(/*const CZRect &rect*/)
 {
 	setContext();
@@ -103,7 +116,7 @@ void CZPaintingRender::drawViewInRect(/*const CZRect &rect*/)
 
 	*/
 	//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// ÎªÁËÄ£ÄâÌî³ä°×É«µ×°å
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// ä¸ºäº†æ¨¡æ‹Ÿå¡«å……ç™½è‰²åº•æ¿
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/*
@@ -151,24 +164,24 @@ void CZPaintingRender::drawViewInRect(/*const CZRect &rect*/)
 	*/
 }
 
-/// »æÖÆµ±Ç°×´Ì¬µÄÍ¼Ïñ£¨²»°üº¬»æÖÆ¹ì¼££©
+/// ç»˜åˆ¶å½“å‰çŠ¶æ€çš„å›¾åƒï¼ˆä¸åŒ…å«ç»˜åˆ¶è½¨è¿¹ï¼‰
 CZImage * CZPaintingRender::drawPaintingImage(CZSize & size, CZColor *bgColor)
 {
-	/// »ñµÃÔËĞĞËùĞèÒªµÄÊı¾İ
+	/// è·å¾—è¿è¡Œæ‰€éœ€è¦çš„æ•°æ®
 	std::vector<CZLayer*> &layers = ptrPainting->getAllLayers();
 	int w = size.width;
 	int h = size.height;
 	CZMat4 projection;
 	projection.SetOrtho(0,w,0,h,-1.0f,1.0f);
 
-	/// ¿ªÊ¼»æÖÆ
+	/// å¼€å§‹ç»˜åˆ¶
 	setContext();
 
 	fbo.setColorRenderBuffer(w,h);
 
 	fbo.begin();
 
-	// ÓÃ±³¾°ÑÕÉ«Çå³ı»º´æ
+	// ç”¨èƒŒæ™¯é¢œè‰²æ¸…é™¤ç¼“å­˜
 	if (bgColor) 
 		glClearColor(bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
 	else 
@@ -189,8 +202,7 @@ CZImage * CZPaintingRender::drawPaintingImage(CZSize & size, CZColor *bgColor)
 	ret = new CZImage(w,h,CZImage::RGBA);
 	glReadPixels(0, 0, w, h, GL_RGBA, GL_FLOAT, ret->data);
 #elif USE_OPENGL_ES
-	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ret->data);
 #endif
 
 	fbo.end();
@@ -199,10 +211,10 @@ CZImage * CZPaintingRender::drawPaintingImage(CZSize & size, CZColor *bgColor)
 
 	return ret;
 }
-/// Éú³Éµ±Ç°»æÖÆ×´Ì¬µÄÍ¼Ïñ 
+/// ç”Ÿæˆå½“å‰ç»˜åˆ¶çŠ¶æ€çš„å›¾åƒ 
 CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor)
 {
-	/// »ñµÃÔËĞĞËùĞèÒªµÄÊı¾İ
+	/// è·å¾—è¿è¡Œæ‰€éœ€è¦çš„æ•°æ®
 	std::vector<CZLayer*> &layers = ptrPainting->getAllLayers();
 	
 	setContext();
@@ -211,7 +223,7 @@ CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor)
 	
 	fbo.begin();
 
-	// ÓÃ±³¾°ÑÕÉ«Çå³ı»º´æ
+	// ç”¨èƒŒæ™¯é¢œè‰²æ¸…é™¤ç¼“å­˜
 	if (bgColor) 
 		glClearColor(bgColor->red, bgColor->green, bgColor->blue, bgColor->alpha);
 	else 
@@ -235,12 +247,12 @@ CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor)
 	}
 
 	CZImage *ret;
+    
+    ret = new CZImage(width,height,CZImage::RGBA);
 #if USE_OPENGL
-	ret = new CZImage(width,height,CZImage::RGBA);
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
 #elif USE_OPENGL_ES
-	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ret->data);
 #endif
 
 	fbo.end();
@@ -248,14 +260,14 @@ CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor)
 	fbo.setTexture(getPaintTexture());
 	return ret;
 }
-/// »æÖÆÒ»±Ê¹ì¼££¨»æÖÆµ½ÎÆÀí£©
+/// ç»˜åˆ¶ä¸€ç¬”è½¨è¿¹ï¼ˆç»˜åˆ¶åˆ°çº¹ç†ï¼‰
 CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer)
 {
 	setContext();
 	
 	fbo.setTexture(getPaintTexture());
 
-	// ¿ªÆôfbo
+	// å¼€å¯fbo
 	fbo.begin();
 	
 	if (clearBuffer) 
@@ -269,25 +281,25 @@ CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer,
 	shader->begin();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, brushTex->id);
+	glBindTexture(GL_TEXTURE_2D, brushTex->texId);
 
 	glUniform1i(shader->getUniformLocation("texture"),0);
 	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projectionMat);
 
 	CZRect pathBounds;
 
-	/// »æÖÆ¹ì¼£
+	/// ç»˜åˆ¶è½¨è¿¹
 	pathBounds = path_->paintPath(this,randomizer);
 
 	shader->end();
 	
-	// ¹Ø±ÕÆôfbo
+	// å…³é—­å¯fbo
 	fbo.end();
 
 	return pathBounds;
 }
 
-/// Éú³Éµ±Ç°Í¼²ãÍ¼Ïñ		- for CZLayer
+/// ç”Ÿæˆå½“å‰å›¾å±‚å›¾åƒ		- for CZLayer
 CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 {
 	int w = rect.size.width;
@@ -299,7 +311,7 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 
 	fbo.setColorRenderBuffer(w, h);
 
-	/// ¿ªÊ¼fbo
+	/// å¼€å§‹fbo
 	fbo.begin();
 
 	glViewport(0, 0, width, height);
@@ -318,7 +330,7 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 
 	glActiveTexture(GL_TEXTURE0);
 	// Bind the texture to be used
-	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->texId);
 
 	// clear the buffer to get a transparent background
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -327,19 +339,15 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 	// set up premultiplied normal blend
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
-	
+    drawQuad();
+    
 	shader->end();
 
-	CZImage *ret;
+	CZImage *ret = new CZImage(w,h,CZImage::RGBA);
 #if USE_OPENGL
-	ret = new CZImage(w,h,CZImage::RGBA);
 	glReadPixels(0, 0, w, h, GL_RGBA, GL_FLOAT, ret->data);
 #elif USE_OPENGL_ES
-	UInt8 *pixels = malloc(sizeof(UInt8) * width * 4 * height);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ret->data);
 #endif
 
 	fbo.end();
@@ -348,7 +356,7 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
 
 	return ret;
 }
-/// »æÖÆLayerµÄ²Á³ı¹ì¼£
+/// ç»˜åˆ¶Layerçš„æ“¦é™¤è½¨è¿¹
 void CZPaintingRender::drawLayerWithEraseMask(CZMat4 &projection)
 {
 	// use shader program
@@ -362,24 +370,19 @@ void CZPaintingRender::drawLayerWithEraseMask(CZMat4 &projection)
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->texId);
 
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
+	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->texId);
 
-	/// ÅäÖÃ»æÖÆÄ£Ê½
+	/// é…ç½®ç»˜åˆ¶æ¨¡å¼
 	configureBlendMode(ptrLayer->blendMode);
 
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	// unbind VAO
-	//glBindVertexArrayOES(0);
-	glBindVertexArray(0);
+	drawQuad();
 
 	shader->end();
 }
-/// »æÖÆLayerµÄ»æ»­¹ì¼£
+/// ç»˜åˆ¶Layerçš„ç»˜ç”»è½¨è¿¹
 void CZPaintingRender::drawLayerWithMask(CZMat4 &projection,CZColor *bgColor)
 {
 	// use shader program
@@ -395,23 +398,19 @@ void CZPaintingRender::drawLayerWithMask(CZMat4 &projection,CZColor *bgColor)
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->texId);
 
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
+	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->texId);
 
-	/// ÅäÖÃ»æÖÆÄ£Ê½
+	/// é…ç½®ç»˜åˆ¶æ¨¡å¼
 	configureBlendMode(ptrLayer->blendMode);
 	
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	// unbind VAO
-	//glBindVertexArrayOES(0);
-	glBindVertexArray(0);
+	drawQuad();
 
 	shader->end();
 }
-/// ½«LayerµÄÎÆÀí»æÖÆ
+/// å°†Layerçš„çº¹ç†ç»˜åˆ¶
 void CZPaintingRender::drawLayer(CZMat4 &projection)
 {
 	// use shader program
@@ -424,19 +423,15 @@ void CZPaintingRender::drawLayer(CZMat4 &projection)
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
-	/// ÅäÖÃ»æÖÆÄ£Ê½
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->texId);
+	/// é…ç½®ç»˜åˆ¶æ¨¡å¼
 	configureBlendMode(ptrLayer->blendMode);
 	
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	// unbind VAO
-	//glBindVertexArrayOES(0);
-	glBindVertexArray(0);
+	drawQuad();
 
 	shader->end();
 }
-/// ½«LayerµÄÎÆÀí×ª»»ºó»æÖÆ	
+/// å°†Layerçš„çº¹ç†è½¬æ¢åç»˜åˆ¶	
 void CZPaintingRender::drawLayerWithTransform(CZMat4 &projection, const CZAffineTransform &transform)
 {
 	// use shader program
@@ -449,9 +444,9 @@ void CZPaintingRender::drawLayerWithTransform(CZMat4 &projection, const CZAffine
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->texId);
 
-	/// ÅäÖÃ»æÖÆÄ£Ê½
+	/// é…ç½®ç»˜åˆ¶æ¨¡å¼
 	configureBlendMode(ptrLayer->blendMode);
 
 	CZRect rect(0,0,width,height);
@@ -482,7 +477,7 @@ void CZPaintingRender::drawLayerWithTransform(CZMat4 &projection, const CZAffine
 
 	CZCheckGLError();
 }
-/// ½«LayerµÄÎÆÀí´øÑÕÉ«µ÷Õûºó»æÖÆ	- for CZLayer
+/// å°†Layerçš„çº¹ç†å¸¦é¢œè‰²è°ƒæ•´åç»˜åˆ¶	- for CZLayer
 void CZPaintingRender::drawLayerWithcolorBalance(CZMat4 &projection, CZColorBalance *colorBalance)
 {
 	// use shader program
@@ -501,21 +496,16 @@ void CZPaintingRender::drawLayerWithcolorBalance(CZMat4 &projection, CZColorBala
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->id);
-	/// ÅäÖÃ»æÖÆÄ£Ê½
+	glBindTexture(GL_TEXTURE_2D, getLayerTexture(ptrLayer)->texId);
+	/// é…ç½®ç»˜åˆ¶æ¨¡å¼
 	configureBlendMode(ptrLayer->blendMode);
 
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	// unbind VAO
-	//glBindVertexArrayOES(0);
-	glBindVertexArray(0);
-
+	drawQuad();
+    
 	shader->end();
 
 }
-/// ½«LayerµÄÎÆÀí´øÉ«²Êµ÷Õûºó»æÖÆ	- for CZLayer
+/// å°†Layerçš„çº¹ç†å¸¦è‰²å½©è°ƒæ•´åç»˜åˆ¶	- for CZLayer
 void CZPaintingRender::drawLayerWithhueSaturation(CZMat4 &projection, CZHueSaturation *hueSaturation)
 {
 	// use shader program
@@ -533,20 +523,15 @@ void CZPaintingRender::drawLayerWithhueSaturation(CZMat4 &projection, CZHueSatur
 
 	// Bind the texture to be used
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, getLayerHCLTexture(ptrLayer)->id);
-	/// ÅäÖÃ»æÖÆÄ£Ê½
+	glBindTexture(GL_TEXTURE_2D, getLayerHCLTexture(ptrLayer)->texId);
+	/// é…ç½®ç»˜åˆ¶æ¨¡å¼
 	configureBlendMode(ptrLayer->blendMode);
 
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	// unbind VAO
-	//glBindVertexArrayOES(0);
-	glBindVertexArray(0);
-
+	drawQuad();
+    
 	shader->end();
 }
-/// ½«»æÖÆµÄ¹ì¼£ºÏ²¢µ½µ±Ç°Í¼²ã		- for CZLayer
+/// å°†ç»˜åˆ¶çš„è½¨è¿¹åˆå¹¶åˆ°å½“å‰å›¾å±‚		- for CZLayer
 void CZPaintingRender::composeActivePaintTexture(CZColor &color,bool erase)
 {
 	CZTexture *tex =  getLayerTexture(ptrLayer);
@@ -560,12 +545,12 @@ void CZPaintingRender::composeActivePaintTexture(CZColor &color,bool erase)
 	shader->begin();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tex->id);
+	glBindTexture(GL_TEXTURE_2D, tex->texId);
 	// temporarily turn off linear interpolation to work around "emboss" bug
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->id);
+	glBindTexture(GL_TEXTURE_2D, getPaintTexture()->texId);
 
 	glUniform1i(shader->getUniformLocation("texture"), 0);
 	glUniform1i(shader->getUniformLocation("mask"), 1);
@@ -579,16 +564,10 @@ void CZPaintingRender::composeActivePaintTexture(CZColor &color,bool erase)
 
 	glBlendFunc(GL_ONE, GL_ZERO);
 
-	//glBindVertexArrayOES(self.painting.quadVAO);
-	glBindVertexArray(getQuadVAO());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	// unbind VAO
-	//glBindVertexArrayOES(0);
-	glBindVertexArray(0);
-
-	// turn linear interpolation back on
-	glBindTexture(GL_TEXTURE_2D, tex->id);
+	drawQuad();
+	
+    // turn linear interpolation back on
+	glBindTexture(GL_TEXTURE_2D, tex->texId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	CZCheckGLError();
@@ -599,7 +578,7 @@ void CZPaintingRender::composeActivePaintTexture(CZColor &color,bool erase)
 
 }
 
-/// ÔØÈë×ÅÉ«Æ÷
+/// è½½å…¥ç€è‰²å™¨
 void CZPaintingRender::loadShaders()
 {
 #if 0
@@ -632,7 +611,7 @@ uniformNames:uniforms];
 
 	shaders = tempShaders;
 #endif
-	/// ±ÊË¢shader
+	/// ç¬”åˆ·shader
 	vector<string> attributes;
 	attributes.push_back("inPosition");
 	attributes.push_back("inTexcoord");
@@ -644,7 +623,7 @@ uniformNames:uniforms];
 	CZShader *shader = new CZShader("brush.vert","brush.frag",attributes,uniforms);
 	shaders.insert(make_pair("brush",shader));
 
-	/// ½«Í¼²ãºÍ»æÖÆ±Ê»­Êä³öµ½ÆÁÄ»
+	/// å°†å›¾å±‚å’Œç»˜åˆ¶ç¬”ç”»è¾“å‡ºåˆ°å±å¹•
 	attributes.clear();
 	attributes.push_back("inPosition");
 	attributes.push_back("inTexcoord");
@@ -659,7 +638,7 @@ uniformNames:uniforms];
 	shader = new CZShader("blit.vert","blitWithMask.frag",attributes,uniforms);
 	shaders.insert(make_pair("blitWithMask",shader));
 
-	/// ½«Í¼²ãÎÆÀí»æÖÆ³öÀ´
+	/// å°†å›¾å±‚çº¹ç†ç»˜åˆ¶å‡ºæ¥
 	uniforms.clear();
 	uniforms.push_back("mvpMat");
 	uniforms.push_back("texture");
@@ -668,7 +647,7 @@ uniformNames:uniforms];
 	shader = new CZShader("blit.vert","blit.frag",attributes,uniforms);
 	shaders.insert(make_pair("blit",shader));
 
-	/// ºÏ²¢»æÖÆ±Ê»­µ½Í¼²ã
+	/// åˆå¹¶ç»˜åˆ¶ç¬”ç”»åˆ°å›¾å±‚
 	uniforms.clear();
 	uniforms.push_back("mvpMat");
 	uniforms.push_back("texture");
@@ -679,7 +658,7 @@ uniformNames:uniforms];
 	shader = new CZShader("blit.vert","compositeWithMask.frag",attributes,uniforms);
 	shaders.insert(make_pair("compositeWithMask",shader));
 
-	/// ºÏ²¢²Á³ı±Ê»­µ½Í¼²ã
+	/// åˆå¹¶æ“¦é™¤ç¬”ç”»åˆ°å›¾å±‚
 	uniforms.clear();
 	uniforms.push_back("mvpMat");
 	uniforms.push_back("texture");
@@ -692,7 +671,7 @@ uniformNames:uniforms];
 	CZCheckGLError();
 }
 
-/// ÅäÖÃ»ìºÏÄ£Ê½
+/// é…ç½®æ··åˆæ¨¡å¼
 void CZPaintingRender::configureBlendMode(BlendMode mode)
 {
 	switch (mode) 
@@ -712,23 +691,23 @@ void CZPaintingRender::configureBlendMode(BlendMode mode)
 	}
 }
 
-/// ·µ»ØquadVAO
+/// è¿”å›quadVAO
 GLuint CZPaintingRender::getQuadVAO()
 {
 	if(!quadVAO)
 	{
-		//setContext()
+		setContext();
 
 		const GLfloat vertices[] = 
 		{
 			0.0, 0.0, 0.0, 0.0,
-			width, 0.0, 1.0, 0.0,
-			0.0, height, 0.0, 1.0,
-			width, height, 1.0, 1.0,
+			(GLfloat)width, 0.0, 1.0, 0.0,
+			0.0, (GLfloat)height, 0.0, 1.0,
+			(GLfloat)width, (GLfloat)height, 1.0, 1.0,
 		};
 #if USE_OPENGL_ES
-		glGenVertexArraysOES(1, quadVAO);
-		glBindVertexArrayOES(*quadVAO);
+		glGenVertexArraysOES(1, &quadVAO);
+		glBindVertexArrayOES(quadVAO);
 #endif
 #if USE_OPENGL
 		glGenVertexArrays(1, &quadVAO);
@@ -746,13 +725,17 @@ GLuint CZPaintingRender::getQuadVAO()
 		glEnableVertexAttribArray(1);
 
 		glBindBuffer(GL_ARRAY_BUFFER,0);
+#if USE_OPENGL
 		glBindVertexArray(0);
+#elif USE_OPENGL_ES
+        glBindVertexArrayOES(0);
+#endif
 	}
 
 	return quadVAO;
 }
 
-/// »ñÈ¡»æÖÆÓÃÎÆÀí
+/// è·å–ç»˜åˆ¶ç”¨çº¹ç†
 CZTexture* CZPaintingRender::getPaintTexture()
 {
 	if(!activePaintTexture)
@@ -763,7 +746,7 @@ CZTexture* CZPaintingRender::getPaintTexture()
 	return activePaintTexture;
 }
 
-/// »ñÈ¡Í¼²ãÎÆÀí
+/// è·å–å›¾å±‚çº¹ç†
 CZTexture* CZPaintingRender::getLayerTexture(CZLayer* layer)
 {
 	pair<map<unsigned int,CZTexture*>::iterator, bool> ret;  
@@ -772,7 +755,7 @@ CZTexture* CZPaintingRender::getLayerTexture(CZLayer* layer)
 
 	if(ret.second)	
 	{	
-		/// Éú³ÉÍ¼²ãÎÆÀí
+		/// ç”Ÿæˆå›¾å±‚çº¹ç†
 		if(layer->image)
 			ret.first->second = CZTexture::produceFromImage(layer->image);
 		else
@@ -781,7 +764,7 @@ CZTexture* CZPaintingRender::getLayerTexture(CZLayer* layer)
 
 	return ret.first->second;
 }
-/// Çå³ıÍ¼²ãÎÆÀí
+/// æ¸…é™¤å›¾å±‚çº¹ç†
 void CZPaintingRender::clearLayerTexture(CZLayer* layer)
 {
 	setContext();
@@ -800,7 +783,7 @@ void CZPaintingRender::clearLayerTexture(CZLayer* layer)
 	}
 }
 
-/// »ñÈ¡Í¼²ãµÄÉ«µ÷/Å¨¶È/ÁÁ¶ÈÎÆÀí
+/// è·å–å›¾å±‚çš„è‰²è°ƒ/æµ“åº¦/äº®åº¦çº¹ç†
 CZTexture* CZPaintingRender::getLayerHCLTexture(CZLayer *layer)
 {
 	pair<map<unsigned int,CZTexture*>::iterator, bool> ret;  
@@ -809,14 +792,14 @@ CZTexture* CZPaintingRender::getLayerHCLTexture(CZLayer *layer)
 
 	if(ret.second)	
 	{	
-		/// Éú³ÉÍ¼²ãÎÆÀí
+		/// ç”Ÿæˆå›¾å±‚çº¹ç†
 		//CZTexture *tex = CZTexture::produceFromImage(layer->image);
 		ret.first->second = new CZTexture(width,height);
 	}
 
 	return ret.first->second;
 }
-/// Çå³ıÍ¼²ãµÄÉ«µ÷/Å¨¶È/ÁÁ¶ÈÎÆÀí
+/// æ¸…é™¤å›¾å±‚çš„è‰²è°ƒ/æµ“åº¦/äº®åº¦çº¹ç†
 void CZPaintingRender::clearLayerHCLTexture(CZLayer *layer)
 {
 	return;
@@ -836,7 +819,7 @@ void CZPaintingRender::clearLayerHCLTexture(CZLayer *layer)
 	}
 }
 
-/// ¸ü»»±ÊË¢ÎÆÀí
+/// æ›´æ¢ç¬”åˆ·çº¹ç†
 void CZPaintingRender::changeBrushTex(CZBrush *brush)
 {
 	if (brushTex) { delete brushTex; brushTex = NULL;}
@@ -845,7 +828,7 @@ void CZPaintingRender::changeBrushTex(CZBrush *brush)
 	brushTex = CZTexture::produceFromImage(gen->getStamp(false));		///< get the normal stamp;
 }
 
-/// µ÷Õû»æÖÆÆ÷´óĞ¡
+/// è°ƒæ•´ç»˜åˆ¶å™¨å¤§å°
 void CZPaintingRender::resize(const CZSize &size)
 {
 	width = size.width;
@@ -856,10 +839,18 @@ void CZPaintingRender::resize(const CZSize &size)
 	projectionMat.SetOrtho(0,width,0,height,-1.0f,1.0f);
 
 	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
-	if (quadVAO) { glDeleteVertexArrays(1,&quadVAO); quadVAO = 0;}
+	if (quadVAO)
+    {
+#if USE_OPENGL
+        glDeleteVertexArrays(1,&quadVAO);
+#elif USE_OPENGL_ES
+        glDeleteVertexArraysOES(1,&quadVAO);
+#endif
+        quadVAO = 0;
+    }
 }
 
-/// »æÖÆ¾ØĞÎ
+/// ç»˜åˆ¶çŸ©å½¢
 void CZPaintingRender::drawRect(const CZRect &rect, const CZAffineTransform &transform)
 {
 	CZ2DPoint corners[4];
@@ -898,4 +889,23 @@ void CZPaintingRender::drawRect(const CZRect &rect, const CZAffineTransform &tra
 
 	glDeleteBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+/// draw quad
+void CZPaintingRender::drawQuad()
+{
+#if USE_OPENGL
+	glBindVertexArray(getQuadVAO());
+#elif USE_OPENGL_ES
+    glBindVertexArrayOES(getQuadVAO());
+#endif
+    
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    
+#if USE_OPENGL
+	glBindVertexArray(0);
+#elif USE_OPENGL_ES
+    glBindVertexArrayOES(0);
+#endif
+    
 }

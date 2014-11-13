@@ -21,7 +21,7 @@ void main (void)
     
     float outAlpha = srcAlpha + dst.a * (1.0 - srcAlpha);
     
-	if(outAlpha != 0.0f)
+	if(outAlpha != 0.0)
 		gl_FragColor.rgb = (color.rgb * srcAlpha + dst.rgb * dst.a * (1.0 - srcAlpha)) / outAlpha;
 	else
 		gl_FragColor.rgb = vec3(0,0,0);

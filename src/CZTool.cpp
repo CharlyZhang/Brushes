@@ -35,7 +35,7 @@ CZTool::~CZTool()
 {
 }
 
-/// ¿ªÊ¼ÒÆ¶¯
+/// å¼€å§‹ç§»åŠ¨
 void CZTool::moveBegin(CZ2DPoint &p_, float pressure_ /* = 0.0f */)
 {
 	moved = false;
@@ -66,13 +66,18 @@ void CZTool::moveBegin(CZ2DPoint &p_, float pressure_ /* = 0.0f */)
 	CZBezierNode node(location,pressure);
 	pointsToFit[0] = node;
 	pointsIndex = 1;
-
+    
 	clearBuffer = true;
 }
+void CZTool::moveBegin(float x_, float y_, float pressure /* = 0.0f */)
+{
+    CZ2DPoint p(x_,y_);
+    moveBegin(p,pressure);
+}
 
-/// ÕıÔÚÒÆ¶¯
-///		/param p_				  - µ±Ç°ÒÆ¶¯µÄµãÎ»ÖÃ
-///		/param pressureOrSpeed	  - µ±Éè±¸Ö§³ÖÑ¹Á¦ÖµÊ±£¬ÎªÑ¹Á¦Öµ£»·ñÔòÎªÒÆ¶¯ËÙ¶ÈÖµ
+/// æ­£åœ¨ç§»åŠ¨
+///		/param p_				  - å½“å‰ç§»åŠ¨çš„ç‚¹ä½ç½®
+///		/param pressureOrSpeed	  - å½“è®¾å¤‡æ”¯æŒå‹åŠ›å€¼æ—¶ï¼Œä¸ºå‹åŠ›å€¼ï¼›å¦åˆ™ä¸ºç§»åŠ¨é€Ÿåº¦å€¼
 void CZTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 {
 	moved = true;
@@ -113,6 +118,7 @@ void CZTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 		pressure = (pressure + pointsToFit[pointsIndex - 1].anchorPoint.z) / 2;
 	}
 
+    std:: cout << pointsIndex << " nodes added\n";
 	pointsToFit[pointsIndex++] = CZBezierNode(location,pressure);
 
 	// special case: otherwise the 2nd overall point never gets averaged
@@ -130,8 +136,13 @@ void CZTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 	// save data for the next iteration
 	lastLocation = location;
 }
+void CZTool::moving(float x_, float y_, float pressureOrSpeed)
+{
+    CZ2DPoint p(x_, y_);
+    moving(p, pressureOrSpeed);
+}
 
-/// ÒÆ¶¯½áÊø
+/// ç§»åŠ¨ç»“æŸ
 void CZTool::moveEnd(CZ2DPoint &p_)
 {
 	CZColor     color = CZActiveState::getInstance()->getPaintColor();
@@ -145,7 +156,7 @@ void CZTool::moveEnd(CZ2DPoint &p_)
 	{ // draw a single stamp
 		CZBezierNode node(location,1.0);
 		
-		CZPath path;
+		path.initital();
 		path.addNode(node);
 		accumulatedStrokePoints.push_back(node);
 
@@ -175,11 +186,16 @@ void CZTool::moveEnd(CZ2DPoint &p_)
 	ptrPainting->setActivePath(NULL);
 
 }
+void CZTool::moveEnd(float x_, float y_)
+{
+    CZ2DPoint p(x_, y_);
+    moveEnd(p);
+}
 
-/// ¶ÔÁÙÊ±Á¬ĞøµãÖĞstart_µ½end_µÄµã½øĞĞÆ½¾ù´¦Àí
+/// å¯¹ä¸´æ—¶è¿ç»­ç‚¹ä¸­start_åˆ°end_çš„ç‚¹è¿›è¡Œå¹³å‡å¤„ç†
 ///		
-///		¾ßÌå´¦Àí·½·¨£º½«µ±Ç°µã·Ö±ğÓëÇ°ºóÁ½¸öµãÁ¬Ïß³Él1ºÍl2,ÔÙ½«l1ºÍl2µÄÖĞµãÁ¬Ïß³Él3,
-///					È¡l3µÄÖĞµãÎªµ±Ç°µãµÄÆ½¾ù´¦Àíµã
+///		å…·ä½“å¤„ç†æ–¹æ³•ï¼šå°†å½“å‰ç‚¹åˆ†åˆ«ä¸å‰åä¸¤ä¸ªç‚¹è¿çº¿æˆl1å’Œl2,å†å°†l1å’Œl2çš„ä¸­ç‚¹è¿çº¿æˆl3,
+///					å–l3çš„ä¸­ç‚¹ä¸ºå½“å‰ç‚¹çš„å¹³å‡å¤„ç†ç‚¹
 void CZTool::averagePointsBetween(int start_, int end_)
 {
 	for (int i = start_; i < end_; i++) 
@@ -192,19 +208,19 @@ void CZTool::averagePointsBetween(int start_, int end_)
 	}
 }
 
-/// »æÖÆÊÊÅäµÄµã
+/// ç»˜åˆ¶é€‚é…çš„ç‚¹
 ///
-///		Ã¿´Î½«ÁÙ½üµÄ¼¸¸öµã½øĞĞ¾ù»¯£¬ÔÙ¼ÆËã³öµÚ¶ş¸öµãµ½µ¹ÊıµÚ¶ş¸ö½áµãµÄ¿ØÖÆµã£»
-///		ÀûÓÃÇ°3¸öµãÉú³ÉÇúÏß£¬½øĞĞ»æÖÆ£»ºóÃæÁ½¸öµãÔòÁôµ½ÏÂÒ»ÂÖ»æÖÆ£¬ÒÔ±ãÆ½»¬¹ı¶É¡£
+///		æ¯æ¬¡å°†ä¸´è¿‘çš„å‡ ä¸ªç‚¹è¿›è¡Œå‡åŒ–ï¼Œå†è®¡ç®—å‡ºç¬¬äºŒä¸ªç‚¹åˆ°å€’æ•°ç¬¬äºŒä¸ªç»“ç‚¹çš„æ§åˆ¶ç‚¹ï¼›
+///		åˆ©ç”¨å‰3ä¸ªç‚¹ç”Ÿæˆæ›²çº¿ï¼Œè¿›è¡Œç»˜åˆ¶ï¼›åé¢ä¸¤ä¸ªç‚¹åˆ™ç•™åˆ°ä¸‹ä¸€è½®ç»˜åˆ¶ï¼Œä»¥ä¾¿å¹³æ»‘è¿‡æ¸¡ã€‚
 void CZTool::paintFittedPoints()
 {
-	bool    touchEnding = (pointsIndex != 5) ? true : false;	///< ÅĞ¶Ï»æÖÆÊÇ·ñ½áÊø
-	int     loopBound = touchEnding ? pointsIndex - 1 : 4;		///< Ïß¶ÎÊıÄ¿
-	int     drawBound = touchEnding ? pointsIndex - 1 : 2;		///< ±¾´Î»æÖÆ×îºóµÄµãµÄ±êºÅ
+	bool    touchEnding = (pointsIndex != 5) ? true : false;	///< åˆ¤æ–­ç»˜åˆ¶æ˜¯å¦ç»“æŸ
+	int     loopBound = touchEnding ? pointsIndex - 1 : 4;		///< çº¿æ®µæ•°ç›®
+	int     drawBound = touchEnding ? pointsIndex - 1 : 2;		///< æœ¬æ¬¡ç»˜åˆ¶æœ€åçš„ç‚¹çš„æ ‡å·
 
 	averagePointsBetween(2, loopBound);
 
-	/// ¼ÆËã³ıÊ×Î²µãÍâÆäËûµãµÄ£¬ÈëÉä¿ØÖÆµãºÍ³öÉä¿ØÖÆµã¡£
+	/// è®¡ç®—é™¤é¦–å°¾ç‚¹å¤–å…¶ä»–ç‚¹çš„ï¼Œå…¥å°„æ§åˆ¶ç‚¹å’Œå‡ºå°„æ§åˆ¶ç‚¹ã€‚
 	for (int i = 1; i < loopBound; i++) 
 	{
 		CZ3DPoint current = pointsToFit[i].anchorPoint;
@@ -224,8 +240,7 @@ void CZTool::paintFittedPoints()
 		pointsToFit[i].outPoint = out;
 	}
 
-	/// Éú³ÉÒ»¸ö¹ì¼£path
-	static CZPath path;
+	/// ç”Ÿæˆä¸€ä¸ªè½¨è¿¹path
 	path.initital();
 
 	path.limitBrushSize = true;
@@ -235,7 +250,7 @@ void CZTool::paintFittedPoints()
 		path.addNode(pointsToFit[i]);
 
 		if (i == 0 && accumulatedStrokePoints.size())
-		{	/// ÒÆÈ¥ÉÏÂÖ»æÖÆ×îºóµÄ½áµã
+		{	/// ç§»å»ä¸Šè½®ç»˜åˆ¶æœ€åçš„ç»“ç‚¹
 			accumulatedStrokePoints.pop_back(); 
 		}
 		
@@ -244,7 +259,7 @@ void CZTool::paintFittedPoints()
 
 	paintPath(path);
 
-	/// »æÖÆÃ»ÓĞ½áÊø£¬½«¸ÃÂÖÃ»ÓĞ´¦ÀíÍêµãÇ°ÒÆ
+	/// ç»˜åˆ¶æ²¡æœ‰ç»“æŸï¼Œå°†è¯¥è½®æ²¡æœ‰å¤„ç†å®Œç‚¹å‰ç§»
 	if (!touchEnding) 
 	{
 		for (int i = 0; i < 3; i++) 

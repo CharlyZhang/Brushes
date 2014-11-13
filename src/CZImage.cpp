@@ -30,7 +30,8 @@ CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGB */)
 	default:
 		n = 0;
 	}
-	data  = new float[n*width*height];
+
+	data = new PixDataType[n*width*height];
 }
 
 CZImage::~CZImage()

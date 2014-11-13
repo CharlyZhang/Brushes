@@ -24,7 +24,7 @@ CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */
 
 	texType = texType_;
 
-	// ¸ù¾İÎÆÀí×÷ÓÃ²»Í¬£¬·Ö±ğ³õÊ¼»¯
+	// æ ¹æ®çº¹ç†ä½œç”¨ä¸åŒï¼Œåˆ†åˆ«åˆå§‹åŒ–
 	switch(texType)
 	{
 	case RenderTex:
@@ -55,20 +55,20 @@ CZTexture* CZTexture::produceFromImage(CZImage *img, bool deepColor /*= false*/)
 		return NULL;
 	}
 
-	/// Èç¹ûÒªÇóÉî¶ÈÑÕÉ«£¬ÔòÆäÓÉÓ²¼şÊÇ·ñÖ§³Ö¾ö¶¨
+	/// å¦‚æœè¦æ±‚æ·±åº¦é¢œè‰²ï¼Œåˆ™å…¶ç”±ç¡¬ä»¶æ˜¯å¦æ”¯æŒå†³å®š
 	if(deepColor) deepColor = supportColor;
 
 	CZTexture * ret = new CZTexture(img->width,img->height,RenderTex,img->data);
 	return ret;
 }
 
-/// »ñÈ¡Æä¶ÔÓ¦µÄÍ¼ÏñÊı¾İ
+/// è·å–å…¶å¯¹åº”çš„å›¾åƒæ•°æ®
 CZImage *CZTexture::toImage()
 {
 	return NULL;
 }
 
-/// ¿ª¹ØÏßĞÔ²îÖµ
+/// å¼€å…³çº¿æ€§å·®å€¼
 void CZTexture::enableLinearInterprolation(float flag)
 {
 	glActiveTexture(GL_TEXTURE0);
@@ -76,7 +76,7 @@ void CZTexture::enableLinearInterprolation(float flag)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, flag ? GL_LINEAR : GL_NEAREST);
 }
 
-/// ³õÊ¼»¯äÖÈ¾ÎÆÀí
+/// åˆå§‹åŒ–æ¸²æŸ“çº¹ç†
 void CZTexture::initRenderTex(float *data /* = NULL */)
 {
 	glGenTextures (1, &id);
@@ -85,14 +85,14 @@ void CZTexture::initRenderTex(float *data /* = NULL */)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 3);  // ÉèÖÃ×Ô¶¯Éú³ÉµÄ×î´ó²ãÊı
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 3);  // è®¾ç½®è‡ªåŠ¨ç”Ÿæˆçš„æœ€å¤§å±‚æ•°
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0,
 		GL_RGBA, GL_FLOAT,(void*)data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-#if 0 /// painting ÀïµÄÉú³ÉÎÆÀí
+#if 0 /// painting é‡Œçš„ç”Ÿæˆçº¹ç†
 	// Set up filter and wrap modes for this texture object
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -109,7 +109,7 @@ void CZTexture::initRenderTex(float *data /* = NULL */)
 
 }
 
-/// ³õÊ¼»¯±ÊË¢ÎÆÀí£¨£¡Ä¿Ç°ÈÔÈ»Î´ÄÜÊµÏÖFBOÖ±½ÓäÖÈ¾»Ò¶ÈÍ¼£©
+/// åˆå§‹åŒ–ç¬”åˆ·çº¹ç†ï¼ˆï¼ç›®å‰ä»ç„¶æœªèƒ½å®ç°FBOç›´æ¥æ¸²æŸ“ç°åº¦å›¾ï¼‰
 void CZTexture::initBrushTex(float *data /* = NULL */)
 {
 	glGenTextures (1, &id);

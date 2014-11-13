@@ -15,39 +15,42 @@
 #define _CZFBO_H_
 
 #include "CZTexture.h"
-#include "GL/glew.h"
 #include <iostream>
+
+#if USE_OPENGL
+    #include "GL/glew.h"
+#endif
 
 class CZFbo
 {
 public:
 	enum FboState {NONE=0, RENDER2TEX, OFFLINE_RENDER};
-	/// ¹¹Ôìº¯Êı
+	/// æ„é€ å‡½æ•°
 	CZFbo();
 	~CZFbo();
-	/// ÉèÖÃ»æÖÆÎÆÀí£¨ÓÃ×÷»æÖÆµ½ÎÆÀí£©
+	/// è®¾ç½®ç»˜åˆ¶çº¹ç†ï¼ˆç”¨ä½œç»˜åˆ¶åˆ°çº¹ç†ï¼‰
 	void setTexture(CZTexture *tex_);
-	/// ÉèÖÃ»æÖÆ»º³åÇø£¨ÓÃÓÚÀëÏß»æÖÆ£©
+	/// è®¾ç½®ç»˜åˆ¶ç¼“å†²åŒºï¼ˆç”¨äºç¦»çº¿ç»˜åˆ¶ï¼‰
 	void setColorRenderBuffer(int w_, int h_);
-	/// ¿ªÊ¼FBO£¨²»¸ºÔğÇå³ı»º´æ£©
+	/// å¼€å§‹FBOï¼ˆä¸è´Ÿè´£æ¸…é™¤ç¼“å­˜ï¼‰
 	void begin();
-	/// ½áÊøFBO
+	/// ç»“æŸFBO
 	void end();
-	/// ½«ÎÆÀí»æÖÆµ½ÆÁÄ»
+	/// å°†çº¹ç†ç»˜åˆ¶åˆ°å±å¹•
 	void showTextureOnScreen(int x,int y,int width_ = 128,int height_ = 128);
 
 public:
 	int width,height;
 
 private:
-	/// ¼ì²é×´Ì¬
+	/// æ£€æŸ¥çŠ¶æ€
 	int checkFramebufferStatus();
 
-	GLuint id;
-	GLint preFbo;
-	FboState isReady;			///< FBO×´Ì¬
-	GLuint renderId;			///< äÖÈ¾»º´æ
-	CZTexture *tex;				///< Ö»ÊÇÒıÓÃ£¬²»¸ºÔğ´´½¨ºÍÏú»Ù
+	unsigned int fboId;
+	int preFbo;
+	FboState isReady;			///< FBOçŠ¶æ€
+	unsigned int renderId;			///< æ¸²æŸ“ç¼“å­˜
+	CZTexture *tex;				///< åªæ˜¯å¼•ç”¨ï¼Œä¸è´Ÿè´£åˆ›å»ºå’Œé”€æ¯
 };
 
 #endif

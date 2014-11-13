@@ -18,7 +18,7 @@
 class CZBezierNode
 {
 public:
-	/// 锚点和其两个控制点（z用来表示该点的压力值）
+	/// 閿氱偣鍜屽叾涓や釜鎺у埗鐐癸紙z鐢ㄦ潵琛ㄧず璇ョ偣鐨勫帇鍔涘�硷級
 	CZ3DPoint inPoint;
 	CZ3DPoint anchorPoint;
 	CZ3DPoint outPoint;

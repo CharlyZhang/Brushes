@@ -4,7 +4,7 @@
 
 #include "CZTool.h"
 
-/// ²Á³ý¹¤¾ßÀà
+/// æ“¦é™¤å·¥å…·ç±»
 class CZEraserTool : public CZTool
 {
 public:

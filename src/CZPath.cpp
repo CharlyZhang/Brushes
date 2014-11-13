@@ -12,6 +12,7 @@
 #include "CZPath.h"
 #include "CZAffineTransform.h"
 #include "CZUtil.h"
+#include "CZRender.h"
 #include "Macro.h"
 #include <cmath>				
 #include <iostream>
@@ -35,7 +36,7 @@ CZPath::~CZPath()
 	alphas.clear();
 }
 
-/// ³õÊ¼»¯
+/// åˆå§‹åŒ–
 void CZPath::initital()
 {
 	nodes.clear();
@@ -46,7 +47,7 @@ void CZPath::initital()
 	boundsDirty = true;
 }
 
-/// ÉèÖÃËùÓĞ½áµã
+/// è®¾ç½®æ‰€æœ‰ç»“ç‚¹
 void CZPath::setNodes(const std::vector<CZBezierNode> &nodes_)
 {
 	nodes.clear();
@@ -56,13 +57,13 @@ void CZPath::setNodes(const std::vector<CZBezierNode> &nodes_)
 	for(int i=0; i<n; i++) nodes.push_back(nodes_[i]);
 }
 
-/// Ìí¼Ó½áµã
+/// æ·»åŠ ç»“ç‚¹
 void CZPath::addNode(CZBezierNode &node)
 {
 	nodes.push_back(node);
 }
 
-/// »ñÈ¡Ê×Î²½áµã
+/// è·å–é¦–å°¾ç»“ç‚¹
 CZBezierNode CZPath::firstNode()
 {
 	return nodes.front();
@@ -72,7 +73,7 @@ CZBezierNode CZPath::lastNode()
 	return (closed ? nodes.front() : nodes.back());
 }
 
-/// »æÖÆ¹ì¼££¨·µ»ØËùÓĞÊı¾İµÄ·¶Î§£©
+/// ç»˜åˆ¶è½¨è¿¹ï¼ˆè¿”å›æ‰€æœ‰æ•°æ®çš„èŒƒå›´ï¼‰
 CZRect CZPath::paintPath(CZRender *render,CZRandom *randomizer_)
 {   
 	ptrRender = render;
@@ -87,7 +88,7 @@ CZRect CZPath::paintPath(CZRender *render,CZRandom *randomizer_)
 	} 
 	else 
 	{
-		std::vector<CZ3DPoint> linePoints;		/// <±´Èû¶ûÇúÏßµÄ»æÖÆµã
+		std::vector<CZ3DPoint> linePoints;		/// <è´å¡å°”æ›²çº¿çš„ç»˜åˆ¶ç‚¹
 		int numPoints = flattenNodes2Points(nodes,closed,linePoints);
 
 		if(ptrBrush == NULL) 
@@ -106,31 +107,31 @@ CZRect CZPath::paintPath(CZRender *render,CZRandom *randomizer_)
 
 }
 
-/// ÉèÖÃ±ÕºÏ
+/// è®¾ç½®é—­åˆ
 void CZPath::setClosed(bool closed_)
 {
 	closed = closed_;
 }
 
-/// ÉèÖÃ±ÊË¢
+/// è®¾ç½®ç¬”åˆ·
 void CZPath::setBrush(CZBrush *brush_)
 {
 	ptrBrush = brush_;
 }
 
-/// ÉèÖÃÑÕÉ«
+/// è®¾ç½®é¢œè‰²
 void CZPath::setColor(CZColor &color_)
 {
 	this->color = color_;
 }
 
-/// »ñÈ¡Ëæ»úÊıÆ÷£¨¸ù¾İ¸Ã¹ì¼£µÄ±ÊË¢µÄÉú³ÉÆ÷£©
+/// è·å–éšæœºæ•°å™¨ï¼ˆæ ¹æ®è¯¥è½¨è¿¹çš„ç¬”åˆ·çš„ç”Ÿæˆå™¨ï¼‰
 CZRandom *CZPath::getRandomizer()
 {
 	return ptrBrush->generator->getRandomizer();
 }
 
-/// ÊµÏÖcoding ½Ó¿Ú
+/// å®ç°coding æ¥å£
 void CZPath::update(CZDecoder *decoder_, bool deep /* = false */)
 {
 	/*
@@ -224,9 +225,9 @@ void CZPath::encode(CZCoder *coder_, bool deep /* = false */)
 	*/
 }
 
-/// »æÖÆÊı¾İ
+/// ç»˜åˆ¶æ•°æ®
 /// 
-///		ÒÔ×îĞ¡Á£¶ÈµÄÀëÉ¢µã(points_)ÎªÖĞĞÄ£¬ĞÎ³ÉĞ¡¾ØĞÎ£¬Î¯ÍĞrender»æÖÆ£¬²¢½«´Ë¾ØĞÎÊı¾İ·µ»Ø¡£
+///		ä»¥æœ€å°ç²’åº¦çš„ç¦»æ•£ç‚¹(points_)ä¸ºä¸­å¿ƒï¼Œå½¢æˆå°çŸ©å½¢ï¼Œå§”æ‰˜renderç»˜åˆ¶ï¼Œå¹¶å°†æ­¤çŸ©å½¢æ•°æ®è¿”å›ã€‚
 ///
 CZRect CZPath::drawData()
 {
@@ -320,7 +321,7 @@ CZRect CZPath::drawData()
 	return dataBounds;
 }
 
-/// »æÖÆÒ»¸östampµã
+/// ç»˜åˆ¶ä¸€ä¸ªstampç‚¹
 void CZPath::paintStamp(CZRandom *randomizer)
 {
 	float weight = scale * (limitBrushSize ? 50 : ptrBrush->weight.value);
@@ -338,16 +339,16 @@ void CZPath::paintStamp(CZRandom *randomizer)
 	alphas.push_back(alpha);
 }
 
-/// »æÖÆÁ½µãÖ®¼äµÄÏß.
+/// ç»˜åˆ¶ä¸¤ç‚¹ä¹‹é—´çš„çº¿.
 ///
-///		½«Á½»æÖÆµã(linePoints)Ö®¼äµÄÏßÀëÉ¢³É¸üĞ¡Á£¶ÈµÄÀëÉ¢µã(points)£¬
-///		¸üĞÂpoints,sizes,alphas,anglesµÈÏòÁ¿£¬
-///		ÕâÀïÀûÓÃµ½ÁË»­Ë¢µÄ²ÎÊı¡£
+///		å°†ä¸¤ç»˜åˆ¶ç‚¹(linePoints)ä¹‹é—´çš„çº¿ç¦»æ•£æˆæ›´å°ç²’åº¦çš„ç¦»æ•£ç‚¹(points)ï¼Œ
+///		æ›´æ–°points,sizes,alphas,anglesç­‰å‘é‡ï¼Œ
+///		è¿™é‡Œåˆ©ç”¨åˆ°äº†ç”»åˆ·çš„å‚æ•°ã€‚
 ///
-///		/param lastLocation - ¹ì¼£×îºóÀëÉ¢µãµÄÎ»ÖÃ
-///		/param location		- µ±Ç°»æÖÆµãµÄÎ»ÖÃ
-///		/param randomizer	- Ëæ»úÆ÷
-///		/note	ÀûÓÃ»­±Ê²ÎÊıÉú³É²¿·ÖµÄËã·¨Ã»¿´¶®
+///		/param lastLocation - è½¨è¿¹æœ€åç¦»æ•£ç‚¹çš„ä½ç½®
+///		/param location		- å½“å‰ç»˜åˆ¶ç‚¹çš„ä½ç½®
+///		/param randomizer	- éšæœºå™¨
+///		/note	åˆ©ç”¨ç”»ç¬”å‚æ•°ç”Ÿæˆéƒ¨åˆ†çš„ç®—æ³•æ²¡çœ‹æ‡‚
 void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location, CZRandom *randomizer)
 {
 	float           pA = lastLocation.z;
@@ -409,7 +410,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 	this->remainder = (f - distance);
 }
 
-/// Ê¹¹ì¼£ÎŞĞ§»¯
+/// ä½¿è½¨è¿¹æ— æ•ˆåŒ–
 void CZPath::invalidatePath()
 {
 

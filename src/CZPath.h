@@ -11,7 +11,7 @@
 ///  \version	1.1.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-11
-///  \note		½«»æÖÆ²¿·Ö´ÓCZPathÖĞÌŞ³ı£¬ÆäÖ»¸ºÔğÕûÀíÊı¾İ¡£Í¬Ê±ĞŞ¸ÄÏàÓ¦º¯ÊıÃû¡£
+///  \note		å°†ç»˜åˆ¶éƒ¨åˆ†ä»CZPathä¸­å‰”é™¤ï¼Œå…¶åªè´Ÿè´£æ•´ç†æ•°æ®ã€‚åŒæ—¶ä¿®æ”¹ç›¸åº”å‡½æ•°åã€‚
 
 #ifndef _CZPATH_H_
 #define _CZPATH_H_
@@ -24,8 +24,9 @@
 #include "CZCommon.h"
 #include "CZColor.h"
 #include "CZCoding.h"
-#include "CZRender.h"
 #include <vector>
+
+class CZRender;
 
 typedef enum 
 {
@@ -39,74 +40,74 @@ class CZPath : public CZCoding
 public:
 	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
 	~CZPath();
-	/// ³õÊ¼»¯
+	/// åˆå§‹åŒ–
 	void initital();
-	/// ÉèÖÃËùÓĞ½áµã
+	/// è®¾ç½®æ‰€æœ‰ç»“ç‚¹
 	void setNodes(const std::vector<CZBezierNode> &nodes_);
-	/// Ìí¼Ó½áµã
+	/// æ·»åŠ ç»“ç‚¹
 	void addNode(CZBezierNode &node);
-	/// »ñÈ¡Ê×Î²½áµã
+	/// è·å–é¦–å°¾ç»“ç‚¹
 	CZBezierNode firstNode();
 	CZBezierNode lastNode();
-	/// »æÖÆ¹ì¼££¨·µ»ØËùÓĞÊı¾İµÄ·¶Î§£©
+	/// ç»˜åˆ¶è½¨è¿¹ï¼ˆè¿”å›æ‰€æœ‰æ•°æ®çš„èŒƒå›´ï¼‰
 	CZRect paintPath(CZRender *render,CZRandom *randomizer_);
-	/// ÉèÖÃ±ÕºÏ
+	/// è®¾ç½®é—­åˆ
 	void setClosed(bool closed_);
-	/// ÉèÖÃ±ÊË¢
+	/// è®¾ç½®ç¬”åˆ·
 	void setBrush(CZBrush *brush_);
-	/// ÉèÖÃÑÕÉ«
+	/// è®¾ç½®é¢œè‰²
 	void setColor(CZColor &color_);
-	/// »ñÈ¡Ëæ»úÊıÆ÷£¨¸ù¾İ¸Ã¹ì¼£µÄ±ÊË¢µÄÉú³ÉÆ÷£©
+	/// è·å–éšæœºæ•°å™¨ï¼ˆæ ¹æ®è¯¥è½¨è¿¹çš„ç¬”åˆ·çš„ç”Ÿæˆå™¨ï¼‰
 	CZRandom *getRandomizer();
-	/// ÊµÏÖcoding ½Ó¿Ú
+	/// å®ç°coding æ¥å£
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 private:
-	/// »æÖÆÊı¾İ
+	/// ç»˜åˆ¶æ•°æ®
 	/// 
-	///		ÒÔ×îĞ¡Á£¶ÈµÄÀëÉ¢µã(points_)ÎªÖĞĞÄ£¬ĞÎ³ÉĞ¡¾ØĞÎ£¬Î¯ÍĞrender»æÖÆ£¬²¢½«´Ë¾ØĞÎÊı¾İ·µ»Ø¡£
+	///		ä»¥æœ€å°ç²’åº¦çš„ç¦»æ•£ç‚¹(points_)ä¸ºä¸­å¿ƒï¼Œå½¢æˆå°çŸ©å½¢ï¼Œå§”æ‰˜renderç»˜åˆ¶ï¼Œå¹¶å°†æ­¤çŸ©å½¢æ•°æ®è¿”å›ã€‚
 	///
 	CZRect drawData();
 	
-	/// »æÖÆÒ»¸östampµã
+	/// ç»˜åˆ¶ä¸€ä¸ªstampç‚¹
 	void paintStamp(CZRandom *randomizer);
 
-	/// »æÖÆÁ½µãÖ®¼äµÄÏß.
+	/// ç»˜åˆ¶ä¸¤ç‚¹ä¹‹é—´çš„çº¿.
 	///
-	///		½«Á½»æÖÆµã(linePoints)Ö®¼äµÄÏßÀëÉ¢³É¸üĞ¡Á£¶ÈµÄÀëÉ¢µã(points)£¬
-	///		¸üĞÂpoints,sizes,alphas,anglesµÈÏòÁ¿£¬
-	///		ÕâÀïÀûÓÃµ½ÁË»­Ë¢µÄ²ÎÊı¡£
+	///		å°†ä¸¤ç»˜åˆ¶ç‚¹(linePoints)ä¹‹é—´çš„çº¿ç¦»æ•£æˆæ›´å°ç²’åº¦çš„ç¦»æ•£ç‚¹(points)ï¼Œ
+	///		æ›´æ–°points,sizes,alphas,anglesç­‰å‘é‡ï¼Œ
+	///		è¿™é‡Œåˆ©ç”¨åˆ°äº†ç”»åˆ·çš„å‚æ•°ã€‚
 	///
-	///		/param lastLocation - ¹ì¼£×îºóÀëÉ¢µãµÄÎ»ÖÃ
-	///		/param location		- µ±Ç°»æÖÆµãµÄÎ»ÖÃ
-	///		/param randomizer	- Ëæ»úÆ÷
-	///		/note	ÀûÓÃ»­±Ê²ÎÊıÉú³É²¿·ÖµÄËã·¨Ã»¿´¶®
+	///		/param lastLocation - è½¨è¿¹æœ€åç¦»æ•£ç‚¹çš„ä½ç½®
+	///		/param location		- å½“å‰ç»˜åˆ¶ç‚¹çš„ä½ç½®
+	///		/param randomizer	- éšæœºå™¨
+	///		/note	åˆ©ç”¨ç”»ç¬”å‚æ•°ç”Ÿæˆéƒ¨åˆ†çš„ç®—æ³•æ²¡çœ‹æ‡‚
 	void paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &location, CZRandom *randomizer);
 	
-	/// Ê¹¹ì¼£ÎŞĞ§»¯
+	/// ä½¿è½¨è¿¹æ— æ•ˆåŒ–
 	void invalidatePath();
 
 public:
 	bool							limitBrushSize;
-	float							remainder;			///< »æÖÆ¹ì¼£×îºóÀëÉ¢µãºó¶àÕ¼ÓÃµÄÏß¿Õ¼ä
-	CZBrush							*ptrBrush;			///< Ö»ÊÇÒıÓÃ£¬²»¸ºÔğ½¨Á¢ºÍÏú»Ù
-	CZPathAction					action;				///< ±ê¼Ç¹ì¼£µÄ¶¯×÷ÊÇ»æÖÆ»¹ÊÇ²Á³ı
+	float							remainder;			///< ç»˜åˆ¶è½¨è¿¹æœ€åç¦»æ•£ç‚¹åå¤šå ç”¨çš„çº¿ç©ºé—´
+	CZBrush							*ptrBrush;			///< åªæ˜¯å¼•ç”¨ï¼Œä¸è´Ÿè´£å»ºç«‹å’Œé”€æ¯
+	CZPathAction					action;				///< æ ‡è®°è½¨è¿¹çš„åŠ¨ä½œæ˜¯ç»˜åˆ¶è¿˜æ˜¯æ“¦é™¤
 	CZColor							color;
 
 private:
 	bool					closed;
-	bool					boundsDirty;				///< ÓÃÓÚ±ê¼ÇÊÇ·ñĞèÒªÖØĞÂ¼ÆËã°üÎ§ÇøÓò
-	CZRect					bounds;						///< ¹ì¼£µÄ·¶Î§
+	bool					boundsDirty;				///< ç”¨äºæ ‡è®°æ˜¯å¦éœ€è¦é‡æ–°è®¡ç®—åŒ…å›´åŒºåŸŸ
+	CZRect					bounds;						///< è½¨è¿¹çš„èŒƒå›´
 	float					scale;
 
-	std::vector<CZBezierNode>		nodes;				///< ±´Èû¶ûÇúÏßËùÓĞ¿ØÖÆµã
-	/// ×îÖÕ»æÖÆµãµÄ²ÎÊı
+	std::vector<CZBezierNode>		nodes;				///< è´å¡å°”æ›²çº¿æ‰€æœ‰æ§åˆ¶ç‚¹
+	/// æœ€ç»ˆç»˜åˆ¶ç‚¹çš„å‚æ•°
 	std::vector<CZ2DPoint>	points;
 	std::vector<float>		sizes;
 	std::vector<float>		angles;
 	std::vector<float>		alphas;
 
-	CZRender				*ptrRender;					///< ÓÃÓÚÄÚ²¿ĞÅÏ¢´«µİ£¬Ö¸Ïò»æÖÆÆ÷						
+	CZRender				*ptrRender;					///< ç”¨äºå†…éƒ¨ä¿¡æ¯ä¼ é€’ï¼ŒæŒ‡å‘ç»˜åˆ¶å™¨						
 };
 
 /*
