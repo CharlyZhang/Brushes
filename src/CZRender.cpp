@@ -48,7 +48,7 @@ void CZRender::drawPathData(unsigned int n, vertexData *data)
 
 	#if USE_OPENGL
 		
-	/*	// 对于opengl 顶点位置必须通过以下方式导入
+	/*	// 对于opengl属性数组形式， 顶点位置必须通过以下方式导入
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glVertexPointer(2, GL_FLOAT , sizeof(vertexData), &data[0].x);
 

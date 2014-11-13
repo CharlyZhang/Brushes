@@ -147,8 +147,10 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 
 GLvoid DrawGLScene(GLvoid)
 {
+#if RENDER_FREEHAND
 	painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
 	return;
+#endif
 
 #if BRUSH_TEX
 	glClearColor(0.0,0.0,0.0,1.0);
