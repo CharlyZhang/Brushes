@@ -25,11 +25,11 @@ CZSpiralGenerator::CZSpiralGenerator()
 	buildProperties();
 }
 
-/// åˆ›å»ºå±žæ€§
+/// ´´½¨ÊôÐÔ
 void CZSpiralGenerator::buildProperties()
 {
 	//density.title = NSLocalizedString(@"Density", @"Density");
-	density.value = 15;		///< ï¼å…ˆå‡è®¾çš„
+	density.value = 15;		///< £¡ÏÈ¼ÙÉèµÄ
 	density.minimumValue = 1;
 	density.maximumValue = 20;
 	density.conversionFactor = 1;
@@ -37,7 +37,7 @@ void CZSpiralGenerator::buildProperties()
 	//(self.rawProperties)[@"density"] = density;
 }
 
-/// ç»˜åˆ¶å›¾æ¡ˆ
+/// »æÖÆÍ¼°¸
 void CZSpiralGenerator::renderStamp()
 {
 	float dim = baseDimension - 20;
@@ -55,7 +55,7 @@ void CZSpiralGenerator::renderStamp()
 	}
 }
 
-/// ç»˜åˆ¶èžºæ—‹çº¿
+/// »æÖÆÂÝÐýÏß
 void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_)
 {
 	int         segments = 15;

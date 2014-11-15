@@ -25,7 +25,7 @@
 class CZPainting;
 class CZRect;
 
-/// å›¾å±‚ç±»
+/// Í¼²ãÀà
 class CZLayer : public CZCoding
 {
 public:
@@ -33,99 +33,99 @@ public:
 	~CZLayer();
 	friend class CZPaintingRender;
 
-	/// å›¾å±‚çš„å›¾åƒæ•°æ®
+	/// Í¼²ãµÄÍ¼ÏñÊı¾İ
 	CZImage *imageData();
-	/// ç”Ÿæˆç‰¹å®šçŸ©å½¢åŒºåŸŸçš„å›¾åƒæ•°æ®
+	/// Éú³ÉÌØ¶¨¾ØĞÎÇøÓòµÄÍ¼ÏñÊı¾İ
 	CZImage *imageDataInRect(const CZRect &rect);
 	
-	/// ç»˜åˆ¶å›¾å±‚
+	/// »æÖÆÍ¼²ã
 	void basicBlit(CZMat4 &projection);
-	/// ç»˜åˆ¶å›¾å±‚ï¼ˆè€ƒè™‘ç§»åŠ¨è½¬æ¢ã€é¢œè‰²è°ƒæ•´ç­‰ï¼‰
+	/// »æÖÆÍ¼²ã£¨¿¼ÂÇÒÆ¶¯×ª»»¡¢ÑÕÉ«µ÷ÕûµÈ£©
 	void blit(CZMat4 &projection);
-	/// å åŠ æ“¦é™¤çº¹ç†
+	/// µş¼Ó²Á³ıÎÆÀí
 	void blitWithEraseMask(CZMat4 &projection);
-	/// å åŠ ç»˜åˆ¶çº¹ç†
+	/// µş¼Ó»æÖÆÎÆÀí
 	void blitWithMask(CZMat4 &projection,CZColor *bgColor);
 	
-	/// å°†ç»˜åˆ¶çš„ç¬”ç”»åˆå¹¶åˆ°å½“å‰å›¾å±‚
+	/// ½«»æÖÆµÄ±Ê»­ºÏ²¢µ½µ±Ç°Í¼²ã
 	void commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable);
 	
-	/// è°ƒæ•´é¢œè‰²
+	/// µ÷ÕûÑÕÉ«
 	void commitColorAdjustments();
 	
-	/// åˆå¹¶å¦ä»¥å›¾å±‚
+	/// ºÏ²¢ÁíÒÔÍ¼²ã
 	bool merge(CZLayer *layer);
 
-	/// è®¾ç½®ç»˜åˆ¶æŒ‡é’ˆ
+	/// ÉèÖÃ»æÖÆÖ¸Õë
 	void setPainting(CZPainting *painting);
-	/// è®¾ç½®è½¬æ¢çŸ©é˜µï¼ˆæ²¡å‘ç”Ÿæ”¹å˜ï¼Œåˆ™è¿”å›falseï¼‰
+	/// ÉèÖÃ×ª»»¾ØÕó£¨Ã»·¢Éú¸Ä±ä£¬Ôò·µ»Øfalse£©
 	bool setTransform(CZAffineTransform &trans);
-	/// è·å–è½¬æ¢çŸ©é˜µ
+	/// »ñÈ¡×ª»»¾ØÕó
 	CZAffineTransform & getTransform();
-	/// è®¾ç½®æ··åˆæ¨¡å¼ï¼ˆæ²¡å‘ç”Ÿæ”¹å˜ï¼Œåˆ™è¿”å›falseï¼‰
+	/// ÉèÖÃ»ìºÏÄ£Ê½£¨Ã»·¢Éú¸Ä±ä£¬Ôò·µ»Øfalse£©
 	bool setBlendMode(CZRender::BlendMode &bm);
-	/// è·å–æ··åˆæ¨¡å¼
+	/// »ñÈ¡»ìºÏÄ£Ê½
 	CZRender::BlendMode getBlendMode();
-	/// è®¾ç½®ä¸é€æ˜åº¦ï¼ˆæ²¡å‘ç”Ÿæ”¹å˜ï¼Œåˆ™è¿”å›falseï¼‰
+	/// ÉèÖÃ²»Í¸Ã÷¶È£¨Ã»·¢Éú¸Ä±ä£¬Ôò·µ»Øfalse£©
 	bool setOpacity(float o);
-	/// è·å–ä¸é€æ˜åº¦
+	/// »ñÈ¡²»Í¸Ã÷¶È
 	float getOpacity();
-	/// è®¾ç½®è°ƒæ•´é¢œè‰²ï¼ˆæ²¡å‘ç”Ÿæ”¹å˜ï¼Œåˆ™è¿”å›falseï¼‰
+	/// ÉèÖÃµ÷ÕûÑÕÉ«£¨Ã»·¢Éú¸Ä±ä£¬Ôò·µ»Øfalse£©
 	bool setColorBalance(CZColorBalance *cb);
-	/// è®¾ç½®è‰²è°ƒè°ƒæ•´
+	/// ÉèÖÃÉ«µ÷µ÷Õû
 	bool setHueSaturation(CZHueSaturation *hs);
-	/// è®¾ç½®å›¾å±‚å›¾åƒ
+	/// ÉèÖÃÍ¼²ãÍ¼Ïñ
 	/// 
-	///		\param img - è®¾ç½®çš„å›¾åƒ
-	///		\ret	   - è‹¥imgä¸ä¸ºç©ºï¼Œåˆ™è®¾ç½®é™ˆå®«
-	///		\note è°ƒç”¨æ­¤å‡½æ•°å°†è¦†ç›–ä¹‹å‰å¯¹è¯¥å±‚çš„æ‰€æœ‰ç»˜åˆ¶
+	///		\param img - ÉèÖÃµÄÍ¼Ïñ
+	///		\ret	   - Èôimg²»Îª¿Õ£¬ÔòÉèÖÃ³Â¹¬
+	///		\note µ÷ÓÃ´Ëº¯Êı½«¸²¸ÇÖ®Ç°¶Ô¸Ã²ãµÄËùÓĞ»æÖÆ
 	bool setImage(CZImage *img);
 
-	/// åˆ‡æ¢å¯è§æ€§
+	/// ÇĞ»»¿É¼ûĞÔ
 	void toggleVisibility();
-	/// åˆ‡æ¢alphaé”å®š
+	/// ÇĞ»»alphaËø¶¨
 	void toggleAlphaLocked();
-	/// åˆ‡æ¢å›¾å±‚é”å®š
+	/// ÇĞ»»Í¼²ãËø¶¨
 	void toggleLocked();
-	/// è®¾ç½®å¯è§æ€§
+	/// ÉèÖÃ¿É¼ûĞÔ
 	void setVisiblility(bool flag);
-	/// è®¾ç½®alphaé”å®š
+	/// ÉèÖÃalphaËø¶¨
 	void setAlphaLocked(bool flag);
-	/// è®¾ç½®å›¾å±‚é”å®š
+	/// ÉèÖÃÍ¼²ãËø¶¨
 	void setLocked(bool flag);
-	/// æ˜¯å¦è¢«é”ä½å›¾å±‚
+	/// ÊÇ·ñ±»Ëø×¡Í¼²ã
 	bool isLocked();
-	/// æ˜¯å¦è¢«é”ä½alpha
+	/// ÊÇ·ñ±»Ëø×¡alpha
 	bool isAlphaLocked();
-	/// æ˜¯å¦å¯è§
+	/// ÊÇ·ñ¿É¼û
 	bool isVisible();
-	/// æ˜¯å¦å¯ç¼–è¾‘
+	/// ÊÇ·ñ¿É±à¼­
 	bool isEditable();
 
-	/// è·å–ç¼–å·
+	/// »ñÈ¡±àºÅ
 	unsigned int getUID();
 
-	/// å®ç°codingçš„æ¥å£
+	/// ÊµÏÖcodingµÄ½Ó¿Ú
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 
 private:
-	static unsigned int layerNumber;			///< å›¾å±‚çš„æ•°ç›®
-	bool visible;								///< æ˜¯å¦å¯è§
-	bool alphaLocked;							///< alphaæ˜¯å¦é”å®š
-	bool locked;								///< å›¾å±‚é”å®š
-	bool clipWhenTransformed;					///< å›¾å±‚å˜æ¢æ—¶æ˜¯å¦å‰ªåˆ‡
-	CZColorBalance *colorBalance;				///< è°ƒæ•´é¢œè‰²
-	CZHueSaturation *hueSaturation;				///< è°ƒæ•´è‰²è°ƒé¥±å’Œåº¦
-	CZRender::BlendMode blendMode;				///< æ··åˆæ¨¡å¼
-	CZAffineTransform transform;				///< å˜æ¢çŸ©é˜µ
-	float opacity;								///< ä¸é€æ˜åº¦[0.0, 1.0]
+	static unsigned int layerNumber;			///< Í¼²ãµÄÊıÄ¿
+	bool visible;								///< ÊÇ·ñ¿É¼û
+	bool alphaLocked;							///< alphaÊÇ·ñËø¶¨
+	bool locked;								///< Í¼²ãËø¶¨
+	bool clipWhenTransformed;					///< Í¼²ã±ä»»Ê±ÊÇ·ñ¼ôÇĞ
+	CZColorBalance *colorBalance;				///< µ÷ÕûÑÕÉ«
+	CZHueSaturation *hueSaturation;				///< µ÷ÕûÉ«µ÷±¥ºÍ¶È
+	CZRender::BlendMode blendMode;				///< »ìºÏÄ£Ê½
+	CZAffineTransform transform;				///< ±ä»»¾ØÕó
+	float opacity;								///< ²»Í¸Ã÷¶È[0.0, 1.0]
 
-	CZPainting *ptrPainting;					///< æŸæ¬¡ç»˜åˆ¶
-	CZImage *image;								///< è¯¥å›¾å±‚å›¾åƒï¼ˆç”¨äºå»ºç«‹åˆå§‹å›¾å±‚çº¹ç†ï¼‰
-	CZSaveStatus isSaved;						///< å›¾å±‚å­˜å‚¨çŠ¶æ€
+	CZPainting *ptrPainting;					///< Ä³´Î»æÖÆ
+	CZImage *image;								///< ¸ÃÍ¼²ãÍ¼Ïñ£¨ÓÃÓÚ½¨Á¢³õÊ¼Í¼²ãÎÆÀí£©
+	CZSaveStatus isSaved;						///< Í¼²ã´æ´¢×´Ì¬
 
-	unsigned int uid;							///< ç¼–å·
+	unsigned int uid;							///< ±àºÅ
 };
 
 #endif

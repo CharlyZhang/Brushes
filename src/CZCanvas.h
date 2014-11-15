@@ -17,11 +17,11 @@
 class CZCanvas
 {
 public:
-	/// ç»˜åˆ¶è§†å›¾
+	/// »æÖÆÊÓÍ¼
 	void drawView();
 
 private:
-	/// åœ¨ä¸€å®šåŒºåŸŸç»˜åˆ¶è§†å›¾
+	/// ÔÚÒ»¶¨ÇøÓò»æÖÆÊÓÍ¼
 	void drawViewInRect(CZRect &rect);
 
 private:

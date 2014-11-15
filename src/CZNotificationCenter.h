@@ -2,8 +2,8 @@
 ///  \file CZNotificationCenter.h
 ///  \brief This is the file declare the Class CZNotificationCenter and the Interface CZObserver.
 ///
-///		CZNotificationCenteræ˜¯ä¸€ä¸ªå•ä¾‹ï¼Œä»¥è§‚å¯Ÿè€…æ¨¡å¼å®ç°äº†æ¶ˆæ¯çš„æ”¶é›†å’Œè½¬å‘ã€‚
-///		Observerä¸ºçº¯è™šç±»ï¼Œæä¾›è§‚å¯Ÿè€…æ¥å£
+///		CZNotificationCenterÊÇÒ»¸öµ¥Àı£¬ÒÔ¹Û²ìÕßÄ£Ê½ÊµÏÖÁËÏûÏ¢µÄÊÕ¼¯ºÍ×ª·¢¡£
+///		ObserverÎª´¿ĞéÀà£¬Ìá¹©¹Û²ìÕß½Ó¿Ú
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -22,29 +22,29 @@ class CZObserver;
 class CZNotificationCenter
 {
 private:
-	CZNotificationCenter();  //æ„é€ å‡½æ•°æ˜¯ç§æœ‰çš„
+	CZNotificationCenter();  //¹¹Ôìº¯ÊıÊÇË½ÓĞµÄ
 	CZNotificationCenter(const CZNotificationCenter &);
 	CZNotificationCenter & operator = (const CZNotificationCenter &);
 	~CZNotificationCenter();
 
 public:
-	/// å®Œæˆå•ä¾‹è·å–å‡½æ•°
+	/// Íê³Éµ¥Àı»ñÈ¡º¯Êı
 	static CZNotificationCenter * getInstance()
 	{
-		static CZNotificationCenter instance;   //å±€éƒ¨é™æ€å˜é‡  
+		static CZNotificationCenter instance;   //¾Ö²¿¾²Ì¬±äÁ¿  
 		return &instance; 
 	}
-	/// æ·»åŠ è§‚å¯Ÿè€…
-	///		/param notificationCenter	- æ¶ˆæ¯åç§°
-	///		/param observer				- è§‚å¯Ÿè€…
-	///		/param original				- æ¶ˆæ¯çš„å‘é€è€…
+	/// Ìí¼Ó¹Û²ìÕß
+	///		/param notificationCenter	- ÏûÏ¢Ãû³Æ
+	///		/param observer				- ¹Û²ìÕß
+	///		/param original				- ÏûÏ¢µÄ·¢ËÍÕß
 	void addObserver(std::string &notificationName,CZObserver *observer,void* sender = NULL);
-	/// ç§»é™¤è§‚å¯Ÿè€…
+	/// ÒÆ³ı¹Û²ìÕß
 	void removeObserver(std::string &notificationName,CZObserver *observer);
-	/// å‘é€æ¶ˆæ¯
+	/// ·¢ËÍÏûÏ¢
 	void notify(std::string &notificationName, void* sender, void* data = NULL);
 private:
-	/// å®šä¹‰è§‚å¯Ÿè€…é¡¹ç›®ç±»
+	/// ¶¨Òå¹Û²ìÕßÏîÄ¿Àà
 	class ObserverItem
 	{
 	public :
@@ -52,7 +52,7 @@ private:
 		void	  *sender;
 	};
 	
-	std::map<std::string,std::vector<ObserverItem*> *> center;			/// ç™»è®°è§‚å¯Ÿè€…ä¸­å¿ƒ 
+	std::map<std::string,std::vector<ObserverItem*> *> center;			/// µÇ¼Ç¹Û²ìÕßÖĞĞÄ 
 };
 
 class CZObserver

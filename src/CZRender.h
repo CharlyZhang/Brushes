@@ -2,7 +2,7 @@
 ///  \file CZRender.h
 ///  \brief This is the file declare the Class CZRender.
 ///
-///		è¿™é‡Œç”¨æ¥ç»˜åˆ¶ï¼Œæ¯ä¸ªrenderéƒ½æœ‰å•ç‹¬çš„context,ä¸ç»˜åˆ¶ç›¸å…³ã€‚
+///		ÕâÀïÓÃÀ´»æÖÆ£¬Ã¿¸örender¶¼ÓĞµ¥¶ÀµÄcontext,Óë»æÖÆÏà¹Ø¡£
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -25,7 +25,7 @@
 #include <map>
 #include <string>
 
-/// å®šä¹‰CZPathæœ€ç»ˆç»˜åˆ¶æ•°æ®æ ¼å¼
+/// ¶¨ÒåCZPath×îÖÕ»æÖÆÊı¾İ¸ñÊ½
 typedef struct 
 {
 	float     x, y;
@@ -36,7 +36,7 @@ typedef struct
 class CZRender
 {
 public:
-	enum BlendMode		///< æ··åˆæ¨¡å¼
+	enum BlendMode		///< »ìºÏÄ£Ê½
 	{
 		kBlendModeNormal,
 		kBlendModeMultiply,
@@ -47,14 +47,14 @@ public:
 	CZRender();
 	~CZRender();
 
-	/// è®¾ç½®å½“å‰ä¸Šä¸‹æ–‡
+	/// ÉèÖÃµ±Ç°ÉÏÏÂÎÄ
 	void setContext();
     
     void changeContext(void *_ctx);
     
     void* getContext();
 
-	/// ç»˜åˆ¶è½¨è¿¹æ•°æ®
+	/// »æÖÆ¹ì¼£Êı¾İ
 	void drawPathData(unsigned int n, vertexData *data);
 public:
 	int width, height;
@@ -62,7 +62,7 @@ public:
     
 private:
 #if USE_OPENGL
-	int context;			///< !æ¨¡æ‹Ÿä¸€ä¸‹
+	int context;			///< !Ä£ÄâÒ»ÏÂ
 #endif
     struct  Impl;
     Impl *imp;

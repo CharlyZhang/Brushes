@@ -2,7 +2,7 @@
 ///  \file CZPreviewRender.h
 ///  \brief This is the file declare the class CZPreviewRender.
 ///
-///		è´Ÿè´£ç¬”åˆ·é¢„è§ˆå›¾çš„ç»˜åˆ¶ã€‚
+///		¸ºÔğ±ÊË¢Ô¤ÀÀÍ¼µÄ»æÖÆ¡£
 ///
 ///  \version	1.0.1
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -26,20 +26,20 @@ class CZPreviewRender :public CZRender
 public:
 	CZPreviewRender();
 	~CZPreviewRender();
-	/// é…ç½®ç»˜åˆ¶ä¿¡æ¯
+	/// ÅäÖÃ»æÖÆĞÅÏ¢
 	void configure(int w, int h);
-	/// ç»˜åˆ¶ä¸€æ¡è½¨è¿¹,å¹¶è¿”å›å›¾åƒ
+	/// »æÖÆÒ»Ìõ¹ì¼£,²¢·µ»ØÍ¼Ïñ
 	CZImage *drawPath(CZPath *path);
-	/// è®¾ç½®ç¬”åˆ·çº¹ç†
+	/// ÉèÖÃ±ÊË¢ÎÆÀí
 	void configureBrush(CZImage *img);
-	/// æ¸…é™¤ç¬”åˆ·çº¹ç†
+	/// Çå³ı±ÊË¢ÎÆÀí
 	void clearBrush();
 
 private:
 	CZShader		*brushShader;
 	CZTexture		*brushTexture;
-	CZMat4			projMat;		///< ç»˜åˆ¶çš„æŠ•å½±çŸ©é˜µ
-	CZBrushPreview	*ptrPreview;	///< æŒ‡å‘è°ƒç”¨å…¶ç»˜åˆ¶çš„preview
+	CZMat4			projMat;		///< »æÖÆµÄÍ¶Ó°¾ØÕó
+	CZBrushPreview	*ptrPreview;	///< Ö¸Ïòµ÷ÓÃÆä»æÖÆµÄpreview
 };
 
 #endif

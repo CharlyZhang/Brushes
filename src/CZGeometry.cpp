@@ -15,7 +15,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-/// é‡è½½è¿ç®—ç¬¦
+/// ÖØÔØÔËËã·û
 bool CZ2DPoint::operator <( const  CZ2DPoint& p_) const
 {
 	if ( this->x < p_.x )
@@ -48,7 +48,7 @@ void CZ2DPoint::operator =( const  CZ2DPoint& p_)
 	this->y = p_.y;
 }
 
-/// æ±‚åˆ°å¦å¤–ä¸€ç‚¹è·ç¦»
+/// Çóµ½ÁíÍâÒ»µã¾àÀë
 float CZ2DPoint::distanceTo2DPoint(CZ2DPoint & p_)
 { 
 	return sqrt((x-p_.x)*(x-p_.x) + (y-p_.y)*(y-p_.y)); 
@@ -56,7 +56,7 @@ float CZ2DPoint::distanceTo2DPoint(CZ2DPoint & p_)
 
 //////////////////////////////////////////////////////////////////////////
 
-/// åˆ¤æ–­æ˜¯å¦ä¸ºé›¶çŸ©å½¢
+/// ÅĞ¶ÏÊÇ·ñÎªÁã¾ØĞÎ
 bool CZRect::isZeroRect() const
 {
 	if(origin.x==0.0f && origin.y==0.0f
@@ -66,7 +66,7 @@ bool CZRect::isZeroRect() const
 		return false;
 }
 
-/// åˆå¹¶å…¶ä»–çŸ©å½¢
+/// ºÏ²¢ÆäËû¾ØĞÎ
 CZRect CZRect::unionWith(const CZRect & rect_)
 {
 	if(isZeroRect())			return rect_;
@@ -80,7 +80,7 @@ CZRect CZRect::unionWith(const CZRect & rect_)
 	return CZRect(minX, minY, maxX-minX, maxY-minY);
 }
 
-/// æ‰©å±•çš„æ•´æ•°çŸ©å½¢
+/// À©Õ¹µÄÕûÊı¾ØĞÎ
 CZRect CZRect::expandToIntergral()
 {
 	float minX = floor(this->getMinX());

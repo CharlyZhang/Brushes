@@ -16,7 +16,7 @@
 
 using namespace  std;
 
-const int iMaxLayerNumber = 10;		///< æ”¯æŒçš„æœ€å¤§å›¾å±‚æ•°ç›®
+const int iMaxLayerNumber = 10;		///< Ö§³ÖµÄ×î´óÍ¼²ãÊıÄ¿
 
 unsigned int CZPainting::paintingNum = 0;
 
@@ -59,7 +59,7 @@ CZPainting::~CZPainting()
 	paintingNum --;
 }
 
-/// å°†å›¾åƒç»˜åˆ¶å‡ºæ¥ï¼ˆæ²¡ç»‘å®šFBOï¼‰
+/// ½«Í¼Ïñ»æÖÆ³öÀ´£¨Ã»°ó¶¨FBO£©
 void CZPainting::blit(CZMat4 &projection)
 {
 	if (flattenMode) 
@@ -84,19 +84,19 @@ void CZPainting::blit(CZMat4 &projection)
 	}
 }
 
-/// ç”Ÿæˆæ‰€æœ‰å›¾å±‚çš„å›¾åƒï¼ˆä¸åŒ…æ‹¬å½“å‰ç»˜åˆ¶çš„ç¬”ç”»ï¼‰
+/// Éú³ÉËùÓĞÍ¼²ãµÄÍ¼Ïñ£¨²»°üÀ¨µ±Ç°»æÖÆµÄ±Ê»­£©
 CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor)
 {
 	return render->drawPaintingImage(size,backgroundColor);
 }
 
-/// ç”Ÿæˆå½“å‰çŠ¶æ€çš„å›¾åƒ
+/// Éú³Éµ±Ç°×´Ì¬µÄÍ¼Ïñ
 CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
 {
 	return render->drawPaintingCurrentState(backgroundColor);
 }
 
-/// ç»˜åˆ¶ä¸€æ¡è½¨è¿¹ï¼ˆç»˜åˆ¶åˆ°çº¹ç†ï¼‰
+/// »æÖÆÒ»Ìõ¹ì¼££¨»æÖÆµ½ÎÆÀí£©
 CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer /* = false */)
 {
 	ptrActivePath = path_;
@@ -113,7 +113,7 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 	return pathBounds;
 }
 
-/// è®¾ç½®èŒƒå›´
+/// ÉèÖÃ·¶Î§
 void CZPainting::setDimensions(const CZSize &size)
 {
 	if(dimensions == size) return;
@@ -122,10 +122,10 @@ void CZPainting::setDimensions(const CZSize &size)
 	render->resize(size);
 }
 
-/// è®¾ç½®å½“å‰æ¿€æ´»å›¾å±‚
+/// ÉèÖÃµ±Ç°¼¤»îÍ¼²ã
 ///
-///		\param idx - å½“å‰éœ€è¦æ¿€æ´»çš„å›¾å±‚åºå·
-///		\ret	   - åŸæ¥æ¿€æ´»çš„å›¾å±‚åºå·
+///		\param idx - µ±Ç°ĞèÒª¼¤»îµÄÍ¼²ãĞòºÅ
+///		\ret	   - Ô­À´¼¤»îµÄÍ¼²ãĞòºÅ
 int CZPainting::setActiveLayer(int idx)
 {
 	int oldIndex = indexOfLayers(ptrActiveLayer);
@@ -142,7 +142,7 @@ int CZPainting::setActiveLayer(int idx)
 
 }
 
-/// é€šè¿‡UIDè·å–å›¾å±‚
+/// Í¨¹ıUID»ñÈ¡Í¼²ã
 CZLayer *CZPainting::layerWithUID(unsigned int uid_)
 {
 	int num = layers.size();
@@ -152,10 +152,10 @@ CZLayer *CZPainting::layerWithUID(unsigned int uid_)
 	return NULL;
 }
 
-/// åˆ é™¤å›¾å±‚
+/// É¾³ıÍ¼²ã
 /// 
-///		\param - éœ€è¦åˆ é™¤çš„å›¾å±‚
-///		\ret   - åŸå›¾å±‚æ‰€åœ¨çš„åºå·
+///		\param - ĞèÒªÉ¾³ıµÄÍ¼²ã
+///		\ret   - Ô­Í¼²ãËùÔÚµÄĞòºÅ
 int CZPainting::removeLayer(CZLayer *layer)
 {
 	if(layer == NULL)
@@ -191,7 +191,7 @@ int CZPainting::removeLayer(CZLayer *layer)
 	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
 		if(*itr == layer)
 		{
-			/// åˆ é™¤å›¾å±‚çš„çº¹ç†èµ„æº
+			/// É¾³ıÍ¼²ãµÄÎÆÀí×ÊÔ´
 			render->clearLayerTexture(layer);
 			render->clearLayerHCLTexture(layer);
 
@@ -202,7 +202,7 @@ int CZPainting::removeLayer(CZLayer *layer)
 	return oldIdx;
 }
 
-/// æ’å…¥å›¾å±‚
+/// ²åÈëÍ¼²ã
 void CZPainting::insertLayer(int idx, CZLayer *layer)
 {
 	if(idx < 0 || idx > layers.size())
@@ -214,10 +214,10 @@ void CZPainting::insertLayer(int idx, CZLayer *layer)
 	layers.insert(layers.begin()+idx,layer);
 }
 
-/// æ·»åŠ å›¾å±‚
+/// Ìí¼ÓÍ¼²ã
 /// 
-///		\param layer - æ·»åŠ çš„å›¾å±‚
-///		\ret		 - åœ¨æ‰€æœ‰å›¾å±‚ä¸­çš„åºå·
+///		\param layer - Ìí¼ÓµÄÍ¼²ã
+///		\ret		 - ÔÚËùÓĞÍ¼²ãÖĞµÄĞòºÅ
 int CZPainting::addLayer(CZLayer *layer)
 {
 	if(layer == NULL)
@@ -241,9 +241,9 @@ int CZPainting::addLayer(CZLayer *layer)
 	return newIdx;
 }
 
-/// å‘ä¸‹åˆå¹¶å½“å‰å›¾å±‚
+/// ÏòÏÂºÏ²¢µ±Ç°Í¼²ã
 /// 
-///		\ret - æ˜¯å¦åˆå¹¶æˆåŠŸ
+///		\ret - ÊÇ·ñºÏ²¢³É¹¦
 bool CZPainting::mergeActiveLayerDown()
 {
 	int activeIdx = indexOfLayers(ptrActiveLayer);
@@ -278,23 +278,23 @@ bool CZPainting::mergeActiveLayerDown()
 	return ret;
 }
 
-/// ç§»åŠ¨å›¾å±‚
+/// ÒÆ¶¯Í¼²ã
 /// 
-///		\param layer - éœ€è¦ç§»åŠ¨çš„å›¾å±‚
-///		\param idx	 - ç§»åŠ¨åˆ°çš„ä½ç½®
+///		\param layer - ĞèÒªÒÆ¶¯µÄÍ¼²ã
+///		\param idx	 - ÒÆ¶¯µ½µÄÎ»ÖÃ
 bool CZPainting::moveLayer(CZLayer* layer, int idx)
 { 
 	return false;
 }
 
-/// è·å–æ‰€æœ‰å›¾å±‚
+/// »ñÈ¡ËùÓĞÍ¼²ã
 std::vector<CZLayer*> & CZPainting::getAllLayers()
 {
 	return layers;
 }
 
 
-/// è·å¾—å›¾å±‚åœ¨æ‰€æœ‰å›¾å±‚ä¸­çš„æ ‡å·ï¼Œä¸å­˜åœ¨è¿”å›è´Ÿå€¼
+/// »ñµÃÍ¼²ãÔÚËùÓĞÍ¼²ãÖĞµÄ±êºÅ£¬²»´æÔÚ·µ»Ø¸ºÖµ
 int CZPainting::indexOfLayers(CZLayer *layer)
 {
 	int ret;
@@ -306,49 +306,49 @@ int CZPainting::indexOfLayers(CZLayer *layer)
 }
 
 
-/// è®¾ç½®æ¿€æ´»è½¨è¿¹
+/// ÉèÖÃ¼¤»î¹ì¼£
 void CZPainting::setActivePath(CZPath *path)
 {
 	ptrActivePath = path;
 }
 
-/// è·å–æ¿€æ´»è½¨è¿¹
+/// »ñÈ¡¼¤»î¹ì¼£
 CZPath* CZPainting::getActivePath()
 {
 	return ptrActivePath;
 }
 
-/// è®¾ç½®æ¿€æ´»å›¾å±‚
+/// ÉèÖÃ¼¤»îÍ¼²ã
 void CZPainting::setActiveLayer(CZLayer *layer)
 {
 	ptrActiveLayer = layer;
 }
 
-/// è·å–æ¿€æ´»å›¾å±‚
+/// »ñÈ¡¼¤»îÍ¼²ã
 CZLayer* CZPainting::getActiveLayer()
 {
 	return ptrActiveLayer;
 }
 
-/// è·å–æ¸²æŸ“å™¨
+/// »ñÈ¡äÖÈ¾Æ÷
 CZPaintingRender* CZPainting::getRender()
 {
 	return render;
 }
 
-/// è·å–èŒƒå›´
+/// »ñÈ¡·¶Î§
 CZSize& CZPainting::getDimensions()
 {
 	return dimensions;
 }
 
-/// è·å–ç»˜åˆ¶çŸ©å½¢
+/// »ñÈ¡»æÖÆ¾ØĞÎ
 CZRect& CZPainting::getBounds()
 {
     bounds = CZRect(0,0,dimensions.width,dimensions.height);
 	return bounds;
 }
 
-/// å®ç°CZCodingæ¥å£
+/// ÊµÏÖCZCoding½Ó¿Ú
 void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/){};
 void CZPainting::encode(CZCoder *coder_, bool deep /*= false*/){};

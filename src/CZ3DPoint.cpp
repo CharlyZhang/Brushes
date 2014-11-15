@@ -13,7 +13,7 @@
 #include <float.h>		// _isnan
 #include <cmath>
 
-/// é‡è½½è¿ç®—ç¬¦
+/// ÖØÔØÔËËã·û
 bool CZ3DPoint::operator <( const  CZ3DPoint& p_) const
 {
 	if ( this->x < p_.x )
@@ -60,7 +60,7 @@ std::istream& operator>>(std::istream &istr, CZ3DPoint & v)
 	return istr >> v.x >> v.y >> v.z;
 }
 
-/// æ±‚åˆ°å¦å¤–ä¸€ç‚¹è·ç¦»
+/// Çóµ½ÁíÍâÒ»µã¾àÀë
 float CZ3DPoint::distanceTo3DPoint(CZ3DPoint & p_)
 { 
 	return sqrt((x-p_.x)*(x-p_.x) + (y-p_.y)*(y-p_.y) + (z-p_.z)*(z-p_.z)); 
@@ -76,26 +76,26 @@ bool CZ3DPoint::isEqual(CZ3DPoint *ptrPoint_)
 			this->z==ptrPoint_->z);
 }
 
-/// åˆ¤æ–­æ˜¯å¦é€€åŒ–
+/// ÅĞ¶ÏÊÇ·ñÍË»¯
 bool CZ3DPoint::isDegenerate()
 {
 	//return (_isnanf(x) || _isnanf(y) || _isnanf(z));
 	return false;
 }
 
-/// æ±‚ç‚¹çš„çº§æ•°ï¼ˆåˆ°é›¶ç‚¹çš„è·ç¦»ï¼‰
+/// ÇóµãµÄ¼¶Êı£¨µ½ÁãµãµÄ¾àÀë£©
 float CZ3DPoint::magnitude()
 {
 	return sqrt(x*x + y*y + z*z);
 }
 
-/// æ±‚ç‚¹çš„è§„èŒƒåŒ–ç‚¹
+/// ÇóµãµÄ¹æ·¶»¯µã
 CZ3DPoint CZ3DPoint::normalizedPoint()
 {
 	return *this / magnitude();
 }
 
-/// è§„èŒƒåŒ–æœ¬ç‚¹
+/// ¹æ·¶»¯±¾µã
 void CZ3DPoint::normalize()
 {
 	*this = *this / magnitude();

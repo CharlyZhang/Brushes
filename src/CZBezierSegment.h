@@ -16,7 +16,7 @@
 class CZBezierSegment
 {
 public:
-	/// ä¾æ¬¡ä¸ºè¯¥è´å¡å°”æ›²çº¿å››ä¸ªæ§åˆ¶ç‚¹
+	/// ÒÀ´ÎÎª¸Ã±´Èû¶ûÇúÏßËÄ¸ö¿ØÖÆµã
 	CZ3DPoint start;
 	CZ3DPoint outHandle;
 	CZ3DPoint inHandle;
@@ -25,33 +25,33 @@ public:
 	CZBezierSegment(){};
 	CZBezierSegment(CZ3DPoint start_, CZ3DPoint out_, CZ3DPoint in_, CZ3DPoint end_);
 	~CZBezierSegment();
-	/// ç”±ä¸¤ç‚¹æ„é€ è´å¡å°”çº¿æ®µï¼ˆé™æ€å‡½æ•°ï¼‰
+	/// ÓÉÁ½µã¹¹Ôì±´Èû¶ûÏß¶Î£¨¾²Ì¬º¯Êı£©
 	/// 
-	///		/param start_	- è´å¡å°”æ›²çº¿èµ·ç‚¹
-	///		/param end_		- è´å¡å°”æ›²çº¿ç»ˆç‚¹
-	///		/return			- ç”Ÿæˆçš„è´å¡å°”æ›²çº¿
+	///		/param start_	- ±´Èû¶ûÇúÏßÆğµã
+	///		/param end_		- ±´Èû¶ûÇúÏßÖÕµã
+	///		/return			- Éú³ÉµÄ±´Èû¶ûÇúÏß
 	static CZBezierSegment* segmentBetweenNodes(const CZBezierNode &start_, const CZBezierNode &end_);
-	/// å°†è´å¡å°”æ›²çº¿æ‰“æ•£æˆç»˜åˆ¶ç‚¹
+	/// ½«±´Èû¶ûÇúÏß´òÉ¢³É»æÖÆµã
 	///
-	///		/param &points	- ç››è£…æ‰“æ•£çš„ç»˜åˆ¶ç‚¹çš„å®¹å™¨
+	///		/param &points	- Ê¢×°´òÉ¢µÄ»æÖÆµãµÄÈİÆ÷
 	void flattenIntoArray(std::vector<CZ3DPoint> & points);
-	/// åˆ¤æ–­è´å¡å°”æ›²çº¿æ˜¯å¦å¹³æ•´ï¼Ÿ
+	/// ÅĞ¶Ï±´Èû¶ûÇúÏßÊÇ·ñÆ½Õû£¿
 	///
-	///		æš‚æ—¶è¿˜ä¸æ˜ç™½ï¼Œç»†èŠ‚ç®—æ³•.
+	///		ÔİÊ±»¹²»Ã÷°×£¬Ï¸½ÚËã·¨.
 	/// 
-	///		/param tolerance	- è¯¯å·®å€¼
+	///		/param tolerance	- Îó²îÖµ
 	///
 	bool isFlatWithTolerance(float tolerance);
-	/// å°†æœ¬çº¿æ®µä»tå¤„åˆ†å‰²
+	/// ½«±¾Ïß¶Î´Ót´¦·Ö¸î
 	///
-	///		åˆ©ç”¨å‡ ä½•æ³•ï¼Œå°†æœ¬çº¿æ®µçš„å››ä¸ªæ§åˆ¶ç‚¹å½¢æˆçš„è´å¡å°”æ›²çº¿ä»tå¤„åˆ†å‰²æˆä¸¤æ¡ä¸‰æ¬¡è´å¡å°”æ›²çº¿
+	///		ÀûÓÃ¼¸ºÎ·¨£¬½«±¾Ïß¶ÎµÄËÄ¸ö¿ØÖÆµãĞÎ³ÉµÄ±´Èû¶ûÇúÏß´Ót´¦·Ö¸î³ÉÁ½ÌõÈı´Î±´Èû¶ûÇúÏß
 	/// 
-	///		/param t	- åˆ†å‰²æœ¬è´å¡å°”æ›²çº¿çš„ä½ç½®å‚æ•°[0,1]
-	///		/param *L	- åˆ†å‰²åå·¦éƒ¨åˆ†çš„è´å¡å°”æ›²çº¿
-	///		/param *R	- åˆ†å‰²åå³éƒ¨åˆ†çš„è´å¡å°”æ›²çº¿
-	///		/return		- åˆ†å‰²å¤„æ›²çº¿ä¸Šçš„ç‚¹
+	///		/param t	- ·Ö¸î±¾±´Èû¶ûÇúÏßµÄÎ»ÖÃ²ÎÊı[0,1]
+	///		/param *L	- ·Ö¸îºó×ó²¿·ÖµÄ±´Èû¶ûÇúÏß
+	///		/param *R	- ·Ö¸îºóÓÒ²¿·ÖµÄ±´Èû¶ûÇúÏß
+	///		/return		- ·Ö¸î´¦ÇúÏßÉÏµÄµã
 	/// 
 	CZ3DPoint splitAtT(float t, CZBezierSegment *L, CZBezierSegment *R);
-	/// åˆ¤æ–­æ˜¯å¦é€€åŒ–
+	/// ÅĞ¶ÏÊÇ·ñÍË»¯
 	bool isDegenerate();
 };

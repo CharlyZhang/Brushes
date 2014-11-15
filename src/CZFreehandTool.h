@@ -14,7 +14,7 @@
 
 #include "CZTool.h"
 
-/// æ‰‹ç»˜å·¥å…·ç±»
+/// ÊÖ»æ¹¤¾ßÀà
 class CZFreehandTool : public CZTool
 {
 public:

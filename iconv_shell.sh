@@ -21,6 +21,6 @@ for file in ${dir}/*; do
   filename=`basename $file`
   echo "converting... " "$filename"
   outfile=${out}"/"${filename}
-  iconv -f gb2312 -t utf8 $file >> $outfile  
+  iconv -f utf-8 -t gb2312 $file >> $outfile  
 done
 

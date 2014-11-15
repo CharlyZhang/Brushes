@@ -36,7 +36,7 @@ CZFbo::~CZFbo()
 	if(renderId) glDeleteRenderbuffers(1,&renderId);
 }
 
-/// è®¾ç½®ç»˜åˆ¶çº¹ç†
+/// ÉèÖÃ»æÖÆÎÆÀí
 void CZFbo::setTexture(CZTexture *tex_)
 {
 	if (isReady == OFFLINE_RENDER)
@@ -59,7 +59,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		std::cerr << "CZFbo::setTexture - Tex is null \n";
 }
 
-/// è®¾ç½®ç»˜åˆ¶ç¼“å†²åŒº
+/// ÉèÖÃ»æÖÆ»º³åÇø
 void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
 	if (isReady == OFFLINE_RENDER)
@@ -73,7 +73,7 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	height = h_;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fboId);
-	//ç”³è¯·ç»˜åˆ¶ç¼“å†²åŒº
+	//ÉêÇë»æÖÆ»º³åÇø
 	glGenRenderbuffers(1,&renderId);
 	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
 #if		USE_OPENGL
@@ -81,14 +81,14 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 #elif	USE_OPENGL_ES
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
 #endif
-	//å°†é¢œè‰²ç»˜åˆ¶ç¼“å†²ä¸FBOç»‘å®š
+	//½«ÑÕÉ«»æÖÆ»º³åÓëFBO°ó¶¨
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
 	//check status
 	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-/// å¼€å§‹FBO
+/// ¿ªÊ¼FBO
 void CZFbo::begin()
 {
 	if(isReady == NONE) 
@@ -97,7 +97,7 @@ void CZFbo::begin()
 		return;
 	}
 
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//è·å–å½“å‰çš„FBOï¼Œç”¨äºè¿˜åŸ
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//»ñÈ¡µ±Ç°µÄFBO£¬ÓÃÓÚ»¹Ô­
 	glBindFramebuffer(GL_FRAMEBUFFER, fboId);
 #if USE_OPENGL
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
@@ -107,7 +107,7 @@ void CZFbo::begin()
 	glViewport(0,0,width,height);
 }
 
-/// ç»“æŸFBO
+/// ½áÊøFBO
 void CZFbo::end()
 {
 	if(isReady == NONE) return;
@@ -117,7 +117,7 @@ void CZFbo::end()
 	glBindFramebuffer(GL_FRAMEBUFFER, preFbo);
 }
 
-/// å°†çº¹ç†ç»˜åˆ¶åˆ°å±å¹•
+/// ½«ÎÆÀí»æÖÆµ½ÆÁÄ»
 void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
 {
 	if(tex == NULL || isReady!=RENDER2TEX) 
@@ -155,7 +155,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 #endif
 }
 
-/// æ£€æŸ¥çŠ¶æ€
+/// ¼ì²é×´Ì¬
 int CZFbo::checkFramebufferStatus()
 {
 	int status;

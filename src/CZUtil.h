@@ -46,18 +46,18 @@ void CZCheckGLError_(const char *file, int line);
 /******************************
  * static inline functions
  *****************************/
-/// å–æœ€å¤§å€¼
+/// È¡×î´óÖµ
 static inline float Max(float a, float b)
 {
 	return a>b ? a:b;
 }
-/// å–æœ€å°å€¼
+/// È¡×îĞ¡Öµ
 static inline float Min(float a, float b)
 {
 	return a<b ? a:b;
 }
 
-/// è§„èŒƒåŒ–
+/// ¹æ·¶»¯
 static inline float CZClamp(float min, float max, float value) 
 {
 	return (value < min) ? min : (value > max) ? max : value;
@@ -66,33 +66,33 @@ static inline float CZClamp(float min, float max, float value)
 /******************************
  * other functions
  *****************************/
-/// å–éšæœºæ•°[0,1]
+/// È¡Ëæ»úÊı[0,1]
 float CZRandomFloat();
 
-/// ä¸åŒé¢œè‰²æ¨¡å¼çš„è½¬æ¢
+/// ²»Í¬ÑÕÉ«Ä£Ê½µÄ×ª»»
 void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
 void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v);
 
-/// åˆ¤æ–­æ˜¯å¦æ”¯æŒæ·±åº¦é¢œè‰²
+/// ÅĞ¶ÏÊÇ·ñÖ§³ÖÉî¶ÈÑÕÉ«
 bool CZcanUseHDTexture();
 
-/// å°†ä¸€è¿ä¸²ç»“ç‚¹æ‰“æ•£ï¼Œç›¸é‚»ç»“ç‚¹ç”¨ä¸‰æ¬¡è´å¡å°”æ›²çº¿è¿æ¥
+/// ½«Ò»Á¬´®½áµã´òÉ¢£¬ÏàÁÚ½áµãÓÃÈı´Î±´Èû¶ûÇúÏßÁ¬½Ó
 /// 
-///		ä¸¤ä¸ªç»“ç‚¹ï¼ˆnodesï¼‰å½¢æˆä¸€æ ¹ä¸‰æ¬¡è´å¡å°”æ›²çº¿ï¼Œå†å°†æ›²çº¿æ‰“æ•£æˆè‹¥å¹²ä¸ªç»˜åˆ¶ç‚¹ï¼ˆpointsï¼‰
+///		Á½¸ö½áµã£¨nodes£©ĞÎ³ÉÒ»¸ùÈı´Î±´Èû¶ûÇúÏß£¬ÔÙ½«ÇúÏß´òÉ¢³ÉÈô¸É¸ö»æÖÆµã£¨points£©
 /// 
-///		/param nodes		- è¿ç»­çš„ä¸‰ç»´ç»“ç‚¹
-///		/param closed		- æ˜¯å¦å½¢æˆé—­ç¯
-///		/param points		- ç¦»æ•£åå¾—åˆ°çš„ç»˜åˆ¶ç‚¹å®¹å™¨
-///		/return				- ç¦»æ•£åå¾—åˆ°çš„ç»˜åˆ¶ç‚¹æ•°ç›®
+///		/param nodes		- Á¬ĞøµÄÈıÎ¬½áµã
+///		/param closed		- ÊÇ·ñĞÎ³É±Õ»·
+///		/param points		- ÀëÉ¢ºóµÃµ½µÄ»æÖÆµãÈİÆ÷
+///		/return				- ÀëÉ¢ºóµÃµ½µÄ»æÖÆµãÊıÄ¿
 unsigned int flattenNodes2Points(const std::vector<CZBezierNode> &nodes, bool closed,std::vector<CZ3DPoint> &points);
 
-/// æ­£å¼¦å‡½æ•°,ç”±[0,1]åˆ°[0,1] -CZFreehandToolç±»å¼•ç”¨
+/// ÕıÏÒº¯Êı,ÓÉ[0,1]µ½[0,1] -CZFreehandToolÀàÒıÓÃ
 float sineCurve(float input);
 
-/// è°ƒè¯•ç”¨ï¼Œæ£€æµ‹ç»˜åˆ¶çš„åƒç´ 
+/// µ÷ÊÔÓÃ£¬¼ì²â»æÖÆµÄÏñËØ
 void checkPixels(int w_, int h_);
 
-/// è¯»å–jsonæ–‡ä»¶å†…å®¹
+/// ¶ÁÈ¡jsonÎÄ¼şÄÚÈİ
 std::map<std::string,std::vector<std::string> > & readJsonContent(const char* jsonFile);
 
 #endif

@@ -16,7 +16,7 @@ CZRandom::CZRandom(uint32_t s_ /* = 156248 */)
 	initWithSeed(s_);
 }
 
-/// ç”¨ç§å­åˆå§‹åŒ–
+/// ÓÃÖÖ×Ó³õÊ¼»¯
 void CZRandom::initWithSeed(uint32_t s_)
 {
 	MT[0] = s_;
@@ -28,7 +28,7 @@ void CZRandom::initWithSeed(uint32_t s_)
 	ix = 0;
 }
 
-/// äº§ç”Ÿéšæœºæ•°
+/// ²úÉúËæ»úÊı
 void CZRandom::generateNumbers()
 {
 	for (int i = 0; i < 624; i++) 
@@ -42,7 +42,7 @@ void CZRandom::generateNumbers()
 	}
 }
 
-/// äº§ç”Ÿä¸€ä¸ªæ•´å½¢
+/// ²úÉúÒ»¸öÕûĞÎ
 uint32_t CZRandom::nextInt()
 {
 	if (ix == 0)  generateNumbers();
@@ -58,7 +58,7 @@ uint32_t CZRandom::nextInt()
 	return y;
 }
 
-/// äº§ç”Ÿä¸€ä¸ªæµ®ç‚¹å‹ï¼ˆé»˜è®¤ä¸º[0,1]èŒƒå›´ï¼‰
+/// ²úÉúÒ»¸ö¸¡µãĞÍ£¨Ä¬ÈÏÎª[0,1]·¶Î§£©
 float CZRandom::nextFloat(float min_ /* = 0.0f */, float max_ /* = 1.0f */)
 {
 	float r = (float ) (nextInt() % 100000);
@@ -66,7 +66,7 @@ float CZRandom::nextFloat(float min_ /* = 0.0f */, float max_ /* = 1.0f */)
 	return min_ + r * (max_ - min_);
 }
 
-/// äº§ç”Ÿéšæœºç¬¦å·
+/// ²úÉúËæ»ú·ûºÅ
 float CZRandom::nextSign()
 {
 	return float (1.0 - (nextInt() % 2) * 2.0f);

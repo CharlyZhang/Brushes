@@ -42,14 +42,14 @@ CZLayer::~CZLayer()
 	if(hueSaturation) { delete hueSaturation; hueSaturation = NULL;}
 }
 
-/// å›¾å±‚çš„å›¾åƒæ•°æ®
+/// Í¼²ãµÄÍ¼ÏñÊı¾İ
 CZImage *CZLayer::imageData()
 {
 	CZRect bounds = ptrPainting->getBounds();
 	return imageDataInRect(bounds);
 }
 
-/// ç”Ÿæˆç‰¹å®šçŸ©å½¢åŒºåŸŸçš„å›¾åƒæ•°æ®
+/// Éú³ÉÌØ¶¨¾ØĞÎÇøÓòµÄÍ¼ÏñÊı¾İ
 CZImage *CZLayer::imageDataInRect(const CZRect &rect)
 {
 	if(!ptrPainting)
@@ -66,7 +66,7 @@ CZImage *CZLayer::imageDataInRect(const CZRect &rect)
 	return ret;
 }
 
-/// ç»˜åˆ¶å›¾å±‚
+/// »æÖÆÍ¼²ã
 void CZLayer::basicBlit(CZMat4 &projection)
 {
 	CZPaintingRender *ptrRender = ptrPainting->getRender();
@@ -74,7 +74,7 @@ void CZLayer::basicBlit(CZMat4 &projection)
 
 	ptrRender->drawLayer(projection);
 }
-/// ç»˜åˆ¶å›¾å±‚ï¼ˆè€ƒè™‘ç§»åŠ¨è½¬æ¢ã€é¢œè‰²è°ƒæ•´ç­‰ï¼‰
+/// »æÖÆÍ¼²ã£¨¿¼ÂÇÒÆ¶¯×ª»»¡¢ÑÕÉ«µ÷ÕûµÈ£©
 void CZLayer::blit(CZMat4 &projection)
 {
 	CZPaintingRender *ptrRender = ptrPainting->getRender();
@@ -89,14 +89,14 @@ void CZLayer::blit(CZMat4 &projection)
 	else
 		ptrRender->drawLayer(projection);
 }
-/// å åŠ æ“¦é™¤çº¹ç†
+/// µş¼Ó²Á³ıÎÆÀí
 void CZLayer::blitWithEraseMask(CZMat4 &projection)
 {
 	CZPaintingRender *ptrRender = ptrPainting->getRender();
 	ptrRender->ptrLayer = this;
 	ptrRender->drawLayerWithEraseMask(projection);
 }
-/// å åŠ ç»˜åˆ¶çº¹ç†
+/// µş¼Ó»æÖÆÎÆÀí
 void CZLayer::blitWithMask(CZMat4 &projection,CZColor *bgColor)
 {
 	CZPaintingRender *ptrRender = ptrPainting->getRender();
@@ -104,7 +104,7 @@ void CZLayer::blitWithMask(CZMat4 &projection,CZColor *bgColor)
 	ptrRender->drawLayerWithMask(projection,bgColor);
 }
 
-/// å°†ç»˜åˆ¶çš„ç¬”ç”»åˆå¹¶åˆ°å½“å‰å›¾å±‚
+/// ½«»æÖÆµÄ±Ê»­ºÏ²¢µ½µ±Ç°Í¼²ã
 void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable)
 {
 	//if (undoable) [self registerUndoInRect:bounds];
@@ -119,7 +119,7 @@ void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undo
 	render->composeActivePaintTexture(color,erase);
 }
 
-/// è°ƒæ•´é¢œè‰²
+/// µ÷ÕûÑÕÉ«
 void CZLayer::commitColorAdjustments()
 {
 	/*
@@ -178,18 +178,18 @@ void CZLayer::commitColorAdjustments()
 }
 
 
-/// åˆå¹¶å¦ä»¥å›¾å±‚
+/// ºÏ²¢ÁíÒÔÍ¼²ã
 bool CZLayer::merge(CZLayer *layer)
 {
 	return true;
 }
 
-/// è®¾ç½®ç»˜åˆ¶æŒ‡é’ˆ
+/// ÉèÖÃ»æÖÆÖ¸Õë
 void CZLayer::setPainting(CZPainting *painting)
 {
 	ptrPainting = painting;
 }
-/// è®¾ç½®è½¬æ¢çŸ©é˜µ
+/// ÉèÖÃ×ª»»¾ØÕó
 bool CZLayer::setTransform(CZAffineTransform &trans)
 {
 	if(transform == trans) return false;
@@ -197,12 +197,12 @@ bool CZLayer::setTransform(CZAffineTransform &trans)
 	transform = trans;
 	return true;
 }
-/// è·å–è½¬æ¢çŸ©é˜µ
+/// »ñÈ¡×ª»»¾ØÕó
 CZAffineTransform & CZLayer::getTransform()
 {
 	return transform;
 }
-/// è®¾ç½®æ··åˆæ¨¡å¼
+/// ÉèÖÃ»ìºÏÄ£Ê½
 bool CZLayer::setBlendMode(CZRender::BlendMode &bm)
 {
 	if(bm == blendMode) return false;
@@ -210,12 +210,12 @@ bool CZLayer::setBlendMode(CZRender::BlendMode &bm)
 	blendMode = bm;
 	return true;
 }
-/// è·å–æ··åˆæ¨¡å¼
+/// »ñÈ¡»ìºÏÄ£Ê½
 CZRender::BlendMode CZLayer::getBlendMode()
 {
 	return blendMode;
 }
-/// è®¾ç½®ä¸é€æ˜åº¦
+/// ÉèÖÃ²»Í¸Ã÷¶È
 bool CZLayer::setOpacity(float o)
 {
 	if(opacity == o) return false;
@@ -223,12 +223,12 @@ bool CZLayer::setOpacity(float o)
 	opacity = CZClamp(0.0f,1.0f,o);
 	return true;
 }
-/// è·å–ä¸é€æ˜åº¦
+/// »ñÈ¡²»Í¸Ã÷¶È
 float CZLayer::getOpacity()
 {
 	return opacity;
 }
-/// è®¾ç½®è°ƒæ•´é¢œè‰²
+/// ÉèÖÃµ÷ÕûÑÕÉ«
 bool CZLayer::setColorBalance(CZColorBalance *cb)
 {
 	if(cb && *cb ==  *colorBalance) return false;
@@ -236,16 +236,16 @@ bool CZLayer::setColorBalance(CZColorBalance *cb)
 	colorBalance = cb;
 	return true;
 }
-/// è®¾ç½®è‰²è°ƒè°ƒæ•´
+/// ÉèÖÃÉ«µ÷µ÷Õû
 bool CZLayer::setHueSaturation(CZHueSaturation *hs)
 {
 	return true;
 }
-/// è®¾ç½®å›¾å±‚å›¾åƒ
+/// ÉèÖÃÍ¼²ãÍ¼Ïñ
 /// 
-///		\param img - è®¾ç½®çš„å›¾åƒ
-///		\ret	   - è‹¥imgä¸ä¸ºç©ºï¼Œåˆ™è®¾ç½®é™ˆå®«
-///		\note è°ƒç”¨æ­¤å‡½æ•°å°†è¦†ç›–ä¹‹å‰å¯¹è¯¥å±‚çš„æ‰€æœ‰ç»˜åˆ¶
+///		\param img - ÉèÖÃµÄÍ¼Ïñ
+///		\ret	   - Èôimg²»Îª¿Õ£¬ÔòÉèÖÃ³Â¹¬
+///		\note µ÷ÓÃ´Ëº¯Êı½«¸²¸ÇÖ®Ç°¶Ô¸Ã²ãµÄËùÓĞ»æÖÆ
 bool CZLayer::setImage(CZImage *img)
 {
 	if(img == NULL)
@@ -257,7 +257,7 @@ bool CZLayer::setImage(CZImage *img)
 	if(image)
 	{
 		delete image;
-		/// åˆ é™¤å¯¹åº”çš„è€çº¹ç†
+		/// É¾³ı¶ÔÓ¦µÄÀÏÎÆÀí
 		CZPaintingRender *ptrRender = ptrPainting->getRender();
 		ptrRender->clearLayerTexture(this);
 	}
@@ -267,65 +267,65 @@ bool CZLayer::setImage(CZImage *img)
     return true;
 }
 
-/// åˆ‡æ¢å¯è§æ€§
+/// ÇĞ»»¿É¼ûĞÔ
 void CZLayer::toggleVisibility()
 {
 	visible = !visible;
 }
-/// åˆ‡æ¢alphaé”å®š
+/// ÇĞ»»alphaËø¶¨
 void CZLayer::toggleAlphaLocked()
 {
 	alphaLocked = !alphaLocked;
 }
-/// åˆ‡æ¢å›¾å±‚é”å®š
+/// ÇĞ»»Í¼²ãËø¶¨
 void CZLayer::toggleLocked()
 {
 	locked = !locked;
 }
-/// è®¾ç½®å¯è§æ€§
+/// ÉèÖÃ¿É¼ûĞÔ
 void CZLayer::setVisiblility(bool flag)
 {
 	visible = flag;
 }
-/// è®¾ç½®alphaé”å®š
+/// ÉèÖÃalphaËø¶¨
 void CZLayer::setAlphaLocked(bool flag)
 {
 	alphaLocked = flag;
 }
-/// è®¾ç½®å›¾å±‚é”å®š
+/// ÉèÖÃÍ¼²ãËø¶¨
 void CZLayer::setLocked(bool flag)
 {
 	locked = flag;
 }
-/// æ˜¯å¦è¢«é”ä½å›¾å±‚
+/// ÊÇ·ñ±»Ëø×¡Í¼²ã
 bool CZLayer::isLocked()
 {
 	return locked;
 };
-/// æ˜¯å¦è¢«é”ä½alpha
+/// ÊÇ·ñ±»Ëø×¡alpha
 bool CZLayer::isAlphaLocked()
 {
 	return alphaLocked;
 }
-/// æ˜¯å¦å¯è§
+/// ÊÇ·ñ¿É¼û
 bool CZLayer::isVisible()
 {
 	return visible;
 }
 
-/// æ˜¯å¦å¯ç¼–è¾‘
+/// ÊÇ·ñ¿É±à¼­
 bool CZLayer::isEditable()
 {
 	return (!locked && visible);
 }
 
-/// è·å–ç¼–å·
+/// »ñÈ¡±àºÅ
 unsigned int CZLayer::getUID()
 {
 	return uid;
 }
 
-/// å®ç°codingçš„æ¥å£
+/// ÊµÏÖcodingµÄ½Ó¿Ú
 void CZLayer::update(CZDecoder *decoder_, bool deep /* = false */)
 {
 	/*

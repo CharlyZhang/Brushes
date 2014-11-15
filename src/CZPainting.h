@@ -22,115 +22,115 @@
 #include <string>
 #include <vector>
 
-/// ç»˜åˆ¶ç±»
+/// »æÖÆÀà
 class CZPainting :public CZCoding
 {
 public:
 	CZPainting(const CZSize &size);
 	~CZPainting();
 	
-	/// å°†å›¾åƒç»˜åˆ¶å‡ºæ¥ï¼ˆæ²¡ç»‘å®šFBOï¼‰
+	/// ½«Í¼Ïñ»æÖÆ³öÀ´£¨Ã»°ó¶¨FBO£©
 	void blit(CZMat4 &projection);
 	
-	/// ç”Ÿæˆæ‰€æœ‰å›¾å±‚çš„å›¾åƒï¼ˆä¸åŒ…æ‹¬å½“å‰ç»˜åˆ¶çš„ç¬”ç”»ï¼‰
+	/// Éú³ÉËùÓĞÍ¼²ãµÄÍ¼Ïñ£¨²»°üÀ¨µ±Ç°»æÖÆµÄ±Ê»­£©
 	CZImage *imageWithSize(CZSize &size, CZColor *backgroundColor);
 
-	/// ç”Ÿæˆå½“å‰çŠ¶æ€çš„å›¾åƒ
+	/// Éú³Éµ±Ç°×´Ì¬µÄÍ¼Ïñ
 	CZImage *imageForCurrentState(CZColor *backgroundColor);
 	
-	/// ç»˜åˆ¶ä¸€æ¡è½¨è¿¹ï¼ˆç»˜åˆ¶åˆ°çº¹ç†ï¼‰
+	/// »æÖÆÒ»Ìõ¹ì¼££¨»æÖÆµ½ÎÆÀí£©
 	CZRect paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer = false);
 	
-	/// è®¾ç½®èŒƒå›´ï¼ˆè®©renderçš„èŒƒå›´ä¸å…¶ä¿æŒä¸€è‡´ï¼‰
+	/// ÉèÖÃ·¶Î§£¨ÈÃrenderµÄ·¶Î§ÓëÆä±£³ÖÒ»ÖÂ£©
 	void setDimensions(const CZSize &size);
 	
-	/// è®¾ç½®å½“å‰æ¿€æ´»å›¾å±‚
+	/// ÉèÖÃµ±Ç°¼¤»îÍ¼²ã
 	///
-	///		\param idx - å½“å‰éœ€è¦æ¿€æ´»çš„å›¾å±‚åºå·
-	///		\ret	   - åŸæ¥æ¿€æ´»çš„å›¾å±‚åºå·
+	///		\param idx - µ±Ç°ĞèÒª¼¤»îµÄÍ¼²ãĞòºÅ
+	///		\ret	   - Ô­À´¼¤»îµÄÍ¼²ãĞòºÅ
 	int setActiveLayer(int idx);
 	
-	/// é€šè¿‡UIDè·å–å›¾å±‚
+	/// Í¨¹ıUID»ñÈ¡Í¼²ã
 	/// 
-	///		\note ä¸å­˜åœ¨è¯¥UIDçš„å›¾å±‚åˆ™è¿”å›NULL
+	///		\note ²»´æÔÚ¸ÃUIDµÄÍ¼²ãÔò·µ»ØNULL
 	CZLayer *layerWithUID(unsigned int uid_);
 	
-	/// åˆ é™¤å›¾å±‚
+	/// É¾³ıÍ¼²ã
 	/// 
-	///		\param - éœ€è¦åˆ é™¤çš„å›¾å±‚
-	///		\ret   - åŸå›¾å±‚æ‰€åœ¨çš„åºå·
-	///		\note å½“layerè¢«é”ä½çš„æ—¶å€™ä¸èƒ½è¢«åˆ é™¤ 
+	///		\param - ĞèÒªÉ¾³ıµÄÍ¼²ã
+	///		\ret   - Ô­Í¼²ãËùÔÚµÄĞòºÅ
+	///		\note µ±layer±»Ëø×¡µÄÊ±ºò²»ÄÜ±»É¾³ı 
 	int removeLayer(CZLayer *layer);
 	
-	/// æ’å…¥å›¾å±‚
+	/// ²åÈëÍ¼²ã
 	void insertLayer(int idx, CZLayer *layer);
 	
-	/// æ·»åŠ å›¾å±‚
+	/// Ìí¼ÓÍ¼²ã
 	/// 
-	///		\param layer - æ·»åŠ çš„å›¾å±‚
-	///		\ret		 - åœ¨æ‰€æœ‰å›¾å±‚ä¸­çš„åºå·,å¤±è´¥è¿”å›-1
+	///		\param layer - Ìí¼ÓµÄÍ¼²ã
+	///		\ret		 - ÔÚËùÓĞÍ¼²ãÖĞµÄĞòºÅ,Ê§°Ü·µ»Ø-1
 	int addLayer(CZLayer *layer);
 	
-	/// å‘ä¸‹åˆå¹¶å½“å‰å›¾å±‚
+	/// ÏòÏÂºÏ²¢µ±Ç°Í¼²ã
 	/// 
-	///		\ret - æ˜¯å¦åˆå¹¶æˆåŠŸ
+	///		\ret - ÊÇ·ñºÏ²¢³É¹¦
 	bool mergeActiveLayerDown();
 
-	/// ç§»åŠ¨å›¾å±‚
+	/// ÒÆ¶¯Í¼²ã
 	/// 
-	///		\param layer - éœ€è¦ç§»åŠ¨çš„å›¾å±‚
-	///		\param idx	 - ç§»åŠ¨åˆ°çš„ä½ç½®
+	///		\param layer - ĞèÒªÒÆ¶¯µÄÍ¼²ã
+	///		\param idx	 - ÒÆ¶¯µ½µÄÎ»ÖÃ
 	bool moveLayer(CZLayer* layer, int idx);
 
-	/// è·å–æ‰€æœ‰å›¾å±‚
+	/// »ñÈ¡ËùÓĞÍ¼²ã
 	std::vector<CZLayer*> & getAllLayers();
 
-	/// è·å¾—å›¾å±‚åœ¨æ‰€æœ‰å›¾å±‚ä¸­çš„æ ‡å·ï¼Œä¸å­˜åœ¨è¿”å›è´Ÿå€¼
+	/// »ñµÃÍ¼²ãÔÚËùÓĞÍ¼²ãÖĞµÄ±êºÅ£¬²»´æÔÚ·µ»Ø¸ºÖµ
 	int indexOfLayers(CZLayer *layer);
 
-	/// è®¾ç½®æ¿€æ´»è½¨è¿¹
+	/// ÉèÖÃ¼¤»î¹ì¼£
 	void setActivePath(CZPath *path);
 
-	/// è·å–æ¿€æ´»è½¨è¿¹
+	/// »ñÈ¡¼¤»î¹ì¼£
 	CZPath* getActivePath();
 
-	/// è®¾ç½®æ¿€æ´»å›¾å±‚
+	/// ÉèÖÃ¼¤»îÍ¼²ã
 	void setActiveLayer(CZLayer *layer);
 
-	/// è·å–æ¿€æ´»å›¾å±‚
+	/// »ñÈ¡¼¤»îÍ¼²ã
 	CZLayer* getActiveLayer();
 
-	/// è·å–æ¸²æŸ“å™¨
+	/// »ñÈ¡äÖÈ¾Æ÷
 	CZPaintingRender* getRender();
 	
-	/// è·å–èŒƒå›´
+	/// »ñÈ¡·¶Î§
 	CZSize& getDimensions();
-	/// è·å–ç»˜åˆ¶çŸ©å½¢
+	/// »ñÈ¡»æÖÆ¾ØĞÎ
 	CZRect& getBounds();
 
-	/// å®ç°codingçš„æ¥å£
+	/// ÊµÏÖcodingµÄ½Ó¿Ú
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 
 private:
-	static unsigned int paintingNum;///< ç»˜åˆ¶çš„æ•°ç›®
+	static unsigned int paintingNum;///< »æÖÆµÄÊıÄ¿
 
-	CZSize dimensions;				///< ç»˜åˆ¶èŒƒå›´
+	CZSize dimensions;				///< »æÖÆ·¶Î§
     CZRect bounds;
-	CZPaintingRender *render;		///< ç»˜åˆ¶å™¨
-	CZPath *ptrActivePath;			///< æ¿€æ´»çš„è·¯å¾„ï¼Œæ­¤å¤„ä»…ä¸ºå¼•ç”¨
-	CZLayer *ptrActiveLayer;		///< å½“å‰ç»˜åˆ¶å±‚
+	CZPaintingRender *render;		///< »æÖÆÆ÷
+	CZPath *ptrActivePath;			///< ¼¤»îµÄÂ·¾¶£¬´Ë´¦½öÎªÒıÓÃ
+	CZLayer *ptrActiveLayer;		///< µ±Ç°»æÖÆ²ã
 
 	bool flattenMode;
-	std::vector<CZLayer*>	layers;	///< ç»˜åˆ¶çš„ç”»å±‚
+	std::vector<CZLayer*>	layers;	///< »æÖÆµÄ»­²ã
 
 	std::vector<CZColor*>	colors;	
 	std::vector<CZBrush*>	brushes;
 	std::vector<CZBrush*>	undoBrushes;
-	int						strokeCount;	///< ç¬”ç”»æ•°ç›®
+	int						strokeCount;	///< ±Ê»­ÊıÄ¿
 	unsigned int			uid;
 
-	CZBrush					*ptrLastBrush;	///< ä¸Šä¸€æŠŠç”»åˆ·
+	CZBrush					*ptrLastBrush;	///< ÉÏÒ»°Ñ»­Ë¢
 
 };
 #endif

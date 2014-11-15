@@ -75,11 +75,11 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName)
 	if(!textFileRead(fragFileName,m_FragmentShader))return;
 
 
-	//åˆ›å»ºshaderå¯¹è±¡
+	//´´½¨shader¶ÔÏó
 	m_Vert = glCreateShader(GL_VERTEX_SHADER);
 	m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
 
-	//åˆ›å»ºç¨‹åºå¯¹è±¡
+	//´´½¨³ÌĞò¶ÔÏó
 	m_Program = glCreateProgram();
 
 	if(!compile()) 
@@ -90,11 +90,11 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName)
 		return;
 	}
 
-	//ç»‘å®šshaderåˆ°ç¨‹åºå¯¹è±¡
+	//°ó¶¨shaderµ½³ÌĞò¶ÔÏó
 	glAttachShader(m_Program,m_Vert);
 	glAttachShader(m_Program,m_Frag);
 
-	//é“¾æ¥ç¨‹åº
+	//Á´½Ó³ÌĞò
 	glLinkProgram(m_Program);
 	printProgramInfoLog(m_Program);
 
@@ -133,11 +133,11 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	if(!textFileRead(fileName,m_FragmentShader))return;
 
 	
-	//åˆ›å»ºshaderå¯¹è±¡
+	//´´½¨shader¶ÔÏó
 	m_Vert = glCreateShader(GL_VERTEX_SHADER);
 	m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
 
-	//åˆ›å»ºç¨‹åºå¯¹è±¡
+	//´´½¨³ÌĞò¶ÔÏó
 	m_Program = glCreateProgram();
 
 	if(!compile()) 
@@ -148,22 +148,22 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 		return;
 	}
 
-	//ç»‘å®šshaderåˆ°ç¨‹åºå¯¹è±¡
+	//°ó¶¨shaderµ½³ÌĞò¶ÔÏó
 	glAttachShader(m_Program,m_Vert);
 	glAttachShader(m_Program,m_Frag);
 
-	//ç»‘å®šå±æ€§å
+	//°ó¶¨ÊôĞÔÃû
 	for(unsigned int i=0; i<attributes.size(); i++)
 	{
 		glBindAttribLocation(m_Program, (GLuint) i, (const GLchar*) attributes[i].c_str());
 		CHECK_GL_ERROR();
 	}
 
-	//é“¾æ¥ç¨‹åº
+	//Á´½Ó³ÌĞò
 	glLinkProgram(m_Program);
 	printProgramInfoLog(m_Program);
 
-	//ç»‘å®šuniformå¯¹è±¡
+	//°ó¶¨uniform¶ÔÏó
 	for(unsigned int i=0; i<uniforms.size(); i++)
 	{
 		GLuint location = glGetUniformLocation(m_Program, uniforms[i].c_str());
@@ -192,11 +192,11 @@ CZShader::~CZShader()
 	if(NULL != m_FragmentShader)
 		delete[] m_FragmentShader;
 
-	//åˆ é™¤program
+	//É¾³ıprogram
 	glDeleteProgram(m_Program);
 }
 
-/// é”€æ¯ç€è‰²å™¨
+/// Ïú»Ù×ÅÉ«Æ÷
 void CZShader::destroyShaders(GLuint vertShader,GLuint fragShader, GLuint prog)
 {
 	if(vertShader) glDeleteShader(vertShader);
@@ -216,11 +216,11 @@ bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
 	if(NULL == fp)
 		return false;
 
-	// å°†æ–‡ä»¶æŒ‡é’ˆæŒ‡å‘æ–‡ä»¶æµæœ«å°¾
+	// ½«ÎÄ¼şÖ¸ÕëÖ¸ÏòÎÄ¼şÁ÷Ä©Î²
 	fseek(fp,0,SEEK_END);
-	// è®¡ç®—æ–‡ä»¶å°¾ç›¸å¯¹æ–‡ä»¶å¤´çš„åç§»é‡ï¼ˆæ–‡ä»¶é•¿åº¦ï¼‰
+	// ¼ÆËãÎÄ¼şÎ²Ïà¶ÔÎÄ¼şÍ·µÄÆ«ÒÆÁ¿£¨ÎÄ¼ş³¤¶È£©
 	count = ftell(fp);
-	// æŠŠæ–‡ä»¶æŒ‡é’ˆé‡æ–°æŒ‡å‘æ–‡ä»¶æµå¤´éƒ¨
+	// °ÑÎÄ¼şÖ¸ÕëÖØĞÂÖ¸ÏòÎÄ¼şÁ÷Í·²¿
 	rewind(fp);
 
 	if(count<=0)
@@ -234,7 +234,7 @@ bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
 	return true;
 }
 
-/// åˆå§‹åŒ–OpenGLæ‰©å±•
+/// ³õÊ¼»¯OpenGLÀ©Õ¹
 bool CZShader::initOpenGLExtensions()
 {
 	if (extensionsInit) return true;
@@ -255,7 +255,7 @@ bool CZShader::initOpenGLExtensions()
 	return true;
 }
 
-/// æ˜¯å¦æ”¯æŒGLSL
+/// ÊÇ·ñÖ§³ÖGLSL
 bool CZShader::hasGLSLSupport()
 {
 	if (useGLSL) return true;							///< already initialized and GLSL is available
@@ -402,7 +402,7 @@ void printProgramInfoLog(GLuint obj)
 }
 
 
-/// ç¼–è¯‘ç¨‹åº
+/// ±àÒë³ÌĞò
 bool CZShader::compile()
 {
 	if (!useGLSL) return false;
@@ -418,13 +418,13 @@ bool CZShader::compile()
 
 	if (vv == NULL || ff == NULL) return false;
 
-	//æ·»åŠ shader
+	//Ìí¼Óshader
 	glShaderSource(m_Vert,1,&vv, &vertLen);
 	CHECK_GL_ERROR();
 	glShaderSource(m_Frag,1,&ff, &fragLen);
 	CHECK_GL_ERROR();
 	
-	//ç¼–è¯‘shader
+	//±àÒëshader
 	glCompileShader(m_Vert);
 	CHECK_GL_ERROR();
 	glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &compiled);
@@ -445,13 +445,13 @@ bool CZShader::compile()
 
 void CZShader::begin()
 {
-	//ä½¿ç”¨ç¨‹åº
+	//Ê¹ÓÃ³ÌĞò
 	glUseProgram(m_Program);
 }
 
 void CZShader::end()
 {
-	//åœæ­¢ä½¿ç”¨
+	//Í£Ö¹Ê¹ÓÃ
 	glUseProgram(0);
 }
 

@@ -25,32 +25,32 @@ class CZFbo
 {
 public:
 	enum FboState {NONE=0, RENDER2TEX, OFFLINE_RENDER};
-	/// æ„é€ å‡½æ•°
+	/// ¹¹Ôìº¯Êı
 	CZFbo();
 	~CZFbo();
-	/// è®¾ç½®ç»˜åˆ¶çº¹ç†ï¼ˆç”¨ä½œç»˜åˆ¶åˆ°çº¹ç†ï¼‰
+	/// ÉèÖÃ»æÖÆÎÆÀí£¨ÓÃ×÷»æÖÆµ½ÎÆÀí£©
 	void setTexture(CZTexture *tex_);
-	/// è®¾ç½®ç»˜åˆ¶ç¼“å†²åŒºï¼ˆç”¨äºç¦»çº¿ç»˜åˆ¶ï¼‰
+	/// ÉèÖÃ»æÖÆ»º³åÇø£¨ÓÃÓÚÀëÏß»æÖÆ£©
 	void setColorRenderBuffer(int w_, int h_);
-	/// å¼€å§‹FBOï¼ˆä¸è´Ÿè´£æ¸…é™¤ç¼“å­˜ï¼‰
+	/// ¿ªÊ¼FBO£¨²»¸ºÔğÇå³ı»º´æ£©
 	void begin();
-	/// ç»“æŸFBO
+	/// ½áÊøFBO
 	void end();
-	/// å°†çº¹ç†ç»˜åˆ¶åˆ°å±å¹•
+	/// ½«ÎÆÀí»æÖÆµ½ÆÁÄ»
 	void showTextureOnScreen(int x,int y,int width_ = 128,int height_ = 128);
 
 public:
 	int width,height;
 
 private:
-	/// æ£€æŸ¥çŠ¶æ€
+	/// ¼ì²é×´Ì¬
 	int checkFramebufferStatus();
 
 	unsigned int fboId;
 	int preFbo;
-	FboState isReady;			///< FBOçŠ¶æ€
-	unsigned int renderId;			///< æ¸²æŸ“ç¼“å­˜
-	CZTexture *tex;				///< åªæ˜¯å¼•ç”¨ï¼Œä¸è´Ÿè´£åˆ›å»ºå’Œé”€æ¯
+	FboState isReady;			///< FBO×´Ì¬
+	unsigned int renderId;			///< äÖÈ¾»º´æ
+	CZTexture *tex;				///< Ö»ÊÇÒıÓÃ£¬²»¸ºÔğ´´½¨ºÍÏú»Ù
 };
 
 #endif

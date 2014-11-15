@@ -27,22 +27,22 @@ public:
 	enum TexType {BrushTex,RenderTex};
 	CZTexture(int width_, int height_, TexType texType_ = RenderTex, PixDataType *data = NULL);
 	~CZTexture();
-	/// ç”±CZImageç”Ÿæˆçº¹ç†
+	/// ÓÉCZImageÉú³ÉÎÆÀí
 	static CZTexture* produceFromImage(CZImage *img, bool deepColor = false);
-	/// è·å–å…¶å¯¹åº”çš„å›¾åƒæ•°æ®
+	/// »ñÈ¡Æä¶ÔÓ¦µÄÍ¼ÏñÊı¾İ
 	CZImage *toImage();
-	/// å¼€å…³çº¿æ€§å·®å€¼
+	/// ¿ª¹ØÏßĞÔ²îÖµ
 	void enableLinearInterprolation(float flag);
 
 protected:
-	/// åˆå§‹åŒ–æ¸²æŸ“çº¹ç†
+	/// ³õÊ¼»¯äÖÈ¾ÎÆÀí
 	void initRenderTex(PixDataType *data = NULL);
-	/// åˆå§‹åŒ–ç¬”åˆ·çº¹ç†
+	/// ³õÊ¼»¯±ÊË¢ÎÆÀí
 	void initBrushTex(PixDataType *data = NULL);
 
 public:
 	unsigned int texId;
-	static bool supportColor;		///< åˆ¤æ–­ç¡¬ä»¶æ˜¯å¦æ”¯æŒæ·±åº¦é¢œè‰²
+	static bool supportColor;		///< ÅĞ¶ÏÓ²¼şÊÇ·ñÖ§³ÖÉî¶ÈÑÕÉ«
 	int width,height;
 	TexType texType;
 };

@@ -21,16 +21,16 @@ CZFbo::CZFbo()
 	tex = NULL;
 	isReady = NONE;
 
-	glGenFramebuffers(1, &id);
+	glGenFramebuffers(1, &fboId);
 }
 
 CZFbo::~CZFbo()
 {
-	glDeleteFramebuffers(1,&id);
+	glDeleteFramebuffers(1,&fboId);
 	if(renderId) glDeleteRenderbuffers(1,&renderId);
 }
 
-/// ËÆæÁΩÆÁªòÂà∂Á∫πÁêÜ
+/// …Ë÷√ªÊ÷∆Œ∆¿Ì
 void CZFbo::setTexture(CZTexture *tex_)
 {
 	if (isReady == OFFLINE_RENDER)
@@ -43,8 +43,8 @@ void CZFbo::setTexture(CZTexture *tex_)
 		tex = tex_;
 		width = tex->width;
 		height = tex->height;
-		glBindFramebuffer(GL_FRAMEBUFFER, id);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->texId, 0);
 		//check status
 		if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = RENDER2TEX;
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -53,7 +53,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		std::cerr << "CZFbo::setTexture - Tex is null \n";
 }
 
-/// ËÆæÁΩÆÁªòÂà∂ÁºìÂÜ≤Âå∫
+/// …Ë÷√ªÊ÷∆ª∫≥Â«¯
 void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
 	if (isReady == OFFLINE_RENDER)
@@ -66,8 +66,8 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	width = w_;
 	height = h_;
 
-	glBindFramebuffer(GL_FRAMEBUFFER, id);
-	//Áî≥ËØ∑ÁªòÂà∂ÁºìÂÜ≤Âå∫
+	glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+	//…Í«ÎªÊ÷∆ª∫≥Â«¯
 	glGenRenderbuffers(1,&renderId);
 	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
 #if		USE_OPENGL
@@ -75,14 +75,14 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 #elif	USE_OPENGL_ES
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
 #endif
-	//Â∞ÜÈ¢úËâ≤ÁªòÂà∂ÁºìÂÜ≤‰∏éFBOÁªëÂÆö
+	//Ω´—’…´ªÊ÷∆ª∫≥Â”ÎFBO∞Û∂®
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
 	//check status
 	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-/// ÂºÄÂßãFBO
+/// ø™ ºFBO
 void CZFbo::begin()
 {
 	if(isReady == NONE) 
@@ -91,15 +91,15 @@ void CZFbo::begin()
 		return;
 	}
 
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//Ëé∑ÂèñÂΩìÂâçÁöÑFBOÔºåÁî®‰∫éËøòÂéü
-	glBindFramebuffer(GL_FRAMEBUFFER, id); 
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//ªÒ»°µ±«∞µƒFBO£¨”√”⁄ªπ‘≠
+	glBindFramebuffer(GL_FRAMEBUFFER, fboId); 
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 	glPushAttrib(/*GL_ALL_ATTRIB_BITS*/GL_VIEWPORT_BIT);
 	glViewport(0,0,width,height);
 }
 
-/// ÁªìÊùüFBO
+/// Ω· ¯FBO
 void CZFbo::end()
 {
 	if(isReady == NONE) return;
@@ -108,7 +108,7 @@ void CZFbo::end()
 	glBindFramebuffer(GL_FRAMEBUFFER, preFbo);
 }
 
-/// Â∞ÜÁ∫πÁêÜÁªòÂà∂Âà∞Â±èÂπï
+/// Ω´Œ∆¿ÌªÊ÷∆µΩ∆¡ƒª
 void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
 {
 	if(tex == NULL || isReady!=RENDER2TEX) 
@@ -129,7 +129,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glBindTexture(GL_TEXTURE_2D,tex->id);
+	glBindTexture(GL_TEXTURE_2D,tex->texId);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  0.0f);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  0.0f);
@@ -145,7 +145,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 	glEnable(GL_DEPTH_TEST);
 }
 
-/// Ê£ÄÊü•Áä∂ÊÄÅ
+/// ºÏ≤È◊¥Ã¨
 int CZFbo::checkFramebufferStatus()
 {
 	int status;

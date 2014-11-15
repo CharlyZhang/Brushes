@@ -22,7 +22,7 @@ public:
 
 	bool operator == (const CZColorBalance & cb) const;
 
-	/// 瀹炵幇coding 鎺ュ彛
+	/// 实现coding 接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 

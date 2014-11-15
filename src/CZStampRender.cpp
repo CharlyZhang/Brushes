@@ -2,7 +2,7 @@
 ///  \file CZStampRender.cpp
 ///  \brief This is the file implements the Class CZStampRender.
 ///
-///		è¿™é‡Œç”¨æ¥ç»˜åˆ¶ç¬”åˆ·å›¾å½¢çš„ç»˜åˆ¶å™¨ï¼Œæ˜¯ä¸ªå•ä¾‹ã€‚
+///		ÕâÀïÓÃÀ´»æÖÆ±ÊË¢Í¼ĞÎµÄ»æÖÆÆ÷£¬ÊÇ¸öµ¥Àı¡£
 ///
 ///  \version	1.0.0
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
@@ -17,7 +17,7 @@ using namespace std;
 
 CZStampRender::CZStampRender()
 {
-	// ç”Ÿæˆcontext å¹¶è®¾ç½®
+	// Éú³Écontext ²¢ÉèÖÃ
 
 	// configure some default GL state
 	glDisable(GL_DITHER);
@@ -33,29 +33,32 @@ CZStampRender::CZStampRender()
 	shader = new CZShader("stamp.vert","stamp.frag",attributes,uniforms);
 
 	CZCheckGLError();
+
+	fbo = new CZFbo;
 }
 CZStampRender::~CZStampRender()
 {
 	if(shader)	{	delete shader; shader = NULL; }
+	if(fbo)	{	delete fbo; fbo = NULL; }
 }
 
-/// é…ç½®å¤§å°
+/// ÅäÖÃ´óĞ¡
 void CZStampRender::configure(int w, int h)
 {
 	if(width == w && height == h) return;
 
 	width = w;
 	height = h;
-	fbo.setColorRenderBuffer(width,height);
+	fbo->setColorRenderBuffer(width,height);
 	projMat.SetOrtho(0.0f ,width, 0.0f, height, -1.0f, 1.0f);
 }
 
-/// ç”Ÿæˆstampå›¾åƒ
+/// Éú³ÉstampÍ¼Ïñ
 CZImage *CZStampRender::drawStamp()
 {
 	glDisable(GL_TEXTURE_2D);
 
-	fbo.begin();
+	fbo->begin();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -69,17 +72,17 @@ CZImage *CZStampRender::drawStamp()
 	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
 
-	fbo.end();
+	fbo->end();
 
 	return ret;
 }
 
-/// ç»˜åˆ¶èºæ—‹çº¹
+/// »æÖÆÂİĞıÎÆ
 void CZStampRender::drawSpiralData(std::vector<CZ2DPoint> &points)
 {
-	//glEnable(GL_LINE_SMOOTH);		///< ä¸ªäººæ„Ÿè§‰è¿˜æ˜¯ä¸å¯ç”¨æŠ—é”¯é½¿æ¥å¾—å¥½
+	//glEnable(GL_LINE_SMOOTH);		///< ¸öÈË¸Ğ¾õ»¹ÊÇ²»ÆôÓÃ¿¹¾â³İÀ´µÃºÃ
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = rand()*9/RAND_MAX +1;			///< çº¿å¤§å°åŸæ¥æ˜¯10ä»¥å†…
+	GLfloat w = rand()*9/RAND_MAX +1;			///< Ïß´óĞ¡Ô­À´ÊÇ10ÒÔÄÚ
 	glLineWidth(w);
 	//glPointSize(w*0.7);   // NOT SUPPORTED IN ES
 
@@ -89,26 +92,26 @@ void CZStampRender::drawSpiralData(std::vector<CZ2DPoint> &points)
     
 #if USE_OPENGL
 	GLuint mVertexBufferObject;
-	// è£…è½½é¡¶ç‚¹
+	// ×°ÔØ¶¥µã
 	glGenBuffers(1, &mVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ2DPoint), &points[0].x, GL_STREAM_DRAW);
 
 
-	// ç»‘å®šé¡¶ç‚¹
+	// °ó¶¨¶¥µã
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(CZ2DPoint),0);
 
-	/// ç»˜åˆ¶
+	/// »æÖÆ
 	glDrawArrays(GL_LINE_STRIP,0,n);
 
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	/// æ¶ˆé™¤
+	/// Ïû³ı
 	glDeleteBuffers(1, &mVertexBufferObject);
-#ELIF USE_OPENGL_ES
+#elif USE_OPENGL_ES
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ2DPoint), &points[0].x);
     glEnableVertexAttribArray(0);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
@@ -119,9 +122,9 @@ void CZStampRender::drawSpiralData(std::vector<CZ2DPoint> &points)
 void CZStampRender::drawSpiralData(std::vector<CZ3DPoint> &points)
 {
 #if USE_OPENGL
-	//glEnable(GL_LINE_SMOOTH);		///< ä¸ªäººæ„Ÿè§‰è¿˜æ˜¯ä¸å¯ç”¨æŠ—é”¯é½¿æ¥å¾—å¥½
+	//glEnable(GL_LINE_SMOOTH);		///< ¸öÈË¸Ğ¾õ»¹ÊÇ²»ÆôÓÃ¿¹¾â³İÀ´µÃºÃ
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = rand()*9/RAND_MAX +1;			///< çº¿å¤§å°åŸæ¥æ˜¯10ä»¥å†…
+	GLfloat w = rand()*9/RAND_MAX +1;			///< Ïß´óĞ¡Ô­À´ÊÇ10ÒÔÄÚ
 	glLineWidth(w);
 	glPointSize(w*0.7);
 
@@ -130,24 +133,24 @@ void CZStampRender::drawSpiralData(std::vector<CZ3DPoint> &points)
 	int n = points.size();
 
 	GLuint mVertexBufferObject;
-	// è£…è½½é¡¶ç‚¹
+	// ×°ÔØ¶¥µã
 	glGenBuffers(1, &mVertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ3DPoint), &points[0].x, GL_STREAM_DRAW);
 
 
-	// ç»‘å®šé¡¶ç‚¹
+	// °ó¶¨¶¥µã
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(CZ3DPoint),0);
 
-	/// ç»˜åˆ¶
+	/// »æÖÆ
 	glDrawArrays(GL_LINE_STRIP,0,n);
 
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	/// æ¶ˆé™¤
+	/// Ïû³ı
 	glDeleteBuffers(1, &mVertexBufferObject);
 
 	//glDisable(GL_LINE_SMOOTH);

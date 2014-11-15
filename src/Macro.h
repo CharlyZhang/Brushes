@@ -1,13 +1,13 @@
 
 #define CZ_DEBUG		1		// for debugging
-#define USE_OPENGL		0
-#define USE_OPENGL_ES	1
+#define USE_OPENGL		1
+#define USE_OPENGL_ES	0
 		
 
-#define RENDER_TWO_RECT		1		///< ç»˜åˆ¶ä¸¤ä¸ªçŸ©å½¢
-#define RENDER_FULL_RECT	0		///< ç»˜åˆ¶å…¨å±çº¹ç†
-#define RENDER_STAMP		0		///< ç»˜åˆ¶ç¬”åˆ·çº¹ç†
-#define RENDER_FREEHAND		0		///< ç»˜åˆ¶æ‰‹ç»˜è½¨è¿¹ï¼ˆä¸ä½¿ç”¨ä»»ä½•ä»¥ä¸‹çº¹ç†ï¼‰
+#define RENDER_TWO_RECT		1		///< »æÖÆÁ½¸ö¾ØÐÎ
+#define RENDER_FULL_RECT	0		///< »æÖÆÈ«ÆÁÎÆÀí
+#define RENDER_STAMP		0		///< »æÖÆ±ÊË¢ÎÆÀí
+#define RENDER_FREEHAND		0		///< »æÖÆÊÖ»æ¹ì¼££¨²»Ê¹ÓÃÈÎºÎÒÔÏÂÎÆÀí£©
 
-#define BRUSH_TEX		0		///< ç¬”åˆ·çº¹ç†
-#define PATH_TEX		1		///< è½¨è¿¹çº¹ç†
+#define BRUSH_TEX		1		///< ±ÊË¢ÎÆÀí
+#define PATH_TEX		0		///< ¹ì¼£ÎÆÀí

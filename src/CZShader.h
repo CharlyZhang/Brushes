@@ -26,9 +26,9 @@
 class CZShader
 {
 public:
-	/// 不绑定属性和统一变量的shader
+	/// �������Ժ�ͳһ������shader
 	CZShader(const char* vertFileName, const char* fragFileName);
-	/// 绑定属性和统一变量的shader
+	/// �����Ժ�ͳһ������shader
 	CZShader(const char* vertFileName, const char* fragFileName, \
 		std::vector<std::string>& atrributes, std::vector<std::string>& uniforms);
 	~CZShader();
@@ -37,22 +37,22 @@ public:
 	unsigned int getAttributeLocation(const char* atrrName);
 	unsigned int getUniformLocation(const std::string& str);
 private:
-	/// 销毁着色器
+	/// ������ɫ��
 	void destroyShaders(unsigned int vertShader,unsigned int fragShader, unsigned int prog);
-	/// 读取着色器程序
+	/// ��ȡ��ɫ������
 	bool textFileRead(const char *_fn, char *&_shader);
-	/// 初始化OpenGL扩展
-	///		\note 包含glew的初始化，应该在OpenGL和glut的初始化之后
+	/// ��ʼ��OpenGL��չ
+	///		\note ����glew�ĳ�ʼ����Ӧ����OpenGL��glut�ĳ�ʼ��֮��
 	static bool initOpenGLExtensions();
-	/// 是否支持GLSL
+	/// �Ƿ�֧��GLSL
 	static bool hasGLSLSupport();
-	/// 编译程序
+	/// �������
 	bool compile();
 
-	static bool extensionsInit;			///< 是否初始化GL扩展
-	static bool useGLSL;				///< GLSL是否已经准备
-	static bool bGeometryShader;		///< 是否支持G-Shader
-	static bool bGPUShader4;			///< 是否支持Shader4
+	static bool extensionsInit;			///< �Ƿ��ʼ��GL��չ
+	static bool useGLSL;				///< GLSL�Ƿ��Ѿ�׼��
+	static bool bGeometryShader;		///< �Ƿ�֧��G-Shader
+	static bool bGPUShader4;			///< �Ƿ�֧��Shader4
 
 	char *m_VertexShader;
 	char *m_FragmentShader;
@@ -60,7 +60,7 @@ private:
 	unsigned int m_Program;
 	unsigned int m_Vert,m_Frag;
 
-	bool isCompiled;					///< 是否编译
+	bool isCompiled;					///< �Ƿ����
 	std::map<std::string,unsigned int> m_uniforms;
 };
 

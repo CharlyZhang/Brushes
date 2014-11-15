@@ -32,7 +32,7 @@ bool CZColorBalance::operator==(const CZColorBalance & cb) const
 	return (redShift == cb.redShift && blueShift == cb.blueShift && greenShift == cb.greenShift);
 }
 
-/// 瀹炵幇coding 鎺ュ彛
+/// 实现coding 接口
 void CZColorBalance::update(CZDecoder *decoder_, bool deep /*= false*/)
 {
 	redShift = decoder_->decodeFloat("red");

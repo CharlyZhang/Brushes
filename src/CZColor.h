@@ -19,61 +19,61 @@
 class CZColor: public CZCoding 
 {
 public:
-	/// é»˜è®¤ç”¨rgbaæ¨¡å¼åˆå§‹åŒ–
+	/// Ä¬ÈÏÓÃrgbaÄ£Ê½³õÊ¼»¯
 	CZColor(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f){initWithRGB(r,g,b,a);};
-	/// é‡‡ç”¨RGBæ¨¡å¼åˆå§‹åŒ–
+	/// ²ÉÓÃRGBÄ£Ê½³õÊ¼»¯
 	void initWithRGB(float r, float g, float b, float a);
-	/// é‡‡ç”¨HSVæ¨¡å¼åˆå§‹åŒ–
+	/// ²ÉÓÃHSVÄ£Ê½³õÊ¼»¯
 	/// 
-	///		\param h - è‰²è°ƒ
-	///		\param s - é¥±å’Œåº¦
-	///		\param v - äº®åº¦
-	///		\param a - ä¸é€æ˜åº¦
+	///		\param h - É«µ÷
+	///		\param s - ±¥ºÍ¶È
+	///		\param v - ÁÁ¶È
+	///		\param a - ²»Í¸Ã÷¶È
 	void initWithHSV(float h, float s, float v, float a);
 
-	/// è¿”å›éšæœºé¢œè‰²
+	/// ·µ»ØËæ»úÑÕÉ«
 	static CZColor randomColor(); 
-	/// è¿”å›ç‰¹å®šé¢œè‰²çš„é™æ€å‡½æ•°
+	/// ·µ»ØÌØ¶¨ÑÕÉ«µÄ¾²Ì¬º¯Êı
 	static inline CZColor blackColor()				{ return CZColor(0.0f,0.0f,0.0f,1.0f);}
 	static inline CZColor whiteColor(float a=1.0f)	{ return CZColor(1.0f,1.0f,1.0f,a);}
 	static inline CZColor grayColor()				{ CZColor color; color.initWithHSV(0.0f,0.0f,0.25f,1.0f); return color;}
-	static inline CZColor cyanColor()				{ return CZColor(0.0f,1.0f,1.0f,1.0f);}	///< é’è‰²
+	static inline CZColor cyanColor()				{ return CZColor(0.0f,1.0f,1.0f,1.0f);}	///< ÇàÉ«
 	static inline CZColor redColor()				{ return CZColor(1.0f,0.0f,0.0f,1.0f);}
-	static inline CZColor magentaColor()			{ return CZColor(1.0f,0.0f,1.0f,1.0f);}	///< å“çº¢
+	static inline CZColor magentaColor()			{ return CZColor(1.0f,0.0f,1.0f,1.0f);}	///< Æ·ºì
 	static inline CZColor greenColor()				{ return CZColor(0.0f,1.0f,0.0f,1.0f);}
 	static inline CZColor yellowColor()				{ return CZColor(1.0f,1.0f,0.0f,1.0f);}
 	static inline CZColor blueColor()				{ return CZColor(0.0f,0.0f,1.0f,1.0f);}
 	
-	/// è¿”å›ä¸é€æ˜çš„è¯¥å€¼
+	/// ·µ»Ø²»Í¸Ã÷µÄ¸ÃÖµ
 	inline CZColor colorAdjustAlpha(float a_=1.0f)	{ return CZColor(red,green,blue,a_);}
-	/// è¿”å›å–åé¢œè‰²
+	/// ·µ»ØÈ¡·´ÑÕÉ«
 	inline CZColor colorInverted()					{ return CZColor(1.0f-red,1.0f-green,1.0f-blue,alpha);}
-	/// å»é¥±å’Œåº¦
+	/// È¥±¥ºÍ¶È
 	inline CZColor colorDesaturated()				{ CZColor color; color.initWithHSV(hue,0,brightness,alpha); return color;}
-	/// æ··åˆå…¶ä»–é¢œè‰²
+	/// »ìºÏÆäËûÑÕÉ«
 	CZColor colorBlend(const CZColor &c_, float fraction_);
 	
-	/// ç”¨RGBæ¨¡å¼è°ƒæ•´
+	/// ÓÃRGBÄ£Ê½µ÷Õû
 	void balanceRGB(float rShift, float gShift, float bShift);
-	/// ç”¨HSVæ¨¡å¼è°ƒæ•´
+	/// ÓÃHSVÄ£Ê½µ÷Õû
 	void adjustHSV(float hShift, float sShift, float bShift);
 
-	/// å°†HSVæ¨¡å¼çš„å€¼è½¬æ¢åˆ°ä¸€ä¸ªuint32ä¸­ï¼Œï¼ˆåˆ†åˆ«æ˜¯h,s,v,aï¼‰
+	/// ½«HSVÄ£Ê½µÄÖµ×ª»»µ½Ò»¸öuint32ÖĞ£¬£¨·Ö±ğÊÇh,s,v,a£©
 	uint32_t hash2Int();
 
-	/// åˆ¤æ–­æ˜¯å¦ç›¸ç­‰
+	/// ÅĞ¶ÏÊÇ·ñÏàµÈ
 	bool  operator==( const  CZColor & c_) const ;
-	/// èµ‹å€¼
+	/// ¸³Öµ
 	void  operator =( const  CZColor & p_); 
 
-	/// ç¼–è§£ç 
+	/// ±à½âÂë
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 
-	/// æˆå‘˜å˜é‡
-	float hue;				///< è‰²è°ƒ
-	float saturation;		///< é¥±å’Œåº¦
-	float brightness;		///< äº®åº¦
+	/// ³ÉÔ±±äÁ¿
+	float hue;				///< É«µ÷
+	float saturation;		///< ±¥ºÍ¶È
+	float brightness;		///< ÁÁ¶È
 	float alpha;		
 	float red;
 	float green;

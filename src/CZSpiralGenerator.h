@@ -21,12 +21,12 @@ public:
 	CZSpiralGenerator();
 	~CZSpiralGenerator(){};
 
-	/// åˆ›å»ºå±žæ€§
+	/// ´´½¨ÊôÐÔ
 	void buildProperties();
-	/// ç»˜åˆ¶å›¾æ¡ˆ
+	/// »æÖÆÍ¼°¸
 	void renderStamp();
 private:
-	/// ç»˜åˆ¶èžºæ—‹çº¿
+	/// »æÖÆÂÝÐýÏß
 	void drawSpiral(const CZ2DPoint &center_, float radius_);
 
 public:
