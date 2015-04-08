@@ -22,12 +22,7 @@ using namespace std;
 
 CZSpiralGenerator::CZSpiralGenerator()
 {
-	buildProperties();
-}
-
-/// 创建属性
-void CZSpiralGenerator::buildProperties()
-{
+	/// 创建属性
 	//density.title = NSLocalizedString(@"Density", @"Density");
 	density.value = 15;		///< ！先假设的
 	density.minimumValue = 1;

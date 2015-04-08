@@ -24,7 +24,8 @@ bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证
 //////////////////////////////////////////////////////////////////////////
 
 #if PATH_TEX || BRUSH_TEX
-CZBrush *brush = new CZBrush(new CZSpiralGenerator);
+CZStampGenerator *stampGen =  new CZSpiralGenerator;
+CZBrush *brush = new CZBrush(stampGen);
 CZBrushPreview *priew;// = CZBrushPreview::getInstance();
 CZTexture *brushTex = 0;
 #endif
@@ -86,7 +87,7 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	priew->setBrush(brush);
 #endif
 #if BRUSH_TEX
-	brushTex = CZTexture::produceFromImage(priew->getBrushImage());
+	brushTex = CZTexture::produceFromImage(stampGen->getStamp());
 	glBindTexture(GL_TEXTURE_2D, brushTex->texId);
 #endif
 #if PATH_TEX

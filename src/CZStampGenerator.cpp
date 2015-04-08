@@ -23,7 +23,6 @@ CZStampGenerator::CZStampGenerator()
 
 	size = CZSize(kBrushDimension, kBrushDimension);
 
-	//rawProperties = [NSMutableDictionary dictionary];
 	scale = 1.0f;
 
 	baseDimension = kBrushDimension;
@@ -48,12 +47,6 @@ CZStampGenerator::~CZStampGenerator()
 		delete randomizer;
 		randomizer = NULL;
 	}
-}
-
-/// 创建属性（虚函数）
-void CZStampGenerator::buildProperties()
-{
-	std::cout<<" CZStampGenerator::buildProperties - Unimplemented method \n";
 }
 
 /// 绘制图案（虚函数）

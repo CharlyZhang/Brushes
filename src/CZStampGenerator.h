@@ -35,8 +35,6 @@ public:
 	void resetSeed();
 	///
 	void randomize(){};
-	/// 创建属性
-	virtual void buildProperties();
 	/// 绘制图案
 	virtual void renderStamp();//:(CGContextRef)ctx randomizer:(WDRandom *)randomizer;
 	/// 获取笔刷图案

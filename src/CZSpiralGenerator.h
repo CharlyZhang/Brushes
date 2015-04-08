@@ -21,8 +21,6 @@ public:
 	CZSpiralGenerator();
 	~CZSpiralGenerator(){};
 
-	/// 创建属性
-	void buildProperties();
 	/// 绘制图案
 	void renderStamp();
 private:
