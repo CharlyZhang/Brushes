@@ -16,18 +16,17 @@
 #ifndef _CZPATH_H_
 #define _CZPATH_H_
 
-#include "CZGeometry.h"
-#include "CZ3DPoint.h"
-#include "CZBrush.h"
-#include "CZBezierSegment.h"
-#include "CZRandom.h"
-#include "CZCommon.h"
-#include "CZColor.h"
 #include "CZCoding.h"
+#include "CZColor.h"
+#include "CZGeometry.h"
 #include <vector>
 
+class CZ2DPoint;
+class CZ3DPoint;
+class CZBezierNode;
+class CZRandom;
+class CZBrush;
 class CZRender;
-
 typedef enum 
 {
     CZPathActionPaint,

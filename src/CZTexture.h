@@ -12,20 +12,13 @@
 #ifndef _CZTEXTURE_H_
 #define _CZTEXTURE_H_
 
-#include "Macro.h"
-#include "CZCommon.h"
-#include "CZImage.h"
-#include <iostream>
-
-#if USE_OPENGL
-	#include "GL/glew.h"
-#endif
+#include "CZImage.h"		// for PixDataType definition
 
 class CZTexture
 {
 public:
 	enum TexType {BrushTex,RenderTex};
-	CZTexture(int width_, int height_, TexType texType_ = RenderTex, PixDataType *data = NULL);
+	CZTexture(int width_, int height_, TexType texType_ = RenderTex, PixDataType *data = 0);
 	~CZTexture();
 	/// 由CZImage生成纹理
 	static CZTexture* produceFromImage(CZImage *img, bool deepColor = false);
@@ -36,9 +29,9 @@ public:
 
 protected:
 	/// 初始化渲染纹理
-	void initRenderTex(PixDataType *data = NULL);
+	void initRenderTex(PixDataType *data = 0);
 	/// 初始化笔刷纹理
-	void initBrushTex(PixDataType *data = NULL);
+	void initBrushTex(PixDataType *data = 0);
 
 public:
 	unsigned int texId;

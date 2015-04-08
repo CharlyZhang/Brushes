@@ -12,16 +12,9 @@
 #ifndef __CZSHADER_H_
 #define __CZSHADER_H_
 
-#include <stdio.h>
 #include <vector>
 #include <string>
 #include <map>
-#include "Macro.h"
-
-#if USE_OPENGL
-#include "GL/glew.h"
-#endif
-
 
 class CZShader
 {

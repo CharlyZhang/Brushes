@@ -10,12 +10,14 @@
 ///  \note
 
 #include "CZBrushPreview.h"
+#include "Macro.h"
+#include "CZBrush.h"
 #include "CZBezierNode.h"
 #include "CZGeometry.h"
+#include "CZStampGenerator.h"
+#include "CZPath.h"
 #include "CZUtil.h"
 #include "CZMat4.h"
-#include "GL/glut.h"
-#include "Macro.h"
 
 #include <vector>
 #include <cmath>

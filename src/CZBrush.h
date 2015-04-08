@@ -13,19 +13,16 @@
 #define _CZBRUSH_H_
 
 #include "CZProperty.h"
-#include "CZTexture.h"
-#include "CZImage.h"
-#include "CZStampGenerator.h"
+#include "CZStampGenerator.h"		// for CZGeneratorDelegate
 #include "CZCoding.h"
-#include <iostream>		// for NULL
 #include <vector>
 #include <string>
-
-class CZStampGenerator;
 
 extern std::string CZBrushPropertyChanged;
 extern std::string CZBrushGeneratorChanged;
 extern std::string CZBrushGeneratorReplaced;
+
+class CZImage;
 
 class CZBrush :public CZCoding, public CZPropertyDelegate, public CZGeneratorDelegate
 {

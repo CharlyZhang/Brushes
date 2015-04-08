@@ -14,12 +14,7 @@
 #ifndef _CZFBO_H_
 #define _CZFBO_H_
 
-#include "CZTexture.h"
-#include <iostream>
-
-#if USE_OPENGL
-    #include "GL/glew.h"
-#endif
+class CZTexture;
 
 class CZFbo
 {

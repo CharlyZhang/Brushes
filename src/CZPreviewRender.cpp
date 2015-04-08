@@ -14,6 +14,10 @@
 #include "CZBrushPreview.h"
 #include "CZUtil.h"
 
+#if USE_OPENGL
+#include "GL/glew.h"
+#endif
+
 using namespace  std;
 
 CZPreviewRender::CZPreviewRender()

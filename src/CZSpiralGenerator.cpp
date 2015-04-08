@@ -61,7 +61,7 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_)
 	int         segments = 15;
 	float       decay = 80;
 	float       b = 1.0f - (decay / 100.f);
-	float       a = radius_ / pow(M_E, b * segments * M_PI_4);
+	float       a = (float) radius_ / pow(M_E, b * segments * M_PI_4);
 
 	//CGMutablePathRef pathRef = CGPathCreateMutable();
 	vector<CZBezierNode> nodes;

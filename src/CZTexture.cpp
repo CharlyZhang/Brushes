@@ -13,11 +13,19 @@
 #include "CZUtil.h"
 #include <iostream>
 
+#if USE_OPENGL
+#include "GL/glew.h"
+#elif USE_OPENGL_ES
+#import <OpenGLES/EAGL.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h
+#endif
+
 using namespace std;
 
 bool CZTexture::supportColor = CZcanUseHDTexture();
 
-CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */, float *data /* = NULL */)
+CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */, PixDataType *data /* = NULL */)
 {
 	width = width_;
 	height = height_;
@@ -42,9 +50,7 @@ CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */
 
 CZTexture::~CZTexture()
 {
-#if USE_OPENGL
 	glDeleteTextures(1, &texId);
-#endif
 }
 
 CZTexture* CZTexture::produceFromImage(CZImage *img, bool deepColor /*= false*/)
@@ -77,10 +83,12 @@ void CZTexture::enableLinearInterprolation(float flag)
 }
 
 /// 初始化渲染纹理
-void CZTexture::initRenderTex(float *data /* = NULL */)
+void CZTexture::initRenderTex(PixDataType *data /* = NULL */)
 {
 	glGenTextures (1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
+
+#if USE_OPENGL
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -91,26 +99,33 @@ void CZTexture::initRenderTex(float *data /* = NULL */)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0,
 		GL_RGBA, GL_FLOAT,(void*)data);
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-#if 0 /// painting 里的生成纹理
+#elif USE_OPENGL_ES
+	/// painting 里的生成纹理
 	// Set up filter and wrap modes for this texture object
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	CZCheckGLError();
+	GLenum      type = supportColor ? GL_HALF_FLOAT_OES : GL_UNSIGNED_BYTE;
+	//NSUInteger  bytesPerPixel = supportColor ? 8 : 4;
 
-	GLenum      type = deepColor ? GL_HALF_FLOAT_OES : GL_UNSIGNED_BYTE;
-	NSUInteger  bytesPerPixel = deepColor ? 8 : 4;
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)data);
+	CZCheckGLError();
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, type, pixels);
-
-	WDCheckGLError();
+	if(width == height) /// in fact, both width and height should be power of two
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); ///! originally GL_LINEAR
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	CZCheckGLError();
+	glBindTexture(GL_TEXTURE_2D, 0);
 #endif
-
+	CZCheckGLError();
 }
 
 /// 初始化笔刷纹理（！目前仍然未能实现FBO直接渲染灰度图）
-void CZTexture::initBrushTex(float *data /* = NULL */)
+void CZTexture::initBrushTex(PixDataType *data /* = NULL */)
 {
 	glGenTextures (1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);

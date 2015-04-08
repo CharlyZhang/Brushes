@@ -20,11 +20,14 @@
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
 
-#if USE_OPENGL_ES
+#if USE_OPENGL
+#include "GL/glew.h"
+#elif USE_OPENGL_ES
 #include <OpenGLES/EAGL.h>
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 #endif
+
 using namespace  std;
 
 CZPaintingRender::CZPaintingRender(const CZSize &size)
@@ -38,6 +41,7 @@ CZPaintingRender::CZPaintingRender(const CZSize &size)
 
 	brushTex = NULL;
 	activePaintTexture = NULL;
+	fbo = new CZFbo;
 
 	resize(size);
 
@@ -55,17 +59,10 @@ CZPaintingRender::~CZPaintingRender()
 	setContext();
 	
 	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
-	if (quadVAO)
-    {
-#if USE_OPENGL
-        glDeleteVertexArrays(1,&quadVAO);
-#elif USE_OPENGL_ES
-        glDeleteVertexArraysOES(1, &quadVAO);
-#endif
-        quadVAO = 0;
-    }
+	if (quadVAO) { GL_DEL_VERTEXARRAY(1, &quadVAO);	quadVAO = 0;}
 	if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
 	if (brushTex) { delete brushTex; brushTex = NULL;}
+	if (fbo) { delete fbo; fbo = NULL;}
 
 	/// 删除着色器
 	for(map<string,CZShader*>::iterator itr = shaders.begin(); itr!=shaders.end(); itr++)
@@ -197,13 +194,8 @@ CZImage * CZPaintingRender::drawPaintingImage(CZSize & size, CZColor *bgColor)
 		layer->blit(projection);
 	}
 
-	CZImage *ret;
-#if USE_OPENGL
-	ret = new CZImage(w,h,CZImage::RGBA);
-	glReadPixels(0, 0, w, h, GL_RGBA, GL_FLOAT, ret->data);
-#elif USE_OPENGL_ES
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ret->data);
-#endif
+	CZImage *ret = new CZImage(w,h,CZImage::RGBA);
+	glReadPixels(0, 0, w, h, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
 	fbo->end();
 
@@ -246,14 +238,8 @@ CZImage *CZPaintingRender::drawPaintingCurrentState(CZColor *bgColor)
 				layer->blit(projectionMat);
 	}
 
-	CZImage *ret;
-    
-    ret = new CZImage(width,height,CZImage::RGBA);
-#if USE_OPENGL
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
-#elif USE_OPENGL_ES
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ret->data);
-#endif
+	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
 	fbo->end();
 
@@ -343,12 +329,8 @@ CZImage *CZPaintingRender::drawLayerInRect(const CZRect &rect)
     
 	shader->end();
 
-	CZImage *ret = new CZImage(w,h,CZImage::RGBA);
-#if USE_OPENGL
-	glReadPixels(0, 0, w, h, GL_RGBA, GL_FLOAT, ret->data);
-#elif USE_OPENGL_ES
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, ret->data);
-#endif
+	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
 	fbo->end();
 
@@ -705,14 +687,9 @@ GLuint CZPaintingRender::getQuadVAO()
 			0.0, (GLfloat)height, 0.0, 1.0,
 			(GLfloat)width, (GLfloat)height, 1.0, 1.0,
 		};
-#if USE_OPENGL_ES
-		glGenVertexArraysOES(1, &quadVAO);
-		glBindVertexArrayOES(quadVAO);
-#endif
-#if USE_OPENGL
-		glGenVertexArrays(1, &quadVAO);
-		glBindVertexArray(quadVAO);
-#endif
+
+		GL_GEN_VERTEXARRAY(1,&quadVAO);
+		GL_BIND_VERTEXARRAY(quadVAO);
 		// create, bind, and populate VBO
 		glGenBuffers(1, &quadVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
@@ -725,11 +702,8 @@ GLuint CZPaintingRender::getQuadVAO()
 		glEnableVertexAttribArray(1);
 
 		glBindBuffer(GL_ARRAY_BUFFER,0);
-#if USE_OPENGL
-		glBindVertexArray(0);
-#elif USE_OPENGL_ES
-        glBindVertexArrayOES(0);
-#endif
+
+		GL_BIND_VERTEXARRAY(0);
 	}
 
 	return quadVAO;
@@ -740,7 +714,7 @@ CZTexture* CZPaintingRender::getPaintTexture()
 {
 	if(!activePaintTexture)
 	{
-		//setContext
+		setContext();
 		activePaintTexture = new CZTexture(width,height);
 	}
 	return activePaintTexture;
@@ -825,7 +799,9 @@ void CZPaintingRender::changeBrushTex(CZBrush *brush)
 	if (brushTex) { delete brushTex; brushTex = NULL;}
 
 	CZStampGenerator *gen = brush->generator;
-	brushTex = CZTexture::produceFromImage(gen->getStamp(false));		///< get the normal stamp;
+	CZImage *img = gen->getStamp(false);
+	setContext();
+	brushTex = CZTexture::produceFromImage(img);		///< get the normal stamp;
 }
 
 /// 调整绘制器大小
@@ -839,15 +815,7 @@ void CZPaintingRender::resize(const CZSize &size)
 	projectionMat.SetOrtho(0,width,0,height,-1.0f,1.0f);
 
 	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
-	if (quadVAO)
-    {
-#if USE_OPENGL
-        glDeleteVertexArrays(1,&quadVAO);
-#elif USE_OPENGL_ES
-        glDeleteVertexArraysOES(1,&quadVAO);
-#endif
-        quadVAO = 0;
-    }
+	if (quadVAO) { GL_DEL_VERTEXARRAY(1,&quadVAO); quadVAO = 0;}
 }
 
 /// 绘制矩形
@@ -894,18 +862,9 @@ void CZPaintingRender::drawRect(const CZRect &rect, const CZAffineTransform &tra
 /// draw quad
 void CZPaintingRender::drawQuad()
 {
-#if USE_OPENGL
-	glBindVertexArray(getQuadVAO());
-#elif USE_OPENGL_ES
-    glBindVertexArrayOES(getQuadVAO());
-#endif
+	GL_BIND_VERTEXARRAY(getQuadVAO());
     
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    
-#if USE_OPENGL
-	glBindVertexArray(0);
-#elif USE_OPENGL_ES
-    glBindVertexArrayOES(0);
-#endif
-    
+  
+	GL_BIND_VERTEXARRAY(0);
 }

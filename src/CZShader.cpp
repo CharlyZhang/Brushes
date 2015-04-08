@@ -10,7 +10,13 @@
 ///  \note
 
 #include "CZShader.h"
+#include "Macro.h"
 #include <iostream>
+
+#if USE_OPENGL
+#include "GL/glew.h"
+#endif
+
 using namespace std;
 
 // Error, Warning and Info Strings

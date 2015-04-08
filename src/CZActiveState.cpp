@@ -10,6 +10,8 @@
 ///  \note		It is a Singleton
 
 #include "CZActiveState.h"
+#include "Macro.h"
+#include "CZBrush.h"
 #include "CZSpiralGenerator.h"
 #include "CZFreehandTool.h"
 #include "CZEraserTool.h"

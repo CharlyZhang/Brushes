@@ -12,13 +12,14 @@
 #ifndef _CZACTIVESTATE_H_
 #define _CZACTIVESTATE_H_
 
-#include "CZStampGenerator.h"
 #include "CZColor.h"
-#include "CZBrush.h"
-#include "CZTool.h"
 #include <string>
 #include <vector>
 #include <map>
+
+class CZStampGenerator;
+class CZTool;
+class CZBrush;
 
 /// ¼¤»î×´Ì¬Àà
 class CZActiveState

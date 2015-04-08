@@ -10,10 +10,14 @@
 ///  \note
 
 #include "CZPath.h"
+#include "Macro.h"
+#include "CZ3DPoint.h"
+#include "CZBrush.h"
+#include "CZBezierNode.h"
+#include "CZRandom.h"
 #include "CZAffineTransform.h"
 #include "CZUtil.h"
 #include "CZRender.h"
-#include "Macro.h"
 #include <cmath>				
 #include <iostream>
  

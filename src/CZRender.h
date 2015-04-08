@@ -18,12 +18,19 @@
 #include "CZImage.h"
 #include "CZUtil.h"
 
-#if USE_OPENGL
-#include "GL/glut.h"
-#endif
-
 #include <map>
 #include <string>
+
+#if	USE_OPENGL_ES
+	#define GL_GEN_VERTEXARRAY(n,arr)	glGenVertexArraysOES(n, arr)
+	#define GL_BIND_VERTEXARRAY(id)		glBindVertexArrayOES(id)
+	#define	GL_DEL_VERTEXARRAY(n,arr)	glDeleteVertexArraysOES(n,arr)
+#elif	USE_OPENGL
+	#define GL_GEN_VERTEXARRAY(n,arr)	glGenVertexArrays(n, arr)
+	#define GL_BIND_VERTEXARRAY(id)		glBindVertexArray(id)
+	#define	GL_DEL_VERTEXARRAY(n,arr)	glDeleteVertexArrays(n,arr)
+#endif
+
 
 /// 定义CZPath最终绘制数据格式
 typedef struct 

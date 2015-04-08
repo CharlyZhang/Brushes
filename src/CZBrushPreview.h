@@ -9,10 +9,11 @@
 ///  \date		2014-09-16
 ///  \note
 
-#include "CZPath.h"
-#include "CZPreviewRender.h"
-#include "CZImage.h"
 #include "CZNotificationCenter.h"
+#include "CZPreviewRender.h"
+class CZImage;
+class CZPath;
+class CZBrush;
 
 class CZBrushPreview : public CZObserver
 {

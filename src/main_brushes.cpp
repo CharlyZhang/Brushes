@@ -165,7 +165,7 @@ GLvoid DrawGLScene(GLvoid)
 	
 #if RENDER_FREEHAND
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,painting->getRender()->getPaintTexture()->id);
+	glBindTexture(GL_TEXTURE_2D,painting->getRender()->getPaintTexture()->texId);
 #endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);

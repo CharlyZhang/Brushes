@@ -10,6 +10,13 @@
 ///  \note
 
 #include "CZFbo.h"
+#include "Macro.h"
+#include "CZTexture.h"
+#include <iostream>
+
+#if USE_OPENGL
+#include "GL/glew.h"
+#endif
 
 using namespace  std;
 

@@ -13,6 +13,11 @@
 #include "CZStampGenerator.h"
 #include <vector>
 #include <string>
+
+#if USE_OPENGL
+#include "GL/glew.h"
+#endif
+
 using namespace std;
 
 CZStampRender::CZStampRender()
@@ -32,9 +37,9 @@ CZStampRender::CZStampRender()
 	uniforms.push_back("mvpMat");
 	shader = new CZShader("stamp.vert","stamp.frag",attributes,uniforms);
 
-	CZCheckGLError();
-
 	fbo = new CZFbo;
+
+	CZCheckGLError();
 }
 CZStampRender::~CZStampRender()
 {
@@ -56,7 +61,9 @@ void CZStampRender::configure(int w, int h)
 /// 生成stamp图像
 CZImage *CZStampRender::drawStamp()
 {
-	glDisable(GL_TEXTURE_2D);
+	setContext();
+
+	//glDisable(GL_TEXTURE_2D);
 
 	fbo->begin();
 	glClearColor(0,0,0,0);
@@ -70,7 +77,7 @@ CZImage *CZStampRender::drawStamp()
 	shader->end();
 
 	CZImage *ret = new CZImage(width,height,CZImage::RGBA);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, ret->data);
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
 	fbo->end();
 
@@ -81,16 +88,17 @@ CZImage *CZStampRender::drawStamp()
 void CZStampRender::drawSpiralData(std::vector<CZ2DPoint> &points)
 {
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
-	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
 	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
 	glLineWidth(w);
 	//glPointSize(w*0.7);   // NOT SUPPORTED IN ES
-
-	GLfloat c = rand()*1.0/RAND_MAX;
-	glColor4f(c,c,c,c);
 	int n = points.size();
     
 #if USE_OPENGL
+	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+
+	GLfloat c = rand()*1.0/RAND_MAX;
+	glColor4f(c,c,c,c);
+
 	GLuint mVertexBufferObject;
 	// 装载顶点
 	glGenBuffers(1, &mVertexBufferObject);
@@ -111,13 +119,15 @@ void CZStampRender::drawSpiralData(std::vector<CZ2DPoint> &points)
 
 	/// 消除
 	glDeleteBuffers(1, &mVertexBufferObject);
+
+	glDisable(GL_LINE_SMOOTH);
+
 #elif USE_OPENGL_ES
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ2DPoint), &points[0].x);
     glEnableVertexAttribArray(0);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
+    glDrawArrays(GL_LINE_STRIP, 0, n);
     glDisableVertexAttribArray(0);
 #endif
-	glDisable(GL_LINE_SMOOTH);
 }
 void CZStampRender::drawSpiralData(std::vector<CZ3DPoint> &points)
 {
@@ -154,7 +164,13 @@ void CZStampRender::drawSpiralData(std::vector<CZ3DPoint> &points)
 	glDeleteBuffers(1, &mVertexBufferObject);
 
 	//glDisable(GL_LINE_SMOOTH);
+
+#elif USE_OPENGL_ES
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ2DPoint), &points[0].x);
+	glEnableVertexAttribArray(0);
+	glDrawArrays(GL_LINE_STRIP, 0, n);
+	glDisableVertexAttribArray(0);
+#endif
 	CZCheckGLError();
 
-#endif
 }

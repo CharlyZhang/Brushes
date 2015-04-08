@@ -10,9 +10,13 @@
 ///  \note
 
 #include "CZImage.h"
-#include <iostream>
+#include "Macro.h"
 
-CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGB */)
+#ifndef NULL
+#define NULL 0
+#endif
+
+CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGBA */)
 {
 	width = w_;
 	height = h_;

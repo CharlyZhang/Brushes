@@ -12,14 +12,14 @@
 #ifndef _CZUTIL_H_
 #define _CZUTIL_H_
 
-#include "CZGeometry.h"
-#include "CZShader.h"
-#include "CZBezierNode.h"
 #include "Macro.h"
-//#include "gl/glew.h"
+#include <iostream>
 #include <vector>
 #include <string>
 #include <map>
+
+class CZBezierNode;
+class CZ3DPoint;
 
 void CZCheckGLError_(const char *file, int line);
 
@@ -31,7 +31,9 @@ void CZCheckGLError_(const char *file, int line);
 
 #define LOG_STRING 
 
-#define NULL		0
+#ifndef NULL 
+	#define NULL		0
+#endif
 #define M_E        2.71828182845904523536
 #define M_PI       3.14159265358979323846
 #define M_PI_2     1.57079632679489661923
