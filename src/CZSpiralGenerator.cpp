@@ -18,6 +18,10 @@
 #include <cmath>
 #include "CZBezierNode.h"
 
+#if USE_OPENGL
+#include "GL/glew.h"
+#endif
+
 using namespace std;
 
 CZSpiralGenerator::CZSpiralGenerator()
@@ -107,13 +111,46 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_)
 
 	vector<CZ3DPoint> points;
 	flattenNodes2Points(nodes,false,points);
-	CZStampRender::getInstance()->drawSpiralData(points);
-	/*
-	CGContextAddPath(ctx, pathRef);
-	CGContextSetGrayStrokeColor(ctx, [random nextFloat], 1.0f);
-	CGContextSetLineWidth(ctx, [random nextFloat] * 9 + 1);
-	CGContextSetLineCap(ctx, kCGLineCapRound);
-	CGContextStrokePath(ctx);
-	CGPathRelease(pathRef);
-	*/
+
+#if USE_OPENGL
+	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
+	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
+	glLineWidth(w);
+	glPointSize(w*0.7);
+
+	GLfloat c = rand()*1.0/RAND_MAX;
+	glColor4f(c,c,c,c);
+	int n = points.size();
+
+	GLuint mVertexBufferObject;
+	// 装载顶点
+	glGenBuffers(1, &mVertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, n * sizeof(CZ3DPoint), &points[0].x, GL_STREAM_DRAW);
+
+
+	// 绑定顶点
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(CZ3DPoint),0);
+
+	/// 绘制
+	glDrawArrays(GL_LINE_STRIP,0,n);
+
+	glDisableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	/// 消除
+	glDeleteBuffers(1, &mVertexBufferObject);
+
+	//glDisable(GL_LINE_SMOOTH);
+
+#elif USE_OPENGL_ES
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ2DPoint), &points[0].x);
+	glEnableVertexAttribArray(0);
+	glDrawArrays(GL_LINE_STRIP, 0, n);
+	glDisableVertexAttribArray(0);
+#endif
+	CZCheckGLError();
 }

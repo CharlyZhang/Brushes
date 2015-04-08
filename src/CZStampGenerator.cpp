@@ -12,10 +12,25 @@
 #include "CZStampGenerator.h"
 #include <stdlib.h>				// for rand()
 #include "CZBrush.h"
+#include "CZFbo.h"
+#include "CZShader.h"
+#include "CZTexture.h"
+#include "CZImage.h"
+#include "CZUtil.h"
+#include "CZMat4.h"
+#include "CZGeometry.h"
+#include "CZ3DPoint.h"
+#include <vector>
 #include <iostream>
+
+#if USE_OPENGL
+#include "GL/glew.h"
+#endif
 
 #define kSmallStampSize 64
 #define kBrushDimension 512		///< 笔刷图案默认大小
+
+using namespace std;
 
 CZStampGenerator::CZStampGenerator()
 {
@@ -98,11 +113,36 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
 /// 生成笔刷图案~
 CZImage *CZStampGenerator::generateStamp()
 {
-	CZStampRender *ptrRender = CZStampRender::getInstance();
+	//setContext();
 
-	ptrRender->configure(size.width, size.height);
-	ptrRender->ptrGenerator = this;
-	CZImage *ret = ptrRender->drawStamp();
+	//glDisable(GL_TEXTURE_2D);
+
+	vector<string> attributes, uniforms;
+	attributes.push_back("inPosition");
+	uniforms.push_back("mvpMat");
+	CZShader shader("stamp.vert","stamp.frag",attributes,uniforms);
+	CZFbo fbo;
+	CZMat4 projMat;	
+	CZCheckGLError();
+
+	fbo.setColorRenderBuffer(size.width,size.height);	
+	projMat.SetOrtho(0.0f ,size.width, 0.0f, size.height, -1.0f, 1.0f);
+
+	fbo.begin();
+	glClearColor(0,0,0,0);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	shader.begin();
+
+	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	renderStamp();
+
+	shader.end();
+
+	CZImage *ret = new CZImage(size.width,size.height,CZImage::RGBA);
+	glReadPixels(0, 0, size.width, size.height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
+
+	fbo.end();
 
 	return ret;
 }
