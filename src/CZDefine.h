@@ -5,6 +5,8 @@
 /*#include <iostream>*/
 #include <stdio.h>
 
+#define GLSL_DIR	"../src/glsl/"
+
 #define UINT32 unsigned int
 
 #ifndef NULL 
@@ -16,6 +18,12 @@
 #define M_PI_2     1.57079632679489661923
 #define M_PI_4     0.785398163397448309616
 
+
+/******************************
+ * common define
+ *****************************/
+#define PAINTING_BASE_UID	10000
+#define LAYER_BASE_UID		20000
 
 //#define CZ_DEBUG		1		// for debugging
 //#define USE_OPENGL		1

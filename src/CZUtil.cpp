@@ -11,19 +11,14 @@
 
 #include "CZUtil.h"
 #include "CZBezierSegment.h"
-#include "Macro.h"
-#include "gl/glut.h"
+#include "CZ3DPoint.h"
+#include "CZDefine.h"
+#include "graphic/glDef.h"
 
 using namespace std;
 
-/// 取随机数[0,1]
-float CZRandomFloat()
-{
-	return rand()*1.0f / RAND_MAX;
-}
-
 /// 不同颜色模式的转换
-void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b)
+void CZUtil::HSVtoRGB(float h, float s, float v, float &r, float &g, float &b)
 {
 	if (s == 0) 
 	{
@@ -59,7 +54,7 @@ void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b)
 		}
 	}
 }   
-void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
+void CZUtil::RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
 {
 	float max = Max(r, Max(g, b));
 	float min = Min(r, Min(g, b));
@@ -93,6 +88,45 @@ void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
 	h /= 360.0f;
 }
 
+/// 生UUID
+char* CZUtil::generateUUID()
+{
+	char *buf = new char[37];
+
+	const char *c = "89ab";
+	char *p = buf;
+	int n;
+	for( n = 0; n < 16; ++n )
+	{
+		int b = rand()%255;
+		switch( n )
+		{
+		case 6:
+			sprintf(p, "4%x", b%15 );
+			break;
+		case 8:
+			sprintf(p, "%c%x", c[rand()%strlen(c)], b%15 );
+			break;
+		default:
+			sprintf(p, "%02x", b);
+			break;
+		}
+
+		p += 2;
+		switch( n )
+		{
+		case 3:
+		case 5:
+		case 7:
+		case 9:
+			*p++ = '-';
+			break;
+		}
+	}
+	*p = 0;
+	return buf;
+}
+
 /// 将一连串结点打散，相邻结点用三次贝塞尔曲线连接
 /// 
 ///		两个结点（nodes）形成一根三次贝塞尔曲线，再将曲线打散成若干个绘制点（points）
@@ -100,7 +134,7 @@ void RGBtoHSV(float r, float g, float b, float &h, float &s, float &v)
 ///		/param nodes		- 连续的三维结点
 ///		/param points		- 离散后得到的绘制点容器
 ///		/return				- 离散后得到的绘制点数目
-unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
+unsigned int CZUtil::flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
 {
 	int numNodes = nodes.size();
 
@@ -130,13 +164,32 @@ unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed,
 }
 
 /// 判断是否支持深度颜色
-bool CZcanUseHDTexture()
+bool CZUtil::canUseHDTexture()
 {
 	return true;
 }
 
+void CZUtil::CZCheckGLError_(const char *file, int line)
+{
+	int    retCode = 0;
+	GLenum glErr = glGetError();
+
+	while (glErr != GL_NO_ERROR) 
+	{
+		const GLubyte* sError = gluErrorString(glErr);
+
+		if (sError)
+			LOG_INFO("GL Error #%d (%s) in File %s at line: %d\n",glErr,gluErrorString(glErr),file,line);
+		else
+			LOG_INFO("GL Error #%d (no message available) in File %s at line: %d\n",glErr,file,line);
+		retCode = 1;
+		glErr = glGetError();
+	}
+	//return retCode;
+};
+
 /// 正弦函数,由[0,1]到[0,1] -CZFreehandTool类引用
-float sineCurve(float input)
+float CZUtil::sineCurve(float input)
 {
 	float result;
 
@@ -149,13 +202,12 @@ float sineCurve(float input)
 	return result;
 }
 
-#include <iostream>
 
-void checkPixels(int w_, int h_)
+void CZUtil::checkPixels(int w_, int h_)
 {
 	float *pix = new float[w_*h_*4];
 	glReadPixels(0,0,w_,h_,GL_RGBA, GL_FLOAT,pix);
-	
+
 	bool over = false;
 	for(int i=0; i<h_; i++)
 	{
@@ -166,43 +218,18 @@ void checkPixels(int w_, int h_)
 				pix[4*ind+1] != 0 ||
 				pix[4*ind+2] != 0 ||
 				pix[4*ind+3] != 1.0)
-				
-				cout << i <<"\t" << j << endl;
-				cout << pix[4*ind+0] << "\t"
-						  << pix[4*ind+1] << "\t"
-						  << pix[4*ind+2] << "\t"
-						  << pix[4*ind+3] << "\n";
-				over =true;
-				//break;
+
+				LOG_INFO("(%d,%d):%f\t%f\t%f\t%f\n",i,j,pix[4*ind+0],pix[4*ind+1],
+				pix[4*ind+2],pix[4*ind+3]);
+			over =true;
+			//break;
 		}
 		//if(over) break;
 	}
 
-	cout << "finished!\n";
+	LOG_INFO("finished!\n");
 
 	delete [] pix;
 }
-
-
-void CZCheckGLError_(const char *file, int line)
-{
-	GLenum glErr;
-	int    retCode = 0;
-
-	glErr = glGetError();
-	while (glErr != GL_NO_ERROR) 
-	{
-		const GLubyte* sError = gluErrorString(glErr);
-
-		if (sError)
-			cout << "GL Error #" << glErr << "(" << gluErrorString(glErr) << ") " << " in File " << file << " at line: " << line << endl;
-		else
-			cout << "GL Error #" << glErr << " (no message available)" << " in File " << file << " at line: " << line << endl;
-
-		retCode = 1;
-		glErr = glGetError();
-	}
-	//return retCode;
-};
 
 

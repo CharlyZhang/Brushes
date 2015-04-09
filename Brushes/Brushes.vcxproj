@@ -12,15 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\memo.txt" />
-    <None Include="..\src\shader\blit.frag" />
-    <None Include="..\src\shader\blit.vert" />
-    <None Include="..\src\shader\blitWithMask.frag" />
-    <None Include="..\src\shader\brush.frag" />
-    <None Include="..\src\shader\brush.vert" />
-    <None Include="..\src\shader\compositeWithEraseMask.frag" />
-    <None Include="..\src\shader\compositeWithMask.frag" />
-    <None Include="..\src\shader\stamp.frag" />
-    <None Include="..\src\shader\stamp.vert" />
+    <None Include="..\src\glsl\blit.frag" />
+    <None Include="..\src\glsl\blit.vert" />
+    <None Include="..\src\glsl\blitWithMask.frag" />
+    <None Include="..\src\glsl\brush.frag" />
+    <None Include="..\src\glsl\brush.vert" />
+    <None Include="..\src\glsl\compositeWithEraseMask.frag" />
+    <None Include="..\src\glsl\compositeWithMask.frag" />
+    <None Include="..\src\glsl\stamp.frag" />
+    <None Include="..\src\glsl\stamp.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\basic\CZImage.cpp" />

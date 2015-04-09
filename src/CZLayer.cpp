@@ -221,7 +221,7 @@ bool CZLayer::setOpacity(float o)
 {
 	if(opacity == o) return false;
 
-	opacity = CZClamp(0.0f,1.0f,o);
+	opacity = CZUtil::Clamp(0.0f,1.0f,o);
 	return true;
 }
 /// 获取不透明度

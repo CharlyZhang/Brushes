@@ -93,7 +93,7 @@ CZRect CZPath::paintPath(CZRender *render,CZRandom *randomizer_)
 	else 
 	{
 		std::vector<CZ3DPoint> linePoints;		/// <贝塞尔曲线的绘制点
-		int numPoints = flattenNodes2Points(nodes,closed,linePoints);
+		int numPoints = CZUtil::flattenNodes2Points(nodes,closed,linePoints);
 
 		if(ptrBrush == NULL) 
 		{
@@ -335,7 +335,7 @@ void CZPath::paintStamp(CZRandom *randomizer)
 	float brushSize = weight;
 	float rotationalScatter = randomizer->nextFloat() * ptrBrush->rotationalScatter.value * M_PI * 2;
 	float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);
-	float alpha = Max(0.01, ptrBrush->intensity.value);
+	float alpha = CZUtil::Max(0.01, ptrBrush->intensity.value);
 
 	points.push_back(start);
 	sizes.push_back(brushSize);
@@ -382,7 +382,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 
 		int sign = this->ptrBrush->weightDynamics.value >= 0 ? 0:1;
 		float p = sign ? pressure : (1.0f - pressure);
-		float brushSize = Max(1, weight - fabs(ptrBrush->weightDynamics.value) * p * weight);
+		float brushSize = CZUtil::Max(1, weight - fabs(ptrBrush->weightDynamics.value) * p * weight);
 
 		float rotationalScatter = randomizer->nextFloat() * ptrBrush->rotationalScatter.value * M_PI * 2;
 		float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);
@@ -397,14 +397,14 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 
 		sign = sign = ptrBrush->intensityDynamics.value >= 0 ? 0:1;
 		p = sign ? pressure : (1.0f - pressure);
-		float alpha = Max(0.01, ptrBrush->intensity.value - fabs(ptrBrush->intensityDynamics.value) * p * ptrBrush->intensity.value);
+		float alpha = CZUtil::Max(0.01, ptrBrush->intensity.value - fabs(ptrBrush->intensityDynamics.value) * p * ptrBrush->intensity.value);
 
 		this->points.push_back(pos);
 		this->sizes.push_back(brushSize);
 		this->angles.push_back(vectorAngle * ptrBrush->angleDynamics.value + rotationalScatter + angleOffset);
 		this->alphas.push_back(alpha);
 
-		step = Max(1.0, ptrBrush->spacing.value * brushSize);
+		step = CZUtil::Max(1.0, ptrBrush->spacing.value * brushSize);
 		start = start + (unitVector * step);
 		pressureStep = pDelta / (distance / step);
 	}

@@ -1,5 +1,6 @@
 
 #include "CZRect.h"
+#include "../CZUtil.h"
 
 /// еп╤ойг╥Ян╙аЦ╬ьпн
 bool CZRect::isZeroRect() const

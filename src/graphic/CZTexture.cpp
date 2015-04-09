@@ -15,7 +15,7 @@
 #include "../CZDefine.h"
 #include "glDef.h"
 
-bool CZTexture::supportColor = CZcanUseHDTexture();	///
+bool CZTexture::supportColor = CZUtil::canUseHDTexture();	///
 
 CZTexture::CZTexture(int width_, int height_, TexType texType_ /* = RenderTex */, PixDataType *data /* = NULL */)
 {

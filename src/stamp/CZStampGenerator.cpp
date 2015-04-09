@@ -18,7 +18,6 @@
 #include "../basic/CZImage.h"
 #include "../CZUtil.h"
 #include "../CZMat4.h"
-#include "../CZGeometry.h"
 #include "../CZ3DPoint.h"
 #include "../graphic/CZGLContext.h"
 

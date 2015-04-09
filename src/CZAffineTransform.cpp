@@ -66,10 +66,10 @@ CZRect CZAffineTransform::applyToRect(CZRect & rect_)
 	c = this->applyTo2DPoint(c);
 	d = this->applyTo2DPoint(d);
 
-	float minX = Min(a.x, Min(b.x, Min(c.x,d.x)));
-	float maxX = Max(a.x, Max(b.x, Max(c.x,d.x)));
-	float minY = Min(a.y, Min(b.y, Min(c.y,d.y)));
-	float maxY = Max(a.y, Max(b.y, Max(c.y,d.y)));
+	float minX = CZUtil::Min(a.x, CZUtil::Min(b.x, CZUtil::Min(c.x,d.x)));
+	float maxX = CZUtil::Max(a.x, CZUtil::Max(b.x, CZUtil::Max(c.x,d.x)));
+	float minY = CZUtil::Min(a.y, CZUtil::Min(b.y, CZUtil::Min(c.y,d.y)));
+	float maxY = CZUtil::Max(a.y, CZUtil::Max(b.y, CZUtil::Max(c.y,d.y)));
 
 	return CZRect(minX,minY, maxX-minX, maxY-minY);
 }

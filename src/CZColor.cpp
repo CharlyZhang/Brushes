@@ -15,17 +15,17 @@
 /// 采用RGB模式初始化
 void CZColor::initWithRGB(float r, float g, float b, float a)
 {
-	red			= CZClamp(0.0f, 1.0f, r);
-	green		= CZClamp(0.0f, 1.0f, g);
-	blue		= CZClamp(0.0f, 1.0f, b);
-	alpha		= CZClamp(0.0f, 1.0f, a);
+	red			= CZUtil::Clamp(0.0f, 1.0f, r);
+	green		= CZUtil::Clamp(0.0f, 1.0f, g);
+	blue		= CZUtil::Clamp(0.0f, 1.0f, b);
+	alpha		= CZUtil::Clamp(0.0f, 1.0f, a);
 
 	float h, s, v;
-	RGBtoHSV(red, green, blue, h, s, v);
+	CZUtil::RGBtoHSV(red, green, blue, h, s, v);
 
-	hue			= CZClamp(0.0f, 1.0f, h);
-	saturation	= CZClamp(0.0f, 1.0f, s);
-	brightness	= CZClamp(0.0f, 1.0f, v);
+	hue			= CZUtil::Clamp(0.0f, 1.0f, h);
+	saturation	= CZUtil::Clamp(0.0f, 1.0f, s);
+	brightness	= CZUtil::Clamp(0.0f, 1.0f, v);
 	
 }
 
@@ -37,17 +37,17 @@ void CZColor::initWithRGB(float r, float g, float b, float a)
 ///		\param a - 不透明度
 void CZColor::initWithHSV(float h, float s, float v, float a)
 {
-	hue			= CZClamp(0.0f, 1.0f, h);
-	saturation	= CZClamp(0.0f, 1.0f, s);
-	brightness	= CZClamp(0.0f, 1.0f, v);
-	alpha		= CZClamp(0.0f, 1.0f, a);
+	hue			= CZUtil::Clamp(0.0f, 1.0f, h);
+	saturation	= CZUtil::Clamp(0.0f, 1.0f, s);
+	brightness	= CZUtil::Clamp(0.0f, 1.0f, v);
+	alpha		= CZUtil::Clamp(0.0f, 1.0f, a);
 
 	float r,g,b;
-	HSVtoRGB(hue,saturation,brightness,r,g,b);
+	CZUtil::HSVtoRGB(hue,saturation,brightness,r,g,b);
 
-	red			= CZClamp(0.0f, 1.0f, r);
-	green		= CZClamp(0.0f, 1.0f, g);
-	blue		= CZClamp(0.0f, 1.0f, b);
+	red			= CZUtil::Clamp(0.0f, 1.0f, r);
+	green		= CZUtil::Clamp(0.0f, 1.0f, g);
+	blue		= CZUtil::Clamp(0.0f, 1.0f, b);
 }
 
 /// 返回随机颜色 - 静态函数
@@ -56,7 +56,7 @@ CZColor CZColor::randomColor()
 	float components[4];
 
 	for (int i = 0; i < 4; i++) 
-		components[i] = CZRandomFloat();
+		components[i] = CZUtil::RandomFloat();
 
 	components[3] = float(0.5f + (components[3] * 0.5f));
 
@@ -80,16 +80,16 @@ CZColor CZColor::colorBlend(const CZColor &c_, float fraction_)
 /// 用RGB模式调整
 void CZColor::balanceRGB(float rShift, float gShift, float bShift)
 {
-	red =	CZClamp(0, 1, red + rShift);
-	green = CZClamp(0, 1, green + gShift);
-	blue =	CZClamp(0, 1, blue + bShift);
+	red =	CZUtil::Clamp(0, 1, red + rShift);
+	green = CZUtil::Clamp(0, 1, green + gShift);
+	blue =	CZUtil::Clamp(0, 1, blue + bShift);
 
 	float h, s, v;
-	RGBtoHSV(red, green, blue, h, s, v);
+	CZUtil::RGBtoHSV(red, green, blue, h, s, v);
 
-	hue			= CZClamp(0.0f, 1.0f, h);
-	saturation	= CZClamp(0.0f, 1.0f, s);
-	brightness	= CZClamp(0.0f, 1.0f, v);
+	hue			= CZUtil::Clamp(0.0f, 1.0f, h);
+	saturation	= CZUtil::Clamp(0.0f, 1.0f, s);
+	brightness	= CZUtil::Clamp(0.0f, 1.0f, v);
 }
 /// 用HSV模式调整
 void CZColor::adjustHSV(float hShift, float sShift, float bShift)
@@ -104,15 +104,15 @@ void CZColor::adjustHSV(float hShift, float sShift, float bShift)
 
 	sShift = 1 + sShift;
 	bShift = 1 + bShift;
-	saturation = CZClamp(0, 1, saturation * sShift);
-	brightness = CZClamp(0, 1, brightness * bShift);
+	saturation = CZUtil::Clamp(0, 1, saturation * sShift);
+	brightness = CZUtil::Clamp(0, 1, brightness * bShift);
 
 	float r,g,b;
-	HSVtoRGB(hue,saturation,brightness,r,g,b);
+	CZUtil::HSVtoRGB(hue,saturation,brightness,r,g,b);
 
-	red			= CZClamp(0.0f, 1.0f, r);
-	green		= CZClamp(0.0f, 1.0f, g);
-	blue		= CZClamp(0.0f, 1.0f, b);
+	red			= CZUtil::Clamp(0.0f, 1.0f, r);
+	green		= CZUtil::Clamp(0.0f, 1.0f, g);
+	blue		= CZUtil::Clamp(0.0f, 1.0f, b);
 }
 
 /// 将HSV模式的值转换到一个uint32中，（分别是h,s,v,a）

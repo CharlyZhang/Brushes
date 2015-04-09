@@ -67,7 +67,7 @@ CZBrush* CZBrush::randomBrush()
 
 	CZBrush* random = new CZBrush(generator);
 
-	random->weight.value = CZRandomFloat() * 56 + 44;
+	random->weight.value = CZUtil::RandomFloat() * 56 + 44;
 	random->intensity.value = 0.15f;
 	random->spacing.value = 0.02;
 

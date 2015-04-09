@@ -9,16 +9,12 @@
 ///  \date		2014-09-19
 ///  \note
 
-//#if USE_OPENGL
-#include "GL/glew.h"
-//#endif
-
 #include "CZSpiralGenerator.h"
 #include "../CZGeometry.h"
 #include "../CZUtil.h"
 #include "../CZAffineTransform.h"
 #include "../CZBezierNode.h"
-#include <stdlib.h>				//for rand()
+#include "../graphic/glDef.h"
 #include <cmath>
 
 using namespace std;
@@ -51,8 +47,8 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		CZ2DPoint center(20 + randomizer->nextFloat() * dim, 20 
 			+ randomizer->nextFloat() * dim);
 
-		float radius = Min(center.x, baseDimension - center.x);
-		radius = Min(radius,Min(center.y, baseDimension - center.y));
+		float radius = CZUtil::Min(center.x, baseDimension - center.x);
+		radius = CZUtil::Min(radius,CZUtil::Min(center.y, baseDimension - center.y));
 		radius -= 2;
 
 		drawSpiral(center,radius,randomizer);
@@ -113,16 +109,16 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 	}
 
 	vector<CZ3DPoint> points;
-	flattenNodes2Points(nodes,false,points);
+	CZUtil::flattenNodes2Points(nodes,false,points);
 
 #if USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = rand()*9/RAND_MAX +1;			///< 线大小原来是10以内
+	GLfloat w = randomizer->nextFloat()*9 +1;			///< 线大小原来是10以内
 	glLineWidth(w);
 	glPointSize(w*0.7);
 
-	GLfloat c = rand()*1.0/RAND_MAX;
+	GLfloat c = randomizer->nextFloat();
 	glColor4f(c,c,c,c);
 	int n = points.size();
 

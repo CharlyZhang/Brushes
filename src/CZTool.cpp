@@ -99,7 +99,7 @@ void CZTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 		//pressureOrSpeed /= scale;
 
 		/// convert speed into "pressure"
-		pressure = sineCurve(1.0f - Min(kSpeedFactor, pressureOrSpeed) / kSpeedFactor);
+		pressure = CZUtil::sineCurve(1.0f - CZUtil::Min(kSpeedFactor, pressureOrSpeed) / kSpeedFactor);
 		pressure = 1.0f - pressure;
 	}
 	else

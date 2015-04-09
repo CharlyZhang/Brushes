@@ -97,12 +97,11 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	this->m_Vert = NULL;
 
 	char fileName[128];
-	char *pathName = "../../lib/glsl/";
-	strcpy(fileName,pathName);
+	strcpy(fileName,GLSL_DIR);
 	strcat(fileName,vertFileName);
 	if(!textFileRead(fileName,m_VertexShader))	return;
 
-	strcpy(fileName,pathName);
+	strcpy(fileName,GLSL_DIR);
 	strcat(fileName,fragFileName);
 	if(!textFileRead(fileName,m_FragmentShader))return;
 
