@@ -8,10 +8,9 @@
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-23
 ///  \note
-
 #include "CZFbo.h"
-#include "../CZDefine.h"
 #include "CZTexture.h"
+#include "../CZDefine.h"
 #include "glDef.h"
 
 CZFbo::CZFbo()

@@ -12,7 +12,8 @@
 #ifndef _CZTEXTURE_H_
 #define _CZTEXTURE_H_
 
-#include "../basic/CZImage.h"		// for PixDataType definition
+#include "../CZDefine.h"		// for PixDataType definition
+class CZImage;
 
 class CZTexture
 {

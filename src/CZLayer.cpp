@@ -12,6 +12,7 @@
 #include "CZLayer.h"
 #include "CZPainting.h"
 #include "CZUtil.h"
+#include <iostream>
 
 using namespace std;
 

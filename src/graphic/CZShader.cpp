@@ -8,7 +8,6 @@
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-17
 ///  \note
-
 #include "CZShader.h"
 #include "../CZDefine.h"
 #include "../CZUtil.h"

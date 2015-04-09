@@ -2,6 +2,7 @@
 #define _CZMACRO_H_
 
 #include "Macro.h"
+/*#include <iostream>*/
 #include <stdio.h>
 
 #define UINT32 unsigned int

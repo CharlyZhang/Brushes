@@ -13,7 +13,7 @@
 #define _CZLAYER_H_
 
 #include "CZPaintingRender.h"
-#include "CZImage.h"
+#include "basic/CZImage.h"
 #include "CZColor.h"
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"

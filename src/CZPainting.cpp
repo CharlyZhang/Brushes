@@ -13,7 +13,7 @@
 #include "Macro.h"
 #include "CZUtil.h"
 #include <map>
-
+#include <iostream>
 using namespace  std;
 
 const int iMaxLayerNumber = 10;		///< 支持的最大图层数目

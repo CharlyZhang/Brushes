@@ -14,7 +14,7 @@
 #define _CZPREVIEWRENDER_H_
 
 #include "CZRender.h"
-#include "CZImage.h"
+#include "basic/CZImage.h"
 #include "CZPath.h"
 #include "CZMat4.h"
 #include "CZCommon.h"

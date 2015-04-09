@@ -9,10 +9,11 @@
 ///  \date		2014-09-19
 ///  \note
 
-#include "glDef.h"
 #include "CZTexture.h"
+#include "../basic/CZImage.h"
 #include "../CZUtil.h"
 #include "../CZDefine.h"
+#include "glDef.h"
 
 bool CZTexture::supportColor = CZcanUseHDTexture();	///
 

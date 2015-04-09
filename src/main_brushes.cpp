@@ -3,8 +3,8 @@
 #include "GL/glut.h"
 #include "CZBrush.h"
 #include "CZBrushPreview.h"
-#include "CZTexture.h"
-#include "CZFbo.h"
+#include "graphic/CZTexture.h"
+#include "graphic/CZFbo.h"
 #include "stamp/CZStampGenerator.h"
 #include "CZUtil.h"				///< For checkPixels()
 #include "CZTool.h"

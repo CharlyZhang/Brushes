@@ -8,14 +8,14 @@
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-19
 ///  \note
-
+#include "GL/glew.h"
 #include "CZStampGenerator.h"
 #include <stdlib.h>				// for rand()
 #include "../CZBrush.h"
-#include "../CZFbo.h"
-#include "../CZShader.h"
-#include "../CZTexture.h"
-#include "../CZImage.h"
+#include "../graphic/CZFbo.h"
+#include "../graphic/CZShader.h"
+#include "../graphic/CZTexture.h"
+#include "../basic/CZImage.h"
 #include "../CZUtil.h"
 #include "../CZMat4.h"
 #include "../CZGeometry.h"

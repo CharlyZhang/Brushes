@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\memo.txt" />
-    <None Include="..\src\CZStampRender.mm" />
     <None Include="..\src\shader\blit.frag" />
     <None Include="..\src\shader\blit.vert" />
     <None Include="..\src\shader\blitWithMask.frag" />
@@ -28,14 +27,14 @@
     <ClCompile Include="..\src\basic\CZProperty.cpp" />
     <ClCompile Include="..\src\CZActiveState.cpp" />
     <ClCompile Include="..\src\CZEraserTool.cpp" />
-    <ClCompile Include="..\src\CZFbo.cpp" />
     <ClCompile Include="..\src\CZNotificationCenter.cpp" />
-    <ClCompile Include="..\src\CZShader.cpp" />
-    <ClCompile Include="..\src\CZTexture.cpp" />
     <ClCompile Include="..\src\CZUtil.cpp" />
     <ClCompile Include="..\src\CZFreehandTool.cpp" />
     <ClCompile Include="..\src\CZTool.cpp" />
+    <ClCompile Include="..\src\graphic\CZFbo.cpp" />
     <ClCompile Include="..\src\graphic\CZGLContext.cpp" />
+    <ClCompile Include="..\src\graphic\CZShader.cpp" />
+    <ClCompile Include="..\src\graphic\CZTexture.cpp" />
     <ClCompile Include="..\src\main_brushes.cpp" />
     <ClCompile Include="..\src\CZ3DPoint.cpp" />
     <ClCompile Include="..\src\CZAffineTransform.cpp" />
@@ -67,16 +66,16 @@
     <ClInclude Include="..\src\CZDecoder.h" />
     <ClInclude Include="..\src\CZDefine.h" />
     <ClInclude Include="..\src\CZEraserTool.h" />
-    <ClInclude Include="..\src\CZFbo.h" />
     <ClInclude Include="..\src\CZNotificationCenter.h" />
-    <ClInclude Include="..\src\CZShader.h" />
-    <ClInclude Include="..\src\CZTexture.h" />
     <ClInclude Include="..\src\CZUndoManager.h" />
     <ClInclude Include="..\src\CZBrushController.h" />
     <ClInclude Include="..\src\CZUtil.h" />
     <ClInclude Include="..\src\CZFreehandTool.h" />
     <ClInclude Include="..\src\CZTool.h" />
+    <ClInclude Include="..\src\graphic\CZFbo.h" />
     <ClInclude Include="..\src\graphic\CZGLContext.h" />
+    <ClInclude Include="..\src\graphic\CZShader.h" />
+    <ClInclude Include="..\src\graphic\CZTexture.h" />
     <ClInclude Include="..\src\graphic\glDef.h" />
     <ClInclude Include="..\src\Macro.h" />
     <ClInclude Include="..\src\CZ3DPoint.h" />

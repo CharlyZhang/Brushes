@@ -11,7 +11,7 @@
 
 #include "CZBrush.h"
 #include "Macro.h"
-#include "CZImage.h"
+#include "basic/CZImage.h"
 #include "CZActiveState.h"
 #include "CZUtil.h"
 #include "CZBrushPreview.h"

@@ -12,10 +12,10 @@
 #ifndef _CZRENDER_H_
 #define _CZRENDER_H_
 
-#include "CZFbo.h"
-#include "CZShader.h"
-#include "CZTexture.h"
-#include "CZImage.h"
+#include "graphic/CZFbo.h"
+#include "graphic/CZShader.h"
+#include "graphic/CZTexture.h"
+#include "basic/CZImage.h"
 #include "CZUtil.h"
 
 #include <map>
