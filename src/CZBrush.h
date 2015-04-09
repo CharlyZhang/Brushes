@@ -12,8 +12,8 @@
 #ifndef _CZBRUSH_H_
 #define _CZBRUSH_H_
 
-#include "CZProperty.h"
-#include "CZStampGenerator.h"		// for CZGeneratorDelegate
+#include "basic/CZProperty.h"
+#include "stamp/CZStampGenerator.h"		// for CZGeneratorDelegate
 #include "CZCoding.h"
 #include <vector>
 #include <string>
@@ -45,9 +45,9 @@ public:
 	/// 获取某组属性
 	std::vector<CZProperty> & propertiesGroupAt(int i); 
 	/// 处理属性变化（实现属性委托接口）
-	void propertyChanged(CZProperty &property_);
+	void propertyChanged(CZProperty *property_);
 	/// 处理生成器变化（实现生成器委托接口）
-	void generatorChanged(CZStampGenerator &gen_);
+	void generatorChanged(CZStampGenerator *gen_);
 	/// 实现coding接口
 	void update(CZDecoder *decoder, bool deep = false);
 	void encode(CZCoder *coder, bool deep = false);

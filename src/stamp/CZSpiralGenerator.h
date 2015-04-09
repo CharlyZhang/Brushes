@@ -13,19 +13,18 @@
 #define _CZSPIRALGENERATOR_H_
 
 #include "CZStampGenerator.h"
-#include "CZProperty.h"
 
 class CZSpiralGenerator: public CZStampGenerator
 {
 public:
-	CZSpiralGenerator();
+	CZSpiralGenerator(CZGLContext *ctx);
 	~CZSpiralGenerator(){};
 
 	/// 绘制图案
-	void renderStamp();
+	void renderStamp(CZRandom* randomizer);
 private:
 	/// 绘制螺旋线
-	void drawSpiral(const CZ2DPoint &center_, float radius_);
+	void drawSpiral(const CZ2DPoint &center_, float radius_,CZRandom* randomizer);
 
 public:
 	CZProperty density;

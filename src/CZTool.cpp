@@ -11,7 +11,7 @@
 
 #include "CZTool.h"
 #include "CZActiveState.h"
-#include "CZSpiralGenerator.h"		///< for moveEnd() Brush
+#include "stamp/CZSpiralGenerator.h"		///< for moveEnd() Brush
 #include "CZMat4.h"
 
 #define kMaxError                   10.0f

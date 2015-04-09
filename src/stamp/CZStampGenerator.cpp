@@ -11,29 +11,26 @@
 
 #include "CZStampGenerator.h"
 #include <stdlib.h>				// for rand()
-#include "CZBrush.h"
-#include "CZFbo.h"
-#include "CZShader.h"
-#include "CZTexture.h"
-#include "CZImage.h"
-#include "CZUtil.h"
-#include "CZMat4.h"
-#include "CZGeometry.h"
-#include "CZ3DPoint.h"
-#include <vector>
-#include <iostream>
-
-#if USE_OPENGL
-#include "GL/glew.h"
-#endif
+#include "../CZBrush.h"
+#include "../CZFbo.h"
+#include "../CZShader.h"
+#include "../CZTexture.h"
+#include "../CZImage.h"
+#include "../CZUtil.h"
+#include "../CZMat4.h"
+#include "../CZGeometry.h"
+#include "../CZ3DPoint.h"
+#include "../graphic/CZGLContext.h"
 
 #define kSmallStampSize 64
 #define kBrushDimension 512		///< 笔刷图案默认大小
 
 using namespace std;
 
-CZStampGenerator::CZStampGenerator()
+CZStampGenerator::CZStampGenerator(CZGLContext *ctx)
 {
+	ptrGLContext = ctx;
+
 	seed = rand();
 
 	size = CZSize(kBrushDimension, kBrushDimension);
@@ -43,6 +40,7 @@ CZStampGenerator::CZStampGenerator()
 	baseDimension = kBrushDimension;
 
 	stamp = NULL;
+	smallStamp = NULL;
 
 	randomizer = NULL;
 
@@ -51,6 +49,12 @@ CZStampGenerator::CZStampGenerator()
 
 CZStampGenerator::~CZStampGenerator()
 {
+	if(smallStamp != NULL)
+	{
+		delete smallStamp;
+		smallStamp = NULL;
+	}
+
 	if(stamp != NULL)
 	{
 		delete stamp;
@@ -64,17 +68,49 @@ CZStampGenerator::~CZStampGenerator()
 	}
 }
 
-/// 绘制图案（虚函数）
-void CZStampGenerator::renderStamp()
+CZStampGenerator* CZStampGenerator::copy()
 {
-	std::cout<<" CZStampGenerator::renderStamp - Unimplemented method \n";
+	return NULL;
+}
+
+/// 绘制图案（虚函数）
+void CZStampGenerator::renderStamp(CZRandom* randomizer)
+{
+	LOG_WARN("Unimplemented method\n");
+}
+
+/// 重置种子
+void CZStampGenerator::resetSeed()
+{
+	seed = (unsigned int)rand();
+	delete stamp;		stamp = NULL;
+	delete smallStamp;	smallStamp = NULL;
+	if (ptrDelegate)
+	{
+		ptrDelegate->generatorChanged(this);
+	}
+}
+
+/// 随机化
+void CZStampGenerator::randomize()
+{
+	for (map<string,CZProperty*>::iterator itr = rawProperties.begin(); 
+		itr != rawProperties.end();	itr++)
+	{
+		if(itr->second)		itr->second->randomize();
+	}
 }
 
 /// 获取笔刷图案 ~
 CZImage *CZStampGenerator::getStamp(bool isSmall /* = false */)
 {
-	if(stamp == NULL) stamp = generateStamp();
-	return stamp;
+	if (!isSmall || 1) ///! for develop
+	{
+		if(stamp == NULL) stamp = generateStamp();
+		return stamp;
+	}
+
+	return NULL;
 }
 
 /// 获取随机化器
@@ -99,6 +135,12 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
 	brush->intensityDynamics.value = 0.0f;
 	*/
 
+	if(!brush)
+	{
+		LOG_ERROR("brush is null\n");
+		return;
+	}
+
 	brush->weight.value = 30;//80;
 	brush->intensity.value = 0.3;
 	brush->angle.value = 0;
@@ -110,22 +152,32 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
 	brush->intensityDynamics.value = 1;
 }
 
+/// 返回属性值
+vector<CZProperty>& CZStampGenerator::getProperties()
+{
+	vector<CZProperty> temp;
+	return temp;
+}
 /// 生成笔刷图案~
 CZImage *CZStampGenerator::generateStamp()
 {
-	//setContext();
+	if (ptrGLContext == NULL)
+	{
+		LOG_ERROR("ptrGLContext is null");
+		return NULL;
+	}
 
-	//glDisable(GL_TEXTURE_2D);
+	ptrGLContext->setAsCurrent();
 
 	vector<string> attributes, uniforms;
 	attributes.push_back("inPosition");
 	uniforms.push_back("mvpMat");
 	CZShader shader("stamp.vert","stamp.frag",attributes,uniforms);
 	CZFbo fbo;
-	CZMat4 projMat;	
+	fbo.setColorRenderBuffer(size.width,size.height);
 	CZCheckGLError();
 
-	fbo.setColorRenderBuffer(size.width,size.height);	
+	CZMat4 projMat;	
 	projMat.SetOrtho(0.0f ,size.width, 0.0f, size.height, -1.0f, 1.0f);
 
 	fbo.begin();
@@ -135,7 +187,7 @@ CZImage *CZStampGenerator::generateStamp()
 	shader.begin();
 
 	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
-	renderStamp();
+	renderStamp(getRandomizer());
 
 	shader.end();
 

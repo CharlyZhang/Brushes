@@ -12,9 +12,10 @@
 #include "CZActiveState.h"
 #include "Macro.h"
 #include "CZBrush.h"
-#include "CZSpiralGenerator.h"
+#include "stamp/CZSpiralGenerator.h"
 #include "CZFreehandTool.h"
 #include "CZEraserTool.h"
+#include "graphic/CZGLContext.h"
 
 using namespace std;
 
@@ -22,7 +23,8 @@ CZActiveState::CZActiveState()
 {
 	eraseMode = false;
 	paintColor = CZColor::blackColor();
-	brushes.push_back(new CZBrush(new CZSpiralGenerator));  /// if invoke CZBrush::randomBrush, the CZActiveState constructor will be called again
+	stampGLContext = new CZGLContext;
+	brushes.push_back(new CZBrush(new CZSpiralGenerator(stampGLContext)));  /// if invoke CZBrush::randomBrush, the CZActiveState constructor will be called again
 	ptrEraseBrush = ptrPaintBrush = brushes[0];
 
 	tools.push_back(new CZFreehandTool);
@@ -37,7 +39,9 @@ CZActiveState::~CZActiveState()
 
 	for(vector<CZTool*>::iterator itr = tools.begin(); itr != tools.end(); itr++)
 		delete *itr;
-		tools.clear();
+	tools.clear();
+
+	delete stampGLContext;
 }
 
 /// 设置绘制模式
@@ -172,7 +176,7 @@ CZTool* CZActiveState::getActiveTool()
 /// 获取随机一个笔刷生成器
 CZStampGenerator * CZActiveState::getRandomGenerator()
 {
-	return new CZSpiralGenerator;
+	return new CZSpiralGenerator(stampGLContext);
 }
 
 

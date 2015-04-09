@@ -172,25 +172,25 @@ vector<CZProperty> & CZBrush::propertiesGroupAt(int i)
 }
 
 /// 处理属性变化（实现属性委托接口）
-void CZBrush::propertyChanged(CZProperty &property_)
+void CZBrush::propertyChanged(CZProperty *property_)
 {
-	if (suppressNum == 0)
-	{
-		if (strokePreview) { delete strokePreview; strokePreview = NULL;}
-
-		changedProperties.clear();
-		changedProperties.push_back(property_);
-		
-		//CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
-	} 
-	else 
-	{
-		changedProperties.push_back(property_);	///< 发生在restoreProperty中gen配置画刷的过程中
-	}
+//	if (suppressNum == 0)
+//	{
+//		if (strokePreview) { delete strokePreview; strokePreview = NULL;}
+//
+//		changedProperties.clear();
+//		changedProperties.push_back(*property_);
+//		
+//		//CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
+//	} 
+//	else 
+//	{
+//		changedProperties.push_back(*property_);	///< 发生在restoreProperty中gen配置画刷的过程中
+//	}
 }
 
 /// 处理生成器变化（实现生成器委托接口）
-void CZBrush::generatorChanged(CZStampGenerator &gen_)
+void CZBrush::generatorChanged(CZStampGenerator *gen_)
 {
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
 
@@ -200,7 +200,7 @@ void CZBrush::generatorChanged(CZStampGenerator &gen_)
 /// 实现coding接口
 void CZBrush::update(CZDecoder *decoder, bool deep /*= false*/)
 {
-	if (deep) 
+	/*if (deep) 
 	{
 		if(generator) delete generator;
 		generator = (CZStampGenerator *) decoder->decodeObject(CZGeneratorKey);
@@ -217,13 +217,13 @@ void CZBrush::update(CZDecoder *decoder, bool deep /*= false*/)
 	angleDynamics.value		= decodeValue(CZAngleDynamicsKey, decoder, angleDynamics.value);
 	weightDynamics.value	= decodeValue(CZWeightDynamicsKey, decoder, weightDynamics.value);
 	intensityDynamics.value = decodeValue(CZIntensityDynamicsKey, decoder, intensityDynamics.value);
-	uid = decoder->decodeUint(CZUIDKey);
+	uid = decoder->decodeUint(CZUIDKey);*/
 }
 void CZBrush::encode(CZCoder *coder, bool deep/* = false*/)
 {
-	if (deep) 
+	/*if (deep) 
 	{
-		coder->encodeObject(generator, CZGeneratorKey, deep);
+	coder->encodeObject(generator, CZGeneratorKey, deep);
 	}
 
 	coder->encodeUint(uid,CZUIDKey);
@@ -235,7 +235,7 @@ void CZBrush::encode(CZCoder *coder, bool deep/* = false*/)
 	coder->encodeFloat(positionalScatter.value, CZPositionalScatterKey);
 	coder->encodeFloat(angleDynamics.value, CZAngleDynamicsKey);
 	coder->encodeFloat(weightDynamics.value, CZWeightDynamicsKey);
-	coder->encodeFloat(intensityDynamics.value, CZIntensityDynamicsKey);
+	coder->encodeFloat(intensityDynamics.value, CZIntensityDynamicsKey);*/
 }
 
 
@@ -283,15 +283,16 @@ void CZBrush::buildProperties()
 /// 解压缩值
 float CZBrush::decodeValue(const char *key, CZDecoder *decoder, float deft)
 {
-	float value = decoder->decodeFloat(key,123456789);
-	if (value == 123456789) 
-	{
-		// for legacy files
-		CZProperty *old = (CZProperty *) decoder->decodeObject(strcmp(key,CZWeightKey)==0 ? "noise": key);
-		return old ? old->value : deft;
-	} 
-	else 
-	{
-		return value;
-	}
+	//float value = decoder->decodeFloat(key,123456789);
+	//if (value == 123456789) 
+	//{
+	//	// for legacy files
+	//	CZProperty *old = (CZProperty *) decoder->decodeObject(strcmp(key,CZWeightKey)==0 ? "noise": key);
+	//	return old ? old->value : deft;
+	//} 
+	//else 
+	//{
+	//	return value;
+	//}
+	return 0;///
 }

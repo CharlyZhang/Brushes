@@ -1,7 +1,7 @@
 #ifndef _CZBRUSHCELL_H_
 #define _CZBRUSHCELL_H_
 
-#include "CZProperty.h"
+#include "basic/CZProperty.h"
 #include <set>
 
 class CZBrushCell : public CZBrushDelegate
@@ -9,7 +9,7 @@ class CZBrushCell : public CZBrushDelegate
 public:
 	void brushPropertyChanged(std::set<CZProperty> &properties){///TO DO
 	};
-	void brushGeneratorChanged(CZStampGenerator &gen){///to do
+	void brushGeneratorChanged(CZStampGenerator *gen){///to do
 	};
 };
 

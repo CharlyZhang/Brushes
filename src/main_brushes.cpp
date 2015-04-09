@@ -5,11 +5,12 @@
 #include "CZBrushPreview.h"
 #include "CZTexture.h"
 #include "CZFbo.h"
-#include "CZSpiralGenerator.h"
+#include "stamp/CZStampGenerator.h"
 #include "CZUtil.h"				///< For checkPixels()
 #include "CZTool.h"
 #include "CZActiveState.h"
 #include "CZPainting.h"
+#include "CZDefine.h"
 #include "stdio.h"				///< for freopen
 
 static HGLRC           hRC=NULL;                           // 窗口着色描述表句柄  
@@ -21,10 +22,11 @@ BOOL	keys[256];			// Array Used For The Keyboard Routine
 bool    active = TRUE;      // 窗口的活动标志，缺省为TRUE  
 bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证长宽比为4:3)
 
+//CZGLContext *glContext = NULL;
 //////////////////////////////////////////////////////////////////////////
 
 #if PATH_TEX || BRUSH_TEX
-CZStampGenerator *stampGen =  new CZSpiralGenerator;
+CZStampGenerator *stampGen =  CZActiveState::getInstance()->getRandomGenerator();
 CZBrush *brush = new CZBrush(stampGen);
 CZBrushPreview *priew;// = CZBrushPreview::getInstance();
 CZTexture *brushTex = 0;

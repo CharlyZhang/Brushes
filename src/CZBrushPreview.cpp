@@ -14,7 +14,7 @@
 #include "CZBrush.h"
 #include "CZBezierNode.h"
 #include "CZGeometry.h"
-#include "CZStampGenerator.h"
+#include "stamp/CZStampGenerator.h"
 #include "CZPath.h"
 #include "CZUtil.h"
 #include "CZMat4.h"
@@ -120,7 +120,7 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 void CZBrushPreview::setBrush(CZBrush *brush_)
 {
 	/// 如果刷子生成器改变了，则笔刷图案改变
-	if(ptrBrush && brush_ && ptrBrush->generator->isEqual(brush_->generator))
+	if(ptrBrush && brush_ /*&& ptrBrush->generator->isEqual(brush_->generator)*/)
 	{
 		render.clearBrush();
 	}

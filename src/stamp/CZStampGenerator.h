@@ -13,30 +13,36 @@
 #ifndef _CZSTAMPGENERATOR_H_
 #define _CZSTAMPGENERATOR_H_
 
-#include "CZGeometry.h"
-#include "CZImage.h"			
-#include "CZCoding.h"
-#include "CZProperty.h"
-#include "CZRandom.h"
-#include "CZStampRender.h"
+#include "../CZDefine.h"
+#include "../CZGeometry.h"			
+#include "../serialization/CZCoding.h"
+#include "../basic/CZProperty.h"
+#include "../basic/CZRandom.h"
+#include "../graphic/glDef.h"
 #include <vector>
+#include <map>
+#include <string>
 
 class CZGeneratorDelegate;
 class CZBrush;
+class CZPath;
+class CZImage;
+class CZGLContext;
 
 /// 画刷纹理生成器基类
 class CZStampGenerator : public CZCoding
 {
 public:
-	CZStampGenerator();
+	CZStampGenerator(CZGLContext *ctx);
 	~CZStampGenerator();
+
+	/// 拷贝一份当前生成器
+	virtual CZStampGenerator* copy();
 
 	/// 重置种子
 	void resetSeed();
-	///
-	void randomize(){};
-	/// 绘制图案
-	virtual void renderStamp();//:(CGContextRef)ctx randomizer:(WDRandom *)randomizer;
+	/// 随机化
+	void randomize();
 	/// 获取笔刷图案
 	CZImage *getStamp(bool isSmall = false);
 	/// 获取随机化器
@@ -44,47 +50,42 @@ public:
 	/// 配置笔刷参数
 	void configureBrush(CZBrush *brush);
 	/// 返回属性值
-	std::vector<CZProperty> & getProperties(){ static std::vector<CZProperty> temp; return temp;};
-	/// 判断生成器是否相等
-	bool isEqual(const CZStampGenerator * gen){return true;}
+	std::vector<CZProperty> & getProperties();
+
 	/// 实现coding接口
 	void update(CZDecoder *decoder_, bool deep = false){};
 	void encode(CZCoder *coder_, bool deep = false){};
-/*
-	- (CGImageRef) radialFadeWithHardness:(float)hardness;
-	- (WDPath *) splatInRect:(CGRect)rect maxDeviation:(float)percentage randomizer:(WDRandom *)randomizer;
-	- (CGRect) randomRect:(WDRandom *)randomizer minPercentage:(float)minP maxPercentage:(float)maxP;
-	*/
 
 protected:
+	/// 绘制图案
+	virtual void renderStamp(CZRandom* randomizer);
 	/// 生成笔刷图案
 	CZImage* generateStamp();
+	/// 
+	CZPath* splat();
+	/// 
+	CZRect randomRect();
 
 public:
 	unsigned int seed;
 	CZSize size;
 	float baseDimension;
-	CZRect baseBounds;
-	float scale;
-	//@property (nonatomic) UIImage *smallStamp;
-	//@property (weak, nonatomic, readonly) UIImage *preview;
-	//@property (weak, nonatomic, readonly) UIImage *bigPreview;
-	//NSArray *properties;
-	//NSMutableDictionary *rawProperties;
 	CZGeneratorDelegate *ptrDelegate;
-	CZRect bounds;
 	unsigned char blurRadius;
-	bool canRandomize;
 
 protected:
 	CZImage *stamp;				///< 笔刷图案
+	CZImage *smallStamp;
 	CZRandom *randomizer;		///< 与seed相关的随机化器
+	float scale;				///< 缩放比
+	CZGLContext *ptrGLContext;	///< gl上下文
+	std::map<std::string,CZProperty*> rawProperties;
 };
 
 class CZGeneratorDelegate
 {
 public:
-	virtual void generatorChanged(CZStampGenerator &gen_) = 0;
+	virtual void generatorChanged(CZStampGenerator *gen_) = 0;
 };
 
 #endif

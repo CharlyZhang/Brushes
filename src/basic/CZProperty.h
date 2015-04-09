@@ -12,7 +12,7 @@
 #ifndef _CZPROPERTY_H_
 #define _CZPROPERTY_H_
 
-#include "CZCoding.h"
+#include "../serialization/CZCoding.h"
 #include <string>
 
 class CZPropertyDelegate;
@@ -20,6 +20,20 @@ class CZPropertyDelegate;
 class CZProperty : public CZCoding
 {
 public:
+	CZProperty();
+	CZProperty & operator = (const CZProperty&);
+	bool operator == (const CZProperty&);
+	/// 设置数值
+	void setValue(float v);
+	/// 随机化
+	void randomize();
+	/// 操纵
+	bool canIncrement();
+	void increment();
+	bool canDecrement();
+	void decrement();
+
+	/// 序列化接口
 	void update(CZDecoder *decoder_, bool deep = false){};
 	void encode(CZCoder *coder_, bool deep = false){};
 
@@ -35,7 +49,7 @@ public:
 class CZPropertyDelegate 
 {
 public:
-	virtual void propertyChanged(CZProperty &property_) = 0;
+	virtual void propertyChanged(CZProperty *property_) = 0;
 };
 
 #endif

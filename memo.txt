@@ -115,3 +115,8 @@
     3.! 平台相关的代码不应该放进内核，利用Imp结构体进行隔离
     4.! 上下文有资源控制者持有，并对其进行封装
     5.? 需要将资源从Render中剥离，归还给真正持有者；对数据结构甚至接口来说都可以通过宏统一进行区分定义
+
+2015年4月9日：
+	1.！删除stampRender；
+	2.！整理类stampGenerator、CZSpiralGenerator、CZProperty、CZGLContext、
+			CZShader、CZTexture、CZFbo、CZImage

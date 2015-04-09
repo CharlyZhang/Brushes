@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\memo.txt" />
+    <None Include="..\src\CZStampRender.mm" />
     <None Include="..\src\shader\blit.frag" />
     <None Include="..\src\shader\blit.vert" />
     <None Include="..\src\shader\blitWithMask.frag" />
@@ -23,13 +24,18 @@
     <None Include="..\src\shader\stamp.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\basic\CZImage.cpp" />
+    <ClCompile Include="..\src\basic\CZProperty.cpp" />
     <ClCompile Include="..\src\CZActiveState.cpp" />
     <ClCompile Include="..\src\CZEraserTool.cpp" />
+    <ClCompile Include="..\src\CZFbo.cpp" />
     <ClCompile Include="..\src\CZNotificationCenter.cpp" />
     <ClCompile Include="..\src\CZShader.cpp" />
+    <ClCompile Include="..\src\CZTexture.cpp" />
     <ClCompile Include="..\src\CZUtil.cpp" />
     <ClCompile Include="..\src\CZFreehandTool.cpp" />
     <ClCompile Include="..\src\CZTool.cpp" />
+    <ClCompile Include="..\src\graphic\CZGLContext.cpp" />
     <ClCompile Include="..\src\main_brushes.cpp" />
     <ClCompile Include="..\src\CZ3DPoint.cpp" />
     <ClCompile Include="..\src\CZAffineTransform.cpp" />
@@ -40,36 +46,38 @@
     <ClCompile Include="..\src\CZColorBalance.cpp" />
     <ClCompile Include="..\src\CZGeometry.cpp" />
     <ClCompile Include="..\src\CZHueSaturation.cpp" />
-    <ClCompile Include="..\src\CZImage.cpp" />
     <ClCompile Include="..\src\CZLayer.cpp" />
     <ClCompile Include="..\src\CZMat4.cpp" />
     <ClCompile Include="..\src\CZPainting.cpp" />
     <ClCompile Include="..\src\CZPath.cpp" />
-    <ClCompile Include="..\src\CZProperty.cpp" />
     <ClCompile Include="..\src\CZRandom.cpp" />
-    <ClCompile Include="..\src\CZSpiralGenerator.cpp" />
-    <ClCompile Include="..\src\CZStampGenerator.cpp" />
     <ClCompile Include="..\src\CZPaintingRender.cpp" />
     <ClCompile Include="..\src\CZPreviewRender.cpp" />
     <ClCompile Include="..\src\CZRender.cpp" />
-    <ClCompile Include="..\src\CZStampRender.cpp" />
-    <ClCompile Include="..\src\CZFbo.cpp" />
-    <ClCompile Include="..\src\CZTexture.cpp" />
     <ClCompile Include="..\src\CZBrushPreview.cpp" />
     <ClCompile Include="..\src\CZCanvas.cpp" />
+    <ClCompile Include="..\src\stamp\CZSpiralGenerator.cpp" />
+    <ClCompile Include="..\src\stamp\CZStampGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\basic\CZImage.h" />
+    <ClInclude Include="..\src\basic\CZProperty.h" />
     <ClInclude Include="..\src\CZCoder.h" />
     <ClInclude Include="..\src\CZCoding.h" />
     <ClInclude Include="..\src\CZDecoder.h" />
+    <ClInclude Include="..\src\CZDefine.h" />
     <ClInclude Include="..\src\CZEraserTool.h" />
+    <ClInclude Include="..\src\CZFbo.h" />
     <ClInclude Include="..\src\CZNotificationCenter.h" />
     <ClInclude Include="..\src\CZShader.h" />
+    <ClInclude Include="..\src\CZTexture.h" />
     <ClInclude Include="..\src\CZUndoManager.h" />
     <ClInclude Include="..\src\CZBrushController.h" />
     <ClInclude Include="..\src\CZUtil.h" />
     <ClInclude Include="..\src\CZFreehandTool.h" />
     <ClInclude Include="..\src\CZTool.h" />
+    <ClInclude Include="..\src\graphic\CZGLContext.h" />
+    <ClInclude Include="..\src\graphic\glDef.h" />
     <ClInclude Include="..\src\Macro.h" />
     <ClInclude Include="..\src\CZ3DPoint.h" />
     <ClInclude Include="..\src\CZActiveState.h" />
@@ -81,24 +89,19 @@
     <ClInclude Include="..\src\CZColorBalance.h" />
     <ClInclude Include="..\src\CZGeometry.h" />
     <ClInclude Include="..\src\CZHueSaturation.h" />
-    <ClInclude Include="..\src\CZImage.h" />
     <ClInclude Include="..\src\CZLayer.h" />
     <ClInclude Include="..\src\CZMat4.h" />
     <ClInclude Include="..\src\CZPainting.h" />
     <ClInclude Include="..\src\CZPath.h" />
-    <ClInclude Include="..\src\CZProperty.h" />
     <ClInclude Include="..\src\CZRandom.h" />
-    <ClInclude Include="..\src\CZSpiralGenerator.h" />
-    <ClInclude Include="..\src\CZStampGenerator.h" />
     <ClInclude Include="..\src\CZPaintingRender.h" />
     <ClInclude Include="..\src\CZPreviewRender.h" />
     <ClInclude Include="..\src\CZRender.h" />
-    <ClInclude Include="..\src\CZStampRender.h" />
-    <ClInclude Include="..\src\CZFbo.h" />
-    <ClInclude Include="..\src\CZTexture.h" />
     <ClInclude Include="..\src\CZBrushCell.h" />
     <ClInclude Include="..\src\CZBrushPreview.h" />
     <ClInclude Include="..\src\CZCanvas.h" />
+    <ClInclude Include="..\src\stamp\CZSpiralGenerator.h" />
+    <ClInclude Include="..\src\stamp\CZStampGenerator.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}</ProjectGuid>

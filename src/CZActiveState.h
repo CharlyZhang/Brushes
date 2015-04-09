@@ -20,6 +20,7 @@
 class CZStampGenerator;
 class CZTool;
 class CZBrush;
+class CZGLContext;
 
 /// 激活状态类
 class CZActiveState
@@ -88,6 +89,7 @@ private:
 	CZBrush *ptrEraseBrush;								///< 擦除用笔刷 
 
 	CZColor paintColor;									///< 绘制颜色
+	CZGLContext *stampGLContext;						///< stamp的gl上下文
 };
 
 #endif

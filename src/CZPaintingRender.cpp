@@ -9,9 +9,13 @@
 ///  \date		2014-10-15
 ///  \note
 
+//#if USE_OPENGL
+#include "GL/glew.h"
+//#elif USE_OPENGL_ES
+
 #include "CZPaintingRender.h"
 #include "CZGeometry.h"
-#include "CZStampGenerator.h"
+#include "stamp/CZStampGenerator.h"
 #include "CZLayer.h"
 #include "CZPainting.h"
 #include "CZBrush.h"
@@ -19,14 +23,6 @@
 #include "CZRandom.h"
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
-
-#if USE_OPENGL
-#include "GL/glew.h"
-#elif USE_OPENGL_ES
-#include <OpenGLES/EAGL.h>
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#endif
 
 using namespace  std;
 
