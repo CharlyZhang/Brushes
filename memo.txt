@@ -119,4 +119,4 @@
 2015年4月9日：
 	1.！删除stampRender；
 	2.！整理类stampGenerator、CZSpiralGenerator、CZProperty、CZGLContext、
-			CZShader、CZTexture、CZFbo、CZImage、CZUtil
+			CZShader、CZTexture、CZFbo、CZImage、CZUtil、CZ2DPoint、CZSize、CZRect

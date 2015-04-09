@@ -18,10 +18,10 @@
 
 #include "CZCoding.h"
 #include "CZColor.h"
-#include "CZGeometry.h"
+#include "basic/CZRect.h"
+#include "basic/CZ2DPoint.h"
 #include <vector>
 
-class CZ2DPoint;
 class CZ3DPoint;
 class CZBezierNode;
 class CZRandom;

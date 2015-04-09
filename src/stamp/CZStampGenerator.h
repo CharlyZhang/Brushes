@@ -17,9 +17,8 @@
 #include "../serialization/CZCoding.h"
 #include "../basic/CZProperty.h"
 #include "../basic/CZRandom.h"
-#include "../CZGeometry.h"
-// #include "../basic/CZRect.h"
-// #include "../basic/CZSize.h"
+#include "../basic/CZRect.h"
+#include "../basic/CZSize.h"
 #include "../graphic/glDef.h"
 #include <vector>
 #include <map>

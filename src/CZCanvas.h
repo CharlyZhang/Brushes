@@ -12,7 +12,9 @@
 #ifndef _CZCANVAS_H_
 #define _CZCANVAS_H_
 
-#include "CZGeometry.h"
+#include "basic/CZ2DPoint.h"
+#include "basic/CZRect.h"
+#include "basic/CZSize.h"
 
 class CZCanvas
 {

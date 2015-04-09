@@ -12,7 +12,7 @@
 #ifndef _CZBEZIERNODE_H_
 #define _CZBEZIERNODE_H_
 
-#include "CZGeometry.h"
+#include "basic/CZ2DPoint.h"
 #include "CZ3DPoint.h"
 
 class CZBezierNode

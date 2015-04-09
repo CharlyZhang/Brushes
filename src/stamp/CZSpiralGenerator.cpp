@@ -10,7 +10,7 @@
 ///  \note
 
 #include "CZSpiralGenerator.h"
-#include "../CZGeometry.h"
+#include "../basic/CZ2DPoint.h"
 #include "../CZUtil.h"
 #include "../CZAffineTransform.h"
 #include "../CZBezierNode.h"

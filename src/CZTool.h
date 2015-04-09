@@ -13,7 +13,9 @@
 #define _CZTOOL_H_
 
 #include "CZBezierNode.h"
-#include "CZGeometry.h"
+#include "basic/CZ2DPoint.h"
+#include "basic/CZRect.h"
+#include "basic/CZSize.h"
 #include "CZPath.h"
 #include "CZRandom.h"
 #include "CZPainting.h"

@@ -14,7 +14,9 @@
 #define _CZPAINTINGRENDER_H_
 
 #include "CZRender.h"
-#include "CZGeometry.h"
+#include "basic/CZ2DPoint.h"
+#include "basic/CZRect.h"
+#include "basic/CZSize.h"
 #include "CZAffineTransform.h"
 #include "CZMat4.h"
 #include <map>

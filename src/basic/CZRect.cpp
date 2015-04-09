@@ -18,10 +18,10 @@ CZRect CZRect::unionWith(const CZRect & rect_)
 	if(isZeroRect())			return rect_;
 	else if(rect_.isZeroRect()) return *this;
 
-	float minX = Min(this->getMinX(), rect_.getMinX());
-	float minY = Min(this->getMinY(), rect_.getMinY());
-	float maxX = Max(this->getMaxX(), rect_.getMaxX());
-	float maxY = Max(this->getMaxY(), rect_.getMaxY());
+	float minX = CZUtil::Min(this->getMinX(), rect_.getMinX());
+	float minY = CZUtil::Min(this->getMinY(), rect_.getMinY());
+	float maxX = CZUtil::Max(this->getMaxX(), rect_.getMaxX());
+	float maxY = CZUtil::Max(this->getMaxY(), rect_.getMaxY());
 
 	return CZRect(minX, minY, maxX-minX, maxY-minY);
 }

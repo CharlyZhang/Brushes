@@ -14,7 +14,9 @@
 //#elif USE_OPENGL_ES
 
 #include "CZPaintingRender.h"
-#include "CZGeometry.h"
+#include "basic/CZ2DPoint.h"
+#include "basic/CZRect.h"
+#include "basic/CZSize.h"
 #include "stamp/CZStampGenerator.h"
 #include "CZLayer.h"
 #include "CZPainting.h"

@@ -23,8 +23,11 @@
     <None Include="..\src\glsl\stamp.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\basic\CZ2DPoint.cpp" />
     <ClCompile Include="..\src\basic\CZImage.cpp" />
     <ClCompile Include="..\src\basic\CZProperty.cpp" />
+    <ClCompile Include="..\src\basic\CZRect.cpp" />
+    <ClCompile Include="..\src\basic\CZSize.cpp" />
     <ClCompile Include="..\src\CZActiveState.cpp" />
     <ClCompile Include="..\src\CZEraserTool.cpp" />
     <ClCompile Include="..\src\CZNotificationCenter.cpp" />
@@ -43,7 +46,6 @@
     <ClCompile Include="..\src\CZBrush.cpp" />
     <ClCompile Include="..\src\CZColor.cpp" />
     <ClCompile Include="..\src\CZColorBalance.cpp" />
-    <ClCompile Include="..\src\CZGeometry.cpp" />
     <ClCompile Include="..\src\CZHueSaturation.cpp" />
     <ClCompile Include="..\src\CZLayer.cpp" />
     <ClCompile Include="..\src\CZMat4.cpp" />
@@ -59,8 +61,11 @@
     <ClCompile Include="..\src\stamp\CZStampGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\basic\CZ2DPoint.h" />
     <ClInclude Include="..\src\basic\CZImage.h" />
     <ClInclude Include="..\src\basic\CZProperty.h" />
+    <ClInclude Include="..\src\basic\CZRect.h" />
+    <ClInclude Include="..\src\basic\CZSize.h" />
     <ClInclude Include="..\src\CZCoder.h" />
     <ClInclude Include="..\src\CZCoding.h" />
     <ClInclude Include="..\src\CZDecoder.h" />
@@ -86,7 +91,6 @@
     <ClInclude Include="..\src\CZBrush.h" />
     <ClInclude Include="..\src\CZColor.h" />
     <ClInclude Include="..\src\CZColorBalance.h" />
-    <ClInclude Include="..\src\CZGeometry.h" />
     <ClInclude Include="..\src\CZHueSaturation.h" />
     <ClInclude Include="..\src\CZLayer.h" />
     <ClInclude Include="..\src\CZMat4.h" />

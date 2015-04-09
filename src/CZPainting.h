@@ -12,7 +12,8 @@
 #ifndef _CZPAINTING_H_
 #define _CZPAINTING_H_
 
-#include "CZGeometry.h"
+#include "basic/CZSize.h"
+#include "basic/CZRect.h"
 #include "CZPath.h"
 #include "CZRandom.h"
 #include "CZMat4.h"
