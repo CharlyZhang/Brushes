@@ -22,7 +22,7 @@
 #include "CZPainting.h"
 #include "CZBrush.h"
 #include "CZPath.h"
-#include "CZRandom.h"
+#include "basic/CZRandom.h"
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
 

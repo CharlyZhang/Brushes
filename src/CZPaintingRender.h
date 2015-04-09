@@ -17,7 +17,7 @@
 #include "basic/CZ2DPoint.h"
 #include "basic/CZRect.h"
 #include "basic/CZSize.h"
-#include "CZAffineTransform.h"
+#include "basic/CZAffineTransform.h"
 #include "CZMat4.h"
 #include <map>
 #include <string>

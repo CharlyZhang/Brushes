@@ -130,5 +130,5 @@ CZ3DPoint CZBezierSegment::splitAtT(float t, CZBezierSegment *L, CZBezierSegment
 
 bool CZBezierSegment::isDegenerate()
 {
-	return (start.isDegenerate() || outHandle.isDegenerate() || inHandle.isDegenerate() || end.isDegenerate());
+	return false;//(start.isDegenerate() || outHandle.isDegenerate() || inHandle.isDegenerate() || end.isDegenerate());
 }

@@ -12,7 +12,7 @@
 #include "CZSpiralGenerator.h"
 #include "../basic/CZ2DPoint.h"
 #include "../CZUtil.h"
-#include "../CZAffineTransform.h"
+#include "../basic/CZAffineTransform.h"
 #include "../CZBezierNode.h"
 #include "../graphic/glDef.h"
 #include <cmath>

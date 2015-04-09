@@ -15,7 +15,7 @@
 #include "basic/CZSize.h"
 #include "basic/CZRect.h"
 #include "CZPath.h"
-#include "CZRandom.h"
+#include "basic/CZRandom.h"
 #include "CZMat4.h"
 #include "CZLayer.h"
 #include "CZCoding.h"

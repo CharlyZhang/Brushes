@@ -12,8 +12,8 @@
 #ifndef _CZAFFINETRANSFORM_H_
 #define _CZAFFINETRANSFORM_H_
 
-#include "../basic/CZ2DPoint.h"
-#include "../basic/CZRect.h"
+#include "CZ2DPoint.h"
+#include "CZRect.h"
 
 /// ø’º‰±‰ªª¿‡
 class CZAffineTransform

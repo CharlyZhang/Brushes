@@ -10,7 +10,7 @@
 ///  \note
 
 #include "CZBezierNode.h"
-#include "CZ3DPoint.h"
+#include "basic/CZ3DPoint.h"
 #include <vector>
 
 class CZBezierSegment

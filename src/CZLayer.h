@@ -17,7 +17,7 @@
 #include "CZColor.h"
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
-#include "CZAffineTransform.h"
+#include "basic/CZAffineTransform.h"
 #include "CZCoder.h"
 #include "CZDataProvider.h"
 #include <string>

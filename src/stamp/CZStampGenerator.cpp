@@ -8,9 +8,8 @@
 ///	 \author	Charly Zhang<chicboi@hotmail.com>
 ///  \date		2014-09-19
 ///  \note
-#include "GL/glew.h"
+
 #include "CZStampGenerator.h"
-#include <stdlib.h>				// for rand()
 #include "../CZBrush.h"
 #include "../graphic/CZFbo.h"
 #include "../graphic/CZShader.h"
@@ -18,8 +17,9 @@
 #include "../basic/CZImage.h"
 #include "../CZUtil.h"
 #include "../CZMat4.h"
-#include "../CZ3DPoint.h"
+#include "../basic/CZ3DPoint.h"
 #include "../graphic/CZGLContext.h"
+#include <stdlib.h>				// for rand()
 
 #define kSmallStampSize 64
 #define kBrushDimension 512		///< 笔刷图案默认大小

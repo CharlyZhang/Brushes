@@ -17,7 +17,7 @@
 #include "basic/CZRect.h"
 #include "basic/CZSize.h"
 #include "CZPath.h"
-#include "CZRandom.h"
+#include "basic/CZRandom.h"
 #include "CZPainting.h"
 #include "CZUtil.h"
 #include <vector>

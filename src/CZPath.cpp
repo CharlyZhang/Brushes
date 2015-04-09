@@ -11,11 +11,11 @@
 
 #include "CZPath.h"
 #include "Macro.h"
-#include "CZ3DPoint.h"
+#include "basic/CZ3DPoint.h"
 #include "CZBrush.h"
 #include "CZBezierNode.h"
-#include "CZRandom.h"
-#include "CZAffineTransform.h"
+#include "basic/CZRandom.h"
+#include "basic/CZAffineTransform.h"
 #include "CZUtil.h"
 #include "CZRender.h"
 #include <cmath>				
