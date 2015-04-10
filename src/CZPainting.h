@@ -16,9 +16,9 @@
 #include "basic/CZRect.h"
 #include "CZPath.h"
 #include "basic/CZRandom.h"
-#include "CZMat4.h"
+#include "basic/CZMat4.h"
 #include "CZLayer.h"
-#include "CZCoding.h"
+#include "serialization/CZCoding.h"
 #include "CZPaintingRender.h"
 #include <string>
 #include <vector>

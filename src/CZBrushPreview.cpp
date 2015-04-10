@@ -12,14 +12,14 @@
 #include "CZBrushPreview.h"
 #include "Macro.h"
 #include "CZBrush.h"
-#include "CZBezierNode.h"
+#include "path/CZBezierNode.h"
 #include "basic/CZ2DPoint.h"
 #include "basic/CZRect.h"
 #include "basic/CZSize.h"
 #include "stamp/CZStampGenerator.h"
 #include "CZPath.h"
 #include "CZUtil.h"
-#include "CZMat4.h"
+#include "basic/CZMat4.h"
 
 #include <vector>
 #include <cmath>

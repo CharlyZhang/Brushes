@@ -12,10 +12,8 @@
 #ifndef _CZBEZIERNODE_H_
 #define _CZBEZIERNODE_H_
 
-#include "../serialization/CZCoding.h"
 #include "../basic/CZ3DPoint.h"
-
-class CZ2DPoint;
+#include "../basic/CZ2DPoint.h"
 
 class CZBezierNode
 {

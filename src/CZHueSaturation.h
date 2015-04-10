@@ -11,7 +11,7 @@
 #ifndef _CZHUESATURATION_H_
 #define _CZHUESATURATION_H_
 
-#include "CZCoding.h"
+#include "serialization/CZCoding.h"
 
 class CZHueSaturation : public CZCoding
 {

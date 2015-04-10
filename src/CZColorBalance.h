@@ -12,7 +12,7 @@
 #ifndef _CZCOLORBALANCE_H_
 #define _CZCOLORBALANCE_H_
 
-#include "CZCoding.h"
+#include "serialization/CZCoding.h"
 
 class CZColorBalance : public CZCoding
 {

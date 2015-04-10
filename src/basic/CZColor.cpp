@@ -11,6 +11,7 @@
 
 #include "CZColor.h"
 #include "../CZUtil.h"
+#include <cmath>
 
 /// 采用RGB模式初始化
 void CZColor::initWithRGB(float r, float g, float b, float a)
@@ -84,7 +85,7 @@ void CZColor::balanceRGB(float rShift, float gShift, float bShift)
 	blue =	CZUtil::Clamp(0, 1, blue + bShift);
 
 	float h, s, v;
-	RGBtoHSV(red, green, blue, h, s, v);
+	CZUtil::RGBtoHSV(red, green, blue, h, s, v);
 
 	hue			= CZUtil::Clamp(0.0f, 1.0f, h);
 	saturation	= CZUtil::Clamp(0.0f, 1.0f, s);
@@ -107,7 +108,7 @@ void CZColor::adjustHSV(float hShift, float sShift, float bShift)
 	brightness = CZUtil::Clamp(0, 1, brightness * bShift);
 
 	float r,g,b;
-	HSVtoRGB(hue,saturation,brightness,r,g,b);
+	CZUtil::HSVtoRGB(hue,saturation,brightness,r,g,b);
 
 	red			= CZUtil::Clamp(0.0f, 1.0f, r);
 	green		= CZUtil::Clamp(0.0f, 1.0f, g);
@@ -115,12 +116,12 @@ void CZColor::adjustHSV(float hShift, float sShift, float bShift)
 }
 
 /// 将HSV模式的值转换到一个uint32中，（分别是r,g,b,a）
-UINT32 CZColor::hash2Int()
+uint32_t CZColor::hash2Int()
 {
-	UINT32 h = UINT32 (256.f * red);
-	UINT32 s = UINT32 (256.f * green);
-	UINT32 b = UINT32 (256.f * blue);
-	UINT32 a = UINT32 (256.f * alpha);
+	uint32_t h = UINT32 (256.f * red);
+	uint32_t s = UINT32 (256.f * green);
+	uint32_t b = UINT32 (256.f * blue);
+	uint32_t a = UINT32 (256.f * alpha);
 	return (h << 24) | (s << 16) | (b << 8) | (a);
 }
 

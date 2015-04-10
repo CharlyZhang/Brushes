@@ -12,8 +12,8 @@
 #ifndef _CZCODING_H_
 #define _CZCODING_H_
 
-class CZCoder;
-class CZDecoder;
+#include "CZCoder.h"
+#include "CZDecoder.h"
 
 class CZCoding
 {

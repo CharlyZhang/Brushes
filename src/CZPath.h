@@ -16,8 +16,8 @@
 #ifndef _CZPATH_H_
 #define _CZPATH_H_
 
-#include "CZCoding.h"
-#include "CZColor.h"
+#include "serialization/CZCoding.h"
+#include "basic/CZColor.h"
 #include "basic/CZRect.h"
 #include "basic/CZ2DPoint.h"
 #include <vector>

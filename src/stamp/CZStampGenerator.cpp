@@ -16,7 +16,7 @@
 #include "../graphic/CZTexture.h"
 #include "../basic/CZImage.h"
 #include "../CZUtil.h"
-#include "../CZMat4.h"
+#include "../basic/CZMat4.h"
 #include "../basic/CZ3DPoint.h"
 #include "../graphic/CZGLContext.h"
 #include <stdlib.h>				// for rand()

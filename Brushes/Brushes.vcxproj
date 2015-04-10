@@ -26,7 +26,9 @@
     <ClCompile Include="..\src\basic\CZ2DPoint.cpp" />
     <ClCompile Include="..\src\basic\CZ3DPoint.cpp" />
     <ClCompile Include="..\src\basic\CZAffineTransform.cpp" />
+    <ClCompile Include="..\src\basic\CZColor.cpp" />
     <ClCompile Include="..\src\basic\CZImage.cpp" />
+    <ClCompile Include="..\src\basic\CZMat4.cpp" />
     <ClCompile Include="..\src\basic\CZProperty.cpp" />
     <ClCompile Include="..\src\basic\CZRandom.cpp" />
     <ClCompile Include="..\src\basic\CZRect.cpp" />
@@ -42,14 +44,10 @@
     <ClCompile Include="..\src\graphic\CZShader.cpp" />
     <ClCompile Include="..\src\graphic\CZTexture.cpp" />
     <ClCompile Include="..\src\main_brushes.cpp" />
-    <ClCompile Include="..\src\CZBezierNode.cpp" />
-    <ClCompile Include="..\src\CZBezierSegment.cpp" />
     <ClCompile Include="..\src\CZBrush.cpp" />
-    <ClCompile Include="..\src\CZColor.cpp" />
     <ClCompile Include="..\src\CZColorBalance.cpp" />
     <ClCompile Include="..\src\CZHueSaturation.cpp" />
     <ClCompile Include="..\src\CZLayer.cpp" />
-    <ClCompile Include="..\src\CZMat4.cpp" />
     <ClCompile Include="..\src\CZPainting.cpp" />
     <ClCompile Include="..\src\CZPath.cpp" />
     <ClCompile Include="..\src\CZPaintingRender.cpp" />
@@ -57,6 +55,8 @@
     <ClCompile Include="..\src\CZRender.cpp" />
     <ClCompile Include="..\src\CZBrushPreview.cpp" />
     <ClCompile Include="..\src\CZCanvas.cpp" />
+    <ClCompile Include="..\src\path\CZBezierNode.cpp" />
+    <ClCompile Include="..\src\path\CZBezierSegment.cpp" />
     <ClCompile Include="..\src\stamp\CZSpiralGenerator.cpp" />
     <ClCompile Include="..\src\stamp\CZStampGenerator.cpp" />
   </ItemGroup>
@@ -64,14 +64,13 @@
     <ClInclude Include="..\src\basic\CZ2DPoint.h" />
     <ClInclude Include="..\src\basic\CZ3DPoint.h" />
     <ClInclude Include="..\src\basic\CZAffineTransform.h" />
+    <ClInclude Include="..\src\basic\CZColor.h" />
     <ClInclude Include="..\src\basic\CZImage.h" />
+    <ClInclude Include="..\src\basic\CZMat4.h" />
     <ClInclude Include="..\src\basic\CZProperty.h" />
     <ClInclude Include="..\src\basic\CZRandom.h" />
     <ClInclude Include="..\src\basic\CZRect.h" />
     <ClInclude Include="..\src\basic\CZSize.h" />
-    <ClInclude Include="..\src\CZCoder.h" />
-    <ClInclude Include="..\src\CZCoding.h" />
-    <ClInclude Include="..\src\CZDecoder.h" />
     <ClInclude Include="..\src\CZDefine.h" />
     <ClInclude Include="..\src\CZEraserTool.h" />
     <ClInclude Include="..\src\CZNotificationCenter.h" />
@@ -87,14 +86,10 @@
     <ClInclude Include="..\src\graphic\glDef.h" />
     <ClInclude Include="..\src\Macro.h" />
     <ClInclude Include="..\src\CZActiveState.h" />
-    <ClInclude Include="..\src\CZBezierNode.h" />
-    <ClInclude Include="..\src\CZBezierSegment.h" />
     <ClInclude Include="..\src\CZBrush.h" />
-    <ClInclude Include="..\src\CZColor.h" />
     <ClInclude Include="..\src\CZColorBalance.h" />
     <ClInclude Include="..\src\CZHueSaturation.h" />
     <ClInclude Include="..\src\CZLayer.h" />
-    <ClInclude Include="..\src\CZMat4.h" />
     <ClInclude Include="..\src\CZPainting.h" />
     <ClInclude Include="..\src\CZPath.h" />
     <ClInclude Include="..\src\CZPaintingRender.h" />
@@ -103,6 +98,11 @@
     <ClInclude Include="..\src\CZBrushCell.h" />
     <ClInclude Include="..\src\CZBrushPreview.h" />
     <ClInclude Include="..\src\CZCanvas.h" />
+    <ClInclude Include="..\src\path\CZBezierNode.h" />
+    <ClInclude Include="..\src\path\CZBezierSegment.h" />
+    <ClInclude Include="..\src\serialization\CZCoder.h" />
+    <ClInclude Include="..\src\serialization\CZCoding.h" />
+    <ClInclude Include="..\src\serialization\CZDecoder.h" />
     <ClInclude Include="..\src\stamp\CZSpiralGenerator.h" />
     <ClInclude Include="..\src\stamp\CZStampGenerator.h" />
   </ItemGroup>

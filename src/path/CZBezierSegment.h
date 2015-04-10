@@ -12,6 +12,7 @@
 #ifndef _CZBEZIERSEGMENT_H_
 #define _CZBEZIERSEGMENT_H_
 
+#include "CZBezierNode.h"
 #include "../basic/CZ3DPoint.h"
 #include "../CZDefine.h"
 #include <vector>

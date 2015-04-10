@@ -11,8 +11,6 @@
 
 #include "CZBezierNode.h"
 
-#include "../basic/CZ2DPoint.h"
-
 CZBezierNode::~CZBezierNode(){}
 CZBezierNode::CZBezierNode(const CZ2DPoint &location_, float pressure_)
 {

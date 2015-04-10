@@ -12,7 +12,7 @@
 #ifndef _CZACTIVESTATE_H_
 #define _CZACTIVESTATE_H_
 
-#include "CZColor.h"
+#include "basic/CZColor.h"
 #include <string>
 #include <vector>
 #include <map>

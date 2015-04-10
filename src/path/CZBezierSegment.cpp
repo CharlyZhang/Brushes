@@ -10,7 +10,6 @@
 ///  \note		将点的数据声明为局部变量，而不是指针会导致空间浪费
 
 #include "CZBezierSegment.h"
-#include "CZBezierNode.h"
 #include <cmath>
 
 const float kDefaultFlatness = 1;

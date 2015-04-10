@@ -13,7 +13,7 @@
 #include "Macro.h"
 #include "basic/CZ3DPoint.h"
 #include "CZBrush.h"
-#include "CZBezierNode.h"
+#include "path/CZBezierNode.h"
 #include "basic/CZRandom.h"
 #include "basic/CZAffineTransform.h"
 #include "CZUtil.h"

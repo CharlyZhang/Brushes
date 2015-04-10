@@ -11,9 +11,9 @@
 
 #include "CZSpiralGenerator.h"
 #include "../basic/CZ2DPoint.h"
-#include "../CZUtil.h"
 #include "../basic/CZAffineTransform.h"
-#include "../CZBezierNode.h"
+#include "../path/CZBezierNode.h"
+#include "../CZUtil.h"
 #include "../graphic/glDef.h"
 #include <cmath>
 

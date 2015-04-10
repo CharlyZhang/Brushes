@@ -14,7 +14,7 @@
 
 #include "basic/CZProperty.h"
 #include "stamp/CZStampGenerator.h"		// for CZGeneratorDelegate
-#include "CZCoding.h"
+#include "serialization/CZCoding.h"
 #include <vector>
 #include <string>
 

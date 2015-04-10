@@ -14,11 +14,11 @@
 
 #include "CZPaintingRender.h"
 #include "basic/CZImage.h"
-#include "CZColor.h"
+#include "basic/CZColor.h"
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
 #include "basic/CZAffineTransform.h"
-#include "CZCoder.h"
+#include "serialization/CZCoding.h"
 #include "CZDataProvider.h"
 #include <string>
 

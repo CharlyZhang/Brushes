@@ -12,7 +12,7 @@
 #ifndef _CZTOOL_H_
 #define _CZTOOL_H_
 
-#include "CZBezierNode.h"
+#include "path/CZBezierNode.h"
 #include "basic/CZ2DPoint.h"
 #include "basic/CZRect.h"
 #include "basic/CZSize.h"

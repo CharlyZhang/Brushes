@@ -16,8 +16,7 @@
 #include "CZRender.h"
 #include "basic/CZImage.h"
 #include "CZPath.h"
-#include "CZMat4.h"
-#include "CZCommon.h"
+#include "basic/CZMat4.h"
 
 class CZBrushPreview;
 

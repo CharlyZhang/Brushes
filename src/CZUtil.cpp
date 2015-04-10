@@ -10,7 +10,7 @@
 ///  \note
 
 #include "CZUtil.h"
-#include "CZBezierSegment.h"
+#include "path/CZBezierSegment.h"
 #include "basic/CZ3DPoint.h"
 #include "CZDefine.h"
 #include "graphic/glDef.h"

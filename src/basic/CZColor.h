@@ -13,7 +13,7 @@
 #define _CZCOLOR_H_
 
 #include "../serialization/CZCoding.h"
-#include "../CZDefine.h"
+#include <stdint.h>			/// for uint32_t
 
 class CZColor: public CZCoding 
 {
@@ -58,7 +58,7 @@ public:
 	void adjustHSV(float hShift, float sShift, float bShift);
 
 	/// 将HSV模式的值转换到一个uint32中，（分别是r,g,b,a）
-	UINT32 hash2Int();
+	uint32_t hash2Int();
 
 	/// 判断是否相等
 	bool  operator==( const  CZColor & c_) const ;
