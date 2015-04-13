@@ -10,19 +10,13 @@
 ///  \note
 
 #include "CZBrush.h"
-#include "Macro.h"
-#include "basic/CZImage.h"
-#include "CZActiveState.h"
-#include "CZUtil.h"
+#include "../CZDefine.h"
+#include "../basic/CZImage.h"
+#include "../basic/CZRandom.h"
+#include "../CZActiveState.h"
+#include "../CZUtil.h"
 #include "CZBrushPreview.h"
-#include "CZNotificationCenter.h"
 #include <iostream>
-
-using namespace std;
-
-string CZBrushPropertyChanged = "BrushPropertyChanged";
-string CZBrushGeneratorChanged = "BrushGeneratorChanged";
-string CZBrushGeneratorReplaced = "BrushGeneratorReplaced";
 
 static char *CZGeneratorKey = "generator";
 static char *CZWeightKey = "weight";
@@ -34,35 +28,37 @@ static char *CZPositionalScatterKey = "positionalScatter";
 static char *CZAngleDynamicsKey = "angleDynamics";
 static char *CZWeightDynamicsKey = "weightDynamics";
 static char *CZIntensityDynamicsKey = "intensityDynamics";
-static char *CZUIDKey = "uid";
+static char *CZUUIDKey = "uuid";
 
-int CZBrush::brushNum = 0;
 
-CZBrush::CZBrush(CZStampGenerator *gen_)
-{
-	buildProperties();
-	
-	uid = 1000 + brushNum ++;
-	generator = gen_;
-	generator->ptrDelegate = this;
-	generator->configureBrush(this);
+CZBrush::CZBrush(CZStampGenerator *gen_ /*= NULL*/)
+{	
+	uuid = CZUtil::generateUUID();
 
+	generator = NULL;
 	strokePreview = NULL;
-	suppressNum = 0;
+	stampImage = NULL;
+
+	inStampGeneratingMode = false;
+	if(gen_) setGenerator(gen_);
+	
+	buildProperties();
+
+	myRandomizer = new CZRandom();
 }
 CZBrush::~CZBrush()
 {
 	if (generator) { delete generator; generator = NULL;}
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
-	changedProperties.clear();
-
-	brushNum--;
+	if (stampImage) { delete stampImage; stampImage = NULL;}
+	if (uuid)		{ delete [] uuid;	uuid = NULL;}
+	delete myRandomizer;
 }
 
 /// 随机生成笔刷（静态函数）
 CZBrush* CZBrush::randomBrush()
 {
-	CZStampGenerator *generator= CZActiveState::getInstance()->getRandomGenerator();
+	CZStampGenerator *generator= CZActiveState::getInstance()->getRandomGenerator()->copy();
 	generator->randomize();
 
 	CZBrush* random = new CZBrush(generator);
@@ -74,90 +70,158 @@ CZBrush* CZBrush::randomBrush()
 	return random;
 }
 
+/// 设置笔刷的笔触图片
+bool CZBrush::setStampImage(CZImage* img)
+{
+	if (img == NULL)
+	{
+		LOG_WARN("img is NULL");
+		return false;
+	}
+
+	inStampGeneratingMode = false;
+	if (uuid)	{ delete [] uuid; uuid = CZUtil::generateUUID();}
+	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
+	if (stampImage) { delete stampImage; }
+	
+	stampImage = img;
+
+	return true;
+}
+
+/// 返回笔刷的笔触图片
+CZImage* CZBrush::getStampImage()
+{
+	if (inStampGeneratingMode)
+	{
+		if (generator)
+		{
+			if(stampImage == NULL)	stampImage = generator->getStamp();
+		}
+		else
+		{
+			LOG_ERROR("generator is NULL,while brush is in stamp generating mode");
+			return NULL;
+		}
+	}
+	
+	return stampImage;
+}
+
+/// 更改生成器
+bool CZBrush::setGenerator(CZStampGenerator *gen_)
+{
+	if (gen_ == NULL)
+	{
+		LOG_WARN("generator is NULL");
+		return false;
+	}
+
+	delete generator;
+	generator = gen_;
+
+	inStampGeneratingMode = true;
+	generator->ptrDelegate = this;
+	generator->configureBrush(this);
+
+	if (uuid)	{ delete [] uuid; uuid = CZUtil::generateUUID();}
+	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
+	if (stampImage) { delete stampImage; stampImage = NULL;}
+
+	return true;
+}
+/// 获取生成器
+CZStampGenerator* CZBrush::getGenerator() const
+{
+	return generator;
+}
+
 /// 获取相应大小的笔刷图
 CZImage *CZBrush::previewImageWithSize(const CZSize &size)
 {
 	if (strokePreview && size.width==strokePreview->width && size.height==strokePreview->height) 
 		return strokePreview;
-#if 0   // for incremental compile
+	
 	CZBrushPreview *preview = CZBrushPreview::getInstance();
 
 	preview->setBrush(this);
 	strokePreview = preview->previewWithSize(size);
-#endif
-	return strokePreview;
-}
 
-/// 是否抑制通知
-void CZBrush::suppressNotifications(bool flag)
-{
-	suppressNum += flag ? 1 : (-1);
+	return strokePreview;
 }
 
 /// 恢复默认值
 void CZBrush::restoreDefaults()
 {
-	changedProperties.clear();
-	
-	suppressNotifications(true);
-	generator->configureBrush(this);
-	suppressNotifications(false);
-
-	if (changedProperties.size()) 
-	{
-		if (strokePreview) { delete strokePreview; strokePreview = NULL;}	
-		
-		//CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
-	}
-
-	changedProperties.clear();
+	if (!inStampGeneratingMode) return;
+	if(generator) generator->configureBrush(this);
+	else	LOG_WARN("generator is NULL\n");
 }
 
-/// 更改生成器
-void CZBrush::setGenerator(CZStampGenerator *gen_)
+
+/// 运算符重载
+bool CZBrush::operator == (const CZBrush &brush_) const
 {
-	delete generator;
-	generator = gen_;
-
-	generator->ptrDelegate = this;
-	generator->configureBrush(this);
-
-	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
-
-	//CZNotificationCenter::getInstance()->notify(CZBrushGeneratorReplaced,this,gen_);
+	return (strcmp(uuid,brush_.uuid) == 0);
 }
 
+CZBrush &CZBrush::operator = (const CZBrush &brush_)
+{
+	setGenerator(brush_.getGenerator()->copy());
+
+	angle.value = brush_.angle.value;
+	weight.value = brush_.weight.value;
+	intensity.value =  brush_.intensity.value;
+	spacing.value = brush_.spacing.value;
+	rotationalScatter.value = brush_.rotationalScatter.value;
+	positionalScatter.value = brush_.positionalScatter.value;
+	angleDynamics.value = brush_.angleDynamics.value;
+	weightDynamics.value = brush_.weightDynamics.value;
+	intensityDynamics.value = brush_.intensityDynamics.value;
+	strcpy(uuid,brush_.uuid);
+
+	return *this;
+}
 
 /// 获取随机数器（根据该轨迹的笔刷的生成器）
 CZRandom *CZBrush::getRandomizer()
 {
-	/*if(inStampGeneratingMode) generator->getRandomizer();
-	else return randomizer;*/
-	return generator->getRandomizer();
+	if(inStampGeneratingMode) return generator->getRandomizer();
+	else					  return myRandomizer;
 }
 
+/// 是否处于生成器产生笔触纹理模式
+bool CZBrush::isInStampGeneratingMode()
+{
+	return inStampGeneratingMode;
+}
+
+/*
 /// 笔刷属性有多少组（生成器不存在属性时，只有2组属性）
 int CZBrush::numberOfPropertyGroups()
 {
-	if(generator->getProperties().size())
-		return 3;
-	else 
-		return 2;
+	if(inStampGeneratingMode && generator->getProperties().size())	return 3;
+	return 2;
 }
 /// 获取某组属性
-vector<CZProperty> & CZBrush::propertiesGroupAt(int i)
+CZArray<CZProperty> & CZBrush::propertiesGroupAt(int i)
 {
-	static vector<CZProperty> ret;
+	static CZArray<CZProperty> ret;
 
-	vector<CZProperty> &temp = generator->getProperties();
+	if (inStampGeneratingMode)
+	{
+		CZArray<CZProperty> &temp = generator->getProperties();
+
+		if(temp.size() == 0)  i++;
+	}
+	else	i++;
 	
-	if(temp.size() == 0)  i++;
 
 	ret.clear();
 	if (i == 0) 
 	{
 		// shape group
-		for(vector<CZProperty>::iterator itr = temp.begin(); itr != temp.end(); itr++)
+		for(CZArray<CZProperty>::iterator itr = temp.begin(); itr != temp.end(); itr++)
 			ret.push_back(*itr);
 	} 
 	else if (i == 1) 
@@ -179,37 +243,29 @@ vector<CZProperty> & CZBrush::propertiesGroupAt(int i)
 	
 	return ret;
 }
+*/
 
 /// 处理属性变化（实现属性委托接口）
+
 void CZBrush::propertyChanged(CZProperty *property_)
 {
-//	if (suppressNum == 0)
-//	{
-//		if (strokePreview) { delete strokePreview; strokePreview = NULL;}
-//
-//		changedProperties.clear();
-//		changedProperties.push_back(*property_);
-//		
-//		//CZNotificationCenter::getInstance()->notify(CZBrushPropertyChanged,this,&changedProperties);
-//	} 
-//	else 
-//	{
-//		changedProperties.push_back(*property_);	///< 发生在restoreProperty中gen配置画刷的过程中
-//	}
+	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
+	if (stampImage) { delete stampImage; stampImage = NULL;}
+	if (uuid)		{ delete [] uuid;	uuid = NULL;}
 }
 
 /// 处理生成器变化（实现生成器委托接口）
 void CZBrush::generatorChanged(CZStampGenerator *gen_)
 {
 	if (strokePreview) { delete strokePreview; strokePreview = NULL;}
-
-	//CZNotificationCenter::getInstance()->notify(CZBrushGeneratorChanged,this,&gen_);
+	if (stampImage) { delete stampImage; stampImage = NULL;}
+	if (uuid)		{ delete [] uuid;	uuid = NULL;}
 }
 
 /// 实现coding接口
 void CZBrush::update(CZDecoder *decoder, bool deep /*= false*/)
 {
-	/*if (deep) 
+	if (deep) 
 	{
 		if(generator) delete generator;
 		generator = (CZStampGenerator *) decoder->decodeObject(CZGeneratorKey);
@@ -226,16 +282,16 @@ void CZBrush::update(CZDecoder *decoder, bool deep /*= false*/)
 	angleDynamics.value		= decodeValue(CZAngleDynamicsKey, decoder, angleDynamics.value);
 	weightDynamics.value	= decodeValue(CZWeightDynamicsKey, decoder, weightDynamics.value);
 	intensityDynamics.value = decodeValue(CZIntensityDynamicsKey, decoder, intensityDynamics.value);
-	uid = decoder->decodeUint(CZUIDKey);*/
+	//uid = decoder->decodeUint(CZUUIDKey);
 }
 void CZBrush::encode(CZCoder *coder, bool deep/* = false*/)
 {
-	/*if (deep) 
+	if (deep) 
 	{
-	coder->encodeObject(generator, CZGeneratorKey, deep);
+		coder->encodeObject(generator, CZGeneratorKey, deep);
 	}
 
-	coder->encodeUint(uid,CZUIDKey);
+	//coder->encodeUint(uuid,CZUUIDKey);
 	coder->encodeFloat(weight.value, CZWeightKey);
 	coder->encodeFloat(intensity.value, CZIntensityKey);
 	coder->encodeFloat(angle.value, CZAngleKey);
@@ -244,7 +300,7 @@ void CZBrush::encode(CZCoder *coder, bool deep/* = false*/)
 	coder->encodeFloat(positionalScatter.value, CZPositionalScatterKey);
 	coder->encodeFloat(angleDynamics.value, CZAngleDynamicsKey);
 	coder->encodeFloat(weightDynamics.value, CZWeightDynamicsKey);
-	coder->encodeFloat(intensityDynamics.value, CZIntensityDynamicsKey);*/
+	coder->encodeFloat(intensityDynamics.value, CZIntensityDynamicsKey);
 }
 
 
@@ -292,16 +348,15 @@ void CZBrush::buildProperties()
 /// 解压缩值
 float CZBrush::decodeValue(const char *key, CZDecoder *decoder, float deft)
 {
-	//float value = decoder->decodeFloat(key,123456789);
-	//if (value == 123456789) 
-	//{
-	//	// for legacy files
-	//	CZProperty *old = (CZProperty *) decoder->decodeObject(strcmp(key,CZWeightKey)==0 ? "noise": key);
-	//	return old ? old->value : deft;
-	//} 
-	//else 
-	//{
-	//	return value;
-	//}
-	return 0;///
+	float value = decoder->decodeFloat(key,123456789);
+	if (value == 123456789) 
+	{
+		// for legacy files
+		CZProperty *old = (CZProperty *) decoder->decodeObject(strcmp(key,CZWeightKey)==0 ? "noise": key);
+		return old ? old->value : deft;
+	} 
+	else 
+	{
+		return value;
+	}
 }

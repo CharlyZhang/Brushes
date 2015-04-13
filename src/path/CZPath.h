@@ -13,16 +13,15 @@
 #define _CZPATH_H_
 
 #include "../serialization/CZCoding.h"
-#include "../CZMacro.h"
+#include "../CZDefine.h"
 #include "../basic/CZColor.h"
+#include "../basic/CZRect.h"
 #include "../basic/CZ2DPoint.h"
+#include "../basic/CZ3DPoint.h"
 #include "CZBezierNode.h"
 
 #include <vector>
 
-class CZ3DPoint;
-class CZRect;
-class CZBezierNode;
 class CZRandom;
 class CZBrush;
 
@@ -37,23 +36,23 @@ typedef enum
 class CZPath : public CZCoding
 {
 public:
-	CZPath(CZArray<CZBezierNode> *nodes_ = NULL);
+	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
 	~CZPath();
 	/// 设置所有结点
-	void CZPath::setNodes(const CZArray<CZBezierNode> &nodes_);
+	void CZPath::setNodes(const std::vector<CZBezierNode> &nodes_);
 	/// 获得所有控制点
-	const CZArray<CZBezierNode>& getNodes();
+	const std::vector<CZBezierNode>& getNodes() const;
 	/// 添加结点
 	void addNode(CZBezierNode &node);
 	/// 设置是否封闭
 	void setClosed(bool isClosed);
-	bool isClosed();
+	bool isClosed() const;
 	/// 绘制轨迹（返回所有数据的范围）
 	CZRect paint(CZRandom *randomizer_);
 	/// 获取随机数器（根据该轨迹的笔刷的生成器）
 	CZRandom *getRandomizer();
 	/// 拷贝构造函数
-	CZPath&  operator=( const  CZPath & path_) ;
+	CZPath& operator=(const CZPath &path_) ;
 	/// 实现coding 接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
@@ -87,7 +86,7 @@ private:
 	///		/param closed		- 是否形成闭环
 	///		/param points		- 离散后得到的绘制点容器
 	///		/return				- 离散后得到的绘制点数目
-	unsigned int flattenNodes2Points(const CZArray<CZBezierNode> &nodes, bool closed,CZArray<CZ3DPoint> &points);
+	unsigned int flattenNodes2Points(const std::vector<CZBezierNode> &nodes, bool closed,std::vector<CZ3DPoint> &points);
 
 public:
 	bool							limitBrushSize;
@@ -100,12 +99,12 @@ private:
 	float							scale;
 	bool							closed;
 
-	CZArray<CZBezierNode>			nodes;				///< 贝塞尔曲线所有控制点
+	std::vector<CZBezierNode>			nodes;				///< 贝塞尔曲线所有控制点
 	/// 最终绘制点的参数
-	CZArray<CZ2DPoint>				points;
-	CZArray<float>					sizes;
-	CZArray<float>					angles;
-	CZArray<float>					alphas;				
+	std::vector<CZ2DPoint>				points;
+	std::vector<float>					sizes;
+	std::vector<float>					angles;
+	std::vector<float>					alphas;				
 };
 
 #endif

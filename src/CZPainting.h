@@ -14,7 +14,7 @@
 
 #include "basic/CZSize.h"
 #include "basic/CZRect.h"
-#include "CZPath.h"
+#include "path/CZPath.h"
 #include "basic/CZRandom.h"
 #include "basic/CZMat4.h"
 #include "CZLayer.h"
@@ -129,7 +129,7 @@ private:
 	std::vector<CZBrush*>	brushes;
 	std::vector<CZBrush*>	undoBrushes;
 	int						strokeCount;	///< 笔画数目
-	unsigned int			uid;
+	unsigned int			uuid;
 
 	CZBrush					*ptrLastBrush;	///< 上一把画刷
 

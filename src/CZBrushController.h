@@ -1,5 +1,5 @@
 
-#include "CZBrush.h"
+#include "brush/CZBrush.h"
 
 class CZBrushController : public CZBrushDelegate
 {

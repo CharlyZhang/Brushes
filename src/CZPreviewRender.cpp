@@ -11,7 +11,7 @@
 
 
 #include "CZPreviewRender.h"
-#include "CZBrushPreview.h"
+#include "brush/CZBrushPreview.h"
 #include "CZUtil.h"
 
 #if USE_OPENGL
@@ -73,7 +73,7 @@ void CZPreviewRender::configure(int w, int h)
 	fbo->setColorRenderBuffer(width,height);
 
 	/// 设置投影环境
-	projMat.SetOrtho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
+	projMat.SetOrtho(0.0f, (float)width, 0.0f, (float)height, -1.0f, 1.0f);
 
 }
 
@@ -93,7 +93,7 @@ CZImage *CZPreviewRender::drawPath(CZPath *path)
 	CZCheckGLError();
 
 	/// 绘制轨迹
-	path->paintPath(this,path->getRandomizer());
+	path->paint(path->getRandomizer());
 
 	brushShader->end();
 

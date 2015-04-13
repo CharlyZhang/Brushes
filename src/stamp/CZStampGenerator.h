@@ -39,6 +39,8 @@ public:
 
 	/// 拷贝一份当前生成器
 	virtual CZStampGenerator* copy();
+	/// 判断是否相同
+	bool isEqual(CZStampGenerator *);
 
 	/// 重置种子
 	void resetSeed();
@@ -70,6 +72,7 @@ protected:
 public:
 	unsigned int seed;
 	CZSize size;
+	float scale;				///< 缩放比
 	float baseDimension;
 	CZGeneratorDelegate *ptrDelegate;
 	unsigned char blurRadius;
@@ -78,7 +81,6 @@ protected:
 	CZImage *stamp;				///< 笔刷图案
 	CZImage *smallStamp;
 	CZRandom *randomizer;		///< 与seed相关的随机化器
-	float scale;				///< 缩放比
 	CZGLContext *ptrGLContext;	///< gl上下文
 	std::map<std::string,CZProperty*> rawProperties;
 };

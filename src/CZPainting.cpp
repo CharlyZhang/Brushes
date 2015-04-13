@@ -42,7 +42,7 @@ CZPainting::CZPainting(const CZSize &size)
 	ptrActiveLayer = new CZLayer;
 	addLayer(ptrActiveLayer);
 
-	uid = PAINTING_BASE_UID + (paintingNum++);
+//	uid = PAINTING_BASE_UID + (paintingNum++);
 }
 CZPainting::~CZPainting()
 {

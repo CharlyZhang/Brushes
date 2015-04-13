@@ -1,8 +1,8 @@
 #include <windows.h>	// Header File For Windows
 #include "GL/glew.h"
 #include "GL/glut.h"
-#include "CZBrush.h"
-#include "CZBrushPreview.h"
+#include "brush/CZBrush.h"
+#include "brush/CZBrushPreview.h"
 #include "graphic/CZTexture.h"
 #include "graphic/CZFbo.h"
 #include "stamp/CZStampGenerator.h"
@@ -25,12 +25,16 @@ bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证
 //CZGLContext *glContext = NULL;
 //////////////////////////////////////////////////////////////////////////
 
-#if PATH_TEX || BRUSH_TEX
+CZTexture *showTex = NULL;
+#if STAMP_TEX
 CZStampGenerator *stampGen =  CZActiveState::getInstance()->getRandomGenerator();
-CZBrush *brush = new CZBrush(stampGen);
-CZBrushPreview *priew;// = CZBrushPreview::getInstance();
-CZTexture *brushTex = 0;
 #endif
+
+#if STROKE_TEX
+CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+CZBrushPreview *priew;
+#endif
+
 FILE *fp1 = freopen("../info.txt","w",stdout);
 FILE *fp2 = freopen("../error.txt","w",stderr);
 
@@ -84,18 +88,17 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 
 	glewInit();
 
-#if PATH_TEX || BRUSH_TEX
+#if STAMP_TEX
+	showTex = CZTexture::produceFromImage(stampGen->getStamp());
+	glBindTexture(GL_TEXTURE_2D, showTex->texId);
+#endif
+
+#if STROKE_TEX
 	priew = CZBrushPreview::getInstance();
 	priew->setBrush(brush);
-#endif
-#if BRUSH_TEX
-	brushTex = CZTexture::produceFromImage(stampGen->getStamp());
-	glBindTexture(GL_TEXTURE_2D, brushTex->texId);
-#endif
-#if PATH_TEX
 	CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
-	brushTex = CZTexture::produceFromImage(img);
-	glBindTexture(GL_TEXTURE_2D, brushTex->texId);
+	showTex = CZTexture::produceFromImage(img);
+	glBindTexture(GL_TEXTURE_2D, showTex->texId);
 #endif
 	
 
@@ -155,7 +158,7 @@ GLvoid DrawGLScene(GLvoid)
 	return;
 #endif
 
-#if BRUSH_TEX
+#if STAMP_TEX
 	glClearColor(0.0,0.0,0.0,1.0);
 #else
 	glClearColor(1.0,1.0,1.0,1.0);
@@ -265,6 +268,8 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 /// 正常销毁窗口
 GLvoid KillGLWindow(GLvoid)
 {
+	delete showTex;
+
 	/// 全屏下先切到窗口
 	if (fullscreen)
 	{

@@ -10,8 +10,8 @@
 ///  \note		It is a Singleton
 
 #include "CZActiveState.h"
-#include "Macro.h"
-#include "CZBrush.h"
+#include "CZDefine.h"
+#include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
 #include "CZFreehandTool.h"
 #include "CZEraserTool.h"
@@ -24,7 +24,9 @@ CZActiveState::CZActiveState()
 	eraseMode = false;
 	paintColor = CZColor::blackColor();
 	stampGLContext = new CZGLContext;
-	brushes.push_back(new CZBrush(new CZSpiralGenerator(stampGLContext)));  /// if invoke CZBrush::randomBrush, the CZActiveState constructor will be called again
+	//setUpGenerators()
+	generators["test"] = new CZSpiralGenerator(stampGLContext);
+	brushes.push_back(new CZBrush(getRandomGenerator()->copy()));  /// if invoke CZBrush::randomBrush, the CZActiveState constructor will be called again
 	ptrEraseBrush = ptrPaintBrush = brushes[0];
 
 	tools.push_back(new CZFreehandTool);
@@ -40,6 +42,10 @@ CZActiveState::~CZActiveState()
 	for(vector<CZTool*>::iterator itr = tools.begin(); itr != tools.end(); itr++)
 		delete *itr;
 	tools.clear();
+
+	for(map<string,CZStampGenerator*>::iterator itr = generators.begin(); itr != generators.end(); itr++)
+		delete itr->second;
+	generators.clear();
 
 	delete stampGLContext;
 }
@@ -173,10 +179,15 @@ CZTool* CZActiveState::getActiveTool()
 	return eraseMode ? tools[1] : tools[0];
 }
 
-/// 获取随机一个笔刷生成器
+/// 获取随机一个笔刷生成器~
 CZStampGenerator * CZActiveState::getRandomGenerator()
 {
-	return new CZSpiralGenerator(stampGLContext);
+	if (generators.size())
+	{
+		return generators["test"];
+	}
+
+	return NULL;
 }
 
 

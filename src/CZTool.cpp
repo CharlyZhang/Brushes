@@ -156,7 +156,6 @@ void CZTool::moveEnd(CZ2DPoint &p_)
 	{ // draw a single stamp
 		CZBezierNode node(location,1.0);
 		
-		path.initital();
 		path.addNode(node);
 		accumulatedStrokePoints.push_back(node);
 
@@ -241,8 +240,6 @@ void CZTool::paintFittedPoints()
 	}
 
 	/// 生成一个轨迹path
-	path.initital();
-
 	path.limitBrushSize = true;
 
 	for (int i = 0; i <= drawBound; i++) 

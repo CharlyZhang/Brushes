@@ -31,6 +31,18 @@ CZSpiralGenerator::CZSpiralGenerator(CZGLContext *ctx):CZStampGenerator(ctx)
 	//(self.rawProperties)[@"density"] = density;
 }
 
+/// 拷贝一份当前生成器
+CZSpiralGenerator* CZSpiralGenerator::copy()
+{
+	CZSpiralGenerator *ret = new CZSpiralGenerator(ptrGLContext);
+	ret->seed = seed;
+	ret->size = size;
+	ret->scale = scale;
+	ret->density = density;
+	return ret;
+}
+
+
 /// 绘制图案
 void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 {

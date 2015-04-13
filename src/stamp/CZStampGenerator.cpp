@@ -10,7 +10,7 @@
 ///  \note
 
 #include "CZStampGenerator.h"
-#include "../CZBrush.h"
+#include "../brush/CZBrush.h"
 #include "../graphic/CZFbo.h"
 #include "../graphic/CZShader.h"
 #include "../graphic/CZTexture.h"
@@ -69,7 +69,19 @@ CZStampGenerator::~CZStampGenerator()
 
 CZStampGenerator* CZStampGenerator::copy()
 {
-	return NULL;
+	CZStampGenerator *ret = new CZStampGenerator(ptrGLContext);
+	ret->seed = seed;
+	ret->size = size;
+	ret->scale = scale;
+	return ret;
+}
+
+/// 判断是否相同
+bool CZStampGenerator::isEqual(CZStampGenerator *sg)
+{
+	if(!sg) return false;
+	if(typeid(*sg) == typeid(*this))	return true;
+	else								return false;
 }
 
 /// 绘制图案（虚函数）

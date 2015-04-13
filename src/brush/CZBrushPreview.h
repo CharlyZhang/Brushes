@@ -9,8 +9,8 @@
 ///  \date		2014-09-16
 ///  \note
 
-#include "CZNotificationCenter.h"
-#include "CZPreviewRender.h"
+#include "../CZNotificationCenter.h"
+#include "../CZPreviewRender.h"
 class CZImage;
 class CZPath;
 class CZBrush;

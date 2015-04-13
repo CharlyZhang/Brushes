@@ -10,19 +10,17 @@
 ///  \note
 
 #include "CZPath.h"
-#include "../basic/CZ3DPoint.h"
 #include "../basic/CZAffineTransform.h"
-#include "../basic/CZRect.h"
-#include "../gl/glDef.h"
-#include "../CZBrush.h"
-#include "../CZRandom.h"
+#include "../basic/CZRandom.h"
+#include "../brush/CZBrush.h"
 #include "../CZUtil.h"
 #include "CZBezierSegment.h"
-#include <cmath>
+#include "../graphic/glDef.h"
+#include <cmath>			//for fabs()...
  
 using namespace std;
 
-CZPath::CZPath(CZArray<CZBezierNode> *nodes_ /* = NULL */)
+CZPath::CZPath(vector<CZBezierNode> *nodes_ /* = NULL */)
 {
 	nodes.clear();
 	ptrBrush = NULL;
@@ -47,17 +45,16 @@ CZPath::~CZPath()
 }
 
 /// 设置所有结点
-void CZPath::setNodes(CZArray<CZBezierNode> &nodes_)
+void CZPath::setNodes(const vector<CZBezierNode> &nodes_)
 {
 	nodes.clear();
-	invalidatePath();
 
 	int n = nodes_.size();
 	for(int i=0; i<n; i++) nodes.push_back(nodes_[i]);
 }
 
 /// 获得所有控制点
-const CZPath::CZArray<CZBezierNode>& getNodes()
+const vector<CZBezierNode>& CZPath::getNodes() const
 {
 	return nodes;
 }
@@ -90,7 +87,7 @@ void CZPath::setClosed(bool isClosed)
 
 	closed = isClosed;
 }
-bool CZPath::isClosed()
+bool CZPath::isClosed() const
 {
 	return closed;
 }
@@ -101,7 +98,7 @@ CZRect CZPath::paint(CZRandom *randomizer_)
 	if(randomizer_ == NULL) 
 	{
 		LOG_ERROR("randomizer is NULL");
-		return;
+		return CZRect();
 	}
 
 	points.clear();
@@ -115,12 +112,12 @@ CZRect CZPath::paint(CZRandom *randomizer_)
 	} 
 	else 
 	{
-		CZArray<CZ3DPoint> linePoints;		/// <贝塞尔曲线的绘制点
+		vector<CZ3DPoint> linePoints;		/// <贝塞尔曲线的绘制点
 		int numPoints = flattenNodes2Points(nodes,closed,linePoints);
 
 		if(ptrBrush == NULL) 
 		{
-			LOG_ERROR("ptrBrush is NULL\n);
+			LOG_ERROR("ptrBrush is NULL\n");
 			return CZRect();
 		}
 
@@ -141,10 +138,11 @@ CZRandom *CZPath::getRandomizer()
 }
 
 /// 拷贝构造函数
-CZPath&  CZPath::operator=( const  CZPath & path_)
+CZPath& CZPath::operator=(const CZPath& path_)
 {
 	setNodes(path_.getNodes());
 	setClosed(path_.isClosed());
+	return *this;
 }
 
 
@@ -245,11 +243,11 @@ CZRect CZPath::drawData()
 		}
 	}
 	
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &data[0].x);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &vertexD[0].x);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].s);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+	glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
 	glEnableVertexAttribArray(2);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
@@ -277,7 +275,7 @@ void CZPath::paintStamp(CZRandom *randomizer)
 	float brushSize = weight;
 	float rotationalScatter = randomizer->nextFloat() * ptrBrush->rotationalScatter.value * M_PI * 2;
 	float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);
-	float alpha = Max(0.01, ptrBrush->intensity.value);
+	float alpha = CZUtil::Max(0.01, ptrBrush->intensity.value);
 
 	points.push_back(start);
 	sizes.push_back(brushSize);
@@ -349,7 +347,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 		angles.push_back(vectorAngle * ptrBrush->angleDynamics.value + rotationalScatter + angleOffset);
 		alphas.push_back(alpha);
 
-		step = Max(1.0, ptrBrush->spacing.value * brushSize);
+		step = CZUtil::Max(1.0, ptrBrush->spacing.value * brushSize);
 		start = start + (unitVector * step);
 		pressureStep = pDelta / (distance / step);
 	}
@@ -366,7 +364,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 ///		/param nodes		- 连续的三维结点
 ///		/param points		- 离散后得到的绘制点容器
 ///		/return				- 离散后得到的绘制点数目
-unsigned int flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
+unsigned int CZPath::flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
 {
 	int numNodes = nodes.size();
 

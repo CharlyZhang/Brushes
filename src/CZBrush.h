@@ -44,6 +44,10 @@ public:
 	int numberOfPropertyGroups();
 	/// 获取某组属性
 	std::vector<CZProperty> & propertiesGroupAt(int i); 
+
+	/// 获取随机数器（根据该轨迹的笔刷的生成器）
+	CZRandom *getRandomizer();
+
 	/// 处理属性变化（实现属性委托接口）
 	void propertyChanged(CZProperty *property_);
 	/// 处理生成器变化（实现生成器委托接口）

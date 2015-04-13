@@ -20,8 +20,8 @@
 #include "stamp/CZStampGenerator.h"
 #include "CZLayer.h"
 #include "CZPainting.h"
-#include "CZBrush.h"
-#include "CZPath.h"
+#include "brush/CZBrush.h"
+#include "path/CZPath.h"
 #include "basic/CZRandom.h"
 #include "CZColorBalance.h"
 #include "CZHueSaturation.h"
@@ -273,7 +273,7 @@ CZRect CZPaintingRender::drawPaintingStroke(CZPath *path_, CZRandom *randomizer,
 	CZRect pathBounds;
 
 	/// »æÖÆ¹ì¼£
-	pathBounds = path_->paintPath(this,randomizer);
+	pathBounds = path_->paint(randomizer);
 
 	shader->end();
 	
@@ -796,7 +796,7 @@ void CZPaintingRender::changeBrushTex(CZBrush *brush)
 {
 	if (brushTex) { delete brushTex; brushTex = NULL;}
 
-	CZStampGenerator *gen = brush->generator;
+	CZStampGenerator *gen = brush->getGenerator();
 	CZImage *img = gen->getStamp(false);
 	setContext();
 	brushTex = CZTexture::produceFromImage(img);		///< get the normal stamp;

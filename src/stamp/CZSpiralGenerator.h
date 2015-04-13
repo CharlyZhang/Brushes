@@ -20,6 +20,9 @@ public:
 	CZSpiralGenerator(CZGLContext *ctx);
 	~CZSpiralGenerator(){};
 
+	/// 拷贝一份当前生成器
+	CZSpiralGenerator* copy();
+
 	/// 绘制图案
 	void renderStamp(CZRandom* randomizer);
 private:

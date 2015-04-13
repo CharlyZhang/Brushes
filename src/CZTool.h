@@ -16,12 +16,12 @@
 #include "basic/CZ2DPoint.h"
 #include "basic/CZRect.h"
 #include "basic/CZSize.h"
-#include "CZPath.h"
+#include "path/CZPath.h"
 #include "basic/CZRandom.h"
 #include "CZPainting.h"
 #include "CZUtil.h"
 #include <vector>
-#include "CZBrush.h"
+#include "brush/CZBrush.h"
 
 /// π§æﬂ¿‡
 class CZTool 

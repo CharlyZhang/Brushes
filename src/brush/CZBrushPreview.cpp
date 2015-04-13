@@ -10,16 +10,15 @@
 ///  \note
 
 #include "CZBrushPreview.h"
-#include "Macro.h"
+#include "../CZDefine.h"
+#include "../path/CZBezierNode.h"
+#include "../basic/CZRect.h"
+#include "../basic/CZ2DPoint.h"
+#include "../basic/CZMat4.h"
+#include "../stamp/CZStampGenerator.h"
+#include "../path/CZPath.h"
+#include "../CZUtil.h"
 #include "CZBrush.h"
-#include "path/CZBezierNode.h"
-#include "basic/CZ2DPoint.h"
-#include "basic/CZRect.h"
-#include "basic/CZSize.h"
-#include "stamp/CZStampGenerator.h"
-#include "CZPath.h"
-#include "CZUtil.h"
-#include "basic/CZMat4.h"
 
 #include <vector>
 #include <cmath>
@@ -34,8 +33,8 @@ bool CZBrushPreview::initial()
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
 
-	CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorChanged,this,NULL);
-	CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorReplaced,this,NULL);
+	//CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorChanged,this,NULL);
+	//CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorReplaced,this,NULL);
 
 	return true;
 
@@ -46,8 +45,8 @@ bool CZBrushPreview::destroy()
 {
 	if(path)	{	delete path; path = NULL; }
 
-	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorChanged,this);
-	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorReplaced,this);
+//	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorChanged,this);
+//	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorReplaced,this);
 	return true;
 }
 
@@ -110,7 +109,7 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 	render.configureBrush(getBrushImage());
 
 	/// 设置轨迹参数
-	path->setBrush(ptrBrush);
+	path->ptrBrush = ptrBrush;
 	path->remainder = 0.0f;
 	path->setClosed(false);
 
@@ -122,7 +121,7 @@ CZImage* CZBrushPreview::previewWithSize(CZSize size_)
 void CZBrushPreview::setBrush(CZBrush *brush_)
 {
 	/// 如果刷子生成器改变了，则笔刷图案改变
-	if(ptrBrush && brush_ /*&& ptrBrush->generator->isEqual(brush_->generator)*/)
+	if(ptrBrush && brush_ && ptrBrush->getGenerator()->isEqual(brush_->getGenerator()))
 	{
 		render.clearBrush();
 	}
@@ -139,15 +138,15 @@ void CZBrushPreview::setMainScreenScale(float s)
 /// 获取笔刷图像
 CZImage* CZBrushPreview::getBrushImage()
 {
-	CZStampGenerator *gen = ptrBrush->generator;
+	CZStampGenerator *gen = ptrBrush->getGenerator();
 	return gen->getStamp(true);		///< get the small stamp;
 }
 
 /// 实现Observer接口
 void CZBrushPreview::updateObserver(std::string &notificationName, void* data /* = NULL */)
 {
-	if (notificationName == CZBrushGeneratorChanged)
-	{
-		render.clearBrush();
-	}
+// 	if (notificationName == CZBrushGeneratorChanged)
+// 	{
+// 		render.clearBrush();
+// 	}
 }
