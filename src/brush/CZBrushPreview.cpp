@@ -12,42 +12,60 @@
 #include "CZBrushPreview.h"
 #include "../CZDefine.h"
 #include "../path/CZBezierNode.h"
+#include "../path/CZPath.h"
 #include "../basic/CZRect.h"
 #include "../basic/CZ2DPoint.h"
-#include "../basic/CZMat4.h"
 #include "../stamp/CZStampGenerator.h"
-#include "../path/CZPath.h"
 #include "../CZUtil.h"
 #include "CZBrush.h"
 
 #include <vector>
+#include <string>
 #include <cmath>
 
 using namespace std;
 
 /// 初始化函数
-bool CZBrushPreview::initial()
+CZBrushPreview::CZBrushPreview()
 {
 	path = NULL;
 	ptrBrush = NULL;
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
 
-	//CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorChanged,this,NULL);
-	//CZNotificationCenter::getInstance()->addObserver(CZBrushGeneratorReplaced,this,NULL);
+	glContext = new CZGLContext;
+	glContext->setAsCurrent();
+	/// set up shader
+	vector<string> tmp1,tmp2;
+	tmp1.push_back("inPosition");
+	tmp1.push_back("inTexcoord");
+	tmp1.push_back("alpha");
+	tmp2.push_back("mvpMat");
+	tmp2.push_back("texture");
+	brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
+	/// set up fbo
+	fbo = new CZFbo;
 
-	return true;
+	/// configure some default GL state
+	glDisable(GL_DITHER);
+	glDisable(GL_STENCIL_TEST);
+	glDisable(GL_DEPTH_TEST);
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 /// 销毁函数
-bool CZBrushPreview::destroy()
+CZBrushPreview::~CZBrushPreview()
 {
-	if(path)	{	delete path; path = NULL; }
+	if(path)			{	delete path; path = NULL; }
 
-//	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorChanged,this);
-//	CZNotificationCenter::getInstance()->removeObserver(CZBrushGeneratorReplaced,this);
-	return true;
+	glContext->setAsCurrent();
+	if (brushShader)	{	delete brushShader; brushShader = NULL; }
+	if (brushTexture)	{	delete brushTexture;brushTexture = NULL;}
+	if (fbo)			{	delete fbo;			fbo = NULL;			}
+
+	delete glContext;
 }
 
 /// 启动新预览图（配置绘制器，生成绘制的轨迹）
@@ -58,12 +76,18 @@ void CZBrushPreview::setup(const CZSize &size_)
 	backingWidth = size_.width;
 	backingHeight = size_.height;
 
-	/// 配置绘制器
-	render.configure(backingWidth,backingHeight);
-
 	/// 创建路径
 	if(path) delete path;
+	
 	buildPath();
+
+	/// 设置投影环境
+	projMat.SetOrtho(0.0f, (float)backingWidth, 0.0f, (float)backingHeight, -1.0f, 1.0f);
+	CZMat4 scaleMat;
+	scaleMat.SetScale(VECTOR3D(mainScreenScale,mainScreenScale,1.0f));
+	projMat = projMat * scaleMat;
+
+	fbo->setColorRenderBuffer(backingWidth,backingHeight);
 }
 
 /// 构建轨迹（绘制一条sin曲线）
@@ -92,28 +116,64 @@ void CZBrushPreview::buildPath()
 	}
 }
 
+/// 配置笔刷
+void CZBrushPreview::configureBrush()
+{
+	if(brushTexture == NULL)
+	{
+		/// 获取笔刷图像
+		CZStampGenerator *gen = ptrBrush->getGenerator();
+		CZImage *img = gen->getStamp(true);		///< get the small stamp;
+		brushTexture = CZTexture::produceFromImage(img);
+	}
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,brushTexture->texId);
+}
+
 /// 生成指定尺寸大小预览图
-CZImage* CZBrushPreview::previewWithSize(CZSize size_)
+CZImage* CZBrushPreview::previewWithSize(const CZSize size_)
 {
 	if(ptrBrush == NULL)
 	{
-		std::cerr << "Error - CZBrushPreview::previewWithSize : ptrBrush is NULL\n";
+		LOG_ERROR("ptrBrush is NULL\n");
 		return NULL;
 	}
 
 	/// 根据设备分辨率进行调整
-	size_ = size_ * mainScreenScale;
+	CZSize size = size_ * mainScreenScale;
+
+	glContext->setAsCurrent();
 	/// 生成新轨迹
-	setup(size_);
+	setup(size);
 	/// 配置笔刷
-	render.configureBrush(getBrushImage());
+	configureBrush();
 
 	/// 设置轨迹参数
 	path->ptrBrush = ptrBrush;
 	path->remainder = 0.0f;
 	path->setClosed(false);
 
-	CZImage *ret = render.drawPath(path);	
+	fbo->begin();
+
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);		///!!!
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	brushShader->begin();
+
+	glUniform1i(brushShader->getUniformLocation("texture"),0);
+	glUniformMatrix4fv(brushShader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	CZCheckGLError();
+
+	/// 绘制轨迹
+	path->paint(path->getRandomizer());
+
+	brushShader->end();
+	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
+	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
+
+	fbo->end();
+
 	return ret;
 }
 
@@ -123,7 +183,11 @@ void CZBrushPreview::setBrush(CZBrush *brush_)
 	/// 如果刷子生成器改变了，则笔刷图案改变
 	if(ptrBrush && brush_ && ptrBrush->getGenerator()->isEqual(brush_->getGenerator()))
 	{
-		render.clearBrush();
+		if(brushTexture) 
+		{
+			glContext->setAsCurrent();
+			delete brushTexture; brushTexture=NULL;
+		}
 	}
 
 	ptrBrush = brush_;
@@ -133,13 +197,6 @@ void CZBrushPreview::setBrush(CZBrush *brush_)
 void CZBrushPreview::setMainScreenScale(float s)
 {
 	mainScreenScale = s;
-}
-
-/// 获取笔刷图像
-CZImage* CZBrushPreview::getBrushImage()
-{
-	CZStampGenerator *gen = ptrBrush->getGenerator();
-	return gen->getStamp(true);		///< get the small stamp;
 }
 
 /// 实现Observer接口

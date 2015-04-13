@@ -10,8 +10,15 @@
 ///  \note
 
 #include "../CZNotificationCenter.h"
-#include "../CZPreviewRender.h"
-class CZImage;
+#include "../graphic/CZGLContext.h"
+#include "../graphic/CZShader.h"
+#include "../graphic/CZTexture.h"
+#include "../graphic/CZFbo.h"
+#include "../basic/CZImage.h"
+#include "../basic/CZMat4.h"
+#include "../basic/CZSize.h"
+#include "../graphic/glDef.h"
+
 class CZPath;
 class CZBrush;
 
@@ -34,31 +41,27 @@ public:
 	///		/param size - 绘制预览的尺寸大小
 	///		/return		- 绘制得到的笔刷轨迹图
 	///		/note		使用之前应该先调用setBrush设定笔刷。
-	CZImage *previewWithSize(CZSize size_);
+	CZImage *previewWithSize(const CZSize size_);
 	/// 设置画刷
 	void setBrush(CZBrush *brush_);
 	/// 设置设备屏幕分辨率倍数
 	void setMainScreenScale(float s);
-	/// 获取笔刷图像
-	CZImage *getBrushImage();
 
 	/// 实现Observer接口
 	void updateObserver(std::string &notificationName, void* data = NULL);
 
 private:
-	CZBrushPreview(){ initial(); }   //构造函数是私有的
+	CZBrushPreview();
 	CZBrushPreview(const CZBrushPreview &);
 	CZBrushPreview & operator = (const CZBrushPreview &);
-	~CZBrushPreview(){ destroy(); }
+	~CZBrushPreview();
 
-	/// 初始化函数
-	bool initial();
-	/// 销毁函数
-	bool destroy();
 	/// 启动新预览图（配置绘制器，生成绘制的轨迹）
 	void setup(const CZSize &size_);
 	/// 构建轨迹（绘制一条sin曲线）
 	void buildPath();
+	/// 配置笔刷
+	void configureBrush();
 
 public:
 	/// 成员变量
@@ -66,7 +69,11 @@ public:
 	float backingWidth, backingHeight;
 
 private:
-	CZBrush *ptrBrush;						///< 仅引用，不负责建立和销毁
-	float mainScreenScale;					///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
-	CZPreviewRender render;					///< 绘制器
+	CZBrush			*ptrBrush;				///< 仅引用，不负责建立和销毁
+	float			mainScreenScale;		///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
+	CZGLContext *	glContext;				///< gl上下文
+	CZShader		*brushShader;
+	CZTexture		*brushTexture;
+	CZFbo			*fbo;					
+	CZMat4			projMat;				///< 绘制的投影矩阵
 };

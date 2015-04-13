@@ -217,7 +217,7 @@ void CZUtil::checkPixels(int w_, int h_)
 			if( pix[4*ind+0] != 0 ||
 				pix[4*ind+1] != 0 ||
 				pix[4*ind+2] != 0 ||
-				pix[4*ind+3] != 1.0)
+				pix[4*ind+3] != 0.0)
 
 				LOG_INFO("(%d,%d):%f\t%f\t%f\t%f\n",i,j,pix[4*ind+0],pix[4*ind+1],
 				pix[4*ind+2],pix[4*ind+3]);

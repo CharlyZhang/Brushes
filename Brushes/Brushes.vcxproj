@@ -51,7 +51,6 @@
     <ClCompile Include="..\src\CZLayer.cpp" />
     <ClCompile Include="..\src\CZPainting.cpp" />
     <ClCompile Include="..\src\CZPaintingRender.cpp" />
-    <ClCompile Include="..\src\CZPreviewRender.cpp" />
     <ClCompile Include="..\src\CZRender.cpp" />
     <ClCompile Include="..\src\CZCanvas.cpp" />
     <ClCompile Include="..\src\path\CZBezierNode.cpp" />
@@ -93,7 +92,6 @@
     <ClInclude Include="..\src\CZLayer.h" />
     <ClInclude Include="..\src\CZPainting.h" />
     <ClInclude Include="..\src\CZPaintingRender.h" />
-    <ClInclude Include="..\src\CZPreviewRender.h" />
     <ClInclude Include="..\src\CZRender.h" />
     <ClInclude Include="..\src\CZBrushCell.h" />
     <ClInclude Include="..\src\CZCanvas.h" />
