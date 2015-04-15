@@ -22,12 +22,7 @@ using namespace std;
 
 CZPath::CZPath(vector<CZBezierNode> *nodes_ /* = NULL */)
 {
-	nodes.clear();
-	ptrBrush = NULL;
-	scale = 1.0f;
-	remainder = 0.0f;
-	closed = false;
-	limitBrushSize = false;
+	reset();
 
 	if(nodes_ != NULL)
 	{
@@ -42,6 +37,22 @@ CZPath::~CZPath()
 	sizes.clear();
 	angles.clear();
 	alphas.clear();
+}
+
+/// 重置轨迹
+void CZPath::reset()
+{
+	nodes.clear();
+	points.clear();
+	sizes.clear();
+	angles.clear();
+	alphas.clear();
+	
+	ptrBrush = NULL;
+	scale = 1.0f;
+	remainder = 0.0f;
+	closed = false;
+	limitBrushSize = false;
 }
 
 /// 设置所有结点

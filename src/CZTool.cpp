@@ -13,6 +13,7 @@
 #include "CZActiveState.h"
 #include "stamp/CZSpiralGenerator.h"		///< for moveEnd() Brush
 #include "basic/CZMat4.h"
+#include "CZDefine.h"
 
 #define kMaxError                   10.0f
 #define kSpeedFactor                3
@@ -118,7 +119,6 @@ void CZTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 		pressure = (pressure + pointsToFit[pointsIndex - 1].anchorPoint.z) / 2;
 	}
 
-    std:: cout << pointsIndex << " nodes added\n";
 	pointsToFit[pointsIndex++] = CZBezierNode(location,pressure);
 
 	// special case: otherwise the 2nd overall point never gets averaged
@@ -155,7 +155,7 @@ void CZTool::moveEnd(CZ2DPoint &p_)
 	if (!moved) 
 	{ // draw a single stamp
 		CZBezierNode node(location,1.0);
-		
+		path.reset();
 		path.addNode(node);
 		accumulatedStrokePoints.push_back(node);
 
@@ -240,6 +240,7 @@ void CZTool::paintFittedPoints()
 	}
 
 	/// 生成一个轨迹path
+	path.reset();
 	path.limitBrushSize = true;
 
 	for (int i = 0; i <= drawBound; i++) 
@@ -282,7 +283,7 @@ void CZTool::paintPath(CZPath &path)
 
 	path.remainder = lastRemainder;
 	path.setClosed(false);
-
+	
 	CZRect pathBounds = ptrPainting->paintStroke(&path,ptrRandomizer,clearBuffer);
 
 	strokeBounds.unionWith(pathBounds);

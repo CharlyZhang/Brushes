@@ -150,16 +150,16 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 GLvoid DrawGLScene(GLvoid)
 {
 #if RENDER_FREEHAND
-// 	//painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
-// 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// 为了模拟填充白色底板
-// 	glClear(GL_COLOR_BUFFER_BIT);
-// 	CZMat4 proj;
-// 	proj.SetOrtho(0,windowWidth,0,windowHeight,-1.0f,1.0f);
-// 	painting->blit(proj);
-// 
-// 	// restore blending functions
-// 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-// 	return;
+	//painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// 为了模拟填充白色底板
+	glClear(GL_COLOR_BUFFER_BIT);
+	CZMat4 proj;
+	proj.SetOrtho(0,windowWidth,0,windowHeight,-1.0f,1.0f);
+	painting->blit(proj);
+
+	// restore blending functions
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	return;
 #endif
 
 #if STAMP_TEX

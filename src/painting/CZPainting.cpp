@@ -370,14 +370,14 @@ bool CZPainting::mergeActiveLayerDown()
 	/// in case the active layer is at bottom
 	if(activeIdx <= 0)
 	{
-		cerr << "CZPainting::mergeActiveLayerDown - active layer is NULL or at bottom\n";
+		LOG_ERROR("active layer is NULL or at bottom\n");
 		return false;
 	}
 
 	/// in case there's only one layer
 	if(layers.size() <= 1)
 	{
-		cerr << "CZPainting::mergeActiveLayerDown - layers number is no more than 1\n";
+		LOG_ERROR("layers number is no more than 1\n");
 		return false;
 	}
 
@@ -386,7 +386,7 @@ bool CZPainting::mergeActiveLayerDown()
 	/// in case the layer to merged with is not editable
 	if(!bottomLayer->isEditable())
 	{
-		cerr << "CZPainting::mergeActiveLayerDown - layer to be merged with is not editable\n";
+		LOG_ERROR("layer to be merged with is not editable\n");
 		return false;
 	}
 

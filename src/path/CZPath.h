@@ -38,6 +38,8 @@ class CZPath : public CZCoding
 public:
 	CZPath(std::vector<CZBezierNode> *nodes_ = NULL);
 	~CZPath();
+	/// 重置轨迹
+	void reset();
 	/// 设置所有结点
 	void CZPath::setNodes(const std::vector<CZBezierNode> &nodes_);
 	/// 获得所有控制点
