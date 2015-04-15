@@ -16,7 +16,6 @@
 #include "../CZActiveState.h"
 #include "../CZUtil.h"
 #include "CZBrushPreview.h"
-#include <iostream>
 
 static char *CZGeneratorKey = "generator";
 static char *CZWeightKey = "weight";
@@ -58,10 +57,10 @@ CZBrush::~CZBrush()
 /// 随机生成笔刷（静态函数）
 CZBrush* CZBrush::randomBrush()
 {
-	CZStampGenerator *generator= CZActiveState::getInstance()->getRandomGenerator()->copy();
-	generator->randomize();
+	CZStampGenerator *gen= CZActiveState::getInstance()->getRandomGenerator()->copy();
+	gen->randomize();
 
-	CZBrush* random = new CZBrush(generator);
+	CZBrush* random = new CZBrush(gen);
 
 	random->weight.value = CZUtil::RandomFloat() * 56 + 44;
 	random->intensity.value = 0.15f;

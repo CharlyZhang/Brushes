@@ -18,7 +18,7 @@
 #include "basic/CZSize.h"
 #include "path/CZPath.h"
 #include "basic/CZRandom.h"
-#include "CZPainting.h"
+#include "painting/CZPainting.h"
 #include "CZUtil.h"
 #include <vector>
 #include "brush/CZBrush.h"

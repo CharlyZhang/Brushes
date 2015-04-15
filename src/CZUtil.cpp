@@ -232,4 +232,45 @@ void CZUtil::checkPixels(int w_, int h_)
 	delete [] pix;
 }
 
+/// »æÖÆ¾ØÐÎ
+void CZUtil::drawRect(const CZRect &rect, const CZAffineTransform &transform)
+{
+	CZ2DPoint corners[4];
+	GLuint  vbo = 0;
+
+	corners[0] = rect.origin;
+	corners[1] = CZ2DPoint(rect.getMaxX(), rect.getMinY());
+	corners[2] = CZ2DPoint(rect.getMaxX(), rect.getMaxY());
+	corners[3] = CZ2DPoint(rect.getMinX(), rect.getMaxY());
+
+	for (int i = 0; i < 4; i++) 
+	{
+		corners[i] = transform.applyTo2DPoint(corners[i]);
+	}
+
+	const GLfloat quadVertices[] = 
+	{
+		corners[0].x, corners[0].y, 0.0, 0.0,
+		corners[1].x, corners[1].y, 1.0, 0.0,
+		corners[3].x, corners[3].y, 0.0, 1.0,
+		corners[2].x, corners[2].y, 1.0, 1.0,
+	};
+
+	// create, bind, and populate VBO
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 16, quadVertices, GL_STATIC_DRAW);
+
+	// set up attrib pointers
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, (void*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 4, (void*)8);
+	glEnableVertexAttribArray(1);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	glDeleteBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 

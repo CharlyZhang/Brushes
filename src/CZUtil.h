@@ -13,6 +13,8 @@
 #define _CZUTIL_H_
 
 #include "CZDefine.h"
+#include "basic/CZAffineTransform.h"
+#include "basic/CZRect.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -65,6 +67,9 @@ public:
 
 	/// 调试用，检测绘制的像素
 	static void checkPixels(int w_, int h_);
+
+	/// 绘制矩形
+	static void drawRect(const CZRect &rect, const CZAffineTransform &transform);
 
 	/// 读取json文件内容
 	std::map<std::string,std::vector<std::string> > & readJsonContent(const char* jsonFile);

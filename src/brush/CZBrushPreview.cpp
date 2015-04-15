@@ -13,7 +13,6 @@
 #include "../CZDefine.h"
 #include "../path/CZBezierNode.h"
 #include "../path/CZPath.h"
-#include "../basic/CZRect.h"
 #include "../basic/CZ2DPoint.h"
 #include "../stamp/CZStampGenerator.h"
 #include "../CZUtil.h"

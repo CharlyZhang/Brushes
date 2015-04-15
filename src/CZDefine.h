@@ -7,8 +7,6 @@
 
 #define GLSL_DIR	"../src/glsl/"
 
-#define UINT32 unsigned int
-
 #ifndef NULL 
 #	define NULL		0
 #endif
@@ -22,8 +20,6 @@
 /******************************
  * common define
  *****************************/
-#define PAINTING_BASE_UID	10000
-#define LAYER_BASE_UID		20000
 
 //#define CZ_DEBUG		1		// for debugging
 //#define USE_OPENGL		1

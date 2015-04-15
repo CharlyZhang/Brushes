@@ -12,16 +12,26 @@
 #ifndef _CZPAINTING_H_
 #define _CZPAINTING_H_
 
-#include "basic/CZSize.h"
-#include "basic/CZRect.h"
-#include "path/CZPath.h"
-#include "basic/CZRandom.h"
-#include "basic/CZMat4.h"
+#include "../CZDefine.h"
+#include "../basic/CZSize.h"
+#include "../basic/CZRect.h"
+#include "../basic/CZColor.h"
+#include "../basic/CZImage.h"
+#include "../basic/CZRandom.h"
+#include "../basic/CZMat4.h"
+#include "../path/CZPath.h"
+#include "../brush/CZBrush.h"
+#include "../serialization/CZCoding.h"
+#include "../graphic/CZGLContext.h"
+#include "../graphic/CZShader.h"
+#include "../graphic/CZTexture.h"
+#include "../graphic/CZFbo.h"
+#include "../graphic/glDef.h"
 #include "CZLayer.h"
-#include "serialization/CZCoding.h"
-#include "CZPaintingRender.h"
+
 #include <string>
 #include <vector>
+#include <map>
 
 /// 绘制类
 class CZPainting :public CZCoding
@@ -34,7 +44,7 @@ public:
 	void blit(CZMat4 &projection);
 	
 	/// 生成所有图层的图像（不包括当前绘制的笔画）
-	CZImage *imageWithSize(CZSize &size, CZColor *backgroundColor);
+	CZImage *imageWithSize(CZSize &size, CZColor *backgroundColor = NULL);
 
 	/// 生成当前状态的图像
 	CZImage *imageForCurrentState(CZColor *backgroundColor);
@@ -83,9 +93,6 @@ public:
 	///		\param idx	 - 移动到的位置
 	bool moveLayer(CZLayer* layer, int idx);
 
-	/// 获取所有图层
-	std::vector<CZLayer*> & getAllLayers();
-
 	/// 获得图层在所有图层中的标号，不存在返回负值
 	int indexOfLayers(CZLayer *layer);
 
@@ -101,37 +108,56 @@ public:
 	/// 获取激活图层
 	CZLayer* getActiveLayer();
 
-	/// 获取渲染器
-	CZPaintingRender* getRender();
+	/// 获取着色器
+	CZShader* getShader(std::string name);
+
+	///
+	CZTexture* generateTexture(CZImage* img = NULL);
+
+	/// 返回quadVAO
+	GLuint getQuadVAO();
 	
 	/// 获取范围
 	CZSize& getDimensions();
 	/// 获取绘制矩形
 	CZRect& getBounds();
 
+	/// 获取gl上下文
+	CZGLContext *getGLContext();
+
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
 
 private:
-	static unsigned int paintingNum;///< 绘制的数目
+	/// 载入着色器
+	void loadShaders();
+	/// 配置画刷
+	void configureBrush(CZBrush*);
 
+public:
+	CZTexture *activePaintTexture;			///< 绘制用的纹理
+
+private:
 	CZSize dimensions;				///< 绘制范围
     CZRect bounds;
-	CZPaintingRender *render;		///< 绘制器
 	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用
 	CZLayer *ptrActiveLayer;		///< 当前绘制层
 
 	bool flattenMode;
 	std::vector<CZLayer*>	layers;	///< 绘制的画层
-
 	std::vector<CZColor*>	colors;	
-	std::vector<CZBrush*>	brushes;
-	std::vector<CZBrush*>	undoBrushes;
+	std::vector<CZBrush*>	brushPtrs;
+	std::vector<CZBrush*>	undoBrushPtrs;
 	int						strokeCount;	///< 笔画数目
-	unsigned int			uuid;
+	char*					uuid;
 
+	CZMat4					projMat;		///< 投影矩阵
 	CZBrush					*ptrLastBrush;	///< 上一把画刷
-
+	CZGLContext				*glContext;		///< gl上下文
+	std::map<std::string,CZShader*>	shaders;///< 着色器
+	GLuint quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
+	CZFbo					*fbo;			
+	CZTexture				*brushStampTex;	///< 画刷笔触纹理
 };
 #endif

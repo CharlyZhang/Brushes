@@ -2,14 +2,13 @@
 #include "GL/glew.h"
 #include "GL/glut.h"
 #include "brush/CZBrush.h"
-#include "brush/CZBrushPreview.h"
 #include "graphic/CZTexture.h"
 #include "graphic/CZFbo.h"
 #include "stamp/CZStampGenerator.h"
 #include "CZUtil.h"				///< For checkPixels()
 #include "CZTool.h"
 #include "CZActiveState.h"
-#include "CZPainting.h"
+#include "painting/CZPainting.h"
 #include "CZDefine.h"
 #include "stdio.h"				///< for freopen
 
@@ -32,7 +31,6 @@ CZStampGenerator *stampGen =  CZActiveState::getInstance()->getRandomGenerator()
 
 #if STROKE_TEX
 CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
-CZBrushPreview *priew;
 #endif
 
 FILE *fp1 = freopen("../info.txt","w",stdout);
@@ -94,9 +92,7 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #endif
 
 #if STROKE_TEX
-	priew = CZBrushPreview::getInstance();
-	priew->setBrush(brush);
-	CZImage *img = priew->previewWithSize(CZSize(windowWidth,windowHeight));
+	CZImage *img = brush->previewImageWithSize(CZSize(windowWidth,windowHeight));
 	showTex = CZTexture::produceFromImage(img);
 	glBindTexture(GL_TEXTURE_2D, showTex->texId);
 #endif
@@ -154,8 +150,16 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 GLvoid DrawGLScene(GLvoid)
 {
 #if RENDER_FREEHAND
-	painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
-	return;
+// 	//painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
+// 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// 为了模拟填充白色底板
+// 	glClear(GL_COLOR_BUFFER_BIT);
+// 	CZMat4 proj;
+// 	proj.SetOrtho(0,windowWidth,0,windowHeight,-1.0f,1.0f);
+// 	painting->blit(proj);
+// 
+// 	// restore blending functions
+// 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+// 	return;
 #endif
 
 #if STAMP_TEX
@@ -171,7 +175,7 @@ GLvoid DrawGLScene(GLvoid)
 	
 #if RENDER_FREEHAND
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,painting->getRender()->getPaintTexture()->texId);
+	glBindTexture(GL_TEXTURE_2D,painting->activePaintTexture->texId);
 #endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);

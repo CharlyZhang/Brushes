@@ -118,10 +118,10 @@ void CZColor::adjustHSV(float hShift, float sShift, float bShift)
 /// 将HSV模式的值转换到一个uint32中，（分别是r,g,b,a）
 uint32_t CZColor::hash2Int()
 {
-	uint32_t h = UINT32 (256.f * red);
-	uint32_t s = UINT32 (256.f * green);
-	uint32_t b = UINT32 (256.f * blue);
-	uint32_t a = UINT32 (256.f * alpha);
+	uint32_t h = uint32_t (256.f * red);
+	uint32_t s = uint32_t (256.f * green);
+	uint32_t b = uint32_t (256.f * blue);
+	uint32_t a = uint32_t (256.f * alpha);
 	return (h << 24) | (s << 16) | (b << 8) | (a);
 }
 

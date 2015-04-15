@@ -12,26 +12,38 @@
 #ifndef _CZLAYER_H_
 #define _CZLAYER_H_
 
-#include "CZPaintingRender.h"
-#include "basic/CZImage.h"
-#include "basic/CZColor.h"
-#include "CZColorBalance.h"
-#include "CZHueSaturation.h"
-#include "basic/CZAffineTransform.h"
-#include "serialization/CZCoding.h"
-#include "CZDataProvider.h"
+#include "../CZDefine.h"
+#include "../basic/CZImage.h"
+#include "../basic/CZColor.h"
+#include "../basic/CZMat4.h"
+#include "../CZColorBalance.h"
+#include "../CZHueSaturation.h"
+#include "../basic/CZAffineTransform.h"
+#include "../serialization/CZCoding.h"
+#include "../CZDataProvider.h"
+#include "../CZColorBalance.h"
+#include "../CZHueSaturation.h"
+#include "../graphic/CZTexture.h"
+#include "../graphic/CZGLContext.h"
 #include <string>
 
 class CZPainting;
 class CZRect;
 
+typedef	enum BlendMode		///< 混合模式
+{
+	kBlendModeNormal,
+	kBlendModeMultiply,
+	kBlendModeScreen,
+	kBlendModeExclusion
+} BlendMode;
+
 /// 图层类
 class CZLayer : public CZCoding
 {
 public:
-	CZLayer();
+	CZLayer(CZPainting *painting_);
 	~CZLayer();
-	friend class CZPaintingRender;
 
 	/// 图层的图像数据
 	CZImage *imageData();
@@ -43,9 +55,9 @@ public:
 	/// 绘制图层（考虑移动转换、颜色调整等）
 	void blit(CZMat4 &projection);
 	/// 叠加擦除纹理
-	void blitWithEraseMask(CZMat4 &projection);
+	void blit(CZMat4 &projection, CZTexture *maskTexture);
 	/// 叠加绘制纹理
-	void blitWithMask(CZMat4 &projection,CZColor *bgColor);
+	void blit(CZMat4 &projection, CZTexture *maskTexture, CZColor &bgColor);
 	
 	/// 将绘制的笔画合并到当前图层
 	void commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable);
@@ -63,9 +75,9 @@ public:
 	/// 获取转换矩阵
 	CZAffineTransform & getTransform();
 	/// 设置混合模式（没发生改变，则返回false）
-	bool setBlendMode(CZRender::BlendMode &bm);
+	bool setBlendMode(BlendMode &bm);
 	/// 获取混合模式
-	CZRender::BlendMode getBlendMode();
+	BlendMode getBlendMode();
 	/// 设置不透明度（没发生改变，则返回false）
 	bool setOpacity(float o);
 	/// 获取不透明度
@@ -103,11 +115,17 @@ public:
 	bool isEditable();
 
 	/// 获取编号
-	unsigned int getUID();
+	char* getUID();
 
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
+
+private:
+	///配置混合模式 
+	void configureBlendMode();
+	/// 将纹理转换后绘制			
+	void blit(CZMat4 &projection, const CZAffineTransform &transform);
 
 private:
 	static unsigned int layerNumber;			///< 图层的数目
@@ -117,15 +135,18 @@ private:
 	bool clipWhenTransformed;					///< 图层变换时是否剪切
 	CZColorBalance *colorBalance;				///< 调整颜色
 	CZHueSaturation *hueSaturation;				///< 调整色调饱和度
-	CZRender::BlendMode blendMode;				///< 混合模式
+	BlendMode blendMode;						///< 混合模式
 	CZAffineTransform transform;				///< 变换矩阵
 	float opacity;								///< 不透明度[0.0, 1.0]
 
 	CZPainting *ptrPainting;					///< 某次绘制
 	CZImage *image;								///< 该图层图像（用于建立初始图层纹理）
 	CZSaveStatus isSaved;						///< 图层存储状态
+	CZTexture *myTexture;						///< 自身纹理
+	CZTexture *hueChromaLuma;					///
 
-	unsigned int uid;							///< 编号
+	CZGLContext *ptrGLContext;					///< gl上下文
+	char* uuid;									///< 编号
 };
 
 #endif
