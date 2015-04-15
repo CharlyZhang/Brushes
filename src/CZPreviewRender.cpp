@@ -39,6 +39,8 @@ CZPreviewRender::CZPreviewRender()
 		brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
 	}
 
+	fbo = new CZFbo;
+
 	// configure some default GL state
 	glDisable(GL_DITHER);
 	glDisable(GL_STENCIL_TEST);
@@ -59,6 +61,8 @@ CZPreviewRender::~CZPreviewRender()
 		delete brushTexture;
 		brushTexture = NULL;
 	}
+
+	delete fbo;
 }
 
 
