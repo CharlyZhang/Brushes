@@ -13,12 +13,12 @@
 
 #import "EAGLView.h"
 #import "gl_matrix.h"
-#include "CZSpiralGenerator.h"
-#include "CZTexture.h"
-#include "CZImage.h"
+#include "stamp/CZSpiralGenerator.h"
+#include "graphic/CZTexture.h"
+#include "basic/CZImage.h"
 #include "CZActiveState.h"
-#include "CZPainting.h"
-#include "CZFreehandTool.h"
+#include "painting/CZPainting.h"
+#include "tool/CZFreehandTool.h"
 
 // const
 GLfloat gVertexData[20] =
@@ -91,7 +91,7 @@ enum
 //            [self release];
 //            return nil;
 //        }
-//
+
         
         stampTex = NULL;
         painting = NULL;
@@ -100,7 +100,7 @@ enum
         painting = new CZPainting(CZSize(size.width, size.height));
         freehand = CZActiveState::getInstance()->getActiveTool();
         freehand->ptrPainting = painting;
-        context = (EAGLContext *) painting->getRender()->getContext();
+        context = (EAGLContext *) painting->getGLContext()->getRealContext();
         
         [self loadShaders];
         [self setupView];
@@ -150,16 +150,16 @@ enum
 
 #endif
 
-#define SHOW_PAINT_TEX 1
-#if SHOW_PAINT_TEX
     // update the data
     CGSize size = self.bounds.size;
+#define SHOW_PAINT_TEX 1
+#if SHOW_PAINT_TEX
     GLfloat quad[8] =
     {
-        0.0f, size.height,
+        0.0f, (GLfloat)size.height,
         0.0f, 0.0f,
-        size.width, 0.0f,
-        size.width, size.height
+        (GLfloat)size.width, 0.0f,
+        (GLfloat)size.width, (GLfloat)size.height
     };
     GLfloat data[20];
     for (int i=0; i<4; i++) {
@@ -170,7 +170,7 @@ enum
         data[5*i+4] = gVertexData[5*i+4];
     }
     
-    glBindTexture(GL_TEXTURE_2D, painting->getRender()->getPaintTexture()->texId);
+    glBindTexture(GL_TEXTURE_2D, painting->activePaintTexture->texId);
     
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
@@ -184,7 +184,12 @@ enum
     glUniform1i(uniforms[TEXTURE], 0);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 #else
-    painting->getRender()->drawViewInRect();
+    glClearColor(1.0f,1.0f,1.0f,1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    CZMat4 proj;
+    proj.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
+    painting->blit(proj);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 #endif
     
     glBindRenderbuffer(GL_RENDERBUFFER, viewRenderbuffer);

@@ -7,22 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D1B25DB1ADF2509006841C3 /* blit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D21ADF2509006841C3 /* blit.frag */; };
+		2D1B25DC1ADF2509006841C3 /* blit.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D31ADF2509006841C3 /* blit.vert */; };
+		2D1B25DD1ADF2509006841C3 /* blitWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D41ADF2509006841C3 /* blitWithMask.frag */; };
+		2D1B25DE1ADF2509006841C3 /* brush.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D51ADF2509006841C3 /* brush.frag */; };
+		2D1B25DF1ADF2509006841C3 /* brush.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D61ADF2509006841C3 /* brush.vert */; };
+		2D1B25E01ADF2509006841C3 /* compositeWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D71ADF2509006841C3 /* compositeWithEraseMask.frag */; };
+		2D1B25E11ADF2509006841C3 /* compositeWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D81ADF2509006841C3 /* compositeWithMask.frag */; };
+		2D1B25E21ADF2509006841C3 /* stamp.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25D91ADF2509006841C3 /* stamp.frag */; };
+		2D1B25E31ADF2509006841C3 /* stamp.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25DA1ADF2509006841C3 /* stamp.vert */; };
+		2D1B25E51ADF27CD006841C3 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */; };
 		2D7806881A10BAE1003F7479 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D7806871A10BAE1003F7479 /* OpenGLES.framework */; };
-		2D78068A1A10BAE8003F7479 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D7806891A10BAE8003F7479 /* libBrushesCore.a */; };
 		2D7806921A10BB8A003F7479 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D78068C1A10BB8A003F7479 /* EAGLView.mm */; };
 		2D7806931A10BB8A003F7479 /* gl_matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D78068D1A10BB8A003F7479 /* gl_matrix.c */; };
 		2D7806941A10BB8A003F7479 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806901A10BB8A003F7479 /* Shader.fsh */; };
 		2D7806951A10BB8A003F7479 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806911A10BB8A003F7479 /* Shader.vsh */; };
 		2D7806971A10BE77003F7479 /* checkerplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806961A10BE77003F7479 /* checkerplate.png */; };
-		2D7806DE1A134113003F7479 /* blit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806D51A134113003F7479 /* blit.frag */; };
-		2D7806DF1A134113003F7479 /* blit.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806D61A134113003F7479 /* blit.vert */; };
-		2D7806E01A134113003F7479 /* blitWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806D71A134113003F7479 /* blitWithMask.frag */; };
-		2D7806E11A134113003F7479 /* brush.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806D81A134113003F7479 /* brush.frag */; };
-		2D7806E21A134113003F7479 /* brush.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806D91A134113003F7479 /* brush.vert */; };
-		2D7806E31A134113003F7479 /* compositeWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806DA1A134113003F7479 /* compositeWithEraseMask.frag */; };
-		2D7806E41A134113003F7479 /* compositeWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806DB1A134113003F7479 /* compositeWithMask.frag */; };
-		2D7806E51A134113003F7479 /* stamp.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806DC1A134113003F7479 /* stamp.frag */; };
-		2D7806E61A134113003F7479 /* stamp.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806DD1A134113003F7479 /* stamp.vert */; };
 		2DB759361A10B938009E05B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759351A10B938009E05B8 /* Foundation.framework */; };
 		2DB759381A10B938009E05B8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759371A10B938009E05B8 /* CoreGraphics.framework */; };
 		2DB7593A1A10B938009E05B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759391A10B938009E05B8 /* UIKit.framework */; };
@@ -50,6 +50,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D1B25D21ADF2509006841C3 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.frag; path = ../../../../core/glsl/blit.frag; sourceTree = "<group>"; };
+		2D1B25D31ADF2509006841C3 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.vert; path = ../../../../core/glsl/blit.vert; sourceTree = "<group>"; };
+		2D1B25D41ADF2509006841C3 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blitWithMask.frag; path = ../../../../core/glsl/blitWithMask.frag; sourceTree = "<group>"; };
+		2D1B25D51ADF2509006841C3 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = brush.frag; path = ../../../../core/glsl/brush.frag; sourceTree = "<group>"; };
+		2D1B25D61ADF2509006841C3 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = brush.vert; path = ../../../../core/glsl/brush.vert; sourceTree = "<group>"; };
+		2D1B25D71ADF2509006841C3 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = compositeWithEraseMask.frag; path = ../../../../core/glsl/compositeWithEraseMask.frag; sourceTree = "<group>"; };
+		2D1B25D81ADF2509006841C3 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = compositeWithMask.frag; path = ../../../../core/glsl/compositeWithMask.frag; sourceTree = "<group>"; };
+		2D1B25D91ADF2509006841C3 /* stamp.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = stamp.frag; path = ../../../../core/glsl/stamp.frag; sourceTree = "<group>"; };
+		2D1B25DA1ADF2509006841C3 /* stamp.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = stamp.vert; path = ../../../../core/glsl/stamp.vert; sourceTree = "<group>"; };
+		2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../BrushesCore/build/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
 		2D7806871A10BAE1003F7479 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		2D7806891A10BAE8003F7479 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../../../../Library/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
 		2D78068B1A10BB8A003F7479 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
@@ -59,15 +69,6 @@
 		2D7806901A10BB8A003F7479 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 		2D7806911A10BB8A003F7479 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		2D7806961A10BE77003F7479 /* checkerplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerplate.png; sourceTree = SOURCE_ROOT; };
-		2D7806D51A134113003F7479 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.frag; path = ../../../../src/shader/blit.frag; sourceTree = "<group>"; };
-		2D7806D61A134113003F7479 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.vert; path = ../../../../src/shader/blit.vert; sourceTree = "<group>"; };
-		2D7806D71A134113003F7479 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blitWithMask.frag; path = ../../../../src/shader/blitWithMask.frag; sourceTree = "<group>"; };
-		2D7806D81A134113003F7479 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = brush.frag; path = ../../../../src/shader/brush.frag; sourceTree = "<group>"; };
-		2D7806D91A134113003F7479 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = brush.vert; path = ../../../../src/shader/brush.vert; sourceTree = "<group>"; };
-		2D7806DA1A134113003F7479 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = compositeWithEraseMask.frag; path = ../../../../src/shader/compositeWithEraseMask.frag; sourceTree = "<group>"; };
-		2D7806DB1A134113003F7479 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = compositeWithMask.frag; path = ../../../../src/shader/compositeWithMask.frag; sourceTree = "<group>"; };
-		2D7806DC1A134113003F7479 /* stamp.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = stamp.frag; path = ../../../../src/shader/stamp.frag; sourceTree = "<group>"; };
-		2D7806DD1A134113003F7479 /* stamp.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = stamp.vert; path = ../../../../src/shader/stamp.vert; sourceTree = "<group>"; };
 		2DB759321A10B938009E05B8 /* BrushesDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrushesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB759351A10B938009E05B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2DB759371A10B938009E05B8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -94,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D78068A1A10BAE8003F7479 /* libBrushesCore.a in Frameworks */,
+				2D1B25E51ADF27CD006841C3 /* libBrushesCore.a in Frameworks */,
 				2D7806881A10BAE1003F7479 /* OpenGLES.framework in Frameworks */,
 				2DB759381A10B938009E05B8 /* CoreGraphics.framework in Frameworks */,
 				2DB7593A1A10B938009E05B8 /* UIKit.framework in Frameworks */,
@@ -118,15 +119,15 @@
 		2D78068F1A10BB8A003F7479 /* shader */ = {
 			isa = PBXGroup;
 			children = (
-				2D7806D51A134113003F7479 /* blit.frag */,
-				2D7806D61A134113003F7479 /* blit.vert */,
-				2D7806D71A134113003F7479 /* blitWithMask.frag */,
-				2D7806D81A134113003F7479 /* brush.frag */,
-				2D7806D91A134113003F7479 /* brush.vert */,
-				2D7806DA1A134113003F7479 /* compositeWithEraseMask.frag */,
-				2D7806DB1A134113003F7479 /* compositeWithMask.frag */,
-				2D7806DC1A134113003F7479 /* stamp.frag */,
-				2D7806DD1A134113003F7479 /* stamp.vert */,
+				2D1B25D21ADF2509006841C3 /* blit.frag */,
+				2D1B25D31ADF2509006841C3 /* blit.vert */,
+				2D1B25D41ADF2509006841C3 /* blitWithMask.frag */,
+				2D1B25D51ADF2509006841C3 /* brush.frag */,
+				2D1B25D61ADF2509006841C3 /* brush.vert */,
+				2D1B25D71ADF2509006841C3 /* compositeWithEraseMask.frag */,
+				2D1B25D81ADF2509006841C3 /* compositeWithMask.frag */,
+				2D1B25D91ADF2509006841C3 /* stamp.frag */,
+				2D1B25DA1ADF2509006841C3 /* stamp.vert */,
 				2D7806901A10BB8A003F7479 /* Shader.fsh */,
 				2D7806911A10BB8A003F7479 /* Shader.vsh */,
 			);
@@ -156,6 +157,7 @@
 		2DB759341A10B938009E05B8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */,
 				2D7806891A10BAE8003F7479 /* libBrushesCore.a */,
 				2D7806871A10BAE1003F7479 /* OpenGLES.framework */,
 				2DB759351A10B938009E05B8 /* Foundation.framework */,
@@ -290,21 +292,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D7806E61A134113003F7479 /* stamp.vert in Resources */,
+				2D1B25DE1ADF2509006841C3 /* brush.frag in Resources */,
+				2D1B25E21ADF2509006841C3 /* stamp.frag in Resources */,
+				2D1B25DF1ADF2509006841C3 /* brush.vert in Resources */,
 				2D7806951A10BB8A003F7479 /* Shader.vsh in Resources */,
+				2D1B25DB1ADF2509006841C3 /* blit.frag in Resources */,
+				2D1B25E11ADF2509006841C3 /* compositeWithMask.frag in Resources */,
 				2D7806941A10BB8A003F7479 /* Shader.fsh in Resources */,
-				2D7806E01A134113003F7479 /* blitWithMask.frag in Resources */,
+				2D1B25DC1ADF2509006841C3 /* blit.vert in Resources */,
 				2DE3E4AE1A1481D500F80AA1 /* memo.txt in Resources */,
-				2D7806E31A134113003F7479 /* compositeWithEraseMask.frag in Resources */,
-				2D7806DE1A134113003F7479 /* blit.frag in Resources */,
 				2DB759401A10B938009E05B8 /* InfoPlist.strings in Resources */,
-				2D7806E51A134113003F7479 /* stamp.frag in Resources */,
-				2D7806E21A134113003F7479 /* brush.vert in Resources */,
-				2D7806E41A134113003F7479 /* compositeWithMask.frag in Resources */,
+				2D1B25E01ADF2509006841C3 /* compositeWithEraseMask.frag in Resources */,
 				2DB759481A10B938009E05B8 /* Images.xcassets in Resources */,
-				2D7806DF1A134113003F7479 /* blit.vert in Resources */,
-				2D7806E11A134113003F7479 /* brush.frag in Resources */,
+				2D1B25DD1ADF2509006841C3 /* blitWithMask.frag in Resources */,
 				2D7806971A10BE77003F7479 /* checkerplate.png in Resources */,
+				2D1B25E31ADF2509006841C3 /* stamp.vert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,8 +465,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos",
+					"/Users/charlyzhang/Git/Brush/ios/BrushesCore/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../core;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -481,8 +485,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos",
+					"/Users/charlyzhang/Git/Brush/ios/BrushesCore/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../core;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
