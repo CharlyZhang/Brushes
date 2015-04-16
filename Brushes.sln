@@ -2,15 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brushes", "Brushes\Brushes.vcxproj", "{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{47C93F52-AB4E-4FF9-8D4F-B38CD60A183F} = {47C93F52-AB4E-4FF9-8D4F-B38CD60A183F}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esUtil", "Common\esUtil.vcxproj", "{47C93F52-AB4E-4FF9-8D4F-B38CD60A183F}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brush_opengl", "Brush_opengl\Brush_opengl.vcxproj", "{CAFCED1D-4251-4432-9E79-30A344A74455}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLSL_example", "GLSL_example\GLSL_example.vcxproj", "{D95D14B1-61C0-450F-B97A-10C593FAC08F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,18 +13,6 @@ Global
 		{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}.Debug|Win32.Build.0 = Debug|Win32
 		{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}.Release|Win32.ActiveCfg = Release|Win32
 		{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}.Release|Win32.Build.0 = Release|Win32
-		{47C93F52-AB4E-4FF9-8D4F-B38CD60A183F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{47C93F52-AB4E-4FF9-8D4F-B38CD60A183F}.Debug|Win32.Build.0 = Debug|Win32
-		{47C93F52-AB4E-4FF9-8D4F-B38CD60A183F}.Release|Win32.ActiveCfg = Release|Win32
-		{47C93F52-AB4E-4FF9-8D4F-B38CD60A183F}.Release|Win32.Build.0 = Release|Win32
-		{CAFCED1D-4251-4432-9E79-30A344A74455}.Debug|Win32.ActiveCfg = Debug|Win32
-		{CAFCED1D-4251-4432-9E79-30A344A74455}.Debug|Win32.Build.0 = Debug|Win32
-		{CAFCED1D-4251-4432-9E79-30A344A74455}.Release|Win32.ActiveCfg = Release|Win32
-		{CAFCED1D-4251-4432-9E79-30A344A74455}.Release|Win32.Build.0 = Release|Win32
-		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Debug|Win32.Build.0 = Debug|Win32
-		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Release|Win32.ActiveCfg = Release|Win32
-		{D95D14B1-61C0-450F-B97A-10C593FAC08F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
