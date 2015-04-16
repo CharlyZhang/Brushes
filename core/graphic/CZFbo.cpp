@@ -93,9 +93,9 @@ void CZFbo::begin()
 
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING,&preFbo);//获取当前的FBO，用于还原
 	glBindFramebuffer(GL_FRAMEBUFFER, fboId); 
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+	GL_DRAW_BUF(GL_COLOR_ATTACHMENT0);
 
-	glPushAttrib(/*GL_ALL_ATTRIB_BITS*/GL_VIEWPORT_BIT);
+	GL_PUSH_ATTR(/*GL_ALL_ATTRIB_BITS*/GL_VIEWPORT_BIT);
 	glViewport(0,0,width,height);
 }
 
@@ -104,7 +104,7 @@ void CZFbo::end()
 {
 	if(isReady == NONE) return;
 
-	glPopAttrib();
+	GL_POP_ATTR();
 	glBindFramebuffer(GL_FRAMEBUFFER, preFbo);
 }
 

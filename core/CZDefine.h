@@ -5,7 +5,7 @@
 /*#include <iostream>*/
 #include <stdio.h>
 
-#define GLSL_DIR	"../src/glsl/"
+#define GLSL_DIR	"../../core/glsl/"
 
 #ifndef NULL 
 #	define NULL		0

@@ -19,6 +19,7 @@
 #include "../basic/CZMat4.h"
 #include "../basic/CZ3DPoint.h"
 #include "../graphic/CZGLContext.h"
+#include "../graphic/glDef.h"
 #include <stdlib.h>				// for rand()
 
 #define kSmallStampSize 64

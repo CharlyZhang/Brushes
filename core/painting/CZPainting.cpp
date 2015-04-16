@@ -11,6 +11,7 @@
 
 #include "CZPainting.h"
 #include "../CZUtil.h"
+#include "../graphic/glDef.h"
 
 using namespace  std;
 
