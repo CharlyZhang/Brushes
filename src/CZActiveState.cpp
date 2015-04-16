@@ -13,8 +13,8 @@
 #include "CZDefine.h"
 #include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
-#include "CZFreehandTool.h"
-#include "CZEraserTool.h"
+#include "tool/CZFreehandTool.h"
+#include "tool/CZEraserTool.h"
 #include "graphic/CZGLContext.h"
 
 using namespace std;

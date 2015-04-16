@@ -25,7 +25,6 @@
 #include "../CZHueSaturation.h"
 #include "../graphic/CZTexture.h"
 #include "../graphic/CZGLContext.h"
-#include <string>
 
 class CZPainting;
 class CZRect;
@@ -115,7 +114,7 @@ public:
 	bool isEditable();
 
 	/// 获取编号
-	char* getUID();
+	char* getUUID();
 
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
@@ -128,7 +127,6 @@ private:
 	void blit(CZMat4 &projection, const CZAffineTransform &transform);
 
 private:
-	static unsigned int layerNumber;			///< 图层的数目
 	bool visible;								///< 是否可见
 	bool alphaLocked;							///< alpha是否锁定
 	bool locked;								///< 图层锁定

@@ -36,11 +36,8 @@
     <ClCompile Include="..\src\brush\CZBrush.cpp" />
     <ClCompile Include="..\src\brush\CZBrushPreview.cpp" />
     <ClCompile Include="..\src\CZActiveState.cpp" />
-    <ClCompile Include="..\src\CZEraserTool.cpp" />
     <ClCompile Include="..\src\CZNotificationCenter.cpp" />
     <ClCompile Include="..\src\CZUtil.cpp" />
-    <ClCompile Include="..\src\CZFreehandTool.cpp" />
-    <ClCompile Include="..\src\CZTool.cpp" />
     <ClCompile Include="..\src\graphic\CZFbo.cpp" />
     <ClCompile Include="..\src\graphic\CZGLContext.cpp" />
     <ClCompile Include="..\src\graphic\CZShader.cpp" />
@@ -56,6 +53,9 @@
     <ClCompile Include="..\src\path\CZPath.cpp" />
     <ClCompile Include="..\src\stamp\CZSpiralGenerator.cpp" />
     <ClCompile Include="..\src\stamp\CZStampGenerator.cpp" />
+    <ClCompile Include="..\src\tool\CZEraserTool.cpp" />
+    <ClCompile Include="..\src\tool\CZFreehandTool.cpp" />
+    <ClCompile Include="..\src\tool\CZTool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\basic\CZ2DPoint.h" />
@@ -71,13 +71,10 @@
     <ClInclude Include="..\src\brush\CZBrush.h" />
     <ClInclude Include="..\src\brush\CZBrushPreview.h" />
     <ClInclude Include="..\src\CZDefine.h" />
-    <ClInclude Include="..\src\CZEraserTool.h" />
     <ClInclude Include="..\src\CZNotificationCenter.h" />
     <ClInclude Include="..\src\CZUndoManager.h" />
     <ClInclude Include="..\src\CZBrushController.h" />
     <ClInclude Include="..\src\CZUtil.h" />
-    <ClInclude Include="..\src\CZFreehandTool.h" />
-    <ClInclude Include="..\src\CZTool.h" />
     <ClInclude Include="..\src\graphic\CZFbo.h" />
     <ClInclude Include="..\src\graphic\CZGLContext.h" />
     <ClInclude Include="..\src\graphic\CZShader.h" />
@@ -99,6 +96,9 @@
     <ClInclude Include="..\src\serialization\CZDecoder.h" />
     <ClInclude Include="..\src\stamp\CZSpiralGenerator.h" />
     <ClInclude Include="..\src\stamp\CZStampGenerator.h" />
+    <ClInclude Include="..\src\tool\CZEraserTool.h" />
+    <ClInclude Include="..\src\tool\CZFreehandTool.h" />
+    <ClInclude Include="..\src\tool\CZTool.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}</ProjectGuid>

@@ -6,7 +6,7 @@
 #include "graphic/CZFbo.h"
 #include "stamp/CZStampGenerator.h"
 #include "CZUtil.h"				///< For checkPixels()
-#include "CZTool.h"
+#include "tool/CZTool.h"
 #include "CZActiveState.h"
 #include "painting/CZPainting.h"
 #include "CZDefine.h"

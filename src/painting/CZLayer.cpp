@@ -13,10 +13,6 @@
 #include "../CZUtil.h"
 #include "CZPainting.h"
 
-using namespace std;
-
-unsigned int CZLayer::layerNumber = 0;
-
 CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
 {
 	visible = true;
@@ -462,7 +458,6 @@ void CZLayer::commitColorAdjustments()
 	*/
 }
 
-
 /// 合并另以图层
 bool CZLayer::merge(CZLayer *layer)
 {
@@ -594,7 +589,7 @@ bool CZLayer::isEditable()
 }
 
 /// 获取编号
-char *CZLayer::getUID()
+char *CZLayer::getUUID()
 {
 	return uuid;
 }

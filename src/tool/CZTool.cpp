@@ -10,10 +10,10 @@
 ///  \note
 
 #include "CZTool.h"
-#include "CZActiveState.h"
-#include "stamp/CZSpiralGenerator.h"		///< for moveEnd() Brush
-#include "basic/CZMat4.h"
-#include "CZDefine.h"
+#include "../CZActiveState.h"
+#include "../stamp/CZSpiralGenerator.h"		///< for moveEnd() Brush
+#include "../basic/CZMat4.h"
+#include "../CZDefine.h"
 
 #define kMaxError                   10.0f
 #define kSpeedFactor                3
@@ -34,6 +34,7 @@ CZTool::CZTool(bool supportPressure /* = false */)
 }
 CZTool::~CZTool()
 {
+	accumulatedStrokePoints.clear();
 }
 
 /// ¿ªÊ¼ÒÆ¶¯

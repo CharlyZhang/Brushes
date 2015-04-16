@@ -12,16 +12,16 @@
 #ifndef _CZTOOL_H_
 #define _CZTOOL_H_
 
-#include "path/CZBezierNode.h"
-#include "basic/CZ2DPoint.h"
-#include "basic/CZRect.h"
-#include "basic/CZSize.h"
-#include "path/CZPath.h"
-#include "basic/CZRandom.h"
-#include "painting/CZPainting.h"
-#include "CZUtil.h"
+#include "../path/CZBezierNode.h"
+#include "../basic/CZ2DPoint.h"
+#include "../basic/CZRect.h"
+#include "../basic/CZSize.h"
+#include "../path/CZPath.h"
+#include "../basic/CZRandom.h"
+#include "../painting/CZPainting.h"
+#include "../brush/CZBrush.h"
+#include "../CZUtil.h"
 #include <vector>
-#include "brush/CZBrush.h"
 
 /// π§æﬂ¿‡
 class CZTool 
