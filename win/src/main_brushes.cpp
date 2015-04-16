@@ -1,6 +1,6 @@
 #include <windows.h>	// Header File For Windows
-#include "GL/glew.h"
-#include "GL/glut.h"
+#include "glew.h"
+#include "glut.h"
 #include "brush/CZBrush.h"
 #include "graphic/CZTexture.h"
 #include "graphic/CZFbo.h"

@@ -8,8 +8,8 @@
 
  //#include <gl/GL.h>
  //#include <gl/GLU.h>
- #include "gl/glew.h"
- #include "gl/glut.h"
+ #include "glew.h"
+ #include "glut.h"
 
  #define GL_GEN_VERTEXARRAY(n,arr)	glGenVertexArrays(n, arr)
  #define GL_BIND_VERTEXARRAY(id)	glBindVertexArray(id)

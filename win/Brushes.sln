@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brushes", "Brushes\Brushes.vcxproj", "{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brushes", "BrushesDemo\Brushes.vcxproj", "{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
