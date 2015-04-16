@@ -19,6 +19,13 @@
 #include "CZActiveState.h"
 #include "painting/CZPainting.h"
 #include "tool/CZFreehandTool.h"
+#include "brush/CZBrush.h"
+
+#define REACT_PIC_TEX       0
+#define SHOW_PIC_TEX        0
+#define SHOW_STAMP_TEX      0
+#define SHOW_PREVIEW_TEX    0
+#define SHOW_FREE_DRAW      1
 
 // const
 GLfloat gVertexData[20] =
@@ -84,31 +91,59 @@ enum
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8,
 										kEAGLDrawablePropertyColorFormat, nil];
+#if !SHOW_FREE_DRAW
+        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         
-//        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-//        
-//        if (!context || ![EAGLContext setCurrentContext:context]) {
-//            [self release];
-//            return nil;
-//        }
-
+        if (!context || ![EAGLContext setCurrentContext:context]) {
+            [self release];
+            return nil;
+        }
+#endif
+        
+#if SHOW_PIC_TEX || REACT_PIC_TEX
+        [self loadTexture];
+#endif
         
         stampTex = NULL;
         painting = NULL;
         
+#if SHOW_STAMP_TEX
+        CZStampGenerator *gen = CZActiveState::getInstance()->getRandomGenerator();
+        CZImage *img = gen->getStamp();
+        [EAGLContext setCurrentContext:context];
+        stampTex = CZTexture::produceFromImage(img);
+        textures[0] = stampTex->texId;
+        [self checkGLError:NO];
+#endif
+        
+#if SHOW_PREVIEW_TEX
+        CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+        CGSize size = frame.size;
+        CZImage *img = brush->previewImageWithSize(CZSize(size.width,size.height));
+        [EAGLContext setCurrentContext:context];
+        stampTex = CZTexture::produceFromImage(img);
+        textures[0] = stampTex->texId;
+        [self checkGLError:NO];
+        delete img;
+#endif
+        
+#if SHOW_FREE_DRAW
         CGSize size = self.bounds.size;
         painting = new CZPainting(CZSize(size.width, size.height));
         freehand = CZActiveState::getInstance()->getActiveTool();
         freehand->ptrPainting = painting;
         context = (EAGLContext *) painting->getGLContext()->getRealContext();
+        [self checkGLError:NO];
+#endif
         
         [self loadShaders];
         [self setupView];
-		//[self loadTexture];
-    
+   
         glEnable(GL_TEXTURE_2D);        /// will emit gl error, but cause showing nothing if be deleted
+        [self checkGLError:NO];
         glActiveTexture(GL_TEXTURE0);
         
+        [self checkGLError:NO];
         locX = locY = 0.0f;
     }
     return self;
@@ -120,40 +155,16 @@ enum
     glBindFramebuffer(GL_FRAMEBUFFER, viewFramebuffer);
     glViewport(0, 0, backingWidth, backingHeight);
     glClearColor(1, 1, 1, 1);
+#if SHOW_STAMP_TEX
+    glClearColor(0, 0, 0, 0);
+#endif
 	glClear(GL_COLOR_BUFFER_BIT );
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-#if 0
-    // update the data
     GLfloat data[20];
-    for (int i=0; i<4; i++) {
-        data[5*i+0] = gVertexData[5*i+0] + locX;
-        data[5*i+1] = gVertexData[5*i+1] + locY;
-        data[5*i+2] = gVertexData[5*i+2];
-        data[5*i+3] = gVertexData[5*i+3];
-        data[5*i+4] = gVertexData[5*i+4];
-    }
-	
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Render the object again with ES2
-    glUseProgram(_program);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, GL_FALSE, _modelViewProjectionMatrix);
-    glActiveTexture(GL_TEXTURE0);
-    glUniform1i(uniforms[TEXTURE], 0);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-#endif
-
-    // update the data
     CGSize size = self.bounds.size;
-#define SHOW_PAINT_TEX 1
-#if SHOW_PAINT_TEX
     GLfloat quad[8] =
     {
         0.0f, (GLfloat)size.height,
@@ -161,7 +172,28 @@ enum
         (GLfloat)size.width, 0.0f,
         (GLfloat)size.width, (GLfloat)size.height
     };
-    GLfloat data[20];
+    
+    // update the data
+#if REACT_PIC_TEX
+    // update the data
+    for (int i=0; i<4; i++) {
+        data[5*i+0] = gVertexData[5*i+0] + locX;
+        data[5*i+1] = gVertexData[5*i+1] + locY;
+        data[5*i+2] = gVertexData[5*i+2];
+        data[5*i+3] = gVertexData[5*i+3];
+        data[5*i+4] = gVertexData[5*i+4];
+    }
+#elif SHOW_STAMP_TEX
+    GLfloat s = size.width < size.height ? (GLfloat)size.width : (GLfloat)size.height;
+    GLfloat f[8] = {0,1,0,0,1,0,1,1};
+    for (int i=0; i<4; i++) {
+        data[5*i+0] = f[i*2+0]*s;
+        data[5*i+1] = f[i*2+1]*s;
+        data[5*i+2] = gVertexData[5*i+2];
+        data[5*i+3] = gVertexData[5*i+3];
+        data[5*i+4] = gVertexData[5*i+4];
+    }
+#else
     for (int i=0; i<4; i++) {
         data[5*i+0] = quad[i*2+0];
         data[5*i+1] = quad[i*2+1];
@@ -169,9 +201,10 @@ enum
         data[5*i+3] = gVertexData[5*i+3];
         data[5*i+4] = gVertexData[5*i+4];
     }
-    
-    glBindTexture(GL_TEXTURE_2D, painting->activePaintTexture->texId);
-    
+#endif
+   
+#if !SHOW_FREE_DRAW
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
     glBindVertexArrayOES(_vertexArray);
@@ -184,13 +217,12 @@ enum
     glUniform1i(uniforms[TEXTURE], 0);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 #else
-    glClearColor(1.0f,1.0f,1.0f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
     CZMat4 proj;
     proj.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
     painting->blit(proj);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 #endif
+    
+    [self checkGLError:NO];
     
     glBindRenderbuffer(GL_RENDERBUFFER, viewRenderbuffer);
     [context presentRenderbuffer:GL_RENDERBUFFER];
@@ -206,7 +238,9 @@ enum
     //NSLog(@"touchBegin %f, %f",location.x,location.y);
     locX = location.x;
     locY = self.bounds.size.height - location.y;
+#if SHOW_FREE_DRAW
     freehand->moveBegin(locX,locY);
+#endif
     [self drawView];
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -217,7 +251,9 @@ enum
     //[self setNeedsDisplay];
     locX = location.x;
     locY = self.bounds.size.height - location.y;
+#if SHOW_FREE_DRAW
     freehand->moving(locX, locY, 1.0);
+#endif
     [self drawView];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -228,7 +264,9 @@ enum
 
     locX = location.x;
     locY = self.bounds.size.height - location.y;
+#if SHOW_FREE_DRAW
     freehand->moveEnd(locX, locY);
+#endif
     [self drawView];
 }
 
@@ -450,19 +488,15 @@ enum
     return YES;
 }
 
-#define LOAD_TEX 1
-
 - (void)loadTexture {
-#if LOAD_TEX
     CGImageRef textureImage = [UIImage imageNamed:@"checkerplate.png"].CGImage;
-    //CGImageRef textureImage = [UIImage imageNamed:@"Granite.bmp"].CGImage;
     if (textureImage == nil) {
         NSLog(@"Failed to load texture image");
 		return;
     }
 	
-    NSInteger texWidth = CGImageGetWidth(textureImage);
-    NSInteger texHeight = CGImageGetHeight(textureImage);
+    size_t texWidth = CGImageGetWidth(textureImage);
+    size_t texHeight = CGImageGetHeight(textureImage);
 	
 	GLubyte *textureData = (GLubyte *)malloc(texWidth * texHeight * 4);
 	
@@ -477,7 +511,7 @@ enum
 	glGenTextures(1, &textures[0]);
 	glBindTexture(GL_TEXTURE_2D, textures[0]);
     
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texWidth, texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)texWidth, (GLsizei)texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
 	
 	free(textureData);
 	
@@ -485,21 +519,6 @@ enum
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glEnable(GL_TEXTURE_2D);
 
-#else
-    stampTex = NULL;
-    CZSpiralGenerator gen;
-    //CZStampRender::getInstance()->changeContext((void*) context);
-    CZImage *img = gen.getStamp();
-    
-    [EAGLContext setCurrentContext:context];
-    stampTex = CZTexture::produceFromImage(img);
-    
-    glEnable(GL_TEXTURE_2D);        /// will emit gl error, but cause showing nothing if be deleted
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, stampTex->texId);
-    
-    //delete img;
-#endif
     [self checkGLError:NO];
 
 }

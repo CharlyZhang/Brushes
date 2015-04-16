@@ -459,6 +459,7 @@ CZShader* CZPainting::getShader(string name)
 ///
 CZTexture* CZPainting::generateTexture(CZImage* img /* = NULL */)
 {
+    glContext->setAsCurrent();
 	if (img)	return CZTexture::produceFromImage(img);
 	else		return new CZTexture(dimensions.width,dimensions.height);
 }
@@ -625,6 +626,7 @@ void CZPainting::configureBrush(CZBrush* brush_)
 
 		CZStampGenerator *gen = brush_->getGenerator();
 		CZImage *img = gen->getStamp(false);
+        glContext->setAsCurrent();
 		brushStampTex = CZTexture::produceFromImage(img);		///< get the normal stamp;
 	}
 }

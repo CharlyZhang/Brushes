@@ -1,7 +1,7 @@
 
 #define CZ_DEBUG		1		// for debugging
-#define USE_OPENGL		1
-#define USE_OPENGL_ES	0
+#define USE_OPENGL		0
+#define USE_OPENGL_ES	1
 		
 
 #define RENDER_TWO_RECT		0		///< 绘制两个矩形

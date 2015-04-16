@@ -1,6 +1,7 @@
 
 
 #include "CZGLContext.h"
+#include "../CZUtil.h"
 #include "glDef.h"
 
 struct CZGLContext::Impl
@@ -27,13 +28,16 @@ CZGLContext::CZGLContext()
 CZGLContext::~CZGLContext()
 {
     delete impl;
+#if USE_OPENGL_ES
+    [EAGLContext setCurrentContext:nil];
+#endif
 }
 
 bool CZGLContext::setAsCurrent()
 {
 #if USE_OPENGL_ES
     if (!impl->realContext || ![EAGLContext setCurrentContext:impl->realContext]) {
-        NSLog(@"Cannot initialize render - context error");
+        LOG_ERROR("context cannot be set as current!\n");
         return false;
     }
 #endif
@@ -43,9 +47,11 @@ bool CZGLContext::setAsCurrent()
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+    CZCheckGLError();
+    
 	return true;
 }
 

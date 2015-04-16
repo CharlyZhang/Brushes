@@ -51,8 +51,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	else
-//		LOG_ERROR("Tex is null \n");
-        printf("Tex is NULL\n");
+		LOG_ERROR("Tex is null \n");
 }
 
 /// …Ë÷√ªÊ÷∆ª∫≥Â«¯

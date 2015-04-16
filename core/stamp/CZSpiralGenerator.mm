@@ -125,11 +125,13 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 
     int n = points.size();
     
+    GLfloat w = randomizer->nextFloat()*9 +1;			///< 线大小原来是10以内
+    glLineWidth(w);
+    
 #if USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-	GLfloat w = randomizer->nextFloat()*9 +1;			///< 线大小原来是10以内
-	glLineWidth(w);
+	
 	glPointSize(w*0.7);
 
 	GLfloat c = randomizer->nextFloat();
@@ -159,10 +161,12 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 	//glDisable(GL_LINE_SMOOTH);
 
 #elif USE_OPENGL_ES
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ2DPoint), &points[0].x);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ3DPoint), &points[0].x);
 	glEnableVertexAttribArray(0);
 	glDrawArrays(GL_LINE_STRIP, 0, n);
 	glDisableVertexAttribArray(0);
 #endif
 	CZCheckGLError();
+
+    points.clear();
 }

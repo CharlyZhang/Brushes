@@ -184,10 +184,9 @@ CZImage *CZStampGenerator::generateStamp()
 	vector<string> attributes, uniforms;
 	attributes.push_back("inPosition");
 	uniforms.push_back("mvpMat");
-	CZShader shader("stamp.vert","stamp.frag",attributes,uniforms);
+	CZShader shader("stamp","stamp",attributes,uniforms);
 	CZFbo fbo;
 	fbo.setColorRenderBuffer(size.width,size.height);
-	CZCheckGLError();
 
 	CZMat4 projMat;	
 	projMat.SetOrtho(0.0f ,size.width, 0.0f, size.height, -1.0f, 1.0f);
@@ -197,16 +196,15 @@ CZImage *CZStampGenerator::generateStamp()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	shader.begin();
-
 	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 	renderStamp(getRandomizer());
-
 	shader.end();
-
+    
 	CZImage *ret = new CZImage(size.width,size.height,CZImage::RGBA);
 	glReadPixels(0, 0, size.width, size.height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
-
+    
 	fbo.end();
-
+    
+    CZCheckGLError();
 	return ret;
 }

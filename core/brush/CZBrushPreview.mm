@@ -124,6 +124,7 @@ void CZBrushPreview::configureBrush()
 		/// »ñÈ¡±ÊË¢Í¼Ïñ
 		CZStampGenerator *gen = ptrBrush->getGenerator();
 		CZImage *img = gen->getStamp(true);		///< get the small stamp;
+        glContext->setAsCurrent();
 		brushTexture = CZTexture::produceFromImage(img);
 	}
 
@@ -169,8 +170,9 @@ CZImage* CZBrushPreview::previewWithSize(const CZSize size_)
 	path->paint(path->getRandomizer());
 
 	brushShader->end();
+    
 	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
-	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
+	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
 	fbo->end();
 

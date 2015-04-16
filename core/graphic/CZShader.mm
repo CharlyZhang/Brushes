@@ -27,8 +27,8 @@ char* aGLSLStrings[] = {
 	"[Empty]"
 };
 
-bool CZShader::extensionsInit = false;
-bool CZShader::useGLSL = false;
+bool CZShader::extensionsInit = true;
+bool CZShader::useGLSL = true;
 bool CZShader::bGeometryShader = false;
 bool CZShader::bGPUShader4 = false;
 
@@ -153,6 +153,7 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 
 	if(!compile()) 
 	{
+        LOG_ERROR("shader compile failed!\n");
 		printShaderInfoLog(m_Vert);
 		printShaderInfoLog(m_Frag);
 		destroyShaders(m_Vert,m_Frag,m_Program);
