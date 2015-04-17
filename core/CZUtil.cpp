@@ -176,12 +176,46 @@ void CZUtil::CZCheckGLError_(const char *file, int line)
 
 	while (glErr != GL_NO_ERROR) 
 	{
+
+#if USE_OPENGL
 		const GLubyte* sError = gluErrorString(glErr);
 
 		if (sError)
 			LOG_INFO("GL Error #%d (%s) in File %s at line: %d\n",glErr,gluErrorString(glErr),file,line);
 		else
 			LOG_INFO("GL Error #%d (no message available) in File %s at line: %d\n",glErr,file,line);
+
+#elif USE_OPENGL_ES
+		switch (glErr) {
+		case GL_INVALID_ENUM:
+			LOG_ERROR("GL Error: Enum argument is out of range\n");
+			break;
+		case GL_INVALID_VALUE:
+			LOG_ERROR("GL Error: Numeric value is out of range\n");
+			break;
+		case GL_INVALID_OPERATION:
+			LOG_ERROR("GL Error: Operation illegal in current state\n");
+			break;
+			//        case GL_STACK_OVERFLOW:
+			//            NSLog(@"GL Error: Command would cause a stack overflow");
+			//            break;
+			//        case GL_STACK_UNDERFLOW:
+			//            NSLog(@"GL Error: Command would cause a stack underflow");
+			//            break;
+		case GL_OUT_OF_MEMORY:
+			LOG_ERROR("GL Error: Not enough memory to execute command\n");
+			break;
+		case GL_NO_ERROR:
+			if (1) {
+				LOG_ERROR("No GL Error\n");
+			}
+			break;
+		default:
+			LOG_ERROR("Unknown GL Error\n");
+			break;
+		}
+#endif
+
 		retCode = 1;
 		glErr = glGetError();
 	}
@@ -205,10 +239,12 @@ float CZUtil::sineCurve(float input)
 
 void CZUtil::checkPixels(int w_, int h_)
 {
-	float *pix = new float[w_*h_*4];
-	glReadPixels(0,0,w_,h_,GL_RGBA, GL_FLOAT,pix);
+	PixDataType *pix = new PixDataType[w_*h_*4];
+
+	glReadPixels(0,0,w_,h_,GL_RGBA, GL_PIXEL_TYPE,pix);
 
 	bool over = false;
+	long num = 0;
 	for(int i=0; i<h_; i++)
 	{
 		for(int j=0; j<w_; j++)
@@ -217,17 +253,22 @@ void CZUtil::checkPixels(int w_, int h_)
 			if( pix[4*ind+0] != 0 ||
 				pix[4*ind+1] != 0 ||
 				pix[4*ind+2] != 0 ||
-				pix[4*ind+3] != 0.0)
-
-				LOG_INFO("(%d,%d):%f\t%f\t%f\t%f\n",i,j,pix[4*ind+0],pix[4*ind+1],
-				pix[4*ind+2],pix[4*ind+3]);
-			over =true;
+				pix[4*ind+3] != 0)
+			{
+#if USE_OPENGL
+				LOG_INFO("(%d,%d):\t%f\t%f\t%f\t%f\n",i,j,pix[4*ind+0],pix[4*ind+1],pix[4*ind+2],pix[4*ind+3]);
+#elif USE_OPENGL_ES
+				LOG_INFO("(%d,%d):\t%d\t%d\t%d\t%d\n",i,j,pix[4*ind+0],pix[4*ind+1],pix[4*ind+2],pix[4*ind+3]);
+#endif
+				num ++;
+			}
+			//over =true;
 			//break;
 		}
-		//if(over) break;
+		if(over) break;
 	}
 
-	LOG_INFO("finished!\n");
+	LOG_INFO("finished!, total number of satisfied is %ld\n",num);
 
 	delete [] pix;
 }

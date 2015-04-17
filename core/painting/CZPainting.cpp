@@ -21,7 +21,7 @@ const int iMaxLayerNumber = 10;		///< 支持的最大图层数目
 CZPainting::CZPainting(const CZSize &size)
 {
 	flattenMode = false;
-	
+
 	colors.clear();
 	brushPtrs.clear();
 	layers.clear();
@@ -64,21 +64,21 @@ CZPainting::~CZPainting()
 			itr->second = NULL;
 		}
 
-	shaders.clear();
-	/// 删除图层
-	for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
-		delete *itr;
-	layers.clear();
+		shaders.clear();
+		/// 删除图层
+		for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
+			delete *itr;
+		layers.clear();
 
-	if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
-	if (quadVAO) { GL_DEL_VERTEXARRAY(1, &quadVAO);	quadVAO = 0;}
-	if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
-	if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
-	if (fbo) { delete fbo; fbo = NULL;}
-	
-	CZCheckGLError();
+		if (quadVBO) { glDeleteBuffers(1,&quadVBO); quadVBO = 0;}
+		if (quadVAO) { GL_DEL_VERTEXARRAY(1, &quadVAO);	quadVAO = 0;}
+		if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
+		if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
+		if (fbo) { delete fbo; fbo = NULL;}
 
-	delete glContext;
+		CZCheckGLError();
+
+		delete glContext;
 }
 
 /// 将图像绘制出来（没绑定FBO）
@@ -198,7 +198,7 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 	ptrActivePath = path_;
 
 	glContext->setAsCurrent();
-	
+
 	fbo->setTexture(activePaintTexture);
 
 	// 开启fbo
@@ -211,7 +211,7 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 	}
 
 	configureBrush(path_->ptrBrush);
-	
+
 	// use shader program
 	CZShader *shader = shaders["brush"];
 	shader->begin();
@@ -241,7 +241,7 @@ void CZPainting::setDimensions(const CZSize &size)
 
 	dimensions = size;
 	projMat.SetOrtho(0,size.width,0,size.height,-1.0f,1.0f);
-	
+
 	glContext->setAsCurrent();
 	if(activePaintTexture) delete activePaintTexture; 
 	activePaintTexture = new CZTexture(size.width,size.height);
@@ -270,9 +270,9 @@ int CZPainting::setActiveLayer(int idx)
 /// 通过UID获取图层
 CZLayer *CZPainting::layerWithUID(unsigned int uid_)
 {
-// 	int num = layers.size();
-// 	for(int i = 0; i < num; i ++)
-// 		if(uid_ == layers[i]->getUID()) return layers[i];
+	// 	int num = layers.size();
+	// 	for(int i = 0; i < num; i ++)
+	// 		if(uid_ == layers[i]->getUID()) return layers[i];
 
 	return NULL;
 }
@@ -320,7 +320,7 @@ int CZPainting::removeLayer(CZLayer *layer)
 			break;
 		}
 
-	return oldIdx;
+		return oldIdx;
 }
 
 /// 插入图层
@@ -354,7 +354,7 @@ int CZPainting::addLayer(CZLayer *layer)
 	}
 
 	int newIdx = indexOfLayers(ptrActiveLayer)+1;
-	
+
 	insertLayer(newIdx, layer);
 	ptrActiveLayer = layer;
 
@@ -367,7 +367,7 @@ int CZPainting::addLayer(CZLayer *layer)
 bool CZPainting::mergeActiveLayerDown()
 {
 	int activeIdx = indexOfLayers(ptrActiveLayer);
-	
+
 	/// in case the active layer is at bottom
 	if(activeIdx <= 0)
 	{
@@ -459,12 +459,13 @@ CZShader* CZPainting::getShader(string name)
 ///
 CZTexture* CZPainting::generateTexture(CZImage* img /* = NULL */)
 {
+	glContext->setAsCurrent();
 	if (img)	return CZTexture::produceFromImage(img);
 	else		return new CZTexture(dimensions.width,dimensions.height);
 }
 
 /// 返回quadVAO
-GLuint CZPainting::getQuadVAO()
+GLUINT CZPainting::getQuadVAO()
 {
 	if(!quadVAO)
 	{
@@ -508,7 +509,7 @@ CZSize& CZPainting::getDimensions()
 /// 获取绘制矩形
 CZRect& CZPainting::getBounds()
 {
-    bounds = CZRect(0,0,dimensions.width,dimensions.height);
+	bounds = CZRect(0,0,dimensions.width,dimensions.height);
 	return bounds;
 }
 
@@ -563,7 +564,7 @@ uniformNames:uniforms];
 	uniforms.push_back("mvpMat");
 	uniforms.push_back("texture");
 
-	CZShader *shader = new CZShader("brush.vert","brush.frag",attributes,uniforms);
+	CZShader *shader = new CZShader("brush","brush",attributes,uniforms);
 	shaders.insert(make_pair("brush",shader));
 
 	/// 将图层和绘制笔画输出到屏幕
@@ -578,7 +579,7 @@ uniformNames:uniforms];
 	uniforms.push_back("color");
 	uniforms.push_back("lockAlpha");
 
-	shader = new CZShader("blit.vert","blitWithMask.frag",attributes,uniforms);
+	shader = new CZShader("blit","blitWithMask",attributes,uniforms);
 	shaders.insert(make_pair("blitWithMask",shader));
 
 	/// 将图层纹理绘制出来
@@ -587,7 +588,7 @@ uniformNames:uniforms];
 	uniforms.push_back("texture");
 	uniforms.push_back("opacity");
 
-	shader = new CZShader("blit.vert","blit.frag",attributes,uniforms);
+	shader = new CZShader("blit","blit",attributes,uniforms);
 	shaders.insert(make_pair("blit",shader));
 
 	/// 合并绘制笔画到图层
@@ -598,7 +599,7 @@ uniformNames:uniforms];
 	uniforms.push_back("color");
 	uniforms.push_back("lockAlpha");
 
-	shader = new CZShader("blit.vert","compositeWithMask.frag",attributes,uniforms);
+	shader = new CZShader("blit","compositeWithMask",attributes,uniforms);
 	shaders.insert(make_pair("compositeWithMask",shader));
 
 	/// 合并擦除笔画到图层
@@ -608,7 +609,7 @@ uniformNames:uniforms];
 	uniforms.push_back("mask");
 	uniforms.push_back("lockAlpha");
 
-	shader = new CZShader("blit.vert","compositeWithEraseMask.frag",attributes,uniforms);
+	shader = new CZShader("blit","compositeWithEraseMask",attributes,uniforms);
 	shaders.insert(make_pair("compositeWithEraseMask",shader));
 
 	CZCheckGLError();
@@ -625,6 +626,7 @@ void CZPainting::configureBrush(CZBrush* brush_)
 
 		CZStampGenerator *gen = brush_->getGenerator();
 		CZImage *img = gen->getStamp(false);
+		glContext->setAsCurrent();
 		brushStampTex = CZTexture::produceFromImage(img);		///< get the normal stamp;
 	}
 }

@@ -12,6 +12,7 @@
 #include "CZTexture.h"
 #include "../CZDefine.h"
 #include "glDef.h"
+#include "../CZDefine.h"
 
 CZFbo::CZFbo()
 {
@@ -116,7 +117,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 		LOG_ERROR("Tex is NULL \n");
 		return;
 	}
-
+#if USE_OPENGL
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
@@ -143,6 +144,7 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 	glPopAttrib();
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
+#endif
 }
 
 /// ¼ì²é×´Ì¬
@@ -163,6 +165,8 @@ int CZFbo::checkFramebufferStatus()
 	case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
 		LOG_ERROR("Framebuffer incomplete, incomplete attachment\n");
 		break;
+
+#if USE_OPENGL
 	case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
 		LOG_ERROR("Framebuffer incomplete, attached images must have same dimensions\n");
 		break;
@@ -175,6 +179,7 @@ int CZFbo::checkFramebufferStatus()
 	case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
 		LOG_ERROR("Framebuffer incomplete, missing read buffer\n");
 		break;
+#endif
 	default:
 		LOG_ERROR("Framebuffer incomplete, unknown error\n");
 		break;

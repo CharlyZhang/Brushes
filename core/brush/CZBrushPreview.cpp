@@ -15,8 +15,8 @@
 #include "../path/CZPath.h"
 #include "../basic/CZ2DPoint.h"
 #include "../stamp/CZStampGenerator.h"
-#include "../CZUtil.h"
 #include "../graphic/glDef.h"
+#include "../CZUtil.h"
 #include "CZBrush.h"
 
 #include <vector>
@@ -42,7 +42,7 @@ CZBrushPreview::CZBrushPreview()
 	tmp1.push_back("alpha");
 	tmp2.push_back("mvpMat");
 	tmp2.push_back("texture");
-	brushShader = new CZShader("brush.vert","brush.frag",tmp1, tmp2);
+	brushShader = new CZShader("brush","brush",tmp1, tmp2);
 	/// set up fbo
 	fbo = new CZFbo;
 
@@ -78,7 +78,7 @@ void CZBrushPreview::setup(const CZSize &size_)
 
 	/// 创建路径
 	if(path) delete path;
-	
+
 	buildPath();
 
 	/// 设置投影环境
@@ -124,6 +124,7 @@ void CZBrushPreview::configureBrush()
 		/// 获取笔刷图像
 		CZStampGenerator *gen = ptrBrush->getGenerator();
 		CZImage *img = gen->getStamp(true);		///< get the small stamp;
+		glContext->setAsCurrent();
 		brushTexture = CZTexture::produceFromImage(img);
 	}
 
@@ -169,8 +170,9 @@ CZImage* CZBrushPreview::previewWithSize(const CZSize size_)
 	path->paint(path->getRandomizer());
 
 	brushShader->end();
+
 	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
-	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_FLOAT, ret->data);
+	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
 	fbo->end();
 
@@ -202,8 +204,8 @@ void CZBrushPreview::setMainScreenScale(float s)
 /// 实现Observer接口
 void CZBrushPreview::updateObserver(std::string &notificationName, void* data /* = NULL */)
 {
-// 	if (notificationName == CZBrushGeneratorChanged)
-// 	{
-// 		render.clearBrush();
-// 	}
+	// 	if (notificationName == CZBrushGeneratorChanged)
+	// 	{
+	// 		render.clearBrush();
+	// 	}
 }
