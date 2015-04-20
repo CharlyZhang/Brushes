@@ -112,7 +112,7 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
     NSString *vertShaderPathname, *fragShaderPathname;
     NSString *_filename;
     const GLchar *source;
-    int len = 0;
+    size_t len = 0;
     
     // Create and compile vertex shader.
     _filename = [NSString stringWithCString: vertFileName encoding: NSASCIIStringEncoding ];
@@ -120,7 +120,7 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
     
     source = (GLchar *)[[NSString stringWithContentsOfFile:vertShaderPathname encoding:NSUTF8StringEncoding error:nil] UTF8String];
     if (!source) {
-        NSLog(@"Failed to load vertex shader");
+        LOG_ERROR("Failed to load vertex shader!\n");
         return;
     }
     
@@ -135,7 +135,8 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
     
     source = (GLchar *)[[NSString stringWithContentsOfFile:fragShaderPathname encoding:NSUTF8StringEncoding error:nil] UTF8String];
     if (!source) {
-        NSLog(@"Failed to load vertex shader");
+        LOG_ERROR("Failed to load vertex shader!\n");
+        return;
     }
     
     len = strlen(source);
@@ -172,8 +173,15 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	}
 
 	//链接程序
+    GLint linkStatus;
 	glLinkProgram(m_Program);
-	printProgramInfoLog(m_Program);
+    glGetProgramiv(m_Program, GL_LINK_STATUS, &linkStatus);
+    if (linkStatus == 0) {
+        LOG_ERROR("shader link failed!\n");
+        printProgramInfoLog(m_Program);
+        destroyShaders(m_Vert, m_Frag, m_Program);
+        return;
+    }
 
 	//绑定uniform对象
 	for(unsigned int i=0; i<uniforms.size(); i++)
@@ -186,15 +194,18 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	// release vertex and fragment shaders
 	if (m_Vert) 
 	{
+        glDetachShader(m_Program, m_Vert);
 		glDeleteShader(m_Vert);
 		m_Vert = NULL;
 	}
 	if (m_Frag) 
 	{
+        glDetachShader(m_Program, m_Frag);
 		glDeleteShader(m_Frag);
 		m_Frag = NULL;
 	}
-	
+    
+    CZCheckGLError();
 }
 
 CZShader::~CZShader()
@@ -211,9 +222,9 @@ CZShader::~CZShader()
 /// 销毁着色器
 void CZShader::destroyShaders(GLuint vertShader,GLuint fragShader, GLuint prog)
 {
-	if(vertShader) glDeleteShader(vertShader);
-	if(fragShader) glDeleteShader(fragShader);
-	if(prog) glDeleteProgram(prog);
+    if(vertShader) { glDeleteShader(vertShader); vertShader = 0;};
+    if(fragShader) { glDeleteShader(fragShader); fragShader = 0;};
+    if(prog) {  glDeleteProgram(prog); prog = 0;};
 }
 
 bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)

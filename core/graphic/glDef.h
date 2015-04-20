@@ -4,6 +4,10 @@
 
 #include "../Macro.h"
 
+#include "CZFbo.h"
+#include "CZShader.h"
+#include "CZTexture.h"
+
 #if USE_OPENGL
 
  //#include <gl/GL.h>

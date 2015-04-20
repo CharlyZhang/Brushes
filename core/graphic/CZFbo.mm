@@ -12,7 +12,8 @@
 #include "CZTexture.h"
 #include "../CZDefine.h"
 #include "glDef.h"
-#include "../CZDefine.h"
+#include <QuartzCore/QuartzCore.h>
+
 
 CZFbo::CZFbo()
 {
@@ -36,7 +37,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 {
 	if (isReady == OFFLINE_RENDER)
 	{
-		if(renderId) glDeleteRenderbuffers(1,&renderId);
+        if(renderId) { glDeleteRenderbuffers(1,&renderId); renderId = 0; }
 	}
 
 	if(tex_)
@@ -57,19 +58,13 @@ void CZFbo::setTexture(CZTexture *tex_)
 /// 设置绘制缓冲区
 void CZFbo::setColorRenderBuffer(int w_, int h_)
 {
-	if (isReady == OFFLINE_RENDER)
-	{
-		if(width == w_ && height == h_) return;
-
-		if(renderId) glDeleteRenderbuffers(1,&renderId);
-	}
+	if(!renderId)   glGenRenderbuffers(1,&renderId);
 
 	width = w_;
 	height = h_;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fboId);
 	//申请绘制缓冲区
-	glGenRenderbuffers(1,&renderId);
 	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
 #if		USE_OPENGL
 	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGBA,width,height);
@@ -81,6 +76,26 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	//check status
 	if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+/// set render buffer with gl context (for ios)
+void CZFbo::setRenderBufferWithContext(void* ctx, void* layer)
+{
+    if(!renderId)   glGenRenderbuffers(1,&renderId);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+    //申请绘制缓冲区
+    glBindRenderbuffer(GL_RENDERBUFFER,renderId);
+#if	USE_OPENGL_ES
+    [(EAGLContext*)ctx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)layer];
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
+#endif
+    //将颜色绘制缓冲与FBO绑定
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
+    //check status
+    if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 /// 开始FBO

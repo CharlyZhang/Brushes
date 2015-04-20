@@ -7,12 +7,17 @@
 //
 
 #import "MainViewController.h"
+#include "CZCanvas.h"
+#include "basic/CZRect.h"
 @interface MainViewController ()
+{
+    CZCanvas *canvas;
+}
 
 @end
 
 @implementation MainViewController
-@synthesize glView;
+//@synthesize glView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,15 +28,23 @@
     return self;
 }
 
-
+- (void)dealloc
+{
+    delete canvas;
+    [super dealloc];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
+    //glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
     self.view.backgroundColor = [UIColor redColor];
-    [self.view addSubview:glView];
+    //[self.view addSubview:glView];
+    CGSize size = self.view.bounds.size;
+    
+    canvas = new CZCanvas(CZRect(0,0,size.width,size.height));
+    [self.view addSubview:(UIView*)canvas->getView()];
 }
 
 - (void)didReceiveMemoryWarning

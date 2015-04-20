@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EAGLView.h"
+//#import "EAGLView.h"
+
 @interface MainViewController : UIViewController{
-      EAGLView *glView;
+      //EAGLView *glView;
 }
-@property(nonatomic, retain) EAGLView *glView;
+//@property(nonatomic, retain) EAGLView *glView;
 
 @end

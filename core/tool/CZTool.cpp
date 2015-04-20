@@ -40,6 +40,12 @@ CZTool::~CZTool()
 /// 开始移动
 void CZTool::moveBegin(CZ2DPoint &p_, float pressure_ /* = 0.0f */)
 {
+    if(!ptrPainting)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return;
+    }
+    
 	moved = false;
 
 	firstEver = true;
@@ -82,6 +88,12 @@ void CZTool::moveBegin(float x_, float y_, float pressure /* = 0.0f */)
 ///		/param pressureOrSpeed	  - 当设备支持压力值时，为压力值；否则为移动速度值
 void CZTool::moving(CZ2DPoint &p_, float pressureOrSpeed)
 {
+    if(!ptrPainting)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return;
+    }
+    
 	moved = true;
 
 	CZ2DPoint &location = p_;
@@ -146,6 +158,12 @@ void CZTool::moving(float x_, float y_, float pressureOrSpeed)
 /// 移动结束
 void CZTool::moveEnd(CZ2DPoint &p_)
 {
+    if(!ptrPainting)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return;
+    }
+    
 	CZColor     color = CZActiveState::getInstance()->getPaintColor();
 	CZBrush     *ptrBrush = CZActiveState::getInstance()->getActiveBrush();
 	//CZCanvas    canvas;// = (WDCanvas *) recognizer.view;

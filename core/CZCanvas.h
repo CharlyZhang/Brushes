@@ -16,17 +16,27 @@
 
 class CZPainting;
 
+/// protocol CZView
+class CZView
+{
+public:
+    virtual ~CZView(){};
+    virtual void setContext(void* ctx) = 0;
+    virtual void draw() = 0;
+};
+
 class CZCanvas
 {
 public:
-	struct CZView;
-	CZCanvas();
+	CZCanvas(const CZRect rect);
 	~CZCanvas();
 
 	/// 设置绘制
 	bool setPaiting(CZPainting* p);
 	/// 绘制视图
 	void drawView();
+    ///
+    void* getView();
 
 private:
 	/// 在一定区域绘制视图

@@ -18,10 +18,8 @@
 		2D1B25E31ADF2509006841C3 /* stamp.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D1B25DA1ADF2509006841C3 /* stamp.vert */; };
 		2D1B25E51ADF27CD006841C3 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */; };
 		2D7806881A10BAE1003F7479 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D7806871A10BAE1003F7479 /* OpenGLES.framework */; };
-		2D7806921A10BB8A003F7479 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D78068C1A10BB8A003F7479 /* EAGLView.mm */; };
-		2D7806931A10BB8A003F7479 /* gl_matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D78068D1A10BB8A003F7479 /* gl_matrix.c */; };
-		2D7806941A10BB8A003F7479 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806901A10BB8A003F7479 /* Shader.fsh */; };
-		2D7806951A10BB8A003F7479 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806911A10BB8A003F7479 /* Shader.vsh */; };
+		2D7806941A10BB8A003F7479 /* Shader.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806901A10BB8A003F7479 /* Shader.frag */; };
+		2D7806951A10BB8A003F7479 /* Shader.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806911A10BB8A003F7479 /* Shader.vert */; };
 		2D7806971A10BE77003F7479 /* checkerplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D7806961A10BE77003F7479 /* checkerplate.png */; };
 		2DB759361A10B938009E05B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759351A10B938009E05B8 /* Foundation.framework */; };
 		2DB759381A10B938009E05B8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759371A10B938009E05B8 /* CoreGraphics.framework */; };
@@ -35,7 +33,7 @@
 		2DB759511A10B938009E05B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759391A10B938009E05B8 /* UIKit.framework */; };
 		2DB759591A10B939009E05B8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759571A10B939009E05B8 /* InfoPlist.strings */; };
 		2DB7595B1A10B939009E05B8 /* BrushesDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB7595A1A10B939009E05B8 /* BrushesDemoTests.m */; };
-		2DB759661A10B9DA009E05B8 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.m */; };
+		2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.mm */; };
 		2DE3E4AE1A1481D500F80AA1 /* memo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2DE3E4AD1A1481D500F80AA1 /* memo.txt */; };
 /* End PBXBuildFile section */
 
@@ -62,12 +60,8 @@
 		2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../BrushesCore/build/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
 		2D7806871A10BAE1003F7479 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		2D7806891A10BAE8003F7479 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../../../../Library/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
-		2D78068B1A10BB8A003F7479 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
-		2D78068C1A10BB8A003F7479 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
-		2D78068D1A10BB8A003F7479 /* gl_matrix.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = gl_matrix.c; sourceTree = "<group>"; };
-		2D78068E1A10BB8A003F7479 /* gl_matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_matrix.h; sourceTree = "<group>"; };
-		2D7806901A10BB8A003F7479 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
-		2D7806911A10BB8A003F7479 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		2D7806901A10BB8A003F7479 /* Shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.frag; sourceTree = "<group>"; };
+		2D7806911A10BB8A003F7479 /* Shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vert; sourceTree = "<group>"; };
 		2D7806961A10BE77003F7479 /* checkerplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerplate.png; sourceTree = SOURCE_ROOT; };
 		2DB759321A10B938009E05B8 /* BrushesDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrushesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB759351A10B938009E05B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -86,7 +80,7 @@
 		2DB759581A10B939009E05B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2DB7595A1A10B939009E05B8 /* BrushesDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrushesDemoTests.m; sourceTree = "<group>"; };
 		2DB759641A10B9DA009E05B8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		2DB759651A10B9DA009E05B8 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		2DE3E4AD1A1481D500F80AA1 /* memo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = memo.txt; path = ../../memo.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,8 +122,8 @@
 				2D1B25D81ADF2509006841C3 /* compositeWithMask.frag */,
 				2D1B25D91ADF2509006841C3 /* stamp.frag */,
 				2D1B25DA1ADF2509006841C3 /* stamp.vert */,
-				2D7806901A10BB8A003F7479 /* Shader.fsh */,
-				2D7806911A10BB8A003F7479 /* Shader.vsh */,
+				2D7806901A10BB8A003F7479 /* Shader.frag */,
+				2D7806911A10BB8A003F7479 /* Shader.vert */,
 			);
 			path = shader;
 			sourceTree = "<group>";
@@ -172,14 +166,10 @@
 			isa = PBXGroup;
 			children = (
 				2D78068F1A10BB8A003F7479 /* shader */,
-				2D78068B1A10BB8A003F7479 /* EAGLView.h */,
-				2D78068C1A10BB8A003F7479 /* EAGLView.mm */,
-				2D78068D1A10BB8A003F7479 /* gl_matrix.c */,
-				2D78068E1A10BB8A003F7479 /* gl_matrix.h */,
 				2DB759441A10B938009E05B8 /* BrushesAppDelegate.h */,
 				2DB759451A10B938009E05B8 /* BrushesAppDelegate.m */,
 				2DB759641A10B9DA009E05B8 /* MainViewController.h */,
-				2DB759651A10B9DA009E05B8 /* MainViewController.m */,
+				2DB759651A10B9DA009E05B8 /* MainViewController.mm */,
 				2DB759471A10B938009E05B8 /* Images.xcassets */,
 				2D7806961A10BE77003F7479 /* checkerplate.png */,
 				2DB7593C1A10B938009E05B8 /* Supporting Files */,
@@ -295,10 +285,10 @@
 				2D1B25DE1ADF2509006841C3 /* brush.frag in Resources */,
 				2D1B25E21ADF2509006841C3 /* stamp.frag in Resources */,
 				2D1B25DF1ADF2509006841C3 /* brush.vert in Resources */,
-				2D7806951A10BB8A003F7479 /* Shader.vsh in Resources */,
+				2D7806951A10BB8A003F7479 /* Shader.vert in Resources */,
 				2D1B25DB1ADF2509006841C3 /* blit.frag in Resources */,
 				2D1B25E11ADF2509006841C3 /* compositeWithMask.frag in Resources */,
-				2D7806941A10BB8A003F7479 /* Shader.fsh in Resources */,
+				2D7806941A10BB8A003F7479 /* Shader.frag in Resources */,
 				2D1B25DC1ADF2509006841C3 /* blit.vert in Resources */,
 				2DE3E4AE1A1481D500F80AA1 /* memo.txt in Resources */,
 				2DB759401A10B938009E05B8 /* InfoPlist.strings in Resources */,
@@ -326,10 +316,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DB759421A10B938009E05B8 /* main.m in Sources */,
-				2DB759661A10B9DA009E05B8 /* MainViewController.m in Sources */,
+				2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */,
 				2DB759461A10B938009E05B8 /* BrushesAppDelegate.m in Sources */,
-				2D7806931A10BB8A003F7479 /* gl_matrix.c in Sources */,
-				2D7806921A10BB8A003F7479 /* EAGLView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

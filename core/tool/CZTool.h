@@ -64,7 +64,7 @@ protected:
 
 public:
 	float						scale;							///< 屏幕的缩放比
-	CZPainting					*ptrPainting;					///< 指向绘制
+	CZPainting					*ptrPainting;					///< 指向绘制  keep the same as canvas's painting
 	bool						eraseMode;						///< 是否是擦除状态，默认为false
 
 protected:

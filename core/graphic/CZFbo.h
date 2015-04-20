@@ -27,12 +27,15 @@ public:
 	void setTexture(CZTexture *tex_);
 	/// 设置绘制缓冲区（用于离线绘制）
 	void setColorRenderBuffer(int w_, int h_);
+    /// set render buffer with gl context (for ios)
+    void setRenderBufferWithContext(void* ctx,void* layer);
 	/// 开始FBO（不负责清除缓存）
 	void begin();
 	/// 结束FBO
 	void end();
 	/// 将纹理绘制到屏幕
 	void showTextureOnScreen(int x,int y,int width_ = 128,int height_ = 128);
+    unsigned int getRenderBufferId(){ return renderId;}
 
 public:
 	int width,height;
