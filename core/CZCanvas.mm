@@ -39,6 +39,7 @@ GLfloat gVertexData[20] =
     CZMat4 mat;
     GLuint _vertexArray;
     GLuint _vertexBuffer;
+    CZTexture *stampTex;
 }
 
 @property (nonatomic, assign) EAGLContext *context;
@@ -88,7 +89,14 @@ GLfloat gVertexData[20] =
         return nil;
     }
     
-    [self loadTexture];
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CGSize size = frame.size;
+    CZImage *img = brush->previewImageWithSize(CZSize(size.width,size.height));
+    [EAGLContext setCurrentContext:self.context];
+    stampTex = CZTexture::produceFromImage(img);
+    textures[0] = stampTex->texId;
+    delete img;
+
     
     std::vector<std::string> attrs, uniforms;
     attrs.push_back("position");
@@ -97,7 +105,7 @@ GLfloat gVertexData[20] =
     uniforms.push_back("texture");
     shader = new CZShader("Shader","Shader",attrs,uniforms);
     
-    CGSize size = self.bounds.size;
+    size = self.bounds.size;
     mat.SetOrtho(0, size.width,0, size.height, -1, 1);
     
     glGenVertexArraysOES(1, &_vertexArray);
