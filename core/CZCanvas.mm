@@ -51,7 +51,7 @@
     self.multipleTouchEnabled = YES;
     self.contentMode = UIViewContentModeCenter;
     self.contentScaleFactor = [UIScreen mainScreen].scale;
-    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.autoresizingMask = UIViewAutoresizingNone;
     self.exclusiveTouch = YES;
     self.opaque = YES;
     self.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1];
@@ -141,7 +141,6 @@
     }
     
     LOG_DEBUG("gesture\n");
-    //[self drawView];
 }
 
 #pragma mark - Draw
@@ -153,7 +152,6 @@
     }
     
     [EAGLContext setCurrentContext:context];
-    self.fbo->setRenderBufferWithContext((void*)context, (void*)self.layer);
     self.fbo->begin();
     
     glClearColor(1, 1, 1, 1);
@@ -168,11 +166,15 @@
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());
     [context presentRenderbuffer:GL_RENDERBUFFER];
     LOG_DEBUG("drawView\n");
-    
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
+    CGSize size = self.bounds.size;
+    projMat.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
     [EAGLContext setCurrentContext:context];
+    if(self.fbo)
+        self.fbo->setRenderBufferWithContext((void*)context, (void*)self.layer);
     [self drawView];
 }
 

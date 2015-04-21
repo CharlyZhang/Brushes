@@ -40,14 +40,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    //glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
-    self.view.backgroundColor = [UIColor redColor];
-    //[self.view addSubview:glView];
-    CGSize size = self.view.bounds.size;
     
-    canvas = new CZCanvas(CZRect(0,0,size.width,size.height));
-    painting = new CZPainting(CZSize(size.width,size.height));
+    self.view.backgroundColor = [UIColor redColor];
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    
+    canvas = new CZCanvas(CZRect(0,0,size.height,size.width));
+    painting = new CZPainting(CZSize(size.height,size.width));
     canvas->setPaiting(painting);
     
     [self.view addSubview:(UIView*)canvas->getView()];
