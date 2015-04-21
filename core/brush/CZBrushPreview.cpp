@@ -25,11 +25,14 @@
 
 using namespace std;
 
+CZBrushPreview *CZBrushPreview::ptrInstance = NULL;
+
 /// 初始化函数
 CZBrushPreview::CZBrushPreview()
 {
 	path = NULL;
 	ptrBrush = NULL;
+	brushTexture = NULL;
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
 
@@ -51,8 +54,8 @@ CZBrushPreview::CZBrushPreview()
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+// 	glEnable(GL_BLEND);
+// 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 /// 销毁函数

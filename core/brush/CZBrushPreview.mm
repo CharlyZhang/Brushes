@@ -25,11 +25,14 @@
 
 using namespace std;
 
+CZBrushPreview *CZBrushPreview::ptrInstance = NULL;
+
 /// 初始化函数
 CZBrushPreview::CZBrushPreview()
 {
 	path = NULL;
 	ptrBrush = NULL;
+	brushTexture = NULL;
 	backingWidth = backingHeight = 0.0f;
 	mainScreenScale = 1.0f;
 
@@ -51,8 +54,8 @@ CZBrushPreview::CZBrushPreview()
 	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+// 	glEnable(GL_BLEND);
+// 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 /// 销毁函数
@@ -78,7 +81,7 @@ void CZBrushPreview::setup(const CZSize &size_)
 
 	/// 创建路径
 	if(path) delete path;
-	
+
 	buildPath();
 
 	/// 设置投影环境
@@ -124,7 +127,7 @@ void CZBrushPreview::configureBrush()
 		/// 获取笔刷图像
 		CZStampGenerator *gen = ptrBrush->getGenerator();
 		CZImage *img = gen->getStamp(true);		///< get the small stamp;
-        glContext->setAsCurrent();
+		glContext->setAsCurrent();
 		brushTexture = CZTexture::produceFromImage(img);
 	}
 
@@ -170,7 +173,7 @@ CZImage* CZBrushPreview::previewWithSize(const CZSize size_)
 	path->paint(path->getRandomizer());
 
 	brushShader->end();
-    
+
 	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
 	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_PIXEL_TYPE, ret->data);
 
@@ -204,8 +207,8 @@ void CZBrushPreview::setMainScreenScale(float s)
 /// 实现Observer接口
 void CZBrushPreview::updateObserver(std::string &notificationName, void* data /* = NULL */)
 {
-// 	if (notificationName == CZBrushGeneratorChanged)
-// 	{
-// 		render.clearBrush();
-// 	}
+	// 	if (notificationName == CZBrushGeneratorChanged)
+	// 	{
+	// 		render.clearBrush();
+	// 	}
 }

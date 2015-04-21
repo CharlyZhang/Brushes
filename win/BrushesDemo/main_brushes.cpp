@@ -9,9 +9,10 @@
 #include "tool/CZTool.h"
 #include "CZActiveState.h"
 #include "painting/CZPainting.h"
+#include "CZCanvas.h"
+#include "basic/CZRect.h"
 #include "CZDefine.h"
 #include "stdio.h"				///< for freopen
-
 static HGLRC           hRC=NULL;                           // 窗口着色描述表句柄  
 static HDC             hDC=NULL;                           // OpenGL渲染描述表句柄  
 static HWND            hWnd=NULL;                          // 保存我们的窗口句柄  
@@ -39,6 +40,7 @@ FILE *fp2 = freopen("../error.txt","w",stderr);
 #if RENDER_FREEHAND
 	CZTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
 	CZPainting *painting  = NULL;
+	CZCanvas *canvas = NULL;
 #endif
 
 int windowWidth = 600, windowHeight = 600;
@@ -83,7 +85,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 
 	glDisable(GL_DITHER);
 	glDisable(GL_STENCIL_TEST);
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	glewInit();
 
 #if STAMP_TEX
@@ -129,7 +132,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #if RENDER_FREEHAND
 	freeHand = CZActiveState::getInstance()->getActiveTool();
 	painting = new CZPainting(CZSize(windowWidth,windowHeight));
-	freeHand->ptrPainting = painting;
+	canvas = new CZCanvas(CZRect(0,0,windowHeight,windowHeight));
+	canvas->setPaiting(painting);
 #endif
 
 	return true;
@@ -159,6 +163,8 @@ GLvoid DrawGLScene(GLvoid)
 
 	// restore blending functions
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	canvas->isDirty = false;
+	LOG_INFO("draw\n");
 	return;
 #endif
 
@@ -172,11 +178,6 @@ GLvoid DrawGLScene(GLvoid)
 	glColor4f(1.0,1.0,1.0,1.0);	///< 参与片段颜色的混合
 	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_TEXTURE_2D);
-	
-#if RENDER_FREEHAND
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,painting->activePaintTexture->texId);
-#endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -241,6 +242,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 		GetCursorPos(&mousePos);
 #if RENDER_FREEHAND
 		freeHand->moveBegin(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+		LOG_INFO("move\n");
 #endif
 		break;
 
@@ -249,6 +251,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 #if RENDER_FREEHAND
 		if (wParam & MK_LBUTTON)
 			freeHand->moving(CZ2DPoint(mousePos.x,windowHeight-mousePos.y),1.0);
+		LOG_INFO("move\n");
 #endif
 		break;
 
@@ -256,6 +259,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 #if RENDER_FREEHAND
 		GetCursorPos(&mousePos);
 		freeHand->moveEnd(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+		LOG_INFO("move\n");
 #endif
 		break;
 
@@ -534,11 +538,15 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				glDeleteBuffers(1,&mVertexBufferObject);
 				glDeleteBuffers(1,&mTexCoordBufferObject);
 #if RENDER_FREEHAND
+				if(canvas) { delete canvas; canvas = NULL; }
 				if(painting) {  delete painting; painting = NULL;}
 #endif
 				break;
 			}
-			else
+			else 
+#if RENDER_FREEHAND
+				if(canvas->isDirty)
+#endif
 			{
 				DrawGLScene();
 				SwapBuffers(hDC);

@@ -27,8 +27,14 @@ public:
 	/// 完成单例获取函数
 	static CZBrushPreview * getInstance()
 	{
-		static CZBrushPreview instance;   //局部静态变量  
-		return &instance; 
+		if(!ptrInstance) ptrInstance = new CZBrushPreview;
+		return ptrInstance; 
+	}
+
+	static bool destroy() 
+	{
+		if(ptrInstance) delete ptrInstance;
+		return true;
 	}
 
 	/// 生成指定尺寸大小预览图
@@ -68,6 +74,7 @@ public:
 	float backingWidth, backingHeight;
 
 private:
+	static CZBrushPreview *ptrInstance;    
 	CZBrush			*ptrBrush;				///< 仅引用，不负责建立和销毁
 	float			mainScreenScale;		///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
 	CZGLContext *	glContext;				///< gl上下文

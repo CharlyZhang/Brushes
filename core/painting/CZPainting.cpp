@@ -11,6 +11,7 @@
 
 #include "CZPainting.h"
 #include "../CZUtil.h"
+#include "../CZCanvas.h"
 #include "../graphic/glDef.h"
 
 using namespace  std;
@@ -28,9 +29,9 @@ CZPainting::CZPainting(const CZSize &size)
 	undoBrushPtrs.clear();
 	strokeCount = 0;
 
-
 	ptrActivePath = NULL;
 	ptrLastBrush = NULL;
+	ptrCanvas = NULL;
 	uuid = CZUtil::generateUUID();
 
 	/// set up gl context
@@ -230,6 +231,9 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
 
 	// 关闭启fbo
 	fbo->end();
+
+	if(ptrCanvas)   ptrCanvas->drawView();
+	else            LOG_ERROR("ptrCanvas is NULL!\n");
 
 	return pathBounds;
 }
@@ -518,6 +522,14 @@ CZGLContext *CZPainting::getGLContext()
 {
 	return glContext;
 };
+
+/// set canvas
+bool CZPainting::setCanvas(CZCanvas* c)
+{
+	ptrCanvas = c;
+	return true;
+}
+
 
 /// 实现CZCoding接口
 void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/){};

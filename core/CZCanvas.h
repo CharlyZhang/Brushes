@@ -43,6 +43,7 @@ private:
 	void drawViewInRect(CZRect &rect);
 public:
 	CZPainting *ptrPainting;
+	bool		isDirty;			///< just used in win
 
 private:
 	CZRect visibleRect;

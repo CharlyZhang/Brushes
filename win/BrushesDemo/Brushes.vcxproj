@@ -86,7 +86,6 @@
     <ClInclude Include="..\..\core\graphic\CZShader.h" />
     <ClInclude Include="..\..\core\graphic\CZTexture.h" />
     <ClInclude Include="..\..\core\graphic\glDef.h" />
-    <ClInclude Include="..\..\core\Macro.h" />
     <ClInclude Include="..\..\core\painting\CZLayer.h" />
     <ClInclude Include="..\..\core\painting\CZPainting.h" />
     <ClInclude Include="..\..\core\path\CZBezierNode.h" />

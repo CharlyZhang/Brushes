@@ -51,6 +51,7 @@ CZBrush::~CZBrush()
 	if (stampImage) { delete stampImage; stampImage = NULL;}
 	if (uuid)		{ delete [] uuid;	uuid = NULL;}
 	delete myRandomizer;
+	CZBrushPreview::destroy();
 }
 
 /// 随机生成笔刷（静态函数）
