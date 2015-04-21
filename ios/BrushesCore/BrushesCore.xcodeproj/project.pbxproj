@@ -123,7 +123,6 @@
 		2D1B257A1ADF01F2006841C3 /* CZShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZShader.h; sourceTree = "<group>"; };
 		2D1B257C1ADF01F2006841C3 /* CZTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTexture.h; sourceTree = "<group>"; };
 		2D1B257D1ADF01F2006841C3 /* glDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glDef.h; sourceTree = "<group>"; };
-		2D1B257E1ADF01F2006841C3 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Macro.h; path = ../../../core/Macro.h; sourceTree = "<group>"; };
 		2D1B25811ADF01F2006841C3 /* CZLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZLayer.h; sourceTree = "<group>"; };
 		2D1B25831ADF01F2006841C3 /* CZPainting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZPainting.h; sourceTree = "<group>"; };
 		2D1B25851ADF01F2006841C3 /* CZBezierNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBezierNode.cpp; sourceTree = "<group>"; };
@@ -369,7 +368,6 @@
 				2D1B258B1ADF01F2006841C3 /* serialization */,
 				2D1B258F1ADF01F2006841C3 /* stamp */,
 				2D1B25941ADF01F2006841C3 /* tool */,
-				2D1B257E1ADF01F2006841C3 /* Macro.h */,
 				2D1B25581ADF01F2006841C3 /* CZActiveState.cpp */,
 				2D1B25591ADF01F2006841C3 /* CZActiveState.h */,
 				2D1B255A1ADF01F2006841C3 /* CZBrushCell.h */,
@@ -579,6 +577,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -594,8 +593,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "b909e209-7685-42aa-8376-024af2761152";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -616,6 +616,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -625,7 +626,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "b909e209-7685-42aa-8376-024af2761152";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

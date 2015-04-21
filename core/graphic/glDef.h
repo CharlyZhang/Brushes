@@ -2,7 +2,7 @@
 #ifndef _GLDEF_H_
 #define _GLDEF_H_
 
-#include "../Macro.h"
+#include "../CZDefine.h"
 
 #include "CZFbo.h"
 #include "CZShader.h"

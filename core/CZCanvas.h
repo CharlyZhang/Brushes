@@ -21,7 +21,7 @@ class CZView
 {
 public:
     virtual ~CZView(){};
-    virtual void setContext(void* ctx) = 0;
+    virtual void setPaiting(CZPainting* p) = 0;
     virtual void draw() = 0;
 };
 

@@ -309,7 +309,6 @@ void CZTool::paintPath(CZPath &path)
 	lastRemainder = path.remainder;
 
 	//[canvas drawViewInRect:pathBounds];
-	//ptrPainting->drawViewInRect();
 
 	clearBuffer = false;
 }

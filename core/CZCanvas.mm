@@ -20,29 +20,14 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-// const
-GLfloat gVertexData[20] =
-{
-    // positionX, positionY, positionZ,     u,v
-    0.0f, 50.0f, 0,        0.0f, 1.0f,
-    0.0f, 0.0f, 0,         0.0f, 0.0f,
-    50.0f, 0.0f, 0,        1.0f, 0.0f,
-    50.0f, 50.0f, 0,       1.0f, 1.0f
-};
-
 ///
 @interface CanvasView : UIView<UIGestureRecognizerDelegate>
 {
-    CZFbo *fbo_;
-    CZShader *shader;
-    GLuint textures[10];
-    CZMat4 mat;
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
-    CZTexture *stampTex;
+    CZMat4 projMat;
+    EAGLContext *context;               ///
 }
 
-@property (nonatomic, assign) EAGLContext *context;
+@property (nonatomic, assign) CZPainting* ptrPainting;
 @property (nonatomic, assign) CZFbo* fbo;
 
 - (void)drawView;
@@ -50,8 +35,6 @@ GLfloat gVertexData[20] =
 @end
 
 @implementation CanvasView
-
-@synthesize fbo = fbo_;
 
 + (Class) layerClass
 {
@@ -81,51 +64,12 @@ GLfloat gVertexData[20] =
                                     [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8,
                                     kEAGLDrawablePropertyColorFormat, nil];
     
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    
-    //////////
-    if (!self.context || ![EAGLContext setCurrentContext:self.context]) {
-        [self release];
-        return nil;
-    }
-    
-    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
     CGSize size = frame.size;
-    CZImage *img = brush->previewImageWithSize(CZSize(size.width,size.height));
-    [EAGLContext setCurrentContext:self.context];
-    stampTex = CZTexture::produceFromImage(img);
-    textures[0] = stampTex->texId;
-    delete img;
-
-    
-    std::vector<std::string> attrs, uniforms;
-    attrs.push_back("position");
-    attrs.push_back("texcoord");
-    uniforms.push_back("modelViewProjectionMatrix");
-    uniforms.push_back("texture");
-    shader = new CZShader("Shader","Shader",attrs,uniforms);
-    
-    size = self.bounds.size;
-    mat.SetOrtho(0, size.width,0, size.height, -1, 1);
-    
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gVertexData), gVertexData, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), 0);
-    
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, 5*sizeof(GLfloat), (void*)12);
-    glBindVertexArrayOES(0);
+    projMat.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
     
     glEnable(GL_TEXTURE_2D);        /// will emit gl error, but cause showing nothing if be deleted
     CZCheckGLError();
     glActiveTexture(GL_TEXTURE0);
-    
     
 ///////////
     
@@ -134,50 +78,13 @@ GLfloat gVertexData[20] =
     return self;
 }
 
-- (void)loadTexture {
-    CGImageRef textureImage = [UIImage imageNamed:@"checkerplate.png"].CGImage;
-    if (textureImage == nil) {
-        NSLog(@"Failed to load texture image");
-        return;
-    }
-    
-    size_t texWidth = CGImageGetWidth(textureImage);
-    size_t texHeight = CGImageGetHeight(textureImage);
-    
-    GLubyte *textureData = (GLubyte *)malloc(texWidth * texHeight * 4);
-    
-    CGContextRef textureContext = CGBitmapContextCreate(textureData,
-                                                        texWidth, texHeight,
-                                                        8, texWidth * 4,
-                                                        CGImageGetColorSpace(textureImage),
-                                                        kCGImageAlphaPremultipliedLast);
-    CGContextDrawImage(textureContext, CGRectMake(0.0, 0.0, (float)texWidth, (float)texHeight), textureImage);
-    CGContextRelease(textureContext);
-    
-    glGenTextures(1, &textures[0]);
-    glBindTexture(GL_TEXTURE_2D, textures[0]);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)texWidth, (GLsizei)texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
-    
-    free(textureData);
-    
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glEnable(GL_TEXTURE_2D);
-    
- //   [self checkGLError:NO];
-    
-}
-
 - (void)dealloc
 {
-    [EAGLContext setCurrentContext:self.context];
-    delete self.fbo;
-    delete shader;
-    if ([EAGLContext currentContext] == self.context) {
+    [EAGLContext setCurrentContext:context];
+    delete _fbo;
+    if ([EAGLContext currentContext] == context) {
         [EAGLContext setCurrentContext:nil];
     }
-    [self.context release];
     
     [super dealloc];
 }
@@ -186,12 +93,23 @@ GLfloat gVertexData[20] =
 
 - (CZFbo*)fbo
 {
-    if (!fbo_ && self.context) {
-        [EAGLContext setCurrentContext:self.context];
-        fbo_ = new CZFbo;
+    if (!_fbo && context) {
+        [EAGLContext setCurrentContext:context];
+        _fbo = new CZFbo;
     }
     
-    return fbo_;
+    return _fbo;
+}
+
+- (void)setPtrPainting:(CZPainting *)ptrPainting
+{
+    _ptrPainting = ptrPainting;
+    if (_ptrPainting) {
+        context = (EAGLContext*) ptrPainting->getGLContext()->getRealContext();
+    }
+    else
+        context = nil;
+    
 }
 
 #pragma mark - Geusture
@@ -222,13 +140,20 @@ GLfloat gVertexData[20] =
         LOG_DEBUG("gesture canceled!\n");
     }
     
+    LOG_DEBUG("gesture\n");
+    //[self drawView];
 }
 
 #pragma mark - Draw
 - (void) drawView
 {
-    [EAGLContext setCurrentContext:self.context];
-    self.fbo->setRenderBufferWithContext((void*)self.context, (void*)self.layer);
+    if (!self.ptrPainting) {
+        LOG_ERROR("ptrPainting is NULL!]\n");
+        return ;
+    }
+    
+    [EAGLContext setCurrentContext:context];
+    self.fbo->setRenderBufferWithContext((void*)context, (void*)self.layer);
     self.fbo->begin();
     
     glClearColor(1, 1, 1, 1);
@@ -236,58 +161,18 @@ GLfloat gVertexData[20] =
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
     
-    GLfloat data[20];
-    CGSize size = self.bounds.size;
-    GLfloat quad[8] =
-    {
-        0.0f, (GLfloat)size.height,
-        0.0f, 0.0f,
-        (GLfloat)size.width, 0.0f,
-        (GLfloat)size.width, (GLfloat)size.height
-    };
-    
-    // update the data
-    for (int i=0; i<4; i++) {
-        data[5*i+0] = quad[i*2+0];
-        data[5*i+1] = quad[i*2+1];
-        data[5*i+2] = gVertexData[5*i+2];
-        data[5*i+3] = gVertexData[5*i+3];
-        data[5*i+4] = gVertexData[5*i+4];
-    }
-    
-#ifndef SHOW_FREE_DRAW
-    glBindTexture(GL_TEXTURE_2D, textures[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Render the object again with ES2
-    shader->begin();
-    
-    glUniformMatrix4fv(shader->getUniformLocation("modelViewProjectionMatrix"), 1, GL_FALSE, mat);
-    glActiveTexture(GL_TEXTURE0);
-    glUniform1i(shader->getUniformLocation("texture"), 0);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-#else
-    CZMat4 proj;
-    proj.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
-    painting->blit(proj);
-#endif
+    self.ptrPainting->blit(projMat);
     
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());
-    [self.context presentRenderbuffer:GL_RENDERBUFFER];
-    
-    return;
-    [EAGLContext setCurrentContext:self.context];
-    
-    self.fbo->setColorRenderBuffer(self.bounds.size.width, self.bounds.size.height);
-    
+    [context presentRenderbuffer:GL_RENDERBUFFER];
+    LOG_DEBUG("drawView\n");
     
 }
 
 - (void)layoutSubviews {
-    [EAGLContext setCurrentContext:self.context];
+    [EAGLContext setCurrentContext:context];
     [self drawView];
 }
 
@@ -305,7 +190,7 @@ public:
     }
     
     ~CZViewImpl() { [realView release];}
-    void setContext(void* ctx) { realView.context = (EAGLContext*)ctx;}
+    void setPaiting(CZPainting* p) { realView.ptrPainting = p;}
     void draw() { [realView drawView];}
 };
 
@@ -330,8 +215,9 @@ bool CZCanvas::setPaiting(CZPainting *p)
     }
     
     ptrPainting = p;
+    p->setCanvas(this);
     CZActiveState::getInstance()->getActiveTool()->ptrPainting = p;
-    view->setContext(p->getGLContext()->getRealContext());
+    view->setPaiting(p);
     return true;
 }
 

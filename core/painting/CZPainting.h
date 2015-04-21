@@ -32,6 +32,8 @@
 #include <vector>
 #include <map>
 
+class CZCanvas;
+
 /// 绘制类
 class CZPainting :public CZCoding
 {
@@ -124,6 +126,9 @@ public:
 	/// 获取gl上下文
 	CZGLContext *getGLContext();
 
+    /// set canvas
+    bool setCanvas(CZCanvas* c);
+    
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);
@@ -142,6 +147,7 @@ private:
     CZRect bounds;
 	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用
 	CZLayer *ptrActiveLayer;		///< 当前绘制层
+    CZCanvas *ptrCanvas;            ///< point to Canvas for displaying the stroke
 
 	bool flattenMode;
 	std::vector<CZLayer*>	layers;	///< 绘制的画层

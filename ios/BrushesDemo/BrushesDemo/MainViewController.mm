@@ -8,10 +8,12 @@
 
 #import "MainViewController.h"
 #include "CZCanvas.h"
+#include "painting/CZPainting.h"
 #include "basic/CZRect.h"
 @interface MainViewController ()
 {
     CZCanvas *canvas;
+    CZPainting *painting;
 }
 
 @end
@@ -31,6 +33,7 @@
 - (void)dealloc
 {
     delete canvas;
+    delete painting;
     [super dealloc];
 }
 
@@ -44,6 +47,9 @@
     CGSize size = self.view.bounds.size;
     
     canvas = new CZCanvas(CZRect(0,0,size.width,size.height));
+    painting = new CZPainting(CZSize(size.width,size.height));
+    canvas->setPaiting(painting);
+    
     [self.view addSubview:(UIView*)canvas->getView()];
 }
 
