@@ -35,6 +35,8 @@
 		2DB7595B1A10B939009E05B8 /* BrushesDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB7595A1A10B939009E05B8 /* BrushesDemoTests.m */; };
 		2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.mm */; };
 		2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */; };
+		2DC7D0D81AE78AA3007DB4C7 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DC7D0D71AE78AA3007DB4C7 /* unPremultipliedBlit.frag */; };
+		2DC7D0DA1AE78BB1007DB4C7 /* nonPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DC7D0D91AE78BB1007DB4C7 /* nonPremultipliedBlit.frag */; };
 		2DE3E4AE1A1481D500F80AA1 /* memo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2DE3E4AD1A1481D500F80AA1 /* memo.txt */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +84,8 @@
 		2DB7595A1A10B939009E05B8 /* BrushesDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrushesDemoTests.m; sourceTree = "<group>"; };
 		2DB759641A10B9DA009E05B8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
+		2DC7D0D71AE78AA3007DB4C7 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = unPremultipliedBlit.frag; path = ../../../../core/glsl/unPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2DC7D0D91AE78BB1007DB4C7 /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = nonPremultipliedBlit.frag; path = ../../../../core/glsl/nonPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2DE3E4AD1A1481D500F80AA1 /* memo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = memo.txt; path = ../../memo.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +120,8 @@
 			children = (
 				2D1B25D21ADF2509006841C3 /* blit.frag */,
 				2D1B25D31ADF2509006841C3 /* blit.vert */,
+				2DC7D0D91AE78BB1007DB4C7 /* nonPremultipliedBlit.frag */,
+				2DC7D0D71AE78AA3007DB4C7 /* unPremultipliedBlit.frag */,
 				2D1B25D41ADF2509006841C3 /* blitWithMask.frag */,
 				2D1B25D51ADF2509006841C3 /* brush.frag */,
 				2D1B25D61ADF2509006841C3 /* brush.vert */,
@@ -288,6 +294,7 @@
 				2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */,
 				2D1B25DF1ADF2509006841C3 /* brush.vert in Resources */,
 				2D7806951A10BB8A003F7479 /* Shader.vert in Resources */,
+				2DC7D0DA1AE78BB1007DB4C7 /* nonPremultipliedBlit.frag in Resources */,
 				2D1B25DB1ADF2509006841C3 /* blit.frag in Resources */,
 				2D1B25E11ADF2509006841C3 /* compositeWithMask.frag in Resources */,
 				2D7806941A10BB8A003F7479 /* Shader.frag in Resources */,
@@ -295,6 +302,7 @@
 				2DE3E4AE1A1481D500F80AA1 /* memo.txt in Resources */,
 				2DB759401A10B938009E05B8 /* InfoPlist.strings in Resources */,
 				2D1B25E01ADF2509006841C3 /* compositeWithEraseMask.frag in Resources */,
+				2DC7D0D81AE78AA3007DB4C7 /* unPremultipliedBlit.frag in Resources */,
 				2DB759481A10B938009E05B8 /* Images.xcassets in Resources */,
 				2D1B25DD1ADF2509006841C3 /* blitWithMask.frag in Resources */,
 				2D7806971A10BE77003F7479 /* checkerplate.png in Resources */,
