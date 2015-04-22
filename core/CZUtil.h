@@ -24,8 +24,7 @@
 class CZBezierNode;
 class CZ3DPoint;
 
-
-#if CZ_DEBUG
+#if CZ_DEBUG_GL
 	#define CZCheckGLError()	CZUtil::CZCheckGLError_(__FILE__, __LINE__)
 #else
 	#define CZCheckGLError()

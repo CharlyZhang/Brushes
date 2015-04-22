@@ -16,6 +16,7 @@
 #include "../basic/CZImage.h"
 #include "../basic/CZColor.h"
 #include "../basic/CZMat4.h"
+#include "../basic/CZAffineTransform.h"
 #include "../CZColorBalance.h"
 #include "../CZHueSaturation.h"
 #include "../basic/CZAffineTransform.h"
@@ -66,6 +67,9 @@ public:
 	
 	/// 合并另以图层
 	bool merge(CZLayer *layer);
+
+	/// 将图像经过变换后绘制
+	void renderImage(CZImage* img, CZAffineTransform &trans);
 
 	/// 设置绘制指针
 	void setPainting(CZPainting *painting);

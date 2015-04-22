@@ -346,8 +346,15 @@ void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undo
 
 	isSaved = kSaveStatusUnsaved;
 
-	CZFbo fbo;
+	if (ptrPainting == NULL)
+	{
+		LOG_ERROR("ptrPainting is NULL!\n");
+		return;
+	}
 
+	ptrGLContext->setAsCurrent();
+
+	CZFbo fbo;
 	fbo.setTexture(myTexture);
 
 	fbo.begin();
@@ -463,6 +470,65 @@ void CZLayer::commitColorAdjustments()
 bool CZLayer::merge(CZLayer *layer)
 {
 	return true;
+}
+
+/// 将图像经过变换后绘制
+void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
+{
+	if (ptrPainting == NULL)
+	{
+		LOG_ERROR("ptrPainting is NULL\n");
+		return;
+	}
+
+	if (img == NULL)
+	{
+		LOG_WARN("image is NULL!\n");
+		return;
+	}
+	
+	bool hasAlpha = false;		///< 
+
+	ptrGLContext->setAsCurrent();
+	CZTexture *tex = CZTexture::produceFromImage(img);
+
+	CZShader *shader = NULL;
+	shader = hasAlpha ? ptrPainting->getShader("unPremultipliedBlit") : ptrPainting->getShader("nonPremultipliedBlit");
+	if (shader == NULL)
+	{
+		LOG_ERROR("cannot find the assigned shader!\n");
+		return;
+	}
+
+	CZFbo fbo;
+	fbo.setTexture(myTexture);
+
+	fbo.begin();
+
+	shader->begin();
+
+	CZMat4 projection;
+	CZSize size = ptrPainting->getDimensions();
+	projection.SetOrtho(0,size.width,0,size.height,-1.0f, 1.0f);
+
+	glUniform1i(shader->getUniformLocation("texture"), 0);
+	glUniform1f(shader->getUniformLocation("opacity"), 1.0f);
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,tex->texId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	CZRect rect(0,0,img->width,img->height);
+	CZUtil::drawRect(rect,trans);
+
+	shader->end();
+
+	fbo.end();
+
+	delete tex;
+
+	CZCheckGLError();
 }
 
 /// 设置转换矩阵

@@ -24,27 +24,25 @@
 # define M_PI_4     0.785398163397448309616
 #endif
 
-#define GLUINT  unsigned int
-
-
-#define CZ_DEBUG		1		// for debugging
+#define CZ_DEBUG_GL		1		// for debugging
 #define USE_OPENGL		1
 #define USE_OPENGL_ES	0
 
 #define RENDER_TWO_RECT		0		///< 绘制两个矩形
-#define RENDER_FULL_RECT	1		///< 绘制全屏纹理
+#define RENDER_FULL_RECT	0		///< 绘制全屏纹理
 #define RENDER_FREEHAND		1		///< 绘制手绘轨迹（不使用任何以下纹理）
+#define RENDER_IMGAGE		1		///< render image onto active layer
 
 #define STAMP_TEX		0		///< 笔触纹理
 #define STROKE_TEX		0		///< 轨迹纹理
 
+/// GL type
+#define GLUINT						unsigned int
 
 #if USE_OPENGL
-	#define GL_PIXEL_TYPE GL_FLOAT
-	typedef float PixDataType;
+# define PixDataType				float
 #elif USE_OPENGL_ES
-	#define GL_PIXEL_TYPE GL_UNSIGNED_BYTE
-	typedef unsigned char PixDataType;
+# define PixDataType				unsigned char
 #endif
 
 /// LOG
