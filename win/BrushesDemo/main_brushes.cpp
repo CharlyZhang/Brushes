@@ -148,20 +148,11 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	unsigned char *buf = NULL;
 	CZUtil::loadBMP(BmpImageName,buf,width,height);
 
-	//showTex = new CZTexture();
-
-	glGenTextures(1, &textureID);					// 创建纹理
-
-	// 使用来自位图数据生成 的典型纹理
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	// 生成纹理
-	//glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage->sizeX, TextureImage->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage->data);
-	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buf);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR);	// 线形滤波
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);	// 线形滤波
-
+	CZImage *img = new CZImage((int)width,(int)height,RGB_BYTE,(void*)buf);
+	painting->getActiveLayer()->renderImage(img,CZAffineTransform::makeFromTranslation(100,100));
+	//showTex = new CZTexture(width,height,RGB_BYTE,(void*)buf);
+	//glBindTexture(GL_TEXTURE_2D, showTex->texId);
+	delete img;
 	free(buf);
 #endif
 	return true;

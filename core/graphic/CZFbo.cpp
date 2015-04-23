@@ -76,10 +76,10 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 	switch(mode) 
 	{
 	case RGB_BYTE:
-		//glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB8_OES, width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB8, width, height);
 		break;
 	case RGBA_BYTE:
-		//glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, width, height);
 		break;
 	case RGB_FLOAT:
 		glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,width,height);

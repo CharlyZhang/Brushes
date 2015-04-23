@@ -10,8 +10,9 @@
 ///  \note
 
 #include "CZImage.h"
+#include <string.h>
 
-CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */)
+CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */, void* data_ /*= NULL*/)
 {
 	width = w_;
 	height = h_;
@@ -30,9 +31,15 @@ CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_
 	}
 
 	if(type == 0)
+	{
 		data = (void*) new unsigned char[n*width*height];
+		if(data_)	memcpy(data,data_,width*height*n*sizeof(unsigned char));
+	}
 	else if(type ==1)
+	{
 		data = (void*) new float[n*width*height];
+		if(data_)	memcpy(data,data_,width*height*n*sizeof(float));
+	}
 	else
 		data = NULL;
 }

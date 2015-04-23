@@ -16,7 +16,6 @@
 # include "glut.h"
 
 /// type
-# define GL_PIXEL_TYPE				GL_FLOAT
 
 /// functions
 # define GL_GEN_VERTEXARRAY(n,arr)	glGenVertexArrays(n, arr)
@@ -33,7 +32,8 @@
 # include <OpenGLES/ES2/glext.h>
 
 /// type
-# define GL_PIXEL_TYPE				GL_UNSIGNED_BYTE
+# define GL_RGB8					GL_RGB8_OES
+# define GL_RGBA8					GL_RGBA8_OES
 
 /// functions
 # define GL_GEN_VERTEXARRAY(n,arr)	glGenVertexArraysOES(n, arr)

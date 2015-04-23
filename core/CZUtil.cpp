@@ -305,43 +305,6 @@ bool CZUtil::loadBMP(char* fileName,unsigned char* &buf,long &width,long &height
 	return true;
 }
 
-
-void CZUtil::checkPixels(int w_, int h_)
-{
-	PixDataType *pix = new PixDataType[w_*h_*4];
-
-	glReadPixels(0,0,w_,h_,GL_RGBA, GL_PIXEL_TYPE,pix);
-
-	bool over = false;
-	long num = 0;
-	for(int i=0; i<h_; i++)
-	{
-		for(int j=0; j<w_; j++)
-		{
-			int ind = i*w_+j;
-			if( pix[4*ind+0] != 0 ||
-				pix[4*ind+1] != 0 ||
-				pix[4*ind+2] != 0 ||
-				pix[4*ind+3] != 0)
-			{
-#if USE_OPENGL
-				LOG_INFO("(%d,%d):\t%f\t%f\t%f\t%f\n",i,j,pix[4*ind+0],pix[4*ind+1],pix[4*ind+2],pix[4*ind+3]);
-#elif USE_OPENGL_ES
-				LOG_INFO("(%d,%d):\t%d\t%d\t%d\t%d\n",i,j,pix[4*ind+0],pix[4*ind+1],pix[4*ind+2],pix[4*ind+3]);
-#endif
-				num ++;
-			}
-			//over =true;
-			//break;
-		}
-		if(over) break;
-	}
-
-	LOG_INFO("finished!, total number of satisfied is %ld\n",num);
-
-	delete [] pix;
-}
-
 /// »æÖÆ¾ØÐÎ
 void CZUtil::drawRect(const CZRect &rect, const CZAffineTransform &transform)
 {
