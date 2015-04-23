@@ -203,8 +203,7 @@ CZImage *CZStampGenerator::generateStamp()
 
 	shader.end();
 
-	CZImage *ret = new CZImage(size.width,size.height,CZImage::RGBA);
-	glReadPixels(0, 0, size.width, size.height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
+	CZImage *ret = fbo.produceImageForCurrentState();
 
 	fbo.end();
 

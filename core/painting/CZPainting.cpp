@@ -139,8 +139,7 @@ CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor /*= NU
         layer->blit(projection);
     }
     
-    CZImage *ret = new CZImage(w,h,CZImage::RGBA);
-    glReadPixels(0, 0, w, h, GL_RGBA, GL_PIXEL_TYPE, ret->data);
+    CZImage *ret = fbo->produceImageForCurrentState();
     
     fbo->end();
     
@@ -179,8 +178,7 @@ CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
             layer->blit(projMat);
     }
     
-    CZImage *ret = new CZImage(dimensions.width,dimensions.height,CZImage::RGBA);
-    glReadPixels(0, 0, dimensions.width, dimensions.height, GL_RGBA, GL_PIXEL_TYPE, ret->data);
+    CZImage *ret = fbo->produceImageForCurrentState();
     
     fbo->end();
     

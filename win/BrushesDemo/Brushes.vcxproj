@@ -20,7 +20,7 @@
     <None Include="..\..\core\glsl\compositeWithMask.frag" />
     <None Include="..\..\core\glsl\stamp.frag" />
     <None Include="..\..\core\glsl\stamp.vert" />
-    <None Include="..\memo.txt" />
+    <None Include="..\..\memo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\core\basic\CZ2DPoint.cpp" />

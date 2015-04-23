@@ -120,3 +120,9 @@
 	1.！删除stampRender；
 	2.！整理类stampGenerator、CZSpiralGenerator、CZProperty、CZGLContext、
 			CZShader、CZTexture、CZFbo、CZImage、CZUtil、CZ2DPoint、CZSize、CZRect
+
+2015年4月23日：
+	1.!修改CZImage，自控制数据格式；	
+	2.!修改CZTexture，去掉BrushTex模式，定义与CZImage一致的模式；	
+					不再管理是否支持深度颜色
+	3.!修改CZFbo，增加生成CZImage的方法

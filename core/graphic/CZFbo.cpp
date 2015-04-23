@@ -9,10 +9,8 @@
 ///  \date		2014-09-23
 ///  \note
 #include "CZFbo.h"
-#include "CZTexture.h"
 #include "../CZDefine.h"
 #include "glDef.h"
-#include "../CZDefine.h"
 
 CZFbo::CZFbo()
 {
@@ -21,6 +19,7 @@ CZFbo::CZFbo()
 	renderId = 0;
 	tex = NULL;
 	isReady = NONE;
+	mode = DEFAULT_STORAGEMODE;
 
 	glGenFramebuffers(1, &fboId);
 }
@@ -44,6 +43,7 @@ void CZFbo::setTexture(CZTexture *tex_)
 		tex = tex_;
 		width = tex->width;
 		height = tex->height;
+		mode = tex->getMode();
 		glBindFramebuffer(GL_FRAMEBUFFER, fboId);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->texId, 0);
 		//check status
@@ -66,16 +66,31 @@ void CZFbo::setColorRenderBuffer(int w_, int h_)
 
 	width = w_;
 	height = h_;
+	mode = DEFAULT_STORAGEMODE;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fboId);
 	//申请绘制缓冲区
 	glGenRenderbuffers(1,&renderId);
 	glBindRenderbuffer(GL_RENDERBUFFER,renderId);
-#if		USE_OPENGL
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGBA,width,height);
-#elif	USE_OPENGL_ES
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
-#endif
+
+	switch(mode) 
+	{
+	case RGB_BYTE:
+		//glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB8_OES, width, height);
+		break;
+	case RGBA_BYTE:
+		//glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, width, height);
+		break;
+	case RGB_FLOAT:
+		glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,width,height);
+		break;
+	case RGBA_FLOAT:
+		glRenderbufferStorage(GL_RENDERBUFFER,GL_RGBA,width,height);
+		break;
+	default:
+		LOG_ERROR("illegal imgMode!\n");
+	}
+
 	//将颜色绘制缓冲与FBO绑定
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
 	//check status
@@ -145,6 +160,31 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 #endif
+}
+
+/// 生成当前状态的图像（需要在begin和end之前调用）
+CZImage* CZFbo::produceImageForCurrentState()
+{
+	CZImage *ret = new CZImage(width,height,mode);
+	switch(mode) 
+	{
+	case RGB_BYTE:
+		glReadPixels(0, 0, width, height,GL_RGB, GL_UNSIGNED_BYTE,ret->data);
+		break;
+	case RGBA_BYTE:
+		glReadPixels(0, 0, width, height,GL_RGBA, GL_UNSIGNED_BYTE,ret->data);
+		break;
+	case RGB_FLOAT:
+		glReadPixels(0, 0, width, height,GL_RGB, GL_FLOAT,ret->data);
+		break;
+	case RGBA_FLOAT:
+		glReadPixels(0, 0, width, height,GL_RGBA, GL_FLOAT,ret->data);
+		break;
+	default:
+		LOG_ERROR("illegal imgMode!\n");
+	}
+
+	return ret;
 }
 
 /// 检查状态

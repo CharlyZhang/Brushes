@@ -174,8 +174,7 @@ CZImage* CZBrushPreview::previewWithSize(const CZSize size_)
 
 	brushShader->end();
 
-	CZImage *ret = new CZImage(backingWidth,backingHeight,CZImage::RGBA);
-	glReadPixels(0, 0, backingWidth, backingHeight, GL_RGBA, GL_PIXEL_TYPE, ret->data);
+	CZImage *ret = fbo->produceImageForCurrentState();
 
 	fbo->end();
 

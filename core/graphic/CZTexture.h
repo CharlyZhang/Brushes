@@ -12,32 +12,28 @@
 #ifndef _CZTEXTURE_H_
 #define _CZTEXTURE_H_
 
-#include "../CZDefine.h"		// for PixDataType definition
-class CZImage;
+#include "../basic/CZImage.h"
+#include "../CZDefine.h"
 
 class CZTexture
 {
 public:
-	enum TexType {BrushTex,RenderTex};
-	CZTexture(int width_, int height_, TexType texType_ = RenderTex, PixDataType *data = 0);
+	CZTexture(int width_, int height_, StorageMode mode_ = DEFAULT_STORAGEMODE, void *data = 0);
 	~CZTexture();
 	/// 由CZImage生成纹理
-	static CZTexture* produceFromImage(CZImage *img, bool deepColor = false);
+	static CZTexture* produceFromImage(CZImage *img);
+
+	/// 获取图片模式
+	StorageMode getMode() {return mode;};
+
 	/// 获取其对应的图像数据
 	CZImage *toImage();
 	/// 开关线性差值
 	void enableLinearInterprolation(float flag);
 
-protected:
-	/// 初始化渲染纹理
-	void initRenderTex(PixDataType *data = 0);
-	/// 初始化笔刷纹理
-	void initBrushTex(PixDataType *data = 0);
-
 public:
 	unsigned int texId;
-	static bool supportColor;		///< 判断硬件是否支持深度颜色
 	int width,height;
-	TexType texType;
+	StorageMode mode;
 };
 #endif

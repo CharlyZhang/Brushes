@@ -11,26 +11,30 @@
 
 #include "CZImage.h"
 
-CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, ImageMode mode_ /* = RGBA */)
+CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */)
 {
 	width = w_;
 	height = h_;
 	mode = mode_;
 
-	int n;
+	int n, type = 0;
 	switch (mode)
 	{
-	case RGB:
-		n = 3;
-		break;
-	case RGBA:
-		n = 4;
-		break;
+	case RGB_BYTE:		n = 3;	type = 0;	break;
+	case RGB_FLOAT:		n = 3;	type = 1;	break;
+	case RGBA_BYTE:		n = 4;	type = 0;	break;
+	case RGBA_FLOAT:	n = 4;	type = 1;	break;
 	default:
+		LOG_ERROR("ImageMode is illegal!\n");
 		n = 0;
 	}
 
-	data = new PixDataType[n*width*height];
+	if(type == 0)
+		data = (void*) new unsigned char[n*width*height];
+	else if(type ==1)
+		data = (void*) new float[n*width*height];
+	else
+		data = NULL;
 }
 
 CZImage::~CZImage()

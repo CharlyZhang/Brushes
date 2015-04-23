@@ -14,22 +14,27 @@
 
 #include "../CZDefine.h"
 
+typedef enum StorageMode 
+{
+	NOT_SET,RGB_BYTE, RGBA_BYTE, RGB_FLOAT, RGBA_FLOAT
+} StorageMode;			///< 声明图像存储模式
 
 class CZImage
 {
 public:
-	enum ImageMode {RGB, RGBA};			///< 声明枚举类型
-	CZImage(int w_=0, int h_=0, ImageMode mode_ = RGBA);
+	CZImage(int w_=0, int h_=0, StorageMode mode_ = DEFAULT_STORAGEMODE);
 	~CZImage();
+
+	StorageMode getMode() { return mode;}
 
 	/// 深度拷贝函数
 	CZImage* copy();
 
-	int width,height;
+	int			width,height;
+	void		*data;		///< 具体类型由mode决定
 
-    PixDataType *data;
-    
-	ImageMode mode;
+private:
+	StorageMode	mode;
 };
 
 #endif

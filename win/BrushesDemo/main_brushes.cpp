@@ -15,10 +15,6 @@
 #include "stdio.h"				///< for freopen
 
 #if RENDER_IMGAGE
-#include "glaux.h"
-#pragma comment(lib,"glaux.lib")
-
-AUX_RGBImageRec *TextureImage = NULL;
 static char* BmpImageName = "tex.bmp";
 GLuint textureID;
 #endif
@@ -146,17 +142,11 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 #endif
 
 #if RENDER_IMGAGE
-	FILE *File=NULL;							// 文件句柄
-	File=fopen(BmpImageName,"r");
+	
 	long width, height;
 	width = height = 128;
 	unsigned char *buf = NULL;
-	if(File)
-	{
-		//TextureImage = auxDIBImageLoad(BmpImageName); 				// 载入位图并返回指针
-		CZUtil::loadBMP(BmpImageName,buf,width,height);
-	}
-	fclose(File);
+	CZUtil::loadBMP(BmpImageName,buf,width,height);
 
 	//showTex = new CZTexture();
 

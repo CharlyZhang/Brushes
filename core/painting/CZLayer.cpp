@@ -123,8 +123,7 @@ CZImage *CZLayer::imageDataInRect(const CZRect &rect)
 
 	shader->end();
 
-	CZImage *ret = new CZImage(w,h,CZImage::RGBA);
-	glReadPixels(0, 0, w, h, GL_RGBA, GL_PIXEL_TYPE, ret->data);
+	CZImage *ret = fbo.produceImageForCurrentState();
 
 	fbo.end();
 

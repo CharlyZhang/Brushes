@@ -14,7 +14,7 @@
 #ifndef _CZFBO_H_
 #define _CZFBO_H_
 
-class CZTexture;
+#include "CZTexture.h"
 
 class CZFbo
 {
@@ -37,6 +37,9 @@ public:
 	void showTextureOnScreen(int x,int y,int width_ = 128,int height_ = 128);
     unsigned int getRenderBufferId(){ return renderId;}
 
+	/// 生成当前状态的图像（需要在begin和end之前调用）
+	CZImage* produceImageForCurrentState();
+
 public:
 	int width,height;
 
@@ -49,6 +52,7 @@ private:
 	FboState isReady;			///< FBO状态
 	unsigned int renderId;		///< 渲染缓存
 	CZTexture *tex;				///< 只是引用，不负责创建和销毁
+	StorageMode mode;
 };
 
 #endif
