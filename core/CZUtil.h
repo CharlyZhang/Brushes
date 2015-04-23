@@ -66,6 +66,9 @@ public:
 	/// 正弦函数,由[0,1]到[0,1] -CZFreehandTool类引用
 	static float sineCurve(float input);
 
+	/// 读取Bmp文件
+	static bool CZUtil::loadBMP(char* fileName,unsigned char* &buf,long &width,long &height);
+
 	/// 调试用，检测绘制的像素
 	static void checkPixels(int w_, int h_);
 

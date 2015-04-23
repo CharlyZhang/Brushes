@@ -13,6 +13,16 @@
 #include "basic/CZRect.h"
 #include "CZDefine.h"
 #include "stdio.h"				///< for freopen
+
+#if RENDER_IMGAGE
+#include "glaux.h"
+#pragma comment(lib,"glaux.lib")
+
+AUX_RGBImageRec *TextureImage = NULL;
+static char* BmpImageName = "tex.bmp";
+GLuint textureID;
+#endif
+
 static HGLRC           hRC=NULL;                           // 窗口着色描述表句柄  
 static HDC             hDC=NULL;                           // OpenGL渲染描述表句柄  
 static HWND            hWnd=NULL;                          // 保存我们的窗口句柄  
@@ -22,7 +32,6 @@ BOOL	keys[256];			// Array Used For The Keyboard Routine
 bool    active = TRUE;      // 窗口的活动标志，缺省为TRUE  
 bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证长宽比为4:3)
 
-//CZGLContext *glContext = NULL;
 //////////////////////////////////////////////////////////////////////////
 
 CZTexture *showTex = NULL;
@@ -136,6 +145,35 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	canvas->setPaiting(painting);
 #endif
 
+#if RENDER_IMGAGE
+	FILE *File=NULL;							// 文件句柄
+	File=fopen(BmpImageName,"r");
+	long width, height;
+	width = height = 128;
+	unsigned char *buf = NULL;
+	if(File)
+	{
+		//TextureImage = auxDIBImageLoad(BmpImageName); 				// 载入位图并返回指针
+		CZUtil::loadBMP(BmpImageName,buf,width,height);
+	}
+	fclose(File);
+
+	//showTex = new CZTexture();
+
+	glGenTextures(1, &textureID);					// 创建纹理
+
+	// 使用来自位图数据生成 的典型纹理
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	// 生成纹理
+	//glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage->sizeX, TextureImage->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage->data);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buf);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR);	// 线形滤波
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);	// 线形滤波
+
+	free(buf);
+#endif
 	return true;
 }
 
@@ -277,6 +315,9 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 GLvoid KillGLWindow(GLvoid)
 {
 	delete showTex;
+#if RENDER_IMGAGE
+	glDeleteTextures(1,&textureID);
+#endif
 
 	/// 全屏下先切到窗口
 	if (fullscreen)

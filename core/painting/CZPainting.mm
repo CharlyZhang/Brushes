@@ -624,6 +624,22 @@ uniformNames:uniforms];
 	shader = new CZShader("blit","compositeWithEraseMask",attributes,uniforms);
 	shaders.insert(make_pair("compositeWithEraseMask",shader));
 
+    /// nonPremultipliedBlit
+    attributes.clear();
+    attributes.push_back("inPosition");
+    attributes.push_back("inTexcoord");
+    uniforms.clear();
+    uniforms.push_back("mvpMat");
+    uniforms.push_back("texture");
+    uniforms.push_back("opacity");
+    
+    shader = new CZShader("blit","nonPremultipliedBlit",attributes,uniforms);
+    shaders.insert(make_pair("nonPremultipliedBlit", shader));
+    
+    ///  unPremultipliedBlit
+    shader = new CZShader("blit","unPremultipliedBlit",attributes,uniforms);
+    shaders.insert(make_pair("unPremultipliedBlit", shader));
+
 	CZCheckGLError();
 }
 

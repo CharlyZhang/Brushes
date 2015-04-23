@@ -236,6 +236,75 @@ float CZUtil::sineCurve(float input)
 	return result;
 }
 
+#define BITMAPFILEHEADERLENGTH 14   // The bmp FileHeader length is 14
+#define BM 19778                    // The ASCII code for BM
+#define WIDTHBYTES(bits)    (((bits) + 31) / 32 * 4)
+bool CZUtil::loadBMP(char* fileName,unsigned char* &buf,long &width,long &height)
+{
+	if (fileName == NULL)
+	{
+		LOG_ERROR("fileName is NULL!\n");
+		return false;
+	}
+
+	FILE *fp = fopen(fileName, "rb");
+
+	if (fp == NULL)
+	{
+		LOG_ERROR("Open bmp failed!\n");
+		return false;
+	}
+
+	unsigned short bfType = 0;
+	unsigned int OffSet = 0;    // OffSet from Header part to Data Part
+
+	/// test if the file is BMP type
+	fseek(fp, 0L, SEEK_SET);
+	fread(&bfType, sizeof(unsigned char), 2, fp);
+	if (BM != bfType)
+	{
+		LOG_ERROR("This file is not bmp file!\n");
+		fclose(fp);
+		return false;
+	}
+
+	/// get the offset of header to data part
+	fseek(fp, 10L, SEEK_SET);
+	fread(&OffSet, sizeof(unsigned char), 4, fp);  
+	/// get the width and height
+	fseek(fp, 18L, SEEK_SET);
+	fread(&width, sizeof(unsigned char), 4, fp);
+	fseek(fp, 22L, SEEK_SET);
+	fread(&height, sizeof(unsigned char), 4, fp);
+
+	/// get the data
+	fseek(fp, OffSet, SEEK_SET);
+	
+	long rowIdx;
+	long row_size = width*3;
+
+	long widthDW = WIDTHBYTES(width * 24);
+
+	buf = (unsigned char*)malloc(height*row_size*sizeof(unsigned char));
+
+	for(long row = 0; row < height; row++)
+	{
+		rowIdx=(long)row*row_size;
+		fread((void*)(buf+rowIdx),row_size,1,fp);
+
+		for(long i = 0; i < width; i++)
+		{
+			unsigned char tmp = buf[rowIdx+i*3];
+			buf[rowIdx+i*3] = buf[rowIdx+i*3+2];
+			buf[rowIdx+i*3+2] = tmp;
+		}
+	}
+
+	fclose(fp);
+
+	return true;
+}
+
 
 void CZUtil::checkPixels(int w_, int h_)
 {
