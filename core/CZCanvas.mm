@@ -71,7 +71,6 @@
     CZCheckGLError();
     glActiveTexture(GL_TEXTURE0);
     
-///////////
     
     [self configureGestrues];
     
@@ -160,7 +159,6 @@
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-    
     self.ptrPainting->blit(projMat);
     
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());

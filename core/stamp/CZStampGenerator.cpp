@@ -184,7 +184,7 @@ CZImage *CZStampGenerator::generateStamp()
 	vector<string> attributes, uniforms;
 	attributes.push_back("inPosition");
 	uniforms.push_back("mvpMat");
-	CZShader shader("stamp.vert","stamp.frag",attributes,uniforms);
+	CZShader shader("stamp","stamp",attributes,uniforms);
 	CZFbo fbo;
 	fbo.setColorRenderBuffer(size.width,size.height);
 	CZCheckGLError();

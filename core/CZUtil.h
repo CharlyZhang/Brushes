@@ -67,7 +67,7 @@ public:
 	static float sineCurve(float input);
 
 	/// 读取Bmp文件
-	static bool CZUtil::loadBMP(char* fileName,unsigned char* &buf,long &width,long &height);
+	static bool loadBMP(char* fileName,unsigned char* &buf,long &width,long &height);
 
 	/// 绘制矩形
 	static void drawRect(const CZRect &rect, const CZAffineTransform &transform);

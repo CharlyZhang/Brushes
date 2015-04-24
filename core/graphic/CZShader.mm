@@ -238,7 +238,10 @@ bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
 
 	fopen_s(&fp,_fn,"rt");
 	if(NULL == fp)
-		return false;
+    {
+        LOG_ERROR("shader file not exists!\n");
+        return false;
+    }
 
 	// 将文件指针指向文件流末尾
 	fseek(fp,0,SEEK_END);

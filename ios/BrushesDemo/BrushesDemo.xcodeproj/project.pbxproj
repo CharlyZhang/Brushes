@@ -37,6 +37,7 @@
 		2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */; };
 		2DC7D0D81AE78AA3007DB4C7 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DC7D0D71AE78AA3007DB4C7 /* unPremultipliedBlit.frag */; };
 		2DC7D0DA1AE78BB1007DB4C7 /* nonPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DC7D0D91AE78BB1007DB4C7 /* nonPremultipliedBlit.frag */; };
+		2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */; };
 		2DE3E4AE1A1481D500F80AA1 /* memo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2DE3E4AD1A1481D500F80AA1 /* memo.txt */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,8 @@
 		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		2DC7D0D71AE78AA3007DB4C7 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = unPremultipliedBlit.frag; path = ../../../../core/glsl/unPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2DC7D0D91AE78BB1007DB4C7 /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = nonPremultipliedBlit.frag; path = ../../../../core/glsl/nonPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2DC7D0E41AE9D585007DB4C7 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
+		2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
 		2DE3E4AD1A1481D500F80AA1 /* memo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = memo.txt; path = ../../memo.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,6 +175,8 @@
 		2DB7593B1A10B938009E05B8 /* BrushesDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2DC7D0E41AE9D585007DB4C7 /* EAGLView.h */,
+				2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */,
 				2D78068F1A10BB8A003F7479 /* shader */,
 				2DB759441A10B938009E05B8 /* BrushesAppDelegate.h */,
 				2DB759451A10B938009E05B8 /* BrushesAppDelegate.m */,
@@ -328,6 +333,7 @@
 				2DB759421A10B938009E05B8 /* main.m in Sources */,
 				2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */,
 				2DB759461A10B938009E05B8 /* BrushesAppDelegate.m in Sources */,
+				2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

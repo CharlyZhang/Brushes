@@ -12,7 +12,6 @@
 #import <OpenGLES/EAGLDrawable.h>
 
 #import "EAGLView.h"
-#import "gl_matrix.h"
 #include "stamp/CZSpiralGenerator.h"
 #include "graphic/CZTexture.h"
 #include "basic/CZImage.h"
@@ -20,12 +19,13 @@
 #include "painting/CZPainting.h"
 #include "tool/CZFreehandTool.h"
 #include "brush/CZBrush.h"
+#include "basic/CZMat4.h"
 
 #define REACT_PIC_TEX       0
 #define SHOW_PIC_TEX        0
 #define SHOW_STAMP_TEX      0
-#define SHOW_PREVIEW_TEX    0
-#define SHOW_FREE_DRAW      1
+#define SHOW_PREVIEW_TEX    1
+#define SHOW_FREE_DRAW      0
 
 // const
 GLfloat gVertexData[20] =
@@ -172,7 +172,7 @@ enum
         (GLfloat)size.width, 0.0f,
         (GLfloat)size.width, (GLfloat)size.height
     };
-    
+  
     // update the data
 #if REACT_PIC_TEX
     // update the data
@@ -203,6 +203,8 @@ enum
     }
 #endif
    
+    CZMat4 proj;
+    proj.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
 #if !SHOW_FREE_DRAW
     glBindTexture(GL_TEXTURE_2D, textures[0]);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -212,13 +214,11 @@ enum
     // Render the object again with ES2
     glUseProgram(_program);
     
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, GL_FALSE, _modelViewProjectionMatrix);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, GL_FALSE, proj);
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(uniforms[TEXTURE], 0);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 #else
-    CZMat4 proj;
-    proj.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
     painting->blit(proj);
 #endif
     
@@ -314,9 +314,6 @@ enum
 }
 
 - (void)setupView {
-    CGSize size = self.bounds.size;
-    mat4f_LoadOrtho(0, size.width,0, size.height, -1, 1, _modelViewProjectionMatrix);
-    
     [EAGLContext setCurrentContext:self.context];
     
     glGenVertexArraysOES(1, &_vertexArray);
