@@ -126,3 +126,7 @@
 	2.!修改CZTexture，去掉BrushTex模式，定义与CZImage一致的模式；	
 					不再管理是否支持深度颜色
 	3.!修改CZFbo，增加生成CZImage的方法
+
+2015年4月24日：
+	1.!修改Layer,其只能由Painting生成，并管理；
+	2.!相应修改Painting对Layer的管理接口。

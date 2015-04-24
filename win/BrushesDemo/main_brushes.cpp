@@ -154,6 +154,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	//glBindTexture(GL_TEXTURE_2D, showTex->texId);
 	delete img;
 	free(buf);
+
+	painting->addNewLayer();
 #endif
 	return true;
 }
@@ -599,6 +601,13 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				CZActiveState::getInstance()->setPaintColor(0,0,1,1);
 				keys['B'] = false;
 			}
+#if RENDER_FREEHAND
+			if (keys['S'])
+			{
+				painting->moveLayer(0,1);
+				keys['S'] = false;
+			}
+#endif
 		}
 
 	}

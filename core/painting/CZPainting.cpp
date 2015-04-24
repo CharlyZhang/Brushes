@@ -29,6 +29,7 @@ CZPainting::CZPainting(const CZSize &size)
 	undoBrushPtrs.clear();
 	strokeCount = 0;
 
+	activeLayerInd = -1;
 	ptrActivePath = NULL;
 	ptrLastBrush = NULL;
 	ptrCanvas = NULL;
@@ -47,8 +48,7 @@ CZPainting::CZPainting(const CZSize &size)
 	setDimensions(size);
 
 	/// add the default blank layer
-	ptrActiveLayer = new CZLayer(this);
-	addLayer(ptrActiveLayer);
+	activeLayerInd = addNewLayer();
 }
 CZPainting::~CZPainting()
 {
@@ -91,12 +91,12 @@ void CZPainting::blit(CZMat4 &projection)
         return;
     }
     
-    for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
-    {
-        CZLayer *layer = *itr;
-        if (!layer->isVisible()) continue;
-        
-        if (ptrActiveLayer == layer && ptrActivePath)
+	for (int idx = 0; idx < layers.size(); idx++)
+	{
+		CZLayer *layer = layers.at(idx);
+		if (!layer->isVisible()) continue;
+
+		if (activeLayerInd == idx && ptrActivePath)
         {
             if (ptrActivePath->action == CZPathActionErase)
                 layer->blit(projection,activePaintTexture);
@@ -163,12 +163,12 @@ CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
     
     glClear(GL_COLOR_BUFFER_BIT);
     
-    for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
+    for (int idx = 0; idx < layers.size(); idx++)
     {
-        CZLayer *layer = *itr;
+        CZLayer *layer = layers.at(idx);
         if (!layer->isVisible()) continue;
         
-        if (ptrActiveLayer == layer && ptrActivePath)
+        if (activeLayerInd == idx && ptrActivePath)
         {
             if (ptrActivePath->action == CZPathActionErase)
                 layer->blit(projMat,activePaintTexture);
@@ -255,7 +255,7 @@ void CZPainting::setDimensions(const CZSize &size)
 ///		\ret	   - 原来激活的图层序号
 int CZPainting::setActiveLayer(int idx)
 {
-    int oldIndex = indexOfLayers(ptrActiveLayer);
+    int oldIndex = activeLayerInd;
     
     if (idx < 0 || idx >= layers.size())
     {
@@ -263,7 +263,7 @@ int CZPainting::setActiveLayer(int idx)
         return oldIndex;
     }
     
-    ptrActiveLayer = layers[idx];
+   activeLayerInd = idx;
     
     return oldIndex;
     
@@ -279,99 +279,118 @@ CZLayer *CZPainting::layerWithUID(unsigned int uid_)
     return NULL;
 }
 
-/// 删除图层
-///
-///		\param - 需要删除的图层
-///		\ret   - 原图层所在的序号
-int CZPainting::removeLayer(CZLayer *layer)
+/// 添加新图层
+/// 
+///		\ret		 - 在所有图层中的序号。超过最大层数：-1，生成图层失败：-2
+int CZPainting::addNewLayer()
 {
+	if(layers.size() > iMaxLayerNumber)
+	{
+		LOG_ERROR("painting has reached the max number of Layers\n");
+		return -1;
+	}
+
+	CZLayer *layer = new CZLayer(this);
     if(layer == NULL)
     {
-        LOG_ERROR("layer is NULL\n");
-        return -1;
+        LOG_ERROR("create layer failed\n");
+        return -2;
     }
     
-    int oldIdx = indexOfLayers(layer);
+    int newIdx = activeLayerInd + 1;
+	if(newIdx < 0 || newIdx > layers.size())
+	{
+		LOG_ERROR("newIdx is out of range\n");
+		return -1;
+	}
     
-    if(layer->isLocked())
-    {
-        LOG_ERROR("layer is locked\n");
-        return oldIdx;
-    }
+	layers.insert(layers.begin()+newIdx,layer);
     
-    if (layer == ptrActiveLayer && layers.size()> 1)
-    {
-        // choose another layer to be active before we remove it
-        int index;
-        if (oldIdx >= 1)
-        {
-            index = oldIdx-1;
-        }
-        else
-        {
-            index = 1;
-        }
-        ptrActiveLayer = layers[index];
-    }
-    
-    // do this before decrementing index
-    for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
-        if(*itr == layer)
-        {
-            layers.erase(itr);
-            break;
-        }
-    
-    return oldIdx;
-}
-
-/// 插入图层
-void CZPainting::insertLayer(int idx, CZLayer *layer)
-{
-    if(idx < 0 || idx > layers.size())
-    {
-        LOG_ERROR("idx is out of range\n");
-        return;
-    }
-    
-    layers.insert(layers.begin()+idx,layer);
-}
-
-/// 添加图层
-///
-///		\param layer - 添加的图层
-///		\ret		 - 在所有图层中的序号
-int CZPainting::addLayer(CZLayer *layer)
-{
-    if(layer == NULL)
-    {
-        LOG_ERROR("layer is NULL\n");
-        return -1;
-    }
-    
-    if(layers.size() > iMaxLayerNumber)
-    {
-        LOG_ERROR("painting has reached the max number of Layers\n");
-        return -1;
-    }
-    
-    int newIdx = indexOfLayers(ptrActiveLayer)+1;
-    
-    insertLayer(newIdx, layer);
-    ptrActiveLayer = layer;
+	activeLayerInd = newIdx;
     
     return newIdx;
+}
+
+/// 删除图层
+/// 
+///		\note 当layer被锁住的时候不能被删除 
+bool CZPainting::deleteActiveLayer()
+{
+	CZLayer* layer = layers.at(activeLayerInd);
+	bool needsAddDefaultLayer = false;
+
+	if(layer->isLocked())
+	{
+		LOG_ERROR("activeLayer is locked\n");
+		return false;
+	}
+
+	if (layers.size()> 1)
+	{
+		// choose another layer to be active before we remove it
+		if (activeLayerInd >= 1)	activeLayerInd --;
+		else						activeLayerInd = 0;
+	}
+	else needsAddDefaultLayer = true;
+
+	// do this before decrementing index
+	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
+		if(*itr == layer)	
+		{
+			delete layer;
+			layers.erase(itr);
+			break;
+		}
+
+	if (needsAddDefaultLayer) 
+	{
+		activeLayerInd = -1;
+		activeLayerInd = addNewLayer();
+	}
+
+	return true;
+}
+
+/// 移动图层
+/// 
+///		\param fromIdx - 需要移动的图层序号
+///		\param toIdx   - 移动到的位置
+bool CZPainting::moveLayer(int fromIdx, int toIdx)
+{
+	if(fromIdx >= layers.size() || fromIdx < 0 ||
+		toIdx  >= layers.size() || toIdx < 0)
+	{
+		LOG_ERROR("idx out of range!\n");
+		return false;
+	}
+
+	if(fromIdx == toIdx) return true;
+
+	CZLayer *layer = layers.at(fromIdx);
+
+	/// remove from original pos
+	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
+		if(*itr == layer)	
+		{
+			layers.erase(itr);
+			break;
+		}
+	/// move to the destination pos
+	layers.insert(layers.begin()+toIdx,layer);
+
+	activeLayerInd = toIdx;
+
+	return true;
+	
 }
 
 /// 向下合并当前图层
 ///
 ///		\ret - 是否合并成功
 bool CZPainting::mergeActiveLayerDown()
-{
-    int activeIdx = indexOfLayers(ptrActiveLayer);
-    
+{   
     /// in case the active layer is at bottom
-    if(activeIdx <= 0)
+    if(activeLayerInd <= 0)
     {
         LOG_ERROR("active layer is NULL or at bottom\n");
         return false;
@@ -384,7 +403,7 @@ bool CZPainting::mergeActiveLayerDown()
         return false;
     }
     
-    CZLayer *bottomLayer = layers[activeIdx - 1];
+    CZLayer *bottomLayer = layers[activeLayerInd - 1];
     
     /// in case the layer to merged with is not editable
     if(!bottomLayer->isEditable())
@@ -393,31 +412,11 @@ bool CZPainting::mergeActiveLayerDown()
         return false;
     }
     
-    bool ret = bottomLayer->merge(ptrActiveLayer);
-    removeLayer(ptrActiveLayer);
-    ptrActiveLayer = bottomLayer;
+	CZLayer *activeLayer = layers.at(activeLayerInd);
+    bool ret = bottomLayer->merge(activeLayer);
+    deleteActiveLayer();
     
     return ret;
-}
-
-/// 移动图层
-///
-///		\param layer - 需要移动的图层
-///		\param idx	 - 移动到的位置
-bool CZPainting::moveLayer(CZLayer* layer, int idx)
-{
-    return false;
-}
-
-/// 获得图层在所有图层中的标号，不存在返回负值
-int CZPainting::indexOfLayers(CZLayer *layer)
-{
-    int ret;
-    int num = layers.size();
-    for(ret = 0; ret < num; ret ++)
-        if(layer == layers[ret]) return ret;
-    
-    return -1;
 }
 
 
@@ -433,16 +432,10 @@ CZPath* CZPainting::getActivePath()
     return ptrActivePath;
 }
 
-/// 设置激活图层
-void CZPainting::setActiveLayer(CZLayer *layer)
-{
-    ptrActiveLayer = layer;
-}
-
 /// 获取激活图层
 CZLayer* CZPainting::getActiveLayer()
 {
-    return ptrActiveLayer;
+    return layers.at(activeLayerInd);
 }
 
 /// 获取着色器

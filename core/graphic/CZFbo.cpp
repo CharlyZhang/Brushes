@@ -122,26 +122,6 @@ void CZFbo::setRenderBufferWithContext(void* ctx, void* layer)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-/// set render buffer with gl context (for ios)
-void CZFbo::setRenderBufferWithContext(void* ctx, void* layer)
-{
-    if(!renderId)   glGenRenderbuffers(1,&renderId);
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, fboId);
-    //申请绘制缓冲区
-    glBindRenderbuffer(GL_RENDERBUFFER,renderId);
-#if	USE_OPENGL_ES
-    [(EAGLContext*)ctx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)layer];
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
-#endif
-    //将颜色绘制缓冲与FBO绑定
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER,renderId);
-    //check status
-    if (GL_FRAMEBUFFER_COMPLETE == checkFramebufferStatus()) isReady = OFFLINE_RENDER;
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
 /// 开始FBO
 void CZFbo::begin()
 {

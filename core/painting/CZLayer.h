@@ -42,9 +42,7 @@ typedef	enum BlendMode		///< 混合模式
 class CZLayer : public CZCoding
 {
 public:
-	CZLayer(CZPainting *painting_);
-	~CZLayer();
-
+	friend class CZPainting;
 	/// 图层的图像数据
 	CZImage *imageData();
 	/// 生成特定矩形区域的图像数据
@@ -125,6 +123,9 @@ public:
 	void encode(CZCoder *coder_, bool deep = false);
 
 private:
+	/// 只能由友元类CZPainting生成和释放
+	CZLayer(CZPainting *painting_);
+	~CZLayer();
 	///配置混合模式 
 	void configureBlendMode();
 	/// 将纹理转换后绘制			
