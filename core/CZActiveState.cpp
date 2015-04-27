@@ -19,6 +19,8 @@
 
 using namespace std;
 
+CZActiveState *CZActiveState::ptrInstance = NULL;
+
 CZActiveState::CZActiveState()
 {
 	eraseMode = false;

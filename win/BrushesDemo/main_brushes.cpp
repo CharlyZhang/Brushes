@@ -565,6 +565,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				if(canvas) { delete canvas; canvas = NULL; }
 				if(painting) {  delete painting; painting = NULL;}
 #endif
+				CZActiveState::destroy();
 				break;
 			}
 			else 

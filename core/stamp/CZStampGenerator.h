@@ -19,6 +19,9 @@
 #include "../basic/CZRandom.h"
 #include "../basic/CZRect.h"
 #include "../basic/CZSize.h"
+#include "../graphic/CZFbo.h"
+#include "../graphic/CZShader.h"
+#include "../basic/CZMat4.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -43,6 +46,8 @@ public:
 
 	/// 重置种子
 	void resetSeed();
+	/// 是否能随机化
+	virtual bool canRandomize();
 	/// 随机化
 	void randomize();
 	/// 获取笔刷图案
@@ -68,6 +73,10 @@ protected:
 	/// 
 	CZRect randomRect();
 
+	///// helper for subclass
+	/// 绘制径向衰变圈
+	void drawRadialFade(float hardness);
+
 public:
 	unsigned int seed;
 	CZSize size;
@@ -82,6 +91,9 @@ protected:
 	CZRandom *randomizer;		///< 与seed相关的随机化器
 	CZGLContext *ptrGLContext;	///< gl上下文
 	std::map<std::string,CZProperty*> rawProperties;
+	CZShader *shader;
+	CZFbo *fbo;
+	CZMat4 projMat;
 };
 
 class CZGeneratorDelegate

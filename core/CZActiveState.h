@@ -29,8 +29,14 @@ public:
 	/// 获取单例
 	static CZActiveState * getInstance()
 	{
-		static CZActiveState instance;   
-		return &instance; 
+		if(!ptrInstance) ptrInstance = new CZActiveState;
+		return ptrInstance; 
+	}
+
+	static bool destroy() 
+	{
+		if(ptrInstance) delete ptrInstance;
+		return true;
 	}
 
 	/// 设置绘制模式
@@ -81,6 +87,7 @@ private:
 	int indexOfBrushes(CZBrush *brush);
 
 private:
+	static CZActiveState* ptrInstance;
 	std::vector<CZBrush*> brushes;						///< 所有可用的画刷，负责销毁
 	std::vector<CZTool*> tools;							///< 可用工具，目前为绘制画刷和擦除刷两种
 	std::map<std::string,CZStampGenerator*>	generators;	///< 所有可用的画刷生成器，负责销毁

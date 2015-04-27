@@ -52,6 +52,19 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		return;
 	}
 
+	if(shader == NULL && ptrGLContext)
+	{
+		vector<string> attributes, uniforms;
+		attributes.push_back("inPosition");
+		uniforms.push_back("mvpMat");
+		uniforms.push_back("intensity");
+		shader = new CZShader("basic","basicColor",attributes,uniforms);
+	}
+
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+
 	float dim = baseDimension - 20;
 
 	for (int i = 0; i < density.value; i++)
@@ -65,6 +78,8 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 
 		drawSpiral(center,radius,randomizer);
 	}
+
+	shader->end();
 }
 
 /// 绘制螺旋线
@@ -128,14 +143,12 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 	GLfloat w = randomizer->nextFloat()*9 +1;			///< 线大小原来是10以内
 	glLineWidth(w);
 
+	GLfloat c = randomizer->nextFloat();
+	glUniform1f(shader->getUniformLocation("intensity"),c);
+
 #if USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-
-	glPointSize(w*0.7);
-
-	GLfloat c = randomizer->nextFloat();
-	glColor4f(c,c,c,c);
 
 	GLuint mVertexBufferObject;
 	// 装载顶点

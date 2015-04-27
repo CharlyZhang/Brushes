@@ -18,8 +18,8 @@
     <None Include="..\..\core\glsl\brush.vert" />
     <None Include="..\..\core\glsl\compositeWithEraseMask.frag" />
     <None Include="..\..\core\glsl\compositeWithMask.frag" />
-    <None Include="..\..\core\glsl\stamp.frag" />
-    <None Include="..\..\core\glsl\stamp.vert" />
+    <None Include="..\..\core\glsl\basicColor.frag" />
+    <None Include="..\..\core\glsl\basic.vert" />
     <None Include="..\..\memo.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +50,7 @@
     <ClCompile Include="..\..\core\path\CZBezierNode.cpp" />
     <ClCompile Include="..\..\core\path\CZBezierSegment.cpp" />
     <ClCompile Include="..\..\core\path\CZPath.cpp" />
+    <ClCompile Include="..\..\core\stamp\CZRoundGenerator.cpp" />
     <ClCompile Include="..\..\core\stamp\CZSpiralGenerator.cpp" />
     <ClCompile Include="..\..\core\stamp\CZStampGenerator.cpp" />
     <ClCompile Include="..\..\core\tool\CZEraserTool.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\..\core\serialization\CZCoder.h" />
     <ClInclude Include="..\..\core\serialization\CZCoding.h" />
     <ClInclude Include="..\..\core\serialization\CZDecoder.h" />
+    <ClInclude Include="..\..\core\stamp\CZRoundGenerator.h" />
     <ClInclude Include="..\..\core\stamp\CZSpiralGenerator.h" />
     <ClInclude Include="..\..\core\stamp\CZStampGenerator.h" />
     <ClInclude Include="..\..\core\tool\CZEraserTool.h" />
