@@ -27,8 +27,6 @@ public:
 
 	/// ªÊ÷∆Õº∞∏
 	void renderStamp(CZRandom* randomizer);
-private:
-	
 
 public:
 	CZProperty hardness;

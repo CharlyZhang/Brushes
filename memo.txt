@@ -129,4 +129,9 @@
 
 2015年4月24日：
 	1.!修改Layer,其只能由Painting生成，并管理；
-	2.!相应修改Painting对Layer的管理接口。
+	2.!相应修改Painting对Layer的管理接口；
+	3.!实现图层管理和图片绘制功能。
+
+2015年4月27日：
+	1.!修改CZStampGenerator,复用fbo和shader；
+	2.!CZActiveState的单例改为懒人模式，使其适用于只有一个gl上下文的模式（win平台）

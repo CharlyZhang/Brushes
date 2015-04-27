@@ -13,6 +13,7 @@
 #include "CZDefine.h"
 #include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
+#include "stamp/CZRoundGenerator.h"
 #include "tool/CZFreehandTool.h"
 #include "tool/CZEraserTool.h"
 #include "graphic/CZGLContext.h"
@@ -26,8 +27,7 @@ CZActiveState::CZActiveState()
 	eraseMode = false;
 	paintColor = CZColor::blackColor();
 	stampGLContext = new CZGLContext;
-	//setUpGenerators()
-	generators["test"] = new CZSpiralGenerator(stampGLContext);
+	setUpGenerators();
 	brushes.push_back(new CZBrush(getRandomGenerator()->copy()));  /// if invoke CZBrush::randomBrush, the CZActiveState constructor will be called again
 	ptrEraseBrush = ptrPaintBrush = brushes[0];
 
@@ -186,7 +186,9 @@ CZStampGenerator * CZActiveState::getRandomGenerator()
 {
 	if (generators.size())
 	{
-		return generators["test"];
+		int idx = rand() % generators.size();
+		for(map<string,CZStampGenerator*>::iterator itr = generators.begin(); itr != generators.end(); itr++)
+			if(idx-- == 0) return itr->second;
 	}
 
 	return NULL;
@@ -202,5 +204,13 @@ int CZActiveState::indexOfBrushes(CZBrush *brush)
 		if(brush == brushes[ret]) return ret;
 
 	return -1;
+}
+
+int CZActiveState::setUpGenerators()
+{
+	generators["spiral"] = new CZSpiralGenerator(stampGLContext);
+	generators["radialFade"] = new CZRoundGenerator(stampGLContext);
+
+	return generators.size();
 }
 

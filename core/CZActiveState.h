@@ -85,6 +85,8 @@ private:
 
 	/// 获得画刷在所有画刷中的标号，不存在返回负值
 	int indexOfBrushes(CZBrush *brush);
+	/// 生成画笔
+	int setUpGenerators();
 
 private:
 	static CZActiveState* ptrInstance;

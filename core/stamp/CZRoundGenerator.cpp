@@ -7,6 +7,7 @@ CZRoundGenerator::CZRoundGenerator(CZGLContext *ctx):CZStampGenerator(ctx)
 {
 	/// 创建属性
 	hardness.title = "Hardness";
+	hardness.value = 0.5;
 	//density.delegate = self;
 	//(self.rawProperties)[@"density"] = density;
 }
@@ -31,17 +32,5 @@ bool CZRoundGenerator::canRandomize()
 /// 绘制图案
 void CZRoundGenerator::renderStamp(CZRandom* randomizer)
 {
-	if(shader == NULL && ptrGLContext)
-	{
-		vector<string> attributes, uniforms;
-		attributes.push_back("inPosition");
-		uniforms.push_back("mvpMat");
-		shader = new CZShader("stamp","stamp",attributes,uniforms);
-	}
-
-	shader->begin();
-
 	drawRadialFade(hardness.value);
-
-	shader->end();
 }

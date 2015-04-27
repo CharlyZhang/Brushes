@@ -225,5 +225,44 @@ CZImage *CZStampGenerator::generateStamp()
 /// 绘制径向衰变圈
 void CZStampGenerator::drawRadialFade(float hardness)
 {
+	if(shader == NULL && ptrGLContext)
+	{
+		vector<string> attributes, uniforms;
+		attributes.push_back("inPosition");
+		uniforms.push_back("mvpMat");
+		uniforms.push_back("hardness");
+		shader = new CZShader("basicWithCoord","radialFade",attributes,uniforms);
+	}
 
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	glUniform1f(shader->getUniformLocation("hardness"),hardness);
+	
+	float data[] = {0.0,		0.0,
+					size.width,	0.0,
+					0.0,		size.height,
+					size.width,	size.height};
+
+	GLuint mVertexBufferObject;
+	// 装载顶点
+	glGenBuffers(1, &mVertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STREAM_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(float)*2,0);
+
+	/// 绘制
+	glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+	glDisableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	/// 消除
+	glDeleteBuffers(1, &mVertexBufferObject);
+
+	shader->end();
+
+	CZCheckGLError();
 }
