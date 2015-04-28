@@ -23,8 +23,8 @@
 
 #define REACT_PIC_TEX       0
 #define SHOW_PIC_TEX        0
-#define SHOW_STAMP_TEX      0
-#define SHOW_PREVIEW_TEX    1
+#define SHOW_STAMP_TEX      1
+#define SHOW_PREVIEW_TEX    0
 #define SHOW_FREE_DRAW      0
 
 // const
@@ -108,7 +108,7 @@ enum
         painting = NULL;
         
 #if SHOW_STAMP_TEX
-        CZStampGenerator *gen = CZActiveState::getInstance()->getRandomGenerator();
+        CZStampGenerator *gen = CZActiveState::getInstance()->getGenerator();
         CZImage *img = gen->getStamp();
         [EAGLContext setCurrentContext:context];
         stampTex = CZTexture::produceFromImage(img);

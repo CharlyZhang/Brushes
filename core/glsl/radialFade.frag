@@ -13,11 +13,11 @@ uniform float hardness;
 
 void main (void)
 {
-	float h = clamp(hardness, 0.0f, 1.0f);	
+	float h = clamp(hardness, 0.0, 1.0);
 	float factor = length(outPosition);
 
-	if (factor <= h)				gl_FragColor = vec4(1,1,1,1);
-	else if(factor <= 1.0f)			gl_FragColor = vec4(1,1,1,1) * (1-factor)/(1-h);
-    else							gl_FragColor = vec4(0,0,0,0) ;
+	if (factor <= h)				gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+	else if(factor <= 1.0)			gl_FragColor = vec4(1.0,1.0,1.0,1.0) * (1.0-factor)/(1.0-h);
+    else							gl_FragColor = vec4(0.0,0.0,0.0,0.0) ;
 
 }

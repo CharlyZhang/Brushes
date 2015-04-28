@@ -202,7 +202,7 @@ int CZActiveState::initBrushes()
 	eraseBrushIdx = paintBrushIdx = -1;
 	for(int i=0; i<brushNum; i++)	addNewBrush(i);
 	
-	eraseBrushIdx = paintBrushIdx = 0;
+	eraseBrushIdx = paintBrushIdx = 1;
 	
 	return brushNum;
 }

@@ -16,6 +16,7 @@ struct CZGLContext::Impl
     {
         if(realContext) [realContext release ];
         realContext = NULL;
+        [EAGLContext setCurrentContext:nil];
     }
 #endif
 };
@@ -28,9 +29,6 @@ CZGLContext::CZGLContext()
 CZGLContext::~CZGLContext()
 {
     delete impl;
-#if USE_OPENGL_ES
-    [EAGLContext setCurrentContext:nil];
-#endif
 }
 
 bool CZGLContext::setAsCurrent()

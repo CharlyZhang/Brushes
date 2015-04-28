@@ -11,12 +11,9 @@
 
 #include "CZStampGenerator.h"
 #include "../brush/CZBrush.h"
-#include "../graphic/CZFbo.h"
-#include "../graphic/CZShader.h"
 #include "../graphic/CZTexture.h"
 #include "../basic/CZImage.h"
 #include "../CZUtil.h"
-#include "../basic/CZMat4.h"
 #include "../basic/CZ3DPoint.h"
 #include "../graphic/CZGLContext.h"
 #include "../graphic/glDef.h"
@@ -29,11 +26,20 @@ using namespace std;
 
 CZStampGenerator::CZStampGenerator(CZGLContext *ctx)
 {
+    if (ctx == NULL)
+    {
+        LOG_ERROR("ctx is NULL!\n");
+    }
+    
+    shader = NULL;
+    fbo = NULL;
+    
     ptrGLContext = ctx;
     
     seed = rand();
     
     size = CZSize(kBrushDimension, kBrushDimension);
+    projMat.SetOrtho(0.0f ,size.width, 0.0f, size.height, -1.0f, 1.0f);
     
     scale = 1.0f;
     
@@ -66,6 +72,13 @@ CZStampGenerator::~CZStampGenerator()
         delete randomizer;
         randomizer = NULL;
     }
+    
+    if(ptrGLContext)
+    {
+        ptrGLContext->setAsCurrent();
+        delete fbo;		fbo = NULL;
+        delete shader;	shader = NULL;
+    }
 }
 
 CZStampGenerator* CZStampGenerator::copy()
@@ -83,6 +96,8 @@ bool CZStampGenerator::isEqual(CZStampGenerator *sg)
     if(!sg) return false;
     if(typeid(*sg) == typeid(*this))	return true;
     else								return false;
+    
+    ///!!! bug
 }
 
 /// 绘制图案（虚函数）
@@ -101,6 +116,12 @@ void CZStampGenerator::resetSeed()
     {
         ptrDelegate->generatorChanged(this);
     }
+}
+
+/// 是否能随机化
+bool CZStampGenerator::canRandomize()
+{
+    return true;
 }
 
 /// 随机化
@@ -178,34 +199,70 @@ CZImage *CZStampGenerator::generateStamp()
         LOG_ERROR("ptrGLContext is null");
         return NULL;
     }
-
+    
     ptrGLContext->setAsCurrent();
     
-    vector<string> attributes, uniforms;
-    attributes.push_back("inPosition");
-    uniforms.push_back("mvpMat");
-    CZShader shader("stamp","stamp",attributes,uniforms);
-    CZFbo fbo;
-    fbo.setColorRenderBuffer(size.width,size.height);
-    CZCheckGLError();
+    /// !fbo的生成不能放在超类构造函数中，避免其在整个gl环境未搭建之前(win平台)被调用。
+    if(fbo == NULL)
+    {
+        fbo = new CZFbo;
+        fbo->setColorRenderBuffer(size.width,size.height);
+    }
     
-    CZMat4 projMat;	
-    projMat.SetOrtho(0.0f ,size.width, 0.0f, size.height, -1.0f, 1.0f);
-    
-    fbo.begin();
+    fbo->begin();
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    shader.begin();
-    
-    glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
     renderStamp(getRandomizer());
+    CZImage *ret = fbo->produceImageForCurrentState();
     
-    shader.end();
+    fbo->end();
     
-    CZImage *ret = fbo.produceImageForCurrentState();
-    
-    fbo.end();
-    
+    CZCheckGLError();
     return ret;
+}
+
+/// 绘制径向衰变圈
+void CZStampGenerator::drawRadialFade(float hardness)
+{
+    if(shader == NULL && ptrGLContext)
+    {
+        vector<string> attributes, uniforms;
+        attributes.push_back("inPosition");
+        uniforms.push_back("mvpMat");
+        uniforms.push_back("hardness");
+        shader = new CZShader("basicWithCoord","radialFade",attributes,uniforms);
+    }
+    
+    shader->begin();
+    
+    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+    glUniform1f(shader->getUniformLocation("hardness"),hardness);
+    
+    float data[] = {0.0,		0.0,
+        size.width,	0.0,
+        0.0,		size.height,
+        size.width,	size.height};
+    
+    GLuint mVertexBufferObject;
+    // 装载顶点
+    glGenBuffers(1, &mVertexBufferObject);
+    glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STREAM_DRAW);
+    
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0,2,GL_FLOAT, GL_FALSE, sizeof(float)*2,0);
+    
+    /// 绘制
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    
+    glDisableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    /// 消除
+    glDeleteBuffers(1, &mVertexBufferObject);
+    
+    shader->end();
+    
+    CZCheckGLError();
 }

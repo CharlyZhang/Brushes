@@ -155,8 +155,6 @@ CZShader::CZShader(const char* vertFileName, const char* fragFileName, \
 	if(!compile()) 
 	{
         LOG_ERROR("shader compile failed!\n");
-		printShaderInfoLog(m_Vert);
-		printShaderInfoLog(m_Frag);
 		destroyShaders(m_Vert,m_Frag,m_Program);
 		return;
 	}
@@ -447,23 +445,21 @@ bool CZShader::compile()
 
 	//ÃÌº”shader
 	glShaderSource(m_Vert,1,&vv, &vertLen);
-	CZCheckGLError();
 	glShaderSource(m_Frag,1,&ff, &fragLen);
-	CZCheckGLError();
 	
 	//±‡“Îshader
 	glCompileShader(m_Vert);
-	CZCheckGLError();
 	glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &compiled);
-	CZCheckGLError();
-	if (compiled) isCompiled = true;
+	if (compiled)       isCompiled = true;
+    printShaderInfoLog(m_Vert);
 
 	glCompileShader(m_Frag);
-	CZCheckGLError();
 	glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &compiled);
-	CZCheckGLError();
-	if (!compiled) isCompiled = false;
-
+	if (!compiled)      isCompiled = false;
+    printShaderInfoLog(m_Frag);
+    
+    CZCheckGLError();
+    
 	if(NULL != m_VertexShader) {	delete[] m_VertexShader;	m_VertexShader = NULL;}
 	if(NULL != m_FragmentShader){	delete[] m_FragmentShader;	m_FragmentShader = NULL;}
 

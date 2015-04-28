@@ -6,6 +6,6 @@ uniform float intensity;
 
 void main (void)
 {
-	float i = clamp(intensity, 0.0f, 1.0f);
+	float i = clamp(intensity, 0.0, 1.0);
     gl_FragColor = vec4(i,i,i,i);
 }

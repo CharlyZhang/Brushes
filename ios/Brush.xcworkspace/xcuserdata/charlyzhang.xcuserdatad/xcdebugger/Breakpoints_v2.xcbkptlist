@@ -55,13 +55,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../core/CZCanvas.mm"
-            timestampString = "451532082.075456"
+            filePath = "BrushesDemo/BrushesDemo/EAGLView.mm"
+            timestampString = "451549384.597406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "-fbo"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-initWithFrame:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -71,42 +71,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../core/CZCanvas.mm"
-            timestampString = "451532082.075456"
+            filePath = "../core/stamp/CZSpiralGenerator.mm"
+            timestampString = "451882101.422004"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CZViewImpl::CZViewImpl(CZRect)"
-                  moduleName = "BrushesDemo"
-                  urlString = "file:///Users/charlyzhang/Git/Brush/core/CZCanvas.mm"
-                  timestampString = "451543524.618305"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "192"
-                  endingLineNumber = "192"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CZViewImpl::CZViewImpl(CZRect)"
-                  moduleName = "BrushesDemo"
-                  urlString = "file:///Users/charlyzhang/Git/Brush/core/CZCanvas.mm"
-                  timestampString = "451543524.618491"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "26">
-               </Location>
-            </Locations>
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "CZSpiralGenerator::renderStamp(CZRandom* randomizer)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -115,13 +87,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BrushesDemo/BrushesDemo/EAGLView.mm"
-            timestampString = "451549384.597406"
+            filePath = "../core/graphic/CZShader.mm"
+            timestampString = "451882462.153924"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "-initWithFrame:"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "CZShader::CZShader(const char* vertFileName, const char* fragFileName, \ vector&lt;string&gt;&amp; attributes, vector&lt;string&gt;&amp; uniforms)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../core/graphic/CZShader.mm"
+            timestampString = "451882907.525559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
+            landmarkName = "CZShader::compile()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../core/graphic/CZShader.mm"
+            timestampString = "451883383.754338"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
+            landmarkName = "CZShader::compile()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
