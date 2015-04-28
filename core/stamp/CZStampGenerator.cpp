@@ -31,9 +31,6 @@ CZStampGenerator::CZStampGenerator(CZGLContext *ctx)
 		LOG_ERROR("ctx is NULL!\n");
 	}
 
-	shader = NULL;
-	fbo = NULL;
-
 	ptrGLContext = ctx;
 
 	seed = rand();
@@ -71,13 +68,6 @@ CZStampGenerator::~CZStampGenerator()
 	{
 		delete randomizer;
 		randomizer = NULL;
-	}
-
-	if(ptrGLContext)
-	{
-		ptrGLContext->setAsCurrent();
-		delete fbo;		fbo = NULL;
-		delete shader;	shader = NULL;
 	}
 }
 
@@ -202,21 +192,17 @@ CZImage *CZStampGenerator::generateStamp()
 
 	ptrGLContext->setAsCurrent();
 
-	/// !fbo的生成不能放在超类构造函数中，避免其在整个gl环境未搭建之前(win平台)被调用。
-	if(fbo == NULL)
-	{
-		fbo = new CZFbo;
-		fbo->setColorRenderBuffer(size.width,size.height);
-	}
+	CZFbo fbo;
+	fbo.setColorRenderBuffer(size.width,size.height);
 
-	fbo->begin();
+	fbo.begin();
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	renderStamp(getRandomizer());
-	CZImage *ret = fbo->produceImageForCurrentState();
+	CZImage *ret = fbo.produceImageForCurrentState();
 
-	fbo->end();
+	fbo.end();
 
 	CZCheckGLError();
 	return ret;
@@ -225,19 +211,22 @@ CZImage *CZStampGenerator::generateStamp()
 /// 绘制径向衰变圈
 void CZStampGenerator::drawRadialFade(float hardness)
 {
-	if(shader == NULL && ptrGLContext)
+	if(ptrGLContext = NULL)
 	{
-		vector<string> attributes, uniforms;
-		attributes.push_back("inPosition");
-		uniforms.push_back("mvpMat");
-		uniforms.push_back("hardness");
-		shader = new CZShader("basicWithCoord","radialFade",attributes,uniforms);
+		LOG_ERROR("ptrGLContext is NULL!\n");
+		return;
 	}
 
-	shader->begin();
+	vector<string> attributes, uniforms;
+	attributes.push_back("inPosition");
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("hardness");
+	CZShader shader("basicWithCoord","radialFade",attributes,uniforms);
 
-	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
-	glUniform1f(shader->getUniformLocation("hardness"),hardness);
+	shader.begin();
+
+	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	glUniform1f(shader.getUniformLocation("hardness"),hardness);
 	
 	float data[] = {0.0,		0.0,
 					size.width,	0.0,
@@ -262,7 +251,7 @@ void CZStampGenerator::drawRadialFade(float hardness)
 	/// 消除
 	glDeleteBuffers(1, &mVertexBufferObject);
 
-	shader->end();
+	shader.end();
 
 	CZCheckGLError();
 }

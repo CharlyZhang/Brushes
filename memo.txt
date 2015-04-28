@@ -141,3 +141,4 @@
 2015年4月28日：
 	1.!修改CZBrush,其职能由ActiveState生成，并管理；
 	2.!实现更改画刷功能。
+	3.!stampGenerator的shader和fbo改为局部变量，利于资源利用。

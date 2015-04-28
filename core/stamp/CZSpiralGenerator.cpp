@@ -52,18 +52,20 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		return;
 	}
 
-	if(shader == NULL && ptrGLContext)
+	if(ptrGLContext = NULL)
 	{
-		vector<string> attributes, uniforms;
-		attributes.push_back("inPosition");
-		uniforms.push_back("mvpMat");
-		uniforms.push_back("intensity");
-		shader = new CZShader("basic","basicColor",attributes,uniforms);
+		LOG_ERROR("ptrGLContext is NULL!\n");
+		return;
 	}
 
-	shader->begin();
+	vector<string> attributes, uniforms;
+	attributes.push_back("inPosition");
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("intensity");
+	CZShader shader("basic","basicColor",attributes,uniforms);
+	shader.begin();
 
-	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 
 	float dim = baseDimension - 20;
 
@@ -76,10 +78,13 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		radius = CZUtil::Min(radius,CZUtil::Min(center.y, baseDimension - center.y));
 		radius -= 2;
 
+		GLfloat c = randomizer->nextFloat();
+		glUniform1f(shader.getUniformLocation("intensity"),c);
+
 		drawSpiral(center,radius,randomizer);
 	}
 
-	shader->end();
+	shader.end();
 }
 
 /// 绘制螺旋线
@@ -142,9 +147,6 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 
 	GLfloat w = randomizer->nextFloat()*9 +1;			///< 线大小原来是10以内
 	glLineWidth(w);
-
-	GLfloat c = randomizer->nextFloat();
-	glUniform1f(shader->getUniformLocation("intensity"),c);
 
 #if USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
