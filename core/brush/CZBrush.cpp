@@ -54,21 +54,6 @@ CZBrush::~CZBrush()
 	CZBrushPreview::destroy();
 }
 
-/// 随机生成笔刷（静态函数）
-CZBrush* CZBrush::randomBrush()
-{
-	CZStampGenerator *gen= CZActiveState::getInstance()->getRandomGenerator()->copy();
-	gen->randomize();
-
-	CZBrush* random = new CZBrush(gen);
-
-	random->weight.value = CZUtil::RandomFloat() * 56 + 44;
-	random->intensity.value = 0.15f;
-	random->spacing.value = 0.02;
-
-	return random;
-}
-
 /// 设置笔刷的笔触图片
 bool CZBrush::setStampImage(CZImage* img)
 {

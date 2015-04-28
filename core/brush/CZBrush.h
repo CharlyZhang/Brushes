@@ -25,10 +25,7 @@ class CZRandom;
 class CZBrush :public CZCoding, public CZPropertyDelegate, public CZGeneratorDelegate
 {
 public:
-	CZBrush(CZStampGenerator *gen_ = NULL);
-	~CZBrush();
-	/// 随机生成笔刷（静态函数）
-	static CZBrush * randomBrush(); 
+	friend class CZActiveState;				///< 负责管理画刷
 	/// 设置笔刷的笔触图片
 	bool setStampImage(CZImage* img);
 	/// 返回笔刷的笔触图片
@@ -65,6 +62,8 @@ public:
 	void encode(CZCoder *coder, bool deep = false);
 
 private:
+	CZBrush(CZStampGenerator *gen_ = NULL);
+	~CZBrush();
 	/// 创建属性（不包括值）
 	void buildProperties();
 	/// 解压缩值

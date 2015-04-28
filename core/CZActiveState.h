@@ -48,14 +48,13 @@ public:
 	void setPaintColor(float r, float g, float b, float a = 1.0f);
 	/// 获取绘制颜色
 	CZColor getPaintColor();
-	/// 设置可用画刷
-	void setBrushes(std::vector<CZBrush*> &bs);
-	/// 添加画刷
-	/// 
-	///		\note 添加在当前激活的画刷之后
-	void addBrush(CZBrush *b);
-	/// 获得可用画刷
-	std::vector<CZBrush*> &getBrushes();
+	
+	/// 添加新画刷
+	///		
+	///		\param idx - 添加的画刷类型序号，当idx为负数时随机化序号
+	///		\ret  新添加的画刷序号
+	///		\note 随机生成画刷，添加在当前激活的画刷之后
+	int addNewBrush(int idx = -1);
 	/// 设置当前激活画刷
 	///
 	///		\param idx - 可用画刷的序号，当非法时默认为0
@@ -67,15 +66,18 @@ public:
 	///		\note 画刷种类由当前的状态eraseMode决定
 	CZBrush *getActiveBrush();
 	/// 删除当前画刷
-	void deleteActiveBrush();
+	bool deleteActiveBrush();
+
 	/// 获取当前工具
 	/// 
 	///		\note 工具种类由当前的状态eraseMode决定
 	CZTool *getActiveTool();
 	
 
-	/// 获取随机一个笔刷生成器
-	CZStampGenerator * getRandomGenerator();
+	/// 获取一个笔刷生成器
+	///
+	///		\param idx - 添加的画刷类型序号，当idx为负数时随机化序号
+	CZStampGenerator * getGenerator(int idx = -1);
 
 private:
 	CZActiveState();
@@ -83,10 +85,10 @@ private:
 	CZActiveState & operator = (const CZActiveState &);
 	~CZActiveState();
 
-	/// 获得画刷在所有画刷中的标号，不存在返回负值
-	int indexOfBrushes(CZBrush *brush);
-	/// 生成画笔
+	/// 建立生成器
 	int setUpGenerators();
+	/// 初始化画刷
+	int initBrushes();
 
 private:
 	static CZActiveState* ptrInstance;
@@ -94,8 +96,8 @@ private:
 	std::vector<CZTool*> tools;							///< 可用工具，目前为绘制画刷和擦除刷两种
 	std::map<std::string,CZStampGenerator*>	generators;	///< 所有可用的画刷生成器，负责销毁
 	bool eraseMode;										///< 标记是否处在擦除模式
-	CZBrush *ptrPaintBrush;								///< 绘制用笔刷
-	CZBrush *ptrEraseBrush;								///< 擦除用笔刷 
+	int paintBrushIdx;									///< 绘制用笔刷序号
+	int eraseBrushIdx;									///< 擦除用笔刷序号
 
 	CZColor paintColor;									///< 绘制颜色
 	CZGLContext *stampGLContext;						///< stamp的gl上下文

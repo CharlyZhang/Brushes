@@ -134,4 +134,10 @@
 
 2015年4月27日：
 	1.!修改CZStampGenerator,复用fbo和shader；
-	2.!CZActiveState的单例改为懒人模式，使其适用于只有一个gl上下文的模式（win平台）
+	2.!CZActiveState的单例改为懒人模式，使其适用于只有一个gl上下文的模式（win平台）；
+	3.!完善螺旋笔触，使其能呈现不同亮度；
+	4.!生成径向衰减笔触。
+
+2015年4月28日：
+	1.!修改CZBrush,其职能由ActiveState生成，并管理；
+	2.!实现更改画刷功能。

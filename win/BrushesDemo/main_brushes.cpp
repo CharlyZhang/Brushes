@@ -32,7 +32,7 @@ bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证
 
 CZTexture *showTex = NULL;
 #if STAMP_TEX
-CZStampGenerator *stampGen =  CZActiveState::getInstance()->getRandomGenerator();
+CZStampGenerator *stampGen =  CZActiveState::getInstance()->getGenerator();
 #endif
 
 #if STROKE_TEX
@@ -601,6 +601,13 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 			{
 				CZActiveState::getInstance()->setPaintColor(0,0,1,1);
 				keys['B'] = false;
+			}
+			static int brushIdx = 0;
+			if (keys['C'])
+			{
+				CZActiveState::getInstance()->setActiveBrush(brushIdx);
+				brushIdx = (brushIdx+1)%2;
+				keys['C'] = false;
 			}
 #if RENDER_FREEHAND
 			if (keys['S'])
