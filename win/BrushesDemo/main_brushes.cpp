@@ -43,7 +43,6 @@ FILE *fp1 = freopen("../info.txt","w",stdout);
 FILE *fp2 = freopen("../error.txt","w",stderr);
 
 #if RENDER_FREEHAND
-	CZTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
 	CZPainting *painting  = NULL;
 	CZCanvas *canvas = NULL;
 #endif
@@ -135,7 +134,6 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	glDisable(GL_TEXTURE_2D);
 
 #if RENDER_FREEHAND
-	freeHand = CZActiveState::getInstance()->getActiveTool();
 	painting = new CZPainting(CZSize(windowWidth,windowHeight));
 	canvas = new CZCanvas(CZRect(0,0,windowHeight,windowHeight));
 	canvas->setPaiting(painting);
@@ -262,8 +260,8 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 	case WM_LBUTTONDOWN:
 		GetCursorPos(&mousePos);
 #if RENDER_FREEHAND
-		freeHand->moveBegin(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
-		LOG_INFO("move\n");
+		CZActiveState::getInstance()->getActiveTool()->moveBegin(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+		LOG_INFO("button down\n");
 #endif
 		break;
 
@@ -271,16 +269,18 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 		GetCursorPos(&mousePos);
 #if RENDER_FREEHAND
 		if (wParam & MK_LBUTTON)
-			freeHand->moving(CZ2DPoint(mousePos.x,windowHeight-mousePos.y),1.0);
-		LOG_INFO("move\n");
+		{
+			CZActiveState::getInstance()->getActiveTool()->moving(CZ2DPoint(mousePos.x,windowHeight-mousePos.y),1.0);
+			LOG_INFO("move\n");
+		}
 #endif
 		break;
 
 	case WM_LBUTTONUP:
 #if RENDER_FREEHAND
 		GetCursorPos(&mousePos);
-		freeHand->moveEnd(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
-		LOG_INFO("move\n");
+		CZActiveState::getInstance()->getActiveTool()->moveEnd(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+		LOG_INFO("button up\n");
 #endif
 		break;
 
@@ -608,6 +608,13 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				CZActiveState::getInstance()->setActiveBrush(brushIdx);
 				brushIdx = (brushIdx+1)%2;
 				keys['C'] = false;
+			}
+			static bool erase = false;
+			if (keys['E'])
+			{
+				erase = !erase;
+				CZActiveState::getInstance()->setEraseMode(erase);
+				keys['E'] = false;
 			}
 #if RENDER_FREEHAND
 			if (keys['S'])

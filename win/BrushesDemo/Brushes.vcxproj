@@ -14,6 +14,7 @@
     <None Include="..\..\core\glsl\basicWithCoord.vert" />
     <None Include="..\..\core\glsl\blit.frag" />
     <None Include="..\..\core\glsl\blit.vert" />
+    <None Include="..\..\core\glsl\blitWithEraseMask.frag" />
     <None Include="..\..\core\glsl\blitWithMask.frag" />
     <None Include="..\..\core\glsl\brush.frag" />
     <None Include="..\..\core\glsl\brush.vert" />

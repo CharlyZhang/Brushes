@@ -405,7 +405,7 @@ void printShaderInfoLog(GLuint obj)
 	{
 		infoLog = (char *)malloc(infologLength);
 		glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
-		LOG_INFO("%s\n",infoLog);
+		LOG_INFO("%s",infoLog);
 		free(infoLog);
 	}
 }
@@ -421,7 +421,7 @@ void printProgramInfoLog(GLuint obj)
 	{
 		infoLog = (char *)malloc(infologLength);
 		glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
-		LOG_INFO("%s\n",infoLog);
+		LOG_INFO("%s",infoLog);
 		free(infoLog);
 	}
 }
