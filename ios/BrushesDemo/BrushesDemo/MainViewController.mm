@@ -11,6 +11,7 @@
 #include "painting/CZPainting.h"
 #include "basic/CZRect.h"
 #include "EAGLView.h"
+
 @interface MainViewController ()
 {
     CZCanvas *canvas;
@@ -41,18 +42,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor redColor];
-    CGSize size = [UIScreen mainScreen].bounds.size;
 
-//    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
-//    [self.view addSubview:glView];
-//    [glView release];
-    canvas = new CZCanvas(CZRect(0,0,size.height,size.width));
-    painting = new CZPainting(CZSize(size.height,size.width));
-    canvas->setPaiting(painting);
+    NSLog(@"sandbox path is:%@",NSHomeDirectory());
     
-    [self.view addSubview:(UIView*)canvas->getView()];
+    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
+    [self.view addSubview:glView];
+    [glView release];
+    
+    
+//    CGSize size = [UIScreen mainScreen].bounds.size;
+//    canvas = new CZCanvas(CZRect(0,0,size.height,size.width));
+//    painting = new CZPainting(CZSize(size.height,size.width));
+//    canvas->setPaiting(painting);
+    
+//    [self.view addSubview:(UIView*)canvas->getView()];
 }
 
 - (void)didReceiveMemoryWarning
