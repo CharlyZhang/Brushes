@@ -20,6 +20,7 @@
 class CZStampGenerator;
 class CZTool;
 class CZBrush;
+class CZPainting;
 class CZGLContext;
 
 /// 激活状态类
@@ -72,6 +73,10 @@ public:
 	/// 
 	///		\note 工具种类由当前的状态eraseMode决定
 	CZTool *getActiveTool();
+	/// 设置当前绘制
+	///
+	///		\note 主要是为了统一改变工具类对应的绘制
+	bool setPainting(CZPainting *p);
 	
 
 	/// 获取一个笔刷生成器

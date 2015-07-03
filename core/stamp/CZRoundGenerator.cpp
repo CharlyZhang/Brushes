@@ -7,7 +7,7 @@ CZRoundGenerator::CZRoundGenerator(CZGLContext *ctx):CZStampGenerator(ctx)
 {
 	/// ¥¥Ω® Ù–‘
 	hardness.title = "Hardness";
-	hardness.value = 0.5;
+	hardness.value = 1.0;
 	//density.delegate = self;
 	//(self.rawProperties)[@"density"] = density;
 }

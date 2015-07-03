@@ -29,12 +29,26 @@ public:
 
 	/// 深度拷贝函数
 	CZImage* copy();
+	/// 填充（采用广搜）
+	bool modifyDataFrom(int x,int y, float red, float green, float blue, float alpha);
+	bool modifyDataFrom1(int x,int y, float red, float green, float blue, float alpha);
+	/// 扫描线算法(封闭)
+	void ScanLineFill(int x,int y, float r, float g, float b, float a);
+private:
+	/// 修改
+	void modifyData(int x,int y, float fillcolor[]);
+	/// 是否需要修改
+	inline bool needsModify(int x,int y, float compareColor[]);
+	/// 获取某点颜色
+	bool getColorAt(int x, int y, float color[]);
 
+public:
 	int			width,height;
 	void		*data;		///< 具体类型由mode决定
 
 private:
 	StorageMode	mode;
+	bool		*isSearched;///< 用于填充的辅助数组
 };
 
 #endif

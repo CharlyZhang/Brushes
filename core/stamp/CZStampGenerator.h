@@ -91,8 +91,6 @@ protected:
 	CZRandom *randomizer;		///< 与seed相关的随机化器
 	CZGLContext *ptrGLContext;	///< gl上下文
 	std::map<std::string,CZProperty*> rawProperties;
-	CZShader *shader;
-	CZFbo *fbo;
 	CZMat4 projMat;
 };
 

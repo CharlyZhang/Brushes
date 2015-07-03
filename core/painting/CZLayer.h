@@ -118,6 +118,9 @@ public:
 	/// 获取编号
 	char* getUUID();
 
+	/// 填充
+	bool fill(CZColor &c, CZ2DPoint &p);
+
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);

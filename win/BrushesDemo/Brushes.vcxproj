@@ -14,6 +14,7 @@
     <None Include="..\..\core\glsl\basicWithCoord.vert" />
     <None Include="..\..\core\glsl\blit.frag" />
     <None Include="..\..\core\glsl\blit.vert" />
+    <None Include="..\..\core\glsl\blitWithEraseMask.frag" />
     <None Include="..\..\core\glsl\blitWithMask.frag" />
     <None Include="..\..\core\glsl\brush.frag" />
     <None Include="..\..\core\glsl\brush.vert" />
@@ -21,8 +22,11 @@
     <None Include="..\..\core\glsl\compositeWithMask.frag" />
     <None Include="..\..\core\glsl\basicColor.frag" />
     <None Include="..\..\core\glsl\basic.vert" />
+    <None Include="..\..\core\glsl\nonPremultipliedBlit.frag" />
     <None Include="..\..\core\glsl\radialFade.frag" />
-    <None Include="..\..\memo.txt" />
+    <None Include="..\..\core\glsl\unPremultipliedBlit.frag" />
+    <None Include="..\..\memo.md" />
+    <None Include="..\..\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\core\basic\CZ2DPoint.cpp" />

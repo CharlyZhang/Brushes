@@ -55,7 +55,7 @@ CZActiveState::~CZActiveState()
 /// 设置绘制模式
 void CZActiveState::setEraseMode(bool flag)
 {
-	eraseMode = false;
+	eraseMode = flag;
 }
 
 /// 获取绘制模式
@@ -166,6 +166,15 @@ bool CZActiveState::deleteActiveBrush()
 CZTool* CZActiveState::getActiveTool()
 {
 	return eraseMode ? tools[1] : tools[0];
+}
+
+/// 设置当前绘制
+///
+///		\note 主要是为了统一改变工具类对应的绘制
+bool CZActiveState::setPainting(CZPainting *p)
+{
+	tools[0]->ptrPainting = tools[1]->ptrPainting = p;
+	return true;
 }
 
 /// 获取一个笔刷生成器

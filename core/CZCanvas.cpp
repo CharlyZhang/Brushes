@@ -50,7 +50,7 @@ bool CZCanvas::setPaiting(CZPainting *p)
 
 	ptrPainting = p;
 	p->setCanvas(this);
-	CZActiveState::getInstance()->getActiveTool()->ptrPainting = p;
+	CZActiveState::getInstance()->setPainting(p);
 	view->setPaiting(p);
 	return true;
 }

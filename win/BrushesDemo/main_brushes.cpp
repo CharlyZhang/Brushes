@@ -31,6 +31,8 @@ bool    fullscreen = FALSE;  // 全屏标志缺省，缺省设定成全屏模式 (全屏显示得保证
 //////////////////////////////////////////////////////////////////////////
 
 CZTexture *showTex = NULL;
+CZImage *screenImg = NULL;
+
 #if STAMP_TEX
 CZStampGenerator *stampGen =  CZActiveState::getInstance()->getGenerator();
 #endif
@@ -43,7 +45,6 @@ FILE *fp1 = freopen("../info.txt","w",stdout);
 FILE *fp2 = freopen("../error.txt","w",stderr);
 
 #if RENDER_FREEHAND
-	CZTool *freeHand = NULL;		///! 如果用全局变量，可能导致glew的初始化在gl初始化之前
 	CZPainting *painting  = NULL;
 	CZCanvas *canvas = NULL;
 #endif
@@ -86,6 +87,11 @@ void ShowTextureToScreen(int x,int y,int width,int height,GLuint texID)
 
 bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After The GL Window Is Created
 {
+	//glClearColor(0.0, 0.0, 1.0, 0.0);  
+	//glClearStencil(0);  
+	//glEnable(GL_STENCIL_TEST);  
+	//return true;
+
 	glClearColor(1.0,.95,.85,0.5);
 
 	glDisable(GL_DITHER);
@@ -135,7 +141,6 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	glDisable(GL_TEXTURE_2D);
 
 #if RENDER_FREEHAND
-	freeHand = CZActiveState::getInstance()->getActiveTool();
 	painting = new CZPainting(CZSize(windowWidth,windowHeight));
 	canvas = new CZCanvas(CZRect(0,0,windowHeight,windowHeight));
 	canvas->setPaiting(painting);
@@ -162,6 +167,18 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 
 GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 {
+	//int w = Width; int h = Height;
+	//glViewport(0, 0, w, h);  
+	//float aspect = (w * 1.0) / h;  
+
+	//glMatrixMode(GL_PROJECTION);  
+	//glLoadIdentity();  
+	//gluPerspective(60, aspect, 1, 100);  
+
+	//glMatrixMode(GL_MODELVIEW);  
+	//glLoadIdentity();  
+	//return;
+
 	windowWidth = Width; windowHeight = Height;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -174,7 +191,34 @@ GLvoid ReSizeGLScene(GLsizei Width, GLsizei Height)
 
 GLvoid DrawGLScene(GLvoid)
 {
-#if RENDER_FREEHAND
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);  
+
+	//glLoadIdentity();  
+	//glTranslatef(0.0, 0.0, -20.0);  
+
+	////glStencilFunc(GL_ALWAYS, 0, 0x00);  
+	//glStencilFunc(GL_NEVER, 0x0, 0x0);  
+	//glStencilOp(GL_INCR, GL_INCR, GL_INCR);//  
+
+	//glColor3f(1.0f, 1.0f, 1.0f);  
+
+	//float dRadius = 5.0 * (sqrt(2.0) / 2.0);  
+	//glBegin(GL_LINE_STRIP);  
+	//for (float dAngel = 0; dAngel < 380.0; dAngel += 0.1)  
+	//{  
+	//	glVertex2d(dRadius * cos(dAngel), dRadius * sin(dAngel));  
+	//	dRadius *= 1.003;  
+	//}  
+	//glEnd();  
+
+	//glStencilFunc(GL_NOTEQUAL,0x1,0x1);  
+	//glStencilOp(GL_INCR,GL_INCR,GL_INCR);//  
+
+	//glColor3f(1.0f, 0.0f, 0.0f);  
+	//glRectf(-5, -5, 5, 5); 
+	//return ;
+
+#if RENDER_FREEHAND &&0
 	//painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// 为了模拟填充白色底板
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -188,6 +232,11 @@ GLvoid DrawGLScene(GLvoid)
 	LOG_INFO("draw\n");
 	return;
 #endif
+	delete screenImg;
+	delete showTex;
+	 screenImg = painting->imageWithSize(CZSize(windowWidth,windowHeight),&CZColor::whiteColor());
+	showTex = CZTexture::produceFromImage(screenImg);
+	glBindTexture(GL_TEXTURE_2D, showTex->texId);
 
 #if STAMP_TEX
 	glClearColor(0.0,0.0,0.0,1.0);
@@ -262,8 +311,8 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 	case WM_LBUTTONDOWN:
 		GetCursorPos(&mousePos);
 #if RENDER_FREEHAND
-		freeHand->moveBegin(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
-		LOG_INFO("move\n");
+		CZActiveState::getInstance()->getActiveTool()->moveBegin(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+		LOG_INFO("button down\n");
 #endif
 		break;
 
@@ -271,16 +320,18 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 		GetCursorPos(&mousePos);
 #if RENDER_FREEHAND
 		if (wParam & MK_LBUTTON)
-			freeHand->moving(CZ2DPoint(mousePos.x,windowHeight-mousePos.y),1.0);
-		LOG_INFO("move\n");
+		{
+			CZActiveState::getInstance()->getActiveTool()->moving(CZ2DPoint(mousePos.x,windowHeight-mousePos.y),1.0);
+			LOG_INFO("move\n");
+		}
 #endif
 		break;
 
 	case WM_LBUTTONUP:
 #if RENDER_FREEHAND
 		GetCursorPos(&mousePos);
-		freeHand->moveEnd(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
-		LOG_INFO("move\n");
+		CZActiveState::getInstance()->getActiveTool()->moveEnd(CZ2DPoint(mousePos.x,windowHeight-mousePos.y));
+		LOG_INFO("button up\n");
 #endif
 		break;
 
@@ -463,7 +514,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 		0,									// No Accumulation Buffer
 		0, 0, 0, 0,							// Accumulation Bits Ignored (?)
 		16,									// 16Bit Z-Buffer (Depth Buffer)  
-		0,									// No Stencil Buffer
+		8,									// No Stencil Buffer
 		0,									// No Auxiliary Buffer (?)
 		PFD_MAIN_PLANE,						// Main Drawing Layer
 		0,									// Reserved (?)
@@ -608,6 +659,20 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				CZActiveState::getInstance()->setActiveBrush(brushIdx);
 				brushIdx = (brushIdx+1)%2;
 				keys['C'] = false;
+			}
+			static bool erase = false;
+			if (keys['E'])
+			{
+				erase = !erase;
+				CZActiveState::getInstance()->setEraseMode(erase);
+				keys['E'] = false;
+			}
+			if (keys['T'])
+			{
+				CZLayer *layer = painting->getActiveLayer();
+				layer->fill(CZColor(1,0,0,1),CZ2DPoint(300,300));
+				canvas->isDirty = true;
+				keys['T'] = false;
 			}
 #if RENDER_FREEHAND
 			if (keys['S'])
