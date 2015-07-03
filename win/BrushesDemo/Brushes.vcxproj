@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\core\glsl\basicWithCoord.vert" />
+    <None Include="..\..\core\glsl\blit.frag" />
+    <None Include="..\..\core\glsl\blit.vert" />
+    <None Include="..\..\core\glsl\blitWithEraseMask.frag" />
+    <None Include="..\..\core\glsl\blitWithMask.frag" />
+    <None Include="..\..\core\glsl\brush.frag" />
+    <None Include="..\..\core\glsl\brush.vert" />
+    <None Include="..\..\core\glsl\compositeWithEraseMask.frag" />
+    <None Include="..\..\core\glsl\compositeWithMask.frag" />
+    <None Include="..\..\core\glsl\basicColor.frag" />
+    <None Include="..\..\core\glsl\basic.vert" />
+    <None Include="..\..\core\glsl\nonPremultipliedBlit.frag" />
+    <None Include="..\..\core\glsl\radialFade.frag" />
+    <None Include="..\..\core\glsl\unPremultipliedBlit.frag" />
+    <None Include="..\..\memo.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\core\basic\CZ2DPoint.cpp" />
+    <ClCompile Include="..\..\core\basic\CZ3DPoint.cpp" />
+    <ClCompile Include="..\..\core\basic\CZAffineTransform.cpp" />
+    <ClCompile Include="..\..\core\basic\CZColor.cpp" />
+    <ClCompile Include="..\..\core\basic\CZImage.cpp" />
+    <ClCompile Include="..\..\core\basic\CZMat4.cpp" />
+    <ClCompile Include="..\..\core\basic\CZProperty.cpp" />
+    <ClCompile Include="..\..\core\basic\CZRandom.cpp" />
+    <ClCompile Include="..\..\core\basic\CZRect.cpp" />
+    <ClCompile Include="..\..\core\basic\CZSize.cpp" />
+    <ClCompile Include="..\..\core\brush\CZBrush.cpp" />
+    <ClCompile Include="..\..\core\brush\CZBrushPreview.cpp" />
+    <ClCompile Include="..\..\core\CZActiveState.cpp" />
+    <ClCompile Include="..\..\core\CZCanvas.cpp" />
+    <ClCompile Include="..\..\core\CZColorBalance.cpp" />
+    <ClCompile Include="..\..\core\CZHueSaturation.cpp" />
+    <ClCompile Include="..\..\core\CZNotificationCenter.cpp" />
+    <ClCompile Include="..\..\core\CZUtil.cpp" />
+    <ClCompile Include="..\..\core\graphic\CZFbo.cpp" />
+    <ClCompile Include="..\..\core\graphic\CZGLContext.cpp" />
+    <ClCompile Include="..\..\core\graphic\CZShader.cpp" />
+    <ClCompile Include="..\..\core\graphic\CZTexture.cpp" />
+    <ClCompile Include="..\..\core\painting\CZLayer.cpp" />
+    <ClCompile Include="..\..\core\painting\CZPainting.cpp" />
+    <ClCompile Include="..\..\core\path\CZBezierNode.cpp" />
+    <ClCompile Include="..\..\core\path\CZBezierSegment.cpp" />
+    <ClCompile Include="..\..\core\path\CZPath.cpp" />
+    <ClCompile Include="..\..\core\stamp\CZRoundGenerator.cpp" />
+    <ClCompile Include="..\..\core\stamp\CZSpiralGenerator.cpp" />
+    <ClCompile Include="..\..\core\stamp\CZStampGenerator.cpp" />
+    <ClCompile Include="..\..\core\tool\CZEraserTool.cpp" />
+    <ClCompile Include="..\..\core\tool\CZFreehandTool.cpp" />
+    <ClCompile Include="..\..\core\tool\CZTool.cpp" />
+    <ClCompile Include="main_brushes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\core\basic\CZ2DPoint.h" />
+    <ClInclude Include="..\..\core\basic\CZ3DPoint.h" />
+    <ClInclude Include="..\..\core\basic\CZAffineTransform.h" />
+    <ClInclude Include="..\..\core\basic\CZColor.h" />
+    <ClInclude Include="..\..\core\basic\CZImage.h" />
+    <ClInclude Include="..\..\core\basic\CZMat4.h" />
+    <ClInclude Include="..\..\core\basic\CZProperty.h" />
+    <ClInclude Include="..\..\core\basic\CZRandom.h" />
+    <ClInclude Include="..\..\core\basic\CZRect.h" />
+    <ClInclude Include="..\..\core\basic\CZSize.h" />
+    <ClInclude Include="..\..\core\brush\CZBrush.h" />
+    <ClInclude Include="..\..\core\brush\CZBrushPreview.h" />
+    <ClInclude Include="..\..\core\CZActiveState.h" />
+    <ClInclude Include="..\..\core\CZBrushCell.h" />
+    <ClInclude Include="..\..\core\CZBrushController.h" />
+    <ClInclude Include="..\..\core\CZCanvas.h" />
+    <ClInclude Include="..\..\core\CZColorBalance.h" />
+    <ClInclude Include="..\..\core\CZDataProvider.h" />
+    <ClInclude Include="..\..\core\CZDefine.h" />
+    <ClInclude Include="..\..\core\CZHueSaturation.h" />
+    <ClInclude Include="..\..\core\CZNotificationCenter.h" />
+    <ClInclude Include="..\..\core\CZUndoManager.h" />
+    <ClInclude Include="..\..\core\CZUtil.h" />
+    <ClInclude Include="..\..\core\graphic\CZFbo.h" />
+    <ClInclude Include="..\..\core\graphic\CZGLContext.h" />
+    <ClInclude Include="..\..\core\graphic\CZShader.h" />
+    <ClInclude Include="..\..\core\graphic\CZTexture.h" />
+    <ClInclude Include="..\..\core\graphic\glDef.h" />
+    <ClInclude Include="..\..\core\painting\CZLayer.h" />
+    <ClInclude Include="..\..\core\painting\CZPainting.h" />
+    <ClInclude Include="..\..\core\path\CZBezierNode.h" />
+    <ClInclude Include="..\..\core\path\CZBezierSegment.h" />
+    <ClInclude Include="..\..\core\path\CZPath.h" />
+    <ClInclude Include="..\..\core\serialization\CZCoder.h" />
+    <ClInclude Include="..\..\core\serialization\CZCoding.h" />
+    <ClInclude Include="..\..\core\serialization\CZDecoder.h" />
+    <ClInclude Include="..\..\core\stamp\CZRoundGenerator.h" />
+    <ClInclude Include="..\..\core\stamp\CZSpiralGenerator.h" />
+    <ClInclude Include="..\..\core\stamp\CZStampGenerator.h" />
+    <ClInclude Include="..\..\core\tool\CZEraserTool.h" />
+    <ClInclude Include="..\..\core\tool\CZFreehandTool.h" />
+    <ClInclude Include="..\..\core\tool\CZTool.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6A7FF1DC-32B4-4204-BBA9-B9A483EF55C1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Brushes</RootNamespace>
+    <ProjectName>BrushesDemo</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\build\bin\</OutDir>
+    <IntDir>..\build\obj\$(Configuration)\</IntDir>
+    <IncludePath>..\..\core;..\common\;$(IncludePath)</IncludePath>
+    <SourcePath>..\..\core;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\build\bin\</OutDir>
+    <IntDir>..\build\obj\$(Configuration)\</IntDir>
+    <IncludePath>..\..\core;..\common\;$(IncludePath)</IncludePath>
+    <SourcePath>..\..\core;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glut32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\common\;..\build\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glut32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\common\;..\build\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

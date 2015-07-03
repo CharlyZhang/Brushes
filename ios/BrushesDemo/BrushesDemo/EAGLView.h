@@ -32,8 +32,6 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
     GLuint _vertexBuffer;
     GLuint _program;
     
-    float _modelViewProjectionMatrix[16];
-    
 	GLuint textures[10];
 	
     float locX, locY;
