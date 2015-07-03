@@ -22,7 +22,9 @@
     <None Include="..\..\core\glsl\compositeWithMask.frag" />
     <None Include="..\..\core\glsl\basicColor.frag" />
     <None Include="..\..\core\glsl\basic.vert" />
+    <None Include="..\..\core\glsl\nonPremultipliedBlit.frag" />
     <None Include="..\..\core\glsl\radialFade.frag" />
+    <None Include="..\..\core\glsl\unPremultipliedBlit.frag" />
     <None Include="..\..\memo.txt" />
   </ItemGroup>
   <ItemGroup>

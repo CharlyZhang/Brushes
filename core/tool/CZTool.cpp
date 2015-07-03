@@ -260,7 +260,6 @@ void CZTool::paintFittedPoints()
 
 	/// 生成一个轨迹path
 	path.reset();
-	path.limitBrushSize = true;
 
 	for (int i = 0; i <= drawBound; i++) 
 	{
