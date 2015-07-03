@@ -56,7 +56,6 @@ enum
     NUM_ATTRIBUTES
 };
 
-
 ///////////////
 
 @interface libBrush_wraper ()
@@ -75,6 +74,7 @@ enum
     GLuint textures[10];
     
     CZTexture *stampTex;
+    CZImage *screenImg;
 }
 
 @end
@@ -97,6 +97,7 @@ enum
         ////////////////
         NSLog(@"sandbox path is:%@",NSHomeDirectory());
         stampTex = NULL;
+        screenImg = NULL;
         [EAGLContext setCurrentContext:context];
 #if SHOW_PIC_TEX
         [self loadTexture];
@@ -177,7 +178,15 @@ enum
     glClear(GL_COLOR_BUFFER_BIT );
 #endif
     
-#if !SHOW_FREE_DRAW
+    delete screenImg;
+    delete stampTex;
+    CZSize s(self.size.width,self.size.height);
+    
+    screenImg = painting->imageWithSize(s);
+    stampTex = CZTexture::produceFromImage(screenImg);
+    textures[0] = stampTex->texId;
+    
+#if SHOW_FREE_DRAW
     glBindTexture(GL_TEXTURE_2D, textures[0]);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);

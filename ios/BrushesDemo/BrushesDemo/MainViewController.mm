@@ -46,17 +46,17 @@
 
     NSLog(@"sandbox path is:%@",NSHomeDirectory());
     
-    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
-    [self.view addSubview:glView];
-    [glView release];
+//    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
+//    [self.view addSubview:glView];
+//    [glView release];
+//    
     
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    canvas = new CZCanvas(CZRect(0,0,size.height,size.width));
+    painting = new CZPainting(CZSize(size.height,size.width));
+    canvas->setPaiting(painting);
     
-//    CGSize size = [UIScreen mainScreen].bounds.size;
-//    canvas = new CZCanvas(CZRect(0,0,size.height,size.width));
-//    painting = new CZPainting(CZSize(size.height,size.width));
-//    canvas->setPaiting(painting);
-    
-//    [self.view addSubview:(UIView*)canvas->getView()];
+    [self.view addSubview:(UIView*)canvas->getView()];
 }
 
 - (void)didReceiveMemoryWarning
