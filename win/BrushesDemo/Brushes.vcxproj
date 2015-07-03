@@ -26,6 +26,7 @@
     <None Include="..\..\core\glsl\radialFade.frag" />
     <None Include="..\..\core\glsl\unPremultipliedBlit.frag" />
     <None Include="..\..\memo.md" />
+    <None Include="..\..\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\core\basic\CZ2DPoint.cpp" />
