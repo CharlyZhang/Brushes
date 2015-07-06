@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import "EAGLView.h"
 
-@interface MainViewController : UIViewController{
+@interface MainViewController : UIViewController<UITextFieldDelegate>{
       //EAGLView *glView;
 }
 //@property(nonatomic, retain) EAGLView *glView;

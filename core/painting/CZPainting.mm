@@ -585,6 +585,13 @@ void CZPainting::loadShaders()
     shader = new CZShader("blit","blitWithMask",attributes,uniforms);
     shaders.insert(make_pair("blitWithMask",shader));
     
+    /// 将图层和擦除轨迹输出
+    uniforms.pop_back();
+    uniforms.pop_back();
+    
+    shader = new CZShader("blit","blitWithEraseMask",attributes,uniforms);
+    shaders.insert(make_pair("blitWithEraseMask",shader));
+    
     /// 将图层纹理绘制出来
     uniforms.clear();
     uniforms.push_back("mvpMat");

@@ -13,6 +13,7 @@
 #include <string.h>
 #include <queue>
 #include <stack>
+#include <cmath>
 
 using namespace std;
 
@@ -281,7 +282,7 @@ void CZImage::modifyData(int x,int y, float fillcolor[])
 	{
 	case RGB_BYTE:	
 		b_data = &((unsigned char*)data)[(y*width+x)*3];
-		for(int i=0; i<3; i++) b_data[i] = unsigned char(fillcolor[i]*256);
+		for(int i=0; i<3; i++) b_data[i] = (unsigned char)(fillcolor[i]*256);
 		break;
 	case RGB_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*3];
@@ -289,7 +290,7 @@ void CZImage::modifyData(int x,int y, float fillcolor[])
 		break;
 	case RGBA_BYTE:		
 		b_data = &((unsigned char*)data)[(y*width+x)*4];
-		for(int i=0; i<4; i++) b_data[i] = unsigned char(fillcolor[i]*256);
+		for(int i=0; i<4; i++) b_data[i] = (unsigned char)(fillcolor[i]*256);
 		break;
 	case RGBA_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*4];
@@ -308,8 +309,8 @@ bool CZImage::needsModify(int x,int y, float compareColor[])
 	
 	getColorAt(x,y,color);
 
-	for(int i=0; i<3; i++)						if(abs(color[i]-compareColor[i]) >= epslon) return false;
-	if(mode == RGBA_FLOAT || mode == RGBA_BYTE) if(abs(color[3]-compareColor[3]) >= epslon) return false;
+	for(int i=0; i<3; i++)						if(fabs(color[i]-compareColor[i]) >= epslon) return false;
+	if(mode == RGBA_FLOAT || mode == RGBA_BYTE) if(fabs(color[3]-compareColor[3]) >= epslon) return false;
 	return true;
 }
 

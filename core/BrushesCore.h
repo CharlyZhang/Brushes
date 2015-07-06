@@ -12,7 +12,12 @@
 #include "basic/CZSize.h"
 #include "basic/CZRect.h"
 
+#include "brush/CZBrush.h"
 
+#include "CZCanvas.h"
+#include "CZActiveState.h"
+
+#include "painting/CZPainting.h"
 
 
 #endif
