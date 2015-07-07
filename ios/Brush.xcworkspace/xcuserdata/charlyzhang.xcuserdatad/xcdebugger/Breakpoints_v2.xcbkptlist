@@ -10,25 +10,25 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../core/CZCanvas.mm"
-            timestampString = "451532082.075456"
+            timestampString = "457943104.214932"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353">
+            startingLineNumber = "378"
+            endingLineNumber = "378">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BrushesDemo/BrushesDemo/MainViewController.mm"
-            timestampString = "457866614.344595"
+            timestampString = "457931742.149159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -40,12 +40,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../core/painting/CZLayer.mm"
-            timestampString = "457868520.08655"
+            timestampString = "457943259.622955"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "CZLayer::blit(CZMat4 &amp;projection, CZTexture *maskTexture)"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
+            landmarkName = "CZLayer::fill(CZColor &amp;c, CZ2DPoint &amp;p)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

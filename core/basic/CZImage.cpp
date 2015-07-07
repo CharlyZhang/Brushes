@@ -207,7 +207,7 @@ bool CZImage::modifyDataFrom(int x,int y, float r, float g, float b, float a)
 			else break;
 	}
 
-	printf("total steps %ld\n",step);
+	LOG_DEBUG("total steps %ld\n",step);
 	delete [] isSearched;
 	return true;
 }
@@ -267,7 +267,7 @@ bool CZImage::modifyDataFrom1(int x,int y, float r, float g, float b, float a)
 						else break;
 	}
 
-	printf("total steps %ld\n",step);
+	LOG_DEBUG("total steps %ld\n",step);
 	delete [] isSearched;
 	return true;
 }
@@ -282,7 +282,7 @@ void CZImage::modifyData(int x,int y, float fillcolor[])
 	{
 	case RGB_BYTE:	
 		b_data = &((unsigned char*)data)[(y*width+x)*3];
-		for(int i=0; i<3; i++) b_data[i] = (unsigned char)(fillcolor[i]*256);
+		for(int i=0; i<3; i++) b_data[i] = (unsigned char)(fillcolor[i]*255);
 		break;
 	case RGB_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*3];
@@ -290,7 +290,7 @@ void CZImage::modifyData(int x,int y, float fillcolor[])
 		break;
 	case RGBA_BYTE:		
 		b_data = &((unsigned char*)data)[(y*width+x)*4];
-		for(int i=0; i<4; i++) b_data[i] = (unsigned char)(fillcolor[i]*256);
+		for(int i=0; i<4; i++) b_data[i] = (unsigned char)(fillcolor[i]*255);
 		break;
 	case RGBA_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*4];

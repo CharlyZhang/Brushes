@@ -114,15 +114,25 @@
 #pragma mark - Geusture
 - (void)configureGestrues
 {
-    UIPanGestureRecognizer *panGesutre = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
-    panGesutre.maximumNumberOfTouches = 1;
-    panGesutre.delegate = self;
-    [self addGestureRecognizer:panGesutre];
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
+    panGesture.maximumNumberOfTouches = 1;
+    panGesture.delegate = self;
+    [self addGestureRecognizer:panGesture];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)];
+    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.numberOfTouchesRequired = 1;
+    [self addGestureRecognizer:tapGesture];
+    
+    [panGesture release];
+    [tapGesture release];
 }
 
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
+    LOG_DEBUG("pan\n");
+    
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
     
@@ -138,8 +148,23 @@
     else if (sender.state == UIGestureRecognizerStateCancelled) {
         LOG_DEBUG("gesture canceled!\n");
     }
+}
+
+- (void)handleTapGesture:(UITapGestureRecognizer*)sender
+{
+    LOG_DEBUG("tap\n");
     
-    LOG_DEBUG("gesture\n");
+    CGPoint p = [sender locationInView:sender.view];
+    p.y = self.bounds.size.height - p.y;
+    
+    if (CZActiveState::getInstance()->colorFillMode) {
+        CZLayer *layer = self.ptrPainting->getActiveLayer();
+        CZColor color = CZActiveState::getInstance()->getPaintColor();
+        CZ2DPoint location = CZ2DPoint(p.x,p.y);
+        layer->fill(color, location);
+        [self drawView];
+    }
+
 }
 
 #pragma mark - Draw

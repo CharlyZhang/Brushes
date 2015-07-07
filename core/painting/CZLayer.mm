@@ -12,6 +12,7 @@
 #include "CZLayer.h"
 #include "../CZUtil.h"
 #include "CZPainting.h"
+#include "CZActiveState.h"
 #include "../graphic/glDef.h"
 
 CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
@@ -658,6 +659,41 @@ bool CZLayer::isEditable()
 char *CZLayer::getUUID()
 {
     return uuid;
+}
+
+/// 填充
+bool CZLayer::fill(CZColor &c, CZ2DPoint &p)
+{
+    CZSize size = ptrPainting->getDimensions();
+    if(p.x >= size.width || p.x < 0
+       || p.y >= size.height || p.y <0)
+    {
+        LOG_ERROR("fill center is beyond the painting range!\n");
+        return false;
+    }
+    
+    /// get the original texture data
+    CZImage *img = imageData();
+    bool ret = img->modifyDataFrom((int)p.x,(int)p.y,c.red,c.green,c.blue,c.alpha);
+    if(ret)
+//    bool ret;
+//    for (int i=0; i<img->width; i++) {
+//        for (int j=0; j<img->height; j++) {
+//            ;
+//        }
+//    }
+    
+    {
+        ptrGLContext->setAsCurrent();
+        delete myTexture;
+        myTexture = CZTexture::produceFromImage(img);
+    }
+    
+    delete img;
+    
+    CZActiveState::getInstance()->colorFillMode = false;
+    
+    return ret;
 }
 
 /// 实现coding的接口
