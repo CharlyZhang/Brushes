@@ -19,7 +19,7 @@ using namespace std;
 
 typedef struct Position {int x,y; Position(int x_, int y_) {x = x_; y = y_;}} Position;
 
-CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */, void* data_ /*= NULL*/)
+CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */, const void* data_ /*= NULL*/)
 {
 	width = w_;
 	height = h_;
@@ -36,7 +36,7 @@ CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_
 		LOG_ERROR("ImageMode is illegal!\n");
 		n = 0;
 	}
-
+    
 	if(type == 0)
 	{
 		data = (void*) new unsigned char[n*width*height];
@@ -324,7 +324,7 @@ bool CZImage::getColorAt(int x, int y, float color[])
 	{
 	case RGB_BYTE:	
 		b_data = &((unsigned char*)data)[(y*width+x)*3];
-		for(int i=0; i<3; i++)	color[i] = b_data[i] / 256.0f;
+		for(int i=0; i<3; i++)	color[i] = b_data[i] / 255.0f;
 		color[3] = 0.0f;
 		break;
 	case RGB_FLOAT:
@@ -334,7 +334,7 @@ bool CZImage::getColorAt(int x, int y, float color[])
 		break;
 	case RGBA_BYTE:		
 		b_data = &((unsigned char*)data)[(y*width+x)*4];
-		for(int i=0; i<4; i++)	color[i] = b_data[i] / 256.0f;
+		for(int i=0; i<4; i++)	color[i] = b_data[i] / 255.0f;
 		break;
 	case RGBA_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*4];

@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BrushesDemo/BrushesDemo/MainViewController.mm"
-            timestampString = "457931742.149159"
+            timestampString = "457954404.811832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -39,13 +39,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../core/painting/CZLayer.mm"
-            timestampString = "457943259.622955"
+            filePath = "BrushesDemo/BrushesDemo/MainViewController.mm"
+            timestampString = "457957067.483997"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "676"
-            endingLineNumber = "676"
-            landmarkName = "CZLayer::fill(CZColor &amp;c, CZ2DPoint &amp;p)"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "-insertImageButton:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

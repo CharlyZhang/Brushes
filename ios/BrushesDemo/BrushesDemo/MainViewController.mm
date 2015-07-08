@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #include "BrushesCore.h"
 #include "EAGLView.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 #define BOTTOM_OFFSET   72
 
@@ -115,22 +116,50 @@
     self.colorFillSwitcher = sender;
     CZActiveState::getInstance()->colorFillMode = true;
 }
+- (IBAction)insertImageButton:(UIButton *)sender {
+    UIImage *image = [UIImage imageNamed:@"profile.jpg"];
+   
+    CGImageRef img = image.CGImage;
+    
+    //数据源提供者
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    // provider’s data.
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    //宽，高，data
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    size_t componentNum = CGImageGetBitsPerPixel(img) / CGImageGetBitsPerComponent(img);
+    StorageMode mode;
+    if (componentNum == 3) {
+        mode = RGB_BYTE;
+    }
+    else {
+        mode = RGBA_BYTE;
+    }
+    
+    CZImage *brushImg = new CZImage(width,height,mode,(void*)CFDataGetBytePtr(inBitmapData));
+    CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
+    
+    painting->getActiveLayer()->renderImage(brushImg, trans);
+    canvas->drawView();
+}
 
 #pragma mark - BrushCore Related Methods
 
 - (void)setBrushSize:(float) value {
-    NSLog(@"current size : %f",value);
+    NSLog(@"current size: %f",value);
     CZBrush *ptrActiveBrush = CZActiveState::getInstance()->getActiveBrush();
     ptrActiveBrush->weight.value = value;
 }
 
 - (void)updatePaintColor {
-    NSLog(@"current color : (%f,%f,%f)",red,green,blue);
+    NSLog(@"current color: (%f,%f,%f)",red,green,blue);
     CZActiveState::getInstance()->setPaintColor(red, green, blue);
 }
 
 - (void)selectBrush:(NSUInteger) brushIdx {
-    NSLog(@"selected brush index:%d",brushIdx);
+    NSLog(@"selected brush index: %d",brushIdx);
     CZActiveState::getInstance()->setActiveBrush(brushIdx);
 }
 

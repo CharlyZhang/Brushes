@@ -11,6 +11,7 @@
 
 #include "basic/CZSize.h"
 #include "basic/CZRect.h"
+#include "basic/CZAffineTransform.h"
 
 #include "brush/CZBrush.h"
 

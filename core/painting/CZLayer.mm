@@ -487,7 +487,19 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
         return;
     }
     
-    bool hasAlpha = false;		///<
+    bool hasAlpha;
+    
+    switch (img->getMode()) {
+        case RGB_BYTE:
+        case RGB_FLOAT:
+            hasAlpha = false;
+            break;
+        case RGBA_BYTE:
+        case RGBA_FLOAT:
+            hasAlpha = true;
+        default:
+            break;
+    }
     
     ptrGLContext->setAsCurrent();
     CZTexture *tex = CZTexture::produceFromImage(img);

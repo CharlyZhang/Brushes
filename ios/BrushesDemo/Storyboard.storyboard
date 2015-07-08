@@ -122,28 +122,47 @@
                                     <action selector="fillColorSwitcher:" destination="Si0-FH-ERo" eventType="valueChanged" id="eBz-rD-BFF"/>
                                 </connections>
                             </switch>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="填充" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9ys-6N-ohT">
+                                <rect key="frame" x="759" y="703" width="49" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r2W-Ib-XPv">
+                                <rect key="frame" x="678" y="702" width="60" height="30"/>
+                                <color key="backgroundColor" red="0.8366102472383915" green="0.60450861594216421" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="插入图片">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="insertImageButton:" destination="Si0-FH-ERo" eventType="touchUpInside" id="JGa-wB-hYZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="kqN-Gq-VLR" secondAttribute="bottom" constant="3" id="0z1-qw-gfx"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="DWK-Rt-fjZ" secondAttribute="bottom" constant="3" id="11B-r8-L73"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="tbc-EQ-Jbm" secondAttribute="bottom" constant="3" id="2Me-Ro-Vh6"/>
+                            <constraint firstItem="9ys-6N-ohT" firstAttribute="leading" secondItem="r2W-Ib-XPv" secondAttribute="trailing" constant="21" id="44F-fT-jWe"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="xcd-Zk-E6v" secondAttribute="bottom" id="7MW-4I-6Bb"/>
                             <constraint firstItem="DWK-Rt-fjZ" firstAttribute="leading" secondItem="xcd-Zk-E6v" secondAttribute="trailing" constant="8" id="A2H-6h-geF"/>
                             <constraint firstItem="tbc-EQ-Jbm" firstAttribute="leading" secondItem="DWK-Rt-fjZ" secondAttribute="trailing" constant="8" id="Duo-Sb-nVp"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="yJ5-G7-ltA" secondAttribute="bottom" id="EcH-1L-CVo"/>
                             <constraint firstItem="Zr8-ni-wW3" firstAttribute="leading" secondItem="tbc-EQ-Jbm" secondAttribute="trailing" constant="8" id="Ikw-Jc-Rce"/>
                             <constraint firstItem="Jma-o7-3qs" firstAttribute="leading" secondItem="DxC-6X-tUQ" secondAttribute="trailing" constant="8" id="J9k-vs-Smb"/>
+                            <constraint firstItem="6SV-Sr-nK0" firstAttribute="leading" secondItem="9ys-6N-ohT" secondAttribute="trailing" constant="2" id="L2z-3a-m50"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="Zr8-ni-wW3" secondAttribute="bottom" constant="3" id="Rvt-bg-2jF"/>
                             <constraint firstItem="kqN-Gq-VLR" firstAttribute="top" secondItem="6SV-Sr-nK0" secondAttribute="bottom" constant="3" id="UrL-re-pcf"/>
                             <constraint firstItem="yJ5-G7-ltA" firstAttribute="leading" secondItem="xk5-7c-UOw" secondAttribute="leadingMargin" id="UzG-U5-WXf"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="DxC-6X-tUQ" secondAttribute="bottom" constant="3" id="V39-Ch-rIm"/>
                             <constraint firstItem="kqN-Gq-VLR" firstAttribute="leading" secondItem="Zr8-ni-wW3" secondAttribute="trailing" constant="8" id="Vjb-bW-UKW"/>
+                            <constraint firstItem="Zr8-ni-wW3" firstAttribute="top" secondItem="9ys-6N-ohT" secondAttribute="bottom" constant="2" id="YIg-S4-Ryb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="k9w-AW-wbv" secondAttribute="trailing" constant="4" id="dDP-UX-dRZ"/>
                             <constraint firstItem="PHI-Tb-rCg" firstAttribute="leading" secondItem="Jma-o7-3qs" secondAttribute="trailing" constant="8" id="e4S-io-kQq"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="k9w-AW-wbv" secondAttribute="bottom" id="ewc-DD-Onr"/>
                             <constraint firstItem="DxC-6X-tUQ" firstAttribute="leading" secondItem="yJ5-G7-ltA" secondAttribute="trailing" constant="8" id="hVY-J5-GSD"/>
                             <constraint firstItem="k9w-AW-wbv" firstAttribute="leading" secondItem="kqN-Gq-VLR" secondAttribute="trailing" constant="8" id="mCe-SM-RW7"/>
+                            <constraint firstItem="Zr8-ni-wW3" firstAttribute="top" secondItem="r2W-Ib-XPv" secondAttribute="bottom" constant="3" id="op5-xy-KPJ"/>
                             <constraint firstItem="xcd-Zk-E6v" firstAttribute="leading" secondItem="PHI-Tb-rCg" secondAttribute="trailing" constant="8" id="r7t-8h-FHa"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="PHI-Tb-rCg" secondAttribute="bottom" constant="3" id="t79-wY-87a"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="Jma-o7-3qs" secondAttribute="bottom" id="tgz-Br-3xF"/>
