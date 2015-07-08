@@ -95,6 +95,8 @@ public:
 
 	/// 获取激活图层
 	CZLayer* getActiveLayer();
+    /// get layer number
+    int getLayersNumber();
 
 	/// 获取着色器
 	CZShader* getShader(std::string name);

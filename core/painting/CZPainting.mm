@@ -438,6 +438,12 @@ CZLayer* CZPainting::getActiveLayer()
     return layers.at(activeLayerInd);
 }
 
+/// get layer number
+int CZPainting::getLayersNumber()
+{
+    return layers.size();
+}
+
 /// 获取着色器
 CZShader* CZPainting::getShader(string name)
 {

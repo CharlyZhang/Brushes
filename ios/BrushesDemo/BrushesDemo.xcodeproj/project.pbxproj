@@ -29,6 +29,7 @@
 		2D8F24E91B4A76E800D1B5DF /* radialFade.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24DB1B4A76E800D1B5DF /* radialFade.frag */; };
 		2D8F24EA1B4A76E800D1B5DF /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24DC1B4A76E800D1B5DF /* unPremultipliedBlit.frag */; };
 		2D8F24EC1B4BC82C00D1B5DF /* profile.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24EB1B4BC82C00D1B5DF /* profile.jpg */; };
+		2D8F24F71B4CD0F600D1B5DF /* LayersTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D8F24F61B4CD0F600D1B5DF /* LayersTableViewController.mm */; };
 		2DB759361A10B938009E05B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759351A10B938009E05B8 /* Foundation.framework */; };
 		2DB759381A10B938009E05B8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759371A10B938009E05B8 /* CoreGraphics.framework */; };
 		2DB7593A1A10B938009E05B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759391A10B938009E05B8 /* UIKit.framework */; };
@@ -81,6 +82,8 @@
 		2D8F24DB1B4A76E800D1B5DF /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = radialFade.frag; path = ../../../../core/glsl/radialFade.frag; sourceTree = "<group>"; };
 		2D8F24DC1B4A76E800D1B5DF /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = unPremultipliedBlit.frag; path = ../../../../core/glsl/unPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2D8F24EB1B4BC82C00D1B5DF /* profile.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile.jpg; sourceTree = "<group>"; };
+		2D8F24F51B4CD0F600D1B5DF /* LayersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersTableViewController.h; sourceTree = "<group>"; };
+		2D8F24F61B4CD0F600D1B5DF /* LayersTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LayersTableViewController.mm; sourceTree = "<group>"; };
 		2DB759321A10B938009E05B8 /* BrushesDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrushesDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB759351A10B938009E05B8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2DB759371A10B938009E05B8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -195,6 +198,8 @@
 				2DB759451A10B938009E05B8 /* BrushesAppDelegate.m */,
 				2DB759641A10B9DA009E05B8 /* MainViewController.h */,
 				2DB759651A10B9DA009E05B8 /* MainViewController.mm */,
+				2D8F24F51B4CD0F600D1B5DF /* LayersTableViewController.h */,
+				2D8F24F61B4CD0F600D1B5DF /* LayersTableViewController.mm */,
 				2DB759471A10B938009E05B8 /* Images.xcassets */,
 				2D8F24EB1B4BC82C00D1B5DF /* profile.jpg */,
 				2D8F24CD1B4A4AFF00D1B5DF /* Storyboard.storyboard */,
@@ -356,6 +361,7 @@
 				2DB759461A10B938009E05B8 /* BrushesAppDelegate.m in Sources */,
 				2D63C8D01B46516D0024AF37 /* memo.md in Sources */,
 				2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */,
+				2D8F24F71B4CD0F600D1B5DF /* LayersTableViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

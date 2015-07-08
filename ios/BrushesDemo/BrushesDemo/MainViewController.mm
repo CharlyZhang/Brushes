@@ -9,11 +9,12 @@
 #import "MainViewController.h"
 #include "BrushesCore.h"
 #include "EAGLView.h"
+#import "LayersTableViewController.h"
 #import <CoreGraphics/CoreGraphics.h>
 
 #define BOTTOM_OFFSET   72
 
-@interface MainViewController ()<UIPickerViewDelegate,UIPickerViewDataSource>
+@interface MainViewController ()<UIPickerViewDelegate, UIPickerViewDataSource>
 //<UITextFieldDelegate>
 {
     CZCanvas *canvas;
@@ -21,9 +22,14 @@
     
     float red,green,blue;
     NSArray *brushesName;
+    
+    UIPopoverController *popoverController_;
+    LayersTableViewController *layerController_;
+    NSInteger currentLayerIdx;
 }
 @property (retain, nonatomic) IBOutlet UIPickerView *brushesSelectView;
 @property (assign, nonatomic) UISwitch *colorFillSwitcher;
+@property (assign, nonatomic) NSInteger layersNumber;
 
 @end
 
@@ -46,6 +52,8 @@
     delete painting;
     [_brushesSelectView release];
     [brushesName release];
+    [layerController_ release];
+    [popoverController_ release];
     [super dealloc];
 }
 
@@ -72,6 +80,7 @@
     [self updatePaintColor];
     brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",nil];
     self.colorFillSwitcher = nil;
+    self.layersNumber = painting->getLayersNumber();
 }
 
 - (BOOL)shouldAutorotate {
@@ -116,6 +125,7 @@
     self.colorFillSwitcher = sender;
     CZActiveState::getInstance()->colorFillMode = true;
 }
+
 - (IBAction)insertImageButton:(UIButton *)sender {
     UIImage *image = [UIImage imageNamed:@"profile.jpg"];
    
@@ -142,6 +152,38 @@
     CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
     
     painting->getActiveLayer()->renderImage(brushImg, trans);
+    canvas->drawView();
+}
+
+
+- (IBAction)layerButton:(UIButton *)sender {
+        
+    if (!layerController_) {
+        layerController_ = [[LayersTableViewController alloc]init];
+//        layerController_ = [[LayersTableViewController alloc] initWithNibName:@"Layers" bundle:nil];
+        layerController_.painting = painting;
+//        layerController_.delegate = self;
+        
+        popoverController_ = [[UIPopoverController alloc] initWithContentViewController:layerController_];
+    }
+    
+    [popoverController_ presentPopoverFromRect:CGRectInset(((UIView *) sender).bounds, 10, 10)
+                                        inView:sender
+                      permittedArrowDirections:(UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown)
+                                      animated:YES];
+}
+
+- (IBAction)controlLayerStepper:(UIStepper *)sender {
+    NSLog(@"layer number is %f",sender.value);
+    
+    if (sender.value > self.layersNumber) {
+        painting->addNewLayer();
+    }
+    else if (sender.value < self.layersNumber) {
+        painting->deleteActiveLayer();
+    }
+    
+    self.layersNumber = sender.value;
     canvas->drawView();
 }
 
