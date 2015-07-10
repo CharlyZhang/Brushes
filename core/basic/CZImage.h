@@ -37,8 +37,8 @@ public:
 private:
 	/// 修改
 	void modifyData(int x,int y, float fillcolor[]);
-	/// 是否需要修改
-	inline bool needsModify(int x,int y, float compareColor[]);
+	/// 是否颜色相同
+	inline bool isSameColorAt(int x,int y, float compareColor[]);
 	/// 获取某点颜色
 	bool getColorAt(int x, int y, float color[]);
 
@@ -48,7 +48,7 @@ public:
 
 private:
 	StorageMode	mode;
-	bool		*isSearched;///< 用于填充的辅助数组
+	bool		*flag;///< 用于填充的辅助数组
 };
 
 #endif

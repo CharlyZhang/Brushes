@@ -304,7 +304,7 @@ void CZTool::paintPath(CZPath &path)
 	
 	CZRect pathBounds = ptrPainting->paintStroke(&path,ptrRandomizer,clearBuffer);
 
-	strokeBounds.unionWith(pathBounds);
+    strokeBounds = strokeBounds.unionWith(pathBounds);
 	lastRemainder = path.remainder;
 
 	//[canvas drawViewInRect:pathBounds];

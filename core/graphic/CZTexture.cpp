@@ -95,6 +95,44 @@ CZTexture* CZTexture::produceFromImage(CZImage *img)
 	return ret;
 }
 
+/// 用图片数据修改纹理
+bool CZTexture::modifyWith(CZImage *img)
+{
+	if(img == NULL)
+	{
+		LOG_ERROR("img is NULL!\n");
+		return false;
+	}
+
+	if (img->getMode() != mode)
+	{
+		LOG_ERROR("img's mode doesn't match texture mode!\n");
+		return false;
+	}
+
+	glBindTexture(GL_TEXTURE_2D,texId);
+
+	switch(mode) 
+	{
+	case RGB_BYTE:
+		glTexSubImage2D(GL_TEXTURE_2D,0,0,0,img->width,img->height,GL_RGB,GL_UNSIGNED_BYTE,img->data);
+		break;
+	case RGBA_BYTE:
+		glTexSubImage2D(GL_TEXTURE_2D,0,0,0,img->width,img->height,GL_RGBA,GL_UNSIGNED_BYTE,img->data);
+		break;
+	case RGB_FLOAT:
+		glTexSubImage2D(GL_TEXTURE_2D,0,0,0,img->width,img->height,GL_RGB,GL_FLOAT,img->data);
+		break;
+	case RGBA_FLOAT:
+		glTexSubImage2D(GL_TEXTURE_2D,0,0,0,img->width,img->height,GL_RGBA,GL_FLOAT,img->data);
+		break;
+	default:
+		LOG_ERROR("illegal imgMode!\n");
+	}
+
+	return true;
+}
+
 /// 获取其对应的图像数据
 CZImage *CZTexture::toImage()
 {

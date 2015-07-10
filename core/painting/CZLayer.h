@@ -30,13 +30,22 @@
 class CZPainting;
 class CZRect;
 
-typedef	enum BlendMode		///< 混合模式
+typedef	enum BlendMode				///< 混合模式
 {
 	kBlendModeNormal,
 	kBlendModeMultiply,
 	kBlendModeScreen,
 	kBlendModeExclusion
 } BlendMode;
+
+class CZPaintingFragment		///< 绘制片段
+{
+public:
+	CZPaintingFragment(CZImage *data_,CZRect &rect):data(data_),bounds(rect){};
+	~CZPaintingFragment()	{delete data;}
+	CZImage *data;
+	CZRect  bounds;
+};
 
 /// 图层类
 class CZLayer : public CZCoding
@@ -93,6 +102,10 @@ public:
 	///		\ret	   - 若img不为空，则设置陈宫
 	///		\note 调用此函数将覆盖之前对该层的所有绘制
 	bool setImage(CZImage *img);
+	/// 撤销操作
+	bool undoAction();
+	/// 重做操作
+	bool redoAction();
 
 	/// 切换可见性
 	void toggleVisibility();
@@ -133,6 +146,8 @@ private:
 	void configureBlendMode();
 	/// 将纹理转换后绘制			
 	void blit(CZMat4 &projection, const CZAffineTransform &transform);
+	/// 注册撤销操作
+	void registerUndoInRect(CZRect &rect);
 
 private:
 	bool visible;								///< 是否可见
@@ -150,6 +165,8 @@ private:
 	CZSaveStatus isSaved;						///< 图层存储状态
 	CZTexture *myTexture;						///< 自身纹理
 	CZTexture *hueChromaLuma;					///
+	CZPaintingFragment *undoFragment, *redoFragment;
+												///< 撤销和重做的片段
 
 	CZGLContext *ptrGLContext;					///< gl上下文
 	char* uuid;									///< 编号

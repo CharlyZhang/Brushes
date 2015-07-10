@@ -218,7 +218,7 @@ GLvoid DrawGLScene(GLvoid)
 	//glRectf(-5, -5, 5, 5); 
 	//return ;
 
-#if RENDER_FREEHAND &&0
+#if RENDER_FREEHAND 
 	//painting->getRender()->drawViewInRect();	///!!! 这个绘制应该由tool调用paintPath时发notification调用
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);	/// 为了模拟填充白色底板
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -226,17 +226,20 @@ GLvoid DrawGLScene(GLvoid)
 	proj.SetOrtho(0,windowWidth,0,windowHeight,-1.0f,1.0f);
 	painting->blit(proj);
 
+	/*glColor4f(1,0,0,1);
+	CZRect rect = CZActiveState::getInstance()->getActiveTool()->strokeBounds;
+	glBegin(GL_LINE_LOOP);
+		glVertex3f(rect.origin.x,rect.origin.y,0);
+		glVertex3f(rect.origin.x+rect.size.width,rect.origin.y,0);
+		glVertex3f(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height,0);
+		glVertex3f(rect.origin.x,rect.origin.y+rect.size.height,0);
+	glEnd();*/
 	// restore blending functions
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	canvas->isDirty = false;
 	LOG_INFO("draw\n");
 	return;
 #endif
-	delete screenImg;
-	delete showTex;
-	 screenImg = painting->imageWithSize(CZSize(windowWidth,windowHeight),&CZColor::whiteColor());
-	showTex = CZTexture::produceFromImage(screenImg);
-	glBindTexture(GL_TEXTURE_2D, showTex->texId);
 
 #if STAMP_TEX
 	glClearColor(0.0,0.0,0.0,1.0);
@@ -667,6 +670,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				CZActiveState::getInstance()->setEraseMode(erase);
 				keys['E'] = false;
 			}
+#if RENDER_FREEHAND
 			if (keys['T'])
 			{
 				CZLayer *layer = painting->getActiveLayer();
@@ -674,11 +678,24 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				canvas->isDirty = true;
 				keys['T'] = false;
 			}
-#if RENDER_FREEHAND
 			if (keys['S'])
 			{
 				painting->moveLayer(0,1);
 				keys['S'] = false;
+			}
+			if (keys['O'])
+			{
+				CZLayer *layer = painting->getActiveLayer();
+				layer->undoAction();
+				canvas->isDirty = true;
+				keys['O'] = false;
+			}
+			if (keys['P'])
+			{
+				CZLayer *layer = painting->getActiveLayer();
+				layer->redoAction();
+				canvas->isDirty = true;
+				keys['P'] = false;
 			}
 #endif
 		}

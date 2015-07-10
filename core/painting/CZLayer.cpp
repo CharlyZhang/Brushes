@@ -40,6 +40,8 @@ CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
 	}
 
 	uuid = CZUtil::generateUUID();
+
+	undoFragment = redoFragment = NULL;
 }
 CZLayer::~CZLayer()
 {
@@ -339,7 +341,7 @@ void CZLayer::blit(CZMat4 &projection, CZTexture *maskTexture, CZColor &bgColor)
 /// 将绘制的笔画合并到当前图层
 void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable)
 {
-	//if (undoable) [self registerUndoInRect:bounds];
+	if (undoable) registerUndoInRect(bounds);
 
 	//ptrPainting->beginSuppressingNotifications();
 
@@ -602,6 +604,49 @@ bool CZLayer::setImage(CZImage *img)
     return true;
 }
 
+/// 撤销操作
+bool CZLayer::undoAction()
+{
+	if (undoFragment)
+	{
+		/// save redo PaintingFragment
+		if (redoFragment) delete redoFragment;
+		CZImage *currentImg = imageDataInRect(undoFragment->bounds);
+		redoFragment = new CZPaintingFragment(currentImg,undoFragment->bounds);
+
+		/// take undo action
+		GLint xoffset = (GLint)undoFragment->bounds.getMinX();
+		GLint yoffset = (GLint)undoFragment->bounds.getMinY();
+		GLsizei width = (GLsizei)undoFragment->bounds.size.width;
+		GLsizei height = (GLsizei)undoFragment->bounds.size.height;
+
+		glBindTexture(GL_TEXTURE_2D, myTexture->texId);
+		glTexSubImage2D(GL_TEXTURE_2D,0,xoffset,yoffset,width,height,GL_RGBA,GL_FLOAT,undoFragment->data->data);
+	}
+	else return false;
+
+	return true;
+}
+
+/// 重做操作
+bool CZLayer::redoAction()
+{
+	if (redoFragment)
+	{
+		/// take redo action
+		GLint xoffset = (GLint)redoFragment->bounds.getMinX();
+		GLint yoffset = (GLint)redoFragment->bounds.getMinY();
+		GLsizei width = (GLsizei)redoFragment->bounds.size.width;
+		GLsizei height = (GLsizei)redoFragment->bounds.size.height;
+
+		glBindTexture(GL_TEXTURE_2D, myTexture->texId);
+		glTexSubImage2D(GL_TEXTURE_2D,0,xoffset,yoffset,width,height,GL_RGBA,GL_FLOAT,redoFragment->data->data);
+	}
+	else return false;
+
+	return true;
+}
+
 /// 切换可见性
 void CZLayer::toggleVisibility()
 {
@@ -677,8 +722,7 @@ bool CZLayer::fill(CZColor &c, CZ2DPoint &p)
 	if(ret)
 	{
 		ptrGLContext->setAsCurrent();
-		delete myTexture;
-		myTexture = CZTexture::produceFromImage(img);
+		myTexture->modifyWith(img);
 	}
 	
 	delete img;
@@ -820,4 +864,14 @@ void CZLayer::blit(CZMat4 &projection, const CZAffineTransform &trans)
 	shader->end();
 
 	CZCheckGLError();
+}
+
+/// 注册撤销操作
+void CZLayer::registerUndoInRect(CZRect &rect)
+{
+	if (undoFragment) delete undoFragment;
+	
+	CZRect newRect = rect.intersectWith(ptrPainting->getBounds());
+	CZImage *currentImg = imageDataInRect(newRect);
+	undoFragment = new CZPaintingFragment(currentImg,newRect);
 }
