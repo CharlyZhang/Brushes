@@ -149,6 +149,10 @@ private:
 	/// 注册撤销操作
 	void registerUndoInRect(CZRect &rect);
 
+public:
+	bool canRedo,canUndo;
+	CZRect modifiedRect;
+
 private:
 	bool visible;								///< 是否可见
 	bool alphaLocked;							///< alpha是否锁定
@@ -158,7 +162,7 @@ private:
 	CZHueSaturation *hueSaturation;				///< 调整色调饱和度
 	BlendMode blendMode;						///< 混合模式
 	CZAffineTransform transform;				///< 变换矩阵
-	float opacity;								///< 不透明度[0.0, 1.0]
+	float opacity;								///< 不透明度[0.0, 1.0]			
 
 	CZPainting *ptrPainting;					///< 某次绘制
 	CZImage *image;								///< 该图层图像（用于建立初始图层纹理）

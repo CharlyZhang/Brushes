@@ -23,7 +23,7 @@ public:
 	/// 由CZImage生成纹理
 	static CZTexture* produceFromImage(CZImage *img);
 	/// 用图片数据修改纹理
-	bool modifyWith(CZImage *img);
+	bool modifyWith(CZImage *img,int x = 0, int y = 0);
 
 	/// 获取图片模式
 	StorageMode getMode() {return mode;};

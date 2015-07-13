@@ -42,6 +42,8 @@ CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
 	uuid = CZUtil::generateUUID();
 
 	undoFragment = redoFragment = NULL;
+
+	canRedo = canUndo = false;
 }
 CZLayer::~CZLayer()
 {
@@ -488,6 +490,10 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
 		return;
 	}
 	
+	/// register undo fragment
+	CZRect rect(0,0,img->width,img->height);
+	registerUndoInRect(trans.applyToRect(rect));
+
 	bool hasAlpha = false;		///< 
 
 	ptrGLContext->setAsCurrent();
@@ -520,7 +526,7 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
 	glBindTexture(GL_TEXTURE_2D,tex->texId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	CZRect rect(0,0,img->width,img->height);
+	/// render image
 	CZUtil::drawRect(rect,trans);
 
 	shader->end();
@@ -607,12 +613,13 @@ bool CZLayer::setImage(CZImage *img)
 /// 撤销操作
 bool CZLayer::undoAction()
 {
-	if (undoFragment)
+	if (canUndo && undoFragment)
 	{
 		/// save redo PaintingFragment
 		if (redoFragment) delete redoFragment;
 		CZImage *currentImg = imageDataInRect(undoFragment->bounds);
 		redoFragment = new CZPaintingFragment(currentImg,undoFragment->bounds);
+		canRedo = true;
 
 		/// take undo action
 		GLint xoffset = (GLint)undoFragment->bounds.getMinX();
@@ -622,6 +629,7 @@ bool CZLayer::undoAction()
 
 		glBindTexture(GL_TEXTURE_2D, myTexture->texId);
 		glTexSubImage2D(GL_TEXTURE_2D,0,xoffset,yoffset,width,height,GL_RGBA,GL_FLOAT,undoFragment->data->data);
+		canUndo = false;
 	}
 	else return false;
 
@@ -631,7 +639,7 @@ bool CZLayer::undoAction()
 /// 重做操作
 bool CZLayer::redoAction()
 {
-	if (redoFragment)
+	if (canRedo && redoFragment)
 	{
 		/// take redo action
 		GLint xoffset = (GLint)redoFragment->bounds.getMinX();
@@ -641,6 +649,8 @@ bool CZLayer::redoAction()
 
 		glBindTexture(GL_TEXTURE_2D, myTexture->texId);
 		glTexSubImage2D(GL_TEXTURE_2D,0,xoffset,yoffset,width,height,GL_RGBA,GL_FLOAT,redoFragment->data->data);
+		canRedo = false;
+		canUndo = true;
 	}
 	else return false;
 
@@ -718,16 +728,23 @@ bool CZLayer::fill(CZColor &c, CZ2DPoint &p)
 
 	/// get the original texture data
 	CZImage *img = imageData();
-	bool ret = img->modifyDataFrom((int)p.x,(int)p.y,c.red,c.green,c.blue,c.alpha);
-	if(ret)
+	CZImage *inverseImg = img->modifyDataFrom((int)p.x,(int)p.y,c.red,c.green,c.blue,c.alpha,modifiedRect);
+	
+	/// fill the area and save undo fragment
+	if(inverseImg)
 	{
 		ptrGLContext->setAsCurrent();
-		myTexture->modifyWith(img);
+		myTexture->modifyWith(img,modifiedRect.origin.x,modifiedRect.origin.y);
+
+		if (undoFragment) delete undoFragment;;
+		undoFragment = new CZPaintingFragment(inverseImg,modifiedRect);
+
+		canUndo = true;
 	}
 	
 	delete img;
 
-	return ret;
+	return true;
 }
 
 /// 实现coding的接口
@@ -874,4 +891,6 @@ void CZLayer::registerUndoInRect(CZRect &rect)
 	CZRect newRect = rect.intersectWith(ptrPainting->getBounds());
 	CZImage *currentImg = imageDataInRect(newRect);
 	undoFragment = new CZPaintingFragment(currentImg,newRect);
+
+	canUndo = true;
 }

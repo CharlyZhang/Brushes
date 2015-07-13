@@ -13,6 +13,7 @@
 #define _CZIMAGE_H_
 
 #include "../CZDefine.h"
+#include "CZRect.h"
 
 typedef enum StorageMode 
 {
@@ -30,13 +31,16 @@ public:
 	/// 深度拷贝函数
 	CZImage* copy();
 	/// 填充（采用广搜）
-	bool modifyDataFrom(int x,int y, float red, float green, float blue, float alpha);
-	bool modifyDataFrom1(int x,int y, float red, float green, float blue, float alpha);
+	///		\ret - 返回填充区域的图片数据
+	///		\note - 该方法会修改本图像的大小
+	CZImage* modifyDataFrom(int x,int y, float red, float green, float blue, float alpha, CZRect &modifiedRect);
+	CZImage* modifyDataFrom1(int x,int y, float red, float green, float blue, float alpha, CZRect &modifiedRect);
 	/// 扫描线算法(封闭)
 	void ScanLineFill(int x,int y, float r, float g, float b, float a);
 private:
 	/// 修改
 	void modifyData(int x,int y, float fillcolor[]);
+	void modifyArea(CZImage * &backupImg,CZRect rect, float fillColor[]);
 	/// 是否颜色相同
 	inline bool isSameColorAt(int x,int y, float compareColor[]);
 	/// 获取某点颜色

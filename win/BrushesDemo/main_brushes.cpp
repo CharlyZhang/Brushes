@@ -146,22 +146,6 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	canvas->setPaiting(painting);
 #endif
 
-#if RENDER_IMGAGE
-	
-	long width, height;
-	width = height = 128;
-	unsigned char *buf = NULL;
-	CZUtil::loadBMP(BmpImageName,buf,width,height);
-
-	CZImage *img = new CZImage((int)width,(int)height,RGB_BYTE,(void*)buf);
-	painting->getActiveLayer()->renderImage(img,CZAffineTransform::makeFromTranslation(100,100));
-	//showTex = new CZTexture(width,height,RGB_BYTE,(void*)buf);
-	//glBindTexture(GL_TEXTURE_2D, showTex->texId);
-	delete img;
-	free(buf);
-
-	painting->addNewLayer();
-#endif
 	return true;
 }
 
@@ -226,13 +210,13 @@ GLvoid DrawGLScene(GLvoid)
 	proj.SetOrtho(0,windowWidth,0,windowHeight,-1.0f,1.0f);
 	painting->blit(proj);
 
-	/*glColor4f(1,0,0,1);
-	CZRect rect = CZActiveState::getInstance()->getActiveTool()->strokeBounds;
+	/*glColor4f(0,1,0,1);
+	CZRect rect = painting->getActiveLayer()->modifiedRect;
 	glBegin(GL_LINE_LOOP);
-		glVertex3f(rect.origin.x,rect.origin.y,0);
-		glVertex3f(rect.origin.x+rect.size.width,rect.origin.y,0);
-		glVertex3f(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height,0);
-		glVertex3f(rect.origin.x,rect.origin.y+rect.size.height,0);
+	glVertex3f(rect.origin.x,rect.origin.y,0);
+	glVertex3f(rect.origin.x+rect.size.width,rect.origin.y,0);
+	glVertex3f(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height,0);
+	glVertex3f(rect.origin.x,rect.origin.y+rect.size.height,0);
 	glEnd();*/
 	// restore blending functions
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -696,6 +680,24 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				layer->redoAction();
 				canvas->isDirty = true;
 				keys['P'] = false;
+			}
+#endif
+#if RENDER_IMGAGE
+			if (keys['I'])
+			{
+				long width, height;
+				width = height = 128;
+				unsigned char *buf = NULL;
+				CZUtil::loadBMP(BmpImageName,buf,width,height);
+				CZImage *img = new CZImage((int)width,(int)height,RGB_BYTE,(void*)buf);
+				painting->getActiveLayer()->renderImage(img,CZAffineTransform::makeFromTranslation(100,100));
+				//showTex = new CZTexture(width,height,RGB_BYTE,(void*)buf);
+				//glBindTexture(GL_TEXTURE_2D, showTex->texId);
+				delete img;
+				free(buf);
+				canvas->isDirty = true;
+				//painting->addNewLayer();
+				keys['I'] = false;
 			}
 #endif
 		}
