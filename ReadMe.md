@@ -5,3 +5,5 @@
 ## 版本
 * master 	- 主分支
 * develop1	- 尝试将平台相关的绘制代码封装到Render类中统一处理
+* win		- windows上开发版本
+* ios		- ios系统上开发版本

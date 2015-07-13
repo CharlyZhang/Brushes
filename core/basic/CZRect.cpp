@@ -26,13 +26,43 @@ CZRect CZRect::unionWith(const CZRect & rect_)
 	return CZRect(minX, minY, maxX-minX, maxY-minY);
 }
 
+/// 求与其他矩形的交集
+CZRect CZRect::intersectWith(const CZRect & rect_)
+{
+	if(!isZeroRect() && !rect_.isZeroRect())
+	{
+		float minX1 = getMinX();	float minX2 = rect_.getMinX();
+		float minY1 = getMinY();	float minY2 = rect_.getMinY();
+		float maxX1 = getMaxX();	float maxX2 = rect_.getMaxX();
+		float maxY1 = getMaxY();	float maxY2 = rect_.getMaxY();
+
+		if ((maxX1 > minX2) &&
+			(minX1 < maxX2) &&
+			(minY1 < maxY2) &&
+			(maxY1 > minY2))
+		{
+			CZRect temp;
+
+			// fill in temp with the intersection
+			temp.origin.x = (minX1 > minX2) ? minX1 : minX2;
+			temp.origin.y = (minY1 > minY2) ? minY1 : minY2;
+			temp.size.width = ((maxX1 < maxX2) ? maxX1 : maxX2)-temp.origin.x;
+			temp.size.height = ((maxY1 < maxY2) ? maxY1 : maxY2)-temp.origin.y;
+
+			return temp;
+		}
+	}
+
+	return  CZRect();
+}
+
 /// 扩展的整数矩形
 CZRect CZRect::expandToIntergral()
 {
 	float minX = floor(this->getMinX());
 	float minY = floor(this->getMinY());
 	float maxX = ceil(this->getMaxX());
-	float maxY = ceil(this->getMinY());
+	float maxY = ceil(this->getMaxY());
 
 	return CZRect(minX, minY, maxX-minX, maxY-minY);
 }

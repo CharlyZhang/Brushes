@@ -32,7 +32,7 @@ CZCanvas::CZCanvas(const CZRect rect)
 {
 	ptrPainting = NULL;
 	view = new CZViewImpl(rect);
-	isDirty = false;
+	isDirty = true;
 }
 
 CZCanvas::~CZCanvas()

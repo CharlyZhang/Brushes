@@ -189,26 +189,42 @@ void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*
 /// 生成当前状态的图像（需要在begin和end之前调用）
 CZImage* CZFbo::produceImageForCurrentState()
 {
-    CZImage *ret = new CZImage(width,height,mode);
-    switch(mode)
-    {
-        case RGB_BYTE:
-            glReadPixels(0, 0, width, height,GL_RGB, GL_UNSIGNED_BYTE,ret->data);
-            break;
-        case RGBA_BYTE:
-            glReadPixels(0, 0, width, height,GL_RGBA, GL_UNSIGNED_BYTE,ret->data);
-            break;
-        case RGB_FLOAT:
-            glReadPixels(0, 0, width, height,GL_RGB, GL_FLOAT,ret->data);
-            break;
-        case RGBA_FLOAT:
-            glReadPixels(0, 0, width, height,GL_RGBA, GL_FLOAT,ret->data);
-            break;
-        default:
-            LOG_ERROR("illegal imgMode!\n");
-    }
-    
-    return ret;
+	CZRect rect(0,0,width,height);
+    return produceImageForCurrentState(rect);
+}
+
+CZImage* CZFbo::produceImageForCurrentState(CZRect &rect)
+{
+	if(rect.origin.x < 0 || rect.origin.y < 0 
+		|| rect.origin.x+rect.size.width > width || rect.origin.y+rect.size.height > height)
+	{
+		LOG_ERROR("rect is not inside current fbo area\n");
+		return NULL;
+	}
+
+	int w = rect.size.width;
+	int h = rect.size.height;
+
+	CZImage *ret = new CZImage(w,h,mode);
+	switch(mode)
+	{
+	case RGB_BYTE:
+		glReadPixels(0, 0, w, h,GL_RGB, GL_UNSIGNED_BYTE,ret->data);
+		break;
+	case RGBA_BYTE:
+		glReadPixels(0, 0, w, h,GL_RGBA, GL_UNSIGNED_BYTE,ret->data);
+		break;
+	case RGB_FLOAT:
+		glReadPixels(0, 0, w, h,GL_RGB, GL_FLOAT,ret->data);
+		break;
+	case RGBA_FLOAT:
+		glReadPixels(0, 0, w, h,GL_RGBA, GL_FLOAT,ret->data);
+		break;
+	default:
+		LOG_ERROR("illegal imgMode!\n");
+	}
+
+	return ret;
 }
 
 /// 检查状态

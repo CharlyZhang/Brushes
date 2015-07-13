@@ -30,6 +30,8 @@ public:
 	bool isZeroRect() const;
 	/// 合并其他矩形
 	CZRect unionWith(const CZRect & rect_);
+	/// 求与其他矩形的交集
+	CZRect intersectWith(const CZRect & rect_);
 	/// 扩展的整数矩形
 	CZRect expandToIntergral();
 };

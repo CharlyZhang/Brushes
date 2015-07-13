@@ -15,6 +15,7 @@
 #define _CZFBO_H_
 
 #include "CZTexture.h"
+#include "basic/CZRect.h"
 
 class CZFbo
 {
@@ -39,6 +40,7 @@ public:
 
 	/// 生成当前状态的图像（需要在begin和end之前调用）
 	CZImage* produceImageForCurrentState();
+	CZImage* produceImageForCurrentState(CZRect &rect);
 
 public:
 	int width,height;
