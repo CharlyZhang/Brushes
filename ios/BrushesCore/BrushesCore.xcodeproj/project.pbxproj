@@ -157,6 +157,20 @@
 		2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZCanvas.mm; path = ../../../core/CZCanvas.mm; sourceTree = "<group>"; };
 		2D4F33701AE3FAA10067D7A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = ../../../core/BrushesCore.h; sourceTree = "<group>"; };
+		2D8F24F81B4E03A300D1B5DF /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; };
+		2D8F24F91B4E03A300D1B5DF /* basicColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicColor.frag; sourceTree = "<group>"; };
+		2D8F24FA1B4E03A300D1B5DF /* basicWithCoord.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicWithCoord.vert; sourceTree = "<group>"; };
+		2D8F24FB1B4E03A300D1B5DF /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.frag; sourceTree = "<group>"; };
+		2D8F24FC1B4E03A300D1B5DF /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vert; sourceTree = "<group>"; };
+		2D8F24FD1B4E03A300D1B5DF /* blitWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithEraseMask.frag; sourceTree = "<group>"; };
+		2D8F24FE1B4E03A300D1B5DF /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithMask.frag; sourceTree = "<group>"; };
+		2D8F24FF1B4E03A300D1B5DF /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.frag; sourceTree = "<group>"; };
+		2D8F25001B4E03A300D1B5DF /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.vert; sourceTree = "<group>"; };
+		2D8F25011B4E03A300D1B5DF /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithEraseMask.frag; sourceTree = "<group>"; };
+		2D8F25021B4E03A300D1B5DF /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithMask.frag; sourceTree = "<group>"; };
+		2D8F25031B4E03A300D1B5DF /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = nonPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2D8F25041B4E03A300D1B5DF /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = radialFade.frag; sourceTree = "<group>"; };
+		2D8F25051B4E03A300D1B5DF /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,6 +412,20 @@
 		2D63C8B81B452B8E0024AF37 /* glsl */ = {
 			isa = PBXGroup;
 			children = (
+				2D8F24F81B4E03A300D1B5DF /* basic.vert */,
+				2D8F24F91B4E03A300D1B5DF /* basicColor.frag */,
+				2D8F24FA1B4E03A300D1B5DF /* basicWithCoord.vert */,
+				2D8F24FB1B4E03A300D1B5DF /* blit.frag */,
+				2D8F24FC1B4E03A300D1B5DF /* blit.vert */,
+				2D8F24FD1B4E03A300D1B5DF /* blitWithEraseMask.frag */,
+				2D8F24FE1B4E03A300D1B5DF /* blitWithMask.frag */,
+				2D8F24FF1B4E03A300D1B5DF /* brush.frag */,
+				2D8F25001B4E03A300D1B5DF /* brush.vert */,
+				2D8F25011B4E03A300D1B5DF /* compositeWithEraseMask.frag */,
+				2D8F25021B4E03A300D1B5DF /* compositeWithMask.frag */,
+				2D8F25031B4E03A300D1B5DF /* nonPremultipliedBlit.frag */,
+				2D8F25041B4E03A300D1B5DF /* radialFade.frag */,
+				2D8F25051B4E03A300D1B5DF /* unPremultipliedBlit.frag */,
 			);
 			name = glsl;
 			path = ../../../core/glsl;

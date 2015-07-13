@@ -106,7 +106,7 @@ enum
         painting = NULL;
         
 #if SHOW_STAMP_TEX
-        CZStampGenerator *gen = CZActiveState::getInstance()->getGenerator();
+        CZStampGenerator *gen = CZActiveState::getInstance()->getGenerator(0);
         CZImage *img = gen->getStamp();
         [EAGLContext setCurrentContext:context];
         stampTex = CZTexture::produceFromImage(img);
@@ -130,6 +130,7 @@ enum
         painting = new CZPainting(CZSize(size.width, size.height));
         freehand = CZActiveState::getInstance()->getActiveTool();
         freehand->ptrPainting = painting;
+        CZActiveState::getInstance()->setActiveBrush(1);
         context = (EAGLContext *) painting->getGLContext()->getRealContext();
         [self checkGLError:NO];
 #endif

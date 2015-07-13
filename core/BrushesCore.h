@@ -15,6 +15,8 @@
 
 #include "brush/CZBrush.h"
 
+#include "tool/CZFreehandTool.h"
+
 #include "CZCanvas.h"
 #include "CZActiveState.h"
 
