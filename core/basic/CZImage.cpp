@@ -326,7 +326,7 @@ void CZImage::modifyArea(CZImage * &backupImg,CZRect rect, float fillColor[])
 		unsigned char *backupData = new unsigned char[n*w*h];
 		unsigned char *originalData = (unsigned char*)data;
 		unsigned char *colors = new unsigned char[n];
-		for(int i=0; i<n; i++) colors[i] = unsigned char(fillColor[i]*255);
+		for(int i=0; i<n; i++) colors[i] = (unsigned char)(fillColor[i]*255);
 
 		for(int i=0; i<h; i++)
 		{

@@ -150,7 +150,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="undoButton:" destination="Si0-FH-ERo" eventType="touchUpInside" id="p2E-fB-lGl"/>
+                                    <action selector="undoButtonAction:" destination="Si0-FH-ERo" eventType="touchUpInside" id="a47-H1-QAc"/>
                                 </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6SV-Sr-nK0">
@@ -159,6 +159,16 @@
                                     <action selector="fillColorSwitcher:" destination="Si0-FH-ERo" eventType="valueChanged" id="eBz-rD-BFF"/>
                                 </connections>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7y-a8-NsP">
+                                <rect key="frame" x="248" y="700" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.55076819740000005" green="1" blue="0.30533315030000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="重做">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="redoButtonAction:" destination="Si0-FH-ERo" eventType="touchUpInside" id="HLH-aJ-Ltg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -180,6 +190,7 @@
                             <constraint firstItem="NCU-3w-Jpd" firstAttribute="leading" secondItem="BFK-bJ-pPJ" secondAttribute="trailing" constant="37" id="Nu0-Qj-iK6"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="k9w-AW-wbv" secondAttribute="bottom" id="OqV-nd-k1s"/>
                             <constraint firstItem="k9w-AW-wbv" firstAttribute="leading" secondItem="Zr8-ni-wW3" secondAttribute="trailing" constant="71" id="QKd-Jd-eAB"/>
+                            <constraint firstItem="L7y-a8-NsP" firstAttribute="leading" secondItem="NCU-3w-Jpd" secondAttribute="trailing" constant="19" id="QTw-6p-WTd"/>
                             <constraint firstItem="tbc-EQ-Jbm" firstAttribute="centerY" secondItem="DWK-Rt-fjZ" secondAttribute="centerY" id="Qh6-q9-cLv"/>
                             <constraint firstItem="kqN-Gq-VLR" firstAttribute="leading" secondItem="6SV-Sr-nK0" secondAttribute="trailing" constant="-52" id="TbY-WC-1Qb"/>
                             <constraint firstItem="Jma-o7-3qs" firstAttribute="top" secondItem="xcd-Zk-E6v" secondAttribute="top" id="W1n-u4-Ew2"/>
@@ -187,6 +198,7 @@
                             <constraint firstItem="r2W-Ib-XPv" firstAttribute="centerY" secondItem="NCU-3w-Jpd" secondAttribute="centerY" constant="-1" id="Z6Y-IR-bOE"/>
                             <constraint firstItem="ns0-hQ-mMF" firstAttribute="top" secondItem="DxC-6X-tUQ" secondAttribute="bottom" id="cGO-lG-boR"/>
                             <constraint firstItem="DWK-Rt-fjZ" firstAttribute="leading" secondItem="xcd-Zk-E6v" secondAttribute="trailing" constant="8" id="dva-5h-Gzt"/>
+                            <constraint firstItem="NCU-3w-Jpd" firstAttribute="centerY" secondItem="L7y-a8-NsP" secondAttribute="centerY" id="eHw-j2-ivC"/>
                             <constraint firstItem="PHI-Tb-rCg" firstAttribute="leading" secondItem="Jma-o7-3qs" secondAttribute="trailing" constant="8" id="eR8-ah-Ym8"/>
                             <constraint firstAttribute="trailing" secondItem="Zr8-ni-wW3" secondAttribute="trailing" constant="225" id="fWK-2J-t8d"/>
                             <constraint firstItem="DxC-6X-tUQ" firstAttribute="centerY" secondItem="PHI-Tb-rCg" secondAttribute="centerY" id="fdh-WX-knE"/>
@@ -204,6 +216,8 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="brushesSelectView" destination="k9w-AW-wbv" id="Gvy-9k-Mpq"/>
+                        <outlet property="redoButton" destination="L7y-a8-NsP" id="XNs-BL-y5y"/>
+                        <outlet property="undoButton" destination="NCU-3w-Jpd" id="kYb-SV-nRd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3PH-Oh-sVG" userLabel="First Responder" sceneMemberID="firstResponder"/>

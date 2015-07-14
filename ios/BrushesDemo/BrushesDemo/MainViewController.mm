@@ -30,6 +30,8 @@
 @property (retain, nonatomic) IBOutlet UIPickerView *brushesSelectView;
 @property (assign, nonatomic) UISwitch *colorFillSwitcher;
 @property (assign, nonatomic) NSInteger layersNumber;
+@property (retain, nonatomic) IBOutlet UIButton *undoButton;
+@property (retain, nonatomic) IBOutlet UIButton *redoButton;
 
 @end
 
@@ -54,6 +56,8 @@
     [brushesName release];
     [layerController_ release];
     [popoverController_ release];
+    [_undoButton release];
+    [_redoButton release];
     [super dealloc];
 }
 
@@ -152,6 +156,7 @@
     CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
     
     painting->getActiveLayer()->renderImage(brushImg, trans);
+    self.undoButton.enabled = true;
     canvas->drawView();
 }
 
@@ -184,6 +189,22 @@
     }
     
     self.layersNumber = sender.value;
+    canvas->drawView();
+}
+
+- (IBAction)undoButtonAction:(UIButton *)sender {
+    CZLayer *layer = painting->getActiveLayer();
+    layer->undoAction();
+    self.undoButton.enabled = false;
+    self.redoButton.enabled = true;
+    canvas->drawView();
+}
+
+- (IBAction)redoButtonAction:(UIButton *)sender {
+    CZLayer *layer = painting->getActiveLayer();
+    layer->redoAction();
+    self.undoButton.enabled = true;
+    self.redoButton.enabled = false;
     canvas->drawView();
 }
 

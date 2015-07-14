@@ -20,16 +20,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BrushesDemo/BrushesDemo/MainViewController.mm"
-            timestampString = "458037319.005366"
+            filePath = "../core/painting/CZLayer.mm"
+            timestampString = "458474318.41299"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
+            landmarkName = "CZLayer::renderImage(CZImage* img, CZAffineTransform &amp;trans)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -40,44 +40,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BrushesDemo/BrushesDemo/MainViewController.mm"
-            timestampString = "458042529.580021"
+            timestampString = "458474586.537649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
-            landmarkName = "-setBrushSize:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../core/tool/CZTool.cpp"
-            timestampString = "458042557.801818"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
-            landmarkName = "CZTool::undoPaint()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../core/tool/CZTool.cpp"
-            timestampString = "458043120.006945"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
-            landmarkName = "CZTool::undoPaint()"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "-undoButtonAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
