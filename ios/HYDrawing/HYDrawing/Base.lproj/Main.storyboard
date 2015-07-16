@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="qPD-vl-9Us">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="qPD-vl-9Us">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -12,6 +12,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ghy-IL-y9A">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="7zs-xK-0pW" kind="relationship" relationship="rootViewController" id="Ulj-o0-CgI"/>
@@ -21,10 +22,10 @@
             </objects>
             <point key="canvasLocation" x="92.159999999999997" y="1409.7066666666667"/>
         </scene>
-        <!--View Controller-->
+        <!--Drawing View Controller-->
         <scene sceneID="iO6-7B-vwV">
             <objects>
-                <viewController id="7zs-xK-0pW" sceneMemberID="viewController">
+                <viewController id="7zs-xK-0pW" customClass="HYDrawingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rM9-SF-8I2"/>
                         <viewControllerLayoutGuide type="bottom" id="8Rw-yf-MAk"/>

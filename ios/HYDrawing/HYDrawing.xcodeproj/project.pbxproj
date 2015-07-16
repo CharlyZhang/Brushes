@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		53851B651B57AADE00B6F946 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B641B57AADE00B6F946 /* main.m */; };
 		53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B671B57AADE00B6F946 /* AppDelegate.m */; };
-		53851B6B1B57AADE00B6F946 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B6A1B57AADE00B6F946 /* ViewController.m */; };
 		53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6C1B57AADE00B6F946 /* Main.storyboard */; };
 		53851B701B57AADE00B6F946 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6F1B57AADE00B6F946 /* Images.xcassets */; };
 		53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53851B711B57AADE00B6F946 /* LaunchScreen.xib */; };
 		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
+		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +47,6 @@
 		53851B641B57AADE00B6F946 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		53851B661B57AADE00B6F946 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		53851B671B57AADE00B6F946 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		53851B691B57AADE00B6F946 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		53851B6A1B57AADE00B6F946 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		53851B6D1B57AADE00B6F946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		53851B6F1B57AADE00B6F946 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		53851B721B57AADE00B6F946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -56,6 +54,8 @@
 		53851B7D1B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYDrawingTests.m; sourceTree = "<group>"; };
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
+		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
+		608042031B57BE1400B3AB52 /* HYDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDrawingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,12 +101,12 @@
 			children = (
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
-				53851B691B57AADE00B6F946 /* ViewController.h */,
-				53851B6A1B57AADE00B6F946 /* ViewController.m */,
 				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
 				53851B6F1B57AADE00B6F946 /* Images.xcassets */,
 				53851B711B57AADE00B6F946 /* LaunchScreen.xib */,
 				53851B621B57AADE00B6F946 /* Supporting Files */,
+				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
+				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -269,9 +269,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53851B6B1B57AADE00B6F946 /* ViewController.m in Sources */,
 				53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */,
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
+				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +468,7 @@
 				53851B841B57AADE00B6F946 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		53851B851B57AADE00B6F946 /* Build configuration list for PBXNativeTarget "HYDrawingTests" */ = {
 			isa = XCConfigurationList;
@@ -476,6 +477,7 @@
 				53851B871B57AADE00B6F946 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
