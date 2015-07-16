@@ -154,7 +154,7 @@
         brushImg->hasAlpha = false;
     }
     else {
-        brushImg->hasAlpha = false;
+        brushImg->hasAlpha = true;
     }
     
     CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
