@@ -1,0 +1,483 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		53851B651B57AADE00B6F946 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B641B57AADE00B6F946 /* main.m */; };
+		53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B671B57AADE00B6F946 /* AppDelegate.m */; };
+		53851B6B1B57AADE00B6F946 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B6A1B57AADE00B6F946 /* ViewController.m */; };
+		53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6C1B57AADE00B6F946 /* Main.storyboard */; };
+		53851B701B57AADE00B6F946 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6F1B57AADE00B6F946 /* Images.xcassets */; };
+		53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53851B711B57AADE00B6F946 /* LaunchScreen.xib */; };
+		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
+		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		53851B791B57AADE00B6F946 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53851B571B57AADE00B6F946 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 53851B5E1B57AADE00B6F946;
+			remoteInfo = HYDrawing;
+		};
+		53851B8D1B57AB1900B6F946 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2BE52B1A0C9196003724D4;
+			remoteInfo = BrushesCore;
+		};
+		53851B8F1B57AB1900B6F946 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2BE53B1A0C9196003724D4;
+			remoteInfo = BrushesCoreTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		53851B5F1B57AADE00B6F946 /* HYDrawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYDrawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		53851B631B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		53851B641B57AADE00B6F946 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		53851B661B57AADE00B6F946 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		53851B671B57AADE00B6F946 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		53851B691B57AADE00B6F946 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		53851B6A1B57AADE00B6F946 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		53851B6D1B57AADE00B6F946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		53851B6F1B57AADE00B6F946 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		53851B721B57AADE00B6F946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		53851B781B57AADE00B6F946 /* HYDrawingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HYDrawingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		53851B7D1B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYDrawingTests.m; sourceTree = "<group>"; };
+		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		53851B5C1B57AADE00B6F946 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		53851B751B57AADE00B6F946 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		53851B561B57AADE00B6F946 = {
+			isa = PBXGroup;
+			children = (
+				53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */,
+				53851B611B57AADE00B6F946 /* HYDrawing */,
+				53851B7B1B57AADE00B6F946 /* HYDrawingTests */,
+				53851B601B57AADE00B6F946 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		53851B601B57AADE00B6F946 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53851B5F1B57AADE00B6F946 /* HYDrawing.app */,
+				53851B781B57AADE00B6F946 /* HYDrawingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		53851B611B57AADE00B6F946 /* HYDrawing */ = {
+			isa = PBXGroup;
+			children = (
+				53851B661B57AADE00B6F946 /* AppDelegate.h */,
+				53851B671B57AADE00B6F946 /* AppDelegate.m */,
+				53851B691B57AADE00B6F946 /* ViewController.h */,
+				53851B6A1B57AADE00B6F946 /* ViewController.m */,
+				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
+				53851B6F1B57AADE00B6F946 /* Images.xcassets */,
+				53851B711B57AADE00B6F946 /* LaunchScreen.xib */,
+				53851B621B57AADE00B6F946 /* Supporting Files */,
+			);
+			path = HYDrawing;
+			sourceTree = "<group>";
+		};
+		53851B621B57AADE00B6F946 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				53851B631B57AADE00B6F946 /* Info.plist */,
+				53851B641B57AADE00B6F946 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		53851B7B1B57AADE00B6F946 /* HYDrawingTests */ = {
+			isa = PBXGroup;
+			children = (
+				53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */,
+				53851B7C1B57AADE00B6F946 /* Supporting Files */,
+			);
+			path = HYDrawingTests;
+			sourceTree = "<group>";
+		};
+		53851B7C1B57AADE00B6F946 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				53851B7D1B57AADE00B6F946 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		53851B891B57AB1900B6F946 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53851B8E1B57AB1900B6F946 /* libBrushesCore.a */,
+				53851B901B57AB1900B6F946 /* BrushesCoreTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		53851B5E1B57AADE00B6F946 /* HYDrawing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 53851B821B57AADE00B6F946 /* Build configuration list for PBXNativeTarget "HYDrawing" */;
+			buildPhases = (
+				53851B5B1B57AADE00B6F946 /* Sources */,
+				53851B5C1B57AADE00B6F946 /* Frameworks */,
+				53851B5D1B57AADE00B6F946 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HYDrawing;
+			productName = HYDrawing;
+			productReference = 53851B5F1B57AADE00B6F946 /* HYDrawing.app */;
+			productType = "com.apple.product-type.application";
+		};
+		53851B771B57AADE00B6F946 /* HYDrawingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 53851B851B57AADE00B6F946 /* Build configuration list for PBXNativeTarget "HYDrawingTests" */;
+			buildPhases = (
+				53851B741B57AADE00B6F946 /* Sources */,
+				53851B751B57AADE00B6F946 /* Frameworks */,
+				53851B761B57AADE00B6F946 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				53851B7A1B57AADE00B6F946 /* PBXTargetDependency */,
+			);
+			name = HYDrawingTests;
+			productName = HYDrawingTests;
+			productReference = 53851B781B57AADE00B6F946 /* HYDrawingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		53851B571B57AADE00B6F946 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = Founder;
+				TargetAttributes = {
+					53851B5E1B57AADE00B6F946 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+					53851B771B57AADE00B6F946 = {
+						CreatedOnToolsVersion = 6.3.2;
+						TestTargetID = 53851B5E1B57AADE00B6F946;
+					};
+				};
+			};
+			buildConfigurationList = 53851B5A1B57AADE00B6F946 /* Build configuration list for PBXProject "HYDrawing" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 53851B561B57AADE00B6F946;
+			productRefGroup = 53851B601B57AADE00B6F946 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 53851B891B57AB1900B6F946 /* Products */;
+					ProjectRef = 53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				53851B5E1B57AADE00B6F946 /* HYDrawing */,
+				53851B771B57AADE00B6F946 /* HYDrawingTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		53851B8E1B57AB1900B6F946 /* libBrushesCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBrushesCore.a;
+			remoteRef = 53851B8D1B57AB1900B6F946 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		53851B901B57AB1900B6F946 /* BrushesCoreTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BrushesCoreTests.xctest;
+			remoteRef = 53851B8F1B57AB1900B6F946 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		53851B5D1B57AADE00B6F946 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */,
+				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
+				53851B701B57AADE00B6F946 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		53851B761B57AADE00B6F946 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		53851B5B1B57AADE00B6F946 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53851B6B1B57AADE00B6F946 /* ViewController.m in Sources */,
+				53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */,
+				53851B651B57AADE00B6F946 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		53851B741B57AADE00B6F946 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		53851B7A1B57AADE00B6F946 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 53851B5E1B57AADE00B6F946 /* HYDrawing */;
+			targetProxy = 53851B791B57AADE00B6F946 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		53851B6C1B57AADE00B6F946 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				53851B6D1B57AADE00B6F946 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		53851B711B57AADE00B6F946 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				53851B721B57AADE00B6F946 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		53851B801B57AADE00B6F946 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		53851B811B57AADE00B6F946 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		53851B831B57AADE00B6F946 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = HYDrawing/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		53851B841B57AADE00B6F946 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = HYDrawing/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		53851B861B57AADE00B6F946 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = HYDrawingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HYDrawing.app/HYDrawing";
+			};
+			name = Debug;
+		};
+		53851B871B57AADE00B6F946 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = HYDrawingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HYDrawing.app/HYDrawing";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		53851B5A1B57AADE00B6F946 /* Build configuration list for PBXProject "HYDrawing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53851B801B57AADE00B6F946 /* Debug */,
+				53851B811B57AADE00B6F946 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		53851B821B57AADE00B6F946 /* Build configuration list for PBXNativeTarget "HYDrawing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53851B831B57AADE00B6F946 /* Debug */,
+				53851B841B57AADE00B6F946 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		53851B851B57AADE00B6F946 /* Build configuration list for PBXNativeTarget "HYDrawingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53851B861B57AADE00B6F946 /* Debug */,
+				53851B871B57AADE00B6F946 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 53851B571B57AADE00B6F946 /* Project object */;
+}
