@@ -143,16 +143,20 @@
     //宽，高，data
     size_t width = CGImageGetWidth(img);
     size_t height = CGImageGetHeight(img);
-    size_t componentNum = CGImageGetBitsPerPixel(img) / CGImageGetBitsPerComponent(img);
-    StorageMode mode;
-    if (componentNum == 3) {
-        mode = RGB_BYTE;
+    
+    CZImage *brushImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
+    
+    if (alphaInfo == kCGImageAlphaNone ||
+        alphaInfo == kCGImageAlphaNoneSkipLast ||
+        alphaInfo == kCGImageAlphaNoneSkipFirst){
+        brushImg->hasAlpha = false;
     }
     else {
-        mode = RGBA_BYTE;
+        brushImg->hasAlpha = false;
     }
     
-    CZImage *brushImg = new CZImage(width,height,mode,(void*)CFDataGetBytePtr(inBitmapData));
     CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
     
     painting->getActiveLayer()->renderImage(brushImg, trans);

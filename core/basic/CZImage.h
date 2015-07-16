@@ -37,6 +37,10 @@ public:
 	CZImage* modifyDataFrom1(int x,int y, float red, float green, float blue, float alpha, CZRect &modifiedRect);
 	/// 扫描线算法(封闭)
 	void ScanLineFill(int x,int y, float r, float g, float b, float a);
+    
+    ///< whether really has alpha data, which means the information in the 4th channel is not all 255 or 1.0f
+    bool hasReallyAlpha();
+    
 private:
 	/// 修改
 	void modifyData(int x,int y, float fillcolor[]);
@@ -48,11 +52,12 @@ private:
 
 public:
 	int			width,height;
-	void		*data;		///< 具体类型由mode决定
+	void		*data;              ///< 具体类型由mode决定
+    bool        hasAlpha;           /// whether has alpha data
 
 private:
 	StorageMode	mode;
-	bool		*flag;///< 用于填充的辅助数组
+	bool		*flag;              ///< 用于填充的辅助数组
 };
 
 #endif

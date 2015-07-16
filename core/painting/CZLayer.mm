@@ -495,7 +495,7 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     CZRect newRect = trans.applyToRect(rect);
     registerUndoInRect(newRect);
     
-    bool hasAlpha = false;		///<
+    bool hasAlpha = img->hasAlpha;
     
     ptrGLContext->setAsCurrent();
     CZTexture *tex = CZTexture::produceFromImage(img);
@@ -616,6 +616,9 @@ bool CZLayer::undoAction()
 {
     if (canUndo && undoFragment)
     {
+        unsigned char* values = &((unsigned char*)undoFragment->data->data)[(50*undoFragment->data->width+50)*4];
+        LOG_DEBUG("undo - (%d,%d,%d,%d)\n", values[0],values[1],values[2],values[3]);
+        
         /// save redo PaintingFragment
         if (redoFragment) delete redoFragment;
         CZImage *currentImg = imageDataInRect(undoFragment->bounds);
@@ -639,6 +642,9 @@ bool CZLayer::redoAction()
 {
     if (canRedo && redoFragment)
     {
+        unsigned char* values = &((unsigned char*)redoFragment->data->data)[(50*redoFragment->data->width+50)*4];
+        LOG_DEBUG("redo - (%d,%d,%d,%d)\n", values[0],values[1],values[2],values[3]);
+        
         /// take redo action
         GLint xoffset = (GLint)redoFragment->bounds.getMinX();
         GLint yoffset = (GLint)redoFragment->bounds.getMinY();

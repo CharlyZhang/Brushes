@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2D1B25E51ADF27CD006841C3 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		2D613BB41B55F1B200DD4899 /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D613BB31B55F1B200DD4899 /* ReadMe.md */; };
 		2D63C8651B452A0A0024AF37 /* checkerplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C8641B452A0A0024AF37 /* checkerplate.png */; };
 		2D63C8821B452A6E0024AF37 /* Shader.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C8801B452A6E0024AF37 /* Shader.frag */; };
 		2D63C8831B452A6E0024AF37 /* Shader.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C8811B452A6E0024AF37 /* Shader.vert */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../BrushesCore/build/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
+		2D613BB31B55F1B200DD4899 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = ReadMe.md; path = ../../ReadMe.md; sourceTree = "<group>"; };
 		2D63C8641B452A0A0024AF37 /* checkerplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerplate.png; path = ../../common/checkerplate.png; sourceTree = "<group>"; };
 		2D63C8801B452A6E0024AF37 /* Shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.frag; path = ../../common/shader/Shader.frag; sourceTree = "<group>"; };
 		2D63C8811B452A6E0024AF37 /* Shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.vert; path = ../../common/shader/Shader.vert; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		2DB759291A10B938009E05B8 = {
 			isa = PBXGroup;
 			children = (
+				2D613BB31B55F1B200DD4899 /* ReadMe.md */,
 				2D63C8CF1B46516D0024AF37 /* memo.md */,
 				2DB7593B1A10B938009E05B8 /* BrushesDemo */,
 				2DB759541A10B939009E05B8 /* BrushesDemoTests */,
@@ -361,6 +364,7 @@
 				2DB759461A10B938009E05B8 /* BrushesAppDelegate.m in Sources */,
 				2D63C8D01B46516D0024AF37 /* memo.md in Sources */,
 				2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */,
+				2D613BB41B55F1B200DD4899 /* ReadMe.md in Sources */,
 				2D8F24F71B4CD0F600D1B5DF /* LayersTableViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

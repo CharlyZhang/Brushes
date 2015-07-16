@@ -49,6 +49,8 @@ CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_
 	}
 	else
 		data = NULL;
+    
+    hasAlpha = false;
 }
 
 CZImage::~CZImage()
@@ -143,6 +145,49 @@ void CZImage::ScanLineFill(int x,int y, float r, float g, float b, float a)
 
 	}//End of while(!isstackempty())
 
+}
+
+/// check whether has really alpha data
+bool CZImage::hasReallyAlpha()
+{
+    if (!hasAlpha) {
+        return false;
+    }
+    
+    bool reallyHasAlpha = false;
+    unsigned int rowOffset = 0;
+    int rowByteSize = width * 4;
+    
+    if (mode == RGBA_BYTE) {
+        unsigned char *values = (unsigned char*)data;
+        for (int r = 0; (r < height) && !reallyHasAlpha; r++)
+        {
+            for (int c = 3; c < rowByteSize; c += 4)
+            {
+                if (values[rowOffset + c] < 255) {
+                    reallyHasAlpha = true;
+                    break;
+                }
+            }
+            rowOffset += rowByteSize;
+        }
+    }
+    else if (mode == RGBA_FLOAT){
+        float *values = (float*)data;
+        for (int r = 0; (r < height) && !reallyHasAlpha; r++)
+        {
+            for (int c = 3; c < rowByteSize; c += 4)
+            {
+                if (values[rowOffset + c] < 1.0f) {
+                    reallyHasAlpha = true;
+                    break;
+                }
+            }
+            rowOffset += rowByteSize;
+        }
+    }
+    
+    return reallyHasAlpha;
 }
 
 /// Ìî³ä£¨²ÉÓÃ¹ãËÑ£©
