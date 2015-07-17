@@ -14,6 +14,7 @@
 		53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53851B711B57AADE00B6F946 /* LaunchScreen.xib */; };
 		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
+		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
 		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,8 @@
 		53851B7D1B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYDrawingTests.m; sourceTree = "<group>"; };
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
+		53851B931B5899F600B6F946 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
+		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
 		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
 		608042031B57BE1400B3AB52 /* HYDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDrawingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +110,8 @@
 				53851B621B57AADE00B6F946 /* Supporting Files */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
+				53851B931B5899F600B6F946 /* BottomBarView.h */,
+				53851B941B5899F600B6F946 /* BottomBarView.m */,
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 				53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */,
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
+				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

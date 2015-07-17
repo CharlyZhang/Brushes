@@ -7,6 +7,7 @@
 //
 
 #import "HYDrawingViewController.h"
+#import "BottomBarView.h"
 
 @interface HYDrawingViewController ()
 
@@ -27,6 +28,10 @@
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,imageItem,settingItem,videoItem];
     
+    BottomBarView *bottomBarView = [[BottomBarView alloc]init];
+    [self.view addSubview:bottomBarView];
+    [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +43,30 @@
 - (void)tapMenu:(id)sender{
     
 }
+
+#pragma mark - HYDrawingViewController Methods
+
+- (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
+    subview.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
+    NSDictionary *metrics = @{@"vHeight":@(119),@"hPadding":@(11)};
+    
+    NSArray *constraints = [NSLayoutConstraint
+                            constraintsWithVisualFormat:@"H:|-hPadding-[subview]-hPadding-|"
+                            options:0
+                            metrics:metrics
+                            views:viewsDictionary];
+    constraints = [constraints arrayByAddingObjectsFromArray:
+                   [NSLayoutConstraint
+                    constraintsWithVisualFormat:@"V:[subview(vHeight)]|"
+                    options:0
+                    metrics:metrics
+                    views:viewsDictionary]];
+    [superview addConstraints:constraints];
+    
+    return constraints;
+}
+
 /*
 #pragma mark - Navigation
 
