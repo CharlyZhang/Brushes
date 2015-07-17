@@ -8,6 +8,9 @@
 
 #import "HYDrawingViewController.h"
 #import "BottomBarView.h"
+#import "HYMenuViewController.h"
+#import "HYPopoverBackgroundView.h"
+#import "Macro.h"
 
 @interface HYDrawingViewController ()
 
@@ -34,6 +37,13 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    //self.navigationController.navigationBar.backgroundColor = [UIColor orangeColor];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent"] forBarMetrics:UIBarMetricsCompact];
+     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -41,7 +51,26 @@
 
 
 - (void)tapMenu:(id)sender{
+    HYMenuViewController *menuViewController = [[HYMenuViewController alloc]init];
+    UINavigationController *menuNavigationController = [[UINavigationController alloc]initWithRootViewController:menuViewController];
+    menuNavigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
+    menuNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
+    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
+
+
+    HYPopoverBackgroundView *backgroundView = [[HYPopoverBackgroundView  alloc]init];
+
+    popoverController.popoverBackgroundViewClass =[backgroundView class];
+    backgroundView.backgroundImageView.image = [UIImage imageNamed:@"menu_bg"];
+    
+    
+    [popoverController setPopoverContentSize:CGSizeMake(216, 605)];
+    [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    popoverController.backgroundColor = UIPopoverBorderColor;
+
+   
+ 
 }
 
 #pragma mark - HYDrawingViewController Methods
