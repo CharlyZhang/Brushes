@@ -57,16 +57,13 @@
 		53851B7D1B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HYDrawingTests.m; sourceTree = "<group>"; };
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		53851B931B5899F600B6F946 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
-=======
 		60216AE61B588A21009186F4 /* HYMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMenuViewController.h; sourceTree = "<group>"; };
 		60216AE71B588A21009186F4 /* HYMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMenuViewController.m; sourceTree = "<group>"; };
 		60216AE91B589440009186F4 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
 		60216AF01B58F821009186F4 /* HYPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYPopoverBackgroundView.h; sourceTree = "<group>"; };
 		60216AF11B58F821009186F4 /* HYPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYPopoverBackgroundView.m; sourceTree = "<group>"; };
->>>>>>> bd688911d0da60c631399617f9b3d090f7275538
 		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
 		608042031B57BE1400B3AB52 /* HYDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDrawingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,16 +117,13 @@
 				53851B621B57AADE00B6F946 /* Supporting Files */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
-<<<<<<< HEAD
 				53851B931B5899F600B6F946 /* BottomBarView.h */,
 				53851B941B5899F600B6F946 /* BottomBarView.m */,
-=======
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,
 				60216AE91B589440009186F4 /* Macro.h */,
 				60216AF01B58F821009186F4 /* HYPopoverBackgroundView.h */,
 				60216AF11B58F821009186F4 /* HYPopoverBackgroundView.m */,
->>>>>>> bd688911d0da60c631399617f9b3d090f7275538
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -296,11 +290,8 @@
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
-<<<<<<< HEAD
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
-=======
 				60216AF21B58F821009186F4 /* HYPopoverBackgroundView.m in Sources */,
->>>>>>> bd688911d0da60c631399617f9b3d090f7275538
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
