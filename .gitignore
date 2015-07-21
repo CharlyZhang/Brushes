@@ -28,3 +28,4 @@ ios/output
 *.db
 platforms
 .idea
+xcuserdata

@@ -11,7 +11,12 @@
 #import "HYMenuViewController.h"
 #import "DDPopoverBackgroundView.h"
 #import "Macro.h"
-@interface HYDrawingViewController ()
+#include "BrushesCore.h"
+
+@interface HYDrawingViewController ()<BottomBarViewDelegate> {
+    CZCanvas *canvas;
+    CZPainting *painting;
+}
 
 @end
 
@@ -30,10 +35,22 @@
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
+    
+    // bottom bar view
     BottomBarView *bottomBarView = [[BottomBarView alloc]init];
+    bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
     
+    // load brush core
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    canvas = new CZCanvas(CZRect(0,0,size.width,size.height));
+    painting = new CZPainting(CZSize(size.width,size.height));
+    canvas->setPaiting(painting);
+    [self.view insertSubview:(__bridge UIView*)canvas->getView() atIndex:0];
+    
+    //[self setBrushSize:10.0];
+
 }
 
 //-(BOOL)shouldAutorotate{
@@ -89,7 +106,6 @@
     UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
     popoverController.delegate = self;
     [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    
 //    if (iOS(8.0)) {
 //        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
 //            [self presentViewController:picker animated:YES completion:nil];
@@ -141,6 +157,20 @@
     else{
         [self presentViewController:picker animated:YES completion:nil];
     }
+//    popoverController.backgroundColor = UIPopoverBorderColor;
+}
+
+- (void)dealloc{
+    if (canvas) {
+        delete canvas;
+        canvas = NULL;
+    }
+    
+    if (painting) {
+        delete painting;
+        painting = NULL;
+    }
+
 }
 
 #pragma mark - HYDrawingViewController Methods
@@ -164,6 +194,23 @@
     [superview addConstraints:constraints];
     
     return constraints;
+}
+
+#pragma mark - BottomBarViewDelegate Methods
+
+- (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
+    switch (button.tag) {
+        case ERASER_BTN:
+            CZActiveState::getInstance()->setEraseMode(true);
+            break;
+        case PENCIL_BTN:
+        case MARKERPEN_BTN:
+            CZActiveState::getInstance()->setEraseMode(false);
+            CZActiveState::getInstance()->setActiveBrush(int(button.tag-PENCIL_BTN));
+            break;
+        default:
+            break;
+    }
 }
 
 /*

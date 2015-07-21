@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HYDrawingViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface HYDrawingViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate>
 
 @end
