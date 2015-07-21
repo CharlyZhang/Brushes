@@ -159,7 +159,37 @@
     }
 //    popoverController.backgroundColor = UIPopoverBorderColor;
 }
+-(void)insertImage:(UIImage *)image{
+    CGImageRef img = image.CGImage;
+    
+    //数据源提供者
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    // provider’s data.
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    //宽，高，data
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    
+    CZImage *brushImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
+    
+    if (alphaInfo == kCGImageAlphaNone ||
+        alphaInfo == kCGImageAlphaNoneSkipLast ||
+        alphaInfo == kCGImageAlphaNoneSkipFirst){
+        brushImg->hasAlpha = false;
+    }
+    else {
+        brushImg->hasAlpha = true;
+    }
+    
+    CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
+    
+    painting->getActiveLayer()->renderImage(brushImg, trans);
+    canvas->drawView();
 
+}
 - (void)dealloc{
     if (canvas) {
         delete canvas;
@@ -170,6 +200,7 @@
         delete painting;
         painting = NULL;
     }
+    
 
 }
 
@@ -241,7 +272,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
     [picker dismissViewControllerAnimated:YES completion:^{
-        
+        [self insertImage:image];
     }];
 }
 @end
