@@ -9,9 +9,8 @@
 #import "HYDrawingViewController.h"
 #import "BottomBarView.h"
 #import "HYMenuViewController.h"
-#import "HYPopoverBackgroundView.h"
+#import "DDPopoverBackgroundView.h"
 #import "Macro.h"
-
 @interface HYDrawingViewController ()
 
 @end
@@ -27,9 +26,9 @@
     
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
-    UIBarButtonItem *imageItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
+    UIBarButtonItem *pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
-    self.navigationItem.rightBarButtonItems = @[shareItem,imageItem,settingItem,videoItem];
+    self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
     BottomBarView *bottomBarView = [[BottomBarView alloc]init];
     [self.view addSubview:bottomBarView];
@@ -37,10 +36,17 @@
     
 }
 
+//-(BOOL)shouldAutorotate{
+//    return YES;
+//}
+//
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+//    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
+//}
+
 -(void)viewWillAppear:(BOOL)animated{
-    //self.navigationController.navigationBar.backgroundColor = [UIColor orangeColor];
     
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent"] forBarMetrics:UIBarMetricsCompact];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent"] forBarMetrics:UIBarMetricsDefault];
      self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 }
 
@@ -48,6 +54,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 - (void)tapMenu:(id)sender{
@@ -59,18 +66,81 @@
     UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
 
 
-    HYPopoverBackgroundView *backgroundView = [[HYPopoverBackgroundView  alloc]init];
-
-    popoverController.popoverBackgroundViewClass =[backgroundView class];
-    backgroundView.backgroundImageView.image = [UIImage imageNamed:@"menu_bg"];
-    
-    
-    [popoverController setPopoverContentSize:CGSizeMake(216, 605)];
+    popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    UIImage *image = [UIImage imageNamed:@"menu_popover_bg"];
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    [DDPopoverBackgroundView setBackgroundImageCornerRadius:2.f];
+    [DDPopoverBackgroundView setArrowBase:0];
+    [DDPopoverBackgroundView setArrowHeight:0];
+    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height)];
     [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-//    popoverController.backgroundColor = UIPopoverBorderColor;
 
    
  
+}
+
+
+- (void)tapPicture:(id)sender{
+    
+    UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
+    UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    picker.sourceType = sourcheType;
+    picker.delegate = self;
+    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
+    popoverController.delegate = self;
+    [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+//    if (iOS(8.0)) {
+//        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+//            [self presentViewController:picker animated:YES completion:nil];
+//        }];
+//    }
+//    else{
+//        [self presentViewController:picker animated:YES completion:nil];
+//    }
+    
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+//                                  initWithTitle:nil
+//                                  delegate:self
+//                                  cancelButtonTitle:nil
+//                                  destructiveButtonTitle:nil
+//                                  otherButtonTitles:@"拍照", @"从手机相册选取",nil];
+//    [actionSheet showInView:self.view];
+}
+
+
+-(void)camera{
+    
+    UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
+    UIImagePickerControllerSourceType sourcheType =     UIImagePickerControllerSourceTypeCamera
+;
+    picker.sourceType = sourcheType;
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    if (iOS(8.0)) {
+        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+             [self presentViewController:picker animated:YES completion:nil];
+        }];
+    }
+    else{
+         [self presentViewController:picker animated:YES completion:nil];
+    }
+   
+}
+-(void)photoAlbum{
+    UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
+    UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    picker.sourceType = sourcheType;
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    if (iOS(8.0)) {
+        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+            [self presentViewController:picker animated:YES completion:nil];
+        }];
+    }
+    else{
+        [self presentViewController:picker animated:YES completion:nil];
+    }
 }
 
 #pragma mark - HYDrawingViewController Methods
@@ -106,4 +176,25 @@
 }
 */
 
+#pragma mark UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0:
+            [self camera];
+            break;
+        case 1:
+            [self photoAlbum];
+            break;
+            
+        default:
+            break;
+    }
+}
+#pragma mark UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 @end
