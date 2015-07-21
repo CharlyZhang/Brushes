@@ -109,16 +109,11 @@
 		53851B611B57AADE00B6F946 /* HYDrawing */ = {
 			isa = PBXGroup;
 			children = (
-				53851B661B57AADE00B6F946 /* AppDelegate.h */,
-				53851B671B57AADE00B6F946 /* AppDelegate.m */,
-				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
-				53851B6F1B57AADE00B6F946 /* Images.xcassets */,
-				53851B711B57AADE00B6F946 /* LaunchScreen.xib */,
-				53851B621B57AADE00B6F946 /* Supporting Files */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
-				53851B931B5899F600B6F946 /* BottomBarView.h */,
-				53851B941B5899F600B6F946 /* BottomBarView.m */,
+				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
+				53851B621B57AADE00B6F946 /* Supporting Files */,
+				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,
 				60216AE91B589440009186F4 /* Macro.h */,
@@ -131,6 +126,10 @@
 		53851B621B57AADE00B6F946 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				53851B661B57AADE00B6F946 /* AppDelegate.h */,
+				53851B671B57AADE00B6F946 /* AppDelegate.m */,
+				53851B6F1B57AADE00B6F946 /* Images.xcassets */,
+				53851B711B57AADE00B6F946 /* LaunchScreen.xib */,
 				53851B631B57AADE00B6F946 /* Info.plist */,
 				53851B641B57AADE00B6F946 /* main.m */,
 			);
@@ -161,6 +160,15 @@
 				53851B901B57AB1900B6F946 /* BrushesCoreTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		53851BA21B5CA0F200B6F946 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				53851B941B5899F600B6F946 /* BottomBarView.m */,
+				53851B931B5899F600B6F946 /* BottomBarView.h */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

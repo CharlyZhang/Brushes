@@ -8,11 +8,12 @@
 
 #import "BottomBarView.h"
 
-@interface BottomBarView()
+@interface BottomBarView()<UIScrollViewDelegate>
 {
-    UIButton *currentButton;
 }
 
+@property (nonatomic, weak) UIButton *currentButton;
+@property (nonatomic, strong) UIScrollView *toolsScrollView;
 
 @end
 
@@ -24,7 +25,8 @@
     if (!_colorWheelButton) {
         _colorWheelButton = [[UIButton alloc] init];
         [_colorWheelButton setImage:[UIImage imageNamed:@"color_wheel"] forState:UIControlStateNormal];
-        
+        [_eraserButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _colorWheelButton.tag = COLORWHEEL_BTN;
     }
     
     return _colorWheelButton;
@@ -35,6 +37,8 @@
         _eraserButton = [[UIButton alloc]init];
         [_eraserButton setImage:[UIImage imageNamed:@"eraser"] forState:UIControlStateNormal];
         [_eraserButton setImage:[UIImage imageNamed:@"eraser_sel"] forState:UIControlStateSelected];
+        [_eraserButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _eraserButton.tag = ERASER_BTN;
     }
     return _eraserButton;
 }
@@ -44,8 +48,8 @@
         _pencilButton = [[UIButton alloc]init];
         [_pencilButton setImage:[UIImage imageNamed:@"pencil"] forState:UIControlStateNormal];
         [_pencilButton setImage:[UIImage imageNamed:@"pencil_sel"] forState:UIControlStateSelected];
-        [_pencilButton addTarget:self action:@selector(tapPencilButton:) forControlEvents:UIControlEventTouchUpInside];
-
+        [_pencilButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _pencilButton.tag = PENCIL_BTN;
     }
     return _pencilButton;
 }
@@ -55,6 +59,8 @@
         _markerPenButton = [[UIButton alloc]init];
         [_markerPenButton setImage:[UIImage imageNamed:@"marker"] forState:UIControlStateNormal];
         [_markerPenButton setImage:[UIImage imageNamed:@"marker_sel"] forState:UIControlStateSelected];
+        [_markerPenButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _markerPenButton.tag = MARKERPEN_BTN;
     }
     
     return _markerPenButton;
@@ -65,6 +71,8 @@
         _colorBrushButton = [[UIButton alloc]init];
         [_colorBrushButton setImage:[UIImage imageNamed:@"color_brush"] forState:UIControlStateNormal];
         [_colorBrushButton setImage:[UIImage imageNamed:@"color_brush_sel"] forState:UIControlStateSelected];
+        [_colorBrushButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _colorBrushButton.tag = COLORBRUSH_BTN;
     }
     
     return _colorBrushButton;
@@ -75,6 +83,8 @@
         _crayonButton = [[UIButton alloc]init];
         [_crayonButton setImage:[UIImage imageNamed:@"crayon"] forState:UIControlStateNormal];
         [_crayonButton setImage:[UIImage imageNamed:@"crayon_sel"] forState:UIControlStateSelected];
+        [_crayonButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _crayonButton.tag = CRAYON_BTN;
     }
     
     return _crayonButton;
@@ -85,6 +95,8 @@
         _bucketButton = [[UIButton alloc]init];
         [_bucketButton setImage:[UIImage imageNamed:@"bucket"] forState:UIControlStateNormal];
         [_bucketButton setImage:[UIImage imageNamed:@"bucket_sel"] forState:UIControlStateSelected];
+        [_bucketButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _bucketButton.tag = BUCKET_BTN;
     }
     
     return _bucketButton;
@@ -95,6 +107,8 @@
         _eyedropperButton = [[UIButton alloc]init];
         [_eyedropperButton setImage:[UIImage imageNamed:@"eyedropper"] forState:UIControlStateNormal];
         [_eyedropperButton setImage:[UIImage imageNamed:@"eyedropper_sel"] forState:UIControlStateSelected];
+        [_eyedropperButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _eyedropperButton.tag = EYEDROPPER_BTN;
     }
     
     return _eyedropperButton;
@@ -105,6 +119,8 @@
         _canvasButton = [[UIButton alloc]init];
         [_canvasButton setImage:[UIImage imageNamed:@"canvas"] forState:UIControlStateNormal];
         [_canvasButton setImage:[UIImage imageNamed:@"canvas_sel"] forState:UIControlStateSelected];
+        [_canvasButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _canvasButton.tag = CANVAS_BTN;
     }
     
     return _canvasButton;
@@ -115,6 +131,8 @@
         _clipButton = [[UIButton alloc]init];
         [_clipButton setImage:[UIImage imageNamed:@"clip"] forState:UIControlStateNormal];
         [_clipButton setImage:[UIImage imageNamed:@"clip_sel"] forState:UIControlStateSelected];
+        [_clipButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _clipButton.tag = CLIP_BTN;
     }
     
     return _clipButton;
@@ -124,33 +142,59 @@
     if (!_layersButton) {
         _layersButton = [[UIButton alloc]init];
         [_layersButton setImage:[UIImage imageNamed:@"layer"] forState:UIControlStateNormal];
+        [_clipButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _clipButton.tag = CLIP_BTN;
     }
     
     return _layersButton;
 }
+
+- (void)setCurrentButton:(UIButton*)currentButton{
+    _currentButton.selected = NO;
+    currentButton.selected = YES;
+    _currentButton = currentButton;
+}
+
+- (UIScrollView*)toolsScrollView{
+    if (!_toolsScrollView) {
+        _toolsScrollView = [[UIScrollView alloc] init];
+        [_toolsScrollView addSubview:self.pencilButton];
+        [_toolsScrollView addSubview:self.markerPenButton];
+        [_toolsScrollView addSubview:self.colorBrushButton];
+        [_toolsScrollView addSubview:self.crayonButton];
+        [_toolsScrollView addSubview:self.bucketButton];
+        [_toolsScrollView addSubview:self.eyedropperButton];
+        [_toolsScrollView addSubview:self.canvasButton];
+        [_toolsScrollView addSubview:self.clipButton];
+
+        [self addConstrainsForScrollView];
+        
+        /// setting
+        _toolsScrollView.directionalLockEnabled = YES;
+    }
+    
+    return _toolsScrollView;
+}
+
 //- (UIButton&)
 #pragma mark - UIView Methods
 
 - (instancetype) init {
     if(self = [super init]) {
-        /// setting
-        
         /// add subviews
         UIImageView *backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bottom_bar"]];
         [self addSubview:backgroundView];
+        
         [self addSubview:self.colorWheelButton];
         [self addSubview:self.eraserButton];
-        [self addSubview:self.pencilButton];
-        [self addSubview:self.markerPenButton];
-        [self addSubview:self.colorBrushButton];
-        [self addSubview:self.crayonButton];
-        [self addSubview:self.bucketButton];
-        [self addSubview:self.eyedropperButton];
-        [self addSubview:self.canvasButton];
-        [self addSubview:self.clipButton];
+        [self addSubview:self.toolsScrollView];
         [self addSubview:self.layersButton];
         /// add constraints
-        [self addConstrainsForSubViews];
+        [self addConstrainsForBottomView];
+        
+        /// setting
+        self.currentButton = self.pencilButton;
+        
     }
     
     return self;
@@ -158,14 +202,11 @@
 
 #pragma mark - BottomBarView Methods
 
-- (void) addConstrainsForSubViews {
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_colorWheelButton,_eraserButton,_pencilButton,
-                                                                   _markerPenButton,_colorBrushButton,_crayonButton,
-                                                                   _bucketButton,_eyedropperButton,_canvasButton,
-                                                                   _clipButton,_layersButton);
-    NSDictionary *metrics = @{@"hPadding1" :@11,@"hPadding2" :@8,@"vPadding" :@8,@"vHeight":@98,@"vWidth":@73};
+- (void) addConstrainsForBottomView {
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_colorWheelButton,_eraserButton,_toolsScrollView,_layersButton);
+    NSDictionary *metrics = @{@"hPadding1" :@11,@"hPadding2" :@13,@"vPadding" :@16,@"vHeight":@98,@"vWidth":@73};
     NSArray *constraints = [NSLayoutConstraint
-                            constraintsWithVisualFormat:@"H:|-hPadding1-[_colorWheelButton(vWidth)]-hPadding1-[_eraserButton(vWidth)]-hPadding1-[_pencilButton(vWidth)]-hPadding2-[_markerPenButton(vWidth)]-hPadding2-[_colorBrushButton(vWidth)]-hPadding2-[_crayonButton(vWidth)]-hPadding2-[_bucketButton(vWidth)]-hPadding2-[_eyedropperButton(vWidth)]-hPadding2-[_canvasButton(vWidth)]-hPadding2-[_clipButton(vWidth)]-hPadding1-[_layersButton(vWidth)]-|"
+                            constraintsWithVisualFormat:@"H:|-hPadding1-[_colorWheelButton(vWidth)]-hPadding1-[_eraserButton(vWidth)]-hPadding1-[_toolsScrollView]-hPadding2-[_layersButton(vWidth)]-hPadding2-|"
                             options:0
                             metrics:metrics
                             views:viewsDictionary];
@@ -185,58 +226,9 @@
                                                               metrics:metrics
                                                               views:viewsDictionary]];
     
-    _pencilButton.translatesAutoresizingMaskIntoConstraints = NO;
+    _toolsScrollView.translatesAutoresizingMaskIntoConstraints = NO;
     constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_pencilButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _markerPenButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_markerPenButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _colorBrushButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_colorBrushButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _crayonButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_crayonButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _bucketButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_bucketButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _eyedropperButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_eyedropperButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _canvasButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_canvasButton(vHeight)]|"
-                                                              options:0
-                                                              metrics:metrics
-                                                              views:viewsDictionary]];
-    
-    _clipButton.translatesAutoresizingMaskIntoConstraints = NO;
-    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:[_clipButton(vHeight)]|"
+                                                              constraintsWithVisualFormat:@"V:|-vPadding-[_toolsScrollView]|"
                                                               options:0
                                                               metrics:metrics
                                                               views:viewsDictionary]];
@@ -250,10 +242,70 @@
     [self addConstraints:constraints];
 }
 
+- (void) addConstrainsForScrollView {
+    NSArray *keys = [NSArray arrayWithObjects:@"_pencilButton",@"_markerPenButton",@"_colorBrushButton",@"_crayonButton",@"_bucketButton",@"_eyedropperButton",@"_canvasButton",@"_clipButton",nil];
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_pencilButton,_markerPenButton,_colorBrushButton,_crayonButton,_bucketButton,_eyedropperButton,_canvasButton,_clipButton);
+    NSDictionary *metrics = @{@"hPadding" :@8,@"hPadding2" :@8,@"vPadding1" :@8,@"vHeight":@98,@"vWidth":@73};
+    NSArray *constraints = [[NSArray alloc]init];
+    NSString *lastCmpObj = @"|";
+    
+    NSString *vfString1, *vfString2;
+    NSString *key;
+    for(key in keys){
+        const char* cLastStr = [lastCmpObj UTF8String];
+        const char *cBtnName = [key UTF8String];
+        UIButton *btn = (UIButton*)viewsDictionary[key];
+    
+        btn.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        if ([lastCmpObj isEqualToString:@"|"]) {
+            vfString1 = [NSString stringWithFormat: @"H:|-hPadding-[%s(vWidth)]",cBtnName];
+        }
+        else {
+            vfString1 = [NSString stringWithFormat: @"H:[%s]-hPadding-[%s(vWidth)]",cLastStr,cBtnName];
+        }
+        constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
+                                                                 constraintsWithVisualFormat:vfString1
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                 views:viewsDictionary]];
+        
+        vfString2 = [NSString stringWithFormat:@"V:|[%s(vHeight)]|",cBtnName];
+        constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
+                                                                 constraintsWithVisualFormat:vfString2
+                                                                 options:0
+                                                                 metrics:metrics
+                                                                 views:viewsDictionary]];
+        
+        lastCmpObj = (NSString*)key;
+        
+//        NSLog(@"%@\n%@\n\n",vfString1,vfString2);
+        
+    };
+    
+    // add last horizonal constraints
+    vfString1 = [NSString stringWithFormat: @"H:[%s]-hPadding-|",[lastCmpObj UTF8String]];
+    constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
+                                                              constraintsWithVisualFormat:vfString1
+                                                              options:0
+                                                              metrics:metrics
+                                                              views:viewsDictionary]];
+    
+//    NSLog(@"%@\n",vfString1);
+    
+    [self.toolsScrollView addConstraints:constraints];
+}
+
+- (void) setFrameForScrollButtons {
+    
+}
+
 #pragma mark - Actions
 
-- (void)tapPencilButton:(UIButton*)sender{
-    sender.selected = true;
+- (void)tapButton:(UIButton*)sender{
+    /// set it as current button, if it is a dynamic one
+    if(sender.tag > FIXED_BTN_SEPERATOR)    self.currentButton = sender;
+    [self.delegate bottomBarView:self forButtonAction:sender];
 }
 
 /*
