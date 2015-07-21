@@ -12,7 +12,12 @@
 #import "HYPopoverBackgroundView.h"
 #import "Macro.h"
 
-@interface HYDrawingViewController ()
+#include "BrushesCore.h"
+
+@interface HYDrawingViewController ()<BottomBarViewDelegate> {
+    CZCanvas *canvas;
+    CZPainting *painting;
+}
 
 @end
 
@@ -31,10 +36,22 @@
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,imageItem,settingItem,videoItem];
     
+    
+    // bottom bar view
     BottomBarView *bottomBarView = [[BottomBarView alloc]init];
+    bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
     
+    // load brush core
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    canvas = new CZCanvas(CZRect(0,0,size.width,size.height));
+    painting = new CZPainting(CZSize(size.width,size.height));
+    canvas->setPaiting(painting);
+    [self.view insertSubview:(__bridge UIView*)canvas->getView() atIndex:0];
+    
+    //[self setBrushSize:10.0];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -68,9 +85,20 @@
     [popoverController setPopoverContentSize:CGSizeMake(216, 605)];
     [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //    popoverController.backgroundColor = UIPopoverBorderColor;
+}
 
-   
- 
+- (void)dealloc{
+    if (canvas) {
+        delete canvas;
+        canvas = NULL;
+    }
+    
+    if (painting) {
+        delete painting;
+        painting = NULL;
+    }
+    
+    //[super dealloc];
 }
 
 #pragma mark - HYDrawingViewController Methods
@@ -94,6 +122,23 @@
     [superview addConstraints:constraints];
     
     return constraints;
+}
+
+#pragma mark - BottomBarViewDelegate Methods
+
+- (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
+    switch (button.tag) {
+        case ERASER_BTN:
+            CZActiveState::getInstance()->setEraseMode(true);
+            break;
+        case PENCIL_BTN:
+        case MARKERPEN_BTN:
+            CZActiveState::getInstance()->setEraseMode(false);
+            CZActiveState::getInstance()->setActiveBrush(int(button.tag-PENCIL_BTN));
+            break;
+        default:
+            break;
+    }
 }
 
 /*
