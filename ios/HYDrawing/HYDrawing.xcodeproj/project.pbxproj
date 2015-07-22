@@ -31,7 +31,8 @@
 		53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590781B5E02CA00E9D2F0 /* radialFade.frag */; };
 		53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590791B5E02CA00E9D2F0 /* unPremultipliedBlit.frag */; };
 		60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60216AE71B588A21009186F4 /* HYMenuViewController.m */; };
-		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
+		6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */; };
+		608042041B57BE1400B3AB52 /* HYDrawingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */; };
 		60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */; };
 /* End PBXBuildFile section */
 
@@ -92,10 +93,12 @@
 		60216AE61B588A21009186F4 /* HYMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMenuViewController.h; sourceTree = "<group>"; };
 		60216AE71B588A21009186F4 /* HYMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMenuViewController.m; sourceTree = "<group>"; };
 		60216AE91B589440009186F4 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
+		6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEditViewController.h; sourceTree = "<group>"; };
+		6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEditViewController.m; sourceTree = "<group>"; };
 		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
+		608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDrawingViewController.mm; sourceTree = "<group>"; };
 		60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPopoverBackgroundView.h; sourceTree = "<group>"; };
 		60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPopoverBackgroundView.m; sourceTree = "<group>"; };
-		608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDrawingViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +154,8 @@
 				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,
+				6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */,
+				6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */,
 				60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */,
 				60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */,
 				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
@@ -165,10 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				53D5906B1B5E025A00E9D2F0 /* Shader */,
-				53851B661B57AADE00B6F946 /* AppDelegate.h */,
-				53851B671B57AADE00B6F946 /* AppDelegate.m */,
-				53851B6F1B57AADE00B6F946 /* Images.xcassets */,
-				53851B711B57AADE00B6F946 /* LaunchScreen.xib */,
 				53851B631B57AADE00B6F946 /* Info.plist */,
 				53851B641B57AADE00B6F946 /* main.m */,
 			);
@@ -204,8 +205,6 @@
 		53851BA21B5CA0F200B6F946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				53851B941B5899F600B6F946 /* BottomBarView.m */,
-				53851B931B5899F600B6F946 /* BottomBarView.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -371,6 +370,7 @@
 				60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */,
 				53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */,
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
+				6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.mm in Sources */,
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,

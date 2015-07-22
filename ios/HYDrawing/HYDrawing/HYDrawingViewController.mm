@@ -10,6 +10,7 @@
 #import "BottomBarView.h"
 #import "HYMenuViewController.h"
 #import "DDPopoverBackgroundView.h"
+#import "ImageEditViewController.h"
 #import "Macro.h"
 #include "BrushesCore.h"
 
@@ -273,6 +274,9 @@
     UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
     [picker dismissViewControllerAnimated:YES completion:^{
         [self insertImage:image];
+        ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
+        [self.navigationController pushViewController:imageEditViewController animated:NO];
+        
     }];
 }
 @end
