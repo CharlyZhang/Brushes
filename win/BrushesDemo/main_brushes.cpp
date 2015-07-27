@@ -34,7 +34,7 @@ CZTexture *showTex = NULL;
 CZImage *screenImg = NULL;
 
 #if STAMP_TEX
-CZStampGenerator *stampGen =  CZActiveState::getInstance()->getGenerator();
+CZStampGenerator *stampGen =  CZActiveState::getInstance()->getGenerator(0);
 #endif
 
 #if STROKE_TEX
@@ -689,7 +689,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				width = height = 128;
 				unsigned char *buf = NULL;
 				CZUtil::loadBMP(BmpImageName,buf,width,height);
-				CZImage *img = new CZImage((int)width,(int)height,RGB_BYTE,(void*)buf);
+				CZImage *img = new CZImage((int)width,(int)height,RGBA_BYTE,(void*)buf);
 				painting->getActiveLayer()->renderImage(img,CZAffineTransform::makeFromTranslation(100,100));
 				//showTex = new CZTexture(width,height,RGB_BYTE,(void*)buf);
 				//glBindTexture(GL_TEXTURE_2D, showTex->texId);
@@ -698,6 +698,18 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 				canvas->isDirty = true;
 				//painting->addNewLayer();
 				keys['I'] = false;
+			}
+			if (keys['A'])
+			{
+				painting->addNewLayer();
+				canvas->isDirty = true;
+				keys['A'] = false;
+			}
+			if (keys['M'])
+			{
+				painting->moveLayer(0,1);
+				canvas->isDirty = true;
+				keys['M'] = false;
 			}
 #endif
 		}

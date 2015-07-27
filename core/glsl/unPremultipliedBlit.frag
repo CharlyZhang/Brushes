@@ -12,10 +12,12 @@ varying vec2 varTexcoord;
 uniform sampler2D texture;
 uniform float opacity;
 
-void main (void)
+void main (void) 
 {
     gl_FragColor = texture2D(texture, varTexcoord.st, 0.0);
     
-    // -- layer with un-premultiplied data
+    // undo the premultiplication
+    gl_FragColor.rgb /= gl_FragColor.a;
+    
     gl_FragColor.a *= opacity;
 }

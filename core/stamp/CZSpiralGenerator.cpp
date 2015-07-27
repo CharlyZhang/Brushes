@@ -14,6 +14,7 @@
 #include "../basic/CZAffineTransform.h"
 #include "../path/CZBezierNode.h"
 #include "../CZUtil.h"
+#include "../graphic/CZGLContext.h"
 #include "../graphic/glDef.h"
 #include <cmath>
 
@@ -52,20 +53,28 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		return;
 	}
 
-	if(ptrGLContext = NULL)
+	if(ptrGLContext == NULL)
 	{
 		LOG_ERROR("ptrGLContext is NULL!\n");
 		return;
 	}
 
-	vector<string> attributes, uniforms;
-	attributes.push_back("inPosition");
-	uniforms.push_back("mvpMat");
-	uniforms.push_back("intensity");
-	CZShader shader("basic","basicColor",attributes,uniforms);
-	shader.begin();
+	CZShader *shader = getShader("basicColor");
+	if (shader == NULL)
+	{
+		ptrGLContext->setAsCurrent();
+		vector<string> attributes, uniforms;
+		attributes.push_back("inPosition");
+		uniforms.push_back("mvpMat");
+		uniforms.push_back("intensity");
+		shader = new CZShader("basic","basicColor",attributes,uniforms);
 
-	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+		shaders.insert(make_pair("basicColor",shader));
+	}
+
+	shader->begin();
+
+	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 
 	float dim = baseDimension - 20;
 
@@ -79,12 +88,12 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		radius -= 2;
 
 		GLfloat c = randomizer->nextFloat();
-		glUniform1f(shader.getUniformLocation("intensity"),c);
+		glUniform1f(shader->getUniformLocation("intensity"),c);
 
 		drawSpiral(center,radius,randomizer);
 	}
 
-	shader.end();
+	shader->end();
 }
 
 /// »æÖÆÂÝÐýÏß

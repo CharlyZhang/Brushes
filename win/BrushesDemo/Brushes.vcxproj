@@ -22,6 +22,7 @@
     <None Include="..\..\core\glsl\compositeWithMask.frag" />
     <None Include="..\..\core\glsl\basicColor.frag" />
     <None Include="..\..\core\glsl\basic.vert" />
+    <None Include="..\..\core\glsl\fillCircle.frag" />
     <None Include="..\..\core\glsl\nonPremultipliedBlit.frag" />
     <None Include="..\..\core\glsl\radialFade.frag" />
     <None Include="..\..\core\glsl\unPremultipliedBlit.frag" />
@@ -56,6 +57,7 @@
     <ClCompile Include="..\..\core\path\CZBezierNode.cpp" />
     <ClCompile Include="..\..\core\path\CZBezierSegment.cpp" />
     <ClCompile Include="..\..\core\path\CZPath.cpp" />
+    <ClCompile Include="..\..\core\stamp\CZBristleGenerator.cpp" />
     <ClCompile Include="..\..\core\stamp\CZRoundGenerator.cpp" />
     <ClCompile Include="..\..\core\stamp\CZSpiralGenerator.cpp" />
     <ClCompile Include="..\..\core\stamp\CZStampGenerator.cpp" />
@@ -101,6 +103,7 @@
     <ClInclude Include="..\..\core\serialization\CZCoder.h" />
     <ClInclude Include="..\..\core\serialization\CZCoding.h" />
     <ClInclude Include="..\..\core\serialization\CZDecoder.h" />
+    <ClInclude Include="..\..\core\stamp\CZBristleGenerator.h" />
     <ClInclude Include="..\..\core\stamp\CZRoundGenerator.h" />
     <ClInclude Include="..\..\core\stamp\CZSpiralGenerator.h" />
     <ClInclude Include="..\..\core\stamp\CZStampGenerator.h" />

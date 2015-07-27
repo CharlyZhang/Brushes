@@ -624,11 +624,8 @@ bool CZLayer::undoAction()
 		/// take undo action
 		GLint xoffset = (GLint)undoFragment->bounds.getMinX();
 		GLint yoffset = (GLint)undoFragment->bounds.getMinY();
-		GLsizei width = (GLsizei)undoFragment->bounds.size.width;
-		GLsizei height = (GLsizei)undoFragment->bounds.size.height;
 
-		glBindTexture(GL_TEXTURE_2D, myTexture->texId);
-		glTexSubImage2D(GL_TEXTURE_2D,0,xoffset,yoffset,width,height,GL_RGBA,GL_FLOAT,undoFragment->data->data);
+		myTexture->modifyWith(undoFragment->data,xoffset,yoffset);
 		canUndo = false;
 	}
 	else return false;
@@ -644,11 +641,8 @@ bool CZLayer::redoAction()
 		/// take redo action
 		GLint xoffset = (GLint)redoFragment->bounds.getMinX();
 		GLint yoffset = (GLint)redoFragment->bounds.getMinY();
-		GLsizei width = (GLsizei)redoFragment->bounds.size.width;
-		GLsizei height = (GLsizei)redoFragment->bounds.size.height;
-
-		glBindTexture(GL_TEXTURE_2D, myTexture->texId);
-		glTexSubImage2D(GL_TEXTURE_2D,0,xoffset,yoffset,width,height,GL_RGBA,GL_FLOAT,redoFragment->data->data);
+		
+		myTexture->modifyWith(redoFragment->data,xoffset,yoffset);
 		canRedo = false;
 		canUndo = true;
 	}
