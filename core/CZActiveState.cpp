@@ -14,6 +14,7 @@
 #include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
 #include "stamp/CZRoundGenerator.h"
+#include "stamp/CZBristleGenerator.h"
 #include "tool/CZFreehandTool.h"
 #include "tool/CZEraserTool.h"
 #include "CZUtil.h"
@@ -209,6 +210,7 @@ int CZActiveState::setUpGenerators()
 {
 	generators["spiral"] = new CZSpiralGenerator(stampGLContext);
 	generators["radialFade"] = new CZRoundGenerator(stampGLContext);
+	generators["bristle"] = new CZBristleGenerator(stampGLContext);
 
 	return generators.size();
 }

@@ -34,7 +34,7 @@ CZTexture *showTex = NULL;
 CZImage *screenImg = NULL;
 
 #if STAMP_TEX
-CZStampGenerator *stampGen =  CZActiveState::getInstance()->getGenerator();
+CZStampGenerator *stampGen =  CZActiveState::getInstance()->getGenerator(0);
 #endif
 
 #if STROKE_TEX
