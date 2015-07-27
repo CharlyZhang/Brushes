@@ -47,6 +47,7 @@
 		2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D2BE5471A0C9196003724D4 /* InfoPlist.strings */; };
 		2D4F336F1AE3F7B40067D7A6 /* CZCanvas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
+		53ED4D3F1B66408200735078 /* CZBristleGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +172,8 @@
 		2D8F25031B4E03A300D1B5DF /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = nonPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2D8F25041B4E03A300D1B5DF /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = radialFade.frag; sourceTree = "<group>"; };
 		2D8F25051B4E03A300D1B5DF /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
+		53ED4D3D1B66408200735078 /* CZBristleGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBristleGenerator.h; sourceTree = "<group>"; };
+		53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZBristleGenerator.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +297,8 @@
 		2D1B258F1ADF01F2006841C3 /* stamp */ = {
 			isa = PBXGroup;
 			children = (
+				53ED4D3D1B66408200735078 /* CZBristleGenerator.h */,
+				53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */,
 				2D0A065F1AEF2A7F00BD46E8 /* CZRoundGenerator.cpp */,
 				2D0A065B1AEF2A3E00BD46E8 /* CZRoundGenerator.h */,
 				2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.mm */,
@@ -518,6 +523,7 @@
 				2D1B25B51ADF01F2006841C3 /* CZBezierSegment.cpp in Sources */,
 				2D1B259E1ADF01F2006841C3 /* CZColor.cpp in Sources */,
 				2D1B25A51ADF01F2006841C3 /* CZBrush.cpp in Sources */,
+				53ED4D3F1B66408200735078 /* CZBristleGenerator.mm in Sources */,
 				2D1B259D1ADF01F2006841C3 /* CZAffineTransform.cpp in Sources */,
 				2D1B25BD1ADF0252006841C3 /* CZFbo.mm in Sources */,
 				2D1B25CB1ADF1AF2006841C3 /* CZPath.mm in Sources */,

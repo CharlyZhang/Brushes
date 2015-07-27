@@ -15,7 +15,6 @@
 		2D63C8D01B46516D0024AF37 /* memo.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C8CF1B46516D0024AF37 /* memo.md */; };
 		2D7806881A10BAE1003F7479 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D7806871A10BAE1003F7479 /* OpenGLES.framework */; };
 		2D8F24CE1B4A4AFF00D1B5DF /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24CD1B4A4AFF00D1B5DF /* Storyboard.storyboard */; };
-		2D8F24DD1B4A76E800D1B5DF /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24CF1B4A76E800D1B5DF /* basic.vert */; };
 		2D8F24DE1B4A76E800D1B5DF /* basicColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24D01B4A76E800D1B5DF /* basicColor.frag */; };
 		2D8F24DF1B4A76E800D1B5DF /* basicWithCoord.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24D11B4A76E800D1B5DF /* basicWithCoord.vert */; };
 		2D8F24E01B4A76E800D1B5DF /* blit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24D21B4A76E800D1B5DF /* blit.frag */; };
@@ -46,6 +45,8 @@
 		2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.mm */; };
 		2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */; };
 		2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */; };
+		53ED4D431B6640A600735078 /* fillCircle.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53ED4D411B6640A600735078 /* fillCircle.frag */; };
+		53ED4D441B6640A600735078 /* fillCircle.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53ED4D421B6640A600735078 /* fillCircle.vert */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +70,6 @@
 		2D7806871A10BAE1003F7479 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		2D7806891A10BAE8003F7479 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../../../../Library/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
 		2D8F24CD1B4A4AFF00D1B5DF /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = ../Storyboard.storyboard; sourceTree = "<group>"; };
-		2D8F24CF1B4A76E800D1B5DF /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../../core/glsl/basic.vert; sourceTree = "<group>"; };
 		2D8F24D01B4A76E800D1B5DF /* basicColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basicColor.frag; path = ../../../../core/glsl/basicColor.frag; sourceTree = "<group>"; };
 		2D8F24D11B4A76E800D1B5DF /* basicWithCoord.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basicWithCoord.vert; path = ../../../../core/glsl/basicWithCoord.vert; sourceTree = "<group>"; };
 		2D8F24D21B4A76E800D1B5DF /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.frag; path = ../../../../core/glsl/blit.frag; sourceTree = "<group>"; };
@@ -106,6 +106,8 @@
 		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		2DC7D0E41AE9D585007DB4C7 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
+		53ED4D411B6640A600735078 /* fillCircle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fillCircle.frag; path = ../../../../core/glsl/fillCircle.frag; sourceTree = "<group>"; };
+		53ED4D421B6640A600735078 /* fillCircle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fillCircle.vert; path = ../../../../core/glsl/fillCircle.vert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +139,8 @@
 		2D78068F1A10BB8A003F7479 /* shader */ = {
 			isa = PBXGroup;
 			children = (
-				2D8F24CF1B4A76E800D1B5DF /* basic.vert */,
+				53ED4D411B6640A600735078 /* fillCircle.frag */,
+				53ED4D421B6640A600735078 /* fillCircle.vert */,
 				2D8F24D01B4A76E800D1B5DF /* basicColor.frag */,
 				2D8F24D11B4A76E800D1B5DF /* basicWithCoord.vert */,
 				2D8F24D21B4A76E800D1B5DF /* blit.frag */,
@@ -321,16 +324,17 @@
 			files = (
 				2D8F24E81B4A76E800D1B5DF /* nonPremultipliedBlit.frag in Resources */,
 				2D8F24EA1B4A76E800D1B5DF /* unPremultipliedBlit.frag in Resources */,
+				53ED4D431B6640A600735078 /* fillCircle.frag in Resources */,
 				2D8F24E21B4A76E800D1B5DF /* blitWithEraseMask.frag in Resources */,
 				2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */,
 				2D8F24DF1B4A76E800D1B5DF /* basicWithCoord.vert in Resources */,
+				53ED4D441B6640A600735078 /* fillCircle.vert in Resources */,
 				2D8F24DE1B4A76E800D1B5DF /* basicColor.frag in Resources */,
 				2D63C8831B452A6E0024AF37 /* Shader.vert in Resources */,
 				2DB759401A10B938009E05B8 /* InfoPlist.strings in Resources */,
 				2D8F24E61B4A76E800D1B5DF /* compositeWithEraseMask.frag in Resources */,
 				2D8F24E71B4A76E800D1B5DF /* compositeWithMask.frag in Resources */,
 				2D8F24E31B4A76E800D1B5DF /* blitWithMask.frag in Resources */,
-				2D8F24DD1B4A76E800D1B5DF /* basic.vert in Resources */,
 				2D8F24E01B4A76E800D1B5DF /* blit.frag in Resources */,
 				2D63C8651B452A0A0024AF37 /* checkerplate.png in Resources */,
 				2D8F24E41B4A76E800D1B5DF /* brush.frag in Resources */,

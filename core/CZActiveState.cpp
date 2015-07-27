@@ -218,7 +218,7 @@ int CZActiveState::setUpGenerators()
 /// ≥ı ºªØª≠À¢
 int CZActiveState::initBrushes()
 {
-	int brushNum = 2;
+	int brushNum = 3;
 
 	eraseBrushIdx = paintBrushIdx = -1;
 	for(int i=0; i<brushNum; i++)	addNewBrush(i);

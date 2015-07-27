@@ -82,7 +82,7 @@
     
     [self setBrushSize:10.0];
     [self updatePaintColor];
-    brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",nil];
+    brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",@"brush3",nil];
     self.colorFillSwitcher = nil;
     self.layersNumber = painting->getLayersNumber();
 }
