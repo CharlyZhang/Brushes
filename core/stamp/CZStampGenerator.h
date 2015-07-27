@@ -55,7 +55,7 @@ public:
 	/// 获取随机化器
 	CZRandom *getRandomizer();
 	/// 配置笔刷参数
-	void configureBrush(CZBrush *brush);
+	virtual void configureBrush(CZBrush *brush);
 	/// 返回属性值
 	std::vector<CZProperty> & getProperties();
 
@@ -72,6 +72,9 @@ protected:
 	CZPath* splat();
 	/// 
 	CZRect randomRect();
+
+	/// 获取着色器
+	CZShader* getShader(std::string name);
 
 	///// helper for subclass
 	/// 绘制径向衰变圈
@@ -91,6 +94,7 @@ protected:
 	CZRandom *randomizer;		///< 与seed相关的随机化器
 	CZGLContext *ptrGLContext;	///< gl上下文
 	std::map<std::string,CZProperty*> rawProperties;
+	std::map<std::string,CZShader*>	shaders;	///< 着色器
 	CZMat4 projMat;
 };
 

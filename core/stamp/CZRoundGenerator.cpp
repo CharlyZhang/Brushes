@@ -1,5 +1,6 @@
 
 #include "CZRoundGenerator.h"
+#include "../graphic/CZGLContext.h"
 
 using namespace std;
 
