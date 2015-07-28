@@ -11,11 +11,15 @@
 
 #include "CZBristleGenerator.h"
 #include "../CZUtil.h"
+#include "../brush/CZBrush.h"
 #include "../basic/CZ2DPoint.h"
 #include "../graphic/CZGLContext.h"
 #include "../graphic/glDef.h"
 #include <map>
 #include <string>
+
+#define PENCIL	1
+#define CRAYON	0
 
 using namespace std;
 
@@ -28,8 +32,13 @@ CZBristleGenerator::CZBristleGenerator(CZGLContext *ctx):CZStampGenerator(ctx)
 	bristleSize.minimumValue = 0.01f;
 
 	/// set by CharlyZhang
+#if CRAYON
+	bristleDensity.value = 0.16;
+	bristleSize.value = 0.83;
+#elif PENCIL
 	bristleDensity.value = 0.02;
 	bristleSize.value = 0.7;
+#endif
 
 }
 
@@ -133,4 +142,36 @@ void CZBristleGenerator::renderStamp(CZRandom* randomizer)
 
 	shader->end();
 	CZCheckGLError();
+}
+
+/// ÅäÖÃ±ÊË¢²ÎÊý
+void CZBristleGenerator::configureBrush(CZBrush *brush)
+{
+	if(!brush)
+	{
+		LOG_ERROR("brush is null\n");
+		return;
+	}
+
+	brush->weight.value = 10;//80;
+#if CRAYON
+	brush->intensity.value = 0.87;
+	brush->angle.value = 164;
+	brush->spacing.value = 0.06;
+	brush->rotationalScatter.value =0.79;
+	brush->positionalScatter.value =0.03;
+	brush->angleDynamics.value = 0.05;
+	brush->weightDynamics.value = 0.41;
+	brush->intensityDynamics.value = 0.07;
+#elif PENCIL
+	brush->intensity.value = 1.0f;
+	brush->angle.value = 142;
+	brush->spacing.value = 0.0f;
+	brush->rotationalScatter.value =0.46;
+	brush->positionalScatter.value =0.8;
+	brush->angleDynamics.value = 1.0f;
+	brush->weightDynamics.value = -0.82;
+	brush->intensityDynamics.value = -0.77f;
+#endif
+
 }

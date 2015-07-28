@@ -144,6 +144,8 @@ bool InitGL(GLsizei Width, GLsizei Height)	// This Will Be Called Right After Th
 	painting = new CZPainting(CZSize(windowWidth,windowHeight));
 	canvas = new CZCanvas(CZRect(0,0,windowHeight,windowHeight));
 	canvas->setPaiting(painting);
+	CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+	//brush->weight.value = 10;
 #endif
 
 	return true;

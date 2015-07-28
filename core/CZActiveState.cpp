@@ -92,8 +92,8 @@ int CZActiveState::addNewBrush(int idx /* = -1*/)
 
 	CZBrush* random = new CZBrush(gen);
 	random->weight.value = CZUtil::RandomFloat() * 56 + 44;
-	random->intensity.value = 0.15f;
-	random->spacing.value = 0.02;
+	//random->intensity.value = 0.15f;
+	//random->spacing.value = 0.02;
 
 	int activeBrushIdx = eraseMode ? eraseBrushIdx : paintBrushIdx;
 

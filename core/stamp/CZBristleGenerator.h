@@ -26,6 +26,8 @@ public:
 	/// ªÊ÷∆Õº∞∏
 	void renderStamp(CZRandom* randomizer);
 
+	void configureBrush(CZBrush *brush);
+
 public:
 	CZProperty bristleDensity;
 	CZProperty bristleSize;
