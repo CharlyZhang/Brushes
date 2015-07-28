@@ -13,13 +13,13 @@
 #include <string.h>
 #include <queue>
 #include <stack>
-#include <windows.h>
+#include <cmath>
 
 using namespace std;
 
 typedef struct Position {int x,y; Position(int x_, int y_) {x = x_; y = y_;}} Position;
 
-CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */, void* data_ /*= NULL*/)
+CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_STORAGEMODE */, const void* data_ /*= NULL*/)
 {
 	width = w_;
 	height = h_;
@@ -36,7 +36,7 @@ CZImage::CZImage(int w_/* =0 */, int h_/* =0 */, StorageMode mode_ /* = DEFAULT_
 		LOG_ERROR("ImageMode is illegal!\n");
 		n = 0;
 	}
-
+    
 	if(type == 0)
 	{
 		data = (void*) new unsigned char[n*width*height];
@@ -214,7 +214,7 @@ CZImage* CZImage::modifyDataFrom1(int x,int y, float r, float g, float b, float 
 			else break;
 	}
 
-	printf("total steps %ld\n",step);
+	LOG_DEBUG("total steps %ld\n",step);
 	delete [] flag;
 
 	CZImage *ret = NULL;
@@ -243,8 +243,6 @@ CZImage* CZImage::modifyDataFrom(int x,int y, float r, float g, float b, float a
 	modifyData(x,y,fillColor);
 	flag[y*width+x] = true;
 	static long step = 0;
-	DWORD start,stop;
-	start = GetTickCount();
 
 	while(!myQueue.empty())
 	{
@@ -289,9 +287,8 @@ CZImage* CZImage::modifyDataFrom(int x,int y, float r, float g, float b, float a
 			else break;
 	}
 
-	stop = GetTickCount();
-	printf("time: %ld ms\n",stop-start);
-	printf("total steps %ld\n",step);
+
+	LOG_DEBUG("total steps %ld\n",step);
 
 	modifiedRect.origin = CZ2DPoint(minX,minY);
 	modifiedRect.size = CZSize(maxX-minX+1, maxY-minY+1);
@@ -329,7 +326,7 @@ void CZImage::modifyArea(CZImage * &backupImg,CZRect rect, float fillColor[])
 		unsigned char *backupData = new unsigned char[n*w*h];
 		unsigned char *originalData = (unsigned char*)data;
 		unsigned char *colors = new unsigned char[n];
-		for(int i=0; i<n; i++) colors[i] = unsigned char(fillColor[i]*255);
+		for(int i=0; i<n; i++) colors[i] = (unsigned char)(fillColor[i]*255);
 
 		for(int i=0; i<h; i++)
 		{
@@ -396,7 +393,7 @@ void CZImage::modifyData(int x,int y, float fillcolor[])
 	{
 	case RGB_BYTE:	
 		b_data = &((unsigned char*)data)[(y*width+x)*3];
-		for(int i=0; i<3; i++) b_data[i] = unsigned char(fillcolor[i]*255);
+		for(int i=0; i<3; i++) b_data[i] = (unsigned char)(fillcolor[i]*255);
 		break;
 	case RGB_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*3];
@@ -404,7 +401,7 @@ void CZImage::modifyData(int x,int y, float fillcolor[])
 		break;
 	case RGBA_BYTE:		
 		b_data = &((unsigned char*)data)[(y*width+x)*4];
-		for(int i=0; i<4; i++) b_data[i] = unsigned char(fillcolor[i]*255);
+		for(int i=0; i<4; i++) b_data[i] = (unsigned char)(fillcolor[i]*255);
 		break;
 	case RGBA_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*4];
@@ -423,8 +420,8 @@ bool CZImage::isSameColorAt(int x,int y, float compareColor[])
 	
 	getColorAt(x,y,color);
 
-	for(int i=0; i<3; i++)						if(abs(color[i]-compareColor[i]) >= epslon) return false;
-	if(mode == RGBA_FLOAT || mode == RGBA_BYTE) if(abs(color[3]-compareColor[3]) >= epslon) return false;
+	for(int i=0; i<3; i++)						if(fabs(color[i]-compareColor[i]) >= epslon) return false;
+	if(mode == RGBA_FLOAT || mode == RGBA_BYTE) if(fabs(color[3]-compareColor[3]) >= epslon) return false;
 	return true;
 }
 
@@ -438,7 +435,7 @@ bool CZImage::getColorAt(int x, int y, float color[])
 	{
 	case RGB_BYTE:	
 		b_data = &((unsigned char*)data)[(y*width+x)*3];
-		for(int i=0; i<3; i++)	color[i] = b_data[i] / 256.0f;
+		for(int i=0; i<3; i++)	color[i] = b_data[i] / 255.0f;
 		color[3] = 0.0f;
 		break;
 	case RGB_FLOAT:
@@ -448,7 +445,7 @@ bool CZImage::getColorAt(int x, int y, float color[])
 		break;
 	case RGBA_BYTE:		
 		b_data = &((unsigned char*)data)[(y*width+x)*4];
-		for(int i=0; i<4; i++)	color[i] = b_data[i] / 256.0f;
+		for(int i=0; i<4; i++)	color[i] = b_data[i] / 255.0f;
 		break;
 	case RGBA_FLOAT:
 		f_data = &((float*)data)[(y*width+x)*4];

@@ -15,7 +15,7 @@
 #define _CZFBO_H_
 
 #include "CZTexture.h"
-#include "basic/CZRect.h"
+#include "../basic/CZRect.h"
 
 class CZFbo
 {

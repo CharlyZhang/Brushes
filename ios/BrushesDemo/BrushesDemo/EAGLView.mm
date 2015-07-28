@@ -7,7 +7,6 @@
 //
 
 
-
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGLDrawable.h>
 
@@ -23,9 +22,9 @@
 
 #define REACT_PIC_TEX       0
 #define SHOW_PIC_TEX        0
-#define SHOW_STAMP_TEX      1
+#define SHOW_STAMP_TEX      0
 #define SHOW_PREVIEW_TEX    0
-#define SHOW_FREE_DRAW      0
+#define SHOW_FREE_DRAW      1
 
 // const
 GLfloat gVertexData[20] =
@@ -60,7 +59,6 @@ enum
     CZTexture *stampTex;
     CZTool *freehand;
     CZPainting *painting;
-    
 }
 
 @property (nonatomic, retain) EAGLContext *context;
@@ -108,7 +106,7 @@ enum
         painting = NULL;
         
 #if SHOW_STAMP_TEX
-        CZStampGenerator *gen = CZActiveState::getInstance()->getGenerator();
+        CZStampGenerator *gen = CZActiveState::getInstance()->getGenerator(0);
         CZImage *img = gen->getStamp();
         [EAGLContext setCurrentContext:context];
         stampTex = CZTexture::produceFromImage(img);
@@ -132,6 +130,7 @@ enum
         painting = new CZPainting(CZSize(size.width, size.height));
         freehand = CZActiveState::getInstance()->getActiveTool();
         freehand->ptrPainting = painting;
+        CZActiveState::getInstance()->setActiveBrush(1);
         context = (EAGLContext *) painting->getGLContext()->getRealContext();
         [self checkGLError:NO];
 #endif
@@ -145,12 +144,12 @@ enum
         
         [self checkGLError:NO];
         locX = locY = 0.0f;
+
     }
     return self;
 }
 
 - (void)drawView {
-
     [EAGLContext setCurrentContext:context];    
     glBindFramebuffer(GL_FRAMEBUFFER, viewFramebuffer);
     glViewport(0, 0, backingWidth, backingHeight);
@@ -175,7 +174,6 @@ enum
   
     // update the data
 #if REACT_PIC_TEX
-    // update the data
     for (int i=0; i<4; i++) {
         data[5*i+0] = gVertexData[5*i+0] + locX;
         data[5*i+1] = gVertexData[5*i+1] + locY;
@@ -205,6 +203,7 @@ enum
    
     CZMat4 proj;
     proj.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
+    
 #if !SHOW_FREE_DRAW
     glBindTexture(GL_TEXTURE_2D, textures[0]);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -238,6 +237,7 @@ enum
     //NSLog(@"touchBegin %f, %f",location.x,location.y);
     locX = location.x;
     locY = self.bounds.size.height - location.y;
+    
 #if SHOW_FREE_DRAW
     freehand->moveBegin(locX,locY);
 #endif
@@ -555,7 +555,6 @@ enum
 }
 
 - (void)dealloc {
-    
     [EAGLContext setCurrentContext:self.context];
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);

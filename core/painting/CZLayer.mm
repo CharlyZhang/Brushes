@@ -40,6 +40,10 @@ CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
     }
     
     uuid = CZUtil::generateUUID();
+    
+    undoFragment = redoFragment = NULL;
+    
+    canRedo = canUndo = false;
 }
 CZLayer::~CZLayer()
 {
@@ -339,7 +343,7 @@ void CZLayer::blit(CZMat4 &projection, CZTexture *maskTexture, CZColor &bgColor)
 /// 将绘制的笔画合并到当前图层
 void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable)
 {
-    //if (undoable) [self registerUndoInRect:bounds];
+    if (undoable) registerUndoInRect(bounds);
     
     //ptrPainting->beginSuppressingNotifications();
     
@@ -486,6 +490,11 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
         return;
     }
     
+    /// register undo fragment
+    CZRect rect(0,0,img->width,img->height);
+    CZRect newRect = trans.applyToRect(rect);
+    registerUndoInRect(newRect);
+    
     bool hasAlpha = false;		///<
     
     ptrGLContext->setAsCurrent();
@@ -518,7 +527,7 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     glBindTexture(GL_TEXTURE_2D,tex->texId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
-    CZRect rect(0,0,img->width,img->height);
+    /// render image
     CZUtil::drawRect(rect,trans);
     
     shader->end();
@@ -602,6 +611,47 @@ bool CZLayer::setImage(CZImage *img)
     return true;
 }
 
+/// 撤销操作
+bool CZLayer::undoAction()
+{
+    if (canUndo && undoFragment)
+    {
+        /// save redo PaintingFragment
+        if (redoFragment) delete redoFragment;
+        CZImage *currentImg = imageDataInRect(undoFragment->bounds);
+        redoFragment = new CZPaintingFragment(currentImg,undoFragment->bounds);
+        canRedo = true;
+        
+        /// take undo action
+        GLint xoffset = (GLint)undoFragment->bounds.getMinX();
+        GLint yoffset = (GLint)undoFragment->bounds.getMinY();
+        
+        myTexture->modifyWith(undoFragment->data,xoffset,yoffset);
+        canUndo = false;
+    }
+    else return false;
+    
+    return true;
+}
+
+/// 重做操作
+bool CZLayer::redoAction()
+{
+    if (canRedo && redoFragment)
+    {
+        /// take redo action
+        GLint xoffset = (GLint)redoFragment->bounds.getMinX();
+        GLint yoffset = (GLint)redoFragment->bounds.getMinY();
+
+        myTexture->modifyWith(redoFragment->data,xoffset,yoffset);
+        canRedo = false;
+        canUndo = true;
+    }
+    else return false;
+    
+    return true;
+}
+
 /// 切换可见性
 void CZLayer::toggleVisibility()
 {
@@ -658,6 +708,38 @@ bool CZLayer::isEditable()
 char *CZLayer::getUUID()
 {
     return uuid;
+}
+
+/// 填充
+bool CZLayer::fill(CZColor &c, CZ2DPoint &p)
+{
+    CZSize size = ptrPainting->getDimensions();
+    if(p.x >= size.width || p.x < 0
+       || p.y >= size.height || p.y <0)
+    {
+        LOG_ERROR("fill center is beyond the painting range!\n");
+        return false;
+    }
+    
+    /// get the original texture data
+    CZImage *img = imageData();
+    CZImage *inverseImg = img->modifyDataFrom((int)p.x,(int)p.y,c.red,c.green,c.blue,c.alpha,modifiedRect);
+    
+    /// fill the area and save undo fragment
+    if(inverseImg)
+    {
+        ptrGLContext->setAsCurrent();
+        myTexture->modifyWith(img,modifiedRect.origin.x,modifiedRect.origin.y);
+        
+        if (undoFragment) delete undoFragment;;
+        undoFragment = new CZPaintingFragment(inverseImg,modifiedRect);
+        
+        canUndo = true;
+    }
+    
+    delete img;
+    
+    return true;
 }
 
 /// 实现coding的接口
@@ -794,4 +876,16 @@ void CZLayer::blit(CZMat4 &projection, const CZAffineTransform &trans)
     shader->end();
     
     CZCheckGLError();
+}
+
+/// 注册撤销操作
+void CZLayer::registerUndoInRect(CZRect &rect)
+{
+    if (undoFragment) delete undoFragment;
+    
+    CZRect newRect = rect.intersectWith(ptrPainting->getBounds());
+    CZImage *currentImg = imageDataInRect(newRect);
+    undoFragment = new CZPaintingFragment(currentImg,newRect);
+    
+    canUndo = true;
 }

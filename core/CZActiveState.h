@@ -68,6 +68,8 @@ public:
 	CZBrush *getActiveBrush();
 	/// 删除当前画刷
 	bool deleteActiveBrush();
+    ///
+    int getBrushesNumber();
 
 	/// 获取当前工具
 	/// 
@@ -94,6 +96,9 @@ private:
 	int setUpGenerators();
 	/// 初始化画刷
 	int initBrushes();
+    
+public:
+    bool colorFillMode;                                 ///< whether stay in color fill mode
 
 private:
 	static CZActiveState* ptrInstance;

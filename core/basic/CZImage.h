@@ -23,7 +23,7 @@ typedef enum StorageMode
 class CZImage
 {
 public:
-	CZImage(int w_=0, int h_=0, StorageMode mode_ = DEFAULT_STORAGEMODE, void* data_ = NULL);
+	CZImage(int w_=0, int h_=0, StorageMode mode_ = DEFAULT_STORAGEMODE, const void* data_ = NULL);
 	~CZImage();
 
 	StorageMode getMode() { return mode;}

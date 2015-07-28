@@ -1,4 +1,4 @@
-
+  
 ///  \file CZActiveState.cpp
 ///  \brief This is the file implements the CZActiveState Class.
 ///
@@ -34,6 +34,8 @@ CZActiveState::CZActiveState()
 
 	tools.push_back(new CZFreehandTool);
 	tools.push_back(new CZEraserTool);
+    
+    colorFillMode = false;
 
 }
 CZActiveState::~CZActiveState()
@@ -121,8 +123,10 @@ int CZActiveState::setActiveBrush(int idx)
 		return oldIdx;
 	}
 
-	if (eraseMode)	eraseBrushIdx = idx;
-	else			paintBrushIdx = idx;
+//	if (eraseMode)	eraseBrushIdx = idx;
+//	else			paintBrushIdx = idx;
+    
+    eraseBrushIdx = paintBrushIdx = idx;
 
 	return oldIdx;
 }
@@ -161,6 +165,12 @@ bool CZActiveState::deleteActiveBrush()
 	return true;
 }
 
+///
+int CZActiveState::getBrushesNumber()
+{
+    return brushes.size();
+}
+
 /// 获取当前工具
 /// 
 ///		\note 工具种类由当前的状态eraseMode决定
@@ -188,7 +198,7 @@ CZStampGenerator * CZActiveState::getGenerator(int idx /* = -1*/)
 	{
 		if(idx < 0)	idx = rand() % genNum;
 		for(map<string,CZStampGenerator*>::iterator itr = generators.begin(); itr != generators.end(); itr++)
-			if(idx-- == 0) return itr->second;
+            if(idx-- == 0)  return itr->second;
 	}
 
 	LOG_ERROR("generator candidates is none or idx is larger than genNum!\n");
@@ -213,7 +223,7 @@ int CZActiveState::initBrushes()
 	eraseBrushIdx = paintBrushIdx = -1;
 	for(int i=0; i<brushNum; i++)	addNewBrush(i);
 	
-	eraseBrushIdx = paintBrushIdx = 1;
+	eraseBrushIdx = paintBrushIdx = 0;
 	
 	return brushNum;
 }

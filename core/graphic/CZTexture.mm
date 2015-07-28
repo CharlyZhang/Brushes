@@ -1,3 +1,4 @@
+
 ///  \file CZTexture.cpp
 ///  \brief This is the file implement the Class CZTexture and other related classes.
 ///
@@ -59,7 +60,7 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     CZCheckGLError();
-    //GLenum      type = supportColor ? GL_HALF_FLOAT_OES : GL_UNSIGNED_BYTE;
+//    GLenum      type = supportColor ? GL_HALF_FLOAT_OES : GL_UNSIGNED_BYTE;
     //NSUInteger  bytesPerPixel = supportColor ? 8 : 4;
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)data);
@@ -92,6 +93,44 @@ CZTexture* CZTexture::produceFromImage(CZImage *img)
     
     CZTexture *ret = new CZTexture(img->width,img->height,img->getMode(),img->data);
     return ret;
+}
+
+/// 用图片数据修改纹理
+bool CZTexture::modifyWith(CZImage *img,int x /*= 0*/, int y /*= 0*/)
+{
+    if(img == NULL)
+    {
+        LOG_ERROR("img is NULL!\n");
+        return false;
+    }
+    
+    if (img->getMode() != mode)
+    {
+        LOG_ERROR("img's mode doesn't match texture mode!\n");
+        return false;
+    }
+    
+    glBindTexture(GL_TEXTURE_2D,texId);
+    
+    switch(mode)
+    {
+        case RGB_BYTE:
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGB,GL_UNSIGNED_BYTE,img->data);
+            break;
+        case RGBA_BYTE:
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGBA,GL_UNSIGNED_BYTE,img->data);
+            break;
+        case RGB_FLOAT:
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGB,GL_FLOAT,img->data);
+            break;
+        case RGBA_FLOAT:
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGBA,GL_FLOAT,img->data);
+            break;
+        default:
+            LOG_ERROR("illegal imgMode!\n");
+    }
+    
+    return true;
 }
 
 /// 获取其对应的图像数据

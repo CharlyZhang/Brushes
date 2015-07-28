@@ -207,7 +207,7 @@ void CZTool::moveEnd(CZ2DPoint &p_)
 void CZTool::moveEnd(float x_, float y_)
 {
     CZ2DPoint p(x_, y_);
-    moveEnd(p);
+    moveEnd(p); 
 }
 
 /// 对临时连续点中start_到end_的点进行平均处理
