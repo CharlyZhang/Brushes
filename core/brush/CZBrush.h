@@ -73,10 +73,10 @@ public:
 	char* uuid;						///< uuid
 	CZProperty weight;				///< 画笔的粗细 [1.0, 512.0]	-- pixels	
 	CZProperty intensity;			///< 笔刷的浓度 [0.0, 1.0]	-- 纹理的数目
-	CZProperty angle;				// [0.0, 1.0];
+	CZProperty angle;				// [0.0, 360.0];
 	CZProperty spacing;				///< 笔刷的密度 [0.01, 2.0]	-- percentage of brush width
-	CZProperty rotationalScatter;	// [0.0, 1.0]
-	CZProperty positionalScatter;	// [0.0, 1.0]
+	CZProperty rotationalScatter;	// [0.0, 1.0]		"Jitter"
+	CZProperty positionalScatter;	// [0.0, 1.0]		"Scatter"
 
 	CZProperty angleDynamics;		// [-1.0, 1.0]
 	CZProperty weightDynamics;		///< 目测是画笔滑动时的粗细的缩小值 [-1.0, 1.0]
