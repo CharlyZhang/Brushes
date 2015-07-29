@@ -27,7 +27,10 @@ public:
 	void renderStamp(CZRandom* randomizer);
 
 	void configureBrush(CZBrush *brush);
-
+    
+protected:
+    void drawCircle(const CZ2DPoint &center_, float radius_);
+    
 public:
 	CZProperty bristleDensity;
 	CZProperty bristleSize;

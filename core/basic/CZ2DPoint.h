@@ -17,9 +17,7 @@ class CZ2DPoint
 {
 public:
 	float x,y;
-
-	CZ2DPoint(){};
-	CZ2DPoint(float x_, float y_): x(x_), y(y_){};
+	CZ2DPoint(float x_ = 0.0f, float y_ = 0.0f): x(x_), y(y_){};
 
 	bool  operator<( const  CZ2DPoint & p_) const ;
 	bool  operator==( const  CZ2DPoint & p_) const ;

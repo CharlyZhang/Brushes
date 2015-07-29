@@ -52,7 +52,7 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		return;
 	}
 
-	if(ptrGLContext = NULL)
+	if(ptrGLContext == NULL)
 	{
 		LOG_ERROR("ptrGLContext is NULL!\n");
 		return;

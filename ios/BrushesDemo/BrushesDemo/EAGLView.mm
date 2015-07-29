@@ -12,6 +12,7 @@
 
 #import "EAGLView.h"
 #include "stamp/CZSpiralGenerator.h"
+#include "stamp/CZBristleGenerator.h"
 #include "graphic/CZTexture.h"
 #include "basic/CZImage.h"
 #include "CZActiveState.h"
@@ -22,9 +23,9 @@
 
 #define REACT_PIC_TEX       0
 #define SHOW_PIC_TEX        0
-#define SHOW_STAMP_TEX      0
+#define SHOW_STAMP_TEX      0           /// 代表画笔序号
 #define SHOW_PREVIEW_TEX    0
-#define SHOW_FREE_DRAW      1
+#define SHOW_FREE_DRAW      3           /// 代表画笔序号
 
 // const
 GLfloat gVertexData[20] =
@@ -63,6 +64,10 @@ enum
 
 @property (nonatomic, retain) EAGLContext *context;
 
+@property (nonatomic, retain) UISlider* bristleSizeSlider;
+@property (nonatomic, retain) UISlider* bristleDentitySlider;
+
+
 - (BOOL) createFramebuffer;
 - (void) destroyFramebuffer;
 
@@ -79,6 +84,77 @@ enum
     return [CAEAGLLayer class];
 }
 
+- (UISlider*)bristleDentitySlider{
+    if (!_bristleDentitySlider) {
+        _bristleDentitySlider = [[UISlider alloc]initWithFrame:CGRectMake(50, 0, 150, 48)];
+        _bristleDentitySlider.tag = 0;
+        _bristleDentitySlider.maximumValue = 1.0f;
+        _bristleDentitySlider.minimumValue = 0.0f;
+        [_bristleDentitySlider addTarget:self action:@selector(slideAction:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _bristleDentitySlider;
+}
+
+
+- (UISlider*)bristleSizeSlider{
+    if (!_bristleSizeSlider) {
+        _bristleSizeSlider = [[UISlider alloc]initWithFrame:CGRectMake(250, 0, 150, 48)];
+        _bristleSizeSlider.tag = 1;
+        _bristleSizeSlider.maximumValue = 1.0f;
+        _bristleSizeSlider.minimumValue = 0.0f;
+        [_bristleSizeSlider addTarget:self action:@selector(slideAction:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _bristleSizeSlider;
+}
+
+- (void)slideAction:(UISlider*)slider {
+    float v = slider.value;
+    NSLog(@"value is %f",v);
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CZStampGenerator *gen = (CZBristleGenerator *)brush->getGenerator();
+#if SHOW_FREE_DRAW
+    CZBristleGenerator *bGen = (CZBristleGenerator*)gen;
+    switch (slider.tag) {
+        case 0: ///< bristle dentity
+            bGen->bristleDensity.value = v;
+            bGen->propertiesChanged();
+            brush->generatorChanged(bGen);
+            break;
+        case 1: ///< bristle size
+            bGen->bristleSize.value = v;
+            gen->propertiesChanged();
+            brush->generatorChanged(bGen);
+            break;
+        default:
+            break;
+    }
+#endif
+    
+#if SHOW_STAMP_TEX
+    CZBristleGenerator *bGen = (CZBristleGenerator*)gen;
+    bGen->propertiesChanged();
+    switch (slider.tag) {
+        case 0: ///< bristle dentity
+            bGen->bristleDensity.value = v;
+            bGen->propertiesChanged();
+            break;
+        case 1: ///< bristle size
+            bGen->bristleSize.value = v;
+            bGen->propertiesChanged();
+            break;
+        default:
+            break;
+    }
+    CZImage *img = gen->getStamp();
+    [EAGLContext setCurrentContext:context];
+    delete stampTex;
+    stampTex = CZTexture::produceFromImage(img);
+    textures[0] = stampTex->texId;
+    [self checkGLError:NO];
+    [self drawView];
+#endif
+
+}
 
 -(id)initWithFrame:(CGRect)frame{
     if ((self = [super initWithFrame:frame])) {
@@ -106,7 +182,9 @@ enum
         painting = NULL;
         
 #if SHOW_STAMP_TEX
-        CZStampGenerator *gen = CZActiveState::getInstance()->getGenerator(0);
+        CZActiveState::getInstance()->setActiveBrush(SHOW_STAMP_TEX-1);
+        CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+        CZStampGenerator *gen = (CZBristleGenerator *)brush->getGenerator();
         CZImage *img = gen->getStamp();
         [EAGLContext setCurrentContext:context];
         stampTex = CZTexture::produceFromImage(img);
@@ -130,10 +208,15 @@ enum
         painting = new CZPainting(CZSize(size.width, size.height));
         freehand = CZActiveState::getInstance()->getActiveTool();
         freehand->ptrPainting = painting;
-        CZActiveState::getInstance()->setActiveBrush(1);
+        CZActiveState::getInstance()->setActiveBrush(SHOW_FREE_DRAW-1);
         context = (EAGLContext *) painting->getGLContext()->getRealContext();
         [self checkGLError:NO];
+        
 #endif
+        
+        
+        [self addSubview:self.bristleSizeSlider];
+        [self addSubview:self.bristleDentitySlider];
         
         [self loadShaders];
         [self setupView];

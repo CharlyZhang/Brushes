@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #include "BrushesCore.h"
+#include "stamp/CZBristleGenerator.h"
 #include "EAGLView.h"
 #import "LayersTableViewController.h"
 #import <CoreGraphics/CoreGraphics.h>
@@ -69,22 +70,24 @@
 
     NSLog(@"sandbox path is:%@",NSHomeDirectory());
     
-//    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
-//    [self.view addSubview:glView];
-//    [glView release];
+    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
+    [self.view addSubview:glView];
+    [glView release];
+    
+//
+//    CGSize size = [UIScreen mainScreen].bounds.size;
+//    canvas = new CZCanvas(CZRect(0,0,size.width,size.height-BOTTOM_OFFSET));
+//    painting = new CZPainting(CZSize(size.width,size.height-BOTTOM_OFFSET));
+//    canvas->setPaiting(painting);
+//    [self.view insertSubview:(UIView*)canvas->getView() atIndex:0];
 //    
-    
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    canvas = new CZCanvas(CZRect(0,0,size.width,size.height-BOTTOM_OFFSET));
-    painting = new CZPainting(CZSize(size.width,size.height-BOTTOM_OFFSET));
-    canvas->setPaiting(painting);
-    [self.view insertSubview:(UIView*)canvas->getView() atIndex:0];
-    
-    [self setBrushSize:10.0];
-    [self updatePaintColor];
-    brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",@"brush3",nil];
-    self.colorFillSwitcher = nil;
-    self.layersNumber = painting->getLayersNumber();
+//    [self setBrushSize:10.0];
+//    [self updatePaintColor];
+//    brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",@"brush3",nil];
+//    self.colorFillSwitcher = nil;
+//    self.layersNumber = painting->getLayersNumber();
+//    
+//    [self selectBrush:2];
 }
 
 - (BOOL)shouldAutorotate {
@@ -98,6 +101,47 @@
 }
 
 #pragma mark - Actions
+- (IBAction)adjustProperty:(UISlider *)sender {
+    float v = sender.value;
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CZBristleGenerator *gen = (CZBristleGenerator *)brush->getGenerator();
+    
+    switch (sender.tag) {
+        case 0: ///< intentity
+            brush->intensity.value = v;
+            break;
+        case 1: ///< angle
+            brush->angle.value = v;
+            break;
+        case 2: ///< spacing
+            brush->spacing.value = v;
+            break;
+        case 3: ///< dynamic itentity
+            brush->intensityDynamics.value = v;
+            break;
+        case 4: ///< jitter
+            brush->rotationalScatter.value = v;
+            break;
+        case 5: ///< scatter
+            brush->positionalScatter.value = v;
+            break;
+        case 6: ///< dynamic weight
+            brush->weightDynamics.value = v;
+            break;
+        case 7: ///< bristle dentity
+            gen->bristleDensity.value = v;
+            gen->propertiesChanged();
+            brush->generatorChanged(gen);
+            break;
+        case 8: ///< bristle size
+            gen->bristleSize.value = v;
+            gen->propertiesChanged();
+            brush->generatorChanged(gen);
+            break;
+        default:
+            break;
+    }
+}
 
 - (IBAction)sizeSlider:(UISlider *)sender {
     NSLog(@"size of slider : %f",sender.value);

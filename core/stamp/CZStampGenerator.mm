@@ -176,7 +176,7 @@ void CZStampGenerator::configureBrush(CZBrush *brush)
     }
     
     brush->weight.value = 30;//80;
-    brush->intensity.value = 0.3;
+    brush->intensity.value = 1.0f;
     brush->angle.value = 0;
     brush->spacing.value = 0.02;
     brush->rotationalScatter.value =0;

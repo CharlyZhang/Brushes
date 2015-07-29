@@ -45,6 +45,7 @@
 		2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.mm */; };
 		2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */; };
 		2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */; };
+		5353E6741B68771900ECDE9A /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 5353E6731B68771900ECDE9A /* basic.vert */; };
 		53ED4D431B6640A600735078 /* fillCircle.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53ED4D411B6640A600735078 /* fillCircle.frag */; };
 		53ED4D441B6640A600735078 /* fillCircle.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53ED4D421B6640A600735078 /* fillCircle.vert */; };
 /* End PBXBuildFile section */
@@ -106,6 +107,7 @@
 		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		2DC7D0E41AE9D585007DB4C7 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
+		5353E6731B68771900ECDE9A /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../../core/glsl/basic.vert; sourceTree = "<group>"; };
 		53ED4D411B6640A600735078 /* fillCircle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fillCircle.frag; path = ../../../../core/glsl/fillCircle.frag; sourceTree = "<group>"; };
 		53ED4D421B6640A600735078 /* fillCircle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fillCircle.vert; path = ../../../../core/glsl/fillCircle.vert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +143,7 @@
 			children = (
 				53ED4D411B6640A600735078 /* fillCircle.frag */,
 				53ED4D421B6640A600735078 /* fillCircle.vert */,
+				5353E6731B68771900ECDE9A /* basic.vert */,
 				2D8F24D01B4A76E800D1B5DF /* basicColor.frag */,
 				2D8F24D11B4A76E800D1B5DF /* basicWithCoord.vert */,
 				2D8F24D21B4A76E800D1B5DF /* blit.frag */,
@@ -341,6 +344,7 @@
 				2D8F24E91B4A76E800D1B5DF /* radialFade.frag in Resources */,
 				2DB759481A10B938009E05B8 /* Images.xcassets in Resources */,
 				2D8F24CE1B4A4AFF00D1B5DF /* Storyboard.storyboard in Resources */,
+				5353E6741B68771900ECDE9A /* basic.vert in Resources */,
 				2D8F24E51B4A76E800D1B5DF /* brush.vert in Resources */,
 				2D8F24EC1B4BC82C00D1B5DF /* profile.jpg in Resources */,
 				2D63C8821B452A6E0024AF37 /* Shader.frag in Resources */,

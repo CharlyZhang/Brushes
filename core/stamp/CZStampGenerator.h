@@ -58,6 +58,9 @@ public:
 	virtual void configureBrush(CZBrush *brush);
 	/// 返回属性值
 	std::vector<CZProperty> & getProperties();
+    
+    /// test property
+    void propertiesChanged() { if(stamp) {  delete stamp; stamp = NULL;} };
 
 	/// 实现coding接口
 	void update(CZDecoder *decoder_, bool deep = false){};
