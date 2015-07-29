@@ -120,7 +120,7 @@
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="Zr8-ni-wW3">
+                            <slider opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Zr8-ni-wW3">
                                 <rect key="frame" x="809" y="735" width="201" height="31"/>
                                 <connections>
                                     <action selector="sizeSlider:" destination="Si0-FH-ERo" eventType="valueChanged" id="u8y-K6-Vtx"/>

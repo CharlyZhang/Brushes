@@ -70,24 +70,24 @@
 
     NSLog(@"sandbox path is:%@",NSHomeDirectory());
     
-    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
-    [self.view addSubview:glView];
-    [glView release];
+//    EAGLView *glView = [[EAGLView alloc]initWithFrame:self.view.bounds];
+//    [self.view addSubview:glView];
+//    [glView release];
     
-//
-//    CGSize size = [UIScreen mainScreen].bounds.size;
-//    canvas = new CZCanvas(CZRect(0,0,size.width,size.height-BOTTOM_OFFSET));
-//    painting = new CZPainting(CZSize(size.width,size.height-BOTTOM_OFFSET));
-//    canvas->setPaiting(painting);
-//    [self.view insertSubview:(UIView*)canvas->getView() atIndex:0];
-//    
-//    [self setBrushSize:10.0];
-//    [self updatePaintColor];
-//    brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",@"brush3",nil];
-//    self.colorFillSwitcher = nil;
-//    self.layersNumber = painting->getLayersNumber();
-//    
-//    [self selectBrush:2];
+
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    canvas = new CZCanvas(CZRect(0,0,size.width,size.height-BOTTOM_OFFSET));
+    painting = new CZPainting(CZSize(size.width,size.height-BOTTOM_OFFSET));
+    canvas->setPaiting(painting);
+    [self.view insertSubview:(UIView*)canvas->getView() atIndex:0];
+    
+    [self setBrushSize:10.0];
+    [self updatePaintColor];
+    brushesName = [[NSArray alloc ]initWithObjects:@"brush1", @"brush2",@"brush3",nil];
+    self.colorFillSwitcher = nil;
+    self.layersNumber = painting->getLayersNumber();
+    
+    [self selectBrush:2];
 }
 
 - (BOOL)shouldAutorotate {
@@ -101,6 +101,7 @@
 }
 
 #pragma mark - Actions
+
 - (IBAction)adjustProperty:(UISlider *)sender {
     float v = sender.value;
     CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
