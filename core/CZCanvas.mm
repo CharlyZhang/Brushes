@@ -131,7 +131,7 @@
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
-    LOG_DEBUG("pan\n");
+    LOG_DEBUG("pan\t");
     
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
@@ -140,7 +140,11 @@
         CZActiveState::getInstance()->getActiveTool()->moveBegin(p.x,p.y);
     }
     else if (sender.state == UIGestureRecognizerStateChanged){
-        CZActiveState::getInstance()->getActiveTool()->moving(p.x, p.y, 1.0f);
+        CGPoint velocity = [sender velocityInView:sender.view];
+        CZ2DPoint zeroPoint; CZ2DPoint v(velocity.x,velocity.y);
+        float   speed = zeroPoint.distanceTo2DPoint(v) / 1000.0f; // pixels/millisecond
+        LOG_DEBUG("speed is %f\n", speed);
+        CZActiveState::getInstance()->getActiveTool()->moving(p.x, p.y, speed);
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
         CZActiveState::getInstance()->getActiveTool()->moveEnd(p.x, p.y);
