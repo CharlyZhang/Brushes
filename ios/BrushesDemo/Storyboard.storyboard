@@ -60,16 +60,6 @@
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kqN-Gq-VLR">
-                                <rect key="frame" x="953" y="701" width="55" height="29"/>
-                                <segments>
-                                    <segment title="画"/>
-                                    <segment title="擦"/>
-                                </segments>
-                                <connections>
-                                    <action selector="modeSegmentedCtrl:" destination="Si0-FH-ERo" eventType="valueChanged" id="xQ0-vG-Z0Q"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VWx-5u-7uP">
                                 <rect key="frame" x="24" y="694" width="36" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -165,6 +155,15 @@
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="EDF-Wu-ylg"/>
                                 </connections>
                             </slider>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="grM-CU-Wgv">
+                                <rect key="frame" x="974" y="700" width="34" height="30"/>
+                                <state key="normal" title="clear">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearButton:" destination="Si0-FH-ERo" eventType="touchUpInside" id="5vq-es-Hl2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

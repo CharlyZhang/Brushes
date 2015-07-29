@@ -18,8 +18,8 @@
 #include <map>
 #include <string>
 
-#define PENCIL	1
-#define CRAYON	0
+#define PENCIL	0
+#define CRAYON	1
 
 using namespace std;
 

@@ -88,6 +88,7 @@
     self.layersNumber = painting->getLayersNumber();
     
     [self selectBrush:2];
+    CZActiveState::getInstance()->setPaintColor(0, 0, 1);
 }
 
 - (BOOL)shouldAutorotate {
@@ -101,6 +102,11 @@
 }
 
 #pragma mark - Actions
+- (IBAction)clearButton:(UIButton *)sender {
+    CZLayer *layer = painting->getActiveLayer();
+    layer->clear();
+    canvas->drawView();
+}
 
 - (IBAction)adjustProperty:(UISlider *)sender {
     float v = sender.value;
@@ -143,6 +149,7 @@
             break;
     }
 }
+
 
 - (IBAction)sizeSlider:(UISlider *)sender {
     NSLog(@"size of slider : %f",sender.value);
