@@ -18,145 +18,137 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJ5-G7-ltA">
-                                <rect key="frame" x="16" y="730" width="55" height="36"/>
+                                <rect key="frame" x="7" y="729" width="118" height="36"/>
                                 <color key="tintColor" red="0.024573060104214339" green="0.2560552918993998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="intentity">
+                                <state key="normal" title="intentity:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DxC-6X-tUQ">
-                                <rect key="frame" x="71" y="733" width="127" height="31"/>
+                            <slider opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DxC-6X-tUQ">
+                                <rect key="frame" x="131" y="694" width="127" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="Y7c-dI-38G"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="360" translatesAutoresizingMaskIntoConstraints="NO" id="PHI-Tb-rCg">
-                                <rect key="frame" x="241" y="738" width="127" height="31"/>
+                                <rect key="frame" x="343" y="730" width="127" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="AQ2-os-mfe"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DWK-Rt-fjZ">
-                                <rect key="frame" x="416" y="738" width="123" height="31"/>
+                                <rect key="frame" x="576" y="729" width="123" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="o37-8H-8Cs"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jma-o7-3qs">
-                                <rect key="frame" x="199" y="732" width="38" height="36"/>
+                                <rect key="frame" x="257" y="727" width="93" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="angle">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcd-Zk-E6v">
-                                <rect key="frame" x="365" y="730" width="54" height="36"/>
-                                <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="spcng">
+                                <state key="normal" title="angle:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VWx-5u-7uP">
-                                <rect key="frame" x="24" y="694" width="36" height="36"/>
+                                <rect key="frame" x="16" y="694" width="109" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="jitter">
+                                <state key="normal" title="jitter:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
-                            <slider opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="keE-Ip-N4g">
-                                <rect key="frame" x="66" y="700" width="127" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="keE-Ip-N4g">
+                                <rect key="frame" x="131" y="730" width="127" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="y7p-cF-eLC"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="C8C-mV-3aD">
-                                <rect key="frame" x="241" y="700" width="127" height="31"/>
+                                <rect key="frame" x="343" y="697" width="127" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="kLl-Dq-YV9"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ow8-4Z-wuK">
-                                <rect key="frame" x="199" y="694" width="48" height="36"/>
+                                <rect key="frame" x="257" y="694" width="87" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="scatter">
+                                <state key="normal" title="scatter:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sc3-zK-YrO">
-                                <rect key="frame" x="364" y="694" width="57" height="36"/>
+                                <rect key="frame" x="282" y="662" width="121" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Dweight">
+                                <state key="normal" title="Dweight:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
-                            <slider opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JbF-RJ-dBA">
-                                <rect key="frame" x="617" y="738" width="123" height="31"/>
+                            <slider opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JbF-RJ-dBA">
+                                <rect key="frame" x="693" y="662" width="123" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="Waq-Ld-huk"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eO-Lr-pnK">
-                                <rect key="frame" x="545" y="735" width="66" height="36"/>
+                                <rect key="frame" x="560" y="662" width="137" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Dintentity">
+                                <state key="normal" title="Dintentity:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Zr8-ni-wW3">
-                                <rect key="frame" x="809" y="735" width="201" height="31"/>
+                                <rect key="frame" x="809" y="729" width="201" height="31"/>
                                 <connections>
                                     <action selector="sizeSlider:" destination="Si0-FH-ERo" eventType="valueChanged" id="u8y-K6-Vtx"/>
                                 </connections>
                             </slider>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="大小" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tbc-EQ-Jbm">
-                                <rect key="frame" x="759" y="738" width="49" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="大小:0.0" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tbc-EQ-Jbm">
+                                <rect key="frame" x="705" y="729" width="98" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <slider opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sTg-gJ-fUq">
-                                <rect key="frame" x="820" y="700" width="123" height="31"/>
+                                <rect key="frame" x="826" y="694" width="123" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="rA2-1P-PP9"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCW-Mf-MRX">
-                                <rect key="frame" x="748" y="694" width="66" height="36"/>
+                                <rect key="frame" x="705" y="694" width="115" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="bSize">
+                                <state key="normal" title="bSize:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
                             <slider opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jeh-Oj-2XU">
-                                <rect key="frame" x="617" y="697" width="123" height="31"/>
+                                <rect key="frame" x="576" y="694" width="123" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="pTf-gr-A1f"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugi-Rt-edf">
-                                <rect key="frame" x="545" y="691" width="66" height="36"/>
+                                <rect key="frame" x="469" y="694" width="101" height="36"/>
                                 <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="bDensity">
+                                <state key="normal" title="bDensity:0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
-                            <slider opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9qa-lO-F3a">
-                                <rect key="frame" x="416" y="700" width="123" height="31"/>
+                            <slider opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9qa-lO-F3a">
+                                <rect key="frame" x="409" y="662" width="123" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="EDF-Wu-ylg"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="grM-CU-Wgv">
-                                <rect key="frame" x="974" y="700" width="34" height="30"/>
+                                <rect key="frame" x="974" y="694" width="34" height="30"/>
                                 <state key="normal" title="clear">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -164,10 +156,45 @@
                                     <action selector="clearButton:" destination="Si0-FH-ERo" eventType="touchUpInside" id="5vq-es-Hl2"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HEG-oo-gWN">
+                                <rect key="frame" x="-1" y="662" width="135" height="36"/>
+                                <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Dangle:0.0">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                            </button>
+                            <slider opaque="NO" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="SzF-sB-t9b">
+                                <rect key="frame" x="140" y="662" width="127" height="31"/>
+                                <connections>
+                                    <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="dRi-Dg-1Xd"/>
+                                </connections>
+                            </slider>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcd-Zk-E6v">
+                                <rect key="frame" x="459" y="726" width="111" height="36"/>
+                                <color key="tintColor" red="0.024573060099999999" green="0.25605529189999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="spacing:0.0">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="Dangle" destination="HEG-oo-gWN" id="31A-WQ-aeV"/>
+                        <outlet property="Dintentity" destination="0eO-Lr-pnK" id="lok-ic-oyq"/>
+                        <outlet property="Dweight" destination="Sc3-zK-YrO" id="nyz-cm-xw8"/>
+                        <outlet property="angle" destination="Jma-o7-3qs" id="Tb9-6Z-gmy"/>
+                        <outlet property="bDensity" destination="ugi-Rt-edf" id="dZ6-bA-ZNn"/>
+                        <outlet property="bSize" destination="HCW-Mf-MRX" id="Y9d-4Z-B5p"/>
+                        <outlet property="itentity" destination="yJ5-G7-ltA" id="Fvw-8g-aYf"/>
+                        <outlet property="jitter" destination="VWx-5u-7uP" id="E5s-iX-Ozt"/>
+                        <outlet property="scatter" destination="ow8-4Z-wuK" id="E7r-W4-vha"/>
+                        <outlet property="spacing" destination="xcd-Zk-E6v" id="f61-VI-cDL"/>
+                        <outlet property="weight" destination="tbc-EQ-Jbm" id="LZ7-02-pCw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3PH-Oh-sVG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

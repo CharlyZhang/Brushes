@@ -118,12 +118,12 @@ enum
         case 0: ///< bristle dentity
             bGen->bristleDensity.value = v;
             bGen->propertiesChanged();
-            brush->generatorChanged(bGen);
+            painting->clearLastBrush();
             break;
         case 1: ///< bristle size
             bGen->bristleSize.value = v;
             gen->propertiesChanged();
-            brush->generatorChanged(bGen);
+            painting->clearLastBrush();
             break;
         default:
             break;

@@ -517,6 +517,7 @@
 					/Users/charlyzhang/Git/Brush/ios/common,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 				WRAPPER_EXTENSION = app;
 			};
@@ -538,6 +539,7 @@
 					/Users/charlyzhang/Git/Brush/ios/common,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 				WRAPPER_EXTENSION = app;
 			};
@@ -560,6 +562,7 @@
 				);
 				INFOPLIST_FILE = "BrushesDemoTests/BrushesDemoTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -578,6 +581,7 @@
 				GCC_PREFIX_HEADER = "BrushesDemo/BrushesDemo-Prefix.pch";
 				INFOPLIST_FILE = "BrushesDemoTests/BrushesDemoTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};

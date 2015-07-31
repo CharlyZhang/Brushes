@@ -663,6 +663,7 @@
 				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				SKIP_INSTALL = YES;
 				SYMROOT = build;
 			};
@@ -676,6 +677,7 @@
 				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -696,6 +698,7 @@
 				);
 				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -712,6 +715,7 @@
 				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
 				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
