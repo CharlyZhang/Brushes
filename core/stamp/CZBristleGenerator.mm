@@ -23,7 +23,7 @@
 
 using namespace std;
 
-CZBristleGenerator::CZBristleGenerator(CZGLContext *ctx):CZStampGenerator(ctx)
+CZBristleGenerator::CZBristleGenerator(CZGLContext *ctx,BristleGenerateType t):CZStampGenerator(ctx),type(t)
 {
     bristleDensity.title = "Bristle Density";
     bristleDensity.minimumValue = 0.01f;
@@ -32,20 +32,24 @@ CZBristleGenerator::CZBristleGenerator(CZGLContext *ctx):CZStampGenerator(ctx)
     bristleSize.minimumValue = 0.01f;
     
     /// set by CharlyZhang
-#if CRAYON
-    bristleDensity.value = 0.16;
-    bristleSize.value = 0.83;
-#elif PENCIL
-    bristleDensity.value = 0.02;
-    bristleSize.value = 0.7;
-#endif
-    
+    switch (type) {
+        case kCrayonBristle:
+            bristleDensity.value = 0.16;
+            bristleSize.value = 0.83;
+            break;
+        case kPencilBristle:
+            bristleDensity.value = 0.02;
+            bristleSize.value = 0.7;
+            break;
+        default:
+            break;
+    }
 }
 
 /// 拷贝一份当前生成器
 CZBristleGenerator* CZBristleGenerator::copy()
 {
-    CZBristleGenerator *ret = new CZBristleGenerator(ptrGLContext);
+    CZBristleGenerator *ret = new CZBristleGenerator(ptrGLContext,type);
     ret->seed = seed;
     ret->size = size;
     ret->scale = scale;
@@ -169,24 +173,31 @@ void CZBristleGenerator::configureBrush(CZBrush *brush)
     }
     
     brush->weight.value = 10;//80;
-#if CRAYON
-    brush->intensity.value = 0.87;
-    brush->angle.value = 164;
-    brush->spacing.value = 0.06;
-    brush->rotationalScatter.value =0.79;
-    brush->positionalScatter.value =0.03;
-    brush->angleDynamics.value = 0.05;
-    brush->weightDynamics.value = 0.41;
-    brush->intensityDynamics.value = 0.07;
-#elif PENCIL
-    brush->intensity.value = 1.0f;
-    brush->angle.value = 142;
-    brush->spacing.value = 0.0f;
-    brush->rotationalScatter.value =0.46;
-    brush->positionalScatter.value =0.8;
-    brush->angleDynamics.value = 1.0f;
-    brush->weightDynamics.value = -0.82;
-    brush->intensityDynamics.value = -0.77f;
-#endif
+    
+    switch (type) {
+        case kCrayonBristle:
+            brush->intensity.value = 0.87;
+            brush->angle.value = 164;
+            brush->spacing.value = 0.06;
+            brush->rotationalScatter.value =0.79;
+            brush->positionalScatter.value =0.03;
+            brush->angleDynamics.value = 0.05;
+            brush->weightDynamics.value = 0.41;
+            brush->intensityDynamics.value = 0.07;
+            break;
+        case kPencilBristle:
+            brush->intensity.value = 1.0f;
+            brush->angle.value = 142;
+            brush->spacing.value = 0.0f;
+            brush->rotationalScatter.value =0.46;
+            brush->positionalScatter.value =0.8;
+            brush->angleDynamics.value = 1.0f;
+            brush->weightDynamics.value = -0.82;
+            brush->intensityDynamics.value = -0.77f;
+            break;
+            
+        default:
+            break;
+    }
     
 }

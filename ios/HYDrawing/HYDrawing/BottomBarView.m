@@ -25,7 +25,7 @@
     if (!_colorWheelButton) {
         _colorWheelButton = [[UIButton alloc] init];
         [_colorWheelButton setImage:[UIImage imageNamed:@"color_wheel"] forState:UIControlStateNormal];
-        [_eraserButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        [_colorWheelButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
         _colorWheelButton.tag = COLORWHEEL_BTN;
     }
     
@@ -142,8 +142,8 @@
     if (!_layersButton) {
         _layersButton = [[UIButton alloc]init];
         [_layersButton setImage:[UIImage imageNamed:@"layer"] forState:UIControlStateNormal];
-        [_clipButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-        _clipButton.tag = CLIP_BTN;
+        [_layersButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _layersButton.tag = LAYERS_BTN;
     }
     
     return _layersButton;

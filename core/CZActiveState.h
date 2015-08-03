@@ -23,6 +23,14 @@ class CZBrush;
 class CZPainting;
 class CZGLContext;
 
+typedef enum ToolType {
+    kEraser = 0,
+    kPencil,
+    kCrayon,
+    
+    kToolNumber
+} ToolType;
+
 /// ¼¤»î×´Ì¬Àà
 class CZActiveState
 {

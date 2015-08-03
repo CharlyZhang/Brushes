@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		537343771B6F512F00CDCC82 /* ColorWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 537343761B6F512F00CDCC82 /* ColorWheelView.m */; };
+		537343791B6F54BE00CDCC82 /* ColorWheelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 537343781B6F54BE00CDCC82 /* ColorWheelView.xib */; };
 		53851B651B57AADE00B6F946 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B641B57AADE00B6F946 /* main.m */; };
 		53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B671B57AADE00B6F946 /* AppDelegate.m */; };
 		53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6C1B57AADE00B6F946 /* Main.storyboard */; };
@@ -61,6 +63,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		537343751B6F512F00CDCC82 /* ColorWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorWheelView.h; sourceTree = "<group>"; };
+		537343761B6F512F00CDCC82 /* ColorWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorWheelView.m; sourceTree = "<group>"; };
+		537343781B6F54BE00CDCC82 /* ColorWheelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorWheelView.xib; sourceTree = SOURCE_ROOT; };
 		53851B5F1B57AADE00B6F946 /* HYDrawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYDrawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53851B631B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53851B641B57AADE00B6F946 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -149,8 +154,6 @@
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */,
-				53851B931B5899F600B6F946 /* BottomBarView.h */,
-				53851B941B5899F600B6F946 /* BottomBarView.m */,
 				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,
@@ -205,6 +208,11 @@
 		53851BA21B5CA0F200B6F946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				53851B931B5899F600B6F946 /* BottomBarView.h */,
+				53851B941B5899F600B6F946 /* BottomBarView.m */,
+				537343751B6F512F00CDCC82 /* ColorWheelView.h */,
+				537343761B6F512F00CDCC82 /* ColorWheelView.m */,
+				537343781B6F54BE00CDCC82 /* ColorWheelView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -341,6 +349,7 @@
 				53D590841B5E02CA00E9D2F0 /* compositeWithMask.frag in Resources */,
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
 				53D5907E1B5E02CA00E9D2F0 /* blit.vert in Resources */,
+				537343791B6F54BE00CDCC82 /* ColorWheelView.xib in Resources */,
 				53D5907F1B5E02CA00E9D2F0 /* blitWithEraseMask.frag in Resources */,
 				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
@@ -369,6 +378,7 @@
 			files = (
 				60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */,
 				53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */,
+				537343771B6F512F00CDCC82 /* ColorWheelView.m in Sources */,
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
 				6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,

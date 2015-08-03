@@ -14,10 +14,15 @@
 
 #include "CZStampGenerator.h"
 
+typedef enum BristleGenerateType {
+    kPencilBristle,
+    kCrayonBristle
+} BristleGenerateType;
+
 class CZBristleGenerator: public CZStampGenerator
 {
 public:
-	CZBristleGenerator(CZGLContext *ctx);
+	CZBristleGenerator(CZGLContext *ctx,BristleGenerateType t);
 	~CZBristleGenerator(){};
 
 	/// 拷贝一份当前生成器
@@ -34,6 +39,7 @@ protected:
 public:
 	CZProperty bristleDensity;
 	CZProperty bristleSize;
+    BristleGenerateType type;
 };
 
 #endif

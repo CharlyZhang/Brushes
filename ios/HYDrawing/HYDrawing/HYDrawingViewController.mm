@@ -8,13 +8,14 @@
 
 #import "HYDrawingViewController.h"
 #import "BottomBarView.h"
+#import "ColorWheelView.h"
 #import "HYMenuViewController.h"
 #import "DDPopoverBackgroundView.h"
 #import "ImageEditViewController.h"
 #import "Macro.h"
 #include "BrushesCore.h"
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate> {
+@interface HYDrawingViewController ()<BottomBarViewDelegate,ColorWheelViewDelegate> {
     CZCanvas *canvas;
     CZPainting *painting;
 }
@@ -50,8 +51,8 @@
     canvas->setPaiting(painting);
     [self.view insertSubview:(__bridge UIView*)canvas->getView() atIndex:0];
     
-    //[self setBrushSize:10.0];
-
+    CZActiveState::getInstance()->setEraseMode(false);
+    CZActiveState::getInstance()->setActiveBrush(kPencil);
 }
 
 //-(BOOL)shouldAutorotate{
@@ -231,20 +232,48 @@
 #pragma mark - BottomBarViewDelegate Methods
 
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
+    UIPopoverController *popoverController;
+    UIViewController  *vc;
+    CGRect rect;
+    
     switch (button.tag) {
+        case COLORWHEEL_BTN:        ///< 调色板
+            vc = [[UIViewController alloc]init];
+           // vc.view = [[ColorWheelView alloc]init];
+            vc.view = [[NSBundle mainBundle] loadNibNamed:@"ColorWheelView" owner:self options:Nil][0];
+            [(ColorWheelView*)vc.view setDelegate:self];
+            popoverController = [[UIPopoverController alloc]initWithContentViewController:vc];
+            popoverController.delegate = self;
+            rect = [button convertRect:button.frame toView:self.view];
+            [popoverController presentPopoverFromRect:rect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            //[popoverController presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
+            
+            break;
         case ERASER_BTN:
             CZActiveState::getInstance()->setEraseMode(true);
+            CZActiveState::getInstance()->setActiveBrush(kEraser);
             break;
         case PENCIL_BTN:
+            CZActiveState::getInstance()->setEraseMode(false);
+            CZActiveState::getInstance()->setActiveBrush(kPencil);
+            break;
         case MARKERPEN_BTN:
             CZActiveState::getInstance()->setEraseMode(false);
-            CZActiveState::getInstance()->setActiveBrush(int(button.tag-PENCIL_BTN));
+            CZActiveState::getInstance()->setActiveBrush(kCrayon);
             break;
         default:
             break;
     }
 }
 
+- (void)colorWheelView:(ColorWheelView *)colorWheelView setColor:(UIColor *)color {
+    
+    CGFloat red,green,blue,alpha;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    CZColor c(red,green,blue,alpha);
+    CZActiveState::getInstance()->setPaintColor(c);
+}
 /*
 #pragma mark - Navigation
 
@@ -273,7 +302,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
     [picker dismissViewControllerAnimated:YES completion:^{
-        [self insertImage:image];
+        //[self insertImage:image];
         ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         

@@ -93,7 +93,7 @@ int CZActiveState::addNewBrush(int idx /* = -1*/)
 	gen->randomize();
 
 	CZBrush* random = new CZBrush(gen);
-	random->weight.value = CZUtil::RandomFloat() * 56 + 44;
+	//random->weight.value = CZUtil::RandomFloat() * 56 + 44;
 	//random->intensity.value = 0.15f;
 	//random->spacing.value = 0.02;
 
@@ -199,7 +199,8 @@ CZStampGenerator * CZActiveState::getGenerator(int idx /* = -1*/)
 		if(idx < 0)	idx = rand() % genNum;
 		for(map<string,CZStampGenerator*>::iterator itr = generators.begin(); itr != generators.end(); itr++)
             if(idx-- == 0)  return itr->second;
-	}
+        
+    }
 
 	LOG_ERROR("generator candidates is none or idx is larger than genNum!\n");
 	return NULL;
@@ -209,8 +210,9 @@ CZStampGenerator * CZActiveState::getGenerator(int idx /* = -1*/)
 int CZActiveState::setUpGenerators()
 {
 	generators["spiral"] = new CZSpiralGenerator(stampGLContext);
-	generators["radialFade"] = new CZRoundGenerator(stampGLContext);
-	generators["bristle"] = new CZBristleGenerator(stampGLContext);
+	generators["eraser"] = new CZRoundGenerator(stampGLContext);
+	generators["pencil"] = new CZBristleGenerator(stampGLContext,kPencilBristle);
+    generators["crayon"] = new CZBristleGenerator(stampGLContext,kCrayonBristle);
 
 	return generators.size();
 }
@@ -218,10 +220,40 @@ int CZActiveState::setUpGenerators()
 /// ≥ı ºªØª≠À¢
 int CZActiveState::initBrushes()
 {
-	int brushNum = 3;
+    int brushNum = ToolType::kToolNumber;
 
 	eraseBrushIdx = paintBrushIdx = -1;
-	for(int i=0; i<brushNum; i++)	addNewBrush(i);
+    
+    CZStampGenerator *gen = NULL;
+    for(int i=0; i<brushNum; i++)	{
+        CZBrush* random = NULL;
+        ToolType type = (ToolType)i;
+        switch(type){
+            case kEraser:
+                gen = generators["eraser"]->copy();
+                gen->randomize();
+                random = new CZBrush(gen);
+                random->weight.value = 50;
+                break;
+                
+            case kPencil:
+                gen = generators["pencil"]->copy();
+                gen->randomize();
+                random = new CZBrush(gen);
+                random->weight.value = 10;
+                break;
+            case kCrayon:
+                gen = generators["crayon"]->copy();
+                gen->randomize();
+                random = new CZBrush(gen);
+                random->weight.value = 100;
+                break;
+            default:
+                LOG_WARN("idx cannot specify one tool type!\n");
+        }
+    
+        if(random)  brushes.insert(brushes.begin()+i,random);
+    }
 	
 	eraseBrushIdx = paintBrushIdx = 0;
 	
