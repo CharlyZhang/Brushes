@@ -14,6 +14,7 @@
 #include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
 #include "stamp/CZRoundGenerator.h"
+#include "stamp/CZBristleGenerator.h"
 #include "tool/CZFreehandTool.h"
 #include "tool/CZEraserTool.h"
 #include "CZUtil.h"
@@ -93,8 +94,8 @@ int CZActiveState::addNewBrush(int idx /* = -1*/)
 
 	CZBrush* random = new CZBrush(gen);
 	random->weight.value = CZUtil::RandomFloat() * 56 + 44;
-	random->intensity.value = 0.15f;
-	random->spacing.value = 0.02;
+	//random->intensity.value = 0.15f;
+	//random->spacing.value = 0.02;
 
 	int activeBrushIdx = eraseMode ? eraseBrushIdx : paintBrushIdx;
 
@@ -209,6 +210,7 @@ int CZActiveState::setUpGenerators()
 {
 	generators["spiral"] = new CZSpiralGenerator(stampGLContext);
 	generators["radialFade"] = new CZRoundGenerator(stampGLContext);
+	generators["bristle"] = new CZBristleGenerator(stampGLContext);
 
 	return generators.size();
 }
@@ -216,7 +218,7 @@ int CZActiveState::setUpGenerators()
 /// ≥ı ºªØª≠À¢
 int CZActiveState::initBrushes()
 {
-	int brushNum = 2;
+	int brushNum = 3;
 
 	eraseBrushIdx = paintBrushIdx = -1;
 	for(int i=0; i<brushNum; i++)	addNewBrush(i);

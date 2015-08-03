@@ -142,7 +142,6 @@ void CZBrush::restoreDefaults()
 	else	LOG_WARN("generator is NULL\n");
 }
 
-
 /// ÔËËã·ûÖØÔØ
 bool CZBrush::operator == (const CZBrush &brush_) const
 {

@@ -74,6 +74,9 @@ public:
 	
 	/// 合并另以图层
 	bool merge(CZLayer *layer);
+    
+    /// clear
+    bool clear();
 
 	/// 将图像经过变换后绘制
 	void renderImage(CZImage* img, CZAffineTransform &trans);

@@ -115,6 +115,9 @@ public:
 	/// 获取gl上下文
 	CZGLContext *getGLContext();
     
+    /// clear last brush
+    void clearLastBrush(){ptrLastBrush = NULL;}
+    
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);

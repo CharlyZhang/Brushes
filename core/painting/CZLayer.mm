@@ -475,6 +475,36 @@ bool CZLayer::merge(CZLayer *layer)
     return true;
 }
 
+/// clear
+bool CZLayer::clear()
+{
+    CZRect rect = ptrPainting->getBounds();
+    registerUndoInRect(rect);
+    
+    //ptrPainting->beginSuppressingNotifications();
+    
+    isSaved = kSaveStatusUnsaved;
+    
+    if (ptrPainting == NULL)
+    {
+        LOG_ERROR("ptrPainting is NULL!\n");
+        return false;
+    }
+    
+    ptrGLContext->setAsCurrent();
+    
+    CZFbo fbo;
+    fbo.setTexture(myTexture);
+    
+    fbo.begin();
+    
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    fbo.end();
+    return true;
+}
+
 /// 将图像经过变换后绘制
 void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
 {
