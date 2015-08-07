@@ -8,22 +8,36 @@
 
 #import "HYDrawingViewController.h"
 #import "BottomBarView.h"
-#import "ColorWheelView.h"
 #import "HYMenuViewController.h"
 #import "DDPopoverBackgroundView.h"
 #import "ImageEditViewController.h"
 #import "Macro.h"
 #include "BrushesCore.h"
+#import "WDColorPickerController.h"
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,ColorWheelViewDelegate> {
+@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
     CZCanvas *canvas;
     CZPainting *painting;
+    
+    UIPopoverController *popoverController_;
 }
 
+@property (nonatomic,strong) WDColorPickerController* colorPickerController;
 @end
 
 @implementation HYDrawingViewController
 
+#pragma mark - Properties
+
+- (WDColorPickerController*) colorPickerController {
+    if (!_colorPickerController) {
+        _colorPickerController = [[WDColorPickerController alloc] initWithNibName:@"ColorPicker" bundle:nil];
+        _colorPickerController.delegate = self;
+    }
+    return _colorPickerController;
+}
+
+#pragma mark
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -232,23 +246,9 @@
 #pragma mark - BottomBarViewDelegate Methods
 
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
-    UIPopoverController *popoverController;
-    UIViewController  *vc;
-    CGRect rect;
-    
     switch (button.tag) {
         case COLORWHEEL_BTN:        ///< 调色板
-            vc = [[UIViewController alloc]init];
-           // vc.view = [[ColorWheelView alloc]init];
-            vc.view = [[NSBundle mainBundle] loadNibNamed:@"ColorWheelView" owner:self options:Nil][0];
-            [(ColorWheelView*)vc.view setDelegate:self];
-            popoverController = [[UIPopoverController alloc]initWithContentViewController:vc];
-            popoverController.delegate = self;
-            rect = [button convertRect:button.frame toView:self.view];
-            [popoverController presentPopoverFromRect:rect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            //[popoverController presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-
-            
+            [self showColorPicker:button];
             break;
         case ERASER_BTN:
             CZActiveState::getInstance()->setEraseMode(true);
@@ -267,13 +267,61 @@
     }
 }
 
-- (void)colorWheelView:(ColorWheelView *)colorWheelView setColor:(UIColor *)color {
+- (void) showColorPicker:(id)sender
+{
+    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
+        [self hidePopovers];
+        return;
+    }
     
-    CGFloat red,green,blue,alpha;
-    [color getRed:&red green:&green blue:&blue alpha:&alpha];
-    CZColor c(red,green,blue,alpha);
-    CZActiveState::getInstance()->setPaintColor(c);
+    CZColor myColor = CZActiveState::getInstance()->getPaintColor();
+    [self.colorPickerController setInitialColorWithRed:myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
+    
+    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
+
+#pragma mark - WDColorPickerControllerDelegate Methods
+- (void) dismissViewController:(UIViewController *)viewController
+{
+    if (popoverController_) {
+        [self hidePopovers];
+    } else {
+        [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void) setActiveStateColor:(UIColor*)color from:(WDColorPickerController*) colorPickerController
+{
+    CGFloat r,g,b,a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    CZColor pc(r,g,b,a);
+    CZActiveState::getInstance()->setPaintColor(pc);
+}
+
+- (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
+{
+    CGFloat r,g,b,a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    CZColor *c = new CZColor(r,g,b,a);
+    CZActiveState::getInstance()->setSwatch(c, (int)index);
+}
+
+- (void) setActiveStatePaintColorAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
+{
+    CZColor pc = CZActiveState::getInstance()->getPaintColor();
+    CZColor *c = new CZColor(pc.red,pc.green,pc.blue,pc.alpha);
+    CZActiveState::getInstance()->setSwatch(c, (int)index);
+}
+
+- (UIColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
+{
+    CZColor *c = CZActiveState::getInstance()->getSwatch((int)index);
+    if (c)  return [UIColor colorWithRed:c->red green:c->green blue:c->blue alpha:c->alpha];
+    else    return nil;
+}
+
+
+
 /*
 #pragma mark - Navigation
 
@@ -308,4 +356,81 @@
         
     }];
 }
+
+#pragma mark - Copied directly
+
+- (BOOL) shouldDismissPopoverForClassController:(Class)controllerClass insideNavController:(BOOL)insideNav
+{
+    if (!popoverController_) {
+        return NO;
+    }
+    
+    if (insideNav && [popoverController_.contentViewController isKindOfClass:[UINavigationController class]]) {
+        NSArray *viewControllers = [(UINavigationController *)popoverController_.contentViewController viewControllers];
+        
+        for (UIViewController *viewController in viewControllers) {
+            if ([viewController isKindOfClass:controllerClass]) {
+                return YES;
+            }
+        }
+    } else if ([popoverController_.contentViewController isKindOfClass:controllerClass]) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (void) showController:(UIViewController *)controller fromBarButtonItem:(UIBarButtonItem *)barButton animated:(BOOL)animated
+{
+    [self runPopoverWithController:controller from:barButton];
+}
+
+- (UIPopoverController *) runPopoverWithController:(UIViewController *)controller from:(id)sender
+{
+    [self hidePopovers];
+    
+    popoverController_ = [[UIPopoverController alloc] initWithContentViewController:controller];
+	popoverController_.delegate = self;
+    
+//    NSMutableArray *passthroughs = [NSMutableArray arrayWithObjects:self.topBar, self.bottomBar, nil];
+//    if (self.isEditing) {
+//        [passthroughs addObject:self.canvas];
+//    }
+//    popoverController_.passthroughViews = passthroughs;
+//    
+    if ([sender isKindOfClass:[UIBarButtonItem class]]) {
+        [popoverController_ presentPopoverFromBarButtonItem:sender
+                                   permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                   animated:YES];
+    } else {
+        [popoverController_ presentPopoverFromRect:CGRectInset(((UIView *) sender).bounds, 10, 10)
+                                            inView:sender
+                          permittedArrowDirections:(UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown)
+                                          animated:YES];
+    }
+    
+    return popoverController_;
+}
+
+- (BOOL) popoverVisible
+{
+    return popoverController_ ? YES : NO;
+}
+
+- (void) hidePopovers
+{
+    if (popoverController_) {
+        [popoverController_ dismissPopoverAnimated:NO];
+        popoverController_ = nil;
+        
+    }
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    if (popoverController == popoverController_) {
+        popoverController_ = nil;
+    }
+}
+
 @end

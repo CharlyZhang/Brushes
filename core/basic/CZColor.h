@@ -42,6 +42,12 @@ public:
 	static inline CZColor greenColor()				{ return CZColor(0.0f,1.0f,0.0f,1.0f);}
 	static inline CZColor yellowColor()				{ return CZColor(1.0f,1.0f,0.0f,1.0f);}
 	static inline CZColor blueColor()				{ return CZColor(0.0f,0.0f,1.0f,1.0f);}
+    
+    static inline CZColor* CZColorWithHSV(float h, float s, float v, float a) {
+        CZColor *ret = new CZColor;
+        ret->initWithHSV(h, s, v, a);
+        return ret;
+    }
 	
 	/// 返回不透明的该值
 	inline CZColor colorAdjustAlpha(float a_=1.0f)	{ return CZColor(red,green,blue,a_);}

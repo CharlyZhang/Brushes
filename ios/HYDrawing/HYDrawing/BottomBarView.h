@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WDColorWell.h"
 
 @class BottomBarView;
 
@@ -38,7 +39,7 @@ typedef enum BottomBarButtonType {
 @interface BottomBarView : UIView
 @property (nonatomic, weak) id<BottomBarViewDelegate> delegate;
 
-@property (nonatomic, strong) UIButton* colorWheelButton;
+@property (nonatomic, strong) WDColorWell* colorWheelButton;
 @property (nonatomic, strong) UIButton* eraserButton;
 @property (nonatomic, strong) UIButton* pencilButton;
 @property (nonatomic, strong) UIButton* markerPenButton;

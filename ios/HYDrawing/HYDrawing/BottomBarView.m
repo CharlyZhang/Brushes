@@ -7,6 +7,7 @@
 //
 
 #import "BottomBarView.h"
+#import "WDColor.h"
 
 @interface BottomBarView()<UIScrollViewDelegate>
 {
@@ -21,14 +22,21 @@
 
 #pragma mark - Properties
 
-- (UIButton*)colorWheelButton {
+- (WDColorWell*)colorWheelButton {
+//    if (!_colorWheelButton) {
+//        _colorWheelButton = [[UIButton alloc] init];
+//        [_colorWheelButton setImage:[UIImage imageNamed:@"color_wheel"] forState:UIControlStateNormal];
+//        [_colorWheelButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+//        _colorWheelButton.tag = COLORWHEEL_BTN;
+//    }
+
     if (!_colorWheelButton) {
-        _colorWheelButton = [[UIButton alloc] init];
-        [_colorWheelButton setImage:[UIImage imageNamed:@"color_wheel"] forState:UIControlStateNormal];
+        _colorWheelButton = [[WDColorWell alloc] initWithFrame:CGRectMake(0, 0, 66, 44)];
+        _colorWheelButton.color = [WDColor greenColor];
         [_colorWheelButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
         _colorWheelButton.tag = COLORWHEEL_BTN;
+
     }
-    
     return _colorWheelButton;
 }
 

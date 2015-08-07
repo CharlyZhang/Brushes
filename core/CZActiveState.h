@@ -21,6 +21,7 @@ class CZStampGenerator;
 class CZTool;
 class CZBrush;
 class CZPainting;
+class CZColor;
 class CZGLContext;
 
 typedef enum ToolType {
@@ -93,6 +94,10 @@ public:
 	///
 	///		\param idx - 添加的画刷类型序号，当idx为负数时随机化序号
 	CZStampGenerator * getGenerator(int idx = -1);
+    
+    
+    void setSwatch(CZColor* color, int idx);
+    CZColor* getSwatch(int idx);
 
 private:
 	CZActiveState();
@@ -104,6 +109,7 @@ private:
 	int setUpGenerators();
 	/// 初始化画刷
 	int initBrushes();
+    int initSwatches();
     
 public:
     bool colorFillMode;                                 ///< whether stay in color fill mode
@@ -113,6 +119,7 @@ private:
 	std::vector<CZBrush*> brushes;						///< 所有可用的画刷，负责销毁
 	std::vector<CZTool*> tools;							///< 可用工具，目前为绘制画刷和擦除刷两种
 	std::map<std::string,CZStampGenerator*>	generators;	///< 所有可用的画刷生成器，负责销毁
+    std::vector<CZColor*> swatches;
 	bool eraseMode;										///< 标记是否处在擦除模式
 	int paintBrushIdx;									///< 绘制用笔刷序号
 	int eraseBrushIdx;									///< 擦除用笔刷序号

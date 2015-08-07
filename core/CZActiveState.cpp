@@ -17,6 +17,7 @@
 #include "stamp/CZBristleGenerator.h"
 #include "tool/CZFreehandTool.h"
 #include "tool/CZEraserTool.h"
+#include "CZColor.h"
 #include "CZUtil.h"
 #include "graphic/CZGLContext.h"
 
@@ -31,6 +32,7 @@ CZActiveState::CZActiveState()
 	stampGLContext = new CZGLContext;
 	setUpGenerators();
 	initBrushes();
+    initSwatches();
 
 	tools.push_back(new CZFreehandTool);
 	tools.push_back(new CZEraserTool);
@@ -51,6 +53,10 @@ CZActiveState::~CZActiveState()
 	for(map<string,CZStampGenerator*>::iterator itr = generators.begin(); itr != generators.end(); itr++)
 		delete itr->second;
 	generators.clear();
+    
+    for(vector<CZColor*>::iterator itr = swatches.begin(); itr != swatches.end(); itr++)
+        delete *itr;
+    swatches.clear();
 
 	delete stampGLContext;
 }
@@ -206,6 +212,22 @@ CZStampGenerator * CZActiveState::getGenerator(int idx /* = -1*/)
 	return NULL;
 }
 
+void CZActiveState::setSwatch(CZColor *color, int idx)
+{
+    if (idx < 0 || idx >= 30) {
+        LOG_ERROR("idx is out of range!\n");
+        return;
+    }
+    
+    swatches[idx] = color;
+}
+
+CZColor* CZActiveState::getSwatch(int idx)
+{
+    if (idx >= swatches.size() || idx < 0) return NULL;
+    return swatches[idx];
+}
+
 /// 建立生成器
 int CZActiveState::setUpGenerators()
 {
@@ -259,3 +281,31 @@ int CZActiveState::initBrushes()
 	
 	return brushNum;
 }
+
+int CZActiveState::initSwatches()
+{
+    for (int i=0; i<30; i++) {  swatches.push_back(NULL); }
+    
+    // add some default swatches
+    int total = 0;
+    setSwatch(CZColor::CZColorWithHSV(180.0f / 360, 0.21f, 0.56f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(138.0f / 360, 0.36f, 0.71f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(101.0f / 360, 0.38f, 0.49f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(215.0f / 360, 0.34f, 0.87f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(207.0f / 360, 0.90f, 0.64f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(229.0f / 360, 0.59f, 0.45f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(331.0f / 360, 0.28f, 0.51f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(44.0f / 360, 0.77f, 0.85f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(15.0f / 360, 0.39f, 0.98f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(84.0f / 360, 0.15f, 0.9f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(59.0f / 360, 0.27f, 0.99f, 1), total);    total++;
+    setSwatch(CZColor::CZColorWithHSV(51.0f / 360, 0.08f, 0.96f, 1), total);    total++;
+    
+    for (int i = 0; i <= 4; i++) {
+        float w = i; w /= 4.0f;
+        setSwatch(CZColor::CZColorWithHSV(0, 0, w, 1), total);    total++;
+    }
+    
+    return total;
+}
+
