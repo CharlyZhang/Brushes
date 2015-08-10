@@ -28,11 +28,15 @@
 		53851B651B57AADE00B6F946 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B641B57AADE00B6F946 /* main.m */; };
 		53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B671B57AADE00B6F946 /* AppDelegate.m */; };
 		53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6C1B57AADE00B6F946 /* Main.storyboard */; };
-		53851B701B57AADE00B6F946 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53851B6F1B57AADE00B6F946 /* Images.xcassets */; };
 		53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53851B711B57AADE00B6F946 /* LaunchScreen.xib */; };
 		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
 		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
+		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
+		53BBAC911B787085006D11EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC901B787085006D11EF /* Images.xcassets */; };
+		53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC931B787E5F006D11EF /* LayersCell.m */; };
+		53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC941B787E5F006D11EF /* LayersCell.xib */; };
+		53BBAC981B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC971B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg */; };
 		53D22D011B74996F00C65D88 /* blit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 53D22D001B74996F00C65D88 /* blit.vsh */; };
 		53D5906A1B5E023200E9D2F0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D590691B5E023200E9D2F0 /* OpenGLES.framework */; };
 		53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53D5906C1B5E02CA00E9D2F0 /* basic.vert */; };
@@ -120,7 +124,6 @@
 		53851B661B57AADE00B6F946 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		53851B671B57AADE00B6F946 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		53851B6D1B57AADE00B6F946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		53851B6F1B57AADE00B6F946 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		53851B721B57AADE00B6F946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		53851B781B57AADE00B6F946 /* HYDrawingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HYDrawingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		53851B7D1B57AADE00B6F946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,6 +131,13 @@
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
 		53851B931B5899F600B6F946 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
+		53BBAC8B1B785177006D11EF /* ZXHLayersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayersViewController.h; sourceTree = "<group>"; };
+		53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayersViewController.m; sourceTree = "<group>"; };
+		53BBAC901B787085006D11EF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		53BBAC921B787E5F006D11EF /* LayersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersCell.h; sourceTree = "<group>"; };
+		53BBAC931B787E5F006D11EF /* LayersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayersCell.m; sourceTree = "<group>"; };
+		53BBAC941B787E5F006D11EF /* LayersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LayersCell.xib; sourceTree = "<group>"; };
+		53BBAC971B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "»­°å0701-Í¼²ã.jpg"; sourceTree = "<group>"; };
 		53D22D001B74996F00C65D88 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
 		53D590691B5E023200E9D2F0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		53D5906C1B5E02CA00E9D2F0 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../core/glsl/basic.vert; sourceTree = "<group>"; };
@@ -240,6 +250,7 @@
 		53851B611B57AADE00B6F946 /* HYDrawing */ = {
 			isa = PBXGroup;
 			children = (
+				53BBAC901B787085006D11EF /* Images.xcassets */,
 				60216AE91B589440009186F4 /* Macro.h */,
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
@@ -253,9 +264,10 @@
 				60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */,
 				60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */,
 				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
-				53851B6F1B57AADE00B6F946 /* Images.xcassets */,
 				53851B711B57AADE00B6F946 /* LaunchScreen.xib */,
 				53851B621B57AADE00B6F946 /* Supporting Files */,
+				53BBAC8B1B785177006D11EF /* ZXHLayersViewController.h */,
+				53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */,
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -299,9 +311,13 @@
 		53851BA21B5CA0F200B6F946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				53BBAC971B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg */,
 				535DA0E31B6F808D00E117FF /* ColorPicker */,
 				53851B931B5899F600B6F946 /* BottomBarView.h */,
 				53851B941B5899F600B6F946 /* BottomBarView.m */,
+				53BBAC921B787E5F006D11EF /* LayersCell.h */,
+				53BBAC931B787E5F006D11EF /* LayersCell.m */,
+				53BBAC941B787E5F006D11EF /* LayersCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -431,6 +447,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				53D590811B5E02CA00E9D2F0 /* brush.frag in Resources */,
+				53BBAC981B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg in Resources */,
+				53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */,
+				53BBAC911B787085006D11EF /* Images.xcassets in Resources */,
 				535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */,
 				53D590821B5E02CA00E9D2F0 /* brush.vert in Resources */,
 				53D5907B1B5E02CA00E9D2F0 /* basicColor.frag in Resources */,
@@ -443,7 +462,6 @@
 				53D5907F1B5E02CA00E9D2F0 /* blitWithEraseMask.frag in Resources */,
 				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
-				53851B701B57AADE00B6F946 /* Images.xcassets in Resources */,
 				53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */,
 				53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */,
 				53D590801B5E02CA00E9D2F0 /* blitWithMask.frag in Resources */,
@@ -470,6 +488,7 @@
 				535DA0F41B70482B00E117FF /* WDColorIndicator.m in Sources */,
 				535DA0EF1B70480F00E117FF /* WDColorWheel.m in Sources */,
 				535DA0E21B6F806600E117FF /* WDColorPickerController.m in Sources */,
+				53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */,
 				535DA0F51B70482B00E117FF /* WDColorSlider.m in Sources */,
 				60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */,
 				535DA0FB1B704A4400E117FF /* WDColorSquare.m in Sources */,
@@ -488,6 +507,7 @@
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 				537343891B704FEF00CDCC82 /* WDColor.m in Sources */,
 				535DA0F81B70492900E117FF /* WDColorWell.m in Sources */,
+				53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */,
 				537343941B70535F00CDCC82 /* WDColorSourceView.m in Sources */,
 				5373439D1B7085F800CDCC82 /* WDInsetView.m in Sources */,
 			);

@@ -510,6 +510,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BrushesDemo/BrushesDemo-Prefix.pch";
 				INFOPLIST_FILE = "BrushesDemo/BrushesDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos",
@@ -532,6 +533,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BrushesDemo/BrushesDemo-Prefix.pch";
 				INFOPLIST_FILE = "BrushesDemo/BrushesDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/GL-learning-hhnfkcllxwmwhcgzlfiohmnernmz/Build/Products/Debug-iphoneos",
@@ -540,6 +542,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = ../../core;
 				WRAPPER_EXTENSION = app;
 			};

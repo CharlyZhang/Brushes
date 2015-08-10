@@ -45,4 +45,7 @@
     [super viewDidLoad];
     
 }
+
+#pragma mark 图片的旋转、缩放、移动
+
 @end
