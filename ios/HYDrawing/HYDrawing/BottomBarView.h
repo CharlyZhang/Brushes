@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#import "WDColor.h"
 #import "WDColorWell.h"
 
 @class BottomBarView;
@@ -33,6 +35,7 @@ typedef enum BottomBarButtonType {
 
 @required
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button;
+- (WDColor*) getActiveStatePaintColor;
 
 @end
 

@@ -25,6 +25,7 @@
 
 - (void) dismissViewController:(UIViewController *)viewController;
 - (void) setActiveStateColor:(UIColor*)color from:(WDColorPickerController*) colorPickerController;
+- (WDColor*) getActiveStateColorBy:(WDColorPickerController*) colorPickerController;
 - (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController;
 - (void) setActiveStatePaintColorAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController;
 - (UIColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController;
@@ -42,6 +43,5 @@
 @property (nonatomic, weak) id<WDColorPickerControllerDelegate> delegate;
 
 - (IBAction)dismiss:(id)sender;
-- (void) setInitialColorWithRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 @end

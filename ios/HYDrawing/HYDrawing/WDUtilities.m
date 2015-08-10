@@ -709,31 +709,32 @@ size_t WDGetTotalMemory()
 
 BOOL WDCanUseHDTextures()
 {
-#if TARGET_IPHONE_SIMULATOR
     return YES;
-#else
-    static BOOL canUseHDTextures_;
-    static dispatch_once_t onceToken;
-    
-    dispatch_once(&onceToken, ^{
-        NSString    *device = [[UIDeviceHardware platform] componentsSeparatedByString:@","][0];
-        NSScanner   *scanner = [NSScanner scannerWithString:device];
-        NSString    *model = nil;
-        int         version = 0;
-        
-        [scanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&model];
-        [scanner scanInt:&version];
-        
-        if ([model isEqualToString:@"iPhone"]) {
-            canUseHDTextures_ = (version >= 4) ? YES : NO;
-        } else if ([model isEqualToString:@"iPod"]) {
-            canUseHDTextures_ = (version >= 5) ? YES : NO;
-        } else if ([model isEqualToString:@"iPad"]) {
-            canUseHDTextures_ = (version >= 2) ? YES : NO;
-        }
-    });
-    
-    return canUseHDTextures_;
-#endif
+//#if TARGET_IPHONE_SIMULATOR
+//    return YES;
+//#else
+//    static BOOL canUseHDTextures_;
+//    static dispatch_once_t onceToken;
+//    
+//    dispatch_once(&onceToken, ^{
+//        NSString    *device = [[UIDeviceHardware platform] componentsSeparatedByString:@","][0];
+//        NSScanner   *scanner = [NSScanner scannerWithString:device];
+//        NSString    *model = nil;
+//        int         version = 0;
+//        
+//        [scanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&model];
+//        [scanner scanInt:&version];
+//        
+//        if ([model isEqualToString:@"iPhone"]) {
+//            canUseHDTextures_ = (version >= 4) ? YES : NO;
+//        } else if ([model isEqualToString:@"iPod"]) {
+//            canUseHDTextures_ = (version >= 5) ? YES : NO;
+//        } else if ([model isEqualToString:@"iPad"]) {
+//            canUseHDTextures_ = (version >= 2) ? YES : NO;
+//        }
+//    });
+//    
+//    return canUseHDTextures_;
+//#endif
 }
 

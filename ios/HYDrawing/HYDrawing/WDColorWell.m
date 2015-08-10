@@ -50,14 +50,13 @@ const float kWDColorWellShadowOpacity = 0.8f;
 
 - (void) buildShape
 {
-    float inset = phoneLandscapeMode ? 11 : 8;
-    float cornerRadius = phoneLandscapeMode ? 3 : 5;
+    //float inset = phoneLandscapeMode ? 11 : 8;
+    //float cornerRadius = phoneLandscapeMode ? 3 : 5;
     
-    CGRect box = CGRectInset(self.bounds, inset, inset);
+    CGRect box = CGRectInset(self.bounds, 3, 15);
     
-    box = CGRectOffset(box, 0, 1);
-    self.shape = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(box, 0.5, 0.5) cornerRadius:cornerRadius];
-    self.shape.lineWidth = 1;
+    self.shape = [UIBezierPath bezierPathWithOvalInRect:box];
+    self.shape.lineWidth = 5;
     
     CALayer *layer = self.layer;
     layer.shadowRadius = 1;
@@ -84,8 +83,7 @@ const float kWDColorWellShadowOpacity = 0.8f;
     
     [self.color set];
     [self.shape fill];
-    
-    [[UIColor whiteColor] set];
+    [[UIColor blackColor] set];
     [self.shape stroke];
 }
 
