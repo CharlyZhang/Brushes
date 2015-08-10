@@ -307,10 +307,15 @@
 
 - (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
 {
-    CGFloat r,g,b,a;
-    [color getRed:&r green:&g blue:&b alpha:&a];
-    CZColor *c = new CZColor(r,g,b,a);
-    CZActiveState::getInstance()->setSwatch(c, (int)index);
+    if(color){
+        CGFloat r,g,b,a;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+        CZColor *c = new CZColor(r,g,b,a);
+        CZActiveState::getInstance()->setSwatch(c, (int)index);
+    }
+    else {
+        CZActiveState::getInstance()->setSwatch(NULL, (int)index);
+    }
 }
 
 - (void) setActiveStatePaintColorAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController

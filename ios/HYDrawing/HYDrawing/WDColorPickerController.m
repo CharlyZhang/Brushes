@@ -53,6 +53,7 @@
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index
 {
     UIColor *color = [self.delegate getColorFromActiveStateSwatchAtIndex:index from:self];
+    if(!color) return nil;
     CGFloat r,g,b,a;
     [color getRed:&r green:&g blue:&b alpha:&a];
     return [WDColor colorWithRed:r green:g blue:b alpha:a];
