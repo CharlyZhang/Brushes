@@ -14,6 +14,7 @@
 #import "Macro.h"
 #include "BrushesCore.h"
 #import "WDColorPickerController.h"
+#import "ZXHLayersViewController.h"
 
 @interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
     CZCanvas *canvas;
@@ -98,21 +99,20 @@
     
     UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
 
-
     popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     UIImage *image = [UIImage imageNamed:@"menu_popover_bg"];
     [DDPopoverBackgroundView setBackgroundImage:image];
     [DDPopoverBackgroundView setBackgroundImageCornerRadius:2.f];
     [DDPopoverBackgroundView setArrowBase:0];
-    [DDPopoverBackgroundView setArrowHeight:0];
-    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height)];
+    [DDPopoverBackgroundView setArrowHeight:2];
+    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-20)];
     [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
    
  
 }
 
-
+// 弹出相册图片选择
 - (void)tapPicture:(id)sender{
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
@@ -175,6 +175,8 @@
     }
 //    popoverController.backgroundColor = UIPopoverBorderColor;
 }
+
+// 编辑完图片后，返回执行此方法
 -(void)insertImage:(UIImage *)image{
     CGImageRef img = image.CGImage;
     
@@ -206,6 +208,8 @@
     canvas->drawView();
 
 }
+
+
 - (void)dealloc{
     if (canvas) {
         delete canvas;
@@ -262,6 +266,9 @@
             CZActiveState::getInstance()->setEraseMode(false);
             CZActiveState::getInstance()->setActiveBrush(kCrayon);
             break;
+        case LAYERS_BTN:
+            [self showLayerPopoverController:button];
+            break;
         default:
             break;
     }
@@ -278,6 +285,29 @@
     [self.colorPickerController setInitialColorWithRed:myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
     
     [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
+}
+
+
+#pragma mark 图层弹出视图
+-(void)showLayerPopoverController:(UIButton*)sender{
+    NSLog(@"hello-----");
+    ZXHLayersViewController *layersViewController = [ZXHLayersViewController new];
+    
+    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
+    popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:2];
+    UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
+    [DDPopoverBackgroundView setArrowBase:0];
+    [DDPopoverBackgroundView setArrowHeight:2];
+    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.y -= 55;
+    
+    [popoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
 #pragma mark - WDColorPickerControllerDelegate Methods
@@ -346,11 +376,13 @@
             break;
     }
 }
+
+// 选择相册图片
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
     [picker dismissViewControllerAnimated:YES completion:^{
-        //[self insertImage:image];
+//        [self insertImage:image];
         ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         

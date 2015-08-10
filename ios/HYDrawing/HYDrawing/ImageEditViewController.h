@@ -10,5 +10,7 @@
 
 @interface ImageEditViewController : UIViewController
 
+@property(nonatomic, strong)UIImage *originalImg;
 @property(nonatomic, retain)UIImageView *imageView;
+
 @end
