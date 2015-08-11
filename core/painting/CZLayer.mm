@@ -73,6 +73,8 @@ CZImage *CZLayer::imageDataInRect(const CZRect &rect)
         return NULL;
     }
     
+    if(rect.isZeroRect()) return new CZImage();
+    
     ptrGLContext->setAsCurrent();
     
     int w = rect.size.width;

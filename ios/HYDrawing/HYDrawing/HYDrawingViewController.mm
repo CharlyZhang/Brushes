@@ -222,17 +222,17 @@
     CGFloat scale = [_imgEditInfo[1] floatValue];
     CGFloat rotate = [_imgEditInfo[2] floatValue];
     
-    CGFloat y = self.view.frame.size.height - position.y;
 
     CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(scale, scale);
-    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(rotate+M_PI);
-    CZAffineTransform trans_position = CZAffineTransform::makeFromTranslation(position.x, y);
+    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(0.0);
+    CZAffineTransform trans_position = CZAffineTransform::makeFromTranslation(position.x, -position.y);
     
-    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-width/2, -height/2);
+    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
 
     CZAffineTransform trans = trans_rotate * trans_adjust;
-    
-    painting->getActiveLayer()->renderImage(brushImg, trans_position);
+    CZAffineTransform trans_identity = CZAffineTransform::makeIdentity();
+
+    painting->getActiveLayer()->renderImage(brushImg, trans_rotate);
     canvas->drawView();
 
 }
