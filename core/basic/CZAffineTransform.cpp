@@ -95,6 +95,11 @@ CZAffineTransform CZAffineTransform::makeFromRotate(float angle_)
 	return CZAffineTransform(cos(angle_), sin(angle_), -sin(angle_), cos(angle_), 0,0);
 }
 
+CZAffineTransform CZAffineTransform::makeFromScale(float sx_, float sy_)
+{
+    return CZAffineTransform(sx_,0,0,sy_,0,0);
+}
+
 /// 生成单位转换
 CZAffineTransform CZAffineTransform::makeIdentity()
 {
