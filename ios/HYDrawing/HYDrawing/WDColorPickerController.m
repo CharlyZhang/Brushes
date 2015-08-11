@@ -16,6 +16,7 @@
 #import "WDColorSquare.h"
 #import "WDColorWheel.h"
 #import "WDUtilities.h"
+#import "HYBrushCore.h"
 
 @implementation WDColorPickerController
 
@@ -39,24 +40,19 @@
     }
 }
 
-
 - (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSUInteger)index
 {
-    [self.delegate setActiveStateSwatchColor:[color UIColor] atIndex:index from:self];
+    [[HYBrushCore sharedInstance]setActiveStateSwatchColor:color atIndex:index];
 }
 
 - (void) setActiveStatePaintColorAtIndex:(NSUInteger)index
 {
-    [self.delegate setActiveStatePaintColorAtIndex:index from:self];
+    [[HYBrushCore sharedInstance] setActiveStatePaintColorAtIndex:index];
 }
 
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index
 {
-    UIColor *color = [self.delegate getColorFromActiveStateSwatchAtIndex:index from:self];
-    if(!color) return nil;
-    CGFloat r,g,b,a;
-    [color getRed:&r green:&g blue:&b alpha:&a];
-    return [WDColor colorWithRed:r green:g blue:b alpha:a];
+    return [[HYBrushCore sharedInstance]getColorFromActiveStateSwatchAtIndex:index];
 }
 
 - (void) takeColorFromComparator:(id)sender
@@ -142,7 +138,7 @@
 - (void) setColor:(WDColor *)color
 {
     [self setColor_:color];
-    [self.delegate setActiveStateColor:[color UIColor] from:self];
+    [self.delegate setActiveStateColor:color from:self];
 }
 
 - (void)viewDidLoad
@@ -170,7 +166,7 @@
     self.alphaSlider.mode = WDColorSliderModeAlpha;
     [alphaSlider_ addTarget:self action:@selector(takeAlphaFrom:) forControlEvents:dragEvents];
     
-    self.initialColor = [self.delegate getActiveStateColorBy:self];
+    self.initialColor = [[HYBrushCore sharedInstance] getActiveStatePaintColor];
 }
 
 - (void) viewWillAppear:(BOOL)animated

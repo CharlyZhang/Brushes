@@ -98,6 +98,7 @@ public:
     
     void setSwatch(CZColor* color, int idx);
     CZColor* getSwatch(int idx);
+    bool setPaintColorAsSwatch(int idx);
 
 private:
 	CZActiveState();

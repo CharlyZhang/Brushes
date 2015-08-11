@@ -7,19 +7,16 @@
 //
 
 #import "HYDrawingViewController.h"
+#import "HYBrushCore.h"
 #import "BottomBarView.h"
 #import "HYMenuViewController.h"
 #import "DDPopoverBackgroundView.h"
 #import "ImageEditViewController.h"
 #import "Macro.h"
-#include "BrushesCore.h"
 #import "WDColorPickerController.h"
 #import "ZXHLayersViewController.h"
 
 @interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
-    CZCanvas *canvas;
-    CZPainting *painting;
-    
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
 }
@@ -66,13 +63,9 @@
     
     // load brush core
     CGSize size = [UIScreen mainScreen].bounds.size;
-    canvas = new CZCanvas(CZRect(0,0,size.width,size.height));
-    painting = new CZPainting(CZSize(size.width,size.height));
-    canvas->setPaiting(painting);
-    [self.view insertSubview:(__bridge UIView*)canvas->getView() atIndex:0];
+    [[HYBrushCore sharedInstance]initializeWithWidth:size.width height:size.height];
+    [self.view insertSubview:[[HYBrushCore sharedInstance] getPaintingView] atIndex:0];
     
-    CZActiveState::getInstance()->setEraseMode(false);
-    CZActiveState::getInstance()->setActiveBrush(kPencil);
 }
 
 //-(BOOL)shouldAutorotate{
@@ -190,67 +183,17 @@
 }
 
 // 编辑完图片后，返回执行此方法
--(void)insertImage:(UIImage *)image withPosition:(CGPoint)pos scale:(CGFloat)s rotate:(CGFloat)angle{
-    CGImageRef img = image.CGImage;
-    
-    //数据源提供者
-    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
-    // provider’s data.
-    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
-    
-    //宽，高，data
-    size_t width = CGImageGetWidth(img);
-    size_t height = CGImageGetHeight(img);
-    
-    CZImage *brushImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
-    
-    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
-    
-    if (alphaInfo == kCGImageAlphaNone ||
-        alphaInfo == kCGImageAlphaNoneSkipLast ||
-        alphaInfo == kCGImageAlphaNoneSkipFirst){
-        brushImg->hasAlpha = false;
-    }
-    else {
-        brushImg->hasAlpha = true;
-    }
-    
-    // 先上下翻转，再变换
-    
+-(void)insertImage:(UIImage *)image withPosition:(CGPoint)pos scale:(CGFloat)s rotate:(CGFloat)angle {
     // 变换
     CGPoint position = [_imgEditInfo[0] CGPointValue];
     CGFloat scale = [_imgEditInfo[1] floatValue];
     CGFloat rotate = [_imgEditInfo[2] floatValue];
+
+    position.y = self.view.bounds.size.height - position.y;
     
-
-    CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(scale, scale);
-    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(0.0);
-    CZAffineTransform trans_position = CZAffineTransform::makeFromTranslation(position.x, -position.y);
-    
-    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
-
-    CZAffineTransform trans = trans_rotate * trans_adjust;
-    CZAffineTransform trans_identity = CZAffineTransform::makeIdentity();
-
-    painting->getActiveLayer()->renderImage(brushImg, trans_rotate);
-    canvas->drawView();
-
+    [[HYBrushCore sharedInstance]renderImage:image withTranslate:position rotate:rotate scale:scale];
 }
 
-
-- (void)dealloc{
-    if (canvas) {
-        delete canvas;
-        canvas = NULL;
-    }
-    
-    if (painting) {
-        delete painting;
-        painting = NULL;
-    }
-    
-
-}
 
 #pragma mark - HYDrawingViewController Methods
 
@@ -282,7 +225,6 @@
         return;
     }
     
-    CZColor myColor = CZActiveState::getInstance()->getPaintColor();
     [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
 
@@ -294,16 +236,13 @@
             [self showColorPicker:button];
             break;
         case ERASER_BTN:
-            CZActiveState::getInstance()->setEraseMode(true);
-            CZActiveState::getInstance()->setActiveBrush(kEraser);
+            [[HYBrushCore sharedInstance]activeEraser];
             break;
         case PENCIL_BTN:
-            CZActiveState::getInstance()->setEraseMode(false);
-            CZActiveState::getInstance()->setActiveBrush(kPencil);
+            [[HYBrushCore sharedInstance]activePencil];
             break;
         case MARKERPEN_BTN:
-            CZActiveState::getInstance()->setEraseMode(false);
-            CZActiveState::getInstance()->setActiveBrush(kCrayon);
+            [[HYBrushCore sharedInstance]activeCrayon];
             break;
         case LAYERS_BTN:
             [self showLayerPopoverController:button];
@@ -313,10 +252,9 @@
     }
 }
 
-- (WDColor*)getActiveStatePaintColor {
-    CZColor myColor = CZActiveState::getInstance()->getPaintColor();
-    WDColor *ret = [WDColor colorWithRed: myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
-    return ret;
+- (WDColor*) getActiveStatePaintColor
+{
+   return [[HYBrushCore sharedInstance]getActiveStatePaintColor];
 }
 
 
@@ -352,44 +290,10 @@
     }
 }
 
-- (void) setActiveStateColor:(UIColor*)color from:(WDColorPickerController*) colorPickerController
+- (void) setActiveStateColor:(WDColor*)color from:(WDColorPickerController*) colorPickerController
 {
-    CGFloat r,g,b,a;
-    [color getRed:&r green:&g blue:&b alpha:&a];
-    CZColor pc(r,g,b,a);
-    CZActiveState::getInstance()->setPaintColor(pc);
-    bottomBarView.colorWheelButton.color = [WDColor colorWithRed:r green:g blue:b alpha:a];
-}
-
-- (WDColor*)getActiveStateColorBy:(WDColorPickerController *)colorPickerController {
-    return [self getActiveStatePaintColor];
-}
-
-- (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
-{
-    if(color){
-        CGFloat r,g,b,a;
-        [color getRed:&r green:&g blue:&b alpha:&a];
-        CZColor *c = new CZColor(r,g,b,a);
-        CZActiveState::getInstance()->setSwatch(c, (int)index);
-    }
-    else {
-        CZActiveState::getInstance()->setSwatch(NULL, (int)index);
-    }
-}
-
-- (void) setActiveStatePaintColorAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
-{
-    CZColor pc = CZActiveState::getInstance()->getPaintColor();
-    CZColor *c = new CZColor(pc.red,pc.green,pc.blue,pc.alpha);
-    CZActiveState::getInstance()->setSwatch(c, (int)index);
-}
-
-- (UIColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
-{
-    CZColor *c = CZActiveState::getInstance()->getSwatch((int)index);
-    if (c)  return [UIColor colorWithRed:c->red green:c->green blue:c->blue alpha:c->alpha];
-    else    return nil;
+    [[HYBrushCore sharedInstance] setActiveStateColor:[color UIColor]];
+    bottomBarView.colorWheelButton.color = color;
 }
 
 
