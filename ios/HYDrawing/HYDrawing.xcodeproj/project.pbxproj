@@ -36,7 +36,6 @@
 		53BBAC911B787085006D11EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC901B787085006D11EF /* Images.xcassets */; };
 		53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC931B787E5F006D11EF /* LayersCell.m */; };
 		53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC941B787E5F006D11EF /* LayersCell.xib */; };
-		53BBAC981B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC971B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg */; };
 		53D22D011B74996F00C65D88 /* blit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 53D22D001B74996F00C65D88 /* blit.vsh */; };
 		53D5906A1B5E023200E9D2F0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D590691B5E023200E9D2F0 /* OpenGLES.framework */; };
 		53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53D5906C1B5E02CA00E9D2F0 /* basic.vert */; };
@@ -137,7 +136,6 @@
 		53BBAC921B787E5F006D11EF /* LayersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersCell.h; sourceTree = "<group>"; };
 		53BBAC931B787E5F006D11EF /* LayersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayersCell.m; sourceTree = "<group>"; };
 		53BBAC941B787E5F006D11EF /* LayersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LayersCell.xib; sourceTree = "<group>"; };
-		53BBAC971B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "»­°å0701-Í¼²ã.jpg"; sourceTree = "<group>"; };
 		53D22D001B74996F00C65D88 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
 		53D590691B5E023200E9D2F0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		53D5906C1B5E02CA00E9D2F0 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../core/glsl/basic.vert; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 		53851BA21B5CA0F200B6F946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				53BBAC971B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg */,
 				535DA0E31B6F808D00E117FF /* ColorPicker */,
 				53851B931B5899F600B6F946 /* BottomBarView.h */,
 				53851B941B5899F600B6F946 /* BottomBarView.m */,
@@ -447,7 +444,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				53D590811B5E02CA00E9D2F0 /* brush.frag in Resources */,
-				53BBAC981B788ACD006D11EF /* »­°å0701-Í¼²ã.jpg in Resources */,
 				53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */,
 				53BBAC911B787085006D11EF /* Images.xcassets in Resources */,
 				535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */,

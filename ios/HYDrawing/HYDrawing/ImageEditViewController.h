@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageEditViewController : UIViewController
+@interface ImageEditViewController : UIViewController<UIGestureRecognizerDelegate>
 
 @property(nonatomic, strong)UIImage *originalImg;
 @property(nonatomic, retain)UIImageView *imageView;

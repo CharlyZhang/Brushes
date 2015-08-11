@@ -384,6 +384,7 @@
     [picker dismissViewControllerAnimated:YES completion:^{
 //        [self insertImage:image];
         ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
+        imageEditViewController.originalImg = image;
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         
     }];
