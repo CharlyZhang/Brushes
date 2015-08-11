@@ -222,17 +222,25 @@
     CGFloat scale = [_imgEditInfo[1] floatValue];
     CGFloat rotate = [_imgEditInfo[2] floatValue];
     
-    CGFloat y = self.view.frame.size.height - position.y;
-
+    CGFloat w = width * scale;
+    CGFloat h = height * scale;
+    
+    CGFloat x = position.x;
+    CGFloat y = self.view.frame.size.height - (position.y+h);
+    
+//    CZAffineTransform trans1 = CZAffineTransform::makeFromTranslation(position.x+w, y);
+//    CZAffineTransform trans2 = CZAffineTransform::makeFromScale(scale, scale);
+//    CZAffineTransform trans3 = CZAffineTransform::makeFromRotate(-rotate-M_PI);
+//    CZAffineTransform trans = trans3 * trans2 * trans1;
+    
+    
+    CZAffineTransform trans_pos = CZAffineTransform::makeFromTranslation(x, y);
     CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(scale, scale);
-    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(rotate+M_PI);
-    CZAffineTransform trans_position = CZAffineTransform::makeFromTranslation(position.x, y);
+    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(-rotate);
+    CZAffineTransform trans_affine = CZAffineTransform::makeFromTranslation(w/2, h);
     
-    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-width/2, -height/2);
-
-    CZAffineTransform trans = trans_rotate * trans_adjust;
-    
-    painting->getActiveLayer()->renderImage(brushImg, trans_position);
+    CZAffineTransform trans =  trans_scale * trans_affine * trans_pos;
+    painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
 
 }
@@ -322,7 +330,7 @@
 
 #pragma mark 图层弹出视图
 -(void)showLayerPopoverController:(UIButton*)sender{
-    NSLog(@"hello-----");
+//    NSLog(@"hello-----");
     ZXHLayersViewController *layersViewController = [ZXHLayersViewController new];
     
     UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
@@ -337,7 +345,7 @@
     
     // 弹出位置
     CGRect popRect = sender.frame;
-    popRect.origin.y -= 55;
+    popRect.origin.y -= 50;
     
     [popoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
