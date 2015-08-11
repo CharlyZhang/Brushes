@@ -21,6 +21,7 @@
     CZPainting *painting;
     
     UIPopoverController *popoverController_;
+    BottomBarView *bottomBarView;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -54,7 +55,7 @@
     
     
     // bottom bar view
-    BottomBarView *bottomBarView = [[BottomBarView alloc]init];
+    bottomBarView = [[BottomBarView alloc]init];
     bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
@@ -107,9 +108,6 @@
     [DDPopoverBackgroundView setArrowHeight:2];
     [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-20)];
     [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-
-   
- 
 }
 
 // 弹出相册图片选择
@@ -247,6 +245,17 @@
     return constraints;
 }
 
+- (void) showColorPicker:(id)sender
+{
+    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
+        [self hidePopovers];
+        return;
+    }
+    
+    CZColor myColor = CZActiveState::getInstance()->getPaintColor();
+    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
+}
+
 #pragma mark - BottomBarViewDelegate Methods
 
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
@@ -274,17 +283,10 @@
     }
 }
 
-- (void) showColorPicker:(id)sender
-{
-    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
-        [self hidePopovers];
-        return;
-    }
-    
+- (WDColor*)getActiveStatePaintColor {
     CZColor myColor = CZActiveState::getInstance()->getPaintColor();
-    [self.colorPickerController setInitialColorWithRed:myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
-    
-    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
+    WDColor *ret = [WDColor colorWithRed: myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
+    return ret;
 }
 
 
@@ -326,14 +328,24 @@
     [color getRed:&r green:&g blue:&b alpha:&a];
     CZColor pc(r,g,b,a);
     CZActiveState::getInstance()->setPaintColor(pc);
+    bottomBarView.colorWheelButton.color = [WDColor colorWithRed:r green:g blue:b alpha:a];
+}
+
+- (WDColor*)getActiveStateColorBy:(WDColorPickerController *)colorPickerController {
+    return [self getActiveStatePaintColor];
 }
 
 - (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController
 {
-    CGFloat r,g,b,a;
-    [color getRed:&r green:&g blue:&b alpha:&a];
-    CZColor *c = new CZColor(r,g,b,a);
-    CZActiveState::getInstance()->setSwatch(c, (int)index);
+    if(color){
+        CGFloat r,g,b,a;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+        CZColor *c = new CZColor(r,g,b,a);
+        CZActiveState::getInstance()->setSwatch(c, (int)index);
+    }
+    else {
+        CZActiveState::getInstance()->setSwatch(NULL, (int)index);
+    }
 }
 
 - (void) setActiveStatePaintColorAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController

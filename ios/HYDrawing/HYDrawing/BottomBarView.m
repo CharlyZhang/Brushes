@@ -7,7 +7,6 @@
 //
 
 #import "BottomBarView.h"
-#import "WDColor.h"
 
 @interface BottomBarView()<UIScrollViewDelegate>
 {
@@ -31,8 +30,8 @@
 //    }
 
     if (!_colorWheelButton) {
-        _colorWheelButton = [[WDColorWell alloc] initWithFrame:CGRectMake(0, 0, 66, 44)];
-        _colorWheelButton.color = [WDColor greenColor];
+        _colorWheelButton = [[WDColorWell alloc] initWithFrame:CGRectMake(0, 0, 74, 98)];
+        _colorWheelButton.color = [self.delegate getActiveStatePaintColor];
         [_colorWheelButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
         _colorWheelButton.tag = COLORWHEEL_BTN;
 

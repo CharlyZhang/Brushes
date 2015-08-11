@@ -53,6 +53,7 @@
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index
 {
     UIColor *color = [self.delegate getColorFromActiveStateSwatchAtIndex:index from:self];
+    if(!color) return nil;
     CGFloat r,g,b,a;
     [color getRed:&r green:&g blue:&b alpha:&a];
     return [WDColor colorWithRed:r green:g blue:b alpha:a];
@@ -132,9 +133,8 @@
     [self.alphaSlider setColor:color_];
 }
 
-- (void) setInitialColorWithRed:(float)r green:(float)g blue:(float)b alpha:(float)a
+- (void) setInitialColor:(WDColor*)iColor;
 {
-    WDColor *iColor = [WDColor colorWithRed:r green:g blue:b alpha:a];
     [self.colorComparator setInitialColor:iColor];
     [self setColor_:iColor];
 }
@@ -169,6 +169,8 @@
     
     self.alphaSlider.mode = WDColorSliderModeAlpha;
     [alphaSlider_ addTarget:self action:@selector(takeAlphaFrom:) forControlEvents:dragEvents];
+    
+    self.initialColor = [self.delegate getActiveStateColorBy:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated
