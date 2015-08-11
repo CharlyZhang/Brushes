@@ -200,8 +200,9 @@
         brushImg->hasAlpha = true;
     }
     
-    CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
-    
+    CZAffineTransform trans1 = CZAffineTransform::makeFromTranslation(100, 100);
+    CZAffineTransform trans2 = CZAffineTransform::makeFromRotate(30.0);
+    CZAffineTransform trans = trans1*trans2;
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
 
@@ -389,7 +390,7 @@
     }
 }
 
-// 选择相册图片
+#pragma mark - 选择相册图片
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image =info[@"UIImagePickerControllerOriginalImage"];

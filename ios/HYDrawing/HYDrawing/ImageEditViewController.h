@@ -12,5 +12,12 @@
 
 @property(nonatomic, strong)UIImage *originalImg;
 @property(nonatomic, retain)UIImageView *imageView;
+// 上次旋转的角度
+@property CGFloat lastRotation;
+
+/* 旋转 缩放 位置 */
+@property CGFloat angle;
+@property CGFloat scale;
+@property CGPoint position;
 
 @end

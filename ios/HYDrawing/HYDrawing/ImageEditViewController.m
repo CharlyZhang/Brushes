@@ -8,8 +8,10 @@
 
 #import "ImageEditViewController.h"
 
-
 @implementation ImageEditViewController
+{
+    CGFloat imgW;
+}
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview
 {
@@ -56,8 +58,12 @@
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImageing:)];
         pinch.delegate = self;
         UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
-        _imageView.gestureRecognizers = @[rotation,pinch];
+        _imageView.gestureRecognizers = @[pan,rotation,pinch];
     }
+    
+    // 记住原图大小
+    imgW = _originalImg.size.width;
+    
 }
 
 #pragma mark 图片的旋转、缩放、移动
@@ -66,19 +72,46 @@
 }
 
 -(void)pinchImageing:(UIPinchGestureRecognizer*)pinch{
-    NSLog(@"缩放：%f",pinch.scale);
+    CGPoint location = [pinch locationInView:self.view];
+    pinch.view.center = CGPointMake(location.x, location.y);
+    pinch.view.transform = CGAffineTransformScale(pinch.view.transform, pinch.scale, pinch.scale);
+    self.scale = pinch.scale;
+//    NSLog(@"缩放：%f",pinch.scale);
+    pinch.scale = 1;
 }
 
 -(void)panImageing:(UIPanGestureRecognizer*)pan{
-    NSLog(@"平移：%f",[pan translationInView:_imageView].x);
+    CGPoint location = [pan locationInView:self.view];
+    pan.view.center = CGPointMake(location.x,  location.y);
+//    NSLog(@"平移：%f",pan.view.frame.origin.x);
 }
 
--(void)rotatingImage:(UIRotationGestureRecognizer*)rotation{
-    NSLog(@"旋转：%f",rotation.rotation);
+-(void)rotatingImage:(UIRotationGestureRecognizer*)gesture{
+    CGPoint location = [gesture locationInView:self.view];
+    gesture.view.center = CGPointMake(location.x, location.y);
+    
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        self.angle = gesture.rotation;
+        self.lastRotation = 0;
+        return;
+    }
+    
+    CGAffineTransform currentTransform = self.imageView.transform;
+    CGFloat rotation = 0.0 - (self.lastRotation - gesture.rotation);
+    CGAffineTransform newTransform = CGAffineTransformRotate(currentTransform, rotation);
+    self.imageView.transform = newTransform;
+    self.lastRotation = gesture.rotation;
 }
 
 #pragma mark 编辑完成，传递参数，回到画图页面
 -(void)toDrawingPage{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    //
+    self.position = CGPointMake(_imageView.frame.origin.x, _imageView.frame.origin.y);
+    self.scale = _imageView.frame.size.width / imgW;
+    
+    NSLog(@"旋转：%f 位置：%@  缩放：%f",self.angle, NSStringFromCGPoint(self.position),self.scale);
+    NSLog(@"transform: %f:%f",_imageView.frame.size.width,imgW);
+    
+//    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end
