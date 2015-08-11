@@ -10,4 +10,7 @@
 
 @interface HYDrawingViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate>
 
+// 图片变换属性
+@property(nonatomic,retain)NSArray *imgEditInfo;
+
 @end

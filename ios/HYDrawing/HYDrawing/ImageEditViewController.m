@@ -64,6 +64,11 @@
     // 记住原图大小
     imgW = _originalImg.size.width;
     
+    // 变换默认值
+    _scale = 1;
+    _position = CGPointMake(0, 0);
+    _angle = 0;
+    
 }
 
 #pragma mark 图片的旋转、缩放、移动
@@ -105,13 +110,15 @@
 
 #pragma mark 编辑完成，传递参数，回到画图页面
 -(void)toDrawingPage{
-    //
+
     self.position = CGPointMake(_imageView.frame.origin.x, _imageView.frame.origin.y);
     self.scale = _imageView.frame.size.width / imgW;
     
-    NSLog(@"旋转：%f 位置：%@  缩放：%f",self.angle, NSStringFromCGPoint(self.position),self.scale);
-    NSLog(@"transform: %f:%f",_imageView.frame.size.width,imgW);
+    NSArray *info = @[[NSValue valueWithCGPoint:_position], @(_scale), @(_angle)];
+    _passInfo(info);
     
-//    [self.navigationController popToRootViewControllerAnimated:YES];
+    NSLog(@"旋转：%f 位置：%@  缩放：%f",self.angle, NSStringFromCGPoint(self.position),self.scale);
+
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end

@@ -28,6 +28,10 @@
 @end
 
 @implementation HYDrawingViewController
+{
+    UIImage *_choosedImg;
+}
+
 
 #pragma mark - Properties
 
@@ -83,6 +87,17 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent"] forBarMetrics:UIBarMetricsDefault];
      self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    
+    #pragma mark 插图
+    if (self.imgEditInfo) {
+        CGPoint p = [_imgEditInfo[0] CGPointValue];
+        CGFloat s = [_imgEditInfo[1] floatValue];
+        CGFloat r = [_imgEditInfo[2] floatValue];
+        
+        NSLog(@"editInfo: %@",self.imgEditInfo);
+        [self insertImage:_choosedImg withPosition:p scale:s rotate:r];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -175,7 +190,7 @@
 }
 
 // 编辑完图片后，返回执行此方法
--(void)insertImage:(UIImage *)image{
+-(void)insertImage:(UIImage *)image withPosition:(CGPoint)pos scale:(CGFloat)s rotate:(CGFloat)angle{
     CGImageRef img = image.CGImage;
     
     //数据源提供者
@@ -200,12 +215,24 @@
         brushImg->hasAlpha = true;
     }
     
-    CZAffineTransform trans1 = CZAffineTransform::makeFromTranslation(100, 100);
-    CZAffineTransform trans2 = CZAffineTransform::makeFromRotate(1);
-    CZAffineTransform trans3 = CZAffineTransform::makeFromScale(0.5, 0.5);
-    CZAffineTransform trans = trans3 * trans1;
+    // 先上下翻转，再变换
     
-    painting->getActiveLayer()->renderImage(brushImg, trans);
+    // 变换
+    CGPoint position = [_imgEditInfo[0] CGPointValue];
+    CGFloat scale = [_imgEditInfo[1] floatValue];
+    CGFloat rotate = [_imgEditInfo[2] floatValue];
+    
+    CGFloat y = self.view.frame.size.height - position.y;
+
+    CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(scale, scale);
+    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(rotate+M_PI);
+    CZAffineTransform trans_position = CZAffineTransform::makeFromTranslation(position.x, y);
+    
+    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-width/2, -height/2);
+
+    CZAffineTransform trans = trans_rotate * trans_adjust;
+    
+    painting->getActiveLayer()->renderImage(brushImg, trans_position);
     canvas->drawView();
 
 }
@@ -395,15 +422,22 @@
 #pragma mark - 选择相册图片
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
+    _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
+    
     [picker dismissViewControllerAnimated:YES completion:^{
-        [self insertImage:image];
+//        [self insertImage:image];
         ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
-        imageEditViewController.originalImg = image;
+        imageEditViewController.originalImg = _choosedImg;
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         
+        #pragma mark 传值
+        imageEditViewController.passInfo = ^(NSArray *arr){
+            self.imgEditInfo = [NSArray arrayWithArray:arr];
+        };
     }];
 }
+
+
 
 #pragma mark - Copied directly
 

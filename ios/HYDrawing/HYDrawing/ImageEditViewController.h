@@ -20,4 +20,7 @@
 @property CGFloat scale;
 @property CGPoint position;
 
+// block
+@property(nonatomic,copy)void (^passInfo)(NSArray *arr);
+
 @end
