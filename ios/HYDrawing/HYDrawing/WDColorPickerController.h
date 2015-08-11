@@ -24,11 +24,7 @@
 @protocol WDColorPickerControllerDelegate <NSObject>
 
 - (void) dismissViewController:(UIViewController *)viewController;
-- (void) setActiveStateColor:(UIColor*)color from:(WDColorPickerController*) colorPickerController;
-- (WDColor*) getActiveStateColorBy:(WDColorPickerController*) colorPickerController;
-- (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController;
-- (void) setActiveStatePaintColorAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController;
-- (UIColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index from:(WDColorPickerController*) colorPickerController;
+- (void) setActiveStateColor:(WDColor*)color from:(WDColorPickerController*) colorPickerController;
 
 @end
 @interface WDColorPickerController : UIViewController <WDSwatchesDelegate>

@@ -228,6 +228,13 @@ CZColor* CZActiveState::getSwatch(int idx)
     return swatches[idx];
 }
 
+bool CZActiveState::setPaintColorAsSwatch(int idx)
+{
+    CZColor *color = new CZColor(paintColor.red,paintColor.green,paintColor.blue,paintColor.alpha);
+    setSwatch(color, idx);
+    return true;
+}
+
 /// 建立生成器
 int CZActiveState::setUpGenerators()
 {
