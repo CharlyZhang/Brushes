@@ -45,6 +45,7 @@ public:
 	static CZAffineTransform makeFromTranslation(float tx_, float ty_);
 	/// 生成选择转换
 	static CZAffineTransform makeFromRotate(float angle_);
+    static CZAffineTransform makeFromScale(float sx_, float sy_);
 	/// 生成单位转换
 	static CZAffineTransform makeIdentity();
 };

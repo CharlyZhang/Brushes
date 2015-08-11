@@ -200,7 +200,10 @@
         brushImg->hasAlpha = true;
     }
     
-    CZAffineTransform trans = CZAffineTransform::makeFromTranslation(100, 100);
+    CZAffineTransform trans1 = CZAffineTransform::makeFromTranslation(100, 100);
+    CZAffineTransform trans2 = CZAffineTransform::makeFromRotate(1);
+    CZAffineTransform trans3 = CZAffineTransform::makeFromScale(0.5, 0.5);
+    CZAffineTransform trans = trans3 * trans1;
     
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
@@ -394,7 +397,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image =info[@"UIImagePickerControllerOriginalImage"];
     [picker dismissViewControllerAnimated:YES completion:^{
-//        [self insertImage:image];
+        [self insertImage:image];
         ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         
