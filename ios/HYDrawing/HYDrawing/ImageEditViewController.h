@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageEditViewController : UIViewController<UIGestureRecognizerDelegate>
+@interface ImageEditViewController : UIViewController<UIGestureRecognizerDelegate,UINavigationBarDelegate>
 
 @property(nonatomic, strong)UIImage *originalImg;
 @property(nonatomic, retain)UIImageView *imageView;
-// 上次旋转的角度
-@property CGFloat lastRotation;
+
 
 /* 旋转 缩放 位置 */
 @property CGFloat angle;
@@ -21,6 +20,6 @@
 @property CGPoint position;
 
 // block
-@property(nonatomic,copy)void (^passInfo)(NSArray *arr);
+@property(nonatomic,copy)void (^passInfo)(CGAffineTransform trans);
 
 @end

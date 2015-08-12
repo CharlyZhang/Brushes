@@ -43,4 +43,6 @@
 ///绘制图片
 - (void)renderImage:(UIImage*)image withTranslate:(CGPoint)vectT rotate:(float)angel scale:(float)s;
 
+- (void)testRenderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
+
 @end

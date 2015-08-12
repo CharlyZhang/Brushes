@@ -135,9 +135,6 @@
         brushImg->hasAlpha = true;
     }
     
-//    s = 1;
-    angel = 0;
-    vectT = CGPointMake(0, 0);
     // 先上下翻转，再变换
     CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(s, s);
     CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(angel);
@@ -147,7 +144,49 @@
     CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
     CZAffineTransform trans_recover = CZAffineTransform::makeFromTranslation((width/2.0), (height/2.0));
     
-    CZAffineTransform trans = trans_adjust * trans_flip * trans_rotate * trans_translate * trans_scale * trans_recover;
+    CZAffineTransform trans = trans_adjust * trans_flip * trans_recover * trans_rotate * trans_translate * trans_scale;
+    painting->getActiveLayer()->renderImage(brushImg, trans);
+    canvas->drawView();
+}
+
+///------
+- (void)testRenderImage:(UIImage*)image withTransform:(CGAffineTransform)transform
+{
+    CGImageRef img = image.CGImage;
+    
+    //数据源提供者
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    // provider’s data.
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    //宽，高，data
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    
+    CZImage *brushImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
+    
+    if (alphaInfo == kCGImageAlphaNone ||
+        alphaInfo == kCGImageAlphaNoneSkipLast ||
+        alphaInfo == kCGImageAlphaNoneSkipFirst){
+        brushImg->hasAlpha = false;
+    }
+    else {
+        brushImg->hasAlpha = true;
+    }
+    
+    // 先上下翻转，再变换
+    
+    CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
+    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
+    CZAffineTransform trans_recover = CZAffineTransform::makeFromTranslation((width/2.0), (height/2.0));
+    
+    CZAffineTransform trans_edit = CZAffineTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
+    
+    CZAffineTransform trans1 = CZAffineTransform::makeFromRotate(M_PI);
+    
+    CZAffineTransform trans =  trans_adjust * trans_flip * trans_recover * trans_edit;
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
 }

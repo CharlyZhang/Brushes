@@ -11,10 +11,21 @@
 @implementation ImageEditViewController
 {
     CGFloat imgW;
+    CGAffineTransform _transform;
+    CGFloat _lastRotation;
+    CGFloat _lastScale;
+    CGFloat initialScale_;
+    CGFloat initialAngle_;
+}
+
+// 隐藏状态栏
+-(BOOL)prefersStatusBarHidden{
+    return YES;
 }
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview
 {
+    
     subview.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
     
@@ -34,18 +45,27 @@
     return constraints;
 }
 
+
 -(void)viewDidLoad{
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backHome)];
+    
+    // 变换初始值
+    
     // 右侧navItem
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
+    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"Accept" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
     self.navigationItem.rightBarButtonItem = doneBtn;
 
-    _imageView = [[UIImageView alloc]initWithImage:_originalImg];
+    _imageView = [[UIImageView alloc]initWithFrame:self.view.frame];
+//    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
     [self.view addSubview:_imageView];
-    _imageView.contentMode = UIViewContentModeCenter;
+    _imageView.image = _originalImg;
+//    _imageView.contentMode = UIViewContentModeCenter;
     [self constrainSubview:_imageView toMatchWithSuperview:self.view];
     
-    _imageView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     _imageView.image = [UIImage imageNamed:@"new_canvas"];
     [super viewDidLoad];
     
@@ -54,20 +74,14 @@
         _imageView.userInteractionEnabled = YES;
         
         // 添加手势
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageing:)];
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImageing:)];
-        pinch.delegate = self;
-        UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
-        _imageView.gestureRecognizers = @[pan,rotation,pinch];
+//        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageing:)];
+//        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
+//        pinch.delegate = self;
+//        UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
+//        _imageView.gestureRecognizers = @[pan,rotation,pinch];
     }
     
-    // 记住原图大小
-    imgW = _originalImg.size.width;
     
-    // 变换默认值
-    _scale = 1;
-    _position = CGPointMake(0, 0);
-    _angle = 0;
     
 }
 
@@ -76,53 +90,16 @@
     return YES;
 }
 
--(void)pinchImageing:(UIPinchGestureRecognizer*)pinch{
-    CGPoint location = [pinch locationInView:self.view];
-    pinch.view.center = CGPointMake(location.x, location.y);
-    pinch.view.transform = CGAffineTransformScale(pinch.view.transform, pinch.scale, pinch.scale);
-    self.scale = pinch.scale;
-//    NSLog(@"缩放：%f",pinch.scale);
-    pinch.scale = 1;
-}
-
--(void)panImageing:(UIPanGestureRecognizer*)pan{
-    CGPoint location = [pan locationInView:self.view];
-    pan.view.center = CGPointMake(location.x,  location.y);
-//    NSLog(@"平移：%f",pan.view.frame.origin.x);
-}
-
--(void)rotatingImage:(UIRotationGestureRecognizer*)gesture{
-    CGPoint location = [gesture locationInView:self.view];
-    gesture.view.center = CGPointMake(location.x, location.y);
-    
-    if (gesture.state == UIGestureRecognizerStateEnded) {
-        self.angle = gesture.rotation;
-        self.lastRotation = 0;
-        return;
-    }
-    
-    CGAffineTransform currentTransform = self.imageView.transform;
-    CGFloat rotation = 0.0 - (self.lastRotation - gesture.rotation);
-    CGAffineTransform newTransform = CGAffineTransformRotate(currentTransform, rotation);
-    self.imageView.transform = newTransform;
-    self.lastRotation = gesture.rotation;
-}
 
 #pragma mark 编辑完成，传递参数，回到画图页面
 -(void)toDrawingPage{
+    _passInfo(_imageView.transform);
 
-    CGFloat w = _imageView.frame.size.width;
-    CGFloat h = _imageView.bounds.size.height;
-    
-    self.position = CGPointMake(_imageView.frame.origin.x, _imageView.frame.origin.y);
-
-    NSLog(@"scale: %f, %f",imgW,w);
-    
-    NSArray *info = @[[NSValue valueWithCGPoint:_position], @(_scale), @(_angle)];
-    _passInfo(info);
-    
-    NSLog(@"旋转：%f 位置：%@  缩放：%f",self.angle, NSStringFromCGPoint(self.position),self.scale);
-
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
+
+-(void)backHome{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
 @end

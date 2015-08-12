@@ -27,6 +27,12 @@
 @implementation HYDrawingViewController
 {
     UIImage *_choosedImg;
+    CGAffineTransform _transinfo;
+}
+
+// 隐藏状态栏
+-(BOOL)prefersStatusBarHidden{
+    return YES;
 }
 
 
@@ -79,16 +85,17 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent"] forBarMetrics:UIBarMetricsDefault];
-     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+     self.navigationController.navigationBar.translucent = YES;
     
     #pragma mark 插图
-    if (self.imgEditInfo) {
-        CGPoint p = [_imgEditInfo[0] CGPointValue];
-        CGFloat s = [_imgEditInfo[1] floatValue];
-        CGFloat r = [_imgEditInfo[2] floatValue];
+    if (_transinfo.a != 0) {
+//        CGPoint p = [_imgEditInfo[0] CGPointValue];
+//        CGFloat s = [_imgEditInfo[1] floatValue];
+//        CGFloat r = [_imgEditInfo[2] floatValue];
         
-        NSLog(@"editInfo: %@",self.imgEditInfo);
-        [self insertImage:_choosedImg withPosition:p scale:s rotate:r];
+        NSLog(@"editInfo: %@",NSStringFromCGAffineTransform(_transinfo));
+//        [self insertImage:_choosedImg withPosition:p scale:s rotate:r];
+        [[HYBrushCore sharedInstance] testRenderImage:_choosedImg withTransform:_transinfo];
     }
     
 }
@@ -179,36 +186,23 @@
     else{
         [self presentViewController:picker animated:YES completion:nil];
     }
-//    popoverController.backgroundColor = UIPopoverBorderColor;
 }
 
 // 编辑完图片后，返回执行此方法
 -(void)insertImage:(UIImage *)image withPosition:(CGPoint)pos scale:(CGFloat)s rotate:(CGFloat)angle {
-    // 变换
-    CGPoint position = [_imgEditInfo[0] CGPointValue];
-    CGFloat scale = [_imgEditInfo[1] floatValue];
-    CGFloat rotate = [_imgEditInfo[2] floatValue];
     
-//    CGFloat w = width * scale;
-//    CGFloat h = height * scale;
-//    
-//    CGFloat x = position.x;
-//    CGFloat y = self.view.frame.size.height - (position.y+h);
-    
-    
-//    CZAffineTransform trans_pos = CZAffineTransform::makeFromTranslation(x, y);
-//    CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(scale, scale);
-//    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(-rotate);
-//    CZAffineTransform trans_affine = CZAffineTransform::makeFromTranslation(w/2, h);
-//    
-//    CZAffineTransform trans =  trans_scale * trans_affine * trans_pos;
-//    painting->getActiveLayer()->renderImage(brushImg, trans);
-//    canvas->drawView();
+//    CGPoint position = [_imgEditInfo[0] CGPointValue];
+//    CGFloat scale = [_imgEditInfo[1] floatValue];
+//    CGFloat rotate = [_imgEditInfo[2] floatValue];
 
-    position.y = self.view.bounds.size.height - position.y;
+//    position.y = self.view.bounds.size.height - position.y - image.size.height;
+//    [[HYBrushCore sharedInstance]renderImage:image withTranslate:position rotate:rotate scale:scale];
     
-    [[HYBrushCore sharedInstance]renderImage:image withTranslate:position rotate:rotate scale:scale];
+//    CGAffineTransform trans = [_imgEditInfo[0] CGAffineTransformValue];
+    
+    
 }
+
 
 
 #pragma mark - HYDrawingViewController Methods
@@ -351,8 +345,8 @@
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         
         #pragma mark 传值
-        imageEditViewController.passInfo = ^(NSArray *arr){
-            self.imgEditInfo = [NSArray arrayWithArray:arr];
+        imageEditViewController.passInfo = ^(CGAffineTransform trans){
+            _transinfo = trans;
         };
     }];
 }
