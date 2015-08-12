@@ -127,6 +127,8 @@ void CZViewImpl::draw() { [realView drawView];}
 {
     LOG_DEBUG("pan\t");
     
+    if (CZActiveState::getInstance()->colorFillMode) return;
+    
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
     

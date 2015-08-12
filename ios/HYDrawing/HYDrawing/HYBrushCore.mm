@@ -56,25 +56,28 @@
 ///激活橡皮
 - (void) activeEraser
 {
+    CZActiveState::getInstance()->colorFillMode = false;
     CZActiveState::getInstance()->setEraseMode(true);
     CZActiveState::getInstance()->setActiveBrush(kEraser);
 }
 ///激活铅笔
 - (void) activePencil
 {
+    CZActiveState::getInstance()->colorFillMode = false;
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
 }
 ///激活蜡笔
 - (void) activeCrayon
 {
+    CZActiveState::getInstance()->colorFillMode = false;
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kCrayon);
 }
 ///激活倒色桶
 - (void) activeBucket
 {
-    
+    CZActiveState::getInstance()->colorFillMode = true;
 }
 
 ///获取当前绘制颜色

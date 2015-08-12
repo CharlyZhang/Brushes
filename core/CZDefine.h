@@ -46,7 +46,7 @@
 #endif
 
 /// LOG
-#define LOG_LEVEL_CUR	 LOG_LEVEL_WARN
+#define LOG_LEVEL_CUR	 LOG_LEVEL_DEBUG
 
 #define LOG_LEVEL_ALL    4
 #define LOG_LEVEL_DEBUG  3
