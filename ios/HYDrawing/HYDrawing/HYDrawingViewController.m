@@ -244,6 +244,9 @@
         case MARKERPEN_BTN:
             [[HYBrushCore sharedInstance]activeCrayon];
             break;
+        case BUCKET_BTN:
+            [[HYBrushCore sharedInstance]activeBucket];
+            break;
         case LAYERS_BTN:
             [self showLayerPopoverController:button];
             break;

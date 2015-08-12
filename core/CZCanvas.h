@@ -28,15 +28,13 @@ public:
 class CZCanvas
 {
 public:
-	CZCanvas(const CZRect rect);
+	CZCanvas(CZView *view_);
 	~CZCanvas();
 
 	/// 设置绘制
 	bool setPaiting(CZPainting* p);
 	/// 绘制视图
 	void drawView();
-    ///
-    void* getView();
 
 private:
 	/// 在一定区域绘制视图

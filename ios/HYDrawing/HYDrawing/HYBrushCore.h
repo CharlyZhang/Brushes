@@ -28,6 +28,8 @@
 - (void) activePencil;
 ///激活蜡笔
 - (void) activeCrayon;
+///激活倒色桶
+- (void) activeBucket;
 
 ///获取当前绘制颜色
 - (WDColor*) getActiveStatePaintColor;

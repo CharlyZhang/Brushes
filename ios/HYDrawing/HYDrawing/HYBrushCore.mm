@@ -7,11 +7,12 @@
 //
 
 #import "HYBrushCore.h"
-
+#import "CZViewImpl.h"
 #include "BrushesCore.h"
 
 @interface HYBrushCore()
 {
+    CZViewImpl *viewImpl;
     CZCanvas *canvas;
     CZPainting *painting;
 }
@@ -33,7 +34,8 @@
 /// 初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h
 {
-    canvas = new CZCanvas(CZRect(0,0,w,h));
+    viewImpl = new CZViewImpl(CZRect(0,0,w,h));
+    canvas = new CZCanvas(viewImpl);
     painting = new CZPainting(CZSize(w,h));
     canvas->setPaiting(painting);
     CZActiveState::getInstance()->setEraseMode(false);
@@ -46,7 +48,8 @@
 ///获得绘制视图
 - (UIView*) getPaintingView
 {
-    return (__bridge UIView*)canvas->getView();
+    if (!viewImpl) return nil;
+    return viewImpl->realView;
 }
 
 
@@ -67,6 +70,11 @@
 {
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kCrayon);
+}
+///激活倒色桶
+- (void) activeBucket
+{
+    
 }
 
 ///获取当前绘制颜色
@@ -137,7 +145,7 @@
     
     // 先上下翻转，再变换
     CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(s, s);
-    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(angel+M_PI);
+    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(angel);
     CZAffineTransform trans_translate = CZAffineTransform::makeFromTranslation(vectT.x, vectT.y);
     
     CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
