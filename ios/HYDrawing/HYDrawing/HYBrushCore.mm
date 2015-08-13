@@ -120,7 +120,8 @@
 }
 
 ///绘制图片
-- (void)renderImage:(UIImage*)image withTranslate:(CGPoint)vectT rotate:(float)angel scale:(float)s;
+- (void)renderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
+
 {
     CGImageRef img = image.CGImage;
     
@@ -145,17 +146,17 @@
     else {
         brushImg->hasAlpha = true;
     }
-    
-    // 先上下翻转，再变换
-    CZAffineTransform trans_scale = CZAffineTransform::makeFromScale(s, s);
-    CZAffineTransform trans_rotate = CZAffineTransform::makeFromRotate(angel);
-    CZAffineTransform trans_translate = CZAffineTransform::makeFromTranslation(vectT.x, vectT.y);
-    
+
+//    
+    //////
+    CZSize paintingSize = painting->getDimensions();
     CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
     CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
-    CZAffineTransform trans_recover = CZAffineTransform::makeFromTranslation((width/2.0), (height/2.0));
+    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((paintingSize.width/2.0), (paintingSize.height/2.0));
     
-    CZAffineTransform trans = trans_adjust * trans_flip * trans_rotate * trans_translate * trans_scale * trans_recover;
+    CZAffineTransform trans = CZAffineTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
+    
+    trans = (trans_adjust * trans_flip * trans_center) * trans;
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
 }

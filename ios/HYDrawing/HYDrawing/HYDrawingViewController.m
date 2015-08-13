@@ -19,6 +19,7 @@
 @interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
+    ImageEditViewController *imageEditViewController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -86,9 +87,13 @@
         CGPoint p = [_imgEditInfo[0] CGPointValue];
         CGFloat s = [_imgEditInfo[1] floatValue];
         CGFloat r = [_imgEditInfo[2] floatValue];
+        UIImageView * imageView = _imgEditInfo[3];
         
         NSLog(@"editInfo: %@",self.imgEditInfo);
-        [self insertImage:_choosedImg withPosition:p scale:s rotate:r];
+        //[self insertImage:_choosedImg withPosition:p scale:s rotate:r];
+        p.y = self.view.bounds.size.height - p.y;
+        
+        [[HYBrushCore sharedInstance]renderImage:_choosedImg withTransform:imageEditViewController.imageTransform];
     }
     
 }
@@ -189,9 +194,7 @@
     CGFloat scale = [_imgEditInfo[1] floatValue];
     CGFloat rotate = [_imgEditInfo[2] floatValue];
 
-    position.y = self.view.bounds.size.height - position.y;
     
-    [[HYBrushCore sharedInstance]renderImage:image withTranslate:position rotate:rotate scale:scale];
 }
 
 
@@ -333,7 +336,7 @@
     
     [picker dismissViewControllerAnimated:YES completion:^{
 //        [self insertImage:image];
-        ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
+        imageEditViewController = [[ImageEditViewController alloc]init];
         imageEditViewController.originalImg = _choosedImg;
         [self.navigationController pushViewController:imageEditViewController animated:NO];
         

@@ -43,6 +43,6 @@
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index;
 
 ///绘制图片
-- (void)renderImage:(UIImage*)image withTranslate:(CGPoint)vectT rotate:(float)angel scale:(float)s;
+- (void)renderImage:(UIImage*)image withTransform:(CGAffineTransform)trans;
 
 @end

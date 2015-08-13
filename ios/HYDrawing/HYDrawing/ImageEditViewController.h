@@ -23,4 +23,6 @@
 // block
 @property(nonatomic,copy)void (^passInfo)(NSArray *arr);
 
+@property(nonatomic,assign) CGAffineTransform imageTransform;
+
 @end
