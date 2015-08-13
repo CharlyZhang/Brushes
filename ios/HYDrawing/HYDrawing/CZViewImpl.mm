@@ -1,36 +1,35 @@
+//
+//  CZViewImpl.cpp
+//  HYDrawing
+//
+//  Created by CharlyZhang on 15/8/12.
+//  Copyright (c) 2015Âπ¥ Founder. All rights reserved.
+//
 
-///  \file CZCanvas.cpp
-///  \brief This is the file implements the class CZCanvas.
-///
-///	
-///
-///  \version	1.0.0
-///	 \author	Charly Zhang<chicboi@hotmail.com>
-///  \date		2014-10-15
-///  \note
-
-#include "CZCanvas.h"
-#include "CZDefine.h"
-#include "painting/CZPainting.h"
+#include "CZViewImpl.h"
+#include "graphic/glDef.h"
+#include "CZUtil.h"
 #include "CZActiveState.h"
 #include "tool/CZFreehandTool.h"
-#include "basic/CZMat4.h"
-#include "graphic/glDef.h"
 
-#import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
+////////////////////CanvasView////////////////////
+CZViewImpl::CZViewImpl(const CZRect rect)
+{
+    realView = [[CanvasView alloc]initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
+}
 
-///
-@interface CanvasView : UIView<UIGestureRecognizerDelegate>
+CZViewImpl::~CZViewImpl() {}
+void CZViewImpl::setPaiting(CZPainting* p) { realView.ptrPainting = p;}
+void CZViewImpl::draw() { [realView drawView];}
+
+////////////////////CanvasView////////////////////
+@interface CanvasView()
 {
     CZMat4 projMat;
     EAGLContext *context;               ///
 }
 
-@property (nonatomic, assign) CZPainting* ptrPainting;
 @property (nonatomic, assign) CZFbo* fbo;
-
-- (void)drawView;
 
 @end
 
@@ -84,8 +83,6 @@
     if ([EAGLContext currentContext] == context) {
         [EAGLContext setCurrentContext:nil];
     }
-    
-    [super dealloc];
 }
 
 #pragma mark - Properties
@@ -104,11 +101,11 @@
 {
     _ptrPainting = ptrPainting;
     if (_ptrPainting) {
-        context = (EAGLContext*) ptrPainting->getGLContext()->getRealContext();
+        context = (__bridge EAGLContext*) self.ptrPainting->getGLContext()->getRealContext();
     }
     else
         context = nil;
-    
+        
 }
 
 #pragma mark - Geusture
@@ -123,15 +120,14 @@
     tapGesture.numberOfTapsRequired = 1;
     tapGesture.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:tapGesture];
-    
-    [panGesture release];
-    [tapGesture release];
 }
 
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
     LOG_DEBUG("pan\t");
+    
+    if (CZActiveState::getInstance()->colorFillMode) return;
     
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
@@ -168,7 +164,7 @@
         layer->fill(color, location);
         [self drawView];
     }
-
+    
 }
 
 #pragma mark - Draw
@@ -187,7 +183,7 @@
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
+    
     self.ptrPainting->blit(projMat);
     
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());
@@ -201,79 +197,10 @@
     projMat.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
     [EAGLContext setCurrentContext:context];
     if(self.fbo)
-        self.fbo->setRenderBufferWithContext((void*)context, (void*)self.layer);
-    [self drawView];
+        self.fbo->setRenderBufferWithContext((__bridge void*)context, (__bridge void*)self.layer);
+        [self drawView];
 }
 
 @end
 
-/// CZView, ∆ΩÃ®œ‡πÿµƒ ”Õº
-class CZViewImpl : public CZView
-{
-public:
-    CanvasView *realView;
-    
-    CZViewImpl(const CZRect rect)
-    {
-        realView = [[CanvasView alloc]initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
-    }
-    
-    ~CZViewImpl() { [realView release];}
-    void setPaiting(CZPainting* p) { realView.ptrPainting = p;}
-    void draw() { [realView drawView];}
-};
-
-/// implemention of CZCanvas
-CZCanvas::CZCanvas(const CZRect rect)
-{
-    ptrPainting = NULL;
-	view = new CZViewImpl(rect);
-}
-
-CZCanvas::~CZCanvas()
-{
-	delete view;
-}
-
-/// set painting
-bool CZCanvas::setPaiting(CZPainting *p)
-{
-    if (!p) {
-        LOG_ERROR("painting is NULL\n");
-        return false;
-    }
-    
-    ptrPainting = p;
-    p->setCanvas(this);
-    CZActiveState::getInstance()->setPainting(p);
-    view->setPaiting(p);
-    return true;
-}
-
-/// ªÊ÷∆ ”Õº
-void CZCanvas::drawView()
-{
-//    if (!ptrPainting) {
-//        LOG_ERROR("painting is NULL\n");
-//        return;
-//    }
-
-    view->draw();
-	//drawViewInRect(visibleRect);
-}
-
-void* CZCanvas::getView()
-{
-#if USE_OPENGL_ES
-    CZViewImpl *thisView = (CZViewImpl*)view;
-    return (void*)thisView->realView;
-#endif
-    return NULL;
-}
-
-/// ‘⁄“ª∂®«¯”ÚªÊ÷∆ ”Õº
-void CZCanvas::drawViewInRect(CZRect &rect)
-{
-
-}
 

@@ -173,6 +173,7 @@ void CZTool::moveEnd(CZ2DPoint &p_)
 	
 	if (!moved) 
 	{ // draw a single stamp
+        LOG_INFO("draw stamp");
 		CZBezierNode node(location,1.0);
 		path.reset();
 		path.addNode(node);

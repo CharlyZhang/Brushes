@@ -11,28 +11,18 @@
 
 #include "CZCanvas.h"
 #include "CZDefine.h"
-#include "CZActiveState.h"
-#include "basic/CZMat4.h"
 #include "painting/CZPainting.h"
-#include "tool/CZFreehandTool.h"
-#include "graphic/glDef.h"
+#include "CZActiveState.h"
 
-/// CZView, 平台相关的视图
-class CZViewImpl : public CZView
-{
-public:
-	CZViewImpl(const CZRect rect){}
-	~CZViewImpl(){};
-	void setPaiting(CZPainting* p){};
-	void draw(){};
-};
 
 /// implemention of CZCanvas
-CZCanvas::CZCanvas(const CZRect rect)
+CZCanvas::CZCanvas(CZView *view_)
 {
-	ptrPainting = NULL;
-	view = new CZViewImpl(rect);
-	isDirty = true;
+    ptrPainting = NULL;
+    if (!view_) {
+        LOG_ERROR("view is NULL\n");
+    }
+	view = view_;
 }
 
 CZCanvas::~CZCanvas()
@@ -43,40 +33,28 @@ CZCanvas::~CZCanvas()
 /// set painting
 bool CZCanvas::setPaiting(CZPainting *p)
 {
-	if (!p) {
-		LOG_ERROR("painting is NULL\n");
-		return false;
-	}
-
-	ptrPainting = p;
-	p->setCanvas(this);
-	CZActiveState::getInstance()->setPainting(p);
-	view->setPaiting(p);
-	return true;
+    if (!p) {
+        LOG_ERROR("painting is NULL\n");
+        return false;
+    }
+    
+    ptrPainting = p;
+    p->setCanvas(this);
+    CZActiveState::getInstance()->setPainting(p);
+    view->setPaiting(p);
+    return true;
 }
 
 /// 绘制视图
 void CZCanvas::drawView()
 {
-	//    if (!ptrPainting) {
-	//        LOG_ERROR("painting is NULL\n");
-	//        return;
-	//    }
-#if USE_OPENGL_ES
-	view->draw();
-#elif USE_OPENGL
-	isDirty = true;
-#endif
-	//drawViewInRect(visibleRect);
-}
+//    if (!ptrPainting) {
+//        LOG_ERROR("painting is NULL\n");
+//        return;
+//    }
 
-void* CZCanvas::getView()
-{
-#if USE_OPENGL_ES
-	CZViewImpl *thisView = (CZViewImpl*)view;
-	return (void*)thisView->realView;
-#endif
-	return NULL;
+    view->draw();
+	//drawViewInRect(visibleRect);
 }
 
 /// 在一定区域绘制视图
@@ -84,3 +62,4 @@ void CZCanvas::drawViewInRect(CZRect &rect)
 {
 
 }
+

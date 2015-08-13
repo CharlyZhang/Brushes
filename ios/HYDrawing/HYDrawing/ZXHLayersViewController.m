@@ -86,19 +86,26 @@
     [_tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
     
     [self selectRowAtIndexPath:_curLayerIndex];
-    NSLog(@"行： %ld",_curLayerIndex);
+//    NSLog(@"行： %ld",_curLayerIndex);
 }
 
 // ++++ 选中某行并设置样式
 -(void)selectRowAtIndexPath:(NSInteger)index{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     [_tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-    NSLog(@"行-： %ld",index);
+//    NSLog(@"行-： %ld",index);
     
     // 设置样式
     LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:indexPath];
     [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
     cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"layer_cell_selected_bg"]];
+    
+    // 是否可编辑
+    if (!cell.isUnlocked) {
+        _topToolBar.btnDelete.enabled = NO;
+    }else{
+        _topToolBar.btnDelete.enabled = YES;
+    }
 }
 
 // 合并
@@ -171,7 +178,7 @@
     alphaSlider.minimumValue = 0.0;
     alphaSlider.maximumValue = 1.0;
     alphaSlider.value = 1.0;
-    alphaSlider.layer.cornerRadius = 5;
+    alphaSlider.layer.cornerRadius = 4;
     alphaSlider.backgroundColor = kImageColor(@"slider_layer_track_bg");
     alphaSlider.minimumTrackTintColor = [UIColor clearColor];
     alphaSlider.maximumTrackTintColor = [UIColor clearColor];

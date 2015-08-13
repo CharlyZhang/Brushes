@@ -19,6 +19,8 @@
 @interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
+    ImageEditViewController *imageEditViewController;
+    UIPopoverController *layersPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -32,7 +34,7 @@
 
 // 隐藏状态栏
 -(BOOL)prefersStatusBarHidden{
-    return YES;
+    return NO;
 }
 
 
@@ -71,7 +73,6 @@
     CGSize size = [UIScreen mainScreen].bounds.size;
     [[HYBrushCore sharedInstance]initializeWithWidth:size.width height:size.height];
     [self.view insertSubview:[[HYBrushCore sharedInstance] getPaintingView] atIndex:0];
-    
 }
 
 //-(BOOL)shouldAutorotate{
@@ -82,21 +83,16 @@
 //    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
 //}
 
+-(void)hiddenNavBar{
+    self.navigationController.navigationBar.hidden = NO;
+}
+
 -(void)viewWillAppear:(BOOL)animated{
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"transparent"] forBarMetrics:UIBarMetricsDefault];
+    // 全透明背景
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
      self.navigationController.navigationBar.translucent = YES;
-    
-    #pragma mark 插图
-    if (_transinfo.a != 0) {
-//        CGPoint p = [_imgEditInfo[0] CGPointValue];
-//        CGFloat s = [_imgEditInfo[1] floatValue];
-//        CGFloat r = [_imgEditInfo[2] floatValue];
-        
-        NSLog(@"editInfo: %@",NSStringFromCGAffineTransform(_transinfo));
-//        [self insertImage:_choosedImg withPosition:p scale:s rotate:r];
-        [[HYBrushCore sharedInstance] testRenderImage:_choosedImg withTransform:_transinfo];
-    }
+    // 去掉分割线
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
 }
 
@@ -188,23 +184,6 @@
     }
 }
 
-// 编辑完图片后，返回执行此方法
--(void)insertImage:(UIImage *)image withPosition:(CGPoint)pos scale:(CGFloat)s rotate:(CGFloat)angle {
-    
-//    CGPoint position = [_imgEditInfo[0] CGPointValue];
-//    CGFloat scale = [_imgEditInfo[1] floatValue];
-//    CGFloat rotate = [_imgEditInfo[2] floatValue];
-
-//    position.y = self.view.bounds.size.height - position.y - image.size.height;
-//    [[HYBrushCore sharedInstance]renderImage:image withTranslate:position rotate:rotate scale:scale];
-    
-//    CGAffineTransform trans = [_imgEditInfo[0] CGAffineTransformValue];
-    
-    
-}
-
-
-
 #pragma mark - HYDrawingViewController Methods
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
@@ -254,6 +233,9 @@
         case MARKERPEN_BTN:
             [[HYBrushCore sharedInstance]activeCrayon];
             break;
+        case BUCKET_BTN:
+            [[HYBrushCore sharedInstance]activeBucket];
+            break;
         case LAYERS_BTN:
             [self showLayerPopoverController:button];
             break;
@@ -273,8 +255,8 @@
 //    NSLog(@"hello-----");
     ZXHLayersViewController *layersViewController = [ZXHLayersViewController new];
     
-    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
-    popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
+    layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     [DDPopoverBackgroundView setContentInset:2];
     
     UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
@@ -282,13 +264,13 @@
     [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
     [DDPopoverBackgroundView setArrowBase:0];
     [DDPopoverBackgroundView setArrowHeight:2];
-    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
+    [layersPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
     
     // 弹出位置
     CGRect popRect = sender.frame;
     popRect.origin.y -= 50;
     
-    [popoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    [layersPopoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
 #pragma mark - WDColorPickerControllerDelegate Methods
@@ -340,15 +322,13 @@
     _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
     
     [picker dismissViewControllerAnimated:YES completion:^{
-//        [self insertImage:image];
-        ImageEditViewController *imageEditViewController = [[ImageEditViewController alloc]init];
+        imageEditViewController = [[ImageEditViewController alloc]init];
         imageEditViewController.originalImg = _choosedImg;
-        [self.navigationController pushViewController:imageEditViewController animated:NO];
+        imageEditViewController.view.backgroundColor = [UIColor clearColor];\
+        // 隐藏导航栏
+        self.navigationController.navigationBar.hidden = YES;
         
-        #pragma mark 传值
-        imageEditViewController.passInfo = ^(CGAffineTransform trans){
-            _transinfo = trans;
-        };
+        [self.view addSubview:imageEditViewController.view];
     }];
 }
 
@@ -419,7 +399,6 @@
     if (popoverController_) {
         [popoverController_ dismissPopoverAnimated:NO];
         popoverController_ = nil;
-        
     }
 }
 

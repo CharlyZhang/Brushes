@@ -22,4 +22,6 @@
 // block
 @property(nonatomic,copy)void (^passInfo)(CGAffineTransform trans);
 
+@property(nonatomic,assign) CGAffineTransform imageTransform;
+
 @end

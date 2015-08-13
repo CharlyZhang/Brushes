@@ -7,14 +7,12 @@
 //
 
 #import "ImageEditViewController.h"
+#import "HYBrushCore.h"
+#import "ZXHMockNavBar.h"
 
 @implementation ImageEditViewController
 {
     CGFloat imgW;
-    CGAffineTransform _transform;
-    CGFloat _lastRotation;
-    CGFloat _lastScale;
-    CGFloat initialScale_;
     CGFloat initialAngle_;
 }
 
@@ -47,44 +45,36 @@
 
 
 -(void)viewDidLoad{
-    
-    // 左侧navItem
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backHome)];
-    
-    // 变换初始值
-    
-    // 右侧navItem
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"Accept" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
-    self.navigationItem.rightBarButtonItem = doneBtn;
 
     _imageView = [[UIImageView alloc]init];
-    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
+    //_imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
     [self.view addSubview:_imageView];
     _imageView.image = _originalImg;
-//    _imageView.contentMode = UIViewContentModeCenter;
+    _imageView.contentMode = UIViewContentModeCenter;
     [self constrainSubview:_imageView toMatchWithSuperview:self.view];
-    
+
     self.view.backgroundColor = [UIColor whiteColor];
     _imageView.image = [UIImage imageNamed:@"new_canvas"];
     [super viewDidLoad];
     
     if (_originalImg) {
         _imageView.image = _originalImg;
-        _imageView.userInteractionEnabled = YES;
         
         // 添加手势
-//        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageing:)];
-//        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
-//        pinch.delegate = self;
-//        UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
-//        _imageView.gestureRecognizers = @[pan,rotation,pinch];
+        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageing:)];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImageing:)];
+        pinch.delegate = self;
+        UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
+        self.view.gestureRecognizers = @[pan,rotation,pinch];
     }
+
+    self.imageTransform = CGAffineTransformIdentity;
     
-    
-    
+    // 模拟导航栏
+    ZXHMockNavBar *navBar = [[ZXHMockNavBar alloc]initWithLeftBtnTitle:@"Cancel" title:@"插入图片" rightBtnTitle:@"Accept"];
+    [navBar.leftBtn addTarget:self action:@selector(backHome) forControlEvents:UIControlEventTouchUpInside];
+    [navBar.rightBtn addTarget:self action:@selector(toDrawingPage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:navBar];
 }
 
 #pragma mark 图片的旋转、缩放、移动
@@ -92,16 +82,74 @@
     return YES;
 }
 
+-(void)panImageing:(UIPanGestureRecognizer*)pan{
+    
+    if (pan.state == UIGestureRecognizerStateChanged) {
+        CGPoint loc = [pan translationInView:self.view];
+        [pan setTranslation:CGPointZero inView:self.view];
+        self.imageView.center = CGPointMake(self.imageView.center.x+loc.x, self.imageView.center.y+loc.y);
+        
+        CGAffineTransform tX = CGAffineTransformIdentity;
+        tX = CGAffineTransformTranslate(tX, loc.x, -loc.y);
+        self.imageTransform = CGAffineTransformConcat(self.imageTransform, tX);
+    }
+    
+}
 
-#pragma mark 编辑完成，传递参数，回到画图页面
+-(void)pinchImageing:(UIPinchGestureRecognizer*)pinch{
+    
+    if (pinch.state == UIGestureRecognizerStateBegan || pinch.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"%f",pinch.scale);
+        self.imageView.transform = CGAffineTransformScale(self.imageView.transform, pinch.scale, pinch.scale);
+        
+        
+        CGPoint pivot = self.imageView.center;
+        pivot.y = self.view.bounds.size.height - pivot.y;
+        CGAffineTransform tX = CGAffineTransformIdentity;
+        tX = CGAffineTransformTranslate(tX, pivot.x, pivot.y);
+        tX = CGAffineTransformScale(tX, pinch.scale, pinch.scale);
+        tX = CGAffineTransformTranslate(tX, -pivot.x, -pivot.y);
+        self.imageTransform = CGAffineTransformConcat(self.imageTransform, tX);
+
+        pinch.scale = 1;
+    }
+}
+
+-(void)rotatingImage:(UIRotationGestureRecognizer*)gesture{
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        initialAngle_ = [(UIRotationGestureRecognizer *)gesture rotation];
+    }
+    
+    if (gesture.state == UIGestureRecognizerStateChanged) {
+        float rotation  = [(UIRotationGestureRecognizer *)gesture rotation];
+        float angle = rotation - initialAngle_;
+        self.imageView.transform = CGAffineTransformRotate(self.imageView.transform , angle);
+        
+        CGPoint pivot = self.imageView.center;
+        pivot.y = self.view.bounds.size.height - pivot.y;
+        CGAffineTransform tX = CGAffineTransformIdentity;
+        tX = CGAffineTransformTranslate(tX, pivot.x, pivot.y);
+        tX = CGAffineTransformRotate(tX, M_PI-angle);
+        tX = CGAffineTransformScale(tX, -1, -1);
+        tX = CGAffineTransformTranslate(tX, -pivot.x, -pivot.y);
+        self.imageTransform = CGAffineTransformConcat(self.imageTransform, tX);
+        
+        initialAngle_ = rotation;
+    }
+}
+
+#pragma mark 编辑完成
 -(void)toDrawingPage{
-    _passInfo(_imageView.transform);
-
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    // 显示导航栏
+    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    nav.navigationBar.hidden = NO;
+    [self.view removeFromSuperview];
+    [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform];
 }
 
 -(void)backHome{
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    [self.view removeFromSuperview];
 }
 
 @end

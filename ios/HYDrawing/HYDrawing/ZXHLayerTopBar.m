@@ -11,17 +11,5 @@
 
 @implementation ZXHLayerTopBar
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    if (self = [super initWithCoder:aDecoder]) {
-        NSLog(@"initWithCoder");
-        self.backgroundColor = UIPopoverBackgroundColor;
-    }
-    
-    return self;
-}
 
--(void)awakeFromNib{
-    NSLog(@"awakeFromNib");
-    self.backgroundColor = UIPopoverBackgroundColor;
-}
 @end
