@@ -337,6 +337,19 @@ void CZMat4::LoadZero(void)
 	memset(entries, 0, 16*sizeof(float));
 }
 
+void CZMat4::LoadFromAffineTransform(const CZAffineTransform &trans)
+{
+    memset(entries, 0, 16*sizeof(float));
+    entries[0] = trans.a;
+    entries[1] = trans.b;
+    entries[4] = trans.c;
+    entries[5] = trans.d;
+    entries[10] = 1.0f;
+    entries[12] = trans.tx;
+    entries[13] = trans.ty;
+    entries[15] = 1.0f;
+}
+
 CZMat4 CZMat4::operator+(const CZMat4 & rhs) const		//overloaded operators
 {
 	return CZMat4(	entries[0]+rhs.entries[0],

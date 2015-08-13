@@ -136,6 +136,9 @@ public:
 
 	/// 填充
 	bool fill(CZColor &c, CZ2DPoint &p);
+    
+    /// get thumbnail image
+    CZImage *getThumbnailImage();
 
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
@@ -152,6 +155,8 @@ private:
 	/// 注册撤销操作
 	void registerUndoInRect(CZRect &rect);
 
+    void clearThumbnailImage();
+    
 public:
 	bool canRedo,canUndo;
 	CZRect modifiedRect;
@@ -177,6 +182,8 @@ private:
 
 	CZGLContext *ptrGLContext;					///< gl上下文
 	char* uuid;									///< 编号
+    
+    CZImage *thumbnailImg;                      ///< thumbnail
 };
 
 #endif

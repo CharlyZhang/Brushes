@@ -12,7 +12,10 @@
 #include "CZLayer.h"
 #include "../CZUtil.h"
 #include "CZPainting.h"
+#include "../CZActiveState.h"
 #include "../graphic/glDef.h"
+
+#define MAX_THUMBNAIL_DIMMENSION 360
 
 CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
 {
@@ -31,6 +34,8 @@ CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
     image = NULL;
     myTexture = NULL;
     hueChromaLuma = NULL;
+    
+    thumbnailImg = NULL;
     
     if (ptrPainting)
     {
@@ -54,7 +59,8 @@ CZLayer::~CZLayer()
     if(image) { delete image; image = NULL;}
     if(colorBalance) { delete colorBalance; colorBalance = NULL;}
     if(hueSaturation) { delete hueSaturation; hueSaturation = NULL;}
-    if (uuid)	{	delete []uuid; uuid = NULL;	}
+    if(uuid)	{	delete []uuid; uuid = NULL;	}
+    clearThumbnailImage();
 }
 
 /// 图层的图像数据
@@ -73,7 +79,7 @@ CZImage *CZLayer::imageDataInRect(const CZRect &rect)
         return NULL;
     }
     
-    if(rect.isZeroRect()) return new CZImage();
+    if(rect.isZeroRect()) return NULL;
     
     ptrGLContext->setAsCurrent();
     
@@ -411,6 +417,8 @@ void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undo
     
     fbo.end();
     
+    clearThumbnailImage();
+    
 }
 
 /// 调整颜色
@@ -504,6 +512,9 @@ bool CZLayer::clear()
     glClear(GL_COLOR_BUFFER_BIT);
     
     fbo.end();
+    
+    clearThumbnailImage();
+    
     return true;
 }
 
@@ -774,6 +785,92 @@ bool CZLayer::fill(CZColor &c, CZ2DPoint &p)
     return true;
 }
 
+/// get thumbnail image
+CZImage* CZLayer::getThumbnailImage()
+{
+    if (ptrPainting == NULL)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return NULL;
+    }
+
+    if (!thumbnailImg) {
+        // make sure the painting's context is current
+        ptrGLContext->setAsCurrent();
+        
+        CZSize size = ptrPainting->getDimensions();
+        
+        float aspectRatio = size.width / size.height;
+        
+        GLuint width,height;
+    
+        // figure out the width and height of the thumbnail
+        if (aspectRatio > 1.0) {
+            width = (GLuint) MAX_THUMBNAIL_DIMMENSION;
+            height = floorf(1.0 / aspectRatio * width);
+        } else {
+            height = (GLuint) MAX_THUMBNAIL_DIMMENSION;
+            width = floorf(aspectRatio * height);
+        }
+        
+        float s = CZActiveState::getInstance()->mainScreenScale;
+        width *= s;
+        height *= s;
+        
+        CZFbo fbo;
+        fbo.setColorRenderBuffer(width, height);
+        
+        fbo.begin();
+        
+        CZShader *shader = ptrPainting->getShader("blit");
+        
+        shader->begin();
+        
+        GLsizei viewportWidth = MAX(width, size.width);
+        GLsizei viewportHeight = MAX(height, size.height);
+        glViewport(0, 0, viewportWidth, viewportHeight);
+        
+        // figure out the projection matrix
+        CZMat4 projMat,effectiveProj,final;
+        // setup projection matrix (orthographic)
+        projMat.SetOrtho(0, size.width, 0, size.height, -1.0f, 1.0f);
+        
+        CZAffineTransform scale = CZAffineTransform::makeFromScale((float) width / viewportWidth,
+                                                                   (float) height / viewportHeight);
+        effectiveProj.LoadFromAffineTransform(scale);
+        final = projMat * effectiveProj;
+        
+        glUniform1i(shader->getUniformLocation("texture"), 0);
+        glUniform1f(shader->getUniformLocation("opacity"), 1.0f);
+        glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, final);
+        
+        glActiveTexture(GL_TEXTURE0);
+        // Bind the texture to be used
+        glBindTexture(GL_TEXTURE_2D, myTexture->texId);
+        
+        // clear the buffer to get a transparent background
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
+        // set up premultiplied normal blend
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        
+        glBindVertexArrayOES(ptrPainting->getQuadVAO());
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindVertexArrayOES(0);
+        
+        // color buffer should now have layer contents
+        
+        thumbnailImg = fbo.produceImageForCurrentState();
+        
+        CZCheckGLError();
+        
+        fbo.end();
+    }
+    
+    return thumbnailImg;
+}
+
 /// 实现coding的接口
 void CZLayer::update(CZDecoder *decoder_, bool deep /* = false */)
 {
@@ -920,4 +1017,10 @@ void CZLayer::registerUndoInRect(CZRect &rect)
     undoFragment = new CZPaintingFragment(currentImg,newRect);
     
     canUndo = true;
+}
+
+void CZLayer::clearThumbnailImage()
+{
+    delete thumbnailImg;
+    thumbnailImg = NULL;
 }
