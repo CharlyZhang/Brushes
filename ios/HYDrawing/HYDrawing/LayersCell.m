@@ -7,6 +7,7 @@
 //
 
 #import "LayersCell.h"
+#import "Macro.h"
 
 @implementation LayersCell
 
@@ -23,14 +24,13 @@
 }
 
 -(void)awakeFromNib{
-    
-    [self setOutlineViewBorderWithColor:[UIColor cyanColor]];
-
+    self.backgroundColor = kCommenSkinColor;
+    [self setOutlineViewBorderWithColor:kCommenCyanColor];
 }
 
 // 轮廓样式
 -(void)setOutlineViewBorderWithColor:(UIColor *)color{
-    _outlineView.layer.borderWidth = 1;
+    _outlineView.layer.borderWidth = 2;
     _outlineView.layer.borderColor = color.CGColor;
     _outlineView.layer.cornerRadius = 4;
     _outlineView.clipsToBounds = YES;
@@ -60,6 +60,11 @@
         [sender setImage:[UIImage imageNamed:@"layer_lock"] forState:0];
     }else{
         [sender setImage:[UIImage imageNamed:@"layer_unlock"] forState:0];
+    }
+    
+    if (self.selected) {
+        // 发送是否可编辑消息
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"LayerLockNotification" object:@(!_isUnlocked)];
     }
     
     _isUnlocked = !_isUnlocked;

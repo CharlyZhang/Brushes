@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49061D1B78ACA900158F1C /* HYBrushCore.mm */; };
+		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
+		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
+		535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */; };
 		535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 535DA0DE1B6F801500E117FF /* ColorPicker.xib */; };
 		535DA0E21B6F806600E117FF /* WDColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 535DA0E11B6F806600E117FF /* WDColorPickerController.m */; };
 		535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */ = {isa = PBXBuildFile; fileRef = 535DA0E71B6F80ED00E117FF /* WDSwatches.m */; };
@@ -34,7 +37,6 @@
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
 		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
 		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
-		53BBAC911B787085006D11EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC901B787085006D11EF /* Images.xcassets */; };
 		53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC931B787E5F006D11EF /* LayersCell.m */; };
 		53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC941B787E5F006D11EF /* LayersCell.xib */; };
 		53D22D011B74996F00C65D88 /* blit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 53D22D001B74996F00C65D88 /* blit.vsh */; };
@@ -86,6 +88,10 @@
 /* Begin PBXFileReference section */
 		2D49061C1B78ACA900158F1C /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
 		2D49061D1B78ACA900158F1C /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
+		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
+		535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayerTopBar.m; sourceTree = "<group>"; };
+		535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHLayerTopBar.xib; sourceTree = "<group>"; };
 		535DA0DE1B6F801500E117FF /* ColorPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPicker.xib; sourceTree = "<group>"; };
 		535DA0E01B6F806600E117FF /* WDColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorPickerController.h; sourceTree = "<group>"; };
 		535DA0E11B6F806600E117FF /* WDColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorPickerController.m; sourceTree = "<group>"; };
@@ -135,7 +141,6 @@
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
 		53BBAC8B1B785177006D11EF /* ZXHLayersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayersViewController.h; sourceTree = "<group>"; };
 		53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayersViewController.m; sourceTree = "<group>"; };
-		53BBAC901B787085006D11EF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		53BBAC921B787E5F006D11EF /* LayersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersCell.h; sourceTree = "<group>"; };
 		53BBAC931B787E5F006D11EF /* LayersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayersCell.m; sourceTree = "<group>"; };
 		53BBAC941B787E5F006D11EF /* LayersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LayersCell.xib; sourceTree = "<group>"; };
@@ -251,7 +256,7 @@
 		53851B611B57AADE00B6F946 /* HYDrawing */ = {
 			isa = PBXGroup;
 			children = (
-				53BBAC901B787085006D11EF /* Images.xcassets */,
+				535306F01B7C326D00877D76 /* Images.xcassets */,
 				60216AE91B589440009186F4 /* Macro.h */,
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
@@ -320,6 +325,9 @@
 				53BBAC921B787E5F006D11EF /* LayersCell.h */,
 				53BBAC931B787E5F006D11EF /* LayersCell.m */,
 				53BBAC941B787E5F006D11EF /* LayersCell.xib */,
+				535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */,
+				535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */,
+				535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -389,6 +397,7 @@
 		53851B571B57AADE00B6F946 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = ZXH;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Founder;
 				TargetAttributes = {
@@ -450,14 +459,15 @@
 			files = (
 				53D590811B5E02CA00E9D2F0 /* brush.frag in Resources */,
 				53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */,
-				53BBAC911B787085006D11EF /* Images.xcassets in Resources */,
 				535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */,
 				53D590821B5E02CA00E9D2F0 /* brush.vert in Resources */,
+				535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */,
 				53D5907B1B5E02CA00E9D2F0 /* basicColor.frag in Resources */,
 				53D5907D1B5E02CA00E9D2F0 /* blit.frag in Resources */,
 				53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */,
 				53D22D011B74996F00C65D88 /* blit.vsh in Resources */,
 				53D590841B5E02CA00E9D2F0 /* compositeWithMask.frag in Resources */,
+				535306F11B7C326D00877D76 /* Images.xcassets in Resources */,
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
 				53D5907E1B5E02CA00E9D2F0 /* blit.vert in Resources */,
 				53D5907F1B5E02CA00E9D2F0 /* blitWithEraseMask.frag in Resources */,
@@ -502,6 +512,7 @@
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
+				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,

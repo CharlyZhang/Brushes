@@ -47,6 +47,8 @@
 
 
 -(void)viewDidLoad{
+    
+    // 左侧navItem
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -58,8 +60,8 @@
     UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"Accept" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
     self.navigationItem.rightBarButtonItem = doneBtn;
 
-    _imageView = [[UIImageView alloc]initWithFrame:self.view.frame];
-//    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
+    _imageView = [[UIImageView alloc]init];
+    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
     [self.view addSubview:_imageView];
     _imageView.image = _originalImg;
 //    _imageView.contentMode = UIViewContentModeCenter;

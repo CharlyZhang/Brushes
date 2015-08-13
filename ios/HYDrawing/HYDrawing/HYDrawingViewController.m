@@ -276,6 +276,7 @@
     UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
     popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     [DDPopoverBackgroundView setContentInset:2];
+    
     UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
     [DDPopoverBackgroundView setBackgroundImage:image];
     [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
