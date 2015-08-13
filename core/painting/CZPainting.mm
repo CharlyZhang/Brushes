@@ -279,6 +279,17 @@ CZLayer *CZPainting::layerWithUID(unsigned int uid_)
     return NULL;
 }
 
+CZLayer *CZPainting::getLayer(int idx)
+{
+    if (idx < 0 || idx >= layers.size())
+    {
+        LOG_ERROR("idx is out of range\n");
+        return NULL;
+    }
+    
+    return layers[idx];
+}
+
 /// 添加新图层
 ///
 ///		\ret		 - 在所有图层中的序号。超过最大层数：-1，生成图层失败：-2

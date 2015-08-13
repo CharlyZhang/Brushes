@@ -9,6 +9,7 @@
 #import "HYBrushCore.h"
 #import "CZViewImpl.h"
 #include "BrushesCore.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface HYBrushCore()
 {
@@ -40,6 +41,7 @@
     canvas->setPaiting(painting);
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
+    CZActiveState::getInstance()->mainScreenScale = [UIScreen mainScreen].scale;
     
     self.hasInitialized = YES;
     return YES;
@@ -165,6 +167,52 @@
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
 }
+
+
+- (NSUInteger) getLayersNumber
+{
+    return NSUInteger(painting->getLayersNumber());
+}
+
+- (UIImage*) getLayerThumbnailOfIndex:(NSUInteger)index
+{
+    CZLayer *layer = painting->getLayer(int(index));
+    if (!layer)         return nil;
+    CZImage *thumbImage = layer->getThumbnailImage();
+    if (!thumbImage)    return nil;
+
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(thumbImage->data, thumbImage->width, thumbImage->height, 8, thumbImage->width*4,
+                                             colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(imageRef);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpaceRef);
+    
+    return ret;
+}
+
+- (NSUInteger) addNewLayer
+{
+    return NSUInteger(painting->addNewLayer());
+}
+
+- (NSUInteger) getActiveLayerIndex
+{
+    return NSUInteger(painting->getActiveLayerIndex());
+}
+
+- (BOOL) moveLayerFrom:(NSUInteger)fromIdx to:(NSUInteger)toIdx
+{
+    return painting->moveLayer(int(fromIdx), int(toIdx));
+}
+
+- (BOOL) deleteActiveLayer{return YES;};
+- (BOOL) toggleVisibilityOfLayerIndex:(NSUInteger) index{return YES;};
+- (BOOL) toggleAlphaLockedOfLayerIndex:(NSUInteger) index{return YES;};
 
 /// 析构
 - (void) dealloc {

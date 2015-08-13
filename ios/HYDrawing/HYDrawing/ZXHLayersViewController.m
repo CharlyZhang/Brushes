@@ -10,6 +10,7 @@
 #import "Macro.h"
 #import "LayersCell.h"
 #import "ZXHLayerTopBar.h"
+#import "HYBrushCore.h"
 
 @interface ZXHLayersViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 

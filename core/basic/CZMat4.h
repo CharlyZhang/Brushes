@@ -24,6 +24,7 @@
 #ifndef _CZMAT4_H_
 #define _CZMAT4_H_
 #include <math.h>
+#include "CZAffineTransform.h"
 
 // VECTOR3D
 class VECTOR3D
@@ -308,6 +309,7 @@ public:
 	
 	void LoadIdentity(void);
 	void LoadZero(void);
+    void LoadFromAffineTransform(const CZAffineTransform &trans);
 	
 	//binary operators
 	CZMat4 operator+(const CZMat4 & rhs) const;

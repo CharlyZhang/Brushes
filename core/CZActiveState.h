@@ -114,7 +114,8 @@ private:
     
 public:
     bool colorFillMode;                                 ///< whether stay in color fill mode
-
+    float mainScreenScale;                              ///< screen scale
+    
 private:
 	static CZActiveState* ptrInstance;
 	std::vector<CZBrush*> brushes;						///< 所有可用的画刷，负责销毁

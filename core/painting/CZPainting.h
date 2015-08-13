@@ -63,11 +63,15 @@ public:
 	///		\param idx - 当前需要激活的图层序号
 	///		\ret	   - 原来激活的图层序号
 	int setActiveLayer(int idx);
+    int getActiveLayerIndex(){return activeLayerInd;};
 
 	/// 通过UID获取图层
 	/// 
 	///		\note 不存在该UID的图层则返回NULL
 	CZLayer *layerWithUID(unsigned int uid_);
+    
+    ///
+    CZLayer *getLayer(int idx);
 	
 	/// 添加新图层
 	/// 
