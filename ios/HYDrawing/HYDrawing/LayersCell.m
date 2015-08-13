@@ -11,8 +11,6 @@
 
 @implementation LayersCell
 
-
-
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self = [super initWithCoder:aDecoder]) {
         // 设置默认值
@@ -26,6 +24,8 @@
 -(void)awakeFromNib{
     self.backgroundColor = kCommenSkinColor;
     [self setOutlineViewBorderWithColor:kCommenCyanColor];
+    
+    self.outlineView.frame = CGRectMake(0, 0, 90*(1+kScreenScale), 90);
 }
 
 // 轮廓样式

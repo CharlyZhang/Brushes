@@ -107,6 +107,9 @@
     }else{
         _topToolBar.btnDelete.enabled = YES;
     }
+    
+    // 设置选中层
+//    [HYBrushCore sharedInstance] setac
 }
 
 // 合并
@@ -121,14 +124,16 @@
 
 // 添加
 -(void)addLayer:(UIButton*)btn{
-    if (_arrLayer.count == 10) {
+    if ([[HYBrushCore sharedInstance] getLayersNumber] == 10) {
         _topToolBar.btnCopy.enabled = NO;
         _topToolBar.btnAdd.enabled = NO;
         return;
     }
     
+    // 添加图层
+    [[HYBrushCore sharedInstance] addNewLayer];
+    
     // 插入行
-    [_arrLayer insertObject:@(_curLayerIndex) atIndex:_curLayerIndex];
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView insertRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
     
@@ -205,12 +210,15 @@
 
 #pragma mark 表格视图回调
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _arrLayer.count;
+    return [[HYBrushCore sharedInstance] getLayersNumber];
 }
 
 // 复用
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     LayersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LayersCellId"];
+    UIImage *layerImage = [[HYBrushCore sharedInstance] getLayerThumbnailOfIndex:indexPath.row];
+    cell.outlineView.image = layerImage;
+    
     if (!cell.selected) {
         [cell setOutlineViewBorderWithColor:kCommenCyanColor];
     }else{

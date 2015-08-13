@@ -186,7 +186,7 @@
                                              colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
     CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
     
-    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationDownMirrored];
     
     CGImageRelease(imageRef);
     CGContextRelease(ctx);

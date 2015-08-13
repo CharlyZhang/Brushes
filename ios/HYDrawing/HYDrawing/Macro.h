@@ -12,6 +12,8 @@
 // 屏幕宽高
 #define kScreenW [UIScreen mainScreen].bounds.size.width
 #define kScreenH [UIScreen mainScreen].bounds.size.height;
+// 屏幕比
+#define kScreenScale [UIScreen mainScreen].scale
 
 // 颜色工具
 #define kColor(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
