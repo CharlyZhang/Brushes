@@ -9,10 +9,7 @@
 #import "LayersCell.h"
 
 @implementation LayersCell
-{
-    BOOL _isVisible;
-    BOOL _isUnlocked;
-}
+
 
 
 -(id)initWithCoder:(NSCoder *)aDecoder{
@@ -20,7 +17,6 @@
         // 设置默认值
         _isVisible = YES;
         _isUnlocked = YES;
-        
     }
     
     return self;
@@ -34,7 +30,6 @@
 
 // 轮廓样式
 -(void)setOutlineViewBorderWithColor:(UIColor *)color{
-    
     _outlineView.layer.borderWidth = 1;
     _outlineView.layer.borderColor = color.CGColor;
     _outlineView.layer.cornerRadius = 4;

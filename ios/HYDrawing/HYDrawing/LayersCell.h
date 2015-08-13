@@ -17,4 +17,8 @@
 - (IBAction)setLockOr:(UIButton *)sender;
 
 -(void)setOutlineViewBorderWithColor:(UIColor*)color;
+
+@property(nonatomic,assign)BOOL isVisible;
+@property(nonatomic,assign)BOOL isUnlocked;
+
 @end

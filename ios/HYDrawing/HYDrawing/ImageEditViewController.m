@@ -41,7 +41,7 @@
     UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
     self.navigationItem.rightBarButtonItem = doneBtn;
 
-    _imageView = [[UIImageView alloc]init];
+    _imageView = [[UIImageView alloc]initWithImage:_originalImg];
     [self.view addSubview:_imageView];
     _imageView.contentMode = UIViewContentModeCenter;
     [self constrainSubview:_imageView toMatchWithSuperview:self.view];
@@ -140,8 +140,12 @@
 #pragma mark 编辑完成，传递参数，回到画图页面
 -(void)toDrawingPage{
 
+    CGFloat w = _imageView.frame.size.width;
+    CGFloat h = _imageView.bounds.size.height;
+    
     self.position = CGPointMake(_imageView.frame.origin.x, _imageView.frame.origin.y);
-    self.scale = _imageView.frame.size.width / imgW;
+
+    NSLog(@"scale: %f, %f",imgW,w);
     
     NSArray *info = @[[NSValue valueWithCGPoint:_position], @(_scale), @(_angle),_imageView];
     _passInfo(info);
