@@ -196,6 +196,11 @@
     return NSUInteger(painting->addNewLayer());
 }
 
+- (NSUInteger) setActiveLayer:(NSUInteger)idx
+{
+    return (NSUInteger)painting->setActiveLayer(int(idx));
+}
+
 - (NSUInteger) getActiveLayerIndex
 {
     return NSUInteger(painting->getActiveLayerIndex());
@@ -206,7 +211,11 @@
     return painting->moveLayer(int(fromIdx), int(toIdx));
 }
 
-- (BOOL) deleteActiveLayer{return YES;};
+- (BOOL) deleteActiveLayer
+{
+    return painting->deleteActiveLayer();
+};
+
 - (BOOL) toggleVisibilityOfLayerIndex:(NSUInteger) index{return YES;};
 - (BOOL) toggleAlphaLockedOfLayerIndex:(NSUInteger) index{return YES;};
 

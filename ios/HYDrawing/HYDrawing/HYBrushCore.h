@@ -44,6 +44,7 @@
 - (NSUInteger) getLayersNumber;
 - (UIImage*) getLayerThumbnailOfIndex:(NSUInteger)index;
 - (NSUInteger) addNewLayer;                                             ///<如果成功，会将新图层设置为当前图层，返回其序号
+- (NSUInteger) setActiveLayer:(NSUInteger)idx;
 - (NSUInteger) getActiveLayerIndex;
 - (BOOL) moveLayerFrom:(NSUInteger)fromIdx to:(NSUInteger)toIdx;        ///<如果成功，会将toIdx设置为当前图层
 - (BOOL) deleteActiveLayer;
