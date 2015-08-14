@@ -49,8 +49,8 @@
 - (NSInteger) getActiveLayerIndex;
 - (BOOL) moveLayerFrom:(NSInteger)fromIdx to:(NSInteger)toIdx;        ///<如果成功，会将toIdx设置为当前图层
 - (BOOL) deleteActiveLayer;
-- (BOOL) setVisibility:(BOOL)visible ofLayer:(NSInteger) index;
-- (BOOL) setLocked:(BOOL)locked ofLayer:(NSInteger) index;
+- (void) setVisibility:(BOOL)visible ofLayer:(NSInteger) index;
+- (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index;
 
 
 

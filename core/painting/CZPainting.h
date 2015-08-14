@@ -125,6 +125,8 @@ public:
     /// clear last brush
     void clearLastBrush(){ptrLastBrush = NULL;}
     
+    bool shouldPreventPaint();
+    
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
 	void encode(CZCoder *coder_, bool deep = false);

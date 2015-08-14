@@ -128,6 +128,7 @@ void CZViewImpl::draw() { [realView drawView];}
     LOG_DEBUG("pan\t");
     
     if (CZActiveState::getInstance()->colorFillMode) return;
+    if (self.ptrPainting->shouldPreventPaint()) return;
     
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
@@ -153,6 +154,7 @@ void CZViewImpl::draw() { [realView drawView];}
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender
 {
     LOG_DEBUG("tap\n");
+    if (self.ptrPainting->shouldPreventPaint()) return;
     
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;

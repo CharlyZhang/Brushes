@@ -237,22 +237,20 @@
     return ret;
 };
 
-- (BOOL) setVisibility:(BOOL)visible ofLayer:(NSInteger) index
+- (void) setVisibility:(BOOL)visible ofLayer:(NSInteger) index
 {
     int layersNum = painting->getLayersNumber();
 
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
     layer->setVisiblility(visible);
     canvas->drawView();
-    return YES;
 }
-- (BOOL) setLocked:(BOOL)locked ofLayer:(NSInteger) index
+- (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index
 {
     int layersNum = painting->getLayersNumber();
     
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
     layer->setLocked(locked);
-    return YES;
 }
 
 /// 析构

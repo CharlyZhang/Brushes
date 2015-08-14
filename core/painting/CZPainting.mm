@@ -568,6 +568,11 @@ bool CZPainting::setCanvas(CZCanvas* c)
     return true;
 }
 
+bool CZPainting::shouldPreventPaint()
+{
+    CZLayer *layer = getActiveLayer();
+    return layer->isLocked() || !layer->isVisible();
+}
 
 /// 实现CZCoding接口
 void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/){};
