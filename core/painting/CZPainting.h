@@ -82,6 +82,9 @@ public:
 	/// 
 	///		\note 当layer被锁住的时候不能被删除 
 	bool deleteActiveLayer();
+    
+    ///
+    int duplicateActiveLayer();
 
 	/// 移动图层
 	/// 

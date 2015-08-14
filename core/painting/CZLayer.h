@@ -52,6 +52,8 @@ class CZLayer : public CZCoding
 {
 public:
 	friend class CZPainting;
+    friend class CZLayer;
+    
 	/// 图层的图像数据
 	CZImage *imageData();
 	/// 生成特定矩形区域的图像数据
@@ -81,6 +83,8 @@ public:
 	/// 将图像经过变换后绘制
 	void renderImage(CZImage* img, CZAffineTransform &trans);
 
+    CZLayer* duplicate();
+    
 	/// 设置绘制指针
 	void setPainting(CZPainting *painting);
 	/// 设置转换矩阵（没发生改变，则返回false）

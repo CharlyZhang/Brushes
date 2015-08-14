@@ -582,6 +582,64 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     CZCheckGLError();
 }
 
+CZLayer* CZLayer::duplicate()
+{
+    CZLayer *newLayer = new CZLayer(ptrPainting);
+    
+    newLayer->setVisiblility(visible);
+    newLayer->setLocked(locked);
+    newLayer->setAlphaLocked(alphaLocked);
+    newLayer->setBlendMode(blendMode);
+    newLayer->setOpacity(opacity);
+    newLayer->thumbnailImg = thumbnailImg->copy();
+    
+    ptrGLContext->setAsCurrent();
+    
+    CZFbo fbo;
+    fbo.setTexture(newLayer->myTexture);
+    
+    /// 开始fbo
+    fbo.begin();
+    
+    CZSize paintingSize = ptrPainting->getDimensions();
+    glViewport(0, 0, paintingSize.width, paintingSize.height);
+    
+    CZMat4 projMat,transMat;
+    projMat.SetOrtho(0,paintingSize.width,0,paintingSize.height,-1.0f,1.0f);
+    
+    // use shader program
+    CZShader *shader = ptrPainting->getShader("nonPremultipliedBlit");
+    
+    if (shader == NULL)
+    {
+        LOG_ERROR("cannot find the assigned shader!\n");
+        return NULL;
+    }
+    
+    shader->begin();
+    
+    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+    glUniform1i(shader->getUniformLocation("texture"), (GLuint) 0);
+    glUniform1f(shader->getUniformLocation("opacity"), 1.0f); // fully opaque
+    
+    glActiveTexture(GL_TEXTURE0);
+    // Bind the texture to be used
+    glBindTexture(GL_TEXTURE_2D, myTexture->texId);
+    
+    glBlendFunc(GL_ONE, GL_ZERO);
+    
+    GL_BIND_VERTEXARRAY(ptrPainting->getQuadVAO());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    
+    GL_BIND_VERTEXARRAY(0);
+    
+    shader->end();
+    
+    fbo.end();
+    
+    return newLayer;
+}
+
 /// 设置转换矩阵
 bool CZLayer::setTransform(CZAffineTransform &trans)
 {
