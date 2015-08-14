@@ -21,4 +21,5 @@
 @property(nonatomic,assign)BOOL isVisible;
 @property(nonatomic,assign)BOOL isUnlocked;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *outlineWidthCons;
 @end

@@ -31,7 +31,8 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="layer_showimg_bg" translatesAutoresizingMaskIntoConstraints="NO" id="mdX-Ft-do1">
                         <rect key="frame" x="52" y="17" width="144" height="90"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="90" id="Myl-3A-7dh"/>
+                            <constraint firstAttribute="width" constant="144" id="Pye-dH-6sf"/>
+                            <constraint firstAttribute="height" constant="90" id="z4m-dj-0RS"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI4-Im-6vr">
@@ -47,12 +48,11 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="mdX-Ft-do1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="9" id="2gB-31-0qv"/>
+                    <constraint firstItem="mdX-Ft-do1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="9" id="DBK-P3-i0T"/>
                     <constraint firstItem="HI4-Im-6vr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="19" id="Pcg-C7-UwQ"/>
                     <constraint firstItem="HI4-Im-6vr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="abz-gB-7kb"/>
+                    <constraint firstItem="mdX-Ft-do1" firstAttribute="leading" secondItem="HI4-Im-6vr" secondAttribute="trailing" constant="13" id="iEI-NL-cQh"/>
                     <constraint firstItem="y0O-YL-gLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="iuF-CN-lhU"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="mdX-Ft-do1" secondAttribute="trailing" constant="8" id="klf-CO-wJv"/>
-                    <constraint firstItem="mdX-Ft-do1" firstAttribute="leading" secondItem="HI4-Im-6vr" secondAttribute="trailing" constant="13" id="rXf-Ko-ASD"/>
                     <constraint firstAttribute="bottomMargin" secondItem="y0O-YL-gLe" secondAttribute="bottom" constant="25" id="y9J-lA-Sdp"/>
                 </constraints>
             </tableViewCellContentView>
@@ -61,6 +61,7 @@
                 <outlet property="btnUnlock" destination="y0O-YL-gLe" id="ENQ-Gp-7Lr"/>
                 <outlet property="btnVisible" destination="HI4-Im-6vr" id="QtM-9N-eBJ"/>
                 <outlet property="outlineView" destination="mdX-Ft-do1" id="wYP-U8-OG1"/>
+                <outlet property="outlineWidthCons" destination="Pye-dH-6sf" id="F6N-to-4YI"/>
             </connections>
             <point key="canvasLocation" x="272" y="209"/>
         </tableViewCell>

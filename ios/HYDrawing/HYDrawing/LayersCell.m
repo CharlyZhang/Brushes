@@ -25,7 +25,9 @@
     self.backgroundColor = kCommenSkinColor;
     [self setOutlineViewBorderWithColor:kCommenCyanColor];
     
-    self.outlineView.frame = CGRectMake(0, 0, 90*(1+kScreenScale), 90);
+//    self.outlineView.frame = CGRectMake(0, 0, 200*4/3, 90);
+    
+    self.outlineWidthCons.constant = 200;
 }
 
 // 轮廓样式

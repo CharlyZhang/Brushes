@@ -25,18 +25,28 @@
     ZXHLayerTopBar *_topToolBar;
     NSInteger _curLayerIndex;
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // 数据源数组 - 可变数组最后一个必须为 'nil'
     _arrLayer = [[NSMutableArray alloc]initWithObjects:@(0),@(1),@(2),@(3),@(4),@(5),nil];
-    _curLayerIndex = 0;
     
     // 初始化UI
     [self createUI];
     
     // 监听图层状态
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(layerLockNotify:) name:@"LayerLockNotification" object:nil];
+    
+    // 设置当前选中图层
+    _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
+    [self selectRowAtIndexPath:_curLayerIndex];
 }
 
 #pragma mark UI
@@ -110,6 +120,7 @@
     
     // 设置选中层
     [[HYBrushCore sharedInstance] setActiveLayer:indexPath.row];
+    NSLog(@"getActiveLayer: %ld",[[HYBrushCore sharedInstance] getActiveLayerIndex]);
 }
 
 // 合并
@@ -169,8 +180,6 @@
     // 可编辑状态
     _tbView.editing = YES;
     _tbView.allowsSelectionDuringEditing = YES;
-    // 默认选中第一行;
-    [self selectRowAtIndexPath:0];
 }
 
 #pragma mark - 创建底部工具栏
