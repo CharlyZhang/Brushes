@@ -25,7 +25,9 @@
     self.backgroundColor = kCommenSkinColor;
     [self setOutlineViewBorderWithColor:kCommenCyanColor];
     self.outlineWidthCons.constant = 90*kScreenScale;
+ 
     NSLog(@"---%f",kScreenScale);
+    self.outlineView.backgroundColor = kImageColor(@"layer_showimg_bg");
 }
 
 // 轮廓样式
@@ -52,7 +54,7 @@
     }
     
     _isVisible = !_isVisible;
-    NSLog(@"unvisible");
+    NSLog(@"row: %ld",_rowIndex);
     
     // 发送是否可见
     [[NSNotificationCenter defaultCenter]postNotificationName:@"LayerVisibleNotification" object:@[@(_isVisible),@(_rowIndex)]];

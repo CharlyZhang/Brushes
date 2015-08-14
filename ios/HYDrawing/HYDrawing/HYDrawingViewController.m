@@ -253,7 +253,7 @@
 #pragma mark 图层弹出视图
 -(void)showLayerPopoverController:(UIButton*)sender{
 //    NSLog(@"hello-----");
-    ZXHLayersViewController *layersViewController = [ZXHLayersViewController defaultLayersController];
+    ZXHLayersViewController *layersViewController = [ZXHLayersViewController new];
     
     layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
     layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
