@@ -109,7 +109,7 @@
     }
     
     // 设置选中层
-//    [HYBrushCore sharedInstance] setac
+    [[HYBrushCore sharedInstance] setActiveLayer:indexPath.row];
 }
 
 // 合并
@@ -233,12 +233,13 @@
     
     LayersCell *cell = (LayersCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
-    cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"layer_cell_selected_bg"]];
     if (!cell.isUnlocked) {
         _topToolBar.btnDelete.enabled = NO;
     }else{
         _topToolBar.btnDelete.enabled = YES;
     }
+    
+    [self selectRowAtIndexPath:indexPath.row];
 }
 
 // 取消选中时
@@ -270,6 +271,6 @@
     NSInteger fromRow = sourceIndexPath.row;
     NSInteger toRow = destinationIndexPath.row;
     // 改变数据源内容
-    
+    [[HYBrushCore sharedInstance]moveLayerFrom:fromRow to:toRow];
 }
 @end
