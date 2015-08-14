@@ -62,6 +62,12 @@ CZImage::~CZImage()
 	}
 }
 
+CZImage* CZImage::copy()
+{
+    CZImage *ret = new CZImage(width, height, mode, data);
+    return ret;
+}
+
 void CZImage::ScanLineFill(int x,int y, float r, float g, float b, float a)
 
 {   

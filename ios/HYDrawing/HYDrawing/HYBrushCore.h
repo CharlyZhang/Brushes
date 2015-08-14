@@ -33,23 +33,23 @@
 - (void) setActiveStateColor:(UIColor*)color;
 
 ///快速颜色
-- (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSUInteger)index;
-- (void) setActiveStatePaintColorAtIndex:(NSUInteger)index;
-- (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index;
+- (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSInteger)index;
+- (void) setActiveStatePaintColorAtIndex:(NSInteger)index;
+- (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index;
 
 ///绘制图片
 - (void) renderImage:(UIImage*)image withTransform:(CGAffineTransform)trans;
 
 ///图层
-- (NSUInteger) getLayersNumber;
-- (UIImage*) getLayerThumbnailOfIndex:(NSUInteger)index;
-- (NSUInteger) addNewLayer;                                             ///<如果成功，会将新图层设置为当前图层，返回其序号
-- (NSUInteger) setActiveLayer:(NSUInteger)idx;
-- (NSUInteger) getActiveLayerIndex;
-- (BOOL) moveLayerFrom:(NSUInteger)fromIdx to:(NSUInteger)toIdx;        ///<如果成功，会将toIdx设置为当前图层
+- (NSInteger) getLayersNumber;
+- (UIImage*) getLayerThumbnailOfIndex:(NSInteger)index;
+- (NSInteger) addNewLayer;                                             ///<如果成功，会将新图层设置为当前图层，返回其序号
+- (NSInteger) setActiveLayer:(NSInteger)idx;
+- (NSInteger) getActiveLayerIndex;
+- (BOOL) moveLayerFrom:(NSInteger)fromIdx to:(NSInteger)toIdx;        ///<如果成功，会将toIdx设置为当前图层
 - (BOOL) deleteActiveLayer;
-- (BOOL) toggleVisibilityOfLayerIndex:(NSUInteger) index;
-- (BOOL) toggleAlphaLockedOfLayerIndex:(NSUInteger) index;
+- (BOOL) setVisibility:(BOOL)visible ofLayer:(NSInteger) index;
+- (BOOL) setLocked:(BOOL)locked ofLayer:(NSInteger) index;
 
 
 

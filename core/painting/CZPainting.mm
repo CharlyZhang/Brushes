@@ -362,6 +362,36 @@ bool CZPainting::deleteActiveLayer()
     return true;
 }
 
+///
+int CZPainting::duplicateActiveLayer()
+{
+    if(layers.size() > iMaxLayerNumber)
+    {
+        LOG_ERROR("painting has reached the max number of Layers\n");
+        return -1;
+    }
+    
+    CZLayer *layer = layers[activeLayerInd]->duplicate();
+    if(layer == NULL)
+    {
+        LOG_ERROR("duplicate layer failed\n");
+        return -2;
+    }
+    
+    int newIdx = activeLayerInd + 1;
+    if(newIdx < 0 || newIdx > layers.size())
+    {
+        LOG_ERROR("newIdx is out of range\n");
+        return -1;
+    }
+    
+    layers.insert(layers.begin()+newIdx,layer);
+    
+    activeLayerInd = newIdx;
+    
+    return newIdx;
+}
+
 /// 移动图层
 ///
 ///		\param fromIdx - 需要移动的图层序号

@@ -99,7 +99,7 @@
 }
 
 ///设置挑选颜色
-- (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSUInteger)index
+- (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSInteger)index
 {
     if(color){
         CZColor *c = new CZColor(color.red,color.green,color.blue,color.alpha);
@@ -109,12 +109,12 @@
         CZActiveState::getInstance()->setSwatch(NULL, (int)index);
     }
 }
-- (void) setActiveStatePaintColorAtIndex:(NSUInteger)index
+- (void) setActiveStatePaintColorAtIndex:(NSInteger)index
 {
     CZActiveState::getInstance()->setPaintColorAsSwatch(int(index));
 }
 
-- (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index
+- (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index
 {
     CZColor *c = CZActiveState::getInstance()->getSwatch((int)index);
     if (c)  return [WDColor colorWithRed:c->red green:c->green blue:c->blue alpha:c->alpha];
@@ -169,12 +169,12 @@
 }
 
 
-- (NSUInteger) getLayersNumber
+- (NSInteger) getLayersNumber
 {
-    return NSUInteger(painting->getLayersNumber());
+    return NSInteger(painting->getLayersNumber());
 }
 
-- (UIImage*) getLayerThumbnailOfIndex:(NSUInteger)index
+- (UIImage*) getLayerThumbnailOfIndex:(NSInteger)index
 {
     int layersNum = painting->getLayersNumber();
     
@@ -197,25 +197,25 @@
     return ret;
 }
 
-- (NSUInteger) addNewLayer
+- (NSInteger) addNewLayer
 {
     int layersNum = painting->getLayersNumber();
-    return NSUInteger(layersNum - 1 - painting->addNewLayer());
+    return NSInteger(layersNum - 1 - painting->addNewLayer());
 }
 
-- (NSUInteger) setActiveLayer:(NSUInteger)idx
+- (NSInteger) setActiveLayer:(NSInteger)idx
 {
     int layersNum = painting->getLayersNumber();
-    return NSUInteger(layersNum - 1 - painting->setActiveLayer(int(layersNum - 1 -idx)));
+    return NSInteger(layersNum - 1 - painting->setActiveLayer(int(layersNum - 1 -idx)));
 }
 
-- (NSUInteger) getActiveLayerIndex
+- (NSInteger) getActiveLayerIndex
 {
     int layersNum = painting->getLayersNumber();
-    return NSUInteger(layersNum - 1 - painting->getActiveLayerIndex());
+    return NSInteger(layersNum - 1 - painting->getActiveLayerIndex());
 }
 
-- (BOOL) moveLayerFrom:(NSUInteger)fromIdx to:(NSUInteger)toIdx
+- (BOOL) moveLayerFrom:(NSInteger)fromIdx to:(NSInteger)toIdx
 {
     int layersNum = painting->getLayersNumber();
     
@@ -226,11 +226,28 @@
 
 - (BOOL) deleteActiveLayer
 {
-    return painting->deleteActiveLayer();
+    BOOL ret = painting->deleteActiveLayer();
+    canvas->drawView();
+    return ret;
 };
 
-- (BOOL) toggleVisibilityOfLayerIndex:(NSUInteger) index{return YES;};
-- (BOOL) toggleAlphaLockedOfLayerIndex:(NSUInteger) index{return YES;};
+- (BOOL) setVisibility:(BOOL)visible ofLayer:(NSInteger) index
+{
+    int layersNum = painting->getLayersNumber();
+
+    CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
+    layer->setVisiblility(visible);
+    canvas->drawView();
+    return YES;
+}
+- (BOOL) setLocked:(BOOL)locked ofLayer:(NSInteger) index
+{
+    int layersNum = painting->getLayersNumber();
+    
+    CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
+    layer->setLocked(locked);
+    return YES;
+}
 
 /// 析构
 - (void) dealloc {
