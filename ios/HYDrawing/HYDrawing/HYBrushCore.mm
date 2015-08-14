@@ -122,9 +122,12 @@
 }
 
 ///绘制图片
-- (void)renderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
+- (NSInteger)renderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
 
 {
+    int ret = painting->addNewLayer();
+    if (ret < 0) return (NSInteger)ret;
+    
     CGImageRef img = image.CGImage;
     
     //数据源提供者
@@ -163,9 +166,11 @@
     
 
     trans = (trans_adjust * trans_flip * trans_center) * trans;
-
+    
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
+    
+    return (NSInteger)ret;
 }
 
 
@@ -251,6 +256,16 @@
     
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
     layer->setLocked(locked);
+}
+- (void) setActiveLayerOpacity:(float)opacity
+{
+    CZLayer *layer = painting->getActiveLayer();
+    layer->setOpacity(opacity);
+}
+- (float) getActiveLayerOpacity
+{
+    CZLayer *layer = painting->getActiveLayer();
+    return layer->getOpacity();
 }
 
 /// 析构
