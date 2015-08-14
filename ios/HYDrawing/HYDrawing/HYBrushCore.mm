@@ -211,7 +211,9 @@
 - (NSInteger) duplicateActiveLayer
 {
     int layersNum = painting->getLayersNumber();
-    return NSInteger(layersNum - 1 - painting->duplicateActiveLayer());
+    NSInteger ret = NSInteger(layersNum - 1 - painting->duplicateActiveLayer());
+    canvas->drawView();
+    return ret;
 }
 
 - (NSInteger) setActiveLayer:(NSInteger)idx

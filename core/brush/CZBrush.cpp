@@ -127,7 +127,8 @@ CZImage *CZBrush::previewImageWithSize(const CZSize &size)
 		return strokePreview;
 	
 	CZBrushPreview *preview = CZBrushPreview::getInstance();
-
+    
+    preview->mainScreenScale = CZActiveState::getInstance()->mainScreenScale;
 	preview->setBrush(this);
 	strokePreview = preview->previewWithSize(size);
 

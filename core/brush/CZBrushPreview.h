@@ -72,11 +72,11 @@ public:
 	/// 成员变量
 	CZPath *path;							///< 绘制的轨迹 
 	float backingWidth, backingHeight;
+    float			mainScreenScale;		///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
 
 private:
 	static CZBrushPreview *ptrInstance;    
 	CZBrush			*ptrBrush;				///< 仅引用，不负责建立和销毁
-	float			mainScreenScale;		///< 设备屏幕的分辨率倍数，与PPI（每英寸像素数）相关
 	CZGLContext *	glContext;				///< gl上下文
 	CZShader		*brushShader;
 	CZTexture		*brushTexture;

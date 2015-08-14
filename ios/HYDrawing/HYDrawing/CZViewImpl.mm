@@ -200,7 +200,7 @@ void CZViewImpl::draw() { [realView drawView];}
     [EAGLContext setCurrentContext:context];
     if(self.fbo)
         self.fbo->setRenderBufferWithContext((__bridge void*)context, (__bridge void*)self.layer);
-        [self drawView];
+    [self drawView];
 }
 
 @end
