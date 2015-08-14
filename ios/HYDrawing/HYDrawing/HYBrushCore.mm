@@ -176,7 +176,9 @@
 
 - (UIImage*) getLayerThumbnailOfIndex:(NSUInteger)index
 {
-    CZLayer *layer = painting->getLayer(int(index));
+    int layersNum = painting->getLayersNumber();
+    
+    CZLayer *layer = painting->getLayer(int(layersNum - 1 - index));
     if (!layer)         return nil;
     CZImage *thumbImage = layer->getThumbnailImage();
     if (!thumbImage)    return nil;
@@ -197,22 +199,29 @@
 
 - (NSUInteger) addNewLayer
 {
-    return NSUInteger(painting->addNewLayer());
+    int layersNum = painting->getLayersNumber();
+    return NSUInteger(layersNum - 1 - painting->addNewLayer());
 }
 
 - (NSUInteger) setActiveLayer:(NSUInteger)idx
 {
-    return (NSUInteger)painting->setActiveLayer(int(idx));
+    int layersNum = painting->getLayersNumber();
+    return NSUInteger(layersNum - 1 - painting->setActiveLayer(int(layersNum - 1 -idx)));
 }
 
 - (NSUInteger) getActiveLayerIndex
 {
-    return NSUInteger(painting->getActiveLayerIndex());
+    int layersNum = painting->getLayersNumber();
+    return NSUInteger(layersNum - 1 - painting->getActiveLayerIndex());
 }
 
 - (BOOL) moveLayerFrom:(NSUInteger)fromIdx to:(NSUInteger)toIdx
 {
-    return painting->moveLayer(int(fromIdx), int(toIdx));
+    int layersNum = painting->getLayersNumber();
+    
+    BOOL ret = painting->moveLayer(int(layersNum - 1 - fromIdx), int(layersNum - 1 - toIdx));
+    canvas->drawView();
+    return ret;
 }
 
 - (BOOL) deleteActiveLayer
