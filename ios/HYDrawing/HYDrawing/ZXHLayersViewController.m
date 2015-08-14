@@ -143,21 +143,18 @@ static ZXHLayersViewController *layersController;
 
 // 拷贝
 -(void)copyLayer:(UIButton*)btn{
+    // 复制图层
+    [[HYBrushCore sharedInstance] duplicateActiveLayer];
     
-    
-    [_tbView reloadData];
+    [self createNewLayer];
 }
 
-// 添加
--(void)addLayer:(UIButton*)btn{
+-(void)createNewLayer{
     if (_layersCount == 10) {
         _topToolBar.btnCopy.enabled = NO;
         _topToolBar.btnAdd.enabled = NO;
         return;
     }
-    
-    // 添加图层
-    [[HYBrushCore sharedInstance] addNewLayer];
     
     _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     
@@ -172,10 +169,19 @@ static ZXHLayersViewController *layersController;
     }
     
     [_tbView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+
+    [_tbView reloadData];
     
     // 选中
     [self selectRowAtIndexPath:_curLayerIndex];
+}
+
+// 添加
+-(void)addLayer:(UIButton*)btn{
     
+    // 添加图层
+    [[HYBrushCore sharedInstance] addNewLayer];
+    [self createNewLayer];
 }
 
 

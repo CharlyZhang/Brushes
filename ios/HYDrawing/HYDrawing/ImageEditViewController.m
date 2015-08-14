@@ -141,15 +141,24 @@
 
 #pragma mark 编辑完成
 -(void)toDrawingPage{
-    // 显示导航栏
-    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    nav.navigationBar.hidden = NO;
-    [self.view removeFromSuperview];
     [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform];
+    
+    [self dismissAnimation];
+}
+
+-(void)dismissAnimation{
+    [UIView animateWithDuration:0.1 animations:^{
+        self.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.view removeFromSuperview];
+        // 显示导航栏
+        UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        nav.navigationBar.hidden = NO;
+    }];
 }
 
 -(void)backHome{
-    [self.view removeFromSuperview];
+    [self dismissAnimation];
 }
 
 @end

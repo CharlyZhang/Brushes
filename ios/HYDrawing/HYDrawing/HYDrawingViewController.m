@@ -15,6 +15,7 @@
 #import "Macro.h"
 #import "WDColorPickerController.h"
 #import "ZXHLayersViewController.h"
+#import "ZXHEditableTipsView.h"
 
 @interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
     UIPopoverController *popoverController_;
@@ -22,6 +23,7 @@
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
+    ZXHEditableTipsView *editableTipsView;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -38,6 +40,35 @@
     return NO;
 }
 
+#pragma mark 开始绘画
+-(void)judgeEditable:(UIPanGestureRecognizer*)pan{
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        // 显示提示
+        NSLog(@"Began");
+        
+        BOOL visible = NO;
+        BOOL unlocked = NO;
+        if (!visible || !unlocked) {
+            editableTipsView = [[ZXHEditableTipsView alloc]initWithFrame:self.view.frame];
+            [UIView animateWithDuration:0.2 animations:^{
+                editableTipsView.alpha = 1;
+            } completion:^(BOOL finished) {
+                [self.view addSubview:editableTipsView];
+            }];
+        }
+    }
+}
+
+// 移除提示
+-(void)removeEditableTipsView:(UITapGestureRecognizer*)tap{
+    if (tap.state == UIGestureRecognizerStateEnded) {
+        [UIView animateWithDuration:2 animations:^{
+            editableTipsView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [editableTipsView removeFromSuperview];
+        }];
+    }
+}
 
 #pragma mark - Properties
 
@@ -49,9 +80,17 @@
     return _colorPickerController;
 }
 
-#pragma mark
+
+#pragma mark viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // 滑动手势
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(judgeEditable:)];
+    [self.view addGestureRecognizer:pan];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(removeEditableTipsView:)];
+    [self.view addGestureRecognizer:tap];
     
     self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     
@@ -319,7 +358,6 @@
 }
 
 #pragma mark - 选择相册图片
-#pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
     
@@ -330,8 +368,16 @@
         // 隐藏导航栏
         self.navigationController.navigationBar.hidden = YES;
         
-        [self.view addSubview:imageEditViewController.view];
+        imageEditViewController.view.alpha = 0;
+        
+        [UIView animateWithDuration:1 animations:^{
+            imageEditViewController.view.alpha = 1;
+        } completion:^(BOOL finished) {
+            [self.view addSubview:imageEditViewController.view];
+        }];
     }];
+    
+    
 }
 
 

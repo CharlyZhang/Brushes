@@ -11,5 +11,8 @@
 
 @implementation ZXHLayerTopBar
 
+-(void)awakeFromNib{
+    self.backgroundColor = UIPopoverBackgroundColor;
+}
 
 @end
