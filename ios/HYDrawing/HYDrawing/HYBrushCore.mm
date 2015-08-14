@@ -250,12 +250,26 @@
     layer->setVisiblility(visible);
     canvas->drawView();
 }
+- (BOOL) isVisibleOfLayer:(NSInteger)index
+{
+    int layersNum = painting->getLayersNumber();
+    
+    CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
+    return layer->isVisible();
+}
 - (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index
 {
     int layersNum = painting->getLayersNumber();
     
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
     layer->setLocked(locked);
+}
+- (BOOL) isLockedofLayer:(NSInteger)index
+{
+    int layersNum = painting->getLayersNumber();
+    
+    CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
+    return layer->isLocked();
 }
 - (void) setActiveLayerOpacity:(float)opacity
 {
