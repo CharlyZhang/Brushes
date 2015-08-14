@@ -38,7 +38,7 @@
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index;
 
 ///绘制图片
-- (void) renderImage:(UIImage*)image withTransform:(CGAffineTransform)trans;
+- (NSInteger) renderImage:(UIImage*)image withTransform:(CGAffineTransform)trans;       ///<如果成功，返回插入图片所在图层的序号，否则返回负数
 
 ///图层
 - (NSInteger) getLayersNumber;
@@ -47,11 +47,14 @@
 - (NSInteger) duplicateActiveLayer;                                    ///<如果成功，会将新图层设置为当前图层，返回其序号
 - (NSInteger) setActiveLayer:(NSInteger)idx;
 - (NSInteger) getActiveLayerIndex;
-- (BOOL) moveLayerFrom:(NSInteger)fromIdx to:(NSInteger)toIdx;        ///<如果成功，会将toIdx设置为当前图层
+- (BOOL) moveLayerFrom:(NSInteger)fromIdx to:(NSInteger)toIdx;         ///<如果成功，会将toIdx设置为当前图层
 - (BOOL) deleteActiveLayer;
-- (void) setVisibility:(BOOL)visible ofLayer:(NSInteger) index;
-- (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index;
-
+- (void) setVisibility:(BOOL)visible ofLayer:(NSInteger)index;
+- (BOOL) isVisibleOfLayer:(NSInteger)index;
+- (void) setLocked:(BOOL)locked ofLayer:(NSInteger)index;
+- (BOOL) isLockedofLayer:(NSInteger)index;
+- (void) setActiveLayerOpacity:(float)opacity;
+- (float) getActiveLayerOpacity;
 
 
 
