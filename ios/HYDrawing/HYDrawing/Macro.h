@@ -11,7 +11,7 @@
 
 // 屏幕宽高
 #define kScreenW [UIScreen mainScreen].bounds.size.width
-#define kScreenH [UIScreen mainScreen].bounds.size.height;
+#define kScreenH [UIScreen mainScreen].bounds.size.height
 // 屏幕比
 #define kScreenScale 4.0/3.0
 

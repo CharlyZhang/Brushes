@@ -14,6 +14,7 @@
 -(id)initWithCoder:(NSCoder *)aDecoder{
     if (self = [super initWithCoder:aDecoder]) {
         // 设置默认值
+        
         _isVisible = YES;
         _isUnlocked = YES;
     }
@@ -47,6 +48,7 @@
 
 
 - (IBAction)setUnvisibleOr:(UIButton *)sender {
+
     if (_isVisible) {
         [sender setImage:[UIImage imageNamed:@"layer_invisible"] forState:0];
     }else{
@@ -73,5 +75,6 @@
     
     // 发送是否可编辑消息
     [[NSNotificationCenter defaultCenter]postNotificationName:@"LayerLockNotification" object:@[@(_isUnlocked),@(_rowIndex)]];
+    
 }
 @end

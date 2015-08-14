@@ -29,6 +29,7 @@
 
 static ZXHLayersViewController *layersController;
 
+
 #pragma mark 单例
 +(id)defaultLayersController{
     if (!layersController) {
@@ -55,6 +56,12 @@ static ZXHLayersViewController *layersController;
     _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
     [self selectRowAtIndexPath:_curLayerIndex];
 
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+//    [_tbView reloadData];
 }
 
 #pragma mark UI
@@ -257,12 +264,26 @@ static ZXHLayersViewController *layersController;
     _alphaLabel.textColor = UIPopoverBorderColor;
     [bottomToolBar addSubview:_alphaLabel];
 }
-
+// 返回当前cell
+-(LayersCell*)cellAtIndex:(NSInteger)index{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    LayersCell *cell = (LayersCell*)[_tbView cellForRowAtIndexPath:indexPath];
+    
+    return cell;
+}
 
 #pragma mark - 改变图层透明度
 -(void)changeLayerAlpha:(UISlider*)slider{
+    
     NSInteger value = slider.value * 100;
     _alphaLabel.text = [NSString stringWithFormat:@"%ld%%",value];
+   
+    // 设置图层透明度
+    
+//    [HYBrushCore sharedInstance] set
+    LayersCell *cell = [self cellAtIndex:_curLayerIndex];
+    UIImage *layerImage = [[HYBrushCore sharedInstance] getLayerThumbnailOfIndex:_curLayerIndex];
+    cell.outlineView.image = layerImage;
 }
 
 #pragma mark 表格视图回调
@@ -276,6 +297,12 @@ static ZXHLayersViewController *layersController;
     cell.rowIndex = indexPath.row;
     
     cell.positionLabel.text = [NSString stringWithFormat:@"%ld",cell.rowIndex+1];
+    
+    if (!cell.isVisible) {
+        [cell.btnVisible setImage:[UIImage imageNamed:@"layer_invisible"] forState:0];
+    }else{
+        [cell.btnVisible setImage:[UIImage imageNamed:@"layer_visible"] forState:0];
+    }
     
     if (!cell.isUnlocked) {
         [cell.btnUnlock setImage:[UIImage imageNamed:@"layer_lock"] forState:0];

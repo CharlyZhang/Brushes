@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnVisible;
 @property (weak, nonatomic) IBOutlet UIButton *btnUnlock;
 @property (weak, nonatomic) IBOutlet UIImageView *outlineView;
+
 - (IBAction)setUnvisibleOr:(UIButton *)sender;
 - (IBAction)setLockOr:(UIButton *)sender;
 

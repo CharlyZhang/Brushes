@@ -21,6 +21,7 @@
     BottomBarView *bottomBarView;
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
+    UIPopoverController *picturePopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -51,6 +52,9 @@
 #pragma mark
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
+    
     // Do any additional setup after loading the view.
     UIBarButtonItem *menuItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     
@@ -70,15 +74,14 @@
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
     
     // load brush core
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    [[HYBrushCore sharedInstance]initializeWithWidth:size.width height:size.height];
+    [[HYBrushCore sharedInstance]initializeWithWidth:kScreenH height:kScreenW];
     [self.view insertSubview:[[HYBrushCore sharedInstance] getPaintingView] atIndex:0];
 }
 
 //-(BOOL)shouldAutorotate{
-//    return YES;
+//    return NO;
 //}
-//
+
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
 //    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
 //}
@@ -89,10 +92,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     // 全透明背景
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-     self.navigationController.navigationBar.translucent = YES;
-    // 去掉分割线
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//     self.navigationController.navigationBar.translucent = YES;
+//    // 去掉分割线
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
 }
 
@@ -121,16 +124,15 @@
     [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-// 弹出相册图片选择
+#pragma mark 弹出相册图片选择
 - (void)tapPicture:(id)sender{
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     picker.sourceType = sourcheType;
     picker.delegate = self;
-    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
-    popoverController.delegate = self;
-    [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    picturePopoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
+    [picturePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //    if (iOS(8.0)) {
 //        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
 //            [self presentViewController:picker animated:YES completion:nil];
@@ -324,7 +326,7 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         imageEditViewController = [[ImageEditViewController alloc]init];
         imageEditViewController.originalImg = _choosedImg;
-        imageEditViewController.view.backgroundColor = [UIColor clearColor];\
+        imageEditViewController.view.backgroundColor = [UIColor clearColor];
         // 隐藏导航栏
         self.navigationController.navigationBar.hidden = YES;
         
