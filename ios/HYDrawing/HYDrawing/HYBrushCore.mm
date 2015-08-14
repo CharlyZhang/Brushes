@@ -203,6 +203,12 @@
     return NSInteger(layersNum - 1 - painting->addNewLayer());
 }
 
+- (NSInteger) duplicateActiveLayer
+{
+    int layersNum = painting->getLayersNumber();
+    return NSInteger(layersNum - 1 - painting->duplicateActiveLayer());
+}
+
 - (NSInteger) setActiveLayer:(NSInteger)idx
 {
     int layersNum = painting->getLayersNumber();
