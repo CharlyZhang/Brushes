@@ -16,7 +16,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0O-YL-gLe">
-                        <rect key="frame" x="13" y="68" width="18" height="22"/>
+                        <rect key="frame" x="7" y="75" width="18" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="8eu-m0-e55"/>
                             <constraint firstAttribute="height" constant="22" id="QQ8-w1-OUd"/>
@@ -29,14 +29,14 @@
                         </connections>
                     </button>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="layer_showimg_bg" translatesAutoresizingMaskIntoConstraints="NO" id="mdX-Ft-do1">
-                        <rect key="frame" x="52" y="17" width="144" height="90"/>
+                        <rect key="frame" x="40" y="17" width="144" height="90"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="144" id="Pye-dH-6sf"/>
                             <constraint firstAttribute="height" constant="90" id="z4m-dj-0RS"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HI4-Im-6vr">
-                        <rect key="frame" x="8" y="27" width="31" height="22"/>
+                        <rect key="frame" x="1" y="24" width="31" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="CFN-lk-dRi"/>
                             <constraint firstAttribute="width" constant="31" id="m1u-VH-xgY"/>
@@ -49,11 +49,11 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="mdX-Ft-do1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="9" id="DBK-P3-i0T"/>
-                    <constraint firstItem="HI4-Im-6vr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="19" id="Pcg-C7-UwQ"/>
-                    <constraint firstItem="HI4-Im-6vr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="abz-gB-7kb"/>
-                    <constraint firstItem="mdX-Ft-do1" firstAttribute="leading" secondItem="HI4-Im-6vr" secondAttribute="trailing" constant="13" id="iEI-NL-cQh"/>
-                    <constraint firstItem="y0O-YL-gLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="iuF-CN-lhU"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="y0O-YL-gLe" secondAttribute="bottom" constant="25" id="y9J-lA-Sdp"/>
+                    <constraint firstItem="HI4-Im-6vr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="16" id="Pcg-C7-UwQ"/>
+                    <constraint firstItem="HI4-Im-6vr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-7" id="abz-gB-7kb"/>
+                    <constraint firstItem="mdX-Ft-do1" firstAttribute="leading" secondItem="HI4-Im-6vr" secondAttribute="trailing" constant="8" id="iEI-NL-cQh"/>
+                    <constraint firstItem="y0O-YL-gLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-1" id="iuF-CN-lhU"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="y0O-YL-gLe" secondAttribute="bottom" constant="18" id="y9J-lA-Sdp"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.98410696936460429" green="1" blue="0.93804661424093294" alpha="1" colorSpace="calibratedRGB"/>

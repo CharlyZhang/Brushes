@@ -24,10 +24,8 @@
 -(void)awakeFromNib{
     self.backgroundColor = kCommenSkinColor;
     [self setOutlineViewBorderWithColor:kCommenCyanColor];
-    
-//    self.outlineView.frame = CGRectMake(0, 0, 200*4/3, 90);
-    
-    self.outlineWidthCons.constant = 200;
+    self.outlineWidthCons.constant = 90*kScreenScale;
+    NSLog(@"---%f",kScreenScale);
 }
 
 // 轮廓样式
@@ -55,6 +53,10 @@
     
     _isVisible = !_isVisible;
     NSLog(@"unvisible");
+    
+    // 发送是否可见
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"LayerVisibleNotification" object:@[@(_isVisible),@(_rowIndex)]];
+
 }
 
 - (IBAction)setLockOr:(UIButton *)sender {
@@ -64,12 +66,10 @@
         [sender setImage:[UIImage imageNamed:@"layer_unlock"] forState:0];
     }
     
-    if (self.selected) {
-        // 发送是否可编辑消息
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"LayerLockNotification" object:@(!_isUnlocked)];
-    }
-    
     _isUnlocked = !_isUnlocked;
     NSLog(@"lock");
+    
+    // 发送是否可编辑消息
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"LayerLockNotification" object:@[@(_isUnlocked),@(_rowIndex)]];
 }
 @end

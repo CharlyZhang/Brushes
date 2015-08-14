@@ -10,6 +10,9 @@
 
 @interface LayersCell : UITableViewCell
 
+// 点击的所在行
+@property(nonatomic,assign)NSInteger rowIndex;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnVisible;
 @property (weak, nonatomic) IBOutlet UIButton *btnUnlock;
 @property (weak, nonatomic) IBOutlet UIImageView *outlineView;

@@ -24,29 +24,45 @@
     UILabel *_alphaLabel;
     ZXHLayerTopBar *_topToolBar;
     NSInteger _curLayerIndex;
+    NSInteger _layersCount;
+}
+
+static ZXHLayersViewController *layersController;
+
+#pragma mark 单例
++(id)defaultLayersController{
+    if (!layersController) {
+        layersController = [ZXHLayersViewController new];
+    }
+    
+    return layersController;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    
+    if (_tbView) {
+        // 层数
+        _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+        
+        [_tbView reloadData];
+        
+        // 设置当前选中图层
+        _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
+        [self selectRowAtIndexPath:_curLayerIndex];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // 数据源数组 - 可变数组最后一个必须为 'nil'
-    _arrLayer = [[NSMutableArray alloc]initWithObjects:@(0),@(1),@(2),@(3),@(4),@(5),nil];
-    
+
     // 初始化UI
     [self createUI];
     
     // 监听图层状态
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(layerLockNotify:) name:@"LayerLockNotification" object:nil];
-    
-    // 设置当前选中图层
-    _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
-    [self selectRowAtIndexPath:_curLayerIndex];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(layerVisibleNotify:) name:@"LayerVisibleNotification" object:nil];
+
 }
 
 #pragma mark UI
@@ -69,22 +85,44 @@
 #pragma mark 图层操作
 // 消息 - 锁定
 -(void)layerLockNotify:(NSNotification*)noti{
-    if (![noti.object boolValue]) {
+    NSArray *info = noti.object;
+    BOOL lock = [info[0] boolValue];
+    NSInteger cur = [info[1] integerValue];
+    
+    if (!lock && cur==_curLayerIndex) {
         // 锁了
         _topToolBar.btnDelete.enabled = NO;
     }else{
         _topToolBar.btnDelete.enabled = YES;
     }
+    
+    // 锁定图层
+    [[HYBrushCore sharedInstance]toggleAlphaLockedOfLayerIndex:cur];
+}
+
+// 消息 - 隐藏
+-(void)layerVisibleNotify:(NSNotification*)noti{
+    NSArray *info = noti.object;
+    BOOL visible = [info[0] boolValue];
+    NSInteger cur = [info[1] integerValue];
+    
+    if (!visible && cur==_curLayerIndex) {
+        // 不可见
+    }else{
+        
+    }
+    
+    [[HYBrushCore sharedInstance]toggleVisibilityOfLayerIndex:cur];
 }
 
 // 删除
 -(void)deleteLayer:(UIButton*)btn{
-    if (_arrLayer.count == 1) {
+    if (_layersCount == 1) {
         return;
     }
     
     // 选中下一行
-    if (_curLayerIndex == _arrLayer.count-1) {
+    if (_curLayerIndex == _layersCount-1) {
         _curLayerIndex --;
         if (_curLayerIndex < 0) {
             return;
@@ -92,7 +130,9 @@
     }
     
     // 删除选中行
-    [_arrLayer removeObjectAtIndex:_curLayerIndex];
+    [[HYBrushCore sharedInstance] deleteActiveLayer];
+    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
     
@@ -103,7 +143,7 @@
 // ++++ 选中某行并设置样式
 -(void)selectRowAtIndexPath:(NSInteger)index{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [_tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    [_tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 //    NSLog(@"行-： %ld",index);
     
     // 设置样式
@@ -121,6 +161,9 @@
     // 设置选中层
     [[HYBrushCore sharedInstance] setActiveLayer:indexPath.row];
     NSLog(@"getActiveLayer: %ld",[[HYBrushCore sharedInstance] getActiveLayerIndex]);
+
+    // 层数
+    _layersCount = [[HYBrushCore sharedInstance] getLayersNumber];
 }
 
 // 合并
@@ -135,7 +178,7 @@
 
 // 添加
 -(void)addLayer:(UIButton*)btn{
-    if ([[HYBrushCore sharedInstance] getLayersNumber] == 10) {
+    if (_layersCount == 10) {
         _topToolBar.btnCopy.enabled = NO;
         _topToolBar.btnAdd.enabled = NO;
         return;
@@ -144,12 +187,15 @@
     // 添加图层
     [[HYBrushCore sharedInstance] addNewLayer];
     
+    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    
     // 插入行
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView insertRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
     
     // 选中
     [self selectRowAtIndexPath:_curLayerIndex];
+    
 }
 
 #pragma mark - 创建顶部工具栏
@@ -219,12 +265,26 @@
 
 #pragma mark 表格视图回调
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[HYBrushCore sharedInstance] getLayersNumber];
+    return _layersCount;
 }
 
 // 复用
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     LayersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LayersCellId"];
+    cell.rowIndex = indexPath.row;
+    
+    if (!cell.isUnlocked) {
+        [cell.btnUnlock setImage:[UIImage imageNamed:@"layer_lock"] forState:0];
+    }else{
+        [cell.btnUnlock setImage:[UIImage imageNamed:@"layer_unlock"] forState:0];
+    }
+    
+    if (!cell.isVisible) {
+        [cell.btnVisible setImage:[UIImage imageNamed:@"layer_invisible"] forState:0];
+    }else{
+        [cell.btnVisible setImage:[UIImage imageNamed:@"layer_visible"] forState:0];
+    }
+    
     UIImage *layerImage = [[HYBrushCore sharedInstance] getLayerThumbnailOfIndex:indexPath.row];
     cell.outlineView.image = layerImage;
     

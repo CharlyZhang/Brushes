@@ -10,4 +10,6 @@
 
 @interface ZXHLayersViewController : UIViewController
 
++(id)defaultLayersController;
+
 @end
