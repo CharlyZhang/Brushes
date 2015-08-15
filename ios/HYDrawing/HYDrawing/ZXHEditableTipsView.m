@@ -7,6 +7,7 @@
 //
 
 #import "ZXHEditableTipsView.h"
+#import "Macro.h"
 
 @implementation ZXHEditableTipsView
 
@@ -14,40 +15,37 @@ static ZXHEditableTipsView *tipsView;
 
 +(id)defaultTipsView{
     if (!tipsView) {
-        tipsView = [ZXHEditableTipsView new];
+        CGFloat bottomBarH = 119;
+        
+        tipsView = [[NSBundle mainBundle]loadNibNamed:@"ZXHEditableTipsView" owner:self options:nil][0];
+        tipsView.frame = CGRectMake(0, 0, kScreenH, kScreenW-bottomBarH);
         tipsView.backgroundColor = [UIColor clearColor];
         // 提示图片
         tipsView.visibleView.alpha = 0;
         tipsView.lockedView.alpha = 0;
-        [tipsView addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)]];
     }
     
     return tipsView;
 }
 
--(void)handlePanGesture:(UIPanGestureRecognizer*)pan{
-    if (pan.state == UIGestureRecognizerStateBegan) {
-        // 显示提示
-        NSLog(@"Began");
-        if (!_visible || !_locked) {
-            [self showTips];
-        }else{
-            [tipsView removeFromSuperview];
-        }
-    }
-    
-    if (pan.state == UIGestureRecognizerStateEnded) {
-         [self dismissTips];
-    }
-
-}
 
 #pragma mark 手势
 -(void)showTips{
-    [UIView animateWithDuration:0.01 animations:^{
-        self.visibleView.alpha = 1;
-        self.lockedView.alpha = 1;
-    }];
+    // 显示提示
+    NSLog(@"show");
+    
+    if (!_visible || _locked) {
+        [UIView animateWithDuration:1 animations:^{
+            if (!_visible) {
+                self.visibleView.alpha = 1;
+            }
+            if (_locked) {
+                self.lockedView.alpha = 1;
+            }
+        }];
+    }else if(_visible && !_locked){
+        [tipsView removeFromSuperview];
+    }
 }
 
 -(void)dismissTips{

@@ -53,21 +53,24 @@ extern NSString *CZActivePaintColorDidChange;
     //    // 去掉分割线
     //    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
-    // 是否可画
-    [self judgeEditable];
 }
 
 #pragma mark 判断是否可以绘画
--(void)judgeEditable{
+- (void)showMessageView:(ShowingMessageType)msgType
+{
     NSInteger curLayerIndex = [[HYBrushCore sharedInstance]getActiveLayerIndex];
     BOOL visible = [[HYBrushCore sharedInstance]isVisibleOfLayer:curLayerIndex];
     BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:curLayerIndex];
-    if (!visible || locked) {
-        ZXHEditableTipsView *tipsView = [ZXHEditableTipsView defaultTipsView];
-        tipsView.visible = visible;
-        tipsView.locked = locked;
-        [self.view addSubview:tipsView];
-    }
+    
+    ZXHEditableTipsView *tipsView = [ZXHEditableTipsView defaultTipsView];
+    tipsView.visible = visible;
+    tipsView.locked = locked;
+    [self.view addSubview:tipsView];
+    [tipsView showTips];
+}
+
+-(void)judgeEditable{
+    
 }
 
 #pragma mark - Properties
@@ -99,10 +102,10 @@ extern NSString *CZActivePaintColorDidChange;
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
     
-    // load brush core
+#pragma mark - 初始画板
 
     CGSize size = [UIScreen mainScreen].bounds.size;
-    [[HYBrushCore sharedInstance]initializeWithWidth:size.width height:size.height];
+    [[HYBrushCore sharedInstance]initializeWithWidth:size.height height:size.width];
     CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
@@ -112,7 +115,6 @@ extern NSString *CZActivePaintColorDidChange;
     bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
-    
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
@@ -244,10 +246,7 @@ extern NSString *CZActivePaintColorDidChange;
     [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
 
-- (void)showMessageView:(ShowingMessageType)msgType
-{
-    
-}
+
 
 - (void) paintColorChanged:(NSNotification *)aNotification
 {

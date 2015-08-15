@@ -17,5 +17,7 @@
 @property(nonatomic,assign)BOOL locked;
 
 +(id)defaultTipsView;
+-(void)showTips;
+-(void)dismissTips;
 
 @end

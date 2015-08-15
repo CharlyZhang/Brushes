@@ -88,15 +88,15 @@
     if (_curLayerIndex == _layersCount-1) {
         _curLayerIndex --;
         if (_curLayerIndex < 0) {
-            _curLayerIndex = 0;
+            return;
         }
     }
     
-    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     // 删除选中行
     [[HYBrushCore sharedInstance] deleteActiveLayer];
     _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
-  
+    
+    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
     
     [_tbView reloadData];
@@ -122,17 +122,14 @@
 
 // 拷贝
 -(void)copyLayer:(UIButton*)btn{
-    // 复制图层
-    [[HYBrushCore sharedInstance] duplicateActiveLayer];
-    
-    [self createNewLayer];
+    if ([self canContinueCreateLayer]) {
+        // 复制图层
+        [[HYBrushCore sharedInstance] duplicateActiveLayer];
+        [self createNewLayer];
+    }
 }
 
 -(void)createNewLayer{
-    if (![self canContinueCreateLayer]) {
-        return;
-    }
-    
     _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     
     // 插入行
@@ -155,9 +152,11 @@
 
 // 添加
 -(void)addLayer:(UIButton*)btn{
-    // 添加图层
-    [[HYBrushCore sharedInstance] addNewLayer];
-    [self createNewLayer];
+    if ([self canContinueCreateLayer]) {
+        // 添加图层
+        [[HYBrushCore sharedInstance] addNewLayer];
+        [self createNewLayer];
+    }
 }
 
 
@@ -181,7 +180,7 @@
     
     // 设置选中层
     [[HYBrushCore sharedInstance] setActiveLayer:cell.rowIndex];
-    NSLog(@"getActiveLayer: %ld",[[HYBrushCore sharedInstance] getActiveLayerIndex]);
+//    NSLog(@"getActiveLayer: %ld",[[HYBrushCore sharedInstance] getActiveLayerIndex]);
     
     // 层数
     _layersCount = [[HYBrushCore sharedInstance] getLayersNumber];
