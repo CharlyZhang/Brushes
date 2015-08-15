@@ -24,11 +24,14 @@
 -(void)setOutlineViewBorderWithColor:(UIColor*)color;
 
 @property(nonatomic,assign)BOOL isVisible;
-@property(nonatomic,assign)BOOL isUnlocked;
+@property(nonatomic,assign)BOOL isLocked;
+
+// Block传递可见 锁定
+@property(nonatomic,copy)void (^changeVisible)(BOOL visible,NSInteger row);
+@property(nonatomic,copy)void (^changeLocked)(BOOL locked,NSInteger row);
 
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outlineWidthCons;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imgWidthCons;
 
 // 透明度
 @property(nonatomic,assign)CGFloat opacity;

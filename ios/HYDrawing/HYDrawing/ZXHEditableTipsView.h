@@ -10,7 +10,12 @@
 
 @interface ZXHEditableTipsView : UIView
 
-@property(nonatomic,weak)UIImageView *invisibleView;
-@property(nonatomic,weak)UIImageView *unlockView;
+@property (weak, nonatomic) IBOutlet UIImageView *visibleView;
+@property (weak, nonatomic) IBOutlet UIImageView *lockedView;
+
+@property(nonatomic,assign)BOOL visible;
+@property(nonatomic,assign)BOOL locked;
+
++(id)defaultTipsView;
 
 @end

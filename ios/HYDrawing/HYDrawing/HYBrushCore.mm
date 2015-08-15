@@ -261,6 +261,7 @@
 }
 - (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index
 {
+//    NSLog(@"set locked %d",locked);
     int layersNum = painting->getLayersNumber();
     
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));

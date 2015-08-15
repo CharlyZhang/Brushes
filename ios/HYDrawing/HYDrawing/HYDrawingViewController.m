@@ -23,7 +23,6 @@
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
-    ZXHEditableTipsView *editableTipsView;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -40,33 +39,29 @@
     return NO;
 }
 
-#pragma mark 开始绘画
--(void)judgeEditable:(UIPanGestureRecognizer*)pan{
-    if (pan.state == UIGestureRecognizerStateBegan) {
-        // 显示提示
-        NSLog(@"Began");
-        
-        BOOL visible = NO;
-        BOOL unlocked = NO;
-        if (!visible || !unlocked) {
-            editableTipsView = [[ZXHEditableTipsView alloc]initWithFrame:self.view.frame];
-            [UIView animateWithDuration:0.2 animations:^{
-                editableTipsView.alpha = 1;
-            } completion:^(BOOL finished) {
-                [self.view addSubview:editableTipsView];
-            }];
-        }
-    }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    // 全透明背景
+    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    //     self.navigationController.navigationBar.translucent = YES;
+    //    // 去掉分割线
+    //    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    
+    // 是否可画
+    [self judgeEditable];
 }
 
-// 移除提示
--(void)removeEditableTipsView:(UITapGestureRecognizer*)tap{
-    if (tap.state == UIGestureRecognizerStateEnded) {
-        [UIView animateWithDuration:2 animations:^{
-            editableTipsView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [editableTipsView removeFromSuperview];
-        }];
+#pragma mark 判断是否可以绘画
+-(void)judgeEditable{
+    NSInteger curLayerIndex = [[HYBrushCore sharedInstance]getActiveLayerIndex];
+    BOOL visible = [[HYBrushCore sharedInstance]isVisibleOfLayer:curLayerIndex];
+    BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:curLayerIndex];
+    if (!visible || locked) {
+        ZXHEditableTipsView *tipsView = [ZXHEditableTipsView defaultTipsView];
+        tipsView.visible = visible;
+        tipsView.locked = locked;
+        [self.view addSubview:tipsView];
     }
 }
 
@@ -84,13 +79,6 @@
 #pragma mark viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // 滑动手势
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(judgeEditable:)];
-    [self.view addGestureRecognizer:pan];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(removeEditableTipsView:)];
-    [self.view addGestureRecognizer:tap];
     
     self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     
@@ -128,21 +116,6 @@
 -(void)hiddenNavBar{
     self.navigationController.navigationBar.hidden = NO;
 }
-
--(void)viewWillAppear:(BOOL)animated{
-    // 全透明背景
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//     self.navigationController.navigationBar.translucent = YES;
-//    // 去掉分割线
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 
 - (void)tapMenu:(id)sender{

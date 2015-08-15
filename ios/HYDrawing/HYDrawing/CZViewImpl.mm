@@ -125,7 +125,7 @@ void CZViewImpl::draw() { [realView drawView];}
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
-    LOG_DEBUG("pan\t");
+//    LOG_DEBUG("pan\t");
     
     if (CZActiveState::getInstance()->colorFillMode) return;
     if (self.ptrPainting->shouldPreventPaint()) return;
@@ -140,20 +140,20 @@ void CZViewImpl::draw() { [realView drawView];}
         CGPoint velocity = [sender velocityInView:sender.view];
         CZ2DPoint zeroPoint; CZ2DPoint v(velocity.x,velocity.y);
         float   speed = zeroPoint.distanceTo2DPoint(v) / 1000.0f; // pixels/millisecond
-        LOG_DEBUG("speed is %f\n", speed);
+//        LOG_DEBUG("speed is %f\n", speed);
         CZActiveState::getInstance()->getActiveTool()->moving(p.x, p.y, speed);
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
         CZActiveState::getInstance()->getActiveTool()->moveEnd(p.x, p.y);
     }
     else if (sender.state == UIGestureRecognizerStateCancelled) {
-        LOG_DEBUG("gesture canceled!\n");
+//        LOG_DEBUG("gesture canceled!\n");
     }
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender
 {
-    LOG_DEBUG("tap\n");
+//    LOG_DEBUG("tap\n");
     if (self.ptrPainting->shouldPreventPaint()) return;
     
     CGPoint p = [sender locationInView:sender.view];
@@ -190,7 +190,7 @@ void CZViewImpl::draw() { [realView drawView];}
     
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());
     [context presentRenderbuffer:GL_RENDERBUFFER];
-    LOG_DEBUG("drawView\n");
+//    LOG_DEBUG("drawView\n");
 }
 
 - (void)layoutSubviews
