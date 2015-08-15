@@ -35,7 +35,6 @@ typedef enum BottomBarButtonType {
 
 @required
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button;
-- (WDColor*) getActiveStatePaintColor;
 
 @end
 
@@ -54,5 +53,7 @@ typedef enum BottomBarButtonType {
 @property (nonatomic, strong) UIButton* canvasButton;
 @property (nonatomic, strong) UIButton* clipButton;
 @property (nonatomic, strong) UIButton* layersButton;
+
+- (instancetype)initWithWellColor:(WDColor*) color;
 
 @end

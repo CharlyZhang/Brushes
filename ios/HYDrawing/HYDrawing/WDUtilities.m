@@ -499,6 +499,8 @@ CGAffineTransform WDTransformForOrientation(UIInterfaceOrientation orientation)
         case UIInterfaceOrientationLandscapeRight:
             transform = CGAffineTransformRotate(transform, M_PI / 2);
             break;
+        default:
+            break;
     }
     
     return transform;

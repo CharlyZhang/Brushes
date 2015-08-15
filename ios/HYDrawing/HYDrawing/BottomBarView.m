@@ -31,7 +31,6 @@
 
     if (!_colorWheelButton) {
         _colorWheelButton = [[WDColorWell alloc] initWithFrame:CGRectMake(0, 0, 74, 98)];
-        _colorWheelButton.color = [self.delegate getActiveStatePaintColor];
         [_colorWheelButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
         _colorWheelButton.tag = COLORWHEEL_BTN;
 
@@ -186,12 +185,13 @@
 //- (UIButton&)
 #pragma mark - UIView Methods
 
-- (instancetype) init {
+- (instancetype)initWithWellColor:(WDColor*) color {
     if(self = [super init]) {
         /// add subviews
         UIImageView *backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bottom_bar"]];
         [self addSubview:backgroundView];
         
+        self.colorWheelButton.color = color;
         [self addSubview:self.colorWheelButton];
         [self addSubview:self.eraserButton];
         [self addSubview:self.toolsScrollView];
