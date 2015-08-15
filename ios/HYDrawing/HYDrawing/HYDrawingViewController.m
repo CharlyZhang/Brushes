@@ -17,7 +17,10 @@
 #import "ZXHLayersViewController.h"
 #import "ZXHEditableTipsView.h"
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate> {
+#import "CZViewImpl.h"
+
+@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,
+                                       CanvasViewDelegate > {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
     ImageEditViewController *imageEditViewController;
@@ -101,8 +104,12 @@
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
     
     // load brush core
-    [[HYBrushCore sharedInstance]initializeWithWidth:kScreenH height:kScreenW];
-    [self.view insertSubview:[[HYBrushCore sharedInstance] getPaintingView] atIndex:0];
+
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    [[HYBrushCore sharedInstance]initializeWithWidth:size.width height:size.height];
+    CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
+    canvasView.delegate = self;
+    [self.view insertSubview:canvasView atIndex:0];
 }
 
 //-(BOOL)shouldAutorotate{
@@ -249,6 +256,9 @@
             break;
         case BUCKET_BTN:
             [[HYBrushCore sharedInstance]activeBucket];
+            break;
+        case EYEDROPPER_BTN:
+            [[HYBrushCore sharedInstance]activeColorPicker];
             break;
         case LAYERS_BTN:
             [self showLayerPopoverController:button];
