@@ -279,10 +279,20 @@
     layer->setOpacity(opacity);
     canvas->drawView();
 }
-- (float) getActiveLayerOpacity
+- (float) getOpacityOfLayer:(NSInteger)index
+{
+    int layersNum = painting->getLayersNumber();
+    
+    CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
+    return layer->getOpacity();
+}
+
+- (BOOL) clearLayer:(NSInteger)index
 {
     CZLayer *layer = painting->getActiveLayer();
-    return layer->getOpacity();
+    BOOL ret = layer->clear();
+    canvas->drawView();
+    return ret;
 }
 
 /// 析构
