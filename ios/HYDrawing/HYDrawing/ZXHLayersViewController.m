@@ -76,10 +76,13 @@
 
 // 删除
 -(void)deleteLayer:(UIButton*)btn{
-    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
-    // 删除选中行
-    [[HYBrushCore sharedInstance] deleteActiveLayer];
-    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    if (_layersCount == 1) {
+        LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        // 清除画布
+        cell.imgView.image = nil;
+        [[HYBrushCore sharedInstance]clearLayer:0];
+        return;
+    }
     
     // 选中下一行
     if (_curLayerIndex == _layersCount-1) {
@@ -89,11 +92,10 @@
         }
     }
     
-    if (_layersCount == 1) {
-        LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:curIndexPath];
-        cell.imgView.image = nil;
-        return;
-    }
+    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
+    // 删除选中行
+    [[HYBrushCore sharedInstance] deleteActiveLayer];
+    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
   
     [_tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
     
