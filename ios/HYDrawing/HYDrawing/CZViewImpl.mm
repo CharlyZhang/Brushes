@@ -11,6 +11,10 @@
 #include "CZUtil.h"
 #include "CZActiveState.h"
 #include "tool/CZFreehandTool.h"
+#import "WDColor.h"
+
+
+NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 ////////////////////CanvasView////////////////////
 CZViewImpl::CZViewImpl(const CZRect rect)
@@ -126,25 +130,32 @@ void CZViewImpl::draw() { [realView drawView];}
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
     LOG_DEBUG("pan\t");
+    CZActiveState *activeState = CZActiveState::getInstance();
     
-    if (CZActiveState::getInstance()->colorFillMode) return;
-    if (self.ptrPainting->shouldPreventPaint()) return;
+    if (activeState->colorFillMode || activeState->colorPickMode) return;
+    
+    if (self.ptrPainting->shouldPreventPaint()) {
+        CZLayer *layer = self.ptrPainting->getActiveLayer();
+        if (layer->isLocked())          [self.delegate showMessageView:kLocked];
+        else if(!layer->isVisible())    [self.delegate showMessageView:kInvisible];
+        return;
+    }
     
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
     
     if (sender.state == UIGestureRecognizerStateBegan) {
-        CZActiveState::getInstance()->getActiveTool()->moveBegin(p.x,p.y);
+        activeState->getActiveTool()->moveBegin(p.x,p.y);
     }
     else if (sender.state == UIGestureRecognizerStateChanged){
         CGPoint velocity = [sender velocityInView:sender.view];
         CZ2DPoint zeroPoint; CZ2DPoint v(velocity.x,velocity.y);
         float   speed = zeroPoint.distanceTo2DPoint(v) / 1000.0f; // pixels/millisecond
         LOG_DEBUG("speed is %f\n", speed);
-        CZActiveState::getInstance()->getActiveTool()->moving(p.x, p.y, speed);
+        activeState->getActiveTool()->moving(p.x, p.y, speed);
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
-        CZActiveState::getInstance()->getActiveTool()->moveEnd(p.x, p.y);
+        activeState->getActiveTool()->moveEnd(p.x, p.y);
     }
     else if (sender.state == UIGestureRecognizerStateCancelled) {
         LOG_DEBUG("gesture canceled!\n");
@@ -154,17 +165,34 @@ void CZViewImpl::draw() { [realView drawView];}
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender
 {
     LOG_DEBUG("tap\n");
-    if (self.ptrPainting->shouldPreventPaint()) return;
+    if (self.ptrPainting->shouldPreventPaint()) {
+        CZLayer *layer = self.ptrPainting->getActiveLayer();
+        if (layer->isLocked())          [self.delegate showMessageView:kLocked];
+        else if(!layer->isVisible())    [self.delegate showMessageView:kInvisible];
+        return;
+    }
     
     CGPoint p = [sender locationInView:sender.view];
     p.y = self.bounds.size.height - p.y;
     
-    if (CZActiveState::getInstance()->colorFillMode) {
+    CZActiveState *activeState = CZActiveState::getInstance();
+    
+    if (activeState->colorFillMode) {
         CZLayer *layer = self.ptrPainting->getActiveLayer();
-        CZColor color = CZActiveState::getInstance()->getPaintColor();
+        CZColor color = activeState->getPaintColor();
         CZ2DPoint location = CZ2DPoint(p.x,p.y);
         layer->fill(color, location);
         [self drawView];
+    }
+    else if (activeState->colorPickMode) {
+//        CZLayer *layer = self.ptrPainting->getActiveLayer();
+//        CZColor color = activeState->getPaintColor();
+//        CZ2DPoint location = CZ2DPoint(p.x,p.y);
+//        layer->fill(color, location);
+//        [self drawView];
+        WDColor *black = [WDColor blackColor];
+        NSDictionary *userInfo = @{@"pickedColor": black};
+        [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }
     
 }

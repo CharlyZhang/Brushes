@@ -15,9 +15,23 @@
 #include "painting/CZPainting.h"
 #include "basic/CZMat4.h"
 
+/// 显示的遮罩消息类型
+typedef enum ShowingMessageType {
+    kInvisible = 0,
+    kLocked
+} ShowingMessageType;
+
+@protocol CanvasViewDelegate <NSObject>
+
+@required
+- (void) showMessageView:(ShowingMessageType)msgType;
+
+@end
+
 @interface CanvasView : UIView<UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CZPainting* ptrPainting;
+@property (nonatomic, weak) id<CanvasViewDelegate> delegate;
 
 - (void)drawView;
 

@@ -48,7 +48,7 @@
 }
 
 ///获得绘制视图
-- (UIView*) getPaintingView
+- (CanvasView*) getPaintingView
 {
     if (!viewImpl) return nil;
     return viewImpl->realView;
@@ -58,28 +58,45 @@
 ///激活橡皮
 - (void) activeEraser
 {
-    CZActiveState::getInstance()->colorFillMode = false;
-    CZActiveState::getInstance()->setEraseMode(true);
-    CZActiveState::getInstance()->setActiveBrush(kEraser);
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorFillMode = false;
+    activeState->colorPickMode = false;
+    
+    activeState->setEraseMode(true);
+    activeState->setActiveBrush(kEraser);
 }
 ///激活铅笔
 - (void) activePencil
 {
-    CZActiveState::getInstance()->colorFillMode = false;
-    CZActiveState::getInstance()->setEraseMode(false);
-    CZActiveState::getInstance()->setActiveBrush(kPencil);
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorFillMode = false;
+    activeState->colorPickMode = false;
+    
+    activeState->setEraseMode(false);
+    activeState->setActiveBrush(kPencil);
 }
 ///激活蜡笔
 - (void) activeCrayon
 {
-    CZActiveState::getInstance()->colorFillMode = false;
-    CZActiveState::getInstance()->setEraseMode(false);
-    CZActiveState::getInstance()->setActiveBrush(kCrayon);
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorFillMode = false;
+    activeState->colorPickMode = false;
+    activeState->setEraseMode(false);
+    activeState->setActiveBrush(kCrayon);
 }
 ///激活倒色桶
 - (void) activeBucket
 {
-    CZActiveState::getInstance()->colorFillMode = true;
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorFillMode = true;
+    activeState->colorPickMode = false;
+}
+///激活颜色拾取器
+- (void) activeColorPicker
+{
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorPickMode = true;
+    activeState->colorFillMode = false;
 }
 
 ///获取当前绘制颜色

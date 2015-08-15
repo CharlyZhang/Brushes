@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WDColor.h"
 
+@class CanvasView;
 
 @interface HYBrushCore : NSObject
 
@@ -20,13 +21,14 @@
 - (BOOL) initializeWithWidth:(float)w height:(float)h;
 
 ///获得绘制视图
-- (UIView*) getPaintingView;
+- (CanvasView*) getPaintingView;
 
 ///工具激活
 - (void) activeEraser;
 - (void) activePencil;
 - (void) activeCrayon;
 - (void) activeBucket;
+- (void) activeColorPicker;
 
 ///当前绘制颜色
 - (WDColor*) getActiveStatePaintColor;
@@ -56,8 +58,5 @@
 - (void) setActiveLayerOpacity:(float)opacity;
 - (float) getOpacityOfLayer:(NSInteger)index;
 - (BOOL) clearLayer:(NSInteger)index;
-
-
-- (void)testRenderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
 
 @end
