@@ -191,6 +191,8 @@ void CZViewImpl::draw() { [realView drawView];}
 //        layer->fill(color, location);
 //        [self drawView];
         WDColor *black = [WDColor blackColor];
+        CZColor black1 = CZColor::blackColor();
+        activeState->setPaintColor(black1);
         NSDictionary *userInfo = @{@"pickedColor": black};
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }

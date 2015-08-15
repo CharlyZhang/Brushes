@@ -28,7 +28,7 @@ CZActiveState *CZActiveState::ptrInstance = NULL;
 CZActiveState::CZActiveState()
 {
 	eraseMode = false;
-	paintColor = CZColor::blackColor();
+	paintColor = CZColor(82/255.0f,178/255.0f,228/255.0f,1.0f);
 	stampGLContext = new CZGLContext;
 	setUpGenerators();
 	initBrushes();
@@ -38,7 +38,7 @@ CZActiveState::CZActiveState()
 	tools.push_back(new CZEraserTool);
     
     colorFillMode = false;
-
+    colorPickMode = false;
 }
 CZActiveState::~CZActiveState()
 {

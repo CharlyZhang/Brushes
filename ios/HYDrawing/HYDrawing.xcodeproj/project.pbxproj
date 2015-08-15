@@ -59,7 +59,7 @@
 		53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590791B5E02CA00E9D2F0 /* unPremultipliedBlit.frag */; };
 		60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60216AE71B588A21009186F4 /* HYMenuViewController.m */; };
 		6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */; };
-		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
+		608042041B57BE1400B3AB52 /* HYDrawingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */; };
 		60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */; };
 /* End PBXBuildFile section */
 
@@ -172,7 +172,7 @@
 		6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEditViewController.h; sourceTree = "<group>"; };
 		6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEditViewController.m; sourceTree = "<group>"; };
 		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
-		608042031B57BE1400B3AB52 /* HYDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDrawingViewController.m; sourceTree = "<group>"; };
+		608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDrawingViewController.mm; sourceTree = "<group>"; };
 		60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPopoverBackgroundView.h; sourceTree = "<group>"; };
 		60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPopoverBackgroundView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,7 +278,7 @@
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
-				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
+				608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */,
 				2D49062D1B7AE44600158F1C /* interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
@@ -534,7 +534,7 @@
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
-				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
+				608042041B57BE1400B3AB52 /* HYDrawingViewController.mm in Sources */,
 				537343911B70518400CDCC82 /* WDUtilities.m in Sources */,
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 				537343891B704FEF00CDCC82 /* WDColor.m in Sources */,

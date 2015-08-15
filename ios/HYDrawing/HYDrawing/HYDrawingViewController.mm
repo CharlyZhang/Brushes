@@ -17,6 +17,8 @@
 #import "ZXHLayersViewController.h"
 #import "CZViewImpl.h"
 
+extern NSString *CZActivePaintColorDidChange;
+
 @interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,
                                        CanvasViewDelegate > {
     UIPopoverController *popoverController_;
@@ -38,7 +40,6 @@
 -(BOOL)prefersStatusBarHidden{
     return NO;
 }
-
 
 #pragma mark - Properties
 
@@ -65,18 +66,22 @@
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
     
-    // bottom bar view
-    bottomBarView = [[BottomBarView alloc]init];
-    bottomBarView.delegate = self;
-    [self.view addSubview:bottomBarView];
-    [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
-    
     // load brush core
     CGSize size = [UIScreen mainScreen].bounds.size;
     [[HYBrushCore sharedInstance]initializeWithWidth:size.width height:size.height];
     CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
+    
+    // bottom bar view
+    bottomBarView = [[BottomBarView alloc]initWithWellColor:[[HYBrushCore sharedInstance]getActiveStatePaintColor]];
+    bottomBarView.delegate = self;
+    [self.view addSubview:bottomBarView];
+    [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
+    
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
 }
 
 //-(BOOL)shouldAutorotate{
@@ -104,8 +109,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 - (void)tapMenu:(id)sender{
     HYMenuViewController *menuViewController = [[HYMenuViewController alloc]init];
@@ -221,6 +224,22 @@
     [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
 
+- (void)showMessageView:(ShowingMessageType)msgType
+{
+    
+}
+
+- (void) paintColorChanged:(NSNotification *)aNotification
+{
+    WDColor *newPaintColor = [aNotification userInfo][@"pickedColor"];
+    [self.colorPickerController setColor:newPaintColor];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - BottomBarViewDelegate Methods
 
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
@@ -249,11 +268,6 @@
         default:
             break;
     }
-}
-
-- (WDColor*) getActiveStatePaintColor
-{
-   return [[HYBrushCore sharedInstance]getActiveStatePaintColor];
 }
 
 

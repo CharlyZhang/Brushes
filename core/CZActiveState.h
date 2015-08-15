@@ -114,6 +114,7 @@ private:
     
 public:
     bool colorFillMode;                                 ///< whether stay in color fill mode
+    bool colorPickMode;                                 ///< whether stay in color pick mode
     float mainScreenScale;                              ///< screen scale
     
 private:
