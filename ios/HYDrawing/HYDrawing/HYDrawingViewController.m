@@ -15,7 +15,7 @@
 #import "Macro.h"
 #import "WDColorPickerController.h"
 #import "ZXHLayersViewController.h"
-#import "CZViewImpl.h"
+#import "CanvasView.h"
 
 extern NSString *CZActivePaintColorDidChange;
 

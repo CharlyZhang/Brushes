@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49061D1B78ACA900158F1C /* HYBrushCore.mm */; };
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
+		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
+		2D4906371B7F297600158F1C /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906361B7F297600158F1C /* ReadMe.md */; };
 		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
 		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
 		535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */; };
@@ -59,7 +61,7 @@
 		53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590791B5E02CA00E9D2F0 /* unPremultipliedBlit.frag */; };
 		60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60216AE71B588A21009186F4 /* HYMenuViewController.m */; };
 		6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */; };
-		608042041B57BE1400B3AB52 /* HYDrawingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */; };
+		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
 		60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +94,9 @@
 		2D49061D1B78ACA900158F1C /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
 		2D4906291B7ADCCF00158F1C /* CZViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZViewImpl.h; sourceTree = "<group>"; };
 		2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZViewImpl.mm; sourceTree = "<group>"; };
+		2D4906311B7F234900158F1C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
+		2D4906321B7F234900158F1C /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
+		2D4906361B7F297600158F1C /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
 		535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayerTopBar.m; sourceTree = "<group>"; };
@@ -172,7 +177,7 @@
 		6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEditViewController.h; sourceTree = "<group>"; };
 		6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEditViewController.m; sourceTree = "<group>"; };
 		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
-		608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYDrawingViewController.mm; sourceTree = "<group>"; };
+		608042031B57BE1400B3AB52 /* HYDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDrawingViewController.m; sourceTree = "<group>"; };
 		60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPopoverBackgroundView.h; sourceTree = "<group>"; };
 		60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPopoverBackgroundView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -204,6 +209,8 @@
 				2D49061D1B78ACA900158F1C /* HYBrushCore.mm */,
 				2D4906291B7ADCCF00158F1C /* CZViewImpl.h */,
 				2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */,
+				2D4906311B7F234900158F1C /* CanvasView.h */,
+				2D4906321B7F234900158F1C /* CanvasView.mm */,
 			);
 			name = interface;
 			sourceTree = "<group>";
@@ -253,6 +260,7 @@
 		53851B561B57AADE00B6F946 = {
 			isa = PBXGroup;
 			children = (
+				2D4906361B7F297600158F1C /* ReadMe.md */,
 				53D590691B5E023200E9D2F0 /* OpenGLES.framework */,
 				53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */,
 				53851B611B57AADE00B6F946 /* HYDrawing */,
@@ -278,7 +286,7 @@
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
-				608042031B57BE1400B3AB52 /* HYDrawingViewController.mm */,
+				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
 				2D49062D1B7AE44600158F1C /* interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
@@ -528,13 +536,15 @@
 				537343A01B70868C00CDCC82 /* WDShader.m in Sources */,
 				2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */,
 				6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */,
+				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
+				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
-				608042041B57BE1400B3AB52 /* HYDrawingViewController.mm in Sources */,
+				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
 				537343911B70518400CDCC82 /* WDUtilities.m in Sources */,
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 				537343891B704FEF00CDCC82 /* WDColor.m in Sources */,

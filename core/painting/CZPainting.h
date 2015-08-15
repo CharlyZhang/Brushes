@@ -125,7 +125,11 @@ public:
     /// clear last brush
     void clearLastBrush(){ptrLastBrush = NULL;}
     
+    /// determine whether to prevent paint
     bool shouldPreventPaint();
+    
+    /// pick the color
+    CZColor pickColor(int x, int y);
     
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);
