@@ -54,8 +54,8 @@
 - (void) setLocked:(BOOL)locked ofLayer:(NSInteger)index;
 - (BOOL) isLockedofLayer:(NSInteger)index;
 - (void) setActiveLayerOpacity:(float)opacity;
-- (float) getActiveLayerOpacity;
-
+- (float) getOpacityOfLayer:(NSInteger)index;
+- (BOOL) clearLayer:(NSInteger)index;
 
 
 - (void)testRenderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
