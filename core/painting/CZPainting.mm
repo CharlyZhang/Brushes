@@ -582,6 +582,26 @@ CZColor CZPainting::pickColor(int x, int y)
         return CZColor::blackColor();
     }
     
+    glContext->setAsCurrent();
+    
+    fbo->setColorRenderBuffer(dimensions.width, dimensions.height);
+    
+    fbo->begin();
+    
+    // 用背景颜色清除缓存
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT );
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    
+    blit(projMat);
+    
+    CZColor ret = fbo->getColor(x, y);
+    
+    fbo->end();
+    
+    return ret;
 }
 
 /// 实现CZCoding接口

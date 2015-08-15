@@ -211,6 +211,44 @@ CZImage* CZFbo::produceImageForCurrentState()
     return ret;
 }
 
+CZColor CZFbo::getColor(int x,int y)
+{
+    CZColor ret;
+    unsigned char *bData = NULL;
+    float *fData = NULL;
+    switch(mode)
+    {
+        case RGB_BYTE:
+            bData = new unsigned char[3];
+            glReadPixels(x, y, 1, 1,GL_RGB, GL_UNSIGNED_BYTE,bData);
+            ret = CZColor(bData[0] / 255.0f, bData[1] / 255.0f, bData[2] / 255.0f,1.0f);
+            break;
+        case RGBA_BYTE:
+            bData = new unsigned char[4];
+            glReadPixels(x, y, 1, 1,GL_RGBA, GL_UNSIGNED_BYTE,bData);
+            ret = CZColor(bData[0] / 255.0f, bData[1] / 255.0f, bData[2] / 255.0f,1.0f);
+            break;
+        case RGB_FLOAT:
+            fData = new float[3];
+            glReadPixels(x, y, 1, 1,GL_RGB, GL_FLOAT,fData);
+            ret = CZColor(fData[0] / 255.0f, fData[1] / 255.0f, fData[2] / 255.0f,1.0f);
+            break;
+        case RGBA_FLOAT:
+            fData = new float[4];
+            glReadPixels(x, y, 1, 1,GL_RGBA, GL_FLOAT,fData);
+            ret = CZColor(fData[0] / 255.0f, fData[1] / 255.0f, fData[2] / 255.0f,fData[3] / 255.0f);
+            break;
+        default:
+            LOG_ERROR("illegal imgMode!\n");
+    }
+    
+    delete [] bData;
+    delete [] fData;
+    
+    return ret;
+
+}
+
 /// ¼ì²é×´Ì¬
 int CZFbo::checkFramebufferStatus()
 {

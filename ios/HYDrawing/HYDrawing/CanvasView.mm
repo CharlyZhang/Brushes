@@ -186,15 +186,11 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         [self drawView];
     }
     else if (activeState->colorPickMode) {
-        //        CZLayer *layer = self.ptrPainting->getActiveLayer();
-        //        CZColor color = activeState->getPaintColor();
-        //        CZ2DPoint location = CZ2DPoint(p.x,p.y);
-        //        layer->fill(color, location);
-        //        [self drawView];
-        WDColor *black = [WDColor blackColor];
-        CZColor black1 = CZColor::blackColor();
-        activeState->setPaintColor(black1);
-        NSDictionary *userInfo = @{@"pickedColor": black};
+        CZColor pickedColor = self.ptrPainting->pickColor(p.x, p.y);
+        
+        WDColor *pColor = [WDColor colorWithRed:pickedColor.red green:pickedColor.green blue:pickedColor.blue alpha:pickedColor.alpha];
+        activeState->setPaintColor(pickedColor);
+        NSDictionary *userInfo = @{@"pickedColor": pColor};
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }
     
