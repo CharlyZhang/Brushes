@@ -15,6 +15,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xrt-zt-Krd" userLabel="outline">
+                        <rect key="frame" x="46" y="17" width="144" height="90"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="144" id="a5q-dL-NVr"/>
+                            <constraint firstAttribute="height" constant="90" id="tHx-BC-4Tm"/>
+                        </constraints>
+                    </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0O-YL-gLe">
                         <rect key="frame" x="0.0" y="70" width="48" height="32"/>
                         <constraints>
@@ -62,8 +70,11 @@
                     <constraint firstAttribute="bottomMargin" secondItem="3D0-ZU-3Pk" secondAttribute="bottom" constant="19" id="P7y-HU-cC8"/>
                     <constraint firstItem="HI4-Im-6vr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="16" id="Pcg-C7-UwQ"/>
                     <constraint firstItem="HI4-Im-6vr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="abz-gB-7kb"/>
+                    <constraint firstItem="Xrt-zt-Krd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="9" id="dwf-dJ-86B"/>
                     <constraint firstItem="mdX-Ft-do1" firstAttribute="leading" secondItem="HI4-Im-6vr" secondAttribute="trailing" constant="-2" id="iEI-NL-cQh"/>
                     <constraint firstItem="y0O-YL-gLe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="iuF-CN-lhU"/>
+                    <constraint firstItem="Xrt-zt-Krd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="38" id="pWV-g7-MPU"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Xrt-zt-Krd" secondAttribute="trailing" constant="14" id="vJC-u1-g64"/>
                     <constraint firstAttribute="trailingMargin" secondItem="3D0-ZU-3Pk" secondAttribute="trailing" constant="5" id="wl9-lE-wsy"/>
                     <constraint firstAttribute="bottomMargin" secondItem="y0O-YL-gLe" secondAttribute="bottom" constant="13" id="y9J-lA-Sdp"/>
                 </constraints>
@@ -72,8 +83,10 @@
             <connections>
                 <outlet property="btnUnlock" destination="y0O-YL-gLe" id="ENQ-Gp-7Lr"/>
                 <outlet property="btnVisible" destination="HI4-Im-6vr" id="QtM-9N-eBJ"/>
-                <outlet property="outlineView" destination="mdX-Ft-do1" id="wYP-U8-OG1"/>
-                <outlet property="outlineWidthCons" destination="Pye-dH-6sf" id="F6N-to-4YI"/>
+                <outlet property="imgView" destination="mdX-Ft-do1" id="dXE-2l-I6W"/>
+                <outlet property="imgWidthCons" destination="Pye-dH-6sf" id="YvW-UP-gBe"/>
+                <outlet property="outlineView" destination="Xrt-zt-Krd" id="MBY-E9-8Kl"/>
+                <outlet property="outlineWidthCons" destination="a5q-dL-NVr" id="my8-ht-txe"/>
                 <outlet property="positionLabel" destination="3D0-ZU-3Pk" id="cch-a4-vwP"/>
             </connections>
             <point key="canvasLocation" x="272" y="209"/>

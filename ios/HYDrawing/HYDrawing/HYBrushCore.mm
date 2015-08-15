@@ -277,6 +277,7 @@
 {
     CZLayer *layer = painting->getActiveLayer();
     layer->setOpacity(opacity);
+    canvas->drawView();
 }
 - (float) getActiveLayerOpacity
 {

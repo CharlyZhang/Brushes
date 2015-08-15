@@ -5,7 +5,7 @@
 //  Created by macbook on 15/8/10.
 //  Copyright (c) 2015年 Founder. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
 #import "LayersCell.h"
 #import "Macro.h"
 
@@ -26,6 +26,7 @@
     self.backgroundColor = kCommenSkinColor;
     [self setOutlineViewBorderWithColor:kCommenCyanColor];
     self.outlineWidthCons.constant = 90*kScreenScale;
+    self.imgWidthCons.constant = 90*kScreenScale;
  
     NSLog(@"---%f",kScreenScale);
     self.outlineView.backgroundColor = kImageColor(@"layer_showimg_bg");
@@ -45,7 +46,6 @@
     UIView *view = (UIView *)[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"layer_cell_selected_bg"]];
     return view;
 }
-
 
 - (IBAction)setUnvisibleOr:(UIButton *)sender {
 

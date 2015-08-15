@@ -21,6 +21,7 @@
 @implementation ZXHLayersViewController
 {
     UITableView *_tbView;
+    UISlider *_alphaSlider;
     UILabel *_alphaLabel;
     ZXHLayerTopBar *_topToolBar;
     NSInteger _curLayerIndex;
@@ -211,6 +212,17 @@ static ZXHLayersViewController *layersController;
     _layersCount = [[HYBrushCore sharedInstance] getLayersNumber];
     
     cell.outlineView.backgroundColor = kImageColor(@"layer_showimg_bg");
+    
+    // 设置透明数值
+    [self setLayerAlphaInfo:[[HYBrushCore sharedInstance] getActiveLayerOpacity]];
+}
+
+#pragma mark 透明度属性
+-(void)setLayerAlphaInfo:(CGFloat)value{
+    _alphaSlider.value = value;
+    
+    value *= 100;
+    _alphaLabel.text = [NSString stringWithFormat:@"%ld%%",(NSInteger)value];
 }
 
 #pragma mark - 创建顶部工具栏
@@ -250,25 +262,25 @@ static ZXHLayersViewController *layersController;
     [self.view addSubview:bottomToolBar];
     
     // 滑动条
-    UISlider *alphaSlider = [[UISlider alloc]initWithFrame:CGRectMake(10, (44-10)/2, w-70, 10)];
-    alphaSlider.minimumValue = 0.0;
-    alphaSlider.maximumValue = 1.0;
-    alphaSlider.value = 1.0;
-    alphaSlider.layer.cornerRadius = 4;
-    alphaSlider.backgroundColor = kImageColor(@"slider_layer_track_bg");
-    alphaSlider.minimumTrackTintColor = [UIColor clearColor];
-    alphaSlider.maximumTrackTintColor = [UIColor clearColor];
-    [alphaSlider setThumbImage:kImage(@"slider_layer_thumb_bg") forState:0];
+    _alphaSlider = [[UISlider alloc]initWithFrame:CGRectMake(10, (44-10)/2, w-70, 10)];
+    _alphaSlider.minimumValue = 0.0;
+    _alphaSlider.maximumValue = 1.0;
+    _alphaSlider.layer.cornerRadius = 4;
+    _alphaSlider.backgroundColor = kImageColor(@"slider_layer_track_bg");
+    _alphaSlider.minimumTrackTintColor = [UIColor clearColor];
+    _alphaSlider.maximumTrackTintColor = [UIColor clearColor];
+    [_alphaSlider setThumbImage:kImage(@"slider_layer_thumb_bg") forState:0];
     
-    [alphaSlider addTarget:self action:@selector(changeLayerAlpha:) forControlEvents:UIControlEventValueChanged];
-    [bottomToolBar addSubview:alphaSlider];
+    [_alphaSlider addTarget:self action:@selector(changeLayerAlpha:) forControlEvents:UIControlEventValueChanged];
+    [bottomToolBar addSubview:_alphaSlider];
     
     // 数值文本
-    _alphaLabel = [[UILabel alloc]initWithFrame:CGRectMake(alphaSlider.bounds.size.width+20, (44-20)/2, 50, 20)];
+    _alphaLabel = [[UILabel alloc]initWithFrame:CGRectMake(_alphaSlider.bounds.size.width+20, (44-20)/2, 50, 20)];
     _alphaLabel.font = kFontSize(14);
-    _alphaLabel.text = @"100%";
     _alphaLabel.textColor = UIPopoverBorderColor;
     [bottomToolBar addSubview:_alphaLabel];
+    
+    [self setLayerAlphaInfo:[[HYBrushCore sharedInstance]getActiveLayerOpacity]];
 }
 // 返回当前cell
 -(LayersCell*)cellAtIndex:(NSInteger)index{
@@ -280,16 +292,13 @@ static ZXHLayersViewController *layersController;
 
 #pragma mark - 改变图层透明度
 -(void)changeLayerAlpha:(UISlider*)slider{
-    
-    NSInteger value = slider.value * 100;
-    _alphaLabel.text = [NSString stringWithFormat:@"%ld%%",value];
+    [self setLayerAlphaInfo:slider.value];
    
     // 设置图层透明度
+    [[HYBrushCore sharedInstance] setActiveLayerOpacity:slider.value];
     
-//    [HYBrushCore sharedInstance] set
     LayersCell *cell = [self cellAtIndex:_curLayerIndex];
-    UIImage *layerImage = [[HYBrushCore sharedInstance] getLayerThumbnailOfIndex:_curLayerIndex];
-    cell.outlineView.image = layerImage;
+    cell.imgView.alpha = slider.value;
 }
 
 #pragma mark 表格视图回调
@@ -317,13 +326,17 @@ static ZXHLayersViewController *layersController;
     }
     
     UIImage *layerImage = [[HYBrushCore sharedInstance] getLayerThumbnailOfIndex:indexPath.row];
-    cell.outlineView.image = layerImage;
+    cell.imgView.image = layerImage;
     
     if (!cell.selected) {
         [cell setOutlineViewBorderWithColor:kCommenCyanColor];
     }else{
         [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
     }
+    
+    // 获取某层的透明度 -- getOpacityOfLayer:
+    cell.imgView.alpha = [[HYBrushCore sharedInstance]getActiveLayerOpacity];
+    
     return cell;
 }
 

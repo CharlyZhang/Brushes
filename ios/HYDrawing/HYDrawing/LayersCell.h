@@ -15,7 +15,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *btnVisible;
 @property (weak, nonatomic) IBOutlet UIButton *btnUnlock;
-@property (weak, nonatomic) IBOutlet UIImageView *outlineView;
+@property (weak, nonatomic) IBOutlet UIView *outlineView;
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
 
 - (IBAction)setUnvisibleOr:(UIButton *)sender;
 - (IBAction)setLockOr:(UIButton *)sender;
@@ -27,4 +28,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *positionLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *outlineWidthCons;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imgWidthCons;
+
+// 透明度
+@property(nonatomic,assign)CGFloat opacity;
+
 @end
