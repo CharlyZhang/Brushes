@@ -16,6 +16,7 @@
 @interface ZXHLayersViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @property(nonatomic,copy)NSMutableArray *arrLayer;
+@property(nonatomic,assign)NSInteger layersCount;
 
 @end
 
@@ -26,7 +27,6 @@
     UILabel *_alphaLabel;
     ZXHLayerTopBar *_topToolBar;
     NSInteger _curLayerIndex;
-    NSInteger _layersCount;
     ZXHEditableTipsView *_tipsView;
 }
 
@@ -52,7 +52,8 @@
     [self selectRowAtIndexPath:_curLayerIndex];
 
     // 是否可以继续创建层
-    [self canContinueCreateLayer];
+    // 观察者
+    [self addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
 }
 
 #pragma mark UI
@@ -102,8 +103,15 @@
     [_tbView reloadData];
     
     [self selectRowAtIndexPath:_curLayerIndex];
-    
-    [self canContinueCreateLayer];
+
+//    [self canContinueCreateLayer];
+}
+
+#pragma mark - 观察者
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"layersCount"]) {
+        [self canContinueCreateLayer];
+    }
 }
 
 // 是否按钮可用

@@ -21,7 +21,7 @@
     return YES;
 }
 
-- (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview
+- (void)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview
 {
     
     subview.translatesAutoresizingMaskIntoConstraints = NO;
@@ -34,28 +34,27 @@
                             views:viewsDictionary];
     constraints = [constraints arrayByAddingObjectsFromArray:
                    [NSLayoutConstraint
-                    constraintsWithVisualFormat:@"V:|[subview]|"
+                    constraintsWithVisualFormat:@"V:|[subview]"
                     options:0
                     metrics:nil
                     views:viewsDictionary]];
     [superview addConstraints:constraints];
     
-    return constraints;
+    
 }
 
 
 -(void)viewDidLoad{
 
+    [super viewDidLoad];
+    
+    [self createNavBarButton];
+    
     _imageView = [[UIImageView alloc]init];
-    //_imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
+//    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
     [self.view addSubview:_imageView];
-    _imageView.image = _originalImg;
     _imageView.contentMode = UIViewContentModeCenter;
     [self constrainSubview:_imageView toMatchWithSuperview:self.view];
-
-    self.view.backgroundColor = [UIColor whiteColor];
-    _imageView.image = [UIImage imageNamed:@"new_canvas"];
-    [super viewDidLoad];
     
     if (_originalImg) {
         _imageView.image = _originalImg;
@@ -69,12 +68,22 @@
     }
 
     self.imageTransform = CGAffineTransformIdentity;
+
+    self.view.backgroundColor = [UIColor clearColor];
     
-    // 模拟导航栏
-    ZXHMockNavBar *navBar = [[ZXHMockNavBar alloc]initWithLeftBtnTitle:@"Cancel" title:@"插入图片" rightBtnTitle:@"Accept"];
-    [navBar.leftBtn addTarget:self action:@selector(backHome) forControlEvents:UIControlEventTouchUpInside];
-    [navBar.rightBtn addTarget:self action:@selector(toDrawingPage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:navBar];
+}
+
+#pragma mark 导航栏按钮
+-(void)createNavBarButton{
+    self.navigationController.navigationBar.translucent = YES;
+    
+    UIBarButtonItem *left = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backHome)];
+    self.navigationItem.leftBarButtonItem = left;
+    
+    self.navigationItem.title = @"插入图片";
+    
+    UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
+    self.navigationItem.rightBarButtonItem = right;
 }
 
 #pragma mark 图片的旋转、缩放、移动
@@ -147,14 +156,7 @@
 }
 
 -(void)dismissAnimation{
-    [UIView animateWithDuration:0.1 animations:^{
-        self.view.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-        // 显示导航栏
-        UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        nav.navigationBar.hidden = NO;
-    }];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 -(void)backHome{

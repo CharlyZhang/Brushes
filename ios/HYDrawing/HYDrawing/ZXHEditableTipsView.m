@@ -19,39 +19,45 @@ static ZXHEditableTipsView *tipsView;
         
         tipsView = [[NSBundle mainBundle]loadNibNamed:@"ZXHEditableTipsView" owner:self options:nil][0];
         tipsView.frame = CGRectMake(0, 0, kScreenH, kScreenW-bottomBarH);
-        tipsView.backgroundColor = [UIColor clearColor];
+        tipsView.alpha = 0;
+
         // 提示图片
-        tipsView.visibleView.alpha = 0;
-        tipsView.lockedView.alpha = 0;
+        tipsView.visibleView.hidden = NO;
+        tipsView.lockedView.hidden = NO;
     }
     
     return tipsView;
 }
-
 
 #pragma mark 手势
 -(void)showTips{
     // 显示提示
     NSLog(@"show");
     
+    if (_visible) {
+        self.visibleView.hidden = YES;
+    }else{
+        self.visibleView.hidden = NO;
+    }
+    
+    if (!_locked) {
+        self.lockedView.hidden = YES;
+    }else{
+        self.lockedView.hidden = NO;
+    }
+    
     if (!_visible || _locked) {
-        [UIView animateWithDuration:1 animations:^{
-            if (!_visible) {
-                self.visibleView.alpha = 1;
-            }
-            if (_locked) {
-                self.lockedView.alpha = 1;
-            }
+        [UIView animateWithDuration:0.05 animations:^{
+            self.alpha = 1;
         }];
-    }else if(_visible && !_locked){
-        [tipsView removeFromSuperview];
     }
 }
 
 -(void)dismissTips{
-    [UIView animateWithDuration:2 animations:^{
-        self.visibleView.alpha = 0;
-        self.lockedView.alpha = 0;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.alpha = 0;
+    } completion:^(BOOL finished) {
+        [tipsView removeFromSuperview];
     }];
 }
 
