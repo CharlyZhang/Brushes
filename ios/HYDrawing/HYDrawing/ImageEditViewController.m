@@ -48,10 +48,6 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-
-    [super viewDidLoad];
-    
-    [self createNavBarButton];
     
     _imageView = [[UIImageView alloc]init];
 //    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
@@ -82,18 +78,6 @@
     [self.view addSubview:navBar];
 }
 
-#pragma mark 导航栏按钮
--(void)createNavBarButton{
-    self.navigationController.navigationBar.translucent = YES;
-    
-    UIBarButtonItem *left = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backHome)];
-    self.navigationItem.leftBarButtonItem = left;
-    
-    self.navigationItem.title = @"插入图片";
-    
-    UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(toDrawingPage)];
-    self.navigationItem.rightBarButtonItem = right;
-}
 //
 //-(void)viewWillLayoutSubviews{
 //    NSLog(@"viewWillLayoutSubviews");

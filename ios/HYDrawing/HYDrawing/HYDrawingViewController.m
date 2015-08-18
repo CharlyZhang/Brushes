@@ -403,7 +403,6 @@ extern NSString *CZActivePaintColorDidChange;
         [self.view addSubview:imageEditViewController.view];
     }];
     
-//    [self constrainFullScreenSubview:nav.view toMatchWithSuperview:self.view];
     
 }
 
