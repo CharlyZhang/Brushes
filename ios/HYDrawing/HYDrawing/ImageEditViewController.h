@@ -8,19 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageEditViewController : UIViewController<UIGestureRecognizerDelegate,UINavigationBarDelegate>
+@interface ImageEditViewController : UIViewController<UIGestureRecognizerDelegate>
 
 @property(nonatomic, strong)UIImage *originalImg;
 @property(nonatomic, retain)UIImageView *imageView;
 
 
 /* 旋转 缩放 位置 */
-@property CGFloat angle;
-@property CGFloat scale;
-@property CGPoint position;
-
-// block
-@property(nonatomic,copy)void (^passInfo)(CGAffineTransform trans);
+//@property CGFloat angle;
+//@property CGFloat scale;
+//@property CGPoint position;
 
 @property(nonatomic,assign) CGAffineTransform imageTransform;
 

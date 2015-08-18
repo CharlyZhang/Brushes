@@ -18,7 +18,7 @@ static ZXHEditableTipsView *tipsView;
         CGFloat bottomBarH = 119;
         
         tipsView = [[NSBundle mainBundle]loadNibNamed:@"ZXHEditableTipsView" owner:self options:nil][0];
-        tipsView.frame = CGRectMake(0, 0, kScreenH, kScreenW-bottomBarH);
+        tipsView.frame = CGRectMake(0, 0, kScreenW, kScreenH-bottomBarH);
         tipsView.alpha = 0;
         // 提示图片
         tipsView.visibleView.hidden = NO;

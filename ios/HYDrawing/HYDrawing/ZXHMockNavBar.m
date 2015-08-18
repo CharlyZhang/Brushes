@@ -14,9 +14,11 @@
 -(instancetype)initWithFrame:(CGRect)frame WithLeftBtnTitle:(NSString *)leftTitle title:(NSString *)title rightBtnTitle:(NSString *)rightTitle{
     
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = kCommenSkinColor;
         CGFloat selfW = CGRectGetWidth(frame);
         CGFloat selfH = 64;
         CGFloat btnW = 60;
+        
         if (leftTitle) {
             UIButton *leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, (selfH-30)/2+10, btnW, 30)];
             leftBtn.backgroundColor = [UIColor whiteColor];

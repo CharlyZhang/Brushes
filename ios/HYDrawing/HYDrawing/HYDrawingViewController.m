@@ -27,6 +27,7 @@ extern NSString *CZActivePaintColorDidChange;
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
+                                           UIPopoverController *menuPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -69,10 +70,10 @@ extern NSString *CZActivePaintColorDidChange;
     [super viewWillAppear:animated];
     
     // 全透明背景
-    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-         self.navigationController.navigationBar.translucent = YES;
-    //    // 去掉分割线
-    //    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+     self.navigationController.navigationBar.translucent = YES;
+    // 去掉分割线
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
 }
 
@@ -125,8 +126,7 @@ extern NSString *CZActivePaintColorDidChange;
  
 #pragma mark 初始画板
 
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    [[HYBrushCore sharedInstance]initializeWithWidth:size.height height:size.width];
+    [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH];
     CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
@@ -160,24 +160,20 @@ extern NSString *CZActivePaintColorDidChange;
     menuNavigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     menuNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
-    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
+    menuPopoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
 
-    popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    menuPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     UIImage *image = [UIImage imageNamed:@"menu_popover_bg"];
     [DDPopoverBackgroundView setBackgroundImage:image];
     [DDPopoverBackgroundView setBackgroundImageCornerRadius:2.f];
     [DDPopoverBackgroundView setArrowBase:0];
     [DDPopoverBackgroundView setArrowHeight:2];
-    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-20)];
-    [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-20)];
+    [menuPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 #pragma mark 弹出相册图片选择
 - (void)tapPicture:(UIBarButtonItem*)sender{
-    if ([[HYBrushCore sharedInstance]getLayersNumber] == 10) {
-        sender.enabled = NO;
-        return;
-    }
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
@@ -356,18 +352,6 @@ extern NSString *CZActivePaintColorDidChange;
     bottomBarView.colorWheelButton.color = color;
 }
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
@@ -388,22 +372,14 @@ extern NSString *CZActivePaintColorDidChange;
     _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
     [picturePopoverController dismissPopoverAnimated:YES];
 
-    imageEditViewController = [[ImageEditViewController alloc]init];
-
+    imageEditViewController = [ImageEditViewController new];
     imageEditViewController.originalImg = _choosedImg;
     imageEditViewController.view.frame = self.view.frame;
     imageEditViewController.view.backgroundColor = [UIColor clearColor];
     // 隐藏导航栏
     self.navigationController.navigationBar.hidden = YES;
-    imageEditViewController.view.alpha = 0;
-    
-    [UIView animateWithDuration:1 animations:^{
-        imageEditViewController.view.alpha = 1;
-    } completion:^(BOOL finished) {
-        [self.view addSubview:imageEditViewController.view];
-    }];
-    
-    
+//    [self.view addSubview:imageEditViewController.view];
+    [self presentViewController:imageEditViewController animated:YES completion:nil];
 }
 
 
