@@ -20,4 +20,3 @@ void CZViewImpl::setPaiting(CZPainting* p) { [realView setPainting:(void*)p];}
 void CZViewImpl::draw() { [realView drawView];}
 
 
-

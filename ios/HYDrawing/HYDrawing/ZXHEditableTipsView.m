@@ -20,7 +20,6 @@ static ZXHEditableTipsView *tipsView;
         tipsView = [[NSBundle mainBundle]loadNibNamed:@"ZXHEditableTipsView" owner:self options:nil][0];
         tipsView.frame = CGRectMake(0, 0, kScreenH, kScreenW-bottomBarH);
         tipsView.alpha = 0;
-
         // 提示图片
         tipsView.visibleView.hidden = NO;
         tipsView.lockedView.hidden = NO;
@@ -32,7 +31,6 @@ static ZXHEditableTipsView *tipsView;
 #pragma mark 手势
 -(void)showTips{
     // 显示提示
-    NSLog(@"show");
     
     if (_visible) {
         self.visibleView.hidden = YES;
@@ -54,6 +52,7 @@ static ZXHEditableTipsView *tipsView;
 }
 
 -(void)dismissTips{
+
     [UIView animateWithDuration:0.3 animations:^{
         self.alpha = 0;
     } completion:^(BOOL finished) {

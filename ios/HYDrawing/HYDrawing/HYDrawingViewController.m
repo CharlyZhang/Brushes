@@ -122,8 +122,8 @@ extern NSString *CZActivePaintColorDidChange;
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
-    
-#pragma mark - 初始画板
+ 
+#pragma mark 初始画板
 
     CGSize size = [UIScreen mainScreen].bounds.size;
     [[HYBrushCore sharedInstance]initializeWithWidth:size.height height:size.width];
@@ -141,9 +141,9 @@ extern NSString *CZActivePaintColorDidChange;
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
 }
 
-//-(BOOL)shouldAutorotate{
-//    return NO;
-//}
+-(BOOL)shouldAutorotate{
+    return NO;
+}
 
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
 //    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
@@ -173,7 +173,11 @@ extern NSString *CZActivePaintColorDidChange;
 }
 
 #pragma mark 弹出相册图片选择
-- (void)tapPicture:(id)sender{
+- (void)tapPicture:(UIBarButtonItem*)sender{
+    if ([[HYBrushCore sharedInstance]getLayersNumber] == 10) {
+        sender.enabled = NO;
+        return;
+    }
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
@@ -382,13 +386,22 @@ extern NSString *CZActivePaintColorDidChange;
 #pragma mark - 选择相册图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
-    
     [picturePopoverController dismissPopoverAnimated:YES];
-    
+
     imageEditViewController = [[ImageEditViewController alloc]init];
+
     imageEditViewController.originalImg = _choosedImg;
+    imageEditViewController.view.frame = self.view.frame;
+    imageEditViewController.view.backgroundColor = [UIColor clearColor];
+    // 隐藏导航栏
+    self.navigationController.navigationBar.hidden = YES;
+    imageEditViewController.view.alpha = 0;
     
-    [self.navigationController pushViewController:imageEditViewController animated:NO];
+    [UIView animateWithDuration:1 animations:^{
+        imageEditViewController.view.alpha = 1;
+    } completion:^(BOOL finished) {
+        [self.view addSubview:imageEditViewController.view];
+    }];
     
 //    [self constrainFullScreenSubview:nav.view toMatchWithSuperview:self.view];
     
