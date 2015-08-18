@@ -15,6 +15,6 @@
 @property(nonatomic,retain)UIButton *leftBtn;
 @property(nonatomic,retain)UIButton *rightBtn;
 
--(instancetype)initWithFrame:(CGRect)frame WithLeftBtnTitle:(NSString *)leftTitle title:(NSString *)title rightBtnTitle:(NSString *)rightTitle;
+-(instancetype)initWithLeftBtnTitle:(NSString *)leftTitle title:(NSString *)title rightBtnTitle:(NSString *)rightTitle;
 
 @end

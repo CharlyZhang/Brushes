@@ -70,10 +70,10 @@ extern NSString *CZActivePaintColorDidChange;
     [super viewWillAppear:animated];
     
     // 全透明背景
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-     self.navigationController.navigationBar.translucent = YES;
-    // 去掉分割线
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//     self.navigationController.navigationBar.translucent = YES;
+//    // 去掉分割线
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
 }
 
@@ -378,8 +378,8 @@ extern NSString *CZActivePaintColorDidChange;
     imageEditViewController.view.backgroundColor = [UIColor clearColor];
     // 隐藏导航栏
     self.navigationController.navigationBar.hidden = YES;
-//    [self.view addSubview:imageEditViewController.view];
-    [self presentViewController:imageEditViewController animated:YES completion:nil];
+    [self.view addSubview:imageEditViewController.view];
+//    [self presentViewController:imageEditViewController animated:YES completion:nil];
 }
 
 
