@@ -24,12 +24,11 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="layer_lock" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-I0-sJy">
                             <rect key="frame" x="142" y="7" width="50" height="45"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="44" id="LTw-vp-FxA"/>
+                                <constraint firstAttribute="width" constant="50" id="LTw-vp-FxA"/>
                                 <constraint firstAttribute="height" constant="45" id="WBh-Xo-lwX"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="0.93725490199999995" green="0.64705882349999999" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -38,7 +37,6 @@
                 <constraint firstAttribute="centerY" secondItem="S4b-A7-xm2" secondAttribute="centerY" id="nqw-eG-SI1"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="lockedView" destination="rhd-I0-sJy" id="EF8-Y3-OsA"/>
                 <outlet property="visibleView" destination="xrT-Yy-LPc" id="Dhs-zH-5KT"/>
