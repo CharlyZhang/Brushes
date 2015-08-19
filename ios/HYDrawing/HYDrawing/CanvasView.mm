@@ -135,7 +135,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
             else                             [self.delegate showMessageView:kInvisibleAndLocked];
         }
         else {
-            [self.delegate dimissMessageView];
+            [self.delegate dismissMessageView];
         }
 
         return;

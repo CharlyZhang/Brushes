@@ -571,6 +571,7 @@ bool CZPainting::setCanvas(CZCanvas* c)
 bool CZPainting::shouldPreventPaint()
 {
     CZLayer *layer = getActiveLayer();
+//    printf("isLocked:%d isVisible:%d",layer->isLocked(),layer->isVisible());
     return layer->isLocked() || !layer->isVisible();
 }
 

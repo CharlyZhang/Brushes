@@ -178,6 +178,7 @@
     CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
     CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
     CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((paintingSize.width/2.0), (paintingSize.height/2.0));
+//    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((width/2.0), (height/2.0));
     
     CZAffineTransform trans = CZAffineTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
     
@@ -278,6 +279,7 @@
 }
 - (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index
 {
+//    NSLog(@"set locked %d",locked);
     int layersNum = painting->getLayersNumber();
     
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));

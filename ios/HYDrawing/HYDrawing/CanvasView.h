@@ -21,7 +21,7 @@ typedef enum ShowingMessageType {
 
 @required
 - (void) showMessageView:(ShowingMessageType)msgType;
-- (void) dimissMessageView;
+- (void) dismissMessageView;
 
 @end
 

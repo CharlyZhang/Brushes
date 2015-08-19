@@ -11,32 +11,49 @@
 #import "LayersCell.h"
 #import "ZXHLayerTopBar.h"
 #import "HYBrushCore.h"
+#import "ZXHEditableTipsView.h"
 
 @interface ZXHLayersViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @property(nonatomic,copy)NSMutableArray *arrLayer;
+@property(nonatomic,assign)NSInteger layersCount;
 
 @end
 
 @implementation ZXHLayersViewController
 {
     UITableView *_tbView;
+    UISlider *_alphaSlider;
     UILabel *_alphaLabel;
     ZXHLayerTopBar *_topToolBar;
     NSInteger _curLayerIndex;
+    ZXHEditableTipsView *_tipsView;
 }
+
+#pragma mark 不可见、锁定提示
+-(void)showEditableTipsView{
+    if (!_tipsView) {
+        _tipsView = [[ZXHEditableTipsView alloc]initWithFrame:self.view.frame];
+        [self.view addSubview:_tipsView];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 数据源数组 - 可变数组最后一个必须为 'nil'
-    _arrLayer = [[NSMutableArray alloc]initWithObjects:@(0),@(1),@(2),@(3),@(4),@(5),nil];
-    _curLayerIndex = 0;
+    // 层数
+    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     
     // 初始化UI
     [self createUI];
     
-    // 监听图层状态
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(layerLockNotify:) name:@"LayerLockNotification" object:nil];
+    // 设置当前选中图层
+    _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
+    [self selectRowAtIndexPath:_curLayerIndex];
+
+    // 是否可以继续创建层
+    // 观察者
+    [self addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
 }
 
 #pragma mark UI
@@ -57,24 +74,19 @@
 }
 
 #pragma mark 图层操作
-// 消息 - 锁定
--(void)layerLockNotify:(NSNotification*)noti{
-    if (![noti.object boolValue]) {
-        // 锁了
-        _topToolBar.btnDelete.enabled = NO;
-    }else{
-        _topToolBar.btnDelete.enabled = YES;
-    }
-}
 
 // 删除
 -(void)deleteLayer:(UIButton*)btn{
-    if (_arrLayer.count == 1) {
+    if (_layersCount == 1) {
+        LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        // 清除画布
+        cell.imgView.image = nil;
+        [[HYBrushCore sharedInstance]clearLayer:0];
         return;
     }
     
     // 选中下一行
-    if (_curLayerIndex == _arrLayer.count-1) {
+    if (_curLayerIndex == _layersCount-1) {
         _curLayerIndex --;
         if (_curLayerIndex < 0) {
             return;
@@ -82,19 +94,84 @@
     }
     
     // 删除选中行
-    [_arrLayer removeObjectAtIndex:_curLayerIndex];
+    [[HYBrushCore sharedInstance] deleteActiveLayer];
+    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
     
+    [_tbView reloadData];
+    
     [self selectRowAtIndexPath:_curLayerIndex];
-//    NSLog(@"行： %ld",_curLayerIndex);
+
+//    [self canContinueCreateLayer];
 }
+
+#pragma mark - 观察者
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"layersCount"]) {
+        [self canContinueCreateLayer];
+    }
+}
+
+// 是否按钮可用
+-(BOOL)canContinueCreateLayer{
+    if (_layersCount == 10) {
+        _topToolBar.btnCopy.enabled = NO;
+        _topToolBar.btnAdd.enabled = NO;
+        return NO;
+    }else{
+        _topToolBar.btnCopy.enabled = YES;
+        _topToolBar.btnAdd.enabled = YES;
+        return YES;
+    }
+    return YES;
+}
+
+// 拷贝
+-(void)copyLayer:(UIButton*)btn{
+    if ([self canContinueCreateLayer]) {
+        // 复制图层
+        [[HYBrushCore sharedInstance] duplicateActiveLayer];
+        [self createNewLayer];
+    }
+}
+
+-(void)createNewLayer{
+    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    
+    // 插入行
+    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
+    [_tbView insertRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
+    NSMutableArray *arr = [NSMutableArray new];
+    for (NSInteger i=0; i<_layersCount; i++) {
+        NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
+        [arr addObject:index];
+    }
+    
+    [_tbView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationAutomatic];
+
+    [_tbView reloadData];
+    
+    // 选中
+    [self selectRowAtIndexPath:_curLayerIndex];
+}
+
+// 添加
+-(void)addLayer:(UIButton*)btn{
+    if ([self canContinueCreateLayer]) {
+        // 添加图层
+        [[HYBrushCore sharedInstance] addNewLayer];
+        [self createNewLayer];
+    }
+}
+
 
 // ++++ 选中某行并设置样式
 -(void)selectRowAtIndexPath:(NSInteger)index{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [_tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-//    NSLog(@"行-： %ld",index);
+    [_tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     
     // 设置样式
     LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:indexPath];
@@ -102,43 +179,32 @@
     cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"layer_cell_selected_bg"]];
     
     // 是否可编辑
-    if (!cell.isUnlocked) {
+    BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:index];
+    if (locked) {
         _topToolBar.btnDelete.enabled = NO;
     }else{
         _topToolBar.btnDelete.enabled = YES;
     }
     
     // 设置选中层
-    [[HYBrushCore sharedInstance] setActiveLayer:indexPath.row];
+    [[HYBrushCore sharedInstance] setActiveLayer:cell.rowIndex];
+//    NSLog(@"getActiveLayer: %ld",[[HYBrushCore sharedInstance] getActiveLayerIndex]);
+    
+    // 层数
+    _layersCount = [[HYBrushCore sharedInstance] getLayersNumber];
+    
+    cell.outlineView.backgroundColor = kImageColor(@"layer_showimg_bg");
+    
+    // 设置透明数值
+    [self setLayerAlphaInfo:[[HYBrushCore sharedInstance] getOpacityOfLayer:_curLayerIndex]];
 }
 
-// 合并
--(void)mergeLayer:(UIButton*)btn{
+#pragma mark 透明度属性
+-(void)setLayerAlphaInfo:(CGFloat)value{
+    _alphaSlider.value = value;
     
-}
-
-// 拷贝
--(void)copyLayer:(UIButton*)btn{
-    
-}
-
-// 添加
--(void)addLayer:(UIButton*)btn{
-    if ([[HYBrushCore sharedInstance] getLayersNumber] == 10) {
-        _topToolBar.btnCopy.enabled = NO;
-        _topToolBar.btnAdd.enabled = NO;
-        return;
-    }
-    
-    // 添加图层
-    [[HYBrushCore sharedInstance] addNewLayer];
-    
-    // 插入行
-    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
-    [_tbView insertRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
-    
-    // 选中
-    [self selectRowAtIndexPath:_curLayerIndex];
+    value *= 100;
+    _alphaLabel.text = [NSString stringWithFormat:@"%ld%%",(NSInteger)value];
 }
 
 #pragma mark - 创建顶部工具栏
@@ -169,8 +235,6 @@
     // 可编辑状态
     _tbView.editing = YES;
     _tbView.allowsSelectionDuringEditing = YES;
-    // 默认选中第一行;
-    [self selectRowAtIndexPath:0];
 }
 
 #pragma mark - 创建底部工具栏
@@ -180,64 +244,122 @@
     [self.view addSubview:bottomToolBar];
     
     // 滑动条
-    UISlider *alphaSlider = [[UISlider alloc]initWithFrame:CGRectMake(10, (44-10)/2, w-70, 10)];
-    alphaSlider.minimumValue = 0.0;
-    alphaSlider.maximumValue = 1.0;
-    alphaSlider.value = 1.0;
-    alphaSlider.layer.cornerRadius = 4;
-    alphaSlider.backgroundColor = kImageColor(@"slider_layer_track_bg");
-    alphaSlider.minimumTrackTintColor = [UIColor clearColor];
-    alphaSlider.maximumTrackTintColor = [UIColor clearColor];
-    [alphaSlider setThumbImage:kImage(@"slider_layer_thumb_bg") forState:0];
+    _alphaSlider = [[UISlider alloc]initWithFrame:CGRectMake(10, (44-10)/2, w-70, 10)];
+    _alphaSlider.minimumValue = 0.0;
+    _alphaSlider.maximumValue = 1.0;
+    _alphaSlider.layer.cornerRadius = 4;
+    _alphaSlider.backgroundColor = kImageColor(@"slider_layer_track_bg");
+    _alphaSlider.minimumTrackTintColor = [UIColor clearColor];
+    _alphaSlider.maximumTrackTintColor = [UIColor clearColor];
+    [_alphaSlider setThumbImage:kImage(@"slider_layer_thumb_bg") forState:0];
     
-    [alphaSlider addTarget:self action:@selector(changeLayerAlpha:) forControlEvents:UIControlEventValueChanged];
-    [bottomToolBar addSubview:alphaSlider];
+    [_alphaSlider addTarget:self action:@selector(changeLayerAlpha:) forControlEvents:UIControlEventValueChanged];
+    [bottomToolBar addSubview:_alphaSlider];
     
     // 数值文本
-    _alphaLabel = [[UILabel alloc]initWithFrame:CGRectMake(alphaSlider.bounds.size.width+20, (44-20)/2, 50, 20)];
+    _alphaLabel = [[UILabel alloc]initWithFrame:CGRectMake(_alphaSlider.bounds.size.width+20, (44-20)/2, 50, 20)];
     _alphaLabel.font = kFontSize(14);
-    _alphaLabel.text = @"100%";
     _alphaLabel.textColor = UIPopoverBorderColor;
     [bottomToolBar addSubview:_alphaLabel];
+    
+    [self setLayerAlphaInfo:[[HYBrushCore sharedInstance]getOpacityOfLayer:_curLayerIndex]];
 }
-
+// 返回当前cell
+-(LayersCell*)cellAtIndex:(NSInteger)index{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    LayersCell *cell = (LayersCell*)[_tbView cellForRowAtIndexPath:indexPath];
+    
+    return cell;
+}
 
 #pragma mark - 改变图层透明度
 -(void)changeLayerAlpha:(UISlider*)slider{
-    NSInteger value = slider.value * 100;
-    _alphaLabel.text = [NSString stringWithFormat:@"%ld%%",value];
+    [self setLayerAlphaInfo:slider.value];
+   
+    // 设置图层透明度
+    [[HYBrushCore sharedInstance] setActiveLayerOpacity:slider.value];
+    
+    LayersCell *cell = [self cellAtIndex:_curLayerIndex];
+    cell.imgView.alpha = slider.value;
 }
 
 #pragma mark 表格视图回调
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[HYBrushCore sharedInstance] getLayersNumber];
+    return _layersCount;
 }
 
-// 复用
+#pragma mark - 复用
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     LayersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LayersCellId"];
+    cell.rowIndex = indexPath.row;
+    cell.positionLabel.text = [NSString stringWithFormat:@"%ld",_layersCount-cell.rowIndex];
+    
+    // 设置锁定、显示图片
+    [self setLayerVisibleAndLockingOfCell:cell];
+    
     UIImage *layerImage = [[HYBrushCore sharedInstance] getLayerThumbnailOfIndex:indexPath.row];
-    cell.outlineView.image = layerImage;
+    cell.imgView.image = layerImage;
     
     if (!cell.selected) {
         [cell setOutlineViewBorderWithColor:kCommenCyanColor];
     }else{
         [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
     }
+    
+    // 获取某层的透明度 -- getOpacityOfLayer:
+    cell.imgView.alpha = [[HYBrushCore sharedInstance]getOpacityOfLayer:cell.rowIndex];
+    
     return cell;
+}
+
+// 设置锁定和选中
+-(void)setLayerVisibleAndLockingOfCell:(LayersCell*)cell{
+    // 设置图层的锁定,显示
+    cell.changeLocked = ^(BOOL locked,NSInteger index){
+        
+        if (locked && index==_curLayerIndex) {
+            // 锁了
+            _topToolBar.btnDelete.enabled = NO;
+        }else{
+            _topToolBar.btnDelete.enabled = YES;
+        }
+        
+        // 锁定图层
+        [[HYBrushCore sharedInstance]setLocked:locked ofLayer:index];
+    };
+    
+    cell.changeVisible = ^(BOOL visible,NSInteger index){
+        
+        if (!visible && index==_curLayerIndex) {
+            // 不可见
+        }else{
+            
+        }
+        
+        [[HYBrushCore sharedInstance]setVisibility:visible ofLayer:index];
+    };
+    
+    BOOL visible = [[HYBrushCore sharedInstance]isVisibleOfLayer:cell.rowIndex];
+    BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:cell.rowIndex];
+    cell.isVisible = visible;
+    cell.isLocked = locked;
+    
+    if (!visible) {
+        [cell.btnVisible setImage:[UIImage imageNamed:@"layer_invisible"] forState:0];
+    }else{
+        [cell.btnVisible setImage:[UIImage imageNamed:@"layer_visible"] forState:0];
+    }
+    
+    if (locked) {
+        [cell.btnUnlock setImage:[UIImage imageNamed:@"layer_lock"] forState:0];
+    }else{
+        [cell.btnUnlock setImage:[UIImage imageNamed:@"layer_unlock"] forState:0];
+    }
 }
 
 // 选中cell
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _curLayerIndex = indexPath.row;
-    
-    LayersCell *cell = (LayersCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
-    if (!cell.isUnlocked) {
-        _topToolBar.btnDelete.enabled = NO;
-    }else{
-        _topToolBar.btnDelete.enabled = YES;
-    }
     
     [self selectRowAtIndexPath:indexPath.row];
 }
@@ -267,10 +389,23 @@
 }
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
-    NSLog(@"move");
+    LayersCell *cell1 = (LayersCell *)[tableView cellForRowAtIndexPath:sourceIndexPath];
+    LayersCell *cell2 = (LayersCell *)[tableView cellForRowAtIndexPath:destinationIndexPath];
+    
+    NSLog(@"after: %ld",destinationIndexPath.row);
     NSInteger fromRow = sourceIndexPath.row;
     NSInteger toRow = destinationIndexPath.row;
+    
+    cell1.rowIndex = toRow;
+    cell2.rowIndex = fromRow;
     // 改变数据源内容
     [[HYBrushCore sharedInstance]moveLayerFrom:fromRow to:toRow];
+    
+    [_tbView reloadData];
+    if (cell1.selected) {
+        [self selectRowAtIndexPath:toRow];
+    }else{
+        [self selectRowAtIndexPath:_curLayerIndex];
+    }
 }
 @end

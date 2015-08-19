@@ -40,6 +40,8 @@
 		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
 		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
+		5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */; };
+		53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */; };
 		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
 		53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC931B787E5F006D11EF /* LayersCell.m */; };
 		53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC941B787E5F006D11EF /* LayersCell.xib */; };
@@ -150,6 +152,9 @@
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
 		53851B931B5899F600B6F946 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
+		5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHEditableTipsView.xib; sourceTree = "<group>"; };
+		53B0CC7B1B7DEE26000AD907 /* ZXHEditableTipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHEditableTipsView.h; sourceTree = "<group>"; };
+		53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHEditableTipsView.m; sourceTree = "<group>"; };
 		53BBAC8B1B785177006D11EF /* ZXHLayersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayersViewController.h; sourceTree = "<group>"; };
 		53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayersViewController.m; sourceTree = "<group>"; };
 		53BBAC921B787E5F006D11EF /* LayersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersCell.h; sourceTree = "<group>"; };
@@ -354,6 +359,9 @@
 				535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */,
 				5353072A1B7C960500877D76 /* ZXHMockNavBar.h */,
 				5353072B1B7C960500877D76 /* ZXHMockNavBar.m */,
+				53B0CC7B1B7DEE26000AD907 /* ZXHEditableTipsView.h */,
+				53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */,
+				5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -497,6 +505,7 @@
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
 				53D5907E1B5E02CA00E9D2F0 /* blit.vert in Resources */,
 				53D5907F1B5E02CA00E9D2F0 /* blitWithEraseMask.frag in Resources */,
+				5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */,
 				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
 				53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */,
@@ -541,6 +550,7 @@
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
+				53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */,
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
