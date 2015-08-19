@@ -17,17 +17,20 @@
 #import "ZXHLayersViewController.h"
 #import "ZXHEditableTipsView.h"
 #import "CanvasView.h"
+#import "CliperView.h"
 
 extern NSString *CZActivePaintColorDidChange;
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,
-                                       CanvasViewDelegate > {
+@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,CliperMenuViewDelegate>
+{
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
-                                           UIPopoverController *menuPopoverController;
+    UIPopoverController *menuPopoverController;
+    ZXHLayersViewController *_layersViewController;
+    UIBarButtonItem *pictureItem;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -119,7 +122,7 @@ extern NSString *CZActivePaintColorDidChange;
     
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
-    UIBarButtonItem *pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
+    pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
@@ -139,6 +142,17 @@ extern NSString *CZActivePaintColorDidChange;
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
+}
+
+#pragma mark 设置barItem是否可用
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"layersCount"]) {
+        if (_layersViewController.layersCount == 10) {
+            pictureItem.enabled = NO;
+        }else{
+            pictureItem.enabled = YES;
+        }
+    }
 }
 
 -(BOOL)shouldAutorotate{
@@ -282,7 +296,7 @@ extern NSString *CZActivePaintColorDidChange;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - BottomBarViewDelegate Methods
+#pragma mark - 底部工具栏按钮
 
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
     switch (button.tag) {
@@ -307,18 +321,28 @@ extern NSString *CZActivePaintColorDidChange;
         case LAYERS_BTN:
             [self showLayerPopoverController:button];
             break;
+        case CLIP_BTN:
+        {
+            [self showCliperView];
+        }
+            break;
         default:
             break;
     }
 }
 
+#pragma mark 显示裁剪视图
+-(void)showCliperView{
+    CliperView *cliper = [[CliperView alloc]initWithFrame:self.view.frame];
+    [self.view addSubview:cliper];
+}
 
 #pragma mark 图层弹出视图
 -(void)showLayerPopoverController:(UIButton*)sender{
 //    NSLog(@"hello-----");
-    ZXHLayersViewController *layersViewController = [ZXHLayersViewController new];
+    _layersViewController = [ZXHLayersViewController new];
     
-    layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
+    layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
     layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     [DDPopoverBackgroundView setContentInset:2];
     
@@ -334,6 +358,9 @@ extern NSString *CZActivePaintColorDidChange;
     popRect.origin.y -= 50;
     
     [layersPopoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    
+#pragma mark 观察当前图层数量
+    [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 #pragma mark - WDColorPickerControllerDelegate Methods

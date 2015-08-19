@@ -10,6 +10,5 @@
 
 @interface HYDrawingViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIPopoverControllerDelegate>
 
-@property(nonatomic,assign)NSInteger layersCount;
 
 @end

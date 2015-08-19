@@ -11,7 +11,6 @@
 @interface ZXHLayerTopBar : UIView
 
 @property (weak, nonatomic) IBOutlet UIButton *btnDelete;
-@property (weak, nonatomic) IBOutlet UIButton *btnMerge;
 @property (weak, nonatomic) IBOutlet UIButton *btnCopy;
 @property (weak, nonatomic) IBOutlet UIButton *btnAdd;
 

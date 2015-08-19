@@ -165,8 +165,7 @@
 
 
 -(void)panImageing:(UIPanGestureRecognizer*)pan{
-    
-    
+
     
     if (pan.state == UIGestureRecognizerStateChanged) {
         
@@ -175,8 +174,6 @@
         [pan setTranslation:CGPointZero inView:self.view];
         
         self.imageView.center = CGPointMake(self.imageView.center.x+loc.x, self.imageView.center.y+loc.y);
-        
-        
         
         CGAffineTransform tX = CGAffineTransformIdentity;
         
@@ -275,8 +272,6 @@
     }
     
 }
-
-
 
 #pragma mark 编辑完成
 

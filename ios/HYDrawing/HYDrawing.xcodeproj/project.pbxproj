@@ -45,6 +45,11 @@
 		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
 		53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC931B787E5F006D11EF /* LayersCell.m */; };
 		53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC941B787E5F006D11EF /* LayersCell.xib */; };
+		53BF592C1B842E25007C3089 /* CliperMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59251B842E25007C3089 /* CliperMenuView.m */; };
+		53BF592D1B842E25007C3089 /* CliperMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59261B842E25007C3089 /* CliperMenuView.xib */; };
+		53BF592E1B842E25007C3089 /* CliperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59281B842E25007C3089 /* CliperView.m */; };
+		53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF592A1B842E25007C3089 /* ClipRegionView.m */; };
+		53BF59301B842E25007C3089 /* ClipRegionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BF592B1B842E25007C3089 /* ClipRegionView.xib */; };
 		53D22D011B74996F00C65D88 /* blit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 53D22D001B74996F00C65D88 /* blit.vsh */; };
 		53D5906A1B5E023200E9D2F0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D590691B5E023200E9D2F0 /* OpenGLES.framework */; };
 		53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53D5906C1B5E02CA00E9D2F0 /* basic.vert */; };
@@ -160,6 +165,14 @@
 		53BBAC921B787E5F006D11EF /* LayersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersCell.h; sourceTree = "<group>"; };
 		53BBAC931B787E5F006D11EF /* LayersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayersCell.m; sourceTree = "<group>"; };
 		53BBAC941B787E5F006D11EF /* LayersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LayersCell.xib; sourceTree = "<group>"; };
+		53BF59241B842E25007C3089 /* CliperMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CliperMenuView.h; sourceTree = "<group>"; };
+		53BF59251B842E25007C3089 /* CliperMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CliperMenuView.m; sourceTree = "<group>"; };
+		53BF59261B842E25007C3089 /* CliperMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CliperMenuView.xib; sourceTree = "<group>"; };
+		53BF59271B842E25007C3089 /* CliperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CliperView.h; sourceTree = "<group>"; };
+		53BF59281B842E25007C3089 /* CliperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CliperView.m; sourceTree = "<group>"; };
+		53BF59291B842E25007C3089 /* ClipRegionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClipRegionView.h; sourceTree = "<group>"; };
+		53BF592A1B842E25007C3089 /* ClipRegionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipRegionView.m; sourceTree = "<group>"; };
+		53BF592B1B842E25007C3089 /* ClipRegionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClipRegionView.xib; sourceTree = "<group>"; };
 		53D22D001B74996F00C65D88 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
 		53D590691B5E023200E9D2F0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		53D5906C1B5E02CA00E9D2F0 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../core/glsl/basic.vert; sourceTree = "<group>"; };
@@ -348,6 +361,7 @@
 		53851BA21B5CA0F200B6F946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				53BF59211B842E10007C3089 /* 图片裁剪 */,
 				535DA0E31B6F808D00E117FF /* ColorPicker */,
 				53851B931B5899F600B6F946 /* BottomBarView.h */,
 				53851B941B5899F600B6F946 /* BottomBarView.m */,
@@ -364,6 +378,21 @@
 				5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		53BF59211B842E10007C3089 /* 图片裁剪 */ = {
+			isa = PBXGroup;
+			children = (
+				53BF59241B842E25007C3089 /* CliperMenuView.h */,
+				53BF59251B842E25007C3089 /* CliperMenuView.m */,
+				53BF59261B842E25007C3089 /* CliperMenuView.xib */,
+				53BF59271B842E25007C3089 /* CliperView.h */,
+				53BF59281B842E25007C3089 /* CliperView.m */,
+				53BF59291B842E25007C3089 /* ClipRegionView.h */,
+				53BF592A1B842E25007C3089 /* ClipRegionView.m */,
+				53BF592B1B842E25007C3089 /* ClipRegionView.xib */,
+			);
+			name = "图片裁剪";
 			sourceTree = "<group>";
 		};
 		53D5906B1B5E025A00E9D2F0 /* Shader */ = {
@@ -500,6 +529,7 @@
 				53D5907D1B5E02CA00E9D2F0 /* blit.frag in Resources */,
 				53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */,
 				53D22D011B74996F00C65D88 /* blit.vsh in Resources */,
+				53BF59301B842E25007C3089 /* ClipRegionView.xib in Resources */,
 				53D590841B5E02CA00E9D2F0 /* compositeWithMask.frag in Resources */,
 				535306F11B7C326D00877D76 /* Images.xcassets in Resources */,
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
@@ -509,6 +539,7 @@
 				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
 				53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */,
+				53BF592D1B842E25007C3089 /* CliperMenuView.xib in Resources */,
 				53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */,
 				53D590801B5E02CA00E9D2F0 /* blitWithMask.frag in Resources */,
 				53D5907C1B5E02CA00E9D2F0 /* basicWithCoord.vert in Resources */,
@@ -544,17 +575,20 @@
 				537343971B7054F000CDCC82 /* WDDragChip.m in Sources */,
 				537343A01B70868C00CDCC82 /* WDShader.m in Sources */,
 				2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */,
+				53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */,
 				6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */,
 				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
+				53BF592E1B842E25007C3089 /* CliperView.m in Sources */,
 				53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */,
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
+				53BF592C1B842E25007C3089 /* CliperMenuView.m in Sources */,
 				537343911B70518400CDCC82 /* WDUtilities.m in Sources */,
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 				537343891B704FEF00CDCC82 /* WDColor.m in Sources */,
