@@ -38,4 +38,14 @@
 #define kCommenCyanColor kColor(127,219,219,1)
 
 
+#define kSystemVersion [[[UIDevice currentDevice] systemVersion] integerValue]
+
+// 屏幕宽高
+#define kSysW [UIScreen mainScreen].bounds.size.width
+#define kSysH [UIScreen mainScreen].bounds.size.height
+
+#define kScreenW (kSystemVersion<=7.0 ? kSysH : kSysW)
+#define kScreenH (kSystemVersion<=7.0 ? kSysW : kSysH)
+
+
 #endif
