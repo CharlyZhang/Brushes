@@ -18,10 +18,11 @@
 #import "ZXHEditableTipsView.h"
 #import "CanvasView.h"
 #import "CliperView.h"
+#import "ZXHShapeBoxController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,CliperMenuViewDelegate>
+@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate>
 {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
@@ -31,6 +32,8 @@ extern NSString *CZActivePaintColorDidChange;
     UIPopoverController *menuPopoverController;
     ZXHLayersViewController *_layersViewController;
     UIBarButtonItem *pictureItem;
+    ZXHShapeBoxController *_shapeBoxController;
+    UIPopoverController *_shapeBoxPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -322,13 +325,54 @@ extern NSString *CZActivePaintColorDidChange;
             [self showLayerPopoverController:button];
             break;
         case CLIP_BTN:
-        {
             [self showCliperView];
-        }
+            break;
+        case CANVAS_BTN:
+            [self showShapeBoxPopoverController:button];
             break;
         default:
             break;
     }
+    
+    
+}
+
+#pragma mark 形状选择弹出
+
+// 代理方法
+-(void)didSelectedShape:(UIImage*)img{
+    [_shapeBoxPopoverController dismissPopoverAnimated:YES];
+    [self showImageEditViewWithImage:img];
+//    [[HYBrushCore sharedInstance]renderImage:img withTransform:CGAffineTransformIdentity];
+}
+
+-(void)showShapeBoxPopoverController:(UIButton*)sender{
+    UIImage *image = [UIImage imageNamed:@"popover_shapebox_bg"];
+    if (!_shapeBoxController) {
+        _shapeBoxController = [[ZXHShapeBoxController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
+        _shapeBoxController.delegate = self;
+    }
+    
+    if (!_shapeBoxPopoverController) {
+        _shapeBoxPopoverController = [[UIPopoverController alloc]initWithContentViewController:_shapeBoxController];
+    }
+    
+    _shapeBoxPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+//    [DDPopoverBackgroundView setContentInset:2];
+//    
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.x += popRect.size.width;
+    
+    [_shapeBoxPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    
+    UIButton *imgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *img = [UIImage imageNamed:@"shapebox_btn_img_normal"];
+    imgBtn.frame = CGRectMake(20, 20, img.size.width, img.size.height);
+    [imgBtn setImage:img forState:UIControlStateNormal];
+    [_shapeBoxController.view addSubview:imgBtn];
 }
 
 #pragma mark 显示裁剪视图
@@ -337,12 +381,19 @@ extern NSString *CZActivePaintColorDidChange;
     [self.view addSubview:cliper];
 }
 
+
+
 #pragma mark 图层弹出视图
 -(void)showLayerPopoverController:(UIButton*)sender{
 //    NSLog(@"hello-----");
-    _layersViewController = [ZXHLayersViewController new];
+    if (!_layersViewController) {
+         _layersViewController = [ZXHLayersViewController new];
+    }
     
-    layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
+    if (!layersPopoverController) {
+        layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
+    }
+    
     layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     [DDPopoverBackgroundView setContentInset:2];
     
@@ -396,19 +447,23 @@ extern NSString *CZActivePaintColorDidChange;
 
 #pragma mark - 选择相册图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
     [picturePopoverController dismissPopoverAnimated:YES];
 
+    [self showImageEditViewWithImage:info[@"UIImagePickerControllerOriginalImage"]];
+    
+//    [self presentViewController:imageEditViewController animated:YES completion:nil];
+}
+
+#pragma mark 图像变换
+-(void)showImageEditViewWithImage:(UIImage*)img{
     imageEditViewController = [ImageEditViewController new];
-    imageEditViewController.originalImg = _choosedImg;
+    imageEditViewController.originalImg = img;
     imageEditViewController.view.frame = self.view.frame;
     imageEditViewController.view.backgroundColor = [UIColor clearColor];
     // 隐藏导航栏
     self.navigationController.navigationBar.hidden = YES;
     [self.view addSubview:imageEditViewController.view];
-//    [self presentViewController:imageEditViewController animated:YES completion:nil];
 }
-
 
 
 #pragma mark - Copied directly

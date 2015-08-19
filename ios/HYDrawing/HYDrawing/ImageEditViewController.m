@@ -94,9 +94,9 @@
     
     
     
-    _imageView = [[UIImageView alloc]init];
-    
-    //_imageView.frame = CGRectMake(0, 0, _originalImg.size.width/2, _originalImg.size.height/2);
+    _imageView = [[UIImageView alloc]initWithImage:_originalImg];
+//    _imageView.image = _originalImg;
+//    _imageView.frame = CGRectMake(0, 0, _originalImg.size.width, _originalImg.size.height);
     
     [self.view addSubview:_imageView];
     
@@ -112,7 +112,7 @@
     
     if (_originalImg) {
         
-        _imageView.image = _originalImg;
+        
         
         
         

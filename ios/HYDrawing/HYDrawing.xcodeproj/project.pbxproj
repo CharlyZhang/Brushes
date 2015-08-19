@@ -50,6 +50,17 @@
 		53BF592E1B842E25007C3089 /* CliperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59281B842E25007C3089 /* CliperView.m */; };
 		53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF592A1B842E25007C3089 /* ClipRegionView.m */; };
 		53BF59301B842E25007C3089 /* ClipRegionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BF592B1B842E25007C3089 /* ClipRegionView.xib */; };
+		53BF59331B8452BA007C3089 /* ZXHShapeBoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59321B8452BA007C3089 /* ZXHShapeBoxController.m */; };
+		53BF59741B8473EC007C3089 /* shape1.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF596C1B8473EC007C3089 /* shape1.png */; };
+		53BF59751B8473EC007C3089 /* shape2.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF596D1B8473EC007C3089 /* shape2.png */; };
+		53BF59761B8473EC007C3089 /* shape3.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF596E1B8473EC007C3089 /* shape3.png */; };
+		53BF59771B8473EC007C3089 /* shape4.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF596F1B8473EC007C3089 /* shape4.png */; };
+		53BF59781B8473EC007C3089 /* shape5.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59701B8473EC007C3089 /* shape5.png */; };
+		53BF59791B8473EC007C3089 /* shape6.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59711B8473EC007C3089 /* shape6.png */; };
+		53BF597A1B8473EC007C3089 /* shape7.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59721B8473EC007C3089 /* shape7.png */; };
+		53BF597B1B8473EC007C3089 /* shape8.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59731B8473EC007C3089 /* shape8.png */; };
+		53BF597F1B8478F8007C3089 /* ZXHShapeBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF597D1B8478F8007C3089 /* ZXHShapeBoxCell.m */; };
+		53BF59801B8478F8007C3089 /* ZXHShapeBoxCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BF597E1B8478F8007C3089 /* ZXHShapeBoxCell.xib */; };
 		53D22D011B74996F00C65D88 /* blit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 53D22D001B74996F00C65D88 /* blit.vsh */; };
 		53D5906A1B5E023200E9D2F0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D590691B5E023200E9D2F0 /* OpenGLES.framework */; };
 		53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53D5906C1B5E02CA00E9D2F0 /* basic.vert */; };
@@ -173,6 +184,19 @@
 		53BF59291B842E25007C3089 /* ClipRegionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClipRegionView.h; sourceTree = "<group>"; };
 		53BF592A1B842E25007C3089 /* ClipRegionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipRegionView.m; sourceTree = "<group>"; };
 		53BF592B1B842E25007C3089 /* ClipRegionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClipRegionView.xib; sourceTree = "<group>"; };
+		53BF59311B8452BA007C3089 /* ZXHShapeBoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHShapeBoxController.h; sourceTree = "<group>"; };
+		53BF59321B8452BA007C3089 /* ZXHShapeBoxController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHShapeBoxController.m; sourceTree = "<group>"; };
+		53BF596C1B8473EC007C3089 /* shape1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape1.png; sourceTree = "<group>"; };
+		53BF596D1B8473EC007C3089 /* shape2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape2.png; sourceTree = "<group>"; };
+		53BF596E1B8473EC007C3089 /* shape3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape3.png; sourceTree = "<group>"; };
+		53BF596F1B8473EC007C3089 /* shape4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape4.png; sourceTree = "<group>"; };
+		53BF59701B8473EC007C3089 /* shape5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape5.png; sourceTree = "<group>"; };
+		53BF59711B8473EC007C3089 /* shape6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape6.png; sourceTree = "<group>"; };
+		53BF59721B8473EC007C3089 /* shape7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape7.png; sourceTree = "<group>"; };
+		53BF59731B8473EC007C3089 /* shape8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shape8.png; sourceTree = "<group>"; };
+		53BF597C1B8478F8007C3089 /* ZXHShapeBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHShapeBoxCell.h; sourceTree = "<group>"; };
+		53BF597D1B8478F8007C3089 /* ZXHShapeBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHShapeBoxCell.m; sourceTree = "<group>"; };
+		53BF597E1B8478F8007C3089 /* ZXHShapeBoxCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHShapeBoxCell.xib; sourceTree = "<group>"; };
 		53D22D001B74996F00C65D88 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
 		53D590691B5E023200E9D2F0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		53D5906C1B5E02CA00E9D2F0 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../core/glsl/basic.vert; sourceTree = "<group>"; };
@@ -299,6 +323,7 @@
 		53851B611B57AADE00B6F946 /* HYDrawing */ = {
 			isa = PBXGroup;
 			children = (
+				53BF596B1B847379007C3089 /* shapes */,
 				535306F01B7C326D00877D76 /* Images.xcassets */,
 				60216AE91B589440009186F4 /* Macro.h */,
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
@@ -318,6 +343,8 @@
 				53851B621B57AADE00B6F946 /* Supporting Files */,
 				53BBAC8B1B785177006D11EF /* ZXHLayersViewController.h */,
 				53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */,
+				53BF59311B8452BA007C3089 /* ZXHShapeBoxController.h */,
+				53BF59321B8452BA007C3089 /* ZXHShapeBoxController.m */,
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -376,6 +403,9 @@
 				53B0CC7B1B7DEE26000AD907 /* ZXHEditableTipsView.h */,
 				53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */,
 				5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */,
+				53BF597C1B8478F8007C3089 /* ZXHShapeBoxCell.h */,
+				53BF597D1B8478F8007C3089 /* ZXHShapeBoxCell.m */,
+				53BF597E1B8478F8007C3089 /* ZXHShapeBoxCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -393,6 +423,21 @@
 				53BF592B1B842E25007C3089 /* ClipRegionView.xib */,
 			);
 			name = "图片裁剪";
+			sourceTree = "<group>";
+		};
+		53BF596B1B847379007C3089 /* shapes */ = {
+			isa = PBXGroup;
+			children = (
+				53BF596C1B8473EC007C3089 /* shape1.png */,
+				53BF596D1B8473EC007C3089 /* shape2.png */,
+				53BF596E1B8473EC007C3089 /* shape3.png */,
+				53BF596F1B8473EC007C3089 /* shape4.png */,
+				53BF59701B8473EC007C3089 /* shape5.png */,
+				53BF59711B8473EC007C3089 /* shape6.png */,
+				53BF59721B8473EC007C3089 /* shape7.png */,
+				53BF59731B8473EC007C3089 /* shape8.png */,
+			);
+			name = shapes;
 			sourceTree = "<group>";
 		};
 		53D5906B1B5E025A00E9D2F0 /* Shader */ = {
@@ -523,8 +568,11 @@
 				53D590811B5E02CA00E9D2F0 /* brush.frag in Resources */,
 				53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */,
 				535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */,
+				53BF597B1B8473EC007C3089 /* shape8.png in Resources */,
 				53D590821B5E02CA00E9D2F0 /* brush.vert in Resources */,
 				535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */,
+				53BF59801B8478F8007C3089 /* ZXHShapeBoxCell.xib in Resources */,
+				53BF59791B8473EC007C3089 /* shape6.png in Resources */,
 				53D5907B1B5E02CA00E9D2F0 /* basicColor.frag in Resources */,
 				53D5907D1B5E02CA00E9D2F0 /* blit.frag in Resources */,
 				53851B6E1B57AADE00B6F946 /* Main.storyboard in Resources */,
@@ -532,9 +580,14 @@
 				53BF59301B842E25007C3089 /* ClipRegionView.xib in Resources */,
 				53D590841B5E02CA00E9D2F0 /* compositeWithMask.frag in Resources */,
 				535306F11B7C326D00877D76 /* Images.xcassets in Resources */,
+				53BF59751B8473EC007C3089 /* shape2.png in Resources */,
+				53BF59741B8473EC007C3089 /* shape1.png in Resources */,
+				53BF59781B8473EC007C3089 /* shape5.png in Resources */,
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
 				53D5907E1B5E02CA00E9D2F0 /* blit.vert in Resources */,
+				53BF597A1B8473EC007C3089 /* shape7.png in Resources */,
 				53D5907F1B5E02CA00E9D2F0 /* blitWithEraseMask.frag in Resources */,
+				53BF59771B8473EC007C3089 /* shape4.png in Resources */,
 				5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */,
 				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
@@ -544,6 +597,7 @@
 				53D590801B5E02CA00E9D2F0 /* blitWithMask.frag in Resources */,
 				53D5907C1B5E02CA00E9D2F0 /* basicWithCoord.vert in Resources */,
 				537343A51B70872E00CDCC82 /* colorPicker.fsh in Resources */,
+				53BF59761B8473EC007C3089 /* shape3.png in Resources */,
 				53D590851B5E02CA00E9D2F0 /* nonPremultipliedBlit.frag in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,6 +630,7 @@
 				537343A01B70868C00CDCC82 /* WDShader.m in Sources */,
 				2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */,
 				53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */,
+				53BF59331B8452BA007C3089 /* ZXHShapeBoxController.m in Sources */,
 				6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */,
 				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
@@ -589,6 +644,7 @@
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
 				53BF592C1B842E25007C3089 /* CliperMenuView.m in Sources */,
+				53BF597F1B8478F8007C3089 /* ZXHShapeBoxCell.m in Sources */,
 				537343911B70518400CDCC82 /* WDUtilities.m in Sources */,
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 				537343891B704FEF00CDCC82 /* WDColor.m in Sources */,
