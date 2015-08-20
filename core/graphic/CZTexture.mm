@@ -22,6 +22,13 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     
     mode = mode_;
     
+    bool emptyData = false;
+    if(!data) {
+        emptyData = true;
+        data = new float[width_*height_*4];
+        memset(data, 0, width_*height_*4*sizeof(float));
+    }
+    
     glGenTextures (1, &texId);
     glBindTexture(GL_TEXTURE_2D, texId);
     
@@ -74,6 +81,8 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     CZCheckGLError();
     glBindTexture(GL_TEXTURE_2D, 0);
 #endif
+    
+    if(emptyData) delete [] (float*)data;
     CZCheckGLError();
     
 }
