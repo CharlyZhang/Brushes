@@ -585,6 +585,71 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     CZCheckGLError();
 }
 
+void CZLayer::renderBackground(CZImage *img,CZAffineTransform &trans)
+{
+    if (ptrPainting == NULL)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return;
+    }
+    
+    if (img == NULL)
+    {
+        LOG_WARN("image is NULL!\n");
+        return;
+    }
+    
+    CZRect rect = ptrPainting->getBounds();
+    /// register undo fragment
+    registerUndoInRect(rect);
+    
+    bool hasAlpha = img->hasAlpha;
+    
+    ptrGLContext->setAsCurrent();
+    CZTexture *tex = CZTexture::produceFromImage(img);
+    
+    CZShader *shader = NULL;
+    shader = hasAlpha ? ptrPainting->getShader("unPremultipliedBlit") : ptrPainting->getShader("nonPremultipliedBlit");
+    if (shader == NULL)
+    {
+        LOG_ERROR("cannot find the assigned shader!\n");
+        return;
+    }
+    
+    CZFbo fbo;
+    fbo.setTexture(myTexture);
+    
+    fbo.begin();
+    
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    shader->begin();
+    
+    CZMat4 projection;
+    CZSize size = ptrPainting->getDimensions();
+    projection.SetOrtho(0,size.width,0,size.height,-1.0f, 1.0f);
+    
+    glUniform1i(shader->getUniformLocation("texture"), 0);
+    glUniform1f(shader->getUniformLocation("opacity"), 1.0f);
+    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projection);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,tex->texId);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    
+    /// render background
+    CZUtil::drawRect(rect,trans);
+
+    shader->end();
+    
+    fbo.end();
+    
+    delete tex;
+    
+    CZCheckGLError();
+}
+
 CZLayer* CZLayer::duplicate()
 {
     CZLayer *newLayer = new CZLayer(ptrPainting);

@@ -194,6 +194,44 @@
     return (NSInteger)ret;
 }
 
+///绘制背景
+- (void) renderBackground:(UIImage*)image
+{
+    CGImageRef img = image.CGImage;
+    
+    //数据源提供者
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    // provider’s data.
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    //宽，高，data
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    
+    CZImage *backgroundImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
+    
+    if (alphaInfo == kCGImageAlphaNone ||
+        alphaInfo == kCGImageAlphaNoneSkipLast ||
+        alphaInfo == kCGImageAlphaNoneSkipFirst){
+        backgroundImg->hasAlpha = false;
+    }
+    else {
+        backgroundImg->hasAlpha = true;
+    }
+    
+    CZSize paintingSize = painting->getDimensions();
+    CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
+    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(paintingSize.width/2.0), -(paintingSize.height/2.0));
+    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((paintingSize.width/2.0), (paintingSize.height/2.0));
+    
+    CZAffineTransform trans = (trans_adjust * trans_flip * trans_center);
+    
+    
+    painting->getActiveLayer()->renderBackground(backgroundImg,trans);
+    canvas->drawView();
+}
 
 - (NSInteger) getLayersNumber
 {
