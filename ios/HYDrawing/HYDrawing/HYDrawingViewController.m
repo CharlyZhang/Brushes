@@ -17,16 +17,23 @@
 #import "ZXHLayersViewController.h"
 #import "ZXHEditableTipsView.h"
 #import "CanvasView.h"
+#import "CliperView.h"
+#import "ZXHShapeBoxController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,
-                                       CanvasViewDelegate > {
+@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate,ImageEditViewControllerDelegate>
+{
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
+    UIPopoverController *menuPopoverController;
+    ZXHLayersViewController *_layersViewController;
+    UIBarButtonItem *pictureItem;
+    ZXHShapeBoxController *_shapeBoxController;
+    UIPopoverController *_shapeBoxPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -69,10 +76,10 @@ extern NSString *CZActivePaintColorDidChange;
     [super viewWillAppear:animated];
     
     // 全透明背景
-    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-         self.navigationController.navigationBar.translucent = YES;
-    //    // 去掉分割线
-    //    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//     self.navigationController.navigationBar.translucent = YES;
+//    // 去掉分割线
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
 }
 
@@ -118,14 +125,13 @@ extern NSString *CZActivePaintColorDidChange;
     
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
-    UIBarButtonItem *pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
+    pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
  
 #pragma mark 初始画板
 
-    CGSize size = [UIScreen mainScreen].bounds.size;
     [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH];
     CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
     canvasView.delegate = self;
@@ -139,6 +145,17 @@ extern NSString *CZActivePaintColorDidChange;
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
+}
+
+#pragma mark 设置barItem是否可用
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"layersCount"]) {
+        if (_layersViewController.layersCount == 10) {
+            pictureItem.enabled = NO;
+        }else{
+            pictureItem.enabled = YES;
+        }
+    }
 }
 
 -(BOOL)shouldAutorotate{
@@ -159,24 +176,20 @@ extern NSString *CZActivePaintColorDidChange;
     menuNavigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     menuNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
-    UIPopoverController *popoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
+    menuPopoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
 
-    popoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    menuPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     UIImage *image = [UIImage imageNamed:@"menu_popover_bg"];
     [DDPopoverBackgroundView setBackgroundImage:image];
     [DDPopoverBackgroundView setBackgroundImageCornerRadius:2.f];
     [DDPopoverBackgroundView setArrowBase:0];
     [DDPopoverBackgroundView setArrowHeight:2];
-    [popoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-20)];
-    [popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [menuPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-20)];
+    [menuPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 #pragma mark 弹出相册图片选择
 - (void)tapPicture:(UIBarButtonItem*)sender{
-    if ([[HYBrushCore sharedInstance]getLayersNumber] == 10) {
-        sender.enabled = NO;
-        return;
-    }
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
@@ -285,6 +298,8 @@ extern NSString *CZActivePaintColorDidChange;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - 底部工具栏按钮
+
 #pragma mark - BottomBarViewDelegate Methods
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
     switch (button.tag) {
@@ -309,18 +324,78 @@ extern NSString *CZActivePaintColorDidChange;
         case LAYERS_BTN:
             [self showLayerPopoverController:button];
             break;
+        case CLIP_BTN:
+//            [self showCliperView];
+            break;
+        case CANVAS_BTN:
+            [self showShapeBoxPopoverController:button];
+            break;
         default:
             break;
     }
+    
+    
 }
+
+#pragma mark - ImageEditViewControllerDelegate
+
+- (void)updateLayersView
+{
+    self.navigationController.navigationBar.hidden = NO;
+    _layersViewController.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    [_layersViewController.tbView reloadData];
+}
+
+#pragma mark 形状选择弹出
+
+// 代理方法
+-(void)didSelectedShape:(UIImage*)img{
+    [_shapeBoxPopoverController dismissPopoverAnimated:YES];
+    [self showImageEditViewWithImage:img];
+//    [[HYBrushCore sharedInstance]renderImage:img withTransform:CGAffineTransformIdentity];
+}
+
+-(void)showShapeBoxPopoverController:(UIButton*)sender{
+    UIImage *image = [UIImage imageNamed:@"shapebox_img_bg"];
+    if (!_shapeBoxController) {
+        _shapeBoxController = [[ZXHShapeBoxController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
+        _shapeBoxController.delegate = self;
+    }
+    
+    if (!_shapeBoxPopoverController) {
+        _shapeBoxPopoverController = [[UIPopoverController alloc]initWithContentViewController:_shapeBoxController];
+    }
+    
+    _shapeBoxPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:0];
+//
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.x += popRect.size.width;
+    
+    [_shapeBoxPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+}
+
+#pragma mark 显示裁剪视图
+-(void)showCliperView{
+    CliperView *cliper = [[CliperView alloc]initWithFrame:self.view.frame];
+    [self.view addSubview:cliper];
+}
+
 
 
 #pragma mark 图层弹出视图
 -(void)showLayerPopoverController:(UIButton*)sender{
-//    NSLog(@"hello-----");
-    ZXHLayersViewController *layersViewController = [ZXHLayersViewController new];
+    if (!_layersViewController) {
+        _layersViewController = [ZXHLayersViewController new];
+    }
     
-    layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:layersViewController];
+    if (!layersPopoverController) {
+        layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
+    }
+    
     layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     [DDPopoverBackgroundView setContentInset:2];
     
@@ -333,9 +408,12 @@ extern NSString *CZActivePaintColorDidChange;
     
     // 弹出位置
     CGRect popRect = sender.frame;
-    popRect.origin.y -= 50;
+    popRect.origin.y -= 10;
     
-    [layersPopoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    
+#pragma mark 观察当前图层数量
+    [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 #pragma mark - WDColorPickerControllerDelegate Methods
@@ -354,18 +432,6 @@ extern NSString *CZActivePaintColorDidChange;
     bottomBarView.colorWheelButton.color = color;
 }
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
@@ -383,24 +449,26 @@ extern NSString *CZActivePaintColorDidChange;
 
 #pragma mark - 选择相册图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    _choosedImg =info[@"UIImagePickerControllerOriginalImage"];
     [picturePopoverController dismissPopoverAnimated:YES];
 
-    imageEditViewController = [[ImageEditViewController alloc]init];
+    [self showImageEditViewWithImage:info[@"UIImagePickerControllerOriginalImage"]];
+    
+//    [self presentViewController:imageEditViewController animated:YES completion:nil];
+}
 
-    imageEditViewController.originalImg = _choosedImg;
+#pragma mark 图像变换
+-(void)showImageEditViewWithImage:(UIImage*)img{
+    if (!imageEditViewController) {
+        imageEditViewController = [ImageEditViewController new];
+        imageEditViewController.delegate = self;
+    }
+    imageEditViewController.originalImg = img;
     imageEditViewController.view.frame = self.view.frame;
     imageEditViewController.view.backgroundColor = [UIColor clearColor];
     // 隐藏导航栏
     self.navigationController.navigationBar.hidden = YES;
-    imageEditViewController.view.alpha = 0;
-    
-    [UIView animateWithDuration:1 animations:^{
-        imageEditViewController.view.alpha = 1;
-    } completion:^(BOOL finished) {
-        [self.view addSubview:imageEditViewController.view];
-    }];
-    
+
+    [self.view addSubview:imageEditViewController.view];
 }
 
 #pragma mark - Copied directly

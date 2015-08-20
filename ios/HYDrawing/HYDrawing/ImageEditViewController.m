@@ -1,49 +1,89 @@
 //
+
 //  ImageEditViewController.m
+
 //  HYDrawing
-//
-//  Created by 李 雷川 on 15/7/21.
-//  Copyright (c) 2015年 Founder. All rights reserved.
+
 //
 
+//  Created by 李 雷川 on 15/7/21.
+
+//  Copyright (c) 2015年 Founder. All rights reserved.
+
+//
+
+
+
 #import "ImageEditViewController.h"
+
 #import "HYBrushCore.h"
+
 #import "ZXHMockNavBar.h"
 #import "Macro.h"
 
+
+
 @implementation ImageEditViewController
-{
-    CGFloat imgW;
-    CGFloat initialAngle_;
-    UIView *testView;
-    CGAffineTransform translateTransform;
-}
+
+
+
 
 // 隐藏状态栏
+
 -(BOOL)prefersStatusBarHidden{
+    
     return YES;
+    
 }
 
-- (void)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview
+
+
+- (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview
+
 {
     
+    
+    
     subview.translatesAutoresizingMaskIntoConstraints = NO;
+    
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
     
+    
+    
     NSArray *constraints = [NSLayoutConstraint
+                            
                             constraintsWithVisualFormat:@"H:|[subview]|"
+                            
                             options:0
+                            
                             metrics:nil
+                            
                             views:viewsDictionary];
+    
     constraints = [constraints arrayByAddingObjectsFromArray:
+                   
                    [NSLayoutConstraint
+
                     constraintsWithVisualFormat:@"V:|[subview]|"
                     options:0
+                    
                     metrics:nil
+                    
                     views:viewsDictionary]];
+    
     [superview addConstraints:constraints];
     
     
+    
+    return constraints;
+    
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    _imageView.image = _originalImg;
 }
 
 
@@ -51,49 +91,55 @@
     [super viewDidLoad];
     
     _imageView = [[UIImageView alloc]init];
-//    _imageView.backgroundColor = [UIColor greenColor];
     _imageView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
     [self.view addSubview:_imageView];
     _imageView.contentMode = UIViewContentModeCenter;
-//    [self constrainSubview:_imageView toMatchWithSuperview:self.view];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    if (_originalImg) {
-        _imageView.image = _originalImg;
-       // [_imageView setFrame:CGRectMake(512, 768/2, _originalImg.size.width, _originalImg.size.height)];
-        
-        // 添加手势
-        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageing:)];
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImageing:)];
-        UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
-        self.view.gestureRecognizers = @[pan,rotation,pinch];
-    }
-
+    // 添加手势
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImageing:)];
+    
+    pinch.delegate = self;
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImageing:)];
+    
+    pan.delegate = self;
+    
+    UIRotationGestureRecognizer *rotation = [[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotatingImage:)];
+    
+    rotation.delegate = self;
+    
+    self.view.gestureRecognizers = @[pan,rotation,pinch];
+    
+    
     self.imageTransform = CGAffineTransformIdentity;
     
-    translateTransform = CGAffineTransformIdentity;
-
-    ZXHMockNavBar *navBar = [[ZXHMockNavBar alloc]initWithFrame:CGRectMake(0, 0, kScreenW , 64) WithLeftBtnTitle:@"Cancel" title:@"插入图片" rightBtnTitle:@"Accept"];
+    
+    
+    // 模拟导航栏
+    
+    ZXHMockNavBar *navBar = [[ZXHMockNavBar alloc]initWithLeftBtnTitle:@"Cancel" title:@"插入图片" rightBtnTitle:@"Accept"];
+    
     [navBar.leftBtn addTarget:self action:@selector(backHome) forControlEvents:UIControlEventTouchUpInside];
+    
     [navBar.rightBtn addTarget:self action:@selector(toDrawingPage) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:navBar];
+    
 }
 
-//
-//-(void)viewWillLayoutSubviews{
-//    NSLog(@"viewWillLayoutSubviews");
-//}
+
+
 #pragma mark 图片的旋转、缩放、移动
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-    if (([gestureRecognizer isMemberOfClass:[UIRotationGestureRecognizer class]] && [otherGestureRecognizer isMemberOfClass:[UIPinchGestureRecognizer class]]) ||
-        ([gestureRecognizer isMemberOfClass:[UIPinchGestureRecognizer class]] && [otherGestureRecognizer isMemberOfClass:[UIRotationGestureRecognizer class]])) {
-        return YES;
-    }
-    return NO;
+    
+    return YES;
+    
 }
+
+
 
 -(void)panImageing:(UIPanGestureRecognizer*)pan{
-    
     if (pan.state == UIGestureRecognizerStateBegan) {
 //        CGPoint loc = CGPointMake(30, 50);
 //        [pan setTranslation:CGPointZero inView:self.view];
@@ -123,6 +169,8 @@
     }
     
 }
+
+
 
 -(void)pinchImageing:(UIPinchGestureRecognizer*)pinch{
     if (pinch.state == UIGestureRecognizerStateBegan) {
@@ -166,10 +214,13 @@
         pivot.y = self.view.bounds.size.height - pivot.y;
         tX = CGAffineTransformIdentity;
         tX = CGAffineTransformTranslate(tX, pivot.x, pivot.y);
-        tX = CGAffineTransformScale(tX, pinch.scale, pinch.scale);
-        tX = CGAffineTransformTranslate(tX, -pivot.x, -pivot.y);
-        self.imageTransform = CGAffineTransformConcat(self.imageTransform, tX);
         
+        tX = CGAffineTransformScale(tX, pinch.scale, pinch.scale);
+        
+        tX = CGAffineTransformTranslate(tX, -pivot.x, -pivot.y);
+        
+        self.imageTransform = CGAffineTransformConcat(self.imageTransform, tX);
+ 
         pinch.scale = 1;
     }
     
@@ -177,30 +228,15 @@
 //        NSLog(@"pinch imageView: %@",self.imageView);
 //        NSLog(@"imageTransform: %@",NSStringFromCGAffineTransform(self.imageTransform));
     }
+    
 }
 
+
+
 -(void)rotatingImage:(UIRotationGestureRecognizer*)gesture{
+ 
     
-//    if (gesture.state == UIGestureRecognizerStateBegan) {
-//        initialAngle_ = [(UIRotationGestureRecognizer *)gesture rotation];
-//    }
-//    
-//    if (gesture.state == UIGestureRecognizerStateChanged) {
-//        float rotation  = [(UIRotationGestureRecognizer *)gesture rotation];
-//        float angle = rotation - initialAngle_;
-//        self.imageView.transform = CGAffineTransformRotate(self.imageView.transform , angle);
-//        
-//        CGPoint pivot = self.imageView.center;
-//        pivot.y = self.view.bounds.size.height - pivot.y;
-//        CGAffineTransform tX = CGAffineTransformIdentity;
-//        tX = CGAffineTransformTranslate(tX, pivot.x, pivot.y);
-//        tX = CGAffineTransformRotate(tX, M_PI-angle);
-//        tX = CGAffineTransformScale(tX, -1, -1);
-//        tX = CGAffineTransformTranslate(tX, -pivot.x, -pivot.y);
-//        self.imageTransform = CGAffineTransformConcat(self.imageTransform, tX);
-//        
-//        initialAngle_ = rotation;
-//    }
+    
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
 //        CGFloat angle = 0.5;
@@ -224,6 +260,7 @@
 
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
+        
         CGFloat angle = gesture.rotation;
         self.imageView.transform = CGAffineTransformRotate(self.imageView.transform, angle);
         
@@ -240,6 +277,7 @@
         
         // 重置旋转角度
         gesture.rotation = 0;
+        
     }
     
     if (gesture.state == UIGestureRecognizerStateEnded) {
@@ -249,28 +287,33 @@
 }
 
 #pragma mark 编辑完成
+
 -(void)toDrawingPage{
     
-    [self dismissAnimation];
+    // 显示导航栏
+    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    nav.navigationBar.hidden = NO;
+    
+    [self.view removeFromSuperview];
+
     
     //[[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform newLayer:YES];
     [[HYBrushCore sharedInstance]renderBackground:_originalImg];
+    
+    // 更新图层
+    [self.delegate updateLayersView];
 }
 
--(void)dismissAnimation{
-    [UIView animateWithDuration:0.1 animations:^{
-        self.view.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-        // 显示导航栏
-        UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        nav.navigationBar.hidden = NO;
-        nav.navigationBar.translucent = YES;
-    }];
-}
+
 
 -(void)backHome{
-    [self dismissAnimation];
+    
+    [self.view removeFromSuperview];
+    
 }
 
+
+
 @end
+

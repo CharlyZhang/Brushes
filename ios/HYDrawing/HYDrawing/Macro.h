@@ -9,9 +9,16 @@
 #ifndef HYDrawing_Macro_h
 #define HYDrawing_Macro_h
 
+// 系统版本
+#define kSystemVersion [[[UIDevice currentDevice] systemVersion] integerValue]
+
 // 屏幕宽高
-#define kScreenW [UIScreen mainScreen].bounds.size.width
-#define kScreenH [UIScreen mainScreen].bounds.size.height
+#define kSysW [UIScreen mainScreen].bounds.size.width
+#define kSysH [UIScreen mainScreen].bounds.size.height
+
+#define kScreenW (kSystemVersion<=7.0 ? kSysH : kSysW)
+#define kScreenH (kSystemVersion<=7.0 ? kSysW : kSysH)
+
 // 屏幕比
 #define kScreenScale 4.0/3.0
 

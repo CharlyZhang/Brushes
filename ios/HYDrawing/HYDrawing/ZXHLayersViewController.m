@@ -9,25 +9,27 @@
 #import "ZXHLayersViewController.h"
 #import "Macro.h"
 #import "LayersCell.h"
-#import "ZXHLayerTopBar.h"
 #import "HYBrushCore.h"
 #import "ZXHEditableTipsView.h"
 
 @interface ZXHLayersViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
-@property(nonatomic,copy)NSMutableArray *arrLayer;
-@property(nonatomic,assign)NSInteger layersCount;
 
 @end
 
 @implementation ZXHLayersViewController
 {
-    UITableView *_tbView;
+    
     UISlider *_alphaSlider;
     UILabel *_alphaLabel;
-    ZXHLayerTopBar *_topToolBar;
     NSInteger _curLayerIndex;
     ZXHEditableTipsView *_tipsView;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [_tbView reloadData];
 }
 
 #pragma mark 不可见、锁定提示
@@ -42,7 +44,7 @@
     [super viewDidLoad];
     
     // 层数
-    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    self.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     
     // 初始化UI
     [self createUI];
@@ -53,7 +55,14 @@
 
     // 是否可以继续创建层
     // 观察者
-    [self addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+    [self addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+}
+
+#pragma mark 观察者
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"layersCount"]) {
+        [self canContinueCreateLayer];
+    }
 }
 
 #pragma mark UI
@@ -77,7 +86,7 @@
 
 // 删除
 -(void)deleteLayer:(UIButton*)btn{
-    if (_layersCount == 1) {
+    if (self.layersCount == 1) {
         LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         // 清除画布
         cell.imgView.image = nil;
@@ -86,7 +95,7 @@
     }
     
     // 选中下一行
-    if (_curLayerIndex == _layersCount-1) {
+    if (_curLayerIndex == self.layersCount-1) {
         _curLayerIndex --;
         if (_curLayerIndex < 0) {
             return;
@@ -95,7 +104,7 @@
     
     // 删除选中行
     [[HYBrushCore sharedInstance] deleteActiveLayer];
-    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    self.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
@@ -103,20 +112,11 @@
     [_tbView reloadData];
     
     [self selectRowAtIndexPath:_curLayerIndex];
-
-//    [self canContinueCreateLayer];
-}
-
-#pragma mark - 观察者
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"layersCount"]) {
-        [self canContinueCreateLayer];
-    }
 }
 
 // 是否按钮可用
 -(BOOL)canContinueCreateLayer{
-    if (_layersCount == 10) {
+    if (self.layersCount == 10) {
         _topToolBar.btnCopy.enabled = NO;
         _topToolBar.btnAdd.enabled = NO;
         return NO;
@@ -138,14 +138,14 @@
 }
 
 -(void)createNewLayer{
-    _layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    self.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     
     // 插入行
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:_curLayerIndex inSection:0];
     [_tbView insertRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationNone];
     
     NSMutableArray *arr = [NSMutableArray new];
-    for (NSInteger i=0; i<_layersCount; i++) {
+    for (NSInteger i=0; i<self.layersCount; i++) {
         NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
         [arr addObject:index];
     }
@@ -191,7 +191,7 @@
 //    NSLog(@"getActiveLayer: %ld",[[HYBrushCore sharedInstance] getActiveLayerIndex]);
     
     // 层数
-    _layersCount = [[HYBrushCore sharedInstance] getLayersNumber];
+    self.layersCount = [[HYBrushCore sharedInstance] getLayersNumber];
     
     cell.outlineView.backgroundColor = kImageColor(@"layer_showimg_bg");
     
@@ -216,7 +216,6 @@
     [bgView addSubview:_topToolBar];
     
     [_topToolBar.btnDelete addTarget:self action:@selector(deleteLayer:) forControlEvents:UIControlEventTouchUpInside];
-    [_topToolBar.btnMerge addTarget:self action:@selector(mergeLayer:) forControlEvents:UIControlEventTouchUpInside];
     [_topToolBar.btnCopy addTarget:self action:@selector(copyLayer:) forControlEvents:UIControlEventTouchUpInside];
     [_topToolBar.btnAdd addTarget:self action:@selector(addLayer:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -292,7 +291,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     LayersCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LayersCellId"];
     cell.rowIndex = indexPath.row;
-    cell.positionLabel.text = [NSString stringWithFormat:@"%ld",_layersCount-cell.rowIndex];
+    cell.positionLabel.text = [NSString stringWithFormat:@"%ld",self.layersCount-cell.rowIndex];
     
     // 设置锁定、显示图片
     [self setLayerVisibleAndLockingOfCell:cell];
