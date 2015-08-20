@@ -108,6 +108,17 @@
     return _bucketButton;
 }
 
+- (UIButton*)shapeboxButton {
+    if (!_shapeboxButton) {
+        _shapeboxButton = [[UIButton alloc]init];
+        [_shapeboxButton setImage:[UIImage imageNamed:@"shapebox"] forState:UIControlStateNormal];
+        [_shapeboxButton setImage:[UIImage imageNamed:@"shapebox_sel"] forState:UIControlStateSelected];
+        [_shapeboxButton addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        _shapeboxButton.tag = SHAPEBOX_BTN;
+    }
+    return _shapeboxButton;
+}
+
 - (UIButton*)eyedropperButton {
     if (!_eyedropperButton) {
         _eyedropperButton = [[UIButton alloc]init];
@@ -169,6 +180,7 @@
         [_toolsScrollView addSubview:self.colorBrushButton];
         [_toolsScrollView addSubview:self.crayonButton];
         [_toolsScrollView addSubview:self.bucketButton];
+        [_toolsScrollView addSubview:self.shapeboxButton];
         [_toolsScrollView addSubview:self.eyedropperButton];
         [_toolsScrollView addSubview:self.canvasButton];
         [_toolsScrollView addSubview:self.clipButton];
@@ -250,8 +262,8 @@
 }
 
 - (void) addConstrainsForScrollView {
-    NSArray *keys = [NSArray arrayWithObjects:@"_pencilButton",@"_markerPenButton",@"_colorBrushButton",@"_crayonButton",@"_bucketButton",@"_eyedropperButton",@"_canvasButton",@"_clipButton",nil];
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_pencilButton,_markerPenButton,_colorBrushButton,_crayonButton,_bucketButton,_eyedropperButton,_canvasButton,_clipButton);
+    NSArray *keys = [NSArray arrayWithObjects:@"_pencilButton",@"_markerPenButton",@"_colorBrushButton",@"_crayonButton",@"_bucketButton",@"_shapeboxButton",@"_eyedropperButton",@"_canvasButton",@"_clipButton",nil];
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_pencilButton,_markerPenButton,_colorBrushButton,_crayonButton,_bucketButton,_shapeboxButton,_eyedropperButton,_canvasButton,_clipButton);
     NSDictionary *metrics = @{@"hPadding" :@8,@"hPadding2" :@8,@"vPadding1" :@8,@"vHeight":@98,@"vWidth":@73};
     NSArray *constraints = [[NSArray alloc]init];
     NSString *lastCmpObj = @"|";

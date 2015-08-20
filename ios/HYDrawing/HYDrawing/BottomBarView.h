@@ -26,6 +26,7 @@ typedef enum BottomBarButtonType {
     COLORBRUSH_BTN,
     CRAYON_BTN,
     BUCKET_BTN,
+    SHAPEBOX_BTN,
     EYEDROPPER_BTN,
     CANVAS_BTN,
     CLIP_BTN
@@ -48,7 +49,7 @@ typedef enum BottomBarButtonType {
 @property (nonatomic, strong) UIButton* colorBrushButton;
 @property (nonatomic, strong) UIButton* crayonButton;
 @property (nonatomic, strong) UIButton* bucketButton;
-
+@property (nonatomic, strong) UIButton* shapeboxButton;
 @property (nonatomic, strong) UIButton* eyedropperButton;
 @property (nonatomic, strong) UIButton* canvasButton;
 @property (nonatomic, strong) UIButton* clipButton;
