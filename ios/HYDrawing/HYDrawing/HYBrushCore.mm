@@ -139,11 +139,14 @@
 }
 
 ///绘制图片
-- (NSInteger)renderImage:(UIImage*)image withTransform:(CGAffineTransform)transform;
-
+- (NSInteger) renderImage:(UIImage*)image withTransform:(CGAffineTransform)transform newLayer:(BOOL)flag
 {
-    int ret = painting->addNewLayer();
-    if (ret < 0) return (NSInteger)ret;
+    int ret = painting->getActiveLayerIndex();
+    
+    if (flag) {
+        ret = painting->addNewLayer();
+        if (ret < 0) return (NSInteger)ret;
+    }
     
     CGImageRef img = image.CGImage;
     

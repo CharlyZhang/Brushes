@@ -253,7 +253,7 @@
     
     [self dismissAnimation];
     
-    [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform];
+    [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform newLayer:YES];
 
 }
 
