@@ -247,6 +247,8 @@
     CZImage *thumbImage = layer->getThumbnailImage();
     if (!thumbImage)    return nil;
 
+    printf("-->%ld\n",thumbImage);
+    
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGContextRef ctx = CGBitmapContextCreate(thumbImage->data, thumbImage->width, thumbImage->height, 8, thumbImage->width*4,
                                              colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);

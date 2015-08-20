@@ -22,11 +22,6 @@
 @property(nonatomic, weak)id<ImageEditViewControllerDelegate> delegate;
 
 
-/* 旋转 缩放 位置 */
-//@property CGFloat angle;
-//@property CGFloat scale;
-//@property CGPoint position;
-
 @property(nonatomic,assign) CGAffineTransform imageTransform;
 
 @end

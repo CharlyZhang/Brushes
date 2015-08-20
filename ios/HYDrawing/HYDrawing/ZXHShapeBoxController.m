@@ -66,7 +66,7 @@
 
 -(void)createCollectionView{
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(60, 0, preferSize.width-60, preferSize.height-8) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(kBtnWidth, 0, preferSize.width-kBtnWidth, preferSize.height-8) collectionViewLayout:flowLayout];
     
     // 注册xib
     [_collectionView registerNib:[UINib nibWithNibName:@"ZXHShapeBoxCell" bundle:nil] forCellWithReuseIdentifier:@"ShapeBoxCell"];
@@ -107,7 +107,7 @@
 
 // 边距
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10, 20, 20, 20);
+    return UIEdgeInsetsMake(20, 20, 20, 20);
 }
 
 // 复用

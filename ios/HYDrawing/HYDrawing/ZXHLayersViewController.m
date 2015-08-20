@@ -30,6 +30,10 @@
     [super viewWillAppear:animated];
     
     [_tbView reloadData];
+    
+    // 设置当前选中图层
+    _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
+    [self selectRowAtIndexPath:_curLayerIndex];
 }
 
 #pragma mark 不可见、锁定提示
@@ -49,10 +53,6 @@
     // 初始化UI
     [self createUI];
     
-    // 设置当前选中图层
-    _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
-    [self selectRowAtIndexPath:_curLayerIndex];
-
     // 是否可以继续创建层
     // 观察者
     [self addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];

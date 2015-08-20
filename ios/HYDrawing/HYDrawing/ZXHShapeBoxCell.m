@@ -11,7 +11,7 @@
 @implementation ZXHShapeBoxCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
 }
 
 @end

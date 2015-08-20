@@ -291,13 +291,9 @@
 -(void)toDrawingPage{
     
     // 显示导航栏
-    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    
-    nav.navigationBar.hidden = NO;
-    
+    [self visibleNavBar];
     [self.view removeFromSuperview];
 
-    
     //[[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform newLayer:YES];
     [[HYBrushCore sharedInstance]renderBackground:_originalImg];
     
@@ -305,12 +301,15 @@
     [self.delegate updateLayersView];
 }
 
-
+-(void)visibleNavBar{
+    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    nav.navigationBar.hidden = NO;
+}
 
 -(void)backHome{
-    
+    [self visibleNavBar];
     [self.view removeFromSuperview];
-    
 }
 
 

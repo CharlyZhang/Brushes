@@ -19,6 +19,7 @@
 #import "CanvasView.h"
 #import "CliperView.h"
 #import "ZXHShapeBoxController.h"
+#import "ZXHCanvasBackgroundController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 
@@ -34,6 +35,9 @@ extern NSString *CZActivePaintColorDidChange;
     UIBarButtonItem *pictureItem;
     ZXHShapeBoxController *_shapeBoxController;
     UIPopoverController *_shapeBoxPopoverController;
+    // 背景图选择
+    UIPopoverController *_canvasBgPopoverController;
+    ZXHCanvasBackgroundController *_canvasBackgroundController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -326,6 +330,7 @@ extern NSString *CZActivePaintColorDidChange;
             break;
         case CLIP_BTN:
 //            [self showCliperView];
+            [self showCanvasBackgroundPopoverController:button];
             break;
         case CANVAS_BTN:
             [self showShapeBoxPopoverController:button];
@@ -341,7 +346,6 @@ extern NSString *CZActivePaintColorDidChange;
 
 - (void)updateLayersView
 {
-    self.navigationController.navigationBar.hidden = NO;
     _layersViewController.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     [_layersViewController.tbView reloadData];
 }
@@ -373,10 +377,37 @@ extern NSString *CZActivePaintColorDidChange;
     
     // 弹出位置
     CGRect popRect = sender.frame;
-    popRect.origin.x += popRect.size.width;
+    popRect.origin.x += popRect.size.width*1.5;
     
     [_shapeBoxPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
+
+#pragma mark 画布背景选择弹出
+
+// 代理方法
+
+-(void)showCanvasBackgroundPopoverController:(UIButton*)sender{
+    UIImage *image = [UIImage imageNamed:@"canvasBg_bg"];
+    if (!_canvasBackgroundController) {
+        _canvasBackgroundController = [[ZXHCanvasBackgroundController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
+    }
+    
+    if (!_canvasBgPopoverController) {
+        _canvasBgPopoverController = [[UIPopoverController alloc]initWithContentViewController:_canvasBackgroundController];
+    }
+    
+    _canvasBgPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:0];
+    //
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.x += popRect.size.width*1.5;
+    
+    [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+}
+
 
 #pragma mark 显示裁剪视图
 -(void)showCliperView{
