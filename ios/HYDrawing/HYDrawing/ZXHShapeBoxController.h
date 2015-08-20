@@ -25,4 +25,7 @@
 // 选择了形状
 -(void)didSelectedShape:(UIImage*)img;
 
+// 切换背景图片
+-(void)changePopoverBgImage:(BOOL)type;
+
 @end

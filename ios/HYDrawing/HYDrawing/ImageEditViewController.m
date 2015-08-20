@@ -82,8 +82,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    _imageView.image = _originalImg;
 }
 
 
@@ -91,6 +89,7 @@
     [super viewDidLoad];
     
     _imageView = [[UIImageView alloc]init];
+    _imageView.image = _originalImg;
     _imageView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
     [self.view addSubview:_imageView];
     _imageView.contentMode = UIViewContentModeCenter;
@@ -289,27 +288,19 @@
 #pragma mark 编辑完成
 
 -(void)toDrawingPage{
-    
-    // 显示导航栏
-    [self visibleNavBar];
     [self.view removeFromSuperview];
 
-    //[[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform newLayer:YES];
-    [[HYBrushCore sharedInstance]renderBackground:_originalImg];
+    [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform newLayer:YES];
     
     // 更新图层
     [self.delegate updateLayersView];
 }
 
--(void)visibleNavBar{
-    UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    
-    nav.navigationBar.hidden = NO;
-}
-
 -(void)backHome{
-    [self visibleNavBar];
     [self.view removeFromSuperview];
+    
+    // 更新图层
+    [self.delegate updateLayersView];
 }
 
 

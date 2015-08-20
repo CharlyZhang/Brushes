@@ -105,6 +105,16 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
 }
 
+#pragma mark Touches
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    UITouch *touch = [touches anyObject];
+    // 双指双击
+    if (touches.count>=2 && touch.tapCount==2) {
+        [self.delegate toggleDisplayBottomBarView];
+    }
+}
+
 #pragma mark - Geusture
 - (void)configureGestrues
 {

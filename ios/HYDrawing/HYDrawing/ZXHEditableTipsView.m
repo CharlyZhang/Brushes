@@ -15,10 +15,11 @@ static ZXHEditableTipsView *tipsView;
 
 +(id)defaultTipsView{
     if (!tipsView) {
-        CGFloat bottomBarH = 119;
+//        CGFloat bottomBarH = 119;
         
         tipsView = [[NSBundle mainBundle]loadNibNamed:@"ZXHEditableTipsView" owner:self options:nil][0];
-        tipsView.frame = CGRectMake(0, 0, kScreenW, kScreenH-bottomBarH);
+        tipsView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
+        tipsView.backgroundColor = [UIColor clearColor];
         tipsView.alpha = 0;
         // 提示图片
         tipsView.visibleView.hidden = NO;
