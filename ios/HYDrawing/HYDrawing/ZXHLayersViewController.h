@@ -12,5 +12,6 @@
 
 @property(nonatomic,strong)ZXHLayerTopBar *topToolBar;
 @property(nonatomic,assign)NSInteger layersCount;
+@property(nonatomic,strong)UITableView *tbView;
 
 @end

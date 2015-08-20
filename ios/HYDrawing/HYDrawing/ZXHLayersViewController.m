@@ -19,11 +19,17 @@
 
 @implementation ZXHLayersViewController
 {
-    UITableView *_tbView;
+    
     UISlider *_alphaSlider;
     UILabel *_alphaLabel;
     NSInteger _curLayerIndex;
     ZXHEditableTipsView *_tipsView;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [_tbView reloadData];
 }
 
 #pragma mark 不可见、锁定提示
@@ -278,7 +284,7 @@
 
 #pragma mark 表格视图回调
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.layersCount;
+    return _layersCount;
 }
 
 #pragma mark - 复用

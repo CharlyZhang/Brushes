@@ -556,6 +556,9 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     
     fbo.begin();
     
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     shader->begin();
     
     CZMat4 projection;

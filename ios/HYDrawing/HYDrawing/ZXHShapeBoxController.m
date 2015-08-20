@@ -9,6 +9,9 @@
 #import "ZXHShapeBoxController.h"
 #import "ZXHShapeBoxCell.h"
 
+#define kBtnWidth [UIImage imageNamed:@"shapebox_btn_img_normal"].size.width
+#define kBtnHeight [UIImage imageNamed:@"shapebox_btn_img_normal"].size.height
+
 @interface ZXHShapeBoxController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
 
@@ -43,7 +46,7 @@
 -(void)initData{
     _dataSource = [NSMutableArray new];
 
-    for (int j=0; j<4; j++) {
+    for (int j=0; j<3; j++) {
         for (int i=1; i<=8; i++) {
             NSString *name = [NSString stringWithFormat:@"shape%d",i];
             UIImage *img = [UIImage imageNamed:name];
@@ -54,10 +57,16 @@
 
 #pragma mark 创建UI
 -(void)createUI{
-    // 用collectionView
+    // collectionView
+    [self createCollectionView];
     
+    // 按钮
+    [self createButtons];
+}
+
+-(void)createCollectionView{
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, preferSize.width, preferSize.height-8) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(60, 0, preferSize.width-60, preferSize.height-8) collectionViewLayout:flowLayout];
     
     // 注册xib
     [_collectionView registerNib:[UINib nibWithNibName:@"ZXHShapeBoxCell" bundle:nil] forCellWithReuseIdentifier:@"ShapeBoxCell"];
@@ -69,6 +78,21 @@
     [self.view addSubview:_collectionView];
     _collectionView.backgroundColor = [UIColor clearColor];
 }
+
+
+-(void)createButtons{
+    UIButton *imgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    imgBtn.frame = CGRectMake(0, 20, kBtnWidth, kBtnHeight);
+    [imgBtn setImage:[UIImage imageNamed:@"shapebox_btn_img"] forState:UIControlStateNormal];
+    [imgBtn setImage:[UIImage imageNamed:@"shapebox_btn_img"] forState:UIControlStateHighlighted];
+    [self.view addSubview:imgBtn];
+    
+    UIButton *shapeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    shapeBtn.frame = CGRectMake(0, 70, kBtnWidth, kBtnHeight);
+    [shapeBtn setImage:[UIImage imageNamed:@"shapebox_btn_shape"] forState:UIControlStateNormal];
+    [self.view addSubview:shapeBtn];
+}
+
 
 #pragma mark collectionView回调
 // 个数
@@ -83,7 +107,7 @@
 
 // 边距
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(20, 20, 20, 20);
+    return UIEdgeInsetsMake(10, 20, 20, 20);
 }
 
 // 复用

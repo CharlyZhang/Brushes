@@ -10,7 +10,6 @@
 #import "Macro.h"
 
 @implementation ZXHMockNavBar
-
 -(instancetype)initWithLeftBtnTitle:(NSString *)leftTitle title:(NSString *)title rightBtnTitle:(NSString *)rightTitle{
     
     CGFloat selfW = kScreenW;
@@ -18,6 +17,7 @@
     CGFloat btnW = 60;
     
     if (self = [super initWithFrame:CGRectMake(0, 0, selfW, selfH)]) {
+        
         if (leftTitle) {
             UIButton *leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, (selfH-30)/2, btnW, 30)];
             
@@ -75,13 +75,11 @@
             rightBtn.layer.borderWidth = 2;
             
             rightBtn.layer.cornerRadius = 4;
-            
             _rightBtn = rightBtn;
             
             [self addSubview:_rightBtn];
             
         }
-        
         
         // 分割线
         UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, selfH-2, selfW, 2)];

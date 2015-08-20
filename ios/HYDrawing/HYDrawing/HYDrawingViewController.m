@@ -22,7 +22,7 @@
 
 extern NSString *CZActivePaintColorDidChange;
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate>
+@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate,ImageEditViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
@@ -170,7 +170,6 @@ extern NSString *CZActivePaintColorDidChange;
     self.navigationController.navigationBar.hidden = NO;
 }
 
-
 - (void)tapMenu:(id)sender{
     HYMenuViewController *menuViewController = [[HYMenuViewController alloc]init];
     UINavigationController *menuNavigationController = [[UINavigationController alloc]initWithRootViewController:menuViewController];
@@ -301,6 +300,7 @@ extern NSString *CZActivePaintColorDidChange;
 
 #pragma mark - 底部工具栏按钮
 
+#pragma mark - BottomBarViewDelegate Methods
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
     switch (button.tag) {
         case COLORWHEEL_BTN:        ///< 调色板
@@ -325,7 +325,7 @@ extern NSString *CZActivePaintColorDidChange;
             [self showLayerPopoverController:button];
             break;
         case CLIP_BTN:
-            [self showCliperView];
+//            [self showCliperView];
             break;
         case CANVAS_BTN:
             [self showShapeBoxPopoverController:button];
@@ -335,6 +335,15 @@ extern NSString *CZActivePaintColorDidChange;
     }
     
     
+}
+
+#pragma mark - ImageEditViewControllerDelegate
+
+- (void)updateLayersView
+{
+    self.navigationController.navigationBar.hidden = NO;
+    _layersViewController.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    [_layersViewController.tbView reloadData];
 }
 
 #pragma mark 形状选择弹出
@@ -347,7 +356,7 @@ extern NSString *CZActivePaintColorDidChange;
 }
 
 -(void)showShapeBoxPopoverController:(UIButton*)sender{
-    UIImage *image = [UIImage imageNamed:@"popover_shapebox_bg"];
+    UIImage *image = [UIImage imageNamed:@"shapebox_img_bg"];
     if (!_shapeBoxController) {
         _shapeBoxController = [[ZXHShapeBoxController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
         _shapeBoxController.delegate = self;
@@ -358,8 +367,8 @@ extern NSString *CZActivePaintColorDidChange;
     }
     
     _shapeBoxPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
-//    [DDPopoverBackgroundView setContentInset:2];
-//    
+    [DDPopoverBackgroundView setContentInset:0];
+//
     [DDPopoverBackgroundView setBackgroundImage:image];
     
     // 弹出位置
@@ -367,12 +376,6 @@ extern NSString *CZActivePaintColorDidChange;
     popRect.origin.x += popRect.size.width;
     
     [_shapeBoxPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-    
-    UIButton *imgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *img = [UIImage imageNamed:@"shapebox_btn_img_normal"];
-    imgBtn.frame = CGRectMake(20, 20, img.size.width, img.size.height);
-    [imgBtn setImage:img forState:UIControlStateNormal];
-    [_shapeBoxController.view addSubview:imgBtn];
 }
 
 #pragma mark 显示裁剪视图
@@ -385,9 +388,8 @@ extern NSString *CZActivePaintColorDidChange;
 
 #pragma mark 图层弹出视图
 -(void)showLayerPopoverController:(UIButton*)sender{
-//    NSLog(@"hello-----");
     if (!_layersViewController) {
-         _layersViewController = [ZXHLayersViewController new];
+        _layersViewController = [ZXHLayersViewController new];
     }
     
     if (!layersPopoverController) {
@@ -406,9 +408,9 @@ extern NSString *CZActivePaintColorDidChange;
     
     // 弹出位置
     CGRect popRect = sender.frame;
-    popRect.origin.y -= 50;
+    popRect.origin.y -= 10;
     
-    [layersPopoverController presentPopoverFromRect:popRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     
 #pragma mark 观察当前图层数量
     [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
@@ -456,15 +458,18 @@ extern NSString *CZActivePaintColorDidChange;
 
 #pragma mark 图像变换
 -(void)showImageEditViewWithImage:(UIImage*)img{
-    imageEditViewController = [ImageEditViewController new];
+    if (!imageEditViewController) {
+        imageEditViewController = [ImageEditViewController new];
+        imageEditViewController.delegate = self;
+    }
     imageEditViewController.originalImg = img;
     imageEditViewController.view.frame = self.view.frame;
     imageEditViewController.view.backgroundColor = [UIColor clearColor];
     // 隐藏导航栏
     self.navigationController.navigationBar.hidden = YES;
+
     [self.view addSubview:imageEditViewController.view];
 }
-
 
 #pragma mark - Copied directly
 

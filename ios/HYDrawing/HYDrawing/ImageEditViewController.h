@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ImageEditViewControllerDelegate <NSObject>
+
+@required
+- (void)updateLayersView;
+
+@end
+
 @interface ImageEditViewController : UIViewController<UIGestureRecognizerDelegate>
 
 @property(nonatomic, strong)UIImage *originalImg;
 @property(nonatomic, retain)UIImageView *imageView;
+@property(nonatomic, weak)id<ImageEditViewControllerDelegate> delegate;
 
 
 /* 旋转 缩放 位置 */
