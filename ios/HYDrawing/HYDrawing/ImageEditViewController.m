@@ -297,8 +297,8 @@
     nav.navigationBar.hidden = NO;
     
     [self.view removeFromSuperview];
-    
-    [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform];
+
+    [[HYBrushCore sharedInstance]renderImage:_originalImg withTransform:self.imageTransform newLayer:YES];
     
     // 更新图层
     [self.delegate updateLayersView];
