@@ -171,9 +171,11 @@ typedef struct
 ///
 CZRect CZPath::drawData()
 {
-	int iPointSize = points.size();
+	size_t iPointSize = points.size();
+    CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
+    if (iPointSize <= 0) return dataBounds;
+    
 	vertexData *vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
-	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
 	int n = 0;
 	for (int i = 0; i < iPointSize; i++) 
