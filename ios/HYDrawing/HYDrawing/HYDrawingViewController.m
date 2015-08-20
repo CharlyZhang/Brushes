@@ -310,30 +310,32 @@ extern NSString *CZActivePaintColorDidChange;
         case COLORWHEEL_BTN:        ///< 调色板
             [self showColorPicker:button];
             break;
-        case ERASER_BTN:
+        case ERASER_BTN:            ///< 橡皮擦
             [[HYBrushCore sharedInstance]activeEraser];
             break;
-        case PENCIL_BTN:
+        case PENCIL_BTN:            ///< 铅笔
             [[HYBrushCore sharedInstance]activePencil];
             break;
-        case MARKERPEN_BTN:
+        case MARKERPEN_BTN:         ///< 马克笔
             [[HYBrushCore sharedInstance]activeCrayon];
             break;
-        case BUCKET_BTN:
+        case BUCKET_BTN:            ///< 倒色桶
             [[HYBrushCore sharedInstance]activeBucket];
             break;
-        case EYEDROPPER_BTN:
+        case SHAPEBOX_BTN:          ///< 图形箱
+            [self showShapeBoxPopoverController:button];
+            break;
+        case EYEDROPPER_BTN:        ///< 取色管
             [[HYBrushCore sharedInstance]activeColorPicker];
             break;
-        case LAYERS_BTN:
+        case LAYERS_BTN:            ///< 图层
             [self showLayerPopoverController:button];
             break;
-        case CLIP_BTN:
+        case CLIP_BTN:              ///< 裁减
 //            [self showCliperView];
             [self showCanvasBackgroundPopoverController:button];
             break;
-        case CANVAS_BTN:
-            [self showShapeBoxPopoverController:button];
+        case CANVAS_BTN:            ///< 背景图
             break;
         default:
             break;

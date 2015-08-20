@@ -583,6 +583,8 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     delete tex;
     
     CZCheckGLError();
+    
+    clearThumbnailImage();
 }
 
 void CZLayer::renderBackground(CZImage *img,CZAffineTransform &trans)
@@ -648,6 +650,8 @@ void CZLayer::renderBackground(CZImage *img,CZAffineTransform &trans)
     delete tex;
     
     CZCheckGLError();
+    
+    clearThumbnailImage();
 }
 
 CZLayer* CZLayer::duplicate()
