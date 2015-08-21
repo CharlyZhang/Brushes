@@ -64,7 +64,6 @@
 		53BF59BE1B857F5C007C3089 /* ZXHCanvasBackgroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59BC1B857F5C007C3089 /* ZXHCanvasBackgroundController.m */; };
 		53BF59C51B85A10B007C3089 /* ZXHCanvasBackgroundCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59C31B85A10B007C3089 /* ZXHCanvasBackgroundCell.m */; };
 		53BF59C61B85A10B007C3089 /* ZXHCanvasBackgroundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59C41B85A10B007C3089 /* ZXHCanvasBackgroundCell.xib */; };
-		53BF59CF1B85AD57007C3089 /* thumb1.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59C71B85AD57007C3089 /* thumb1.png */; };
 		53BF59D01B85AD57007C3089 /* thumb2.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59C81B85AD57007C3089 /* thumb2.png */; };
 		53BF59D11B85AD57007C3089 /* thumb3.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59C91B85AD57007C3089 /* thumb3.png */; };
 		53BF59D21B85AD57007C3089 /* thumb4.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59CA1B85AD57007C3089 /* thumb4.png */; };
@@ -72,6 +71,7 @@
 		53BF59D41B85AD57007C3089 /* thumb6.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59CC1B85AD57007C3089 /* thumb6.png */; };
 		53BF59D51B85AD57007C3089 /* thumb7.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59CD1B85AD57007C3089 /* thumb7.png */; };
 		53BF59D91B85AE4B007C3089 /* thumb8.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59D81B85AE4B007C3089 /* thumb8.png */; };
+		53BF59DB1B85EA25007C3089 /* thumb1.png in Resources */ = {isa = PBXBuildFile; fileRef = 53BF59DA1B85EA25007C3089 /* thumb1.png */; };
 		53D22D011B74996F00C65D88 /* blit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 53D22D001B74996F00C65D88 /* blit.vsh */; };
 		53D5906A1B5E023200E9D2F0 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D590691B5E023200E9D2F0 /* OpenGLES.framework */; };
 		53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 53D5906C1B5E02CA00E9D2F0 /* basic.vert */; };
@@ -213,7 +213,6 @@
 		53BF59C21B85A10B007C3089 /* ZXHCanvasBackgroundCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHCanvasBackgroundCell.h; sourceTree = "<group>"; };
 		53BF59C31B85A10B007C3089 /* ZXHCanvasBackgroundCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHCanvasBackgroundCell.m; sourceTree = "<group>"; };
 		53BF59C41B85A10B007C3089 /* ZXHCanvasBackgroundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHCanvasBackgroundCell.xib; sourceTree = "<group>"; };
-		53BF59C71B85AD57007C3089 /* thumb1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb1.png; sourceTree = "<group>"; };
 		53BF59C81B85AD57007C3089 /* thumb2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb2.png; sourceTree = "<group>"; };
 		53BF59C91B85AD57007C3089 /* thumb3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb3.png; sourceTree = "<group>"; };
 		53BF59CA1B85AD57007C3089 /* thumb4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb4.png; sourceTree = "<group>"; };
@@ -221,6 +220,7 @@
 		53BF59CC1B85AD57007C3089 /* thumb6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb6.png; sourceTree = "<group>"; };
 		53BF59CD1B85AD57007C3089 /* thumb7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb7.png; sourceTree = "<group>"; };
 		53BF59D81B85AE4B007C3089 /* thumb8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb8.png; sourceTree = "<group>"; };
+		53BF59DA1B85EA25007C3089 /* thumb1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb1.png; sourceTree = "<group>"; };
 		53D22D001B74996F00C65D88 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
 		53D590691B5E023200E9D2F0 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		53D5906C1B5E02CA00E9D2F0 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../core/glsl/basic.vert; sourceTree = "<group>"; };
@@ -473,7 +473,7 @@
 		53BF59D71B85AD5C007C3089 /* thumbnails */ = {
 			isa = PBXGroup;
 			children = (
-				53BF59C71B85AD57007C3089 /* thumb1.png */,
+				53BF59DA1B85EA25007C3089 /* thumb1.png */,
 				53BF59C81B85AD57007C3089 /* thumb2.png */,
 				53BF59C91B85AD57007C3089 /* thumb3.png */,
 				53BF59CA1B85AD57007C3089 /* thumb4.png */,
@@ -615,6 +615,7 @@
 				53BF59C61B85A10B007C3089 /* ZXHCanvasBackgroundCell.xib in Resources */,
 				535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */,
 				53BF597B1B8473EC007C3089 /* shape8.png in Resources */,
+				53BF59DB1B85EA25007C3089 /* thumb1.png in Resources */,
 				53D590821B5E02CA00E9D2F0 /* brush.vert in Resources */,
 				535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */,
 				53BF59801B8478F8007C3089 /* ZXHShapeBoxCell.xib in Resources */,
@@ -645,7 +646,6 @@
 				53BF592D1B842E25007C3089 /* CliperMenuView.xib in Resources */,
 				53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */,
 				53D590801B5E02CA00E9D2F0 /* blitWithMask.frag in Resources */,
-				53BF59CF1B85AD57007C3089 /* thumb1.png in Resources */,
 				53BF59D31B85AD57007C3089 /* thumb5.png in Resources */,
 				53BF59D21B85AD57007C3089 /* thumb4.png in Resources */,
 				53D5907C1B5E02CA00E9D2F0 /* basicWithCoord.vert in Resources */,
