@@ -14,6 +14,11 @@
 #include "../CZUtil.h"
 #include "glDef.h"
 
+static bool powerOf2(int x)
+{
+    return (x & (x - 1)) == 0;
+}
+
 /// !WARN: we should confirm the original type of data is suitable for imgMode
 CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STORAGEMODE */, void *data /* = NULL */)
 {
@@ -64,7 +69,7 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     // Set up filter and wrap modes for this texture object
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     CZCheckGLError();
 //    GLenum      type = supportColor ? GL_HALF_FLOAT_OES : GL_UNSIGNED_BYTE;
@@ -73,7 +78,7 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)data);
     CZCheckGLError();
     
-    if(width == height) /// in fact, both width and height should be power of two
+    if(powerOf2(width) && powerOf2(height)) /// in fact, both width and height should be power of two
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); ///! originally GL_LINEAR
         glGenerateMipmap(GL_TEXTURE_2D);
