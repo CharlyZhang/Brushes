@@ -147,7 +147,7 @@ extern NSString *CZActivePaintColorDidChange;
     
     self.navigationItem.leftBarButtonItems = @[menuItem];
     
-    UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
+    UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
@@ -192,6 +192,11 @@ extern NSString *CZActivePaintColorDidChange;
 
 -(void)hiddenNavBar{
     self.navigationController.navigationBar.hidden = NO;
+}
+
+// --- 视频
+-(void)tapVideo:(id)sender{
+    
 }
 
 - (void)tapMenu:(id)sender{
