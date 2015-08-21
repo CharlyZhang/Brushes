@@ -11,6 +11,7 @@
 
 #include "CZActiveState.h"
 #include "CZDefine.h"
+#include "basic/CZImage.h"
 #include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
 #include "stamp/CZRoundGenerator.h"
@@ -174,7 +175,15 @@ bool CZActiveState::deleteActiveBrush()
 ///
 int CZActiveState::getBrushesNumber()
 {
-    return brushes.size();
+    return (int)brushes.size();
+}
+
+bool CZActiveState::setActiveBrushStamp(CZImage* stampImg)
+{
+    if(!stampImg)   return false;
+    CZBrush *activeBrush = getActiveBrush();
+    activeBrush->setStampImage(stampImg);
+    return true;
 }
 
 /// 获取当前工具
@@ -264,7 +273,6 @@ int CZActiveState::initBrushes()
                 random = new CZBrush(gen);
                 random->weight.value = 50;
                 break;
-                
             case kPencil:
                 gen = generators["pencil"]->copy();
                 gen->randomize();
@@ -276,6 +284,12 @@ int CZActiveState::initBrushes()
                 gen->randomize();
                 random = new CZBrush(gen);
                 random->weight.value = 100;
+                break;
+            case kWatercolorPen:
+                random = new CZBrush();
+                random->weight.value = 100;
+                break;
+
                 break;
             default:
                 LOG_WARN("idx cannot specify one tool type!\n");

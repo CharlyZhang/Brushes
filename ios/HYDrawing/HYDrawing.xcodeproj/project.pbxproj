@@ -11,6 +11,7 @@
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
 		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
 		2D4906371B7F297600158F1C /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906361B7F297600158F1C /* ReadMe.md */; };
+		2D95594C1B859AAD009C9C6C /* watercolorPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D95594B1B859AAD009C9C6C /* watercolorPen.png */; };
 		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
 		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
 		535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */; };
@@ -126,6 +127,7 @@
 		2D4906311B7F234900158F1C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
 		2D4906321B7F234900158F1C /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
 		2D4906361B7F297600158F1C /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
+		2D95594B1B859AAD009C9C6C /* watercolorPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watercolorPen.png; sourceTree = "<group>"; };
 		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
 		535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayerTopBar.m; sourceTree = "<group>"; };
@@ -348,13 +350,13 @@
 			isa = PBXGroup;
 			children = (
 				53BF59D71B85AD5C007C3089 /* thumbnails */,
-				53BF596B1B847379007C3089 /* shapes */,
 				535306F01B7C326D00877D76 /* Images.xcassets */,
 				60216AE91B589440009186F4 /* Macro.h */,
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
+				53BF596B1B847379007C3089 /* shapes */,
 				2D49062D1B7AE44600158F1C /* interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
@@ -379,6 +381,7 @@
 		53851B621B57AADE00B6F946 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2D95594B1B859AAD009C9C6C /* watercolorPen.png */,
 				53D5906B1B5E025A00E9D2F0 /* Shader */,
 				53851B631B57AADE00B6F946 /* Info.plist */,
 				53851B641B57AADE00B6F946 /* main.m */,
@@ -634,6 +637,7 @@
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
 				53D5907E1B5E02CA00E9D2F0 /* blit.vert in Resources */,
 				53BF597A1B8473EC007C3089 /* shape7.png in Resources */,
+				2D95594C1B859AAD009C9C6C /* watercolorPen.png in Resources */,
 				53D5907F1B5E02CA00E9D2F0 /* blitWithEraseMask.frag in Resources */,
 				53BF59771B8473EC007C3089 /* shape4.png in Resources */,
 				5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */,

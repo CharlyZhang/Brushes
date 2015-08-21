@@ -733,9 +733,9 @@ void CZPainting::configureBrush(CZBrush* brush_)
         
         if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
         
-        CZStampGenerator *gen = brush_->getGenerator();
-        CZImage *img = gen->getStamp(false);
+        CZImage *img = brush_->getStampImage();
         glContext->setAsCurrent();
-        brushStampTex = CZTexture::produceFromImage(img);		///< get the normal stamp;
+        brushStampTex = CZTexture::produceFromImage(img);
+        
     }
 }

@@ -27,6 +27,7 @@
 - (void) activeEraser;
 - (void) activePencil;
 - (void) activeCrayon;
+- (void) activeWaterColorPen;
 - (void) activeBucket;
 - (void) activeColorPicker;
 

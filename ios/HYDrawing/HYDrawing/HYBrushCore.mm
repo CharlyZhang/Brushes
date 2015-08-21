@@ -42,6 +42,7 @@
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
     CZActiveState::getInstance()->mainScreenScale = [UIScreen mainScreen].scale;
+    [self setActiveBrushwatercolorPenStamp ];
     
     self.hasInitialized = YES;
     return YES;
@@ -84,6 +85,16 @@
     activeState->setEraseMode(false);
     activeState->setActiveBrush(kCrayon);
 }
+///激活水彩笔
+- (void) activeWaterColorPen
+{
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorFillMode = false;
+    activeState->colorPickMode = false;
+    activeState->setEraseMode(false);
+    activeState->setActiveBrush(kWatercolorPen);
+}
+
 ///激活倒色桶
 - (void) activeBucket
 {
@@ -246,8 +257,6 @@
     if (!layer)         return nil;
     CZImage *thumbImage = layer->getThumbnailImage();
     if (!thumbImage)    return nil;
-
-    printf("-->%ld\n",thumbImage);
     
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGContextRef ctx = CGBitmapContextCreate(thumbImage->data, thumbImage->width, thumbImage->height, 8, thumbImage->width*4,
@@ -355,6 +364,41 @@
     BOOL ret = layer->clear();
     canvas->drawView();
     return ret;
+}
+
+#pragma mark -
+- (void)setActiveBrushwatercolorPenStamp
+{
+    UIImage *image = [UIImage imageNamed:@"watercolorPen.png"];
+    CGImageRef img = image.CGImage;
+    
+    //数据源提供者
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    // provider’s data.
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    //宽，高，data
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    
+    CZImage *stampImage = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
+    
+    if (alphaInfo == kCGImageAlphaNone ||
+        alphaInfo == kCGImageAlphaNoneSkipLast ||
+        alphaInfo == kCGImageAlphaNoneSkipFirst){
+        stampImage->hasAlpha = false;
+    }
+    else {
+        stampImage->hasAlpha = true;
+    }
+    
+    CZActiveState *activeState = CZActiveState::getInstance();
+    
+    int idx = activeState->setActiveBrush(kWatercolorPen);
+    activeState->setActiveBrushStamp(stampImage);
+    activeState->setActiveBrush(idx);
 }
 
 /// 析构

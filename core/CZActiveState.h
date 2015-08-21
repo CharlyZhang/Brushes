@@ -23,10 +23,12 @@ class CZBrush;
 class CZPainting;
 class CZColor;
 class CZGLContext;
+class CZImage;
 
 typedef enum ToolType {
     kEraser = 0,
     kPencil,
+    kWatercolorPen,
     kCrayon,
     
     kToolNumber
@@ -79,6 +81,8 @@ public:
 	bool deleteActiveBrush();
     ///
     int getBrushesNumber();
+    /// set active brush's stamp
+    bool setActiveBrushStamp(CZImage* stampImg);
 
 	/// 获取当前工具
 	/// 
