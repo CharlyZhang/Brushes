@@ -41,6 +41,10 @@
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
 		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
 		538CA6841B8AAF910050A39A /* ZXHSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */; };
+		538CA6891B8AC79F0050A39A /* ZXHPaintingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA6881B8AC79F0050A39A /* ZXHPaintingListController.m */; };
+		538CA68D1B8AE83B0050A39A /* ZXHPaintingListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA68B1B8AE83B0050A39A /* ZXHPaintingListCell.m */; };
+		538CA68E1B8AE83B0050A39A /* ZXHPaintingListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 538CA68C1B8AE83B0050A39A /* ZXHPaintingListCell.xib */; };
+		538CA6901B8AF61A0050A39A /* defaultPaintingImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 538CA68F1B8AF61A0050A39A /* defaultPaintingImage@2x.png */; };
 		5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */; };
 		53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */; };
 		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
@@ -182,6 +186,12 @@
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
 		538CA6821B8AAF910050A39A /* ZXHSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHSettingViewController.h; sourceTree = "<group>"; };
 		538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHSettingViewController.m; sourceTree = "<group>"; };
+		538CA6871B8AC79F0050A39A /* ZXHPaintingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHPaintingListController.h; sourceTree = "<group>"; };
+		538CA6881B8AC79F0050A39A /* ZXHPaintingListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHPaintingListController.m; sourceTree = "<group>"; };
+		538CA68A1B8AE83B0050A39A /* ZXHPaintingListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHPaintingListCell.h; sourceTree = "<group>"; };
+		538CA68B1B8AE83B0050A39A /* ZXHPaintingListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHPaintingListCell.m; sourceTree = "<group>"; };
+		538CA68C1B8AE83B0050A39A /* ZXHPaintingListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHPaintingListCell.xib; sourceTree = "<group>"; };
+		538CA68F1B8AF61A0050A39A /* defaultPaintingImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "defaultPaintingImage@2x.png"; sourceTree = "<group>"; };
 		5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHEditableTipsView.xib; sourceTree = "<group>"; };
 		53B0CC7B1B7DEE26000AD907 /* ZXHEditableTipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHEditableTipsView.h; sourceTree = "<group>"; };
 		53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHEditableTipsView.m; sourceTree = "<group>"; };
@@ -350,6 +360,7 @@
 		53851B611B57AADE00B6F946 /* HYDrawing */ = {
 			isa = PBXGroup;
 			children = (
+				538CA68F1B8AF61A0050A39A /* defaultPaintingImage@2x.png */,
 				53BF59D71B85AD5C007C3089 /* thumbnails */,
 				53BF596B1B847379007C3089 /* shapes */,
 				535306F01B7C326D00877D76 /* Images.xcassets */,
@@ -377,6 +388,8 @@
 				53BF59BC1B857F5C007C3089 /* ZXHCanvasBackgroundController.m */,
 				538CA6821B8AAF910050A39A /* ZXHSettingViewController.h */,
 				538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */,
+				538CA6871B8AC79F0050A39A /* ZXHPaintingListController.h */,
+				538CA6881B8AC79F0050A39A /* ZXHPaintingListController.m */,
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -441,6 +454,9 @@
 				53BF59C21B85A10B007C3089 /* ZXHCanvasBackgroundCell.h */,
 				53BF59C31B85A10B007C3089 /* ZXHCanvasBackgroundCell.m */,
 				53BF59C41B85A10B007C3089 /* ZXHCanvasBackgroundCell.xib */,
+				538CA68A1B8AE83B0050A39A /* ZXHPaintingListCell.h */,
+				538CA68B1B8AE83B0050A39A /* ZXHPaintingListCell.m */,
+				538CA68C1B8AE83B0050A39A /* ZXHPaintingListCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -645,6 +661,7 @@
 				5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */,
 				53851B731B57AADE00B6F946 /* LaunchScreen.xib in Resources */,
 				53BF59D51B85AD57007C3089 /* thumb7.png in Resources */,
+				538CA6901B8AF61A0050A39A /* defaultPaintingImage@2x.png in Resources */,
 				53BF59D91B85AE4B007C3089 /* thumb8.png in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
 				53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */,
@@ -655,6 +672,7 @@
 				53BF59D21B85AD57007C3089 /* thumb4.png in Resources */,
 				53D5907C1B5E02CA00E9D2F0 /* basicWithCoord.vert in Resources */,
 				537343A51B70872E00CDCC82 /* colorPicker.fsh in Resources */,
+				538CA68E1B8AE83B0050A39A /* ZXHPaintingListCell.xib in Resources */,
 				53BF59761B8473EC007C3089 /* shape3.png in Resources */,
 				53BF59D41B85AD57007C3089 /* thumb6.png in Resources */,
 				53D590851B5E02CA00E9D2F0 /* nonPremultipliedBlit.frag in Resources */,
@@ -698,10 +716,12 @@
 				538CA6841B8AAF910050A39A /* ZXHSettingViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
+				538CA6891B8AC79F0050A39A /* ZXHPaintingListController.m in Sources */,
 				53BF592E1B842E25007C3089 /* CliperView.m in Sources */,
 				53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */,
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
+				538CA68D1B8AE83B0050A39A /* ZXHPaintingListCell.m in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
 				53BF592C1B842E25007C3089 /* CliperMenuView.m in Sources */,
@@ -848,7 +868,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
@@ -862,7 +882,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";

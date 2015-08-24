@@ -21,11 +21,12 @@
 #import "ZXHShapeBoxController.h"
 #import "ZXHCanvasBackgroundController.h"
 #import "ZXHSettingViewController.h"
+#import "ZXHPaintingListController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 
 @interface HYDrawingViewController ()<
-    BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate,ImageEditViewControllerDelegate,
+    BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate,
     SettingViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
@@ -34,8 +35,10 @@ extern NSString *CZActivePaintColorDidChange;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
     UIPopoverController *menuPopoverController;
+    // 图层
     ZXHLayersViewController *_layersViewController;
     UIBarButtonItem *pictureItem;
+    // 图形
     ZXHShapeBoxController *_shapeBoxController;
     UIPopoverController *_shapeBoxPopoverController;
     // 背景图选择
@@ -43,6 +46,8 @@ extern NSString *CZActivePaintColorDidChange;
     ZXHCanvasBackgroundController *_canvasBackgroundController;
     // 设置
     UIPopoverController *_settingPopoverController;
+    // 列表
+    UIPopoverController *_listPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -147,18 +152,25 @@ extern NSString *CZActivePaintColorDidChange;
     
     self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     
-    // Do any additional setup after loading the view.
-    UIBarButtonItem *menuItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
-    
+    // 列表
+    UIBarButtonItem *menuItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showListPopoverController:)];
     self.navigationItem.leftBarButtonItems = @[menuItem];
     
+    // 视频
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
+    
+    // 设置
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingPopoverController:)];
+    
+    // 图片
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
+    
+    // 分享
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
+    
+    
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
- 
 #pragma mark 初始画板
 
     [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH];
@@ -230,6 +242,25 @@ extern NSString *CZActivePaintColorDidChange;
 -(void)settingForTransformCanvas{
     
     [_settingPopoverController dismissPopoverAnimated:YES];
+}
+
+#pragma mark 作品列表弹出
+-(void)showListPopoverController:(UIBarButtonItem*)sender{
+    UIImage *image = [UIImage imageNamed:@"list_popover_bg"];
+    ZXHPaintingListController *listVC = [[ZXHPaintingListController alloc]init];
+    listVC.preferredContentSize = CGSizeMake(image.size.width, image.size.height-10);
+    
+    if (!_listPopoverController) {
+        _listPopoverController = [[UIPopoverController alloc]initWithContentViewController:listVC];
+    }
+    
+    _listPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:0];
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    [DDPopoverBackgroundView setBackgroundImageCornerRadius:4];
+    
+    // 弹出
+    [_listPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 

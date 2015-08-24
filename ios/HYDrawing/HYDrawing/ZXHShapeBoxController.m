@@ -72,6 +72,9 @@
     for (int j=0; j<3; j++) {
         for (int i=1; i<=8; i++) {
             NSString *name = [NSString stringWithFormat:@"thumb%d",i];
+            if (i==1) {
+                name = @"thumb1.jpg";
+            }
             UIImage *img = [UIImage imageNamed:name];
             [_pictureData addObject:img];
         }
