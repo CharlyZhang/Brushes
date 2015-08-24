@@ -28,6 +28,7 @@ class CZImage;
 typedef enum ToolType {
     kEraser = 0,
     kPencil,
+    kMarker,
     kWatercolorPen,
     kCrayon,
     

@@ -76,6 +76,16 @@
     activeState->setEraseMode(false);
     activeState->setActiveBrush(kPencil);
 }
+///激活马克笔
+- (void) activeMarker
+{
+    CZActiveState *activeState = CZActiveState::getInstance();
+    activeState->colorFillMode = false;
+    activeState->colorPickMode = false;
+    
+    activeState->setEraseMode(false);
+    activeState->setActiveBrush(kMarker);
+}
 ///激活蜡笔
 - (void) activeCrayon
 {

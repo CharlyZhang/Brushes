@@ -26,6 +26,7 @@
 ///工具激活
 - (void) activeEraser;
 - (void) activePencil;
+- (void) activeMarker;
 - (void) activeCrayon;
 - (void) activeWaterColorPen;
 - (void) activeBucket;

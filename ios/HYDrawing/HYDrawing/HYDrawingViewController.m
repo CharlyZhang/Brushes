@@ -342,10 +342,13 @@ extern NSString *CZActivePaintColorDidChange;
             [[HYBrushCore sharedInstance]activePencil];
             break;
         case MARKERPEN_BTN:         ///< 马克笔
-            [[HYBrushCore sharedInstance]activeCrayon];
+            [[HYBrushCore sharedInstance]activeMarker];
             break;
-        case COLORBRUSH_BTN:
+        case COLORBRUSH_BTN:        ///< 水彩笔
             [[HYBrushCore sharedInstance]activeWaterColorPen];
+            break;
+        case CRAYON_BTN:
+            [[HYBrushCore sharedInstance]activeCrayon];
             break;
         case BUCKET_BTN:            ///< 倒色桶
             [[HYBrushCore sharedInstance]activeBucket];
