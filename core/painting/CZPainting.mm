@@ -222,6 +222,7 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
     glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projMat);
     CZCheckGLError();
     
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     /// »æÖÆ¹ì¼£
     CZRect pathBounds = path_->paint(randomizer);
     

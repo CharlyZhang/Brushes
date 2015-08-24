@@ -132,7 +132,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
-    LOG_DEBUG("pan\t");
+    LOG_DEBUG("pan\n");
     CZActiveState *activeState = CZActiveState::getInstance();
     
     if (activeState->colorFillMode || activeState->colorPickMode) return;
