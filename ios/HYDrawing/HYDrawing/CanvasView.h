@@ -22,7 +22,7 @@ typedef enum ShowingMessageType {
 @required
 - (void) showMessageView:(ShowingMessageType)msgType;
 - (void) dismissMessageView;
-- (void) toggleDisplayBottomBarView;
+- (void) displayBarView:(BOOL) flag;
 
 @end
 

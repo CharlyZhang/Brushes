@@ -305,16 +305,16 @@ int CZActiveState::initBrushes()
             case kCrayon:
                 gen = generators["bristle"]->copy();
                 gen->randomize();
-                ((CZBristleGenerator*)gen)->bristleDensity.value = 0.45f;
+                ((CZBristleGenerator*)gen)->bristleDensity.value = 0.59f;
                 ((CZBristleGenerator*)gen)->bristleSize.value = 1.0f;
                 random = new CZBrush(gen);
                 random->weight.value = 30;
-                random->intensity.value = 0.42f;
+                random->intensity.value = 0.39f;
                 random->angle.value = 115.71f;
-                random->spacing.value = 0.34f;
-                random->rotationalScatter.value =0;
+                random->spacing.value = 0.36f;
+                random->rotationalScatter.value =0.27f;
                 random->positionalScatter.value =0;
-                random->angleDynamics.value = 0.22f;
+                random->angleDynamics.value = 1.0f;
                 random->weightDynamics.value = 0.03f;
                 random->intensityDynamics.value = -0.43f;
                 break;

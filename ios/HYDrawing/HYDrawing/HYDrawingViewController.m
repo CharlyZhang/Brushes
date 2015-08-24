@@ -106,8 +106,8 @@ extern NSString *CZActivePaintColorDidChange;
 }
 
 #pragma mark 显示或隐藏底部工具栏
--(void)toggleDisplayBottomBarView{
-    if (!bottomBarView.hidden) {
+-(void)displayBarView:(BOOL) flag {
+    if (!flag && !bottomBarView.hidden) {
         [UIView animateWithDuration:0.25 animations:^{
             bottomBarView.alpha = 0;
             self.navigationController.navigationBar.alpha = 0;
@@ -115,7 +115,8 @@ extern NSString *CZActivePaintColorDidChange;
             bottomBarView.hidden = YES;
             self.navigationController.navigationBar.hidden = YES;
         }];
-    }else{
+    }
+    else if(flag && bottomBarView.hidden) {
         [UIView animateWithDuration:0.25 animations:^{
             bottomBarView.hidden = NO;
             self.navigationController.navigationBar.hidden = NO;
