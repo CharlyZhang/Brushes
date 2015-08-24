@@ -40,6 +40,7 @@
 		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
 		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
+		538CA6841B8AAF910050A39A /* ZXHSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */; };
 		5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */; };
 		53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */; };
 		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
@@ -179,6 +180,8 @@
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
 		53851B931B5899F600B6F946 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
+		538CA6821B8AAF910050A39A /* ZXHSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHSettingViewController.h; sourceTree = "<group>"; };
+		538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHSettingViewController.m; sourceTree = "<group>"; };
 		5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHEditableTipsView.xib; sourceTree = "<group>"; };
 		53B0CC7B1B7DEE26000AD907 /* ZXHEditableTipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHEditableTipsView.h; sourceTree = "<group>"; };
 		53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHEditableTipsView.m; sourceTree = "<group>"; };
@@ -372,6 +375,8 @@
 				53BF59321B8452BA007C3089 /* ZXHShapeBoxController.m */,
 				53BF59BB1B857F5C007C3089 /* ZXHCanvasBackgroundController.h */,
 				53BF59BC1B857F5C007C3089 /* ZXHCanvasBackgroundController.m */,
+				538CA6821B8AAF910050A39A /* ZXHSettingViewController.h */,
+				538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */,
 			);
 			path = HYDrawing;
 			sourceTree = "<group>";
@@ -690,6 +695,7 @@
 				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
+				538CA6841B8AAF910050A39A /* ZXHSettingViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
 				53BF592E1B842E25007C3089 /* CliperView.m in Sources */,
@@ -842,7 +848,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
@@ -856,7 +862,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";

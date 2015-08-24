@@ -20,10 +20,13 @@
 #import "CliperView.h"
 #import "ZXHShapeBoxController.h"
 #import "ZXHCanvasBackgroundController.h"
+#import "ZXHSettingViewController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 
-@interface HYDrawingViewController ()<BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate,ImageEditViewControllerDelegate>
+@interface HYDrawingViewController ()<
+    BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ShapeBoxControllerDelegate,ImageEditViewControllerDelegate,
+    SettingViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
@@ -38,6 +41,8 @@ extern NSString *CZActivePaintColorDidChange;
     // 背景图选择
     UIPopoverController *_canvasBgPopoverController;
     ZXHCanvasBackgroundController *_canvasBackgroundController;
+    // 设置
+    UIPopoverController *_settingPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -148,7 +153,7 @@ extern NSString *CZActivePaintColorDidChange;
     self.navigationItem.leftBarButtonItems = @[menuItem];
     
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
-    UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
+    UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingPopoverController:)];
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
@@ -189,6 +194,44 @@ extern NSString *CZActivePaintColorDidChange;
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
 //    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
 //}
+
+#pragma mark 设置按钮弹出
+-(void)showSettingPopoverController:(UIBarButtonItem*)sender{
+    UIImage *image = [UIImage imageNamed:@"setting_popover_bg"];
+    ZXHSettingViewController *settingVC = [[ZXHSettingViewController alloc]init];
+    settingVC.preferredContentSize = image.size;
+    settingVC.delegate = self;
+    
+    if (!_settingPopoverController) {
+        _settingPopoverController = [[UIPopoverController alloc]initWithContentViewController:settingVC];
+    }
+    
+    _settingPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:0];
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    [DDPopoverBackgroundView setBackgroundImageCornerRadius:4];
+    
+    // 弹出
+    [_settingPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+// 协议方法
+-(void)settingForCreateNewCanvas{
+    
+    [_settingPopoverController dismissPopoverAnimated:YES];
+}
+
+-(void)settingForClearCanvas{
+    [[HYBrushCore sharedInstance]clearLayer:0];
+    
+    [_settingPopoverController dismissPopoverAnimated:YES];
+}
+
+-(void)settingForTransformCanvas{
+    
+    [_settingPopoverController dismissPopoverAnimated:YES];
+}
+
 
 -(void)hiddenNavBar{
     self.navigationController.navigationBar.hidden = NO;
@@ -381,14 +424,6 @@ extern NSString *CZActivePaintColorDidChange;
 }
 
 #pragma mark 形状选择弹出
-
-// 代理方法
--(void)changePopoverBgImage:(BOOL)isImage{
-    if (isImage) {
-//        _shapeBoxPopoverController.backgroundColor
-    }
-}
-
 -(void)didSelectedShape:(UIImage*)img{
     [_shapeBoxPopoverController dismissPopoverAnimated:YES];
     [self showImageEditViewWithImage:img];
@@ -397,7 +432,7 @@ extern NSString *CZActivePaintColorDidChange;
 -(void)showShapeBoxPopoverController:(UIButton*)sender{
     UIImage *image = [UIImage imageNamed:@"shapebox_img_bg"];
     if (!_shapeBoxController) {
-        _shapeBoxController = [[ZXHShapeBoxController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
+        _shapeBoxController = [[ZXHShapeBoxController alloc]initWithPreferredContentSize:image.size];
         _shapeBoxController.delegate = self;
     }
     
