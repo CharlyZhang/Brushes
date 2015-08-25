@@ -98,7 +98,7 @@
 		2D1B25541ADF01F2006841C3 /* CZBrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBrush.cpp; sourceTree = "<group>"; };
 		2D1B25551ADF01F2006841C3 /* CZBrush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBrush.h; sourceTree = "<group>"; };
 		2D1B25571ADF01F2006841C3 /* CZBrushPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBrushPreview.h; sourceTree = "<group>"; };
-		2D1B25581ADF01F2006841C3 /* CZActiveState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZActiveState.cpp; path = ../../../core/CZActiveState.cpp; sourceTree = "<group>"; };
+		2D1B25581ADF01F2006841C3 /* CZActiveState.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CZActiveState.cpp; path = ../../../core/CZActiveState.cpp; sourceTree = "<group>"; };
 		2D1B25591ADF01F2006841C3 /* CZActiveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZActiveState.h; path = ../../../core/CZActiveState.h; sourceTree = "<group>"; };
 		2D1B255A1ADF01F2006841C3 /* CZBrushCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZBrushCell.h; path = ../../../core/CZBrushCell.h; sourceTree = "<group>"; };
 		2D1B255B1ADF01F2006841C3 /* CZBrushController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZBrushController.h; path = ../../../core/CZBrushController.h; sourceTree = "<group>"; };

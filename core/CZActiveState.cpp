@@ -11,6 +11,7 @@
 
 #include "CZActiveState.h"
 #include "CZDefine.h"
+#include "basic/CZImage.h"
 #include "brush/CZBrush.h"
 #include "stamp/CZSpiralGenerator.h"
 #include "stamp/CZRoundGenerator.h"
@@ -174,7 +175,15 @@ bool CZActiveState::deleteActiveBrush()
 ///
 int CZActiveState::getBrushesNumber()
 {
-    return brushes.size();
+    return (int)brushes.size();
+}
+
+bool CZActiveState::setActiveBrushStamp(CZImage* stampImg)
+{
+    if(!stampImg)   return false;
+    CZBrush *activeBrush = getActiveBrush();
+    activeBrush->setStampImage(stampImg);
+    return true;
 }
 
 /// 获取当前工具
@@ -239,9 +248,8 @@ bool CZActiveState::setPaintColorAsSwatch(int idx)
 int CZActiveState::setUpGenerators()
 {
 	generators["spiral"] = new CZSpiralGenerator(stampGLContext);
-	generators["eraser"] = new CZRoundGenerator(stampGLContext);
-	generators["pencil"] = new CZBristleGenerator(stampGLContext,kPencilBristle);
-    generators["crayon"] = new CZBristleGenerator(stampGLContext,kCrayonBristle);
+	generators["round"] = new CZRoundGenerator(stampGLContext);
+	generators["bristle"] = new CZBristleGenerator(stampGLContext);
 
 	return generators.size();
 }
@@ -259,23 +267,70 @@ int CZActiveState::initBrushes()
         ToolType type = (ToolType)i;
         switch(type){
             case kEraser:
-                gen = generators["eraser"]->copy();
+                gen = generators["round"]->copy();
                 gen->randomize();
                 random = new CZBrush(gen);
                 random->weight.value = 50;
                 break;
-                
             case kPencil:
-                gen = generators["pencil"]->copy();
+                gen = generators["bristle"]->copy();
+                gen->randomize();
+                ((CZBristleGenerator*)gen)->bristleDensity.value = 0.29f;
+                ((CZBristleGenerator*)gen)->bristleSize.value = 0.82f;
+                random = new CZBrush(gen);
+                random->weight.value = 4.24f;
+                random->intensity.value = 0.49f;
+                random->angle.value = 0;
+                random->spacing.value = 0.4f;
+                random->rotationalScatter.value =0;
+                random->positionalScatter.value =0.17f;
+                random->angleDynamics.value = 0;
+                random->weightDynamics.value = -0.42f;
+                random->intensityDynamics.value = -0.5f;
+                break;
+            case kMarker:
+                gen = generators["round"]->copy();
                 gen->randomize();
                 random = new CZBrush(gen);
-                random->weight.value = 10;
+                random->weight.value = 20;
+                random->intensity.value = 1.0f;
+                random->angle.value = 166;
+                random->spacing.value = 0;
+                random->rotationalScatter.value =0.46f;
+                random->positionalScatter.value =0;
+                random->angleDynamics.value = 1.0f;
+                random->weightDynamics.value = 0.07f;
+                random->intensityDynamics.value = -0.5f;
                 break;
             case kCrayon:
-                gen = generators["crayon"]->copy();
+                gen = generators["bristle"]->copy();
                 gen->randomize();
+                ((CZBristleGenerator*)gen)->bristleDensity.value = 0.59f;
+                ((CZBristleGenerator*)gen)->bristleSize.value = 1.0f;
                 random = new CZBrush(gen);
+                random->weight.value = 30;
+                random->intensity.value = 0.39f;
+                random->angle.value = 115.71f;
+                random->spacing.value = 0.36f;
+                random->rotationalScatter.value =0.27f;
+                random->positionalScatter.value =0;
+                random->angleDynamics.value = 1.0f;
+                random->weightDynamics.value = 0.03f;
+                random->intensityDynamics.value = -0.43f;
+                break;
+            case kWatercolorPen:
+                random = new CZBrush();         ///< the stamp image is non-generated
                 random->weight.value = 100;
+                random->intensity.value = 0.15f;
+                random->angle.value = 42.53f;
+                random->spacing.value = 0.08f;
+                random->rotationalScatter.value =0.31f;
+                random->positionalScatter.value =0.05f;
+                random->angleDynamics.value = -0.07f;
+                random->weightDynamics.value = 0.35f;
+                random->intensityDynamics.value = -0.75f;
+                break;
+
                 break;
             default:
                 LOG_WARN("idx cannot specify one tool type!\n");

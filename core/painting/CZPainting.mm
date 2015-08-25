@@ -222,6 +222,7 @@ CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBu
     glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projMat);
     CZCheckGLError();
     
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     /// »æÖÆ¹ì¼£
     CZRect pathBounds = path_->paint(randomizer);
     
@@ -733,9 +734,9 @@ void CZPainting::configureBrush(CZBrush* brush_)
         
         if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
         
-        CZStampGenerator *gen = brush_->getGenerator();
-        CZImage *img = gen->getStamp(false);
+        CZImage *img = brush_->getStampImage();
         glContext->setAsCurrent();
-        brushStampTex = CZTexture::produceFromImage(img);		///< get the normal stamp;
+        brushStampTex = CZTexture::produceFromImage(img);
+        
     }
 }

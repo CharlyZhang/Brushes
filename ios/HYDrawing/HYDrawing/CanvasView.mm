@@ -23,6 +23,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 {
     CZMat4 projMat;
     EAGLContext *context;               ///
+    BOOL isBarVisible;
 }
 
 @property (nonatomic, assign) CZFbo* fbo;
@@ -67,8 +68,9 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     CZCheckGLError();
     glActiveTexture(GL_TEXTURE0);
     
-    
     [self configureGestrues];
+    
+    isBarVisible = YES;
     
     return self;
 }
@@ -109,10 +111,16 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
     UITouch *touch = [touches anyObject];
-    // 双指双击
-    if (touches.count>=2 && touch.tapCount==2) {
-        [self.delegate toggleDisplayBottomBarView];
+    
+    if (isBarVisible) {
+        isBarVisible = NO;
+        [self.delegate displayBarView:isBarVisible];
     }
+    else if (touches.count>=2 && touch.tapCount==2) {       ///< 双指双击
+        isBarVisible = YES;
+        [self.delegate displayBarView:YES];
+    }
+    
 }
 
 #pragma mark - Geusture
@@ -132,7 +140,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
-    LOG_DEBUG("pan\t");
+    LOG_DEBUG("pan\n");
     CZActiveState *activeState = CZActiveState::getInstance();
     
     if (activeState->colorFillMode || activeState->colorPickMode) return;
