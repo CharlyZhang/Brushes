@@ -84,6 +84,14 @@ static UIImage *s_DefaultBackgroundImage = nil;
 
 #pragma mark - Overriden class methods
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"触摸开始----");
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"触摸移动----");
+}
+
 /**
  Return the width of the arrow triangle at its base.
  */
