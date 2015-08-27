@@ -107,20 +107,6 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
 }
 
-#pragma mark Touches
-/*-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-    UITouch *touch = [touches anyObject];
- 
-    if (isBarVisible) {
-        isBarVisible = NO;
-        [self.delegate displayBarView:isBarVisible];
-    }
-    else {       ///< 单指双击
-        isBarVisible = YES;
-        [self.delegate displayBarView:YES];
-    }
-}*/
 
 #pragma mark - Geusture
 - (void)configureGestrues
@@ -134,6 +120,14 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     tapGesture.numberOfTapsRequired = 1;
     tapGesture.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:tapGesture];
+    
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    doubleTapGesture.numberOfTouchesRequired = 1;
+    [self addGestureRecognizer:doubleTapGesture];
+    
+    [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
+
 }
 
 
@@ -168,7 +162,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         CGPoint velocity = [sender velocityInView:sender.view];
         CZ2DPoint zeroPoint; CZ2DPoint v(velocity.x,velocity.y);
         float   speed = zeroPoint.distanceTo2DPoint(v) / 1000.0f; // pixels/millisecond
-        LOG_DEBUG("speed is %f\n", speed);
+        //LOG_DEBUG("speed is %f\n", speed);
         activeState->getActiveTool()->moving(p.x, p.y, speed);
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
@@ -182,11 +176,12 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender
 {
     LOG_DEBUG("tap\n");
+    
     if (self.ptrPainting->shouldPreventPaint()) {
-//        CZLayer *layer = self.ptrPainting->getActiveLayer();
-//        if (!layer->isLocked())          [self.delegate showMessageView:kInvisible];
-//        else if(layer->isVisible())      [self.delegate showMessageView:kLocked];
-//        else                             [self.delegate showMessageView:kInvisibleAndLocked];
+        CZLayer *layer = self.ptrPainting->getActiveLayer();
+        if (!layer->isLocked())          [self.delegate showMessageView:kInvisible];
+        else if(layer->isVisible())      [self.delegate showMessageView:kLocked];
+        else                             [self.delegate showMessageView:kInvisibleAndLocked];
         return;
     }
     
@@ -210,21 +205,20 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         NSDictionary *userInfo = @{@"pickedColor": pColor};
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }
-    
-    /**
-     *  未选中工具情况下，tap隐藏工具栏和导航栏
-     */
-    else{
-        if (isBarVisible) {
-            isBarVisible = NO;
-            [self.delegate displayBarView:isBarVisible];
-        }
-        else {       ///< 单指双击
-            isBarVisible = YES;
-            [self.delegate displayBarView:YES];
-        }
+    else {
+        activeState->getActiveTool()->moveBegin(p.x, p.y);
+        activeState->getActiveTool()->moveEnd(p.x, p.y);
     }
 }
+
+- (void)handleDoubleTapGesture:(UITapGestureRecognizer*)sender
+{
+    LOG_DEBUG("double tap\n");
+    isBarVisible = !isBarVisible;
+    [self.delegate displayBarView:isBarVisible];
+}
+
+
 - (void)setPainting:(void*)painting
 {
     self.ptrPainting = (CZPainting*)painting;
