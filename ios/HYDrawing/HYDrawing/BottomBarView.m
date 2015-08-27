@@ -223,7 +223,7 @@
 
 - (void) addConstrainsForBottomView {
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_colorWheelButton,_eraserButton,_toolsScrollView,_layersButton);
-    NSDictionary *metrics = @{@"hPadding1" :@11,@"hPadding2" :@13,@"vPadding" :@16,@"vHeight":@98,@"vWidth":@73};
+    NSDictionary *metrics = @{@"hPadding1" :@11,@"hPadding2" :@13,@"vHeight":@98,@"vWidth":@73};
     NSArray *constraints = [NSLayoutConstraint
                             constraintsWithVisualFormat:@"H:|-hPadding1-[_colorWheelButton(vWidth)]-hPadding1-[_eraserButton(vWidth)]-hPadding1-[_toolsScrollView]-hPadding2-[_layersButton(vWidth)]-hPadding2-|"
                             options:0
@@ -247,7 +247,7 @@
     
     _toolsScrollView.translatesAutoresizingMaskIntoConstraints = NO;
     constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
-                                                              constraintsWithVisualFormat:@"V:|-vPadding-[_toolsScrollView]|"
+                                                              constraintsWithVisualFormat:@"V:|[_toolsScrollView]|"
                                                               options:0
                                                               metrics:metrics
                                                               views:viewsDictionary]];

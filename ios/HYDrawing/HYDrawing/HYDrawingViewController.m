@@ -362,7 +362,7 @@ extern NSString *CZActivePaintColorDidChange;
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
     subview.translatesAutoresizingMaskIntoConstraints = NO;
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
-    NSDictionary *metrics = @{@"vHeight":@(119),@"hPadding":@(11)};
+    NSDictionary *metrics = @{@"vHeight":@(103),@"hPadding":@(11)};
     
     NSArray *constraints = [NSLayoutConstraint
                             constraintsWithVisualFormat:@"H:|-hPadding-[subview]-hPadding-|"
