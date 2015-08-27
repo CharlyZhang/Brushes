@@ -90,10 +90,10 @@ extern NSString *CZActivePaintColorDidChange;
     [super viewWillAppear:animated];
     
     // 全透明背景
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//     self.navigationController.navigationBar.translucent = YES;
-//    // 去掉分割线
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+     self.navigationController.navigationBar.translucent = YES;
+    // 去掉分割线
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
     
 }
 
@@ -151,7 +151,8 @@ extern NSString *CZActivePaintColorDidChange;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
+    // 导航栏橙色背景
+//    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     
     // 列表
     UIBarButtonItem *menuItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showListPopoverController:)];

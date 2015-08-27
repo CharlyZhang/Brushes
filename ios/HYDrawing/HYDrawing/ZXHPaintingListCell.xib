@@ -22,23 +22,13 @@
                             <constraint firstAttribute="height" constant="105" id="YPw-a5-LiB"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IOk-RI-F5e">
-                        <rect key="frame" x="8" y="12" width="36" height="38"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IOk-RI-F5e">
+                        <rect key="frame" x="2" y="12" width="36" height="38"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="22" id="JlB-Mp-gJd"/>
-                            <constraint firstAttribute="width" constant="20" id="cFm-0m-rfP"/>
+                            <constraint firstAttribute="height" constant="38" id="JlB-Mp-gJd"/>
+                            <constraint firstAttribute="width" constant="36" id="cFm-0m-rfP"/>
                         </constraints>
                         <state key="normal" image="list_cell_btn_delete">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgx-4l-Zge">
-                        <rect key="frame" x="8" y="75" width="36" height="36"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="36" id="2pQ-82-kb2"/>
-                            <constraint firstAttribute="width" constant="36" id="g5Y-fU-GPz"/>
-                        </constraints>
-                        <state key="normal" image="list_cell_btn_rename">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
@@ -53,15 +43,25 @@
                         <color key="textColor" red="0.59217171717171713" green="0.59217171717171713" blue="0.59217171717171713" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgx-4l-Zge">
+                        <rect key="frame" x="2" y="77" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="2pQ-82-kb2"/>
+                            <constraint firstAttribute="width" constant="36" id="g5Y-fU-GPz"/>
+                        </constraints>
+                        <state key="normal" image="list_cell_btn_rename">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="IOk-RI-F5e" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="20" id="7XY-b0-sG0"/>
+                    <constraint firstItem="IOk-RI-F5e" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="7XY-b0-sG0"/>
                     <constraint firstAttribute="bottomMargin" secondItem="E3W-m0-O67" secondAttribute="bottom" constant="6" id="F1y-ae-avp"/>
                     <constraint firstItem="hRc-Zm-yO3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="FkR-NJ-14s"/>
                     <constraint firstAttribute="bottomMargin" secondItem="hRc-Zm-yO3" secondAttribute="bottom" constant="4" id="OJt-gP-DNA"/>
-                    <constraint firstItem="lgx-4l-Zge" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="SZ6-jU-Qb9"/>
-                    <constraint firstItem="IOk-RI-F5e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="ZhJ-Oh-i78"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="lgx-4l-Zge" secondAttribute="bottom" constant="10" id="a4h-ce-46A"/>
+                    <constraint firstItem="lgx-4l-Zge" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-6" id="SZ6-jU-Qb9"/>
+                    <constraint firstItem="IOk-RI-F5e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-6" id="ZhJ-Oh-i78"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="lgx-4l-Zge" secondAttribute="bottom" constant="8" id="a4h-ce-46A"/>
                     <constraint firstAttribute="trailingMargin" secondItem="E3W-m0-O67" secondAttribute="trailing" constant="10" id="bAp-aK-SEg"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hRc-Zm-yO3" secondAttribute="trailing" constant="10" id="rhr-aM-c1b"/>
                 </constraints>

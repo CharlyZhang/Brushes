@@ -78,13 +78,13 @@
     if (!isListEditing) {
         cell.btnDelete.hidden = YES;
         cell.btnRename.hidden = YES;
-        cell.imgViewRightCons.constant = 36;
-        cell.nameLabelRightCons.constant = 36;
+        cell.imgViewRightCons.constant = 20;
+        cell.nameLabelRightCons.constant = 20;
     }else{
         cell.btnDelete.hidden = NO;
         cell.btnRename.hidden = NO;
-        cell.imgViewRightCons.constant = 18;
-        cell.nameLabelRightCons.constant = 20;
+        cell.imgViewRightCons.constant = 8;
+        cell.nameLabelRightCons.constant = 10;
     }
     
     cell.imgView.image = kImage(@"defaultPaintingImage");
