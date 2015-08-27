@@ -264,7 +264,7 @@
 - (void) addConstrainsForScrollView {
     NSArray *keys = [NSArray arrayWithObjects:@"_pencilButton",@"_markerPenButton",@"_colorBrushButton",@"_crayonButton",@"_bucketButton",@"_shapeboxButton",@"_eyedropperButton",@"_canvasButton",@"_clipButton",nil];
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_pencilButton,_markerPenButton,_colorBrushButton,_crayonButton,_bucketButton,_shapeboxButton,_eyedropperButton,_canvasButton,_clipButton);
-    NSDictionary *metrics = @{@"hPadding" :@8,@"hPadding2" :@8,@"vPadding1" :@8,@"vHeight":@98,@"vWidth":@73};
+    NSDictionary *metrics = @{@"hPadding" :@7,@"vPadding" :@5,@"vHeight":@98,@"vWidth":@73};
     NSArray *constraints = [[NSArray alloc]init];
     NSString *lastCmpObj = @"|";
     
@@ -289,7 +289,7 @@
                                                                  metrics:metrics
                                                                  views:viewsDictionary]];
         
-        vfString2 = [NSString stringWithFormat:@"V:|[%s(vHeight)]|",cBtnName];
+        vfString2 = [NSString stringWithFormat:@"V:|-vPadding-[%s(vHeight)]|",cBtnName];
         constraints = [constraints arrayByAddingObjectsFromArray:[NSLayoutConstraint
                                                                  constraintsWithVisualFormat:vfString2
                                                                  options:0
