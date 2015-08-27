@@ -111,7 +111,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 /*-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
     UITouch *touch = [touches anyObject];
-    
+ 
     if (isBarVisible) {
         isBarVisible = NO;
         [self.delegate displayBarView:isBarVisible];
@@ -211,13 +211,18 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }
     
-    if (isBarVisible) {
-        isBarVisible = NO;
-        [self.delegate displayBarView:isBarVisible];
-    }
-    else {       ///< 单指双击
-        isBarVisible = YES;
-        [self.delegate displayBarView:YES];
+    /**
+     *  未选中工具情况下，tap隐藏工具栏和导航栏
+     */
+    else{
+        if (isBarVisible) {
+            isBarVisible = NO;
+            [self.delegate displayBarView:isBarVisible];
+        }
+        else {       ///< 单指双击
+            isBarVisible = YES;
+            [self.delegate displayBarView:YES];
+        }
     }
 }
 - (void)setPainting:(void*)painting
