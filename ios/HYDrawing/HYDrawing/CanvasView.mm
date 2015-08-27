@@ -108,7 +108,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 }
 
 #pragma mark Touches
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+/*-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     
     UITouch *touch = [touches anyObject];
     
@@ -116,12 +116,11 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         isBarVisible = NO;
         [self.delegate displayBarView:isBarVisible];
     }
-    else if (touches.count==1 && touch.tapCount==2) {       ///< 单指双击
+    else {       ///< 单指双击
         isBarVisible = YES;
         [self.delegate displayBarView:YES];
     }
-    
-}
+}*/
 
 #pragma mark - Geusture
 - (void)configureGestrues
@@ -212,6 +211,14 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }
     
+    if (isBarVisible) {
+        isBarVisible = NO;
+        [self.delegate displayBarView:isBarVisible];
+    }
+    else {       ///< 单指双击
+        isBarVisible = YES;
+        [self.delegate displayBarView:YES];
+    }
 }
 - (void)setPainting:(void*)painting
 {
