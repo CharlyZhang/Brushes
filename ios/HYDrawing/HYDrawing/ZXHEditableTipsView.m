@@ -32,7 +32,6 @@ static ZXHEditableTipsView *tipsView;
 #pragma mark 手势
 -(void)showTips{
     // 显示提示
-    
     if (_visible) {
         self.visibleView.hidden = YES;
     }else{
@@ -49,6 +48,11 @@ static ZXHEditableTipsView *tipsView;
         [UIView animateWithDuration:0.05 animations:^{
             self.alpha = 1;
         }];
+        
+        if(!_visible && _locked){
+            self.superViewWidthCons.constant = 150;
+        }else
+            self.superViewWidthCons.constant = 70;
     }
 }
 
