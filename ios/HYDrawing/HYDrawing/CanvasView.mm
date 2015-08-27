@@ -116,7 +116,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         isBarVisible = NO;
         [self.delegate displayBarView:isBarVisible];
     }
-    else if (touches.count>=2 && touch.tapCount==2) {       ///< 双指双击
+    else if (touches.count==1 && touch.tapCount==2) {       ///< 单指双击
         isBarVisible = YES;
         [self.delegate displayBarView:YES];
     }
