@@ -177,11 +177,20 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 {
     LOG_DEBUG("tap\n");
     
+    
+    
     if (self.ptrPainting->shouldPreventPaint()) {
         CZLayer *layer = self.ptrPainting->getActiveLayer();
         if (!layer->isLocked())          [self.delegate showMessageView:kInvisible];
         else if(layer->isVisible())      [self.delegate showMessageView:kLocked];
         else                             [self.delegate showMessageView:kInvisibleAndLocked];
+        
+        /**
+         *  提示消失
+         */
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            [self.delegate dismissMessageView];
+        }
         return;
     }
     
@@ -209,6 +218,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         activeState->getActiveTool()->moveBegin(p.x, p.y);
         activeState->getActiveTool()->moveEnd(p.x, p.y);
     }
+    
 }
 
 - (void)handleDoubleTapGesture:(UITapGestureRecognizer*)sender
