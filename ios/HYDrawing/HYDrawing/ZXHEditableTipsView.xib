@@ -11,40 +11,50 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S4b-A7-xm2">
-                    <rect key="frame" x="200" y="270" width="200" height="60"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S4b-A7-xm2">
+                    <rect key="frame" x="225" y="278" width="150" height="45"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="layer_invisible" translatesAutoresizingMaskIntoConstraints="NO" id="xrT-Yy-LPc">
-                            <rect key="frame" x="8" y="8" width="70" height="45"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="editable_locked" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-I0-sJy">
+                            <rect key="frame" x="80" y="0.0" width="70" height="45"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="45" id="q5o-eE-q8E"/>
-                                <constraint firstAttribute="width" constant="70" id="vsA-gy-57O"/>
+                                <constraint firstAttribute="height" constant="45" id="8Bq-Zh-cCa"/>
+                                <constraint firstAttribute="width" constant="70" id="Yra-Fe-YSq"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="layer_lock" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-I0-sJy">
-                            <rect key="frame" x="142" y="7" width="50" height="45"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="editable_invisible" translatesAutoresizingMaskIntoConstraints="NO" id="xrT-Yy-LPc">
+                            <rect key="frame" x="0.0" y="0.0" width="70" height="45"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="50" id="LTw-vp-FxA"/>
-                                <constraint firstAttribute="height" constant="45" id="WBh-Xo-lwX"/>
+                                <constraint firstAttribute="width" constant="70" id="Iiw-hX-G9F"/>
+                                <constraint firstAttribute="height" constant="45" id="JJ0-6h-SPr"/>
                             </constraints>
                         </imageView>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="FGP-3h-EHR"/>
+                        <constraint firstItem="xrT-Yy-LPc" firstAttribute="leading" secondItem="S4b-A7-xm2" secondAttribute="leading" id="GIm-hA-fqj"/>
+                        <constraint firstAttribute="trailing" secondItem="rhd-I0-sJy" secondAttribute="trailing" id="OxX-Qt-Ts0"/>
+                        <constraint firstAttribute="width" constant="150" id="YqW-z1-fdE"/>
+                        <constraint firstItem="xrT-Yy-LPc" firstAttribute="top" secondItem="S4b-A7-xm2" secondAttribute="top" id="ciZ-aG-Ogl"/>
+                        <constraint firstItem="rhd-I0-sJy" firstAttribute="top" secondItem="S4b-A7-xm2" secondAttribute="top" id="g9Z-X3-Vqv"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="S4b-A7-xm2" secondAttribute="centerX" id="QQp-3Y-jWa"/>
-                <constraint firstAttribute="centerY" secondItem="S4b-A7-xm2" secondAttribute="centerY" id="nqw-eG-SI1"/>
+                <constraint firstAttribute="centerY" secondItem="S4b-A7-xm2" secondAttribute="centerY" id="Ucy-9N-5nu"/>
+                <constraint firstAttribute="centerX" secondItem="S4b-A7-xm2" secondAttribute="centerX" id="zDN-bb-a6f"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <connections>
                 <outlet property="lockedView" destination="rhd-I0-sJy" id="EF8-Y3-OsA"/>
+                <outlet property="superViewWidthCons" destination="YqW-z1-fdE" id="LvZ-DM-m2D"/>
                 <outlet property="visibleView" destination="xrT-Yy-LPc" id="Dhs-zH-5KT"/>
             </connections>
+            <point key="canvasLocation" x="204" y="250"/>
         </view>
     </objects>
     <resources>
-        <image name="layer_invisible" width="24" height="15"/>
-        <image name="layer_lock" width="18" height="21"/>
+        <image name="editable_invisible" width="215" height="165"/>
+        <image name="editable_locked" width="215" height="165"/>
     </resources>
 </document>

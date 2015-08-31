@@ -154,9 +154,15 @@ extern NSString *CZActivePaintColorDidChange;
     // 导航栏橙色背景
 //    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     
+    /**
+     *  navBar 图片色 iOS7
+     */
+    self.navigationController.navigationBar.tintColor = [UIColor lightGrayColor];
+    
     // 列表
     UIBarButtonItem *menuItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showListPopoverController:)];
     self.navigationItem.leftBarButtonItems = @[menuItem];
+//    menuItem.tintColor = [UIColor lightGrayColor];
     
     // 视频
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];

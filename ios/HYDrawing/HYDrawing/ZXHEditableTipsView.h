@@ -19,5 +19,6 @@
 +(id)defaultTipsView;
 -(void)showTips;
 -(void)dismissTips;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *superViewWidthCons;
 
 @end
