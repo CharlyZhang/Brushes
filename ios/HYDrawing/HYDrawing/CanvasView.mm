@@ -177,7 +177,6 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 {
     LOG_DEBUG("tap\n");
     
-    NSLog(@"gesture state:%ld",(long)sender.state);
     if (self.ptrPainting->shouldPreventPaint()) {
         CZLayer *layer = self.ptrPainting->getActiveLayer();
         if (!layer->isLocked())          [self.delegate showMessageView:kInvisible];
@@ -211,6 +210,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         activeState->getActiveTool()->moveBegin(p.x, p.y);
         activeState->getActiveTool()->moveEnd(p.x, p.y);
     }
+    
 }
 
 - (void)handleDoubleTapGesture:(UITapGestureRecognizer*)sender
