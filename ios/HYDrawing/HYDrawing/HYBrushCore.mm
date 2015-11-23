@@ -193,7 +193,7 @@
         brushImg->hasAlpha = true;
     }
 
-
+    CFRelease(inBitmapData);
 //    
     //////
     CZSize paintingSize = painting->getDimensions();
@@ -213,6 +213,31 @@
     canvas->drawView();
     
     return (NSInteger)ret;
+}
+
+///操作图层
+- (BOOL) setActiveLayerTransform:(CGAffineTransform)transform
+{
+    CZAffineTransform trans(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
+    painting->getActiveLayer()->setTransform(trans);
+    canvas->drawView();
+    return YES;
+}
+
+- (BOOL) renderActiveLayerWithTransform:(CGAffineTransform)transform
+{
+    CZAffineTransform trans(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
+    painting->getActiveLayer()->transform(trans, false);
+    CZAffineTransform identityTrans = CZAffineTransform::makeIdentity();
+    painting->getActiveLayer()->setTransform(identityTrans);
+    canvas->drawView();
+    return YES;
+}
+
+- (BOOL) setActiveLayerLinearInterprolation:(BOOL)flag
+{
+    painting->getActiveLayer()->enableLinearInterprolation(flag);
+    return YES;
 }
 
 ///绘制背景
@@ -241,6 +266,8 @@
     else {
         backgroundImg->hasAlpha = true;
     }
+    
+    CFRelease(inBitmapData);
     
     CZSize paintingSize = painting->getDimensions();
     CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);

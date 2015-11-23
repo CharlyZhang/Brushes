@@ -154,7 +154,7 @@ CZImage *CZTexture::toImage()
 }
 
 /// 开关线性差值
-void CZTexture::enableLinearInterprolation(float flag)
+void CZTexture::enableLinearInterprolation(bool flag)
 {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texId);

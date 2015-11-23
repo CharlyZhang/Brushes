@@ -247,7 +247,7 @@ void CZPainting::setDimensions(const CZSize &size)
     
     glContext->setAsCurrent();
     if(activePaintTexture) delete activePaintTexture;
-    activePaintTexture = new CZTexture(size.width,size.height);
+    activePaintTexture = generateTexture();
 }
 
 /// 设置当前激活图层
@@ -503,8 +503,12 @@ CZShader* CZPainting::getShader(string name)
 CZTexture* CZPainting::generateTexture(CZImage* img /* = NULL */)
 {
     glContext->setAsCurrent();
-    if (img)	return CZTexture::produceFromImage(img);
-    else		return new CZTexture(dimensions.width,dimensions.height);
+    CZTexture *ret = NULL;
+    if (img)	ret = CZTexture::produceFromImage(img);
+    else		ret = new CZTexture(dimensions.width,dimensions.height);
+    
+    ret->enableLinearInterprolation(false);
+    return ret;
 }
 
 /// 返回quadVAO

@@ -44,6 +44,10 @@
 ///绘制图片
 - (NSInteger) renderImage:(UIImage*)image withTransform:(CGAffineTransform)trans newLayer:(BOOL)flag;
                                                                         ///<如果成功，返回插入图片所在图层的序号，否则返回负数
+///操作图层
+- (BOOL) setActiveLayerTransform:(CGAffineTransform)transform;
+- (BOOL) renderActiveLayerWithTransform:(CGAffineTransform)transform;
+- (BOOL) setActiveLayerLinearInterprolation:(BOOL)flag;
 ///绘制背景
 - (void) renderBackground:(UIImage*)image;
 

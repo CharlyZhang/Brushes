@@ -24,9 +24,9 @@ CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
     locked =  false;
     colorBalance = NULL;
     hueSaturation = NULL;
-    clipWhenTransformed = true;
+    clipWhenTransformed = false;
     ptrGLContext = NULL;
-    transform = CZAffineTransform::makeIdentity();
+    transformMat = CZAffineTransform::makeIdentity();
     
     blendMode = kBlendModeNormal;
     opacity = 1.0f;
@@ -190,9 +190,9 @@ void CZLayer::blit(CZMat4 &projection)
         return;
     }
     
-    if(!transform.isIdentity())
+    if(!transformMat.isIdentity())
     {
-        blit(projection,transform);
+        blit(projection,transformMat);
         return;
     }
     
@@ -351,17 +351,17 @@ void CZLayer::blit(CZMat4 &projection, CZTexture *maskTexture, CZColor &bgColor)
 /// 将绘制的笔画合并到当前图层
 void CZLayer::commitStroke(CZRect &bounds, CZColor &color, bool erase, bool undoable)
 {
-    if (undoable) registerUndoInRect(bounds);
-    
-    //ptrPainting->beginSuppressingNotifications();
-    
-    isSaved = kSaveStatusUnsaved;
-    
     if (ptrPainting == NULL)
     {
         LOG_ERROR("ptrPainting is NULL!\n");
         return;
     }
+    
+    if (undoable) registerUndoInRect(bounds);
+    
+    //ptrPainting->beginSuppressingNotifications();
+    
+    isSaved = kSaveStatusUnsaved;
     
     ptrGLContext->setAsCurrent();
     
@@ -654,6 +654,65 @@ void CZLayer::renderBackground(CZImage *img,CZAffineTransform &trans)
     clearThumbnailImage();
 }
 
+/// transform layer
+bool CZLayer::transform(CZAffineTransform &trans, bool undoable)
+{
+    if (ptrPainting == NULL)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return false;
+    }
+    
+//    if (undoable) {
+//        [self registerUndoInRect:self.painting.bounds];
+//    } // otherwise assume caller is naturally invertible (flip, etc.) and handles its own undo
+    
+    CZFbo fbo;
+    CZTexture *newTex = ptrPainting->generateTexture();
+    fbo.setTexture(newTex);
+    
+    fbo.begin();
+    
+    CZShader *shader =  ptrPainting->getShader("nonPremultipliedBlit");
+    
+    shader->begin();
+    
+    CZSize paintingSize = ptrPainting->getDimensions();
+    CZMat4 projMat,transMat;
+    projMat.SetOrtho(0,paintingSize.width,0,paintingSize.height,-1.0f,1.0f);
+    
+    transMat.LoadFromAffineTransform(transformMat);
+    projMat = projMat * transMat;
+    
+    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+    glUniform1i(shader->getUniformLocation("texture"), (GLuint) 0);
+    glUniform1f(shader->getUniformLocation("opacity"), 1.0f); // fully opaque
+    
+    glActiveTexture(GL_TEXTURE0);
+    // Bind the texture to be used
+    glBindTexture(GL_TEXTURE_2D, myTexture->texId);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    // set up premultiplied normal blend
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    
+    GL_BIND_VERTEXARRAY(ptrPainting->getQuadVAO());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    GL_BIND_VERTEXARRAY(0);
+    
+    shader->end();
+    
+    fbo.end();
+    
+    CZCheckGLError();
+    
+    delete myTexture;
+    myTexture = newTex;
+    
+    return true;
+}
+
 CZLayer* CZLayer::duplicate()
 {
     CZLayer *newLayer = new CZLayer(ptrPainting);
@@ -676,7 +735,7 @@ CZLayer* CZLayer::duplicate()
     CZSize paintingSize = ptrPainting->getDimensions();
     glViewport(0, 0, paintingSize.width, paintingSize.height);
     
-    CZMat4 projMat,transMat;
+    CZMat4 projMat;
     projMat.SetOrtho(0,paintingSize.width,0,paintingSize.height,-1.0f,1.0f);
     
     // use shader program
@@ -712,18 +771,27 @@ CZLayer* CZLayer::duplicate()
     return newLayer;
 }
 
+void CZLayer::enableLinearInterprolation(bool flag)
+{
+    if (myTexture)
+    {
+        ptrGLContext->setAsCurrent();
+        myTexture->enableLinearInterprolation(flag);
+    }
+}
+
 /// 设置转换矩阵
 bool CZLayer::setTransform(CZAffineTransform &trans)
 {
-    if(transform == trans) return false;
+    if(transformMat == trans) return false;
     
-    transform = trans;
+    transformMat = trans;
     return true;
 }
 /// 获取转换矩阵
 CZAffineTransform& CZLayer::getTransform()
 {
-    return transform;
+    return transformMat;
 }
 /// 设置混合模式
 bool CZLayer::setBlendMode(BlendMode &bm)

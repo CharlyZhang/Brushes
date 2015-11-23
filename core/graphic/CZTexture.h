@@ -22,6 +22,7 @@ public:
 	~CZTexture();
 	/// 由CZImage生成纹理
 	static CZTexture* produceFromImage(CZImage *img);
+    
 	/// 用图片数据修改纹理
 	bool modifyWith(CZImage *img,int x = 0, int y = 0);
 
@@ -31,7 +32,7 @@ public:
 	/// 获取其对应的图像数据
 	CZImage *toImage();
 	/// 开关线性差值
-	void enableLinearInterprolation(float flag);
+	void enableLinearInterprolation(bool flag);
 
 public:
 	unsigned int texId;

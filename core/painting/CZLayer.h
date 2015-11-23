@@ -84,8 +84,12 @@ public:
 	void renderImage(CZImage* img, CZAffineTransform &trans);
     /// render background image
     void renderBackground(CZImage *img, CZAffineTransform &trans);
-
+    /// transform layer
+    bool transform(CZAffineTransform &trans, bool undoable);
+    
     CZLayer* duplicate();
+    
+    void enableLinearInterprolation(bool flag);
     
 	/// 设置绘制指针
 	void setPainting(CZPainting *painting);
@@ -175,7 +179,7 @@ private:
 	CZColorBalance *colorBalance;				///< 调整颜色
 	CZHueSaturation *hueSaturation;				///< 调整色调饱和度
 	BlendMode blendMode;						///< 混合模式
-	CZAffineTransform transform;				///< 变换矩阵
+	CZAffineTransform transformMat;				///< 变换矩阵
 	float opacity;								///< 不透明度[0.0, 1.0]			
 
 	CZPainting *ptrPainting;					///< 某次绘制

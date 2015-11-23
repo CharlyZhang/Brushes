@@ -71,7 +71,7 @@ CZImage* CZImage::copy()
 void CZImage::ScanLineFill(int x,int y, float r, float g, float b, float a)
 
 {   
-	int xl,xr,i;
+	int xl,xr;
 
 	bool spanNeedFill;
 

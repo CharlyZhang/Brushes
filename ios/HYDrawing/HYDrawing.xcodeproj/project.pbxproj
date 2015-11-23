@@ -11,6 +11,7 @@
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
 		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
 		2D4906371B7F297600158F1C /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906361B7F297600158F1C /* ReadMe.md */; };
+		2D6382B91BFDC5B60064DA99 /* TransformOverlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6382B81BFDC5B60064DA99 /* TransformOverlayerView.m */; };
 		2D95594C1B859AAD009C9C6C /* watercolorPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D95594B1B859AAD009C9C6C /* watercolorPen.png */; };
 		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
 		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
@@ -132,6 +133,8 @@
 		2D4906311B7F234900158F1C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
 		2D4906321B7F234900158F1C /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
 		2D4906361B7F297600158F1C /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
+		2D6382B71BFDC5B60064DA99 /* TransformOverlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransformOverlayerView.h; path = view/TransformOverlayerView.h; sourceTree = "<group>"; };
+		2D6382B81BFDC5B60064DA99 /* TransformOverlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TransformOverlayerView.m; path = view/TransformOverlayerView.m; sourceTree = "<group>"; };
 		2D95594B1B859AAD009C9C6C /* watercolorPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watercolorPen.png; sourceTree = "<group>"; };
 		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
@@ -460,6 +463,8 @@
 				538CA68A1B8AE83B0050A39A /* ZXHPaintingListCell.h */,
 				538CA68B1B8AE83B0050A39A /* ZXHPaintingListCell.m */,
 				538CA68C1B8AE83B0050A39A /* ZXHPaintingListCell.xib */,
+				2D6382B71BFDC5B60064DA99 /* TransformOverlayerView.h */,
+				2D6382B81BFDC5B60064DA99 /* TransformOverlayerView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -710,6 +715,7 @@
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
 				537343971B7054F000CDCC82 /* WDDragChip.m in Sources */,
 				537343A01B70868C00CDCC82 /* WDShader.m in Sources */,
+				2D6382B91BFDC5B60064DA99 /* TransformOverlayerView.m in Sources */,
 				2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */,
 				53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */,
 				53BF59331B8452BA007C3089 /* ZXHShapeBoxController.m in Sources */,
@@ -820,7 +826,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				PROVISIONING_PROFILE = "fd88b072-0945-4da4-8657-0751f6bfeadb";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -859,7 +865,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				PROVISIONING_PROFILE = "fd88b072-0945-4da4-8657-0751f6bfeadb";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -884,12 +890,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Founder Electronics Co Ltd";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				PROVISIONING_PROFILE = "fd88b072-0945-4da4-8657-0751f6bfeadb";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 			};
 			name = Release;

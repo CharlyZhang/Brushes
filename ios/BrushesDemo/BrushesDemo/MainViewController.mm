@@ -316,7 +316,7 @@
 }
 
 - (void)selectBrush:(NSUInteger) brushIdx {
-    NSLog(@"selected brush index: %d",brushIdx);
+    NSLog(@"selected brush index: %u",brushIdx);
     CZActiveState::getInstance()->setActiveBrush(brushIdx);
 }
 

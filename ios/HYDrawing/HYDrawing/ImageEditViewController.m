@@ -136,8 +136,6 @@
     
 }
 
-
-
 -(void)panImageing:(UIPanGestureRecognizer*)pan{
     if (pan.state == UIGestureRecognizerStateBegan) {
 //        CGPoint loc = CGPointMake(30, 50);
@@ -234,9 +232,6 @@
 
 -(void)rotatingImage:(UIRotationGestureRecognizer*)gesture{
  
-    
-    
-    
     if (gesture.state == UIGestureRecognizerStateBegan) {
 //        CGFloat angle = 0.5;
 //        self.imageView.transform = CGAffineTransformRotate(self.imageView.transform, angle);

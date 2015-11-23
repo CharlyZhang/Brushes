@@ -177,11 +177,13 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 {
     LOG_DEBUG("tap\n");
     
+    NSLog(@"gesture state:%ld",(long)sender.state);
     if (self.ptrPainting->shouldPreventPaint()) {
         CZLayer *layer = self.ptrPainting->getActiveLayer();
         if (!layer->isLocked())          [self.delegate showMessageView:kInvisible];
         else if(layer->isVisible())      [self.delegate showMessageView:kLocked];
         else                             [self.delegate showMessageView:kInvisibleAndLocked];
+        if (sender.state == UIGestureRecognizerStateEnded) [self.delegate dismissMessageView];
         return;
     }
     

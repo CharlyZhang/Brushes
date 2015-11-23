@@ -22,12 +22,14 @@
 #import "ZXHCanvasBackgroundController.h"
 #import "ZXHSettingViewController.h"
 #import "ZXHPaintingListController.h"
+#import "TransformOverlayerView.h"
 
 extern NSString *CZActivePaintColorDidChange;
+extern NSString *CZActiveLayerTransformChange;
 
 @interface HYDrawingViewController ()<
-    BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate,
-    SettingViewControllerDelegate>
+BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate,
+SettingViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
@@ -91,7 +93,7 @@ extern NSString *CZActivePaintColorDidChange;
     
     // 全透明背景
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-     self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.translucent = YES;
     // 去掉分割线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     
@@ -100,6 +102,7 @@ extern NSString *CZActivePaintColorDidChange;
 #pragma mark 判断是否可以绘画
 - (void)showMessageView:(ShowingMessageType)msgType
 {
+    NSLog(@"showMessageView");
     NSInteger curLayerIndex = [[HYBrushCore sharedInstance]getActiveLayerIndex];
     BOOL visible = [[HYBrushCore sharedInstance]isVisibleOfLayer:curLayerIndex];
     BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:curLayerIndex];
@@ -112,6 +115,7 @@ extern NSString *CZActivePaintColorDidChange;
 }
 
 -(void)dismissMessageView{
+    NSLog(@"dismissMessageView");
     [[ZXHEditableTipsView defaultTipsView] dismissTips];
 }
 
@@ -152,7 +156,7 @@ extern NSString *CZActivePaintColorDidChange;
     [super viewDidLoad];
     
     // 导航栏橙色背景
-//    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
+    //    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
     
     /**
      *  navBar 图片色 iOS7
@@ -162,7 +166,7 @@ extern NSString *CZActivePaintColorDidChange;
     // 列表
     UIBarButtonItem *menuItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showListPopoverController:)];
     self.navigationItem.leftBarButtonItems = @[menuItem];
-//    menuItem.tintColor = [UIColor lightGrayColor];
+    //    menuItem.tintColor = [UIColor lightGrayColor];
     
     // 视频
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
@@ -180,7 +184,7 @@ extern NSString *CZActivePaintColorDidChange;
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
 #pragma mark 初始画板
-
+    
     [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH];
     CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
     canvasView.delegate = self;
@@ -194,6 +198,7 @@ extern NSString *CZActivePaintColorDidChange;
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
+    [nc addObserver:self selector:@selector(transformOverlayerChanged:) name:CZActiveLayerTransformChange object:nil];
 }
 
 #pragma mark 设置barItem是否可用
@@ -250,6 +255,16 @@ extern NSString *CZActivePaintColorDidChange;
 -(void)settingForTransformCanvas{
     
     [_settingPopoverController dismissPopoverAnimated:YES];
+    TransformOverlayerView *transformOverlayerView = [[TransformOverlayerView alloc] initWithFrame:self.view.bounds];
+    transformOverlayerView.delegate = self;
+    [self.view addSubview:transformOverlayerView];
+    
+    [[HYBrushCore sharedInstance]setActiveLayerLinearInterprolation:YES];
+    
+    // 隐藏导航栏
+    self.navigationController.navigationBar.hidden = YES;
+    // 隐藏底部工具栏
+    bottomBarView.hidden = YES;
 }
 
 #pragma mark 作品列表弹出
@@ -288,7 +303,7 @@ extern NSString *CZActivePaintColorDidChange;
     menuNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
     menuPopoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
-
+    
     menuPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
     UIImage *image = [UIImage imageNamed:@"menu_popover_bg"];
     [DDPopoverBackgroundView setBackgroundImage:image];
@@ -308,24 +323,24 @@ extern NSString *CZActivePaintColorDidChange;
     picker.delegate = self;
     picturePopoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
     [picturePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-
     
-//    if (iOS(8.0)) {
-//        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-//            [self presentViewController:picker animated:YES completion:nil];
-//        }];
-//    }
-//    else{
-//        [self presentViewController:picker animated:YES completion:nil];
-//    }
     
-//    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-//                                  initWithTitle:nil
-//                                  delegate:self
-//                                  cancelButtonTitle:nil
-//                                  destructiveButtonTitle:nil
-//                                  otherButtonTitles:@"拍照", @"从手机相册选取",nil];
-//    [actionSheet showInView:self.view];
+    //    if (iOS(8.0)) {
+    //        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+    //            [self presentViewController:picker animated:YES completion:nil];
+    //        }];
+    //    }
+    //    else{
+    //        [self presentViewController:picker animated:YES completion:nil];
+    //    }
+    
+    //    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+    //                                  initWithTitle:nil
+    //                                  delegate:self
+    //                                  cancelButtonTitle:nil
+    //                                  destructiveButtonTitle:nil
+    //                                  otherButtonTitles:@"拍照", @"从手机相册选取",nil];
+    //    [actionSheet showInView:self.view];
 }
 
 
@@ -333,19 +348,19 @@ extern NSString *CZActivePaintColorDidChange;
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType =     UIImagePickerControllerSourceTypeCamera
-;
+    ;
     picker.sourceType = sourcheType;
     picker.delegate = self;
     picker.allowsEditing = YES;
     if (iOS(8.0)) {
         [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-             [self presentViewController:picker animated:YES completion:nil];
+            [self presentViewController:picker animated:YES completion:nil];
         }];
     }
     else{
-         [self presentViewController:picker animated:YES completion:nil];
+        [self presentViewController:picker animated:YES completion:nil];
     }
-   
+    
 }
 -(void)photoAlbum{
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
@@ -404,6 +419,19 @@ extern NSString *CZActivePaintColorDidChange;
     [self.colorPickerController setColor:newPaintColor];
 }
 
+- (void)transformOverlayerChanged:(NSNotification*)aNotification
+{
+    CGFloat a = [[aNotification userInfo][@"a"] floatValue];
+    CGFloat b = [[aNotification userInfo][@"b"] floatValue];
+    CGFloat c = [[aNotification userInfo][@"c"] floatValue];
+    CGFloat d = [[aNotification userInfo][@"d"] floatValue];
+    CGFloat tx = [[aNotification userInfo][@"tx"] floatValue];
+    CGFloat ty = [[aNotification userInfo][@"ty"] floatValue];
+    
+    CGAffineTransform trans = CGAffineTransformMake(a, b, c, d, tx, ty);
+    [[HYBrushCore sharedInstance] setActiveLayerTransform: trans];
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -445,7 +473,7 @@ extern NSString *CZActivePaintColorDidChange;
             [self showLayerPopoverController:button];
             break;
         case CLIP_BTN:              ///< 裁减
-//            [self showCliperView];
+            //            [self showCliperView];
             break;
         case CANVAS_BTN:            ///< 背景图
             [self showCanvasBackgroundPopoverController:button];
@@ -596,7 +624,7 @@ extern NSString *CZActivePaintColorDidChange;
 #pragma mark - 选择相册图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [picturePopoverController dismissPopoverAnimated:YES];
-
+    
     [self showImageEditViewWithImage:info[@"UIImagePickerControllerOriginalImage"]];
 }
 
@@ -611,7 +639,7 @@ extern NSString *CZActivePaintColorDidChange;
     self.navigationController.navigationBar.hidden = YES;
     // 隐藏底部工具栏
     bottomBarView.hidden = YES;
-
+    
     [self.view addSubview:imageEditViewController.view];
 }
 
@@ -648,14 +676,14 @@ extern NSString *CZActivePaintColorDidChange;
     [self hidePopovers];
     
     popoverController_ = [[UIPopoverController alloc] initWithContentViewController:controller];
-	popoverController_.delegate = self;
+    popoverController_.delegate = self;
     
-//    NSMutableArray *passthroughs = [NSMutableArray arrayWithObjects:self.topBar, self.bottomBar, nil];
-//    if (self.isEditing) {
-//        [passthroughs addObject:self.canvas];
-//    }
-//    popoverController_.passthroughViews = passthroughs;
-//    
+    //    NSMutableArray *passthroughs = [NSMutableArray arrayWithObjects:self.topBar, self.bottomBar, nil];
+    //    if (self.isEditing) {
+    //        [passthroughs addObject:self.canvas];
+    //    }
+    //    popoverController_.passthroughViews = passthroughs;
+    //
     if ([sender isKindOfClass:[UIBarButtonItem class]]) {
         [popoverController_ presentPopoverFromBarButtonItem:sender
                                    permittedArrowDirections:UIPopoverArrowDirectionAny
