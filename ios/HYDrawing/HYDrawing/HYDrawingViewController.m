@@ -20,9 +20,9 @@
 #import "CliperView.h"
 #import "ZXHShapeBoxController.h"
 #import "ZXHCanvasBackgroundController.h"
-#import "ZXHSettingViewController.h"
 #import "ZXHPaintingListController.h"
 #import "TransformOverlayerView.h"
+#import "SettingViewController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 extern NSString *CZActiveLayerTransformChange;
@@ -46,13 +46,12 @@ SettingViewControllerDelegate>
     // 背景图选择
     UIPopoverController *_canvasBgPopoverController;
     ZXHCanvasBackgroundController *_canvasBackgroundController;
-    // 设置
-    UIPopoverController *_settingPopoverController;
     // 列表
     UIPopoverController *_listPopoverController;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
+@property (nonatomic,strong) UIPopoverController *settingPopoverController;                 //< seting popover controller
 @end
 
 @implementation HYDrawingViewController
@@ -150,6 +149,16 @@ SettingViewControllerDelegate>
     return _colorPickerController;
 }
 
+- (UIPopoverController*) settingPopoverController {
+    if (!_settingPopoverController) {
+        
+        SettingViewController *settingCtrl =  [[SettingViewController alloc]init];
+        settingCtrl.delegate = self;
+        _settingPopoverController = [[UIPopoverController alloc] initWithContentViewController:settingCtrl];
+    }
+    
+    return _settingPopoverController;
+}
 
 #pragma mark viewDidLoad
 - (void)viewDidLoad {
@@ -220,47 +229,32 @@ SettingViewControllerDelegate>
 //    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
 //}
 
-#pragma mark 设置按钮弹出
+#pragma mark - Setting
 -(void)showSettingPopoverController:(UIBarButtonItem*)sender{
-    UIImage *image = [UIImage imageNamed:@"setting_popover_bg"];
-    ZXHSettingViewController *settingVC = [[ZXHSettingViewController alloc]init];
-    settingVC.preferredContentSize = image.size;
-    settingVC.delegate = self;
     
-    if (!_settingPopoverController) {
-        _settingPopoverController = [[UIPopoverController alloc]initWithContentViewController:settingVC];
-    }
-    
-    _settingPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
-    [DDPopoverBackgroundView setContentInset:0];
-    [DDPopoverBackgroundView setBackgroundImage:image];
-    [DDPopoverBackgroundView setBackgroundImageCornerRadius:4];
-    
-    // 弹出
-    [_settingPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.settingPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-// 协议方法
--(void)settingForCreateNewCanvas{
-    
-    [_settingPopoverController dismissPopoverAnimated:YES];
-}
+#pragma mark SettingViewControllerDelegate Methods
 
--(void)settingForSavePainting
-{
+- (BOOL) settingViewControllerSavePainting:(SettingViewController *)settingController {
     [[HYBrushCore sharedInstance] saveCurrentPainting];
     [_settingPopoverController dismissPopoverAnimated:YES];
+    
+    return YES;
 }
 
--(void)settingForClearCanvas{
+- (BOOL) settingViewControllerClearLayer:(SettingViewController *)settingController {
     [[HYBrushCore sharedInstance]clearLayer:0];
-    
     [_settingPopoverController dismissPopoverAnimated:YES];
+    
+    return YES;
 }
 
--(void)settingForTransformCanvas{
+- (BOOL) settingViewControllerTransformLayer:(SettingViewController *)settingController {
     
     [_settingPopoverController dismissPopoverAnimated:YES];
+    
     TransformOverlayerView *transformOverlayerView = [[TransformOverlayerView alloc] initWithFrame:self.view.bounds];
     transformOverlayerView.delegate = self;
     [self.view addSubview:transformOverlayerView];
@@ -271,6 +265,8 @@ SettingViewControllerDelegate>
     self.navigationController.navigationBar.hidden = YES;
     // 隐藏底部工具栏
     bottomBarView.hidden = YES;
+    
+    return YES;
 }
 
 #pragma mark 作品列表弹出

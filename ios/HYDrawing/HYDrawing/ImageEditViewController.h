@@ -21,7 +21,6 @@
 @property(nonatomic, retain)UIImageView *imageView;
 @property(nonatomic, weak)id<ImageEditViewControllerDelegate> delegate;
 
-
 @property(nonatomic,assign) CGAffineTransform imageTransform;
 
 @end

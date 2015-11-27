@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D0E591E1C0803CD00ECD812 /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
+		2D0E59211C08065A00ECD812 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D0E59201C08065A00ECD812 /* SettingViewController.m */; };
 		2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49061D1B78ACA900158F1C /* HYBrushCore.mm */; };
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
 		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
@@ -42,14 +44,12 @@
 		53851B7F1B57AADE00B6F946 /* HYDrawingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B7E1B57AADE00B6F946 /* HYDrawingTests.m */; };
 		53851B911B57AC1200B6F946 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53851B8E1B57AB1900B6F946 /* libBrushesCore.a */; };
 		53851B951B5899F600B6F946 /* BottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53851B941B5899F600B6F946 /* BottomBarView.m */; };
-		538CA6841B8AAF910050A39A /* ZXHSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */; };
 		538CA6891B8AC79F0050A39A /* ZXHPaintingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA6881B8AC79F0050A39A /* ZXHPaintingListController.m */; };
 		538CA68D1B8AE83B0050A39A /* ZXHPaintingListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 538CA68B1B8AE83B0050A39A /* ZXHPaintingListCell.m */; };
 		538CA68E1B8AE83B0050A39A /* ZXHPaintingListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 538CA68C1B8AE83B0050A39A /* ZXHPaintingListCell.xib */; };
 		538CA6901B8AF61A0050A39A /* defaultPaintingImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 538CA68F1B8AF61A0050A39A /* defaultPaintingImage@2x.png */; };
 		5391EFA31B7EDEAC006B1E5D /* ZXHEditableTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */; };
 		53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */; };
-		53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
 		53BBAC951B787E5F006D11EF /* LayersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC931B787E5F006D11EF /* LayersCell.m */; };
 		53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53BBAC941B787E5F006D11EF /* LayersCell.xib */; };
 		53BF592C1B842E25007C3089 /* CliperMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BF59251B842E25007C3089 /* CliperMenuView.m */; };
@@ -126,6 +126,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D0E591F1C08065A00ECD812 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Controllers/SettingViewController.h; sourceTree = "<group>"; };
+		2D0E59201C08065A00ECD812 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Controllers/SettingViewController.m; sourceTree = "<group>"; };
 		2D49061C1B78ACA900158F1C /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
 		2D49061D1B78ACA900158F1C /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
 		2D4906291B7ADCCF00158F1C /* CZViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZViewImpl.h; sourceTree = "<group>"; };
@@ -189,8 +191,6 @@
 		53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
 		53851B931B5899F600B6F946 /* BottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBarView.h; sourceTree = "<group>"; };
 		53851B941B5899F600B6F946 /* BottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBarView.m; sourceTree = "<group>"; };
-		538CA6821B8AAF910050A39A /* ZXHSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHSettingViewController.h; sourceTree = "<group>"; };
-		538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHSettingViewController.m; sourceTree = "<group>"; };
 		538CA6871B8AC79F0050A39A /* ZXHPaintingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHPaintingListController.h; sourceTree = "<group>"; };
 		538CA6881B8AC79F0050A39A /* ZXHPaintingListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHPaintingListController.m; sourceTree = "<group>"; };
 		538CA68A1B8AE83B0050A39A /* ZXHPaintingListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHPaintingListCell.h; sourceTree = "<group>"; };
@@ -289,7 +289,6 @@
 		2D49062D1B7AE44600158F1C /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				2DFE46D11C057C3600EBA03C /* Controllers */,
 				2D49061C1B78ACA900158F1C /* HYBrushCore.h */,
 				2D49061D1B78ACA900158F1C /* HYBrushCore.mm */,
 				2D4906291B7ADCCF00158F1C /* CZViewImpl.h */,
@@ -303,6 +302,8 @@
 		2DFE46D11C057C3600EBA03C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2D0E591F1C08065A00ECD812 /* SettingViewController.h */,
+				2D0E59201C08065A00ECD812 /* SettingViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -384,6 +385,7 @@
 				53BF596B1B847379007C3089 /* shapes */,
 				2D49062D1B7AE44600158F1C /* Interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
+				2DFE46D11C057C3600EBA03C /* Controllers */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,
 				6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */,
@@ -399,8 +401,6 @@
 				53BF59321B8452BA007C3089 /* ZXHShapeBoxController.m */,
 				53BF59BB1B857F5C007C3089 /* ZXHCanvasBackgroundController.h */,
 				53BF59BC1B857F5C007C3089 /* ZXHCanvasBackgroundController.m */,
-				538CA6821B8AAF910050A39A /* ZXHSettingViewController.h */,
-				538CA6831B8AAF910050A39A /* ZXHSettingViewController.m */,
 				538CA6871B8AC79F0050A39A /* ZXHPaintingListController.h */,
 				538CA6881B8AC79F0050A39A /* ZXHPaintingListController.m */,
 			);
@@ -731,7 +731,6 @@
 				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
-				538CA6841B8AAF910050A39A /* ZXHSettingViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
 				538CA6891B8AC79F0050A39A /* ZXHPaintingListController.m in Sources */,
@@ -741,6 +740,7 @@
 				2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */,
 				538CA68D1B8AE83B0050A39A /* ZXHPaintingListCell.m in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
+				2D0E59211C08065A00ECD812 /* SettingViewController.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,
 				53BF592C1B842E25007C3089 /* CliperMenuView.m in Sources */,
 				53BF597F1B8478F8007C3089 /* ZXHShapeBoxCell.m in Sources */,
@@ -748,8 +748,8 @@
 				537343911B70518400CDCC82 /* WDUtilities.m in Sources */,
 				53851B951B5899F600B6F946 /* BottomBarView.m in Sources */,
 				537343891B704FEF00CDCC82 /* WDColor.m in Sources */,
+				2D0E591E1C0803CD00ECD812 /* ZXHLayersViewController.m in Sources */,
 				535DA0F81B70492900E117FF /* WDColorWell.m in Sources */,
-				53BBAC8D1B785177006D11EF /* ZXHLayersViewController.m in Sources */,
 				537343941B70535F00CDCC82 /* WDColorSourceView.m in Sources */,
 				5373439D1B7085F800CDCC82 /* WDInsetView.m in Sources */,
 				5353072C1B7C960500877D76 /* ZXHMockNavBar.m in Sources */,
