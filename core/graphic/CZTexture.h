@@ -24,7 +24,8 @@ public:
 	static CZTexture* produceFromImage(CZImage *img);
     
 	/// 用图片数据修改纹理
-	bool modifyWith(CZImage *img,int x = 0, int y = 0);
+    //  \note w or h = - 1 means using the width or height of img
+	bool modifyWith(CZImage *img,int x = 0, int y = 0, int w = -1, int h = -1);
 
 	/// 获取图片模式
 	StorageMode getMode() {return mode;};

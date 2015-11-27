@@ -57,7 +57,20 @@ CZImage::~CZImage()
 {
 	if(data != NULL)
 	{
-		delete [] data;
+        switch (mode)
+        {
+            case RGB_BYTE:
+            case RGBA_BYTE:
+                delete [] (unsigned char*)data;
+                break;
+            case RGB_FLOAT:
+            case RGBA_FLOAT:
+                delete [] (float*)data;
+                break;
+            default:
+                break;
+        }
+
 		data = NULL;
 	}
 }
@@ -194,6 +207,82 @@ bool CZImage::hasReallyAlpha()
     }
     
     return reallyHasAlpha;
+}
+
+bool CZImage::saveToFile(FILE *fp)
+{
+    if (fp == nullptr)
+    {
+        LOG_ERROR("fp is NULL\n");
+        return false;
+    }
+    
+    fwrite((void*)&width, sizeof(int), 1, fp);
+    fwrite((void*)&height, sizeof(int), 1, fp);
+    fwrite((void*)&mode, sizeof(StorageMode), 1, fp);
+    
+    int n, type = 0;
+    switch (mode)
+    {
+        case RGB_BYTE:		n = 3;	type = 0;	break;
+        case RGB_FLOAT:		n = 3;	type = 1;	break;
+        case RGBA_BYTE:		n = 4;	type = 0;	break;
+        case RGBA_FLOAT:	n = 4;	type = 1;	break;
+        default:
+            LOG_ERROR("ImageMode is illegal!\n");
+            n = 0;
+    }
+    
+    if(type == 0)       fwrite(data, sizeof(unsigned char), width*height*n, fp);
+    else if(type ==1)   fwrite(data, sizeof(float), width*height*n, fp);
+   
+    return true;
+}
+
+CZImage* CZImage::createFromFile(FILE *fp)
+{
+    if (fp == nullptr)
+    {
+        LOG_ERROR("fp is NULL\n");
+        return nullptr;
+    }
+    
+    int w,h;
+    fread((void*)&w, sizeof(int), 1, fp);
+    fread((void*)&h, sizeof(int), 1, fp);
+    StorageMode m;
+    fread((void*)&m, sizeof(StorageMode), 1, fp);
+    
+    int n, type = 0;
+    void *d;
+    switch (m)
+    {
+        case RGB_BYTE:		n = 3;	type = 0;	break;
+        case RGB_FLOAT:		n = 3;	type = 1;	break;
+        case RGBA_BYTE:		n = 4;	type = 0;	break;
+        case RGBA_FLOAT:	n = 4;	type = 1;	break;
+        default:
+            LOG_ERROR("ImageMode is illegal!\n");
+            n = 0;
+    }
+    
+    if(type == 0)
+    {
+        d = (void*) new unsigned char[n*w*h];
+        fread(d, sizeof(unsigned char), w*h*n, fp);
+    }
+    else if(type ==1)
+    {
+        d = (void*) new float[n*w*h];
+        fread(d, sizeof(float), w*h*n, fp);
+    }
+    
+    CZImage *newImage = new CZImage(w,h,m,d);
+    
+    if (type == 0) delete [] (unsigned char*)d;
+    else           delete [] (float*)d;
+    
+    return newImage;
 }
 
 /// ÃÓ≥‰£®≤…”√π„À—£©

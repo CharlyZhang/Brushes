@@ -12,14 +12,23 @@
 #ifndef _CZCODER_H_
 #define _CZCODER_H_
 
+#include <string>
+#include <vector>
+#include "CZDataProvider.h"
+#include "../basic/CZImage.h"
+
 class CZCoding;
 
 class CZCoder
 {
 public:
-	virtual void encodeObject(CZCoding* obj, const char* key, bool deep) = 0;
-	virtual void encodeFloat(float value, const char* key) = 0;
-	virtual void encodeString(char *str, const char * key) = 0;
-	virtual void encodeUint(unsigned int value, const char * key) = 0;
+	virtual void encodeObject(CZCoding* obj, const std::string key, bool deep) = 0;
+    virtual void encodeArray(std::vector<CZCoding*> &array, const std::string key) = 0;
+    virtual void encodeDataProvider(CZDataProvider *dataProvider, const std::string key) =0;
+	virtual void encodeFloat(float value, const std::string key) = 0;
+	virtual void encodeString(char *str, const std::string key) = 0;
+	virtual void encodeUint(unsigned int value, const std::string key) = 0;
+    virtual void encodeBoolean(bool value, const std::string key) = 0;
+    virtual void encodeImage(CZImage* image, const std::string key) = 0;
 };
 #endif

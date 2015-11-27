@@ -14,8 +14,17 @@
 #include "CZPainting.h"
 #include "../CZActiveState.h"
 #include "../graphic/glDef.h"
+#include "CZTypedData.h"
+#include <string>
 
 #define MAX_THUMBNAIL_DIMMENSION 360
+
+using namespace std;
+
+static string CZVisibleKey = "visible";
+static string CZLockedKey = "locked";
+static string CZOpacityKey = "opacity";
+static string CZImageDataKey = "layerImage";
 
 CZLayer::CZLayer(CZPainting* paiting_) : ptrPainting(paiting_)
 {
@@ -849,6 +858,16 @@ bool CZLayer::setImage(CZImage *img)
     
     image = img;
     
+    ptrGLContext->setAsCurrent();
+   
+    CZRect bounds = ptrPainting->getBounds();
+    GLint xoffset = (GLint)bounds.getMinX();
+    GLint yoffset = (GLint)bounds.getMinY();
+    GLsizei width = (GLsizei)bounds.size.width;
+    GLsizei height = (GLsizei)bounds.size.height;
+    
+    myTexture->modifyWith(image,xoffset,yoffset,width,height);
+
     return true;
 }
 
@@ -1109,25 +1128,25 @@ void CZLayer::update(CZDecoder *decoder_, bool deep /* = false */)
 }
 void CZLayer::encode(CZCoder *coder_, bool deep /* = false */)
 {
-    /*
-     [coder encodeBoolean:visible_ forKey:WDVisibleKey];
-     [coder encodeBoolean:locked_ forKey:WDLockedKey];
-     [coder encodeBoolean:alphaLocked_ forKey:WDAlphaLockedKey];
-     [coder encodeInteger:blendMode_ forKey:WDBlendModeKey];
-     [coder encodeString:uuid_ forKey:WDUUIDKey];
-     
-     if (opacity_ != 1.f) {
-     [coder encodeFloat:opacity_ forKey:WDOpacityKey];
-     }
-     
-     if (deep) {
-     WDSaveStatus wasSaved = self.isSaved;
-     self.isSaved = kWDSaveStatusTentative;
-     id data = (wasSaved == kWDSaveStatusSaved) ? [NSNull null] : self.imageData; // don't bother retrieving imageData if we're not saving it
-     WDTypedData *image = [WDTypedData data:data mediaType:@"image/x-brushes-layer" compress:YES uuid:self.uuid isSaved:wasSaved];
-     [coder encodeDataProvider:image forKey:WDImageDataKey];
-     }
-     */
+    if(coder_ == nullptr)
+    {
+        LOG_ERROR("coder is NULL\n");
+        return;
+    }
+    
+    coder_->encodeBoolean(visible, CZVisibleKey);
+    coder_->encodeBoolean(locked, CZLockedKey);
+    
+    if (opacity != 1.f) coder_->encodeFloat(opacity, CZOpacityKey);
+    
+    if (deep)
+    {
+        CZImage *img = imageData();
+        coder_->encodeImage(img, CZImageDataKey);
+        delete img;
+//        CZTypedData *typedData = CZTypedData::produceTypedData(img, "image/brushes-layer", true, kSaveStatusSaved);
+//        coder_->encodeDataProvider(typedData, CZImageDataKey);
+    }
 }
 
 /// ≈‰÷√ªÏ∫œƒ£ Ω

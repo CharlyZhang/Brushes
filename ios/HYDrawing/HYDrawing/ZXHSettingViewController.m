@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    titleArray = @[@"新建",@"清空",@"变换"];
+    titleArray = @[@"新建",@"保存",@"清空",@"变换"];
     preferSize = self.preferredContentSize;
     
     _tbView = [[UITableView alloc]initWithFrame:CGRectMake(2, 6, preferSize.width-4, preferSize.height-6)];
@@ -42,7 +42,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -66,15 +66,18 @@
 // 选中
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
-        case 0: // 新建
+        case 0: // new canvas
             [self.delegate settingForCreateNewCanvas];
             
             break;
-        case 1: // 清空
+        case 1: // save painting
+            [self.delegate settingForSavePainting];
+            break;
+        case 2: // clear canvas
             [self.delegate settingForClearCanvas];
             
             break;
-        case 2: // 变换
+        case 3: // transform canvas
             [self.delegate settingForTransformCanvas];
             
             break;

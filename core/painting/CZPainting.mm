@@ -19,6 +19,11 @@ using namespace  std;
 const int iMaxLayerNumber = 10;		///< 支持的最大图层数目
 
 
+static std::string CZActiveLayerKey = "activeLayer";
+static std::string CZWidthKey = "width";
+static std::string CZHeightKey = "height";
+static std::string CZLayersKey = "layers";
+
 CZPainting::CZPainting(const CZSize &size)
 {
     flattenMode = false;
@@ -611,8 +616,33 @@ CZColor CZPainting::pickColor(int x, int y)
 }
 
 /// 实现CZCoding接口
-void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/){};
-void CZPainting::encode(CZCoder *coder_, bool deep /*= false*/){};
+void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/)
+{
+    
+};
+void CZPainting::encode(CZCoder *coder_, bool deep /*= false*/)
+{
+    if(coder_ == nullptr)
+    {
+        LOG_ERROR("coder is NULL\n");
+        return;
+    }
+    coder_->encodeUint((unsigned int)activeLayerInd, CZActiveLayerKey);
+    coder_->encodeFloat(dimensions.width, CZWidthKey);
+    coder_->encodeFloat(dimensions.height, CZHeightKey);
+    if (deep)
+    {
+        // layers
+        vector<CZCoding*> tempArray;
+        for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
+        {
+            tempArray.push_back(*itr);
+        }
+        
+        coder_->encodeArray(tempArray, CZLayersKey);
+    }
+    
+};
 
 void CZPainting::loadShaders()
 {

@@ -149,7 +149,7 @@ void CZFbo::end()
 }
 
 /// 将纹理绘制到屏幕
-void CZFbo::showTextureOnScreen( int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
+void CZFbo::showTextureOnScreen(int x,int y,int width_ /*= 128*/,int height_ /*= 128*/)
 {
     if(tex == NULL || isReady!=RENDER2TEX)
     {

@@ -110,7 +110,7 @@ CZTexture* CZTexture::produceFromImage(CZImage *img)
 }
 
 /// 用图片数据修改纹理
-bool CZTexture::modifyWith(CZImage *img,int x /*= 0*/, int y /*= 0*/)
+bool CZTexture::modifyWith(CZImage *img,int x /*= 0*/, int y /*= 0*/, int w /*= -1*/, int h /*= -1*/)
 {
     if(img == NULL)
     {
@@ -124,21 +124,24 @@ bool CZTexture::modifyWith(CZImage *img,int x /*= 0*/, int y /*= 0*/)
         return false;
     }
     
+    if (w == -1)    w = img->width;
+    if (h == -1)    h = img->height;
+    
     glBindTexture(GL_TEXTURE_2D,texId);
     
     switch(mode)
     {
         case RGB_BYTE:
-            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGB,GL_UNSIGNED_BYTE,img->data);
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,w,h,GL_RGB,GL_UNSIGNED_BYTE,img->data);
             break;
         case RGBA_BYTE:
-            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGBA,GL_UNSIGNED_BYTE,img->data);
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,w,h,GL_RGBA,GL_UNSIGNED_BYTE,img->data);
             break;
         case RGB_FLOAT:
-            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGB,GL_FLOAT,img->data);
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,w,h,GL_RGB,GL_FLOAT,img->data);
             break;
         case RGBA_FLOAT:
-            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,img->width,img->height,GL_RGBA,GL_FLOAT,img->data);
+            glTexSubImage2D(GL_TEXTURE_2D,0,x,y,w,h,GL_RGBA,GL_FLOAT,img->data);
             break;
         default:
             LOG_ERROR("illegal imgMode!\n");

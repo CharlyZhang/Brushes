@@ -21,7 +21,7 @@
 #include "../CZHueSaturation.h"
 #include "../basic/CZAffineTransform.h"
 #include "../serialization/CZCoding.h"
-#include "../CZDataProvider.h"
+#include "../serialization/CZDataProvider.h"
 #include "../CZColorBalance.h"
 #include "../CZHueSaturation.h"
 #include "../graphic/CZTexture.h"

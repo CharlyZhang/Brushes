@@ -246,6 +246,12 @@ SettingViewControllerDelegate>
     [_settingPopoverController dismissPopoverAnimated:YES];
 }
 
+-(void)settingForSavePainting
+{
+    [[HYBrushCore sharedInstance] saveCurrentPainting];
+    [_settingPopoverController dismissPopoverAnimated:YES];
+}
+
 -(void)settingForClearCanvas{
     [[HYBrushCore sharedInstance]clearLayer:0];
     

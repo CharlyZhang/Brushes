@@ -9,6 +9,7 @@
 #import "HYBrushCore.h"
 #import "CZViewImpl.h"
 #include "BrushesCore.h"
+#include "CZFileManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface HYBrushCore()
@@ -35,9 +36,13 @@
 /// 初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h
 {
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    CZFileManager::getInstance()->setDirectoryPath([docPath UTF8String]);
+    
     viewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(viewImpl);
-    painting = new CZPainting(CZSize(w,h));
+    painting = CZFileManager::getInstance()->createPainting("painting.b");
+    if (painting == nullptr)    painting = new CZPainting(CZSize(w,h));
     canvas->setPaiting(painting);
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
@@ -436,6 +441,12 @@
     int idx = activeState->setActiveBrush(kWatercolorPen);
     activeState->setActiveBrushStamp(stampImage);
     activeState->setActiveBrush(idx);
+}
+
+//绘制
+- (BOOL) saveCurrentPainting
+{
+    return CZFileManager::getInstance()->savePainting(painting, "painting.b");
 }
 
 /// 析构

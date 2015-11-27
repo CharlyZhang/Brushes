@@ -12,13 +12,15 @@
 #ifndef _CZDECODER_H_
 #define _CZDECODER_H_
 
+#include <string>
+
 class CZCoding;
 
 class CZDecoder
 {
 public:
-	virtual CZCoding* decodeObject(const char *key) = 0;
-	virtual unsigned int decodeUint(const char *key) = 0;
-	virtual float decodeFloat(const char *key, float deft = 0.0f) = 0;
+    virtual CZCoding* decodeObject(const std::string key) = 0;
+    virtual unsigned int decodeUint(const std::string key) = 0;
+    virtual float decodeFloat(const std::string key, float deft = 0.0f) = 0;
 };
 #endif

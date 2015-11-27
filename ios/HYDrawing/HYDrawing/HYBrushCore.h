@@ -68,4 +68,7 @@
 - (float) getOpacityOfLayer:(NSInteger)index;
 - (BOOL) clearLayer:(NSInteger)index;
 
+//绘制
+- (BOOL) saveCurrentPainting;
+
 @end

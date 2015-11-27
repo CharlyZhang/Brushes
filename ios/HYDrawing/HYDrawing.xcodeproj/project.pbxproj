@@ -286,9 +286,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2D49062D1B7AE44600158F1C /* interface */ = {
+		2D49062D1B7AE44600158F1C /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				2DFE46D11C057C3600EBA03C /* Controllers */,
 				2D49061C1B78ACA900158F1C /* HYBrushCore.h */,
 				2D49061D1B78ACA900158F1C /* HYBrushCore.mm */,
 				2D4906291B7ADCCF00158F1C /* CZViewImpl.h */,
@@ -296,7 +297,14 @@
 				2D4906311B7F234900158F1C /* CanvasView.h */,
 				2D4906321B7F234900158F1C /* CanvasView.mm */,
 			);
-			name = interface;
+			name = Interface;
+			sourceTree = "<group>";
+		};
+		2DFE46D11C057C3600EBA03C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		535DA0E31B6F808D00E117FF /* ColorPicker */ = {
@@ -374,7 +382,7 @@
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
 				53BF596B1B847379007C3089 /* shapes */,
-				2D49062D1B7AE44600158F1C /* interface */,
+				2D49062D1B7AE44600158F1C /* Interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,

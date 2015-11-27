@@ -12,6 +12,7 @@
 
 @required
 -(void)settingForCreateNewCanvas;
+-(void)settingForSavePainting;
 -(void)settingForClearCanvas;
 -(void)settingForTransformCanvas;
 

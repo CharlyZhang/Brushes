@@ -14,6 +14,7 @@
 
 #include "../CZDefine.h"
 #include "CZRect.h"
+#include <stdio.h>
 
 typedef enum StorageMode 
 {
@@ -40,6 +41,10 @@ public:
     
     ///< whether really has alpha data, which means the information in the 4th channel is not all 255 or 1.0f
     bool hasReallyAlpha();
+    
+    bool saveToFile(FILE *fp);
+    
+    static CZImage* createFromFile(FILE *fp);
     
 private:
 	/// ÐÞ¸Ä
