@@ -449,6 +449,27 @@
     return CZFileManager::getInstance()->savePainting(painting, "painting.b");
 }
 
+///笔触大小
+- (void) setActiveBrushSize:(float) value
+{
+    CZBrush *pBrush = CZActiveState::getInstance()->getActiveBrush();
+    if (pBrush)
+        pBrush->weight.value = value;
+    else
+        LOG_ERROR("Active Brush is NULL\n");
+}
+
+- (float) getActiveBrushSize
+{
+    CZBrush *pBrush = CZActiveState::getInstance()->getActiveBrush();
+    if (pBrush)
+        return pBrush->weight.value;
+    else
+        LOG_ERROR("Active Brush is NULL\n");
+    
+    return 1.0f;
+}
+
 /// 析构
 - (void) dealloc {
     if (canvas) {

@@ -23,16 +23,18 @@
 #import "ZXHPaintingListController.h"
 #import "TransformOverlayerView.h"
 #import "SettingViewController.h"
+#import "BrushSizePannelView.h"
 
 extern NSString *CZActivePaintColorDidChange;
 extern NSString *CZActiveLayerTransformChange;
 
 @interface HYDrawingViewController ()<
-BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate,
+BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate, BrushSizePannelViewDelegate,
 SettingViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
+    BrushSizePannelView *brushSizePannelView;
     ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
@@ -48,6 +50,9 @@ SettingViewControllerDelegate>
     ZXHCanvasBackgroundController *_canvasBackgroundController;
     // 列表
     UIPopoverController *_listPopoverController;
+    
+    ///
+    BottomBarButtonType activeButton;
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -118,26 +123,6 @@ SettingViewControllerDelegate>
     [[ZXHEditableTipsView defaultTipsView] dismissTips];
 }
 
-#pragma mark 显示或隐藏底部工具栏
--(void)displayBarView:(BOOL) flag {
-    if (!flag && !bottomBarView.hidden) {
-        [UIView animateWithDuration:0.25 animations:^{
-            bottomBarView.alpha = 0;
-            self.navigationController.navigationBar.alpha = 0;
-        }completion:^(BOOL finished) {
-            bottomBarView.hidden = YES;
-            self.navigationController.navigationBar.hidden = YES;
-        }];
-    }
-    else if(flag && bottomBarView.hidden) {
-        [UIView animateWithDuration:0.25 animations:^{
-            bottomBarView.hidden = NO;
-            self.navigationController.navigationBar.hidden = NO;
-            bottomBarView.alpha = 1;
-            self.navigationController.navigationBar.alpha = 1;
-        }];
-    }
-}
 
 #pragma mark - Properties
 
@@ -204,6 +189,13 @@ SettingViewControllerDelegate>
     bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
     [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
+    activeButton = bottomBarView.currentButton.tag;
+    
+    // brush size pannel
+    brushSizePannelView = [[BrushSizePannelView alloc] initWithFrame:CGRectMake(-82, 500, 246, 58)];
+    brushSizePannelView.delegate = self;
+    [self.view addSubview:brushSizePannelView];
+    [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
@@ -261,10 +253,7 @@ SettingViewControllerDelegate>
     
     [[HYBrushCore sharedInstance]setActiveLayerLinearInterprolation:YES];
     
-    // 隐藏导航栏
-    self.navigationController.navigationBar.hidden = YES;
-    // 隐藏底部工具栏
-    bottomBarView.hidden = YES;
+    [self displayToolView:NO];
     
     return YES;
 }
@@ -449,18 +438,23 @@ SettingViewControllerDelegate>
             break;
         case ERASER_BTN:            ///< 橡皮擦
             [[HYBrushCore sharedInstance]activeEraser];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
             break;
         case PENCIL_BTN:            ///< 铅笔
             [[HYBrushCore sharedInstance]activePencil];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
             break;
         case MARKERPEN_BTN:         ///< 马克笔
             [[HYBrushCore sharedInstance]activeMarker];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
             break;
         case COLORBRUSH_BTN:        ///< 水彩笔
             [[HYBrushCore sharedInstance]activeWaterColorPen];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
             break;
         case CRAYON_BTN:
             [[HYBrushCore sharedInstance]activeCrayon];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
             break;
         case BUCKET_BTN:            ///< 倒色桶
             [[HYBrushCore sharedInstance]activeBucket];
@@ -484,6 +478,8 @@ SettingViewControllerDelegate>
             break;
     }
     
+    activeButton = button.tag;
+    [self displayBrushSizePannel:YES];
     
 }
 
@@ -494,8 +490,7 @@ SettingViewControllerDelegate>
     _layersViewController.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     [_layersViewController.tbView reloadData];
     
-    bottomBarView.hidden = NO;
-    self.navigationController.navigationBar.hidden = NO;
+    [self displayToolView:YES];
 }
 
 #pragma mark 形状选择弹出
@@ -623,6 +618,13 @@ SettingViewControllerDelegate>
     }
 }
 
+#pragma mark BrushSizePannelViewDelegate Method
+
+- (void)brushSizePannelView:(BrushSizePannelView *)brushSizePannelView valueChanged:(float)value
+{
+    [[HYBrushCore sharedInstance] setActiveBrushSize:value];
+}
+
 #pragma mark - 选择相册图片
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [picturePopoverController dismissPopoverAnimated:YES];
@@ -637,14 +639,87 @@ SettingViewControllerDelegate>
     imageEditViewController.originalImg = img;
     imageEditViewController.view.frame = self.view.frame;
     imageEditViewController.view.backgroundColor = [UIColor clearColor];
-    // 隐藏导航栏
-    self.navigationController.navigationBar.hidden = YES;
-    // 隐藏底部工具栏
-    bottomBarView.hidden = YES;
+    
+    [self displayToolView:NO];
     
     [self.view addSubview:imageEditViewController.view];
 }
 
+#pragma mark CanvasViewDelegate Methods
+
+- (void)displayToolView:(BOOL) flag
+{
+    if (!flag && !bottomBarView.hidden) {
+        [UIView animateWithDuration:0.25 animations:^{
+            bottomBarView.alpha = 0;
+            self.navigationController.navigationBar.alpha = 0;
+            [self displayBrushSizePannel:NO];
+        }completion:^(BOOL finished) {
+            bottomBarView.hidden = YES;
+        }];
+    }
+    else if(flag && bottomBarView.hidden) {
+        [UIView animateWithDuration:0.25 animations:^{
+            bottomBarView.alpha = 1;
+            self.navigationController.navigationBar.alpha = 1;
+            [self displayBrushSizePannel:YES];
+        } completion:^(BOOL finished) {
+            bottomBarView.hidden = NO;
+        }];
+    }
+}
+
+#pragma mark - Private Methods
+
+- (void)displayBrushSizePannel:(BOOL) flag
+{
+    if (!flag)
+    {
+        [brushSizePannelView setAlpha:0.0f];
+        return;
+    }
+    
+    switch (activeButton) {
+        case COLORWHEEL_BTN:        ///< 调色板
+            [brushSizePannelView setAlpha:0.0f];
+            break;
+        case ERASER_BTN:            ///< 橡皮擦
+            [brushSizePannelView setAlpha:1.0f];
+            break;
+        case PENCIL_BTN:            ///< 铅笔
+            [brushSizePannelView setAlpha:1.0f];
+            break;
+        case MARKERPEN_BTN:         ///< 马克笔
+            [brushSizePannelView setAlpha:1.0f];
+            break;
+        case COLORBRUSH_BTN:        ///< 水彩笔
+            [brushSizePannelView setAlpha:1.0f];
+            break;
+        case CRAYON_BTN:
+            [brushSizePannelView setAlpha:1.0f];
+            break;
+        case BUCKET_BTN:            ///< 倒色桶
+            [brushSizePannelView setAlpha:0.0f];
+            break;
+        case SHAPEBOX_BTN:          ///< 图形箱
+            [brushSizePannelView setAlpha:0.0f];
+            break;
+        case EYEDROPPER_BTN:        ///< 取色管
+            [brushSizePannelView setAlpha:0.0f];
+            break;
+        case LAYERS_BTN:            ///< 图层
+            [brushSizePannelView setAlpha:0.0f];
+            break;
+        case CLIP_BTN:              ///< 裁减
+            //            [self showCliperView];
+            break;
+        case CANVAS_BTN:            ///< 背景图
+            [brushSizePannelView setAlpha:0.0f];
+            break;
+        default:
+            break;
+    }
+}
 #pragma mark - Copied directly
 
 - (BOOL) shouldDismissPopoverForClassController:(Class)controllerClass insideNavController:(BOOL)insideNav

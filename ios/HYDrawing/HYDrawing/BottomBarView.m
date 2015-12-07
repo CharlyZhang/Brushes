@@ -12,7 +12,6 @@
 {
 }
 
-@property (nonatomic, weak) UIButton *currentButton;
 @property (nonatomic, strong) UIScrollView *toolsScrollView;
 
 @end

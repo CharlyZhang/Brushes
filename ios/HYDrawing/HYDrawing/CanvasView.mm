@@ -217,7 +217,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 {
     LOG_DEBUG("double tap\n");
     isBarVisible = !isBarVisible;
-    [self.delegate displayBarView:isBarVisible];
+    [self.delegate displayToolView:isBarVisible];
 }
 
 

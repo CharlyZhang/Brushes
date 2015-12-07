@@ -68,7 +68,11 @@
 - (float) getOpacityOfLayer:(NSInteger)index;
 - (BOOL) clearLayer:(NSInteger)index;
 
-//绘制
+///绘制
 - (BOOL) saveCurrentPainting;
+
+///笔触大小
+- (void) setActiveBrushSize:(float) value;
+- (float) getActiveBrushSize;
 
 @end

@@ -55,6 +55,8 @@ typedef enum BottomBarButtonType {
 @property (nonatomic, strong) UIButton* clipButton;
 @property (nonatomic, strong) UIButton* layersButton;
 
+@property (nonatomic, weak) UIButton *currentButton;
+
 - (instancetype)initWithWellColor:(WDColor*) color;
 
 @end
