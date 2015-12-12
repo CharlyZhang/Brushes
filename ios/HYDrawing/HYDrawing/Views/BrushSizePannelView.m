@@ -182,7 +182,6 @@
     CGContextAddArcToPoint(ctx, 0, size.height, 0, size.height-radius, radius);
     CGContextAddArcToPoint(ctx, 0, 0, size.width-radius, 0, radius);
     CGContextAddArcToPoint(ctx, size.width, 0, size.width, size.height-radius, radius);
-    CGContextClosePath(ctx);
     
     CGContextSetFillColorWithColor(ctx, ThemeColor.CGColor);
     CGContextDrawPath(ctx, kCGPathFillStroke);
@@ -201,13 +200,11 @@
     [[UIColor clearColor] setFill];
     CGContextFillRect(ctx, CGRectMake(0.0f, 0.0f, size.width, size.height));
     
-    CGContextBeginPath(ctx);
     CGContextSetLineWidth(ctx, 2.0);
     CGContextSetStrokeColorWithColor(ctx, [UIColor grayColor].CGColor);
     CGContextMoveToPoint(ctx, size.width /2.f, 1.f);
     CGContextAddLineToPoint(ctx, size.width /2.f, size.height - 1.f);
     CGContextStrokePath(ctx);
-    CGContextClosePath(ctx);
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -221,7 +218,6 @@
     [[UIColor clearColor] setFill];
     CGContextFillRect(ctx, CGRectMake(0.0f, 0.0f, size.width, size.height));
     
-    CGContextBeginPath(ctx);
     CGContextSetLineWidth(ctx, 2.0);
     CGContextSetStrokeColorWithColor(ctx, [UIColor grayColor].CGColor);
     CGContextMoveToPoint(ctx, 1.f, size.height / 2.f);
@@ -229,7 +225,6 @@
     CGContextMoveToPoint(ctx, size.width /2.f, 1.f);
     CGContextAddLineToPoint(ctx, size.width /2.f, size.height - 1.f);
     CGContextStrokePath(ctx);
-    CGContextClosePath(ctx);
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

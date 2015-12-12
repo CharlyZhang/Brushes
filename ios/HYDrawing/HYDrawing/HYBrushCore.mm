@@ -12,6 +12,8 @@
 #include "CZFileManager.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define PAINTING_FILENAME "painting.hyd.painting"
+
 @interface HYBrushCore()
 {
     CZViewImpl *viewImpl;
@@ -41,7 +43,14 @@
     
     viewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(viewImpl);
-    painting = CZFileManager::getInstance()->createPainting("painting.b");
+    
+    painting = nullptr;
+    NSString *URLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"lauchPaintingUrl"];
+    URLString = [URLString substringFromIndex:7];       // strip the file://
+    if (URLString) {
+        //painting = [self createPaintingWithFileAtPath:URLString];
+        painting = CZFileManager::getInstance()->createPaintingWithURL([URLString UTF8String]);
+    }
     if (painting == nullptr)    painting = new CZPainting(CZSize(w,h));
     canvas->setPaiting(painting);
     CZActiveState::getInstance()->setEraseMode(false);
@@ -446,7 +455,7 @@
 //绘制
 - (BOOL) saveCurrentPainting
 {
-    return CZFileManager::getInstance()->savePainting(painting, "painting.b");
+    return CZFileManager::getInstance()->savePainting(painting, PAINTING_FILENAME);
 }
 
 ///笔触大小

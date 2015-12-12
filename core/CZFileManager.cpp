@@ -99,7 +99,20 @@ CZPainting* CZFileManager::createPainting(const char *filenameStr)
     
     // open file
     string file = directoryPath + "/" + string(filenameStr);
-    FILE *fp = fopen(file.c_str(), "rb");
+    
+    return createPaintingWithURL(file.c_str());
+}
+
+CZPainting* CZFileManager::createPaintingWithURL(const char* urlStr)
+{
+    if (urlStr == nullptr)
+    {
+        LOG_ERROR("urlStr is NULL\n");
+        return nullptr;
+    }
+    
+    // open file
+    FILE *fp = fopen(urlStr, "rb");
     
     if (fp == NULL)
     {

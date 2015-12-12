@@ -15,9 +15,30 @@
 
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if (!url) {
+        return NO;
+    }
+    NSString *URLString = [url absoluteString];
+    NSLog(@"%@",URLString);
+    //[[NSUserDefaults standardUserDefaults] setObject:URLString forKey:@"url"];
+    //[[NSUserDefaults standardUserDefaults] synchronize];
+    return YES;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
+    NSURL *url = (NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey];
+    
+    if (!url) {
+        return NO;
+    }
+    NSString *URLString = [url absoluteString];
+    NSLog(@"%@",URLString);
+    [[NSUserDefaults standardUserDefaults] setObject:URLString forKey:@"lauchPaintingUrl"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     return YES;
 

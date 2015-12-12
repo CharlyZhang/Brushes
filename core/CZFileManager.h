@@ -29,6 +29,8 @@ public:
     
     CZPainting* createPainting(const char *filenameStr);
     
+    CZPainting* createPaintingWithURL(const char* urlStr);
+    
 private:
     CZFileManager();
     ~CZFileManager();

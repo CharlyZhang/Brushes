@@ -598,6 +598,7 @@
 				TargetAttributes = {
 					53851B5E1B57AADE00B6F946 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 7NC252WH29;
 					};
 					53851B771B57AADE00B6F946 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -890,12 +891,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.founder.HYDrawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 			};
 			name = Debug;
@@ -904,12 +906,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Founder Electronics Co Ltd";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.founder.HYDrawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fd88b072-0945-4da4-8657-0751f6bfeadb";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 			};
 			name = Release;
