@@ -184,6 +184,9 @@ SettingViewControllerDelegate>
     
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
+    self.view.opaque = YES;
+    self.view.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+    
 #pragma mark 初始画板
     
     [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH];

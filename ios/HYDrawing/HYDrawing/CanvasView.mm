@@ -50,13 +50,13 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     self.contentScaleFactor = [UIScreen mainScreen].scale;
     self.autoresizingMask = UIViewAutoresizingNone;
     self.exclusiveTouch = YES;
-    self.opaque = YES;
-    self.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1];
+//    self.opaque = NO;
+    //self.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1];
     
     // configure the layer
     CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
     
-    eaglLayer.opaque = YES;
+    eaglLayer.opaque = NO;
     eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8,
                                     kEAGLDrawablePropertyColorFormat, nil];
@@ -237,7 +237,8 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     [EAGLContext setCurrentContext:context];
     self.fbo->begin();
     
-    glClearColor(1, 1, 1, 1);
+    //glClearColor(1, 1, 1, 1);
+    glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT );
     
     glEnable(GL_BLEND);
