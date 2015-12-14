@@ -15,6 +15,8 @@
 		2D4906371B7F297600158F1C /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906361B7F297600158F1C /* ReadMe.md */; };
 		2D7C5D051C1528D600E1A81D /* TransformOverlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D041C1528D600E1A81D /* TransformOverlayerView.m */; };
 		2D7C5D081C15292D00E1A81D /* BrushSizePannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */; };
+		2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */; };
+		2D9287381C1E57CC008AEEFB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */; };
 		2D95594C1B859AAD009C9C6C /* watercolorPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D95594B1B859AAD009C9C6C /* watercolorPen.png */; };
 		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
 		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
@@ -140,6 +142,10 @@
 		2D7C5D041C1528D600E1A81D /* TransformOverlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TransformOverlayerView.m; path = Views/TransformOverlayerView.m; sourceTree = "<group>"; };
 		2D7C5D061C15292D00E1A81D /* BrushSizePannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushSizePannelView.h; path = Views/BrushSizePannelView.h; sourceTree = "<group>"; };
 		2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrushSizePannelView.m; path = Views/BrushSizePannelView.m; sourceTree = "<group>"; };
+		2D92872A1C1BE37B008AEEFB /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaintingManager.h; path = Models/PaintingManager.h; sourceTree = "<group>"; };
+		2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PaintingManager.mm; path = Models/PaintingManager.mm; sourceTree = "<group>"; };
+		2D9287361C1E57CC008AEEFB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Vendor/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Vendor/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		2D95594B1B859AAD009C9C6C /* watercolorPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watercolorPen.png; sourceTree = "<group>"; };
 		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
@@ -298,8 +304,35 @@
 				2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */,
 				2D4906311B7F234900158F1C /* CanvasView.h */,
 				2D4906321B7F234900158F1C /* CanvasView.mm */,
+				2D92872F1C1BE393008AEEFB /* Models */,
 			);
 			name = Interface;
+			sourceTree = "<group>";
+		};
+		2D92872F1C1BE393008AEEFB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2D92872A1C1BE37B008AEEFB /* PaintingManager.h */,
+				2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		2D9287331C1E56B3008AEEFB /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				2D9287391C1E57E4008AEEFB /* MBProgressHUD */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		2D9287391C1E57E4008AEEFB /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				2D9287361C1E57CC008AEEFB /* MBProgressHUD.h */,
+				2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		2DFE46D11C057C3600EBA03C /* Controllers */ = {
@@ -386,6 +419,7 @@
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
 				53BF596B1B847379007C3089 /* shapes */,
+				2D9287331C1E56B3008AEEFB /* Vendor */,
 				2D49062D1B7AE44600158F1C /* Interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
 				2DFE46D11C057C3600EBA03C /* Controllers */,
@@ -741,6 +775,7 @@
 				5373439A1B70598100CDCC82 /* UIView+Additions.m in Sources */,
 				538CA6891B8AC79F0050A39A /* ZXHPaintingListController.m in Sources */,
 				53BF592E1B842E25007C3089 /* CliperView.m in Sources */,
+				2D9287381C1E57CC008AEEFB /* MBProgressHUD.m in Sources */,
 				53B0CC7D1B7DEE26000AD907 /* ZXHEditableTipsView.m in Sources */,
 				2D7C5D081C15292D00E1A81D /* BrushSizePannelView.m in Sources */,
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
@@ -760,6 +795,7 @@
 				537343941B70535F00CDCC82 /* WDColorSourceView.m in Sources */,
 				5373439D1B7085F800CDCC82 /* WDInsetView.m in Sources */,
 				5353072C1B7C960500877D76 /* ZXHMockNavBar.m in Sources */,
+				2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

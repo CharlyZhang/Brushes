@@ -57,4 +57,6 @@
 #define kScreenH (kSystemVersion<=7.0 ? kSysW : kSysH)
 
 
+#define DOCUMENTS_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+
 #endif

@@ -12,6 +12,8 @@
 #import "HYBrushCore.h"
 #import "ZXHEditableTipsView.h"
 
+NSString *LayersCountChange = @"LayersCountChange";
+
 @interface ZXHLayersViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 
@@ -56,6 +58,19 @@
     // 是否可以继续创建层
     // 观察者
     [self addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(layersCountChanged:) name:LayersCountChange object:nil];
+}
+
+- (void) layersCountChanged:(NSNotification*)notification
+{
+    self.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 #pragma mark 观察者

@@ -23,6 +23,9 @@
 ///获得绘制视图
 - (CanvasView*) getPaintingView;
 
+/// 绘制
+- (void) draw;
+
 ///工具激活
 - (void) activeEraser;
 - (void) activePencil;
@@ -67,9 +70,6 @@
 - (void) setActiveLayerOpacity:(float)opacity;
 - (float) getOpacityOfLayer:(NSInteger)index;
 - (BOOL) clearLayer:(NSInteger)index;
-
-///绘制
-- (BOOL) saveCurrentPainting;
 
 ///笔触大小
 - (void) setActiveBrushSize:(float) value;

@@ -23,20 +23,15 @@ public:
         return &instance;
     }
     
-    void setDirectoryPath(const char* pathStr);
+    bool savePainting(CZPainting *painting, const char *filepath);
     
-    bool savePainting(CZPainting *painting, const char *filenameStr);
+    CZPainting* createPainting(const char* filepath, float w, float h);
     
-    CZPainting* createPainting(const char *filenameStr);
-    
-    CZPainting* createPaintingWithURL(const char* urlStr);
+    bool loadPainting(const char* filepath, CZPainting* painting);
     
 private:
     CZFileManager();
     ~CZFileManager();
-    
-private:
-    std::string directoryPath;
     
 };
 

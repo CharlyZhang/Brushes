@@ -14,26 +14,14 @@ using namespace std;
 
 CZFileManager::CZFileManager()
 {
-    directoryPath = ".";
+    
 }
 
 CZFileManager::~CZFileManager()
 {
 }
 
-
-void CZFileManager::setDirectoryPath(const char* pathStr)
-{
-    if (pathStr == nullptr)
-    {
-        LOG_ERROR("pathStr is NULL\n");
-        return;
-    }
-    
-    directoryPath = string(pathStr);
-}
-
-bool CZFileManager::savePainting(CZPainting *painting, const char * filenameStr)
+bool CZFileManager::savePainting(CZPainting *painting, const char * filepath)
 {
     if (painting == nullptr)
     {
@@ -41,15 +29,14 @@ bool CZFileManager::savePainting(CZPainting *painting, const char * filenameStr)
         return false;
     }
     
-    if (filenameStr == nullptr)
+    if (filepath == nullptr)
     {
-        LOG_ERROR("filenameStr is NULL\n");
+        LOG_ERROR("filepath is NULL\n");
         return nullptr;
     }
     
     // open file
-    string file = directoryPath + "/" + string(filenameStr);
-    FILE *fp = fopen(file.c_str(), "wb");
+    FILE *fp = fopen(filepath, "wb");
     
     if (fp == NULL)
     {
@@ -89,30 +76,16 @@ bool CZFileManager::savePainting(CZPainting *painting, const char * filenameStr)
     return true;
 }
 
-CZPainting* CZFileManager::createPainting(const char *filenameStr)
+CZPainting* CZFileManager::createPainting(const char* filepath, float w, float h)
 {
-    if (filenameStr == nullptr)
-    {
-        LOG_ERROR("filenameStr is NULL\n");
-        return nullptr;
-    }
-    
-    // open file
-    string file = directoryPath + "/" + string(filenameStr);
-    
-    return createPaintingWithURL(file.c_str());
-}
-
-CZPainting* CZFileManager::createPaintingWithURL(const char* urlStr)
-{
-    if (urlStr == nullptr)
+    if (filepath == nullptr)
     {
         LOG_ERROR("urlStr is NULL\n");
         return nullptr;
     }
     
     // open file
-    FILE *fp = fopen(urlStr, "rb");
+    FILE *fp = fopen(filepath, "rb");
     
     if (fp == NULL)
     {
@@ -126,7 +99,15 @@ CZPainting* CZFileManager::createPaintingWithURL(const char* urlStr)
     fread((void*)&width, sizeof(float), 1, fp);
     fread((void*)&height, sizeof(float), 1, fp);
     
-    CZPainting *newPainting = new CZPainting(CZSize(width,height));
+    if (width != w || height != h)
+    {
+        /// TO DO:
+        LOG_ERROR("dimension doesn't match!\n");
+        fclose(fp);
+        return nullptr;
+    }
+    
+    CZPainting *newPainting = new CZPainting(CZSize(w,h),false);
     
     // layers
     int layersNum;
@@ -149,11 +130,83 @@ CZPainting* CZFileManager::createPaintingWithURL(const char* urlStr)
         // image
         CZImage *img = CZImage::createFromFile(fp);
         layer->setImage(img);
-        delete img;
     }
+    
+    newPainting->setActiveLayer(activeLayerInd);
     
     fclose(fp);
     
     return newPainting;
 }
 
+
+bool CZFileManager::loadPainting(const char* filepath, CZPainting* painting)
+{
+    if (filepath == nullptr)
+    {
+        LOG_ERROR("urlStr is NULL\n");
+        return nullptr;
+    }
+    
+    if (painting == nullptr)
+    {
+        LOG_ERROR("painting is NULL\n");
+        return nullptr;
+    }
+    
+    // open file
+    FILE *fp = fopen(filepath, "rb");
+    
+    if (fp == NULL)
+    {
+        LOG_WARN("file open failed\n");
+        return nullptr;
+    }
+    
+    int activeLayerInd;
+    float width,height;
+    fread((void*)&activeLayerInd, sizeof(int), 1, fp);
+    fread((void*)&width, sizeof(float), 1, fp);
+    fread((void*)&height, sizeof(float), 1, fp);
+    
+    CZSize size = painting->getDimensions();
+    if (width != size.width || height != size.height)
+    {
+        /// TO DO:
+        LOG_ERROR("dimension doesn't match!\n");
+        fclose(fp);
+        return false;
+    }
+    
+    painting->restore(false);
+    
+    // layers
+    int layersNum;
+    fread((void*)&layersNum, sizeof(int), 1, fp);
+    int i;
+    for (i = 0; i < layersNum; i++ )
+    {
+        painting->addNewLayer();
+        CZLayer *layer = painting->getActiveLayer();
+        
+        bool temp;
+        fread((void*)&temp, sizeof(bool), 1, fp);
+        layer->setVisiblility(temp);
+        fread((void*)&temp, sizeof(bool), 1, fp);
+        layer->setLocked(temp);
+        
+        float opacity;
+        fread((void*)&opacity, sizeof(float), 1, fp);
+        layer->setOpacity(opacity);
+        
+        // image
+        CZImage *img = CZImage::createFromFile(fp);
+        layer->setImage(img);
+    }
+    
+    painting->setActiveLayer(activeLayerInd);
+    
+    fclose(fp);
+    
+    return true;
+}

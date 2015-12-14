@@ -38,7 +38,7 @@ class CZCanvas;
 class CZPainting :public CZCoding
 {
 public:
-	CZPainting(const CZSize &size);
+	CZPainting(const CZSize &size, bool addDefaultLayer = true);
 	~CZPainting();
 	
 	/// 将图像绘制出来（没绑定FBO）
@@ -130,6 +130,9 @@ public:
     
     /// pick the color
     CZColor pickColor(int x, int y);
+    
+    /// restore the painting
+    bool restore(bool addDefaultLayer = true);
     
 	/// 实现coding的接口
 	void update(CZDecoder *decoder_, bool deep = false);

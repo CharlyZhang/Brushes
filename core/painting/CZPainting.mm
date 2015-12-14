@@ -24,7 +24,7 @@ static std::string CZWidthKey = "width";
 static std::string CZHeightKey = "height";
 static std::string CZLayersKey = "layers";
 
-CZPainting::CZPainting(const CZSize &size)
+CZPainting::CZPainting(const CZSize &size, bool addDefaultLayer /* = true */)
 {
     flattenMode = false;
     
@@ -53,7 +53,8 @@ CZPainting::CZPainting(const CZSize &size)
     setDimensions(size);
     
     /// add the default blank layer
-    activeLayerInd = addNewLayer();
+    if(addDefaultLayer) activeLayerInd = addNewLayer();
+    else                activeLayerInd = -1;
 }
 CZPainting::~CZPainting()
 {
@@ -613,6 +614,33 @@ CZColor CZPainting::pickColor(int x, int y)
     fbo->end();
     
     return ret;
+}
+
+/// restore the painting
+bool CZPainting::restore(bool addDefaultLayer /* = true */)
+{
+    for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)    delete *itr;
+    layers.clear();
+    activeLayerInd = -1;
+    
+    if(addDefaultLayer) addNewLayer();
+    
+    glContext->setAsCurrent();
+    fbo->setTexture(activePaintTexture);
+    fbo->begin();
+    
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    fbo->end();
+    
+    if (addDefaultLayer)
+    {
+        CZLayer *layer = getActiveLayer();
+        return layer->clear();
+    }
+    
+    return true;
 }
 
 /// 实现CZCoding接口

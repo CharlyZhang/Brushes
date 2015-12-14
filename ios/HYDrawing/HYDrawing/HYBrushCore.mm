@@ -9,10 +9,8 @@
 #import "HYBrushCore.h"
 #import "CZViewImpl.h"
 #include "BrushesCore.h"
-#include "CZFileManager.h"
+#include "PaintingManager.h"
 #import <QuartzCore/QuartzCore.h>
-
-#define PAINTING_FILENAME "painting.hyd.painting"
 
 @interface HYBrushCore()
 {
@@ -38,20 +36,11 @@
 /// 初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h
 {
-    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    CZFileManager::getInstance()->setDirectoryPath([docPath UTF8String]);
-    
     viewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(viewImpl);
     
-    painting = nullptr;
-    NSString *URLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"lauchPaintingUrl"];
-    URLString = [URLString substringFromIndex:7];       // strip the file://
-    if (URLString) {
-        //painting = [self createPaintingWithFileAtPath:URLString];
-        painting = CZFileManager::getInstance()->createPaintingWithURL([URLString UTF8String]);
-    }
-    if (painting == nullptr)    painting = new CZPainting(CZSize(w,h));
+    [[PaintingManager sharedInstance] initializeWithWidth:w height:h];
+    painting = (CZPainting*)[[PaintingManager sharedInstance] getInitialPainting];
     canvas->setPaiting(painting);
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
@@ -69,6 +58,11 @@
     return viewImpl->realView;
 }
 
+/// 绘制
+- (void) draw
+{
+    canvas->drawView();
+}
 
 ///激活橡皮
 - (void) activeEraser
@@ -450,12 +444,6 @@
     int idx = activeState->setActiveBrush(kWatercolorPen);
     activeState->setActiveBrushStamp(stampImage);
     activeState->setActiveBrush(idx);
-}
-
-//绘制
-- (BOOL) saveCurrentPainting
-{
-    return CZFileManager::getInstance()->savePainting(painting, PAINTING_FILENAME);
 }
 
 ///笔触大小

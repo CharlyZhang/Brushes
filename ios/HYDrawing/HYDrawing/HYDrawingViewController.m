@@ -24,12 +24,15 @@
 #import "TransformOverlayerView.h"
 #import "SettingViewController.h"
 #import "BrushSizePannelView.h"
+#import "MBProgressHUD.h"
+#import "PaintingManager.h"
 
 extern NSString *CZActivePaintColorDidChange;
 extern NSString *CZActiveLayerTransformChange;
+extern NSString* LayersCountChange;
 
 @interface HYDrawingViewController ()<
-BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate, BrushSizePannelViewDelegate,
+BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
 SettingViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
@@ -53,6 +56,9 @@ SettingViewControllerDelegate>
     
     ///
     BottomBarButtonType activeButton;
+    
+    MBProgressHUD       *hud;
+    
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -88,7 +94,7 @@ SettingViewControllerDelegate>
 
 
 // 隐藏状态栏
--(BOOL)prefersStatusBarHidden{
+-(BOOL)prefersStatusBarHidden {
     return NO;
 }
 
@@ -140,6 +146,7 @@ SettingViewControllerDelegate>
         SettingViewController *settingCtrl =  [[SettingViewController alloc]init];
         settingCtrl.delegate = self;
         _settingPopoverController = [[UIPopoverController alloc] initWithContentViewController:settingCtrl];
+        _settingPopoverController.backgroundColor = UIPopoverBorderColor;
     }
     
     return _settingPopoverController;
@@ -200,6 +207,8 @@ SettingViewControllerDelegate>
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
     [nc addObserver:self selector:@selector(transformOverlayerChanged:) name:CZActiveLayerTransformChange object:nil];
+    
+    NSLog(@"Home path is %@",NSHomeDirectory());
 }
 
 #pragma mark 设置barItem是否可用
@@ -230,7 +239,7 @@ SettingViewControllerDelegate>
 #pragma mark SettingViewControllerDelegate Methods
 
 - (BOOL) settingViewControllerSavePainting:(SettingViewController *)settingController {
-    [[HYBrushCore sharedInstance] saveCurrentPainting];
+    //[[HYBrushCore sharedInstance] saveCurrentPainting];
     [_settingPopoverController dismissPopoverAnimated:YES];
     
     return YES;
@@ -260,12 +269,17 @@ SettingViewControllerDelegate>
 
 #pragma mark 作品列表弹出
 -(void)showListPopoverController:(UIBarButtonItem*)sender{
+    
     UIImage *image = [UIImage imageNamed:@"list_popover_bg"];
-    ZXHPaintingListController *listVC = [[ZXHPaintingListController alloc]init];
-    listVC.preferredContentSize = CGSizeMake(image.size.width, image.size.height-10);
     
     if (!_listPopoverController) {
+       
+        ZXHPaintingListController *listVC = [[ZXHPaintingListController alloc]init];
+        listVC.delegate = self;
+        listVC.preferredContentSize = CGSizeMake(image.size.width, image.size.height-10);
         _listPopoverController = [[UIPopoverController alloc]initWithContentViewController:listVC];
+        
+       
     }
     
     _listPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
@@ -275,6 +289,8 @@ SettingViewControllerDelegate>
     
     // 弹出
     [_listPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    [(ZXHPaintingListController*)_listPopoverController.contentViewController refreshData];
 }
 
 
@@ -314,7 +330,6 @@ SettingViewControllerDelegate>
     picker.delegate = self;
     picturePopoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
     [picturePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    
     
     //    if (iOS(8.0)) {
     //        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
@@ -619,10 +634,32 @@ SettingViewControllerDelegate>
 }
 
 #pragma mark BrushSizePannelViewDelegate Method
-
 - (void)brushSizePannelView:(BrushSizePannelView *)brushSizePannelView valueChanged:(float)value
 {
     [[HYBrushCore sharedInstance] setActiveBrushSize:value];
+}
+
+#pragma mark PaintingListControllerDelegate Method
+- (void)paintingListController:(ZXHPaintingListController *)paintingListCtrl didSelectAt:(NSInteger)index
+{
+    if (!hud) {
+        hud = [[MBProgressHUD alloc]initWithView:self.view];
+        hud.labelText = @"正在切换绘画...";
+        [self.view addSubview:hud];
+    }
+    
+    [_listPopoverController dismissPopoverAnimated:YES];
+    
+    [self.view setUserInteractionEnabled:NO];
+    [hud showAnimated:YES whileExecutingBlock:^{
+        [[PaintingManager sharedInstance]loadPaintingAt:index];
+    } completionBlock:^ {
+        NSLog(@"finish loading");
+        [self.view setUserInteractionEnabled:YES];
+        [[HYBrushCore sharedInstance]draw];
+        [[NSNotificationCenter defaultCenter]postNotificationName:LayersCountChange object:nil userInfo:nil];
+    }];
+    
 }
 
 #pragma mark - 选择相册图片
@@ -720,6 +757,7 @@ SettingViewControllerDelegate>
             break;
     }
 }
+
 #pragma mark - Copied directly
 
 - (BOOL) shouldDismissPopoverForClassController:(Class)controllerClass insideNavController:(BOOL)insideNav

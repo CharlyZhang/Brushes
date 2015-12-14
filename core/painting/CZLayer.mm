@@ -846,6 +846,7 @@ bool CZLayer::setHueSaturation(CZHueSaturation *hs)
 ///		\param img - 设置的图像
 ///		\ret	   - 若img不为空，则设置陈宫
 ///		\note 调用此函数将覆盖之前对该层的所有绘制
+///             Layer own this img
 bool CZLayer::setImage(CZImage *img)
 {
     if(img == NULL)

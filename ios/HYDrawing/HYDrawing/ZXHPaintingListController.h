@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZXHPaintingListController;
+
+@protocol PaintingListControllerDelegate <NSObject>
+
+- (void) paintingListController:(ZXHPaintingListController*)paintingListCtrl didSelectAt:(NSInteger)index;
+
+@end
+
 @interface ZXHPaintingListController : UIViewController
+
+@property (nonatomic,weak) id<PaintingListControllerDelegate> delegate;
+
+- (void)refreshData;
 
 @end
