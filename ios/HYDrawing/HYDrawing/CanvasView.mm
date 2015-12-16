@@ -16,6 +16,8 @@
 #include "CZUtil.h"
 #import "WDColor.h"
 
+#define kMaxZoom 16
+
 NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 ////////////////////CanvasView////////////////////
@@ -26,14 +28,19 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     BOOL isBarVisible;
     
     /// canvas transform related
+    NSInteger               lastTouchCount;
+    CGPoint                 correction;
+    float                   previousScale;
+    
     CGPoint                 userSpacePivot;
     CGPoint                 deviceSpacePivot;
-    float                   canvasScale;
-    CZAffineTransform       canvasTransform;  /// from Painting Space to Device Space
+    float                   canvasScale;        ///< used for displaying
+    CZAffineTransform       canvasTransform;    ///< from Painting Space to Device Space
 }
 
 @property (nonatomic, assign) CZFbo* fbo;
 @property (nonatomic, assign) CZPainting* ptrPainting;
+@property (nonatomic, assign) float  trueCanvasScale;       ///< used for continuous scaling
 
 @end
 
@@ -77,7 +84,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     isBarVisible = YES;
     
     canvasTransform = CZAffineTransform::makeIdentity();
-    canvasScale = 1.f;
+    self.trueCanvasScale = 1.f;
     deviceSpacePivot = CGPointMake(size.width / 2.f, size.height / 2.f);
 
     
@@ -123,7 +130,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         CZSize size = ptrPainting->getDimensions();
         userSpacePivot = CGPointMake(size.width / 2.0f, size.height / 2.0f);
         
-        [self rebuildViewTransform];
+        [self rebuildViewTransformAndRedraw: NO];
     }
     else {
         context = nil;
@@ -133,6 +140,17 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
 }
 
+- (void) setTrueCanvasScale:(float)scale
+{
+    _trueCanvasScale = scale;
+    
+    if (_trueCanvasScale > 0.95f && _trueCanvasScale < 1.05) {
+        canvasScale = 1.0f;
+    }
+    else {
+        canvasScale = _trueCanvasScale;
+    }
+}
 
 #pragma mark - Geusture
 - (void)configureGestrues
@@ -153,9 +171,63 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     [self addGestureRecognizer:doubleTapGesture];
     
     [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
+    
+    // Create a pinch recognizer to scale the canvas
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc]
+                                              initWithTarget:self action:@selector(handlePinchGesture:)];
+    pinchGesture.delegate = self;
+    [self addGestureRecognizer:pinchGesture];
 
 }
 
+- (void) handlePinchGesture:(UIPinchGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        LOG_DEBUG("pinch begin\n");
+//        [controller_ hidePopovers];
+        
+        CGPoint flipped = [sender locationInView:self];
+        flipped.y = CGRectGetHeight(self.bounds) - flipped.y;
+        deviceSpacePivot = flipped;
+        
+        userSpacePivot = [self transformToPainting:[sender locationInView:self]];
+        
+        lastTouchCount = sender.numberOfTouches;
+        correction = CGPointZero;
+        
+//        self.isZooming = YES;
+//        self.interfaceWasHidden = self.controller.interfaceHidden;
+//        self.painting.flattenMode = !(self.controller.replay.isPlaying);
+        
+//        [self.controller hideInterface];
+    }
+    else if (sender.state == UIGestureRecognizerStateChanged) {
+        LOG_DEBUG("pinch change\n");
+        CGPoint flipped = [sender locationInView:self];
+        flipped.y = CGRectGetHeight(self.bounds) - flipped.y;
+        
+        if (sender.numberOfTouches != lastTouchCount) {
+            LOG_DEBUG("sender touch number's changed to %lu\n", (unsigned long)sender.numberOfTouches);
+            correction = CGPointMake(deviceSpacePivot.x-flipped.x, deviceSpacePivot.y-flipped.y);
+            lastTouchCount = sender.numberOfTouches;
+        }
+        
+        deviceSpacePivot = CGPointMake(flipped.x+correction.x, flipped.y+correction.y);
+        [self scaleBy:sender.scale / previousScale];
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded) {
+//        self.isZooming = NO;
+//        [self nixMessageLabel];
+//        
+//        if (!self.interfaceWasHidden) {
+//            [self.controller showInterface];
+//        }
+//        
+//        self.painting.flattenMode = NO;
+    }
+    
+    previousScale = sender.scale;
+}
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
@@ -309,7 +381,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 #pragma mark Private Method
 
-- (void) rebuildViewTransform
+- (void) rebuildViewTransformAndRedraw:(BOOL) flag
 {
     float screenScale = [UIScreen mainScreen].scale;
     
@@ -322,6 +394,35 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     transform.ty = roundf(transform.ty);
     
     canvasTransform = CZAffineTransform(transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty);
+    
+    if(flag)    [self drawView];
+}
+
+- (void) scaleBy:(double)scale
+{
+    float minZoom = [self minimumZoom];
+    
+    if (scale * canvasScale > kMaxZoom) {
+        scale = kMaxZoom / scale;
+    } else if (scale * canvasScale < minZoom) {
+        scale = minZoom / canvasScale;
+    }
+    
+    float finalScale = self.trueCanvasScale * scale;
+    self.trueCanvasScale = finalScale;
+    [self rebuildViewTransformAndRedraw:YES];
+}
+
+- (float) minimumZoom
+{
+    CZSize paintingSize = self.ptrPainting->getDimensions();
+    float maxDimension = MAX(paintingSize.width, paintingSize.height);
+    float minBounds = MIN(CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds));
+    
+    /// to ensure the maxDimension of Painting occupy at least half of the minBound of Screen
+    float scale = ((minBounds / 2.0f) / maxDimension) * [UIScreen mainScreen].scale;
+    
+    return MIN(scale, 1.0);
 }
 
 - (CGPoint) transformToPainting:(CGPoint)pt

@@ -9,6 +9,8 @@ to do:
 1. 转屏
 2. painting文件的尺寸和本设备不相同
 3. 统一shader的加载方式
+4. painting的flattenMode
+5. 变换canvas后的插图功能修正ing
 
 bug:
 0. 初次启动后的新建绘画没有保存
