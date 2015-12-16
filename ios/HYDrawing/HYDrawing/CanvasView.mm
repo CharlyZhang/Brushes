@@ -24,6 +24,12 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     CZMat4 projMat;
     EAGLContext *context;               ///
     BOOL isBarVisible;
+    
+    /// canvas transform related
+    CGPoint                 userSpacePivot;
+    CGPoint                 deviceSpacePivot;
+    float                   canvasScale;
+    CZAffineTransform       canvasTransform;  /// from Painting Space to Device Space
 }
 
 @property (nonatomic, assign) CZFbo* fbo;
@@ -50,8 +56,6 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     self.contentScaleFactor = [UIScreen mainScreen].scale;
     self.autoresizingMask = UIViewAutoresizingNone;
     self.exclusiveTouch = YES;
-//    self.opaque = NO;
-    //self.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1];
     
     // configure the layer
     CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
@@ -72,6 +76,11 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
     isBarVisible = YES;
     
+    canvasTransform = CZAffineTransform::makeIdentity();
+    canvasScale = 1.f;
+    deviceSpacePivot = CGPointMake(size.width / 2.f, size.height / 2.f);
+
+    
     return self;
 }
 
@@ -82,6 +91,16 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     if ([EAGLContext currentContext] == context) {
         [EAGLContext setCurrentContext:nil];
     }
+}
+
+- (void) layoutSubviews
+{
+    CGSize size = self.bounds.size;
+    projMat.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
+    [EAGLContext setCurrentContext:context];
+    if(self.fbo)
+        self.fbo->setRenderBufferWithContext((__bridge void*)context, (__bridge void*)self.layer);
+    [self drawView];
 }
 
 #pragma mark - Properties
@@ -98,12 +117,19 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 - (void)setPtrPainting:(CZPainting *)ptrPainting
 {
-    _ptrPainting = ptrPainting;
-    if (_ptrPainting) {
-        context = (__bridge EAGLContext*) self.ptrPainting->getGLContext()->getRealContext();
+    if (ptrPainting) {
+        context = (__bridge EAGLContext*) ptrPainting->getGLContext()->getRealContext();
+        
+        CZSize size = ptrPainting->getDimensions();
+        userSpacePivot = CGPointMake(size.width / 2.0f, size.height / 2.0f);
+        
+        [self rebuildViewTransform];
     }
-    else
+    else {
         context = nil;
+    }
+    
+    _ptrPainting = ptrPainting;
     
 }
 
@@ -152,8 +178,8 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         return;
     }
     
-    CGPoint p = [sender locationInView:sender.view];
-    p.y = self.bounds.size.height - p.y;
+    CGPoint p = [self transformToPainting:[sender locationInView:sender.view]];
+    
     
     if (sender.state == UIGestureRecognizerStateBegan) {
         activeState->getActiveTool()->moveBegin(p.x,p.y);
@@ -186,8 +212,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         return;
     }
     
-    CGPoint p = [sender locationInView:sender.view];
-    p.y = self.bounds.size.height - p.y;
+    CGPoint p = [self transformToPainting:[sender locationInView:sender.view]];
     
     CZActiveState *activeState = CZActiveState::getInstance();
     
@@ -227,6 +252,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 }
 
 #pragma mark - Draw
+
 - (void) drawView
 {
     if (!self.ptrPainting) {
@@ -238,27 +264,74 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     self.fbo->begin();
     
     //glClearColor(1, 1, 1, 1);
-    glClearColor(0, 0, 0, 0);
+    glClearColor(0.f, 0.f, 0.f, 0.f);
     glClear(GL_COLOR_BUFFER_BIT );
+    
+//    // setup projection matrix (orthographic)
+//    mat4f_LoadOrtho(0, mainRegion.width / scale, 0, mainRegion.height / scale, -1.0f, 1.0f, proj);
+//    mat4f_LoadCGAffineTransform(effectiveProj, canvasTransform_);
+//
+    CZMat4 effectiveProj;
+    effectiveProj.LoadFromAffineTransform(canvasTransform);
+    CZMat4 finalMat = projMat * effectiveProj;
+    
+    [self drawWhiteBackground: &finalMat];
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     
-    self.ptrPainting->blit(projMat);
+    self.ptrPainting->blit(finalMat);
     
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());
     [context presentRenderbuffer:GL_RENDERBUFFER];
     LOG_DEBUG("drawView\n");
 }
 
-- (void)layoutSubviews
+- (void) drawWhiteBackground:(CZMat4*)proj
 {
-    CGSize size = self.bounds.size;
-    projMat.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
-    [EAGLContext setCurrentContext:context];
-    if(self.fbo)
-        self.fbo->setRenderBufferWithContext((__bridge void*)context, (__bridge void*)self.layer);
-    [self drawView];
+    if (!self.ptrPainting) {
+        LOG_ERROR("ptrPainting is NULL!]\n");
+        return ;
+    }
+    
+    CZShader *shader = self.ptrPainting->getShader("simple");
+    
+    shader->begin();
+    
+    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, *proj);
+    glUniform4f(shader->getUniformLocation("color"), 1, 1, 1, 1);
+    
+    GL_BIND_VERTEXARRAY(self.ptrPainting->getQuadVAO());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    
+    GL_BIND_VERTEXARRAY(0);
+}
+
+#pragma mark Private Method
+
+- (void) rebuildViewTransform
+{
+    float screenScale = [UIScreen mainScreen].scale;
+    
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformTranslate(transform, deviceSpacePivot.x, deviceSpacePivot.y);
+    transform = CGAffineTransformScale(transform, canvasScale / screenScale, -canvasScale / screenScale);
+    transform = CGAffineTransformTranslate(transform, -userSpacePivot.x, -userSpacePivot.y);
+    
+    transform.tx = roundf(transform.tx);
+    transform.ty = roundf(transform.ty);
+    
+    canvasTransform = CZAffineTransform(transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty);
+}
+
+- (CGPoint) transformToPainting:(CGPoint)pt
+{
+    pt.y = self.bounds.size.height - pt.y;
+    
+    CGAffineTransform iTx = CGAffineTransformMake(canvasTransform.a, canvasTransform.b, canvasTransform.c, canvasTransform.d, canvasTransform.tx, canvasTransform.ty);
+    iTx = CGAffineTransformInvert(iTx);
+    CGPoint ret = CGPointApplyAffineTransform(pt, iTx);
+    return ret;
 }
 
 @end

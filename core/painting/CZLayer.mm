@@ -1012,7 +1012,8 @@ CZImage* CZLayer::getThumbnailImage()
         return NULL;
     }
 
-    if (!thumbnailImg) {
+    if (!thumbnailImg)
+    {
         // make sure the painting's context is current
         ptrGLContext->setAsCurrent();
         
@@ -1023,10 +1024,13 @@ CZImage* CZLayer::getThumbnailImage()
         GLuint width,height;
     
         // figure out the width and height of the thumbnail
-        if (aspectRatio > 1.0) {
+        if (aspectRatio > 1.0)
+        {
             width = (GLuint) MAX_THUMBNAIL_DIMMENSION;
             height = floorf(1.0 / aspectRatio * width);
-        } else {
+        }
+        else
+        {
             height = (GLuint) MAX_THUMBNAIL_DIMMENSION;
             width = floorf(aspectRatio * height);
         }

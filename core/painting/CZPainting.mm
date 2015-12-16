@@ -784,6 +784,15 @@ void CZPainting::loadShaders()
     shader = new CZShader("blit","unPremultipliedBlit",attributes,uniforms);
     shaders.insert(make_pair("unPremultipliedBlit", shader));
     
+    /// simple blit
+    attributes.clear();
+    attributes.push_back("inPosition");
+    uniforms.clear();
+    uniforms.push_back("mvpMat");
+    uniforms.push_back("color");
+    shader = new CZShader("simple","simple",attributes,uniforms);
+    shaders.insert(make_pair("simple", shader));
+    
     CZCheckGLError();
 }
 

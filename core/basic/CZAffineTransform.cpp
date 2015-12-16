@@ -42,6 +42,13 @@ int CZAffineTransform::translate(float tx_, float ty_)
 	return 0;
 }
 
+/// scale
+int CZAffineTransform::scale(float sx, float sy)
+{
+    *this = CZAffineTransform::makeFromScale(sx, sy) * (*this);
+    return 0;
+}
+
 /// 应用于二维点p
 CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_) const
 {

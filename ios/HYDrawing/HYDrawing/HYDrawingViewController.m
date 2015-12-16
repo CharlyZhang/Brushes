@@ -185,11 +185,11 @@ SettingViewControllerDelegate>
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
     
     self.view.opaque = YES;
-    self.view.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1];
     
 #pragma mark 初始画板
     
-    [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH];
+    [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH scale:[UIScreen mainScreen].scale];
     CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
@@ -720,9 +720,6 @@ SettingViewControllerDelegate>
     }
     
     switch (activeButton) {
-        case COLORWHEEL_BTN:        ///< 调色板
-            [brushSizePannelView setAlpha:0.0f];
-            break;
         case ERASER_BTN:            ///< 橡皮擦
             [brushSizePannelView setAlpha:1.0f];
             break;
@@ -745,9 +742,6 @@ SettingViewControllerDelegate>
             [brushSizePannelView setAlpha:0.0f];
             break;
         case EYEDROPPER_BTN:        ///< 取色管
-            [brushSizePannelView setAlpha:0.0f];
-            break;
-        case LAYERS_BTN:            ///< 图层
             [brushSizePannelView setAlpha:0.0f];
             break;
         case CLIP_BTN:              ///< 裁减

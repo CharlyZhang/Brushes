@@ -18,7 +18,7 @@
 + (HYBrushCore*) sharedInstance;
 
 ///初始化
-- (BOOL) initializeWithWidth:(float)w height:(float)h;
+- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s;
 
 ///获得绘制视图
 - (CanvasView*) getPaintingView;

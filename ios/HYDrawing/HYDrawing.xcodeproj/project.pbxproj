@@ -17,6 +17,9 @@
 		2D7C5D081C15292D00E1A81D /* BrushSizePannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */; };
 		2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */; };
 		2D9287381C1E57CC008AEEFB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */; };
+		2D9287421C2010D5008AEEFB /* ChangeLog.md in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287411C2010D5008AEEFB /* ChangeLog.md */; };
+		2D9287491C214F38008AEEFB /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287471C214F38008AEEFB /* simple.frag */; };
+		2D92874A1C214F38008AEEFB /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287481C214F38008AEEFB /* simple.vert */; };
 		2D95594C1B859AAD009C9C6C /* watercolorPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D95594B1B859AAD009C9C6C /* watercolorPen.png */; };
 		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
 		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
@@ -146,6 +149,9 @@
 		2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PaintingManager.mm; path = Models/PaintingManager.mm; sourceTree = "<group>"; };
 		2D9287361C1E57CC008AEEFB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Vendor/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Vendor/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
+		2D9287411C2010D5008AEEFB /* ChangeLog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ChangeLog.md; sourceTree = "<group>"; };
+		2D9287471C214F38008AEEFB /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = simple.frag; path = ../../../core/glsl/simple.frag; sourceTree = "<group>"; };
+		2D9287481C214F38008AEEFB /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = simple.vert; path = ../../../core/glsl/simple.vert; sourceTree = "<group>"; };
 		2D95594B1B859AAD009C9C6C /* watercolorPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watercolorPen.png; sourceTree = "<group>"; };
 		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
@@ -389,6 +395,7 @@
 		53851B561B57AADE00B6F946 = {
 			isa = PBXGroup;
 			children = (
+				2D9287411C2010D5008AEEFB /* ChangeLog.md */,
 				2D4906361B7F297600158F1C /* ReadMe.md */,
 				53D590691B5E023200E9D2F0 /* OpenGLES.framework */,
 				53851B881B57AB1900B6F946 /* BrushesCore.xcodeproj */,
@@ -564,6 +571,8 @@
 		53D5906B1B5E025A00E9D2F0 /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				2D9287471C214F38008AEEFB /* simple.frag */,
+				2D9287481C214F38008AEEFB /* simple.vert */,
 				53D5906C1B5E02CA00E9D2F0 /* basic.vert */,
 				53D5906D1B5E02CA00E9D2F0 /* basicColor.frag */,
 				53D5906E1B5E02CA00E9D2F0 /* basicWithCoord.vert */,
@@ -687,6 +696,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D92874A1C214F38008AEEFB /* simple.vert in Resources */,
 				53D590811B5E02CA00E9D2F0 /* brush.frag in Resources */,
 				53BBAC961B787E5F006D11EF /* LayersCell.xib in Resources */,
 				53BF59C61B85A10B007C3089 /* ZXHCanvasBackgroundCell.xib in Resources */,
@@ -708,6 +718,7 @@
 				535306F11B7C326D00877D76 /* Images.xcassets in Resources */,
 				53BF59751B8473EC007C3089 /* shape2.png in Resources */,
 				53BF59741B8473EC007C3089 /* shape1.png in Resources */,
+				2D9287421C2010D5008AEEFB /* ChangeLog.md in Resources */,
 				53BF59781B8473EC007C3089 /* shape5.png in Resources */,
 				53D590831B5E02CA00E9D2F0 /* compositeWithEraseMask.frag in Resources */,
 				53D5907E1B5E02CA00E9D2F0 /* blit.vert in Resources */,
@@ -721,6 +732,7 @@
 				538CA6901B8AF61A0050A39A /* defaultPaintingImage@2x.png in Resources */,
 				53BF59D91B85AE4B007C3089 /* thumb8.png in Resources */,
 				53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */,
+				2D9287491C214F38008AEEFB /* simple.frag in Resources */,
 				53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */,
 				53BF592D1B842E25007C3089 /* CliperMenuView.xib in Resources */,
 				53D5907A1B5E02CA00E9D2F0 /* basic.vert in Resources */,

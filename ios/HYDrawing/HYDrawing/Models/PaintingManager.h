@@ -16,7 +16,7 @@
 + (PaintingManager*) sharedInstance;
 
 ///初始化
-- (BOOL) initializeWithWidth:(float)w height:(float)h;
+- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s;
 
 - (void)refreshData;
 

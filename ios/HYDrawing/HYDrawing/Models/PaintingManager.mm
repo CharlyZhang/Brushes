@@ -44,10 +44,10 @@
 
 
 /// 初始化
-- (BOOL) initializeWithWidth:(float)w height:(float)h
+- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s
 {
-    width = w;
-    height = h;
+    width = w * s;
+    height = h * s;
     self.hasInitialized = YES;
     ptrActivePainting = nullptr;
     

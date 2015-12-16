@@ -34,6 +34,8 @@ public:
 	int rotate(float angle_);
 	/// 将变换再平移
 	int translate(float tx_, float ty_);
+    /// scale
+    int scale(float sx, float sy);
 	/// 应用于二维点p
 	CZ2DPoint applyTo2DPoint(CZ2DPoint & p_) const;
 	/// 应用于矩形

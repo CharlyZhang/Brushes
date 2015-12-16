@@ -34,17 +34,17 @@
 }
 
 /// 初始化
-- (BOOL) initializeWithWidth:(float)w height:(float)h
+- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s
 {
     viewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(viewImpl);
     
-    [[PaintingManager sharedInstance] initializeWithWidth:w height:h];
+    [[PaintingManager sharedInstance] initializeWithWidth:w height:h scale:s];
     painting = (CZPainting*)[[PaintingManager sharedInstance] getInitialPainting];
     canvas->setPaiting(painting);
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
-    CZActiveState::getInstance()->mainScreenScale = [UIScreen mainScreen].scale;
+    CZActiveState::getInstance()->mainScreenScale = s;
     [self setActiveBrushwatercolorPenStamp ];
     
     self.hasInitialized = YES;

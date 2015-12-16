@@ -174,6 +174,8 @@
 		2D8F25031B4E03A300D1B5DF /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = nonPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2D8F25041B4E03A300D1B5DF /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = radialFade.frag; sourceTree = "<group>"; };
 		2D8F25051B4E03A300D1B5DF /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2D92873A1C1FB35C008AEEFB /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.vert; sourceTree = "<group>"; };
+		2D92873C1C1FB399008AEEFB /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.frag; sourceTree = "<group>"; };
 		2DFE46C71C044F3E00EBA03C /* CZDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZDataProvider.h; sourceTree = "<group>"; };
 		2DFE46C81C0452DB00EBA03C /* CZTypedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTypedData.h; sourceTree = "<group>"; };
 		2DFE46C91C04535800EBA03C /* CZTypedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZTypedData.cpp; sourceTree = "<group>"; };
@@ -446,6 +448,8 @@
 				2D8F25031B4E03A300D1B5DF /* nonPremultipliedBlit.frag */,
 				2D8F25041B4E03A300D1B5DF /* radialFade.frag */,
 				2D8F25051B4E03A300D1B5DF /* unPremultipliedBlit.frag */,
+				2D92873A1C1FB35C008AEEFB /* simple.vert */,
+				2D92873C1C1FB399008AEEFB /* simple.frag */,
 			);
 			name = glsl;
 			path = ../../../core/glsl;
