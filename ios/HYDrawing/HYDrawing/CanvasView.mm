@@ -9,6 +9,7 @@
 #import "CanvasView.h"
 #include "painting/CZPainting.h"
 #include "basic/CZMat4.h"
+#include "CZCanvas.h"
 
 #include "CZActiveState.h"
 #include "tool/CZFreehandTool.h"
@@ -26,16 +27,11 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     CZMat4 projMat;
     EAGLContext *context;               ///
     BOOL isBarVisible;
+    CZCanvas *ptrCanvas;
     
     /// canvas transform related
     NSInteger               lastTouchCount;
-    CGPoint                 correction;
     float                   previousScale;
-    
-    CGPoint                 userSpacePivot;
-    CGPoint                 deviceSpacePivot;
-    float                   canvasScale;        ///< used for displaying
-    CZAffineTransform       canvasTransform;    ///< from Painting Space to Device Space
 }
 
 @property (nonatomic, assign) CZFbo* fbo;
@@ -51,7 +47,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     return [CAEAGLLayer class];
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (!self) {
@@ -83,11 +79,8 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
     isBarVisible = YES;
     
-    canvasTransform = CZAffineTransform::makeIdentity();
-    self.trueCanvasScale = 1.f;
-    deviceSpacePivot = CGPointMake(size.width / 2.f, size.height / 2.f);
+    _trueCanvasScale = 1.f;         /// can't set by self.trueCanvasScale when ptrCanvas == null
 
-    
     return self;
 }
 
@@ -126,11 +119,6 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 {
     if (ptrPainting) {
         context = (__bridge EAGLContext*) ptrPainting->getGLContext()->getRealContext();
-        
-        CZSize size = ptrPainting->getDimensions();
-        userSpacePivot = CGPointMake(size.width / 2.0f, size.height / 2.0f);
-        
-        [self rebuildViewTransformAndRedraw: NO];
     }
     else {
         context = nil;
@@ -140,15 +128,31 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
 }
 
+- (void)setCanvas:(void *)canvas
+{
+    if (canvas == nullptr) {
+        LOG_ERROR("param 'canvas' is NULL\n");
+        return;
+    }
+    
+    ptrCanvas = (CZCanvas*)canvas;
+}
+
 - (void) setTrueCanvasScale:(float)scale
 {
     _trueCanvasScale = scale;
     
+    if(ptrCanvas == nullptr)
+    {
+        LOG_ERROR("ptrCanvas is null \n");
+        return;
+    }
+    
     if (_trueCanvasScale > 0.95f && _trueCanvasScale < 1.05) {
-        canvasScale = 1.0f;
+        ptrCanvas->setScale(1.0f);
     }
     else {
-        canvasScale = _trueCanvasScale;
+        ptrCanvas->setScale(_trueCanvasScale);
     }
 }
 
@@ -183,18 +187,21 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 - (void) handlePinchGesture:(UIPinchGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan) {
-        LOG_DEBUG("pinch begin\n");
 //        [controller_ hidePopovers];
         
         CGPoint flipped = [sender locationInView:self];
-        flipped.y = CGRectGetHeight(self.bounds) - flipped.y;
-        deviceSpacePivot = flipped;
         
-        userSpacePivot = [self transformToPainting:[sender locationInView:self]];
+        if (ptrCanvas) {
+            CGFloat height = self.bounds.size.height;
+            CZ2DPoint pt(flipped.x,height-flipped.y);
+            ptrCanvas->pinchBegin(pt);
+        }
+        else {
+            LOG_ERROR("ptrCanvas is null\n");
+        }
         
         lastTouchCount = sender.numberOfTouches;
-        correction = CGPointZero;
-        
+                
 //        self.isZooming = YES;
 //        self.interfaceWasHidden = self.controller.interfaceHidden;
 //        self.painting.flattenMode = !(self.controller.replay.isPlaying);
@@ -202,18 +209,26 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 //        [self.controller hideInterface];
     }
     else if (sender.state == UIGestureRecognizerStateChanged) {
-        LOG_DEBUG("pinch change\n");
+       
         CGPoint flipped = [sender locationInView:self];
-        flipped.y = CGRectGetHeight(self.bounds) - flipped.y;
         
-        if (sender.numberOfTouches != lastTouchCount) {
-            LOG_DEBUG("sender touch number's changed to %lu\n", (unsigned long)sender.numberOfTouches);
-            correction = CGPointMake(deviceSpacePivot.x-flipped.x, deviceSpacePivot.y-flipped.y);
-            lastTouchCount = sender.numberOfTouches;
+        if (ptrCanvas) {
+            CGFloat height = self.bounds.size.height;
+            CZ2DPoint pt(flipped.x,height-flipped.y);
+            
+            if (sender.numberOfTouches != lastTouchCount){
+                ptrCanvas->pinchChanged(pt,true);
+                lastTouchCount = sender.numberOfTouches;
+            }
+            else
+                ptrCanvas->pinchChanged(pt);
+            
+            [self scaleBy:sender.scale / previousScale];
+        }
+        else {
+            LOG_ERROR("ptrCanvas is null\n");
         }
         
-        deviceSpacePivot = CGPointMake(flipped.x+correction.x, flipped.y+correction.y);
-        [self scaleBy:sender.scale / previousScale];
     }
     else if (sender.state == UIGestureRecognizerStateEnded) {
 //        self.isZooming = NO;
@@ -250,21 +265,28 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         return;
     }
     
-    CGPoint p = [self transformToPainting:[sender locationInView:sender.view]];
-    
+    if (ptrCanvas == nullptr) {
+        LOG_ERROR("ptrCanvas is null\n");
+        return ;
+    }
+
+    CGPoint p = [sender locationInView:sender.view];
+    CGFloat height = self.bounds.size.height;
+    CZ2DPoint pt(p.x,height-p.y);
+    pt = ptrCanvas->transformToPainting(pt);
     
     if (sender.state == UIGestureRecognizerStateBegan) {
-        activeState->getActiveTool()->moveBegin(p.x,p.y);
+        activeState->getActiveTool()->moveBegin(pt);
     }
     else if (sender.state == UIGestureRecognizerStateChanged){
         CGPoint velocity = [sender velocityInView:sender.view];
         CZ2DPoint zeroPoint; CZ2DPoint v(velocity.x,velocity.y);
         float   speed = zeroPoint.distanceTo2DPoint(v) / 1000.0f; // pixels/millisecond
         //LOG_DEBUG("speed is %f\n", speed);
-        activeState->getActiveTool()->moving(p.x, p.y, speed);
+        activeState->getActiveTool()->moving(pt, speed);
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
-        activeState->getActiveTool()->moveEnd(p.x, p.y);
+        activeState->getActiveTool()->moveEnd(pt);
     }
     else if (sender.state == UIGestureRecognizerStateCancelled) {
         LOG_DEBUG("gesture canceled!\n");
@@ -284,19 +306,26 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         return;
     }
     
-    CGPoint p = [self transformToPainting:[sender locationInView:sender.view]];
+    if (ptrCanvas == nullptr) {
+        LOG_ERROR("ptrCanvas is null\n");
+        return ;
+    }
+    
+    CGPoint p = [sender locationInView:sender.view];
+    CGFloat height = self.bounds.size.height;
+    CZ2DPoint pt(p.x,height-p.y);
+    pt = ptrCanvas->transformToPainting(pt);
     
     CZActiveState *activeState = CZActiveState::getInstance();
     
     if (activeState->colorFillMode) {
         CZLayer *layer = self.ptrPainting->getActiveLayer();
         CZColor color = activeState->getPaintColor();
-        CZ2DPoint location = CZ2DPoint(p.x,p.y);
-        layer->fill(color, location);
+        layer->fill(color, pt);     /// TO DO:
         [self drawView];
     }
     else if (activeState->colorPickMode) {
-        CZColor pickedColor = self.ptrPainting->pickColor(p.x, p.y);
+        CZColor pickedColor = self.ptrPainting->pickColor(pt.x, pt.y);
         
         WDColor *pColor = [WDColor colorWithRed:pickedColor.red green:pickedColor.green blue:pickedColor.blue alpha:pickedColor.alpha];
         activeState->setPaintColor(pickedColor);
@@ -304,8 +333,8 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
     }
     else {
-        activeState->getActiveTool()->moveBegin(p.x, p.y);
-        activeState->getActiveTool()->moveEnd(p.x, p.y);
+        activeState->getActiveTool()->moveBegin(pt);
+        activeState->getActiveTool()->moveEnd(pt);
     }
     
 }
@@ -332,19 +361,18 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         return ;
     }
     
+    if (!ptrCanvas) {
+        LOG_ERROR("ptrCanvas is null\n");
+        return ;
+    }
+    
     [EAGLContext setCurrentContext:context];
     self.fbo->begin();
     
-    //glClearColor(1, 1, 1, 1);
     glClearColor(0.f, 0.f, 0.f, 0.f);
     glClear(GL_COLOR_BUFFER_BIT );
     
-//    // setup projection matrix (orthographic)
-//    mat4f_LoadOrtho(0, mainRegion.width / scale, 0, mainRegion.height / scale, -1.0f, 1.0f, proj);
-//    mat4f_LoadCGAffineTransform(effectiveProj, canvasTransform_);
-//
-    CZMat4 effectiveProj;
-    effectiveProj.LoadFromAffineTransform(canvasTransform);
+    CZMat4 effectiveProj = ptrCanvas->getTransformMatrix();
     CZMat4 finalMat = projMat * effectiveProj;
     
     [self drawWhiteBackground: &finalMat];
@@ -381,26 +409,15 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
 
 #pragma mark Private Method
 
-- (void) rebuildViewTransformAndRedraw:(BOOL) flag
-{
-    float screenScale = [UIScreen mainScreen].scale;
-    
-    CGAffineTransform transform = CGAffineTransformIdentity;
-    transform = CGAffineTransformTranslate(transform, deviceSpacePivot.x, deviceSpacePivot.y);
-    transform = CGAffineTransformScale(transform, canvasScale / screenScale, -canvasScale / screenScale);
-    transform = CGAffineTransformTranslate(transform, -userSpacePivot.x, -userSpacePivot.y);
-    
-    transform.tx = roundf(transform.tx);
-    transform.ty = roundf(transform.ty);
-    
-    canvasTransform = CZAffineTransform(transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty);
-    
-    if(flag)    [self drawView];
-}
-
 - (void) scaleBy:(double)scale
 {
+    if (!self.ptrPainting) {
+        LOG_ERROR("ptrPainting is NULL!]\n");
+        return ;
+    }
+    
     float minZoom = [self minimumZoom];
+    float canvasScale = ptrCanvas->getScale();
     
     if (scale * canvasScale > kMaxZoom) {
         scale = kMaxZoom / scale;
@@ -410,8 +427,9 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
     float finalScale = self.trueCanvasScale * scale;
     self.trueCanvasScale = finalScale;
-    [self rebuildViewTransformAndRedraw:YES];
+    ptrCanvas->rebuildViewTransformAndRedraw(true);
 }
+
 
 - (float) minimumZoom
 {
@@ -423,16 +441,6 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     float scale = ((minBounds / 2.0f) / maxDimension) * [UIScreen mainScreen].scale;
     
     return MIN(scale, 1.0);
-}
-
-- (CGPoint) transformToPainting:(CGPoint)pt
-{
-    pt.y = self.bounds.size.height - pt.y;
-    
-    CGAffineTransform iTx = CGAffineTransformMake(canvasTransform.a, canvasTransform.b, canvasTransform.c, canvasTransform.d, canvasTransform.tx, canvasTransform.ty);
-    iTx = CGAffineTransformInvert(iTx);
-    CGPoint ret = CGPointApplyAffineTransform(pt, iTx);
-    return ret;
 }
 
 @end

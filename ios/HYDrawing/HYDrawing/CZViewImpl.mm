@@ -7,16 +7,33 @@
 //
 
 #include "CZViewImpl.h"
-
+#include "CZDefine.h"
 
 ////////////////////CanvasView////////////////////
-CZViewImpl::CZViewImpl(const CZRect rect)
+CZViewImpl::CZViewImpl(const CZRect& rect)
 {
+    frame = rect;
     realView = [[CanvasView alloc]initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }
 
 CZViewImpl::~CZViewImpl() {}
+
+void CZViewImpl::setCanvas(CZCanvas* c)
+{
+    if (c != nullptr)
+    {
+        ptrCanvas = c;
+        realView.canvas = (void*)c;
+    }
+    else
+        LOG_WARN("param 'canvas' is NULL\n");
+}
 void CZViewImpl::setPaiting(CZPainting* p) { [realView setPainting:(void*)p];}
 void CZViewImpl::draw() { [realView drawView];}
+
+CZRect& CZViewImpl::getFrame()
+{
+    return frame;
+}
 
 

@@ -29,6 +29,7 @@ typedef enum ShowingMessageType {
 @interface CanvasView : UIView<UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) id<CanvasViewDelegate> delegate;
+@property (nonatomic, assign) void* canvas;
 
 - (void)drawView;
 - (void)setPainting:(void*)painting;

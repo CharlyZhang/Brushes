@@ -11,12 +11,13 @@ to do:
 3. 统一shader的加载方式
 4. painting的flattenMode
 5. 变换canvas后的插图功能修正ing
+6. 更改插入图片的编辑方式
+7. 填色功能的修改
 
 bug:
 0. 初次启动后的新建绘画没有保存
 1. 填充颜色后，图层缩率图没有立马改变
 2. 触摸其他popover后应该将当前popover消除
-
 
 
 ### FIXED:
@@ -26,3 +27,8 @@ bug:
 ### UPDATED:
 1. 修改Canvas的底色设置方式
 2. 对screenScale的处理，可提高绘制清晰度
+
+
+
+### CORE:
+1. CZCanvas不仅仅作为core调用view的接口，同时承担着canvas的实体功能，由view去调用。

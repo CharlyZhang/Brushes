@@ -28,6 +28,17 @@ bool CZAffineTransform::operator==(const CZAffineTransform &aTrans_) const
 		&& d == aTrans_.d && tx == aTrans_.tx && ty == aTrans_.ty);
 }
 
+CZAffineTransform&  CZAffineTransform::operator=( const  CZAffineTransform & a_)
+{
+    this->a = a_.a;
+    this->b = a_.b;
+    this->c = a_.c;
+    this->d = a_.d;
+    this->tx = a_.tx;
+    this->ty = a_.ty;
+    return *this;
+}
+
 /// 将变换再旋转
 int CZAffineTransform::rotate(float angle_)
 {
@@ -49,8 +60,14 @@ int CZAffineTransform::scale(float sx, float sy)
     return 0;
 }
 
+/// invert
+CZAffineTransform& CZAffineTransform::getInvert()
+{
+    return *this;
+}
+
 /// 应用于二维点p
-CZ2DPoint CZAffineTransform::applyTo2DPoint(CZ2DPoint & p_) const
+CZ2DPoint CZAffineTransform::applyTo2DPoint(const CZ2DPoint & p_) const
 {
 	CZ2DPoint ret;
 	ret.x = float( (double)a*p_.x + (double)c*p_.y + tx);

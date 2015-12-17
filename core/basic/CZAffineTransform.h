@@ -29,6 +29,7 @@ public:
 	/// 重载运算符
 	CZAffineTransform operator*(const CZAffineTransform &aTrans_) const;
 	bool operator==(const CZAffineTransform &aTrans_) const;
+    CZAffineTransform&  operator=( const  CZAffineTransform & a_) ;
 
 	/// 将变换再旋转
 	int rotate(float angle_);
@@ -36,8 +37,11 @@ public:
 	int translate(float tx_, float ty_);
     /// scale
     int scale(float sx, float sy);
+    
+    /// invert
+    CZAffineTransform& getInvert();
 	/// 应用于二维点p
-	CZ2DPoint applyTo2DPoint(CZ2DPoint & p_) const;
+	CZ2DPoint applyTo2DPoint(const CZ2DPoint & p_) const;
 	/// 应用于矩形
 	CZRect applyToRect(CZRect & rect_);
 	/// 是否是单位矩阵

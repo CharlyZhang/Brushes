@@ -20,11 +20,17 @@ class CZViewImpl : public CZView
 public:
     CanvasView *realView;
     
-    CZViewImpl(const CZRect rect);
+    CZViewImpl(const CZRect& rect);
     
     ~CZViewImpl();
+    void setCanvas(CZCanvas* c);
     void setPaiting(CZPainting* p);
     void draw();
+    
+    CZRect& getFrame();
+    
+private:
+    CZRect frame;
 };
 
 #endif /* defined(__HYDrawing__CZViewImpl__) */

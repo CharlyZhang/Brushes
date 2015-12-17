@@ -13,16 +13,25 @@
 #define _CZCANVAS_H_
 
 #include "basic/CZRect.h"
+#include "basic/CZ2DPoint.h"
+#include "basic/CZMat4.h"
+#include "basic/CZAffineTransform.h"
 
 class CZPainting;
+class CZCanvas;
 
 /// protocol CZView
 class CZView
 {
 public:
-    virtual ~CZView(){};
+    virtual ~CZView(){  ptrCanvas = nullptr; };
+    virtual void setCanvas(CZCanvas* c) = 0;
     virtual void setPaiting(CZPainting* p) = 0;
     virtual void draw() = 0;
+    
+    virtual CZRect& getFrame() = 0;
+protected:
+    CZCanvas *ptrCanvas;
 };
 
 class CZCanvas
@@ -35,10 +44,21 @@ public:
 	bool setPaiting(CZPainting* p);
 	/// 绘制视图
 	void drawView();
+    
+    /// Methods for CanvasView
+    void setScale(float s);
+    float getScale();
+    void rebuildViewTransformAndRedraw(bool flag);
+    CZ2DPoint transformToPainting(const CZ2DPoint &pt);
+    void pinchBegin(CZ2DPoint &pt);
+    void pinchChanged(CZ2DPoint &pt, bool touchCountChanged = false);
+    
+    CZMat4 getTransformMatrix();
 
 private:
 	/// 在一定区域绘制视图
 	void drawViewInRect(CZRect &rect);
+    
 public:
 	CZPainting *ptrPainting;
 	bool		isDirty;			///< just used in win
@@ -46,6 +66,12 @@ public:
 private:
 	CZRect visibleRect;
 	CZView *view;
+    
+    CZ2DPoint                 userSpacePivot;
+    CZ2DPoint                 deviceSpacePivot;
+    CZ2DPoint                 correction;         ///< used for correcting pivot if touch numbers change when pinching
+    float                     canvasScale;        ///< used for displaying
+    CZAffineTransform         canvasTransform;    ///< from Painting Space to Device Space
 };
 
 #endif
