@@ -12,7 +12,7 @@
 @implementation ZXHLayerTopBar
 
 -(void)awakeFromNib{
-    self.backgroundColor = UIPopoverBackgroundColor;
+    self.backgroundColor = kBackgroundColor;
 }
 
 

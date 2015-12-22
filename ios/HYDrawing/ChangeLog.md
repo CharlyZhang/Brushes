@@ -10,15 +10,14 @@ to do:
 2. painting文件的尺寸和本设备不相同
 3. 统一shader的加载方式
 4. painting的flattenMode
-5. 变换canvas后的插图功能修正ing
-6. 更改插入图片的编辑方式
-7. 填色功能的修改
+5. 加入drawView对dirty部分rect的绘制
+6. 将canvas的实现后缀改为.cpp
+7. 插入图片后的撤销注册操作
 
 bug:
 0. 初次启动后的新建绘画没有保存
 1. 填充颜色后，图层缩率图没有立马改变
 2. 触摸其他popover后应该将当前popover消除
-
 
 ### FIXED:
 1. painting的DIC跳转   
@@ -27,6 +26,8 @@ bug:
 ### UPDATED:
 1. 修改Canvas的底色设置方式
 2. 对screenScale的处理，可提高绘制清晰度
+3. Canvas的绘制部分移入到CZCanvas中
+4. 更新插入图片的编辑方式
 
 
 

@@ -190,7 +190,7 @@ NSString *LayersCountChange = @"LayersCountChange";
     
     // 设置样式
     LayersCell *cell = (LayersCell *)[_tbView cellForRowAtIndexPath:indexPath];
-    [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
+    [cell setOutlineViewBorderWithColor:kBackgroundColor];
     cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"layer_cell_selected_bg"]];
     
     // 是否可编辑
@@ -254,7 +254,7 @@ NSString *LayersCountChange = @"LayersCountChange";
 #pragma mark - 创建底部工具栏
 -(void)buildBottomToolBarWithWidth:(CGFloat)w height:(CGFloat)h{
     UIView *bottomToolBar = [[UIView alloc]initWithFrame:CGRectMake(0, h-62, w,44)];
-    bottomToolBar.backgroundColor = UIPopoverBackgroundColor;
+    bottomToolBar.backgroundColor = kBackgroundColor;
     [self.view addSubview:bottomToolBar];
     
     // 滑动条
@@ -273,7 +273,7 @@ NSString *LayersCountChange = @"LayersCountChange";
     // 数值文本
     _alphaLabel = [[UILabel alloc]initWithFrame:CGRectMake(_alphaSlider.bounds.size.width+20, (44-20)/2, 50, 20)];
     _alphaLabel.font = kFontSize(14);
-    _alphaLabel.textColor = UIPopoverBorderColor;
+    _alphaLabel.textColor = kBorderColor;
     [bottomToolBar addSubview:_alphaLabel];
     
     [self setLayerAlphaInfo:[[HYBrushCore sharedInstance]getOpacityOfLayer:_curLayerIndex]];
@@ -317,7 +317,7 @@ NSString *LayersCountChange = @"LayersCountChange";
     if (!cell.selected) {
         [cell setOutlineViewBorderWithColor:kCommenCyanColor];
     }else{
-        [cell setOutlineViewBorderWithColor:UIPopoverBackgroundColor];
+        [cell setOutlineViewBorderWithColor:kBackgroundColor];
     }
     
     // 获取某层的透明度 -- getOpacityOfLayer:

@@ -32,7 +32,7 @@
         self.textLabel.backgroundColor = [UIColor clearColor];
         self.textLabel.textAlignment = NSTextAlignmentCenter;
         self.selectedBackgroundView = [[UIView alloc]initWithFrame:self.frame];
-        self.selectedBackgroundView.backgroundColor = UIPopoverSelectedColor;
+        self.selectedBackgroundView.backgroundColor = kFocusedColor;
     }
     
     return self;
@@ -76,14 +76,14 @@
     
     [self.tableView registerClass:[TableviewCell class] forCellReuseIdentifier:CELL_INDENTIFIER];
     [self.tableView setRowHeight:CELL_HEIGHT];
-    [self.tableView setBackgroundColor:UIPopoverBackgroundColor];
+    [self.tableView setBackgroundColor:kBackgroundColor];
     self.tableView.layer.borderWidth = BORDER_WIDTH;
-    self.tableView.layer.borderColor = UIPopoverBorderColor.CGColor;
+    self.tableView.layer.borderColor = kBorderColor.CGColor;
     self.tableView.layer.cornerRadius = CORNER_RADIUS;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.scrollEnabled = NO;
     
-    self.popoverPresentationController.backgroundColor = UIPopoverBorderColor;
+    self.popoverPresentationController.backgroundColor = kBorderColor;
     
     itemTitles = [NSArray arrayWithObjects:@"保存绘制",@"清空图层",@"变换图层", nil];
     

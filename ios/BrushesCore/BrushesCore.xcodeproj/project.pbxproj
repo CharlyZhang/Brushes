@@ -45,7 +45,7 @@
 		2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53F1A0C9196003724D4 /* UIKit.framework */; };
 		2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */; };
 		2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D2BE5471A0C9196003724D4 /* InfoPlist.strings */; };
-		2D4F336F1AE3F7B40067D7A6 /* CZCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F336E1AE3F7B40067D7A6 /* CZCanvas.cpp */; };
+		2D4F336F1AE3F7B40067D7A6 /* CZCanvas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DFE46CA1C04535800EBA03C /* CZTypedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46C91C04535800EBA03C /* CZTypedData.cpp */; };
 		2DFE46CD1C045D7A00EBA03C /* CZFileCoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46CB1C045D7A00EBA03C /* CZFileCoder.cpp */; };
@@ -157,7 +157,7 @@
 		2D2BE53F1A0C9196003724D4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrushesCoreTests-Info.plist"; sourceTree = "<group>"; };
 		2D2BE5481A0C9196003724D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		2D4F336E1AE3F7B40067D7A6 /* CZCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZCanvas.cpp; path = ../../../core/CZCanvas.cpp; sourceTree = "<group>"; };
+		2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZCanvas.mm; path = ../../../core/CZCanvas.mm; sourceTree = "<group>"; };
 		2D4F33701AE3FAA10067D7A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = ../../../core/BrushesCore.h; sourceTree = "<group>"; };
 		2D8F24F81B4E03A300D1B5DF /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; };
@@ -386,7 +386,7 @@
 				2D1B25591ADF01F2006841C3 /* CZActiveState.h */,
 				2D1B255A1ADF01F2006841C3 /* CZBrushCell.h */,
 				2D1B255B1ADF01F2006841C3 /* CZBrushController.h */,
-				2D4F336E1AE3F7B40067D7A6 /* CZCanvas.cpp */,
+				2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */,
 				2D1B255D1ADF01F2006841C3 /* CZCanvas.h */,
 				2D1B255E1ADF01F2006841C3 /* CZColorBalance.cpp */,
 				2D1B255F1ADF01F2006841C3 /* CZColorBalance.h */,
@@ -553,7 +553,7 @@
 				2DFE46CA1C04535800EBA03C /* CZTypedData.cpp in Sources */,
 				2D1B25BB1ADF01F2006841C3 /* CZTool.cpp in Sources */,
 				2D1B259C1ADF01F2006841C3 /* CZ3DPoint.cpp in Sources */,
-				2D4F336F1AE3F7B40067D7A6 /* CZCanvas.cpp in Sources */,
+				2D4F336F1AE3F7B40067D7A6 /* CZCanvas.mm in Sources */,
 				2D1B25C91ADF1AD5006841C3 /* CZPainting.mm in Sources */,
 				2D1B25A31ADF01F2006841C3 /* CZRect.cpp in Sources */,
 				2D0A06601AEF2A7F00BD46E8 /* CZRoundGenerator.cpp in Sources */,

@@ -29,7 +29,7 @@ void CZViewImpl::setCanvas(CZCanvas* c)
         LOG_WARN("param 'canvas' is NULL\n");
 }
 void CZViewImpl::setPaiting(CZPainting* p) { [realView setPainting:(void*)p];}
-void CZViewImpl::draw() { [realView drawView];}
+void CZViewImpl::drawView() { [realView drawView];}
 
 CZRect& CZViewImpl::getFrame()
 {

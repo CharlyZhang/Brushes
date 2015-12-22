@@ -13,7 +13,7 @@
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
 		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
 		2D4906371B7F297600158F1C /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906361B7F297600158F1C /* ReadMe.md */; };
-		2D7C5D051C1528D600E1A81D /* TransformOverlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D041C1528D600E1A81D /* TransformOverlayerView.m */; };
+		2D7C5D051C1528D600E1A81D /* TransformOverlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D041C1528D600E1A81D /* TransformOverlayer.m */; };
 		2D7C5D081C15292D00E1A81D /* BrushSizePannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */; };
 		2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */; };
 		2D9287381C1E57CC008AEEFB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */; };
@@ -21,10 +21,10 @@
 		2D9287491C214F38008AEEFB /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287471C214F38008AEEFB /* simple.frag */; };
 		2D92874A1C214F38008AEEFB /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287481C214F38008AEEFB /* simple.vert */; };
 		2D95594C1B859AAD009C9C6C /* watercolorPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D95594B1B859AAD009C9C6C /* watercolorPen.png */; };
+		2DD2950E1C28E73E001FF223 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2950D1C28E73E001FF223 /* UIImage+Resize.m */; };
 		535306F11B7C326D00877D76 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 535306F01B7C326D00877D76 /* Images.xcassets */; };
 		535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */; };
 		535306F61B7C3C4300877D76 /* ZXHLayerTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */; };
-		5353072C1B7C960500877D76 /* ZXHMockNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5353072B1B7C960500877D76 /* ZXHMockNavBar.m */; };
 		535DA0DF1B6F801500E117FF /* ColorPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 535DA0DE1B6F801500E117FF /* ColorPicker.xib */; };
 		535DA0E21B6F806600E117FF /* WDColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 535DA0E11B6F806600E117FF /* WDColorPickerController.m */; };
 		535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */ = {isa = PBXBuildFile; fileRef = 535DA0E71B6F80ED00E117FF /* WDSwatches.m */; };
@@ -102,7 +102,6 @@
 		53D590861B5E02CA00E9D2F0 /* radialFade.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590781B5E02CA00E9D2F0 /* radialFade.frag */; };
 		53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590791B5E02CA00E9D2F0 /* unPremultipliedBlit.frag */; };
 		60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60216AE71B588A21009186F4 /* HYMenuViewController.m */; };
-		6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */; };
 		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
 		60F01A5D1B5CE31400769BB2 /* DDPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */; };
 /* End PBXBuildFile section */
@@ -141,8 +140,8 @@
 		2D4906311B7F234900158F1C /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
 		2D4906321B7F234900158F1C /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
 		2D4906361B7F297600158F1C /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
-		2D7C5D031C1528D600E1A81D /* TransformOverlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransformOverlayerView.h; path = Views/TransformOverlayerView.h; sourceTree = "<group>"; };
-		2D7C5D041C1528D600E1A81D /* TransformOverlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TransformOverlayerView.m; path = Views/TransformOverlayerView.m; sourceTree = "<group>"; };
+		2D7C5D031C1528D600E1A81D /* TransformOverlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransformOverlayer.h; path = Views/TransformOverlayer.h; sourceTree = "<group>"; };
+		2D7C5D041C1528D600E1A81D /* TransformOverlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TransformOverlayer.m; path = Views/TransformOverlayer.m; sourceTree = "<group>"; };
 		2D7C5D061C15292D00E1A81D /* BrushSizePannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushSizePannelView.h; path = Views/BrushSizePannelView.h; sourceTree = "<group>"; };
 		2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrushSizePannelView.m; path = Views/BrushSizePannelView.m; sourceTree = "<group>"; };
 		2D92872A1C1BE37B008AEEFB /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaintingManager.h; path = Models/PaintingManager.h; sourceTree = "<group>"; };
@@ -153,12 +152,12 @@
 		2D9287471C214F38008AEEFB /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = simple.frag; path = ../../../core/glsl/simple.frag; sourceTree = "<group>"; };
 		2D9287481C214F38008AEEFB /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = simple.vert; path = ../../../core/glsl/simple.vert; sourceTree = "<group>"; };
 		2D95594B1B859AAD009C9C6C /* watercolorPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watercolorPen.png; sourceTree = "<group>"; };
+		2DD2950C1C28E73E001FF223 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		2DD2950D1C28E73E001FF223 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		535306F01B7C326D00877D76 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHLayerTopBar.h; sourceTree = "<group>"; };
 		535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHLayerTopBar.m; sourceTree = "<group>"; };
 		535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZXHLayerTopBar.xib; sourceTree = "<group>"; };
-		5353072A1B7C960500877D76 /* ZXHMockNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHMockNavBar.h; sourceTree = "<group>"; };
-		5353072B1B7C960500877D76 /* ZXHMockNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHMockNavBar.m; sourceTree = "<group>"; };
 		535DA0DE1B6F801500E117FF /* ColorPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPicker.xib; sourceTree = "<group>"; };
 		535DA0E01B6F806600E117FF /* WDColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorPickerController.h; sourceTree = "<group>"; };
 		535DA0E11B6F806600E117FF /* WDColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorPickerController.m; sourceTree = "<group>"; };
@@ -273,8 +272,6 @@
 		60216AE61B588A21009186F4 /* HYMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMenuViewController.h; sourceTree = "<group>"; };
 		60216AE71B588A21009186F4 /* HYMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMenuViewController.m; sourceTree = "<group>"; };
 		60216AE91B589440009186F4 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
-		6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEditViewController.h; sourceTree = "<group>"; };
-		6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEditViewController.m; sourceTree = "<group>"; };
 		608042021B57BE1400B3AB52 /* HYDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYDrawingViewController.h; sourceTree = "<group>"; };
 		608042031B57BE1400B3AB52 /* HYDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYDrawingViewController.m; sourceTree = "<group>"; };
 		60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPopoverBackgroundView.h; sourceTree = "<group>"; };
@@ -421,6 +418,8 @@
 				53BF59D71B85AD5C007C3089 /* thumbnails */,
 				535306F01B7C326D00877D76 /* Images.xcassets */,
 				60216AE91B589440009186F4 /* Macro.h */,
+				2DD2950C1C28E73E001FF223 /* UIImage+Resize.h */,
+				2DD2950D1C28E73E001FF223 /* UIImage+Resize.m */,
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
@@ -432,8 +431,6 @@
 				2DFE46D11C057C3600EBA03C /* Controllers */,
 				60216AE61B588A21009186F4 /* HYMenuViewController.h */,
 				60216AE71B588A21009186F4 /* HYMenuViewController.m */,
-				6031AAC91B5E1E5400C432D3 /* ImageEditViewController.h */,
-				6031AACA1B5E1E5400C432D3 /* ImageEditViewController.m */,
 				60F01A5B1B5CE31400769BB2 /* DDPopoverBackgroundView.h */,
 				60F01A5C1B5CE31400769BB2 /* DDPopoverBackgroundView.m */,
 				53851B6C1B57AADE00B6F946 /* Main.storyboard */,
@@ -491,8 +488,8 @@
 		53851BA21B5CA0F200B6F946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D7C5D031C1528D600E1A81D /* TransformOverlayerView.h */,
-				2D7C5D041C1528D600E1A81D /* TransformOverlayerView.m */,
+				2D7C5D031C1528D600E1A81D /* TransformOverlayer.h */,
+				2D7C5D041C1528D600E1A81D /* TransformOverlayer.m */,
 				2D7C5D061C15292D00E1A81D /* BrushSizePannelView.h */,
 				2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */,
 				53BF59211B842E10007C3089 /* 图片裁剪 */,
@@ -505,8 +502,6 @@
 				535306F21B7C3BFD00877D76 /* ZXHLayerTopBar.h */,
 				535306F31B7C3BFD00877D76 /* ZXHLayerTopBar.m */,
 				535306F51B7C3C4300877D76 /* ZXHLayerTopBar.xib */,
-				5353072A1B7C960500877D76 /* ZXHMockNavBar.h */,
-				5353072B1B7C960500877D76 /* ZXHMockNavBar.m */,
 				53B0CC7B1B7DEE26000AD907 /* ZXHEditableTipsView.h */,
 				53B0CC7C1B7DEE26000AD907 /* ZXHEditableTipsView.m */,
 				5391EFA21B7EDEAC006B1E5D /* ZXHEditableTipsView.xib */,
@@ -775,12 +770,12 @@
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
 				537343971B7054F000CDCC82 /* WDDragChip.m in Sources */,
 				537343A01B70868C00CDCC82 /* WDShader.m in Sources */,
-				2D7C5D051C1528D600E1A81D /* TransformOverlayerView.m in Sources */,
+				2D7C5D051C1528D600E1A81D /* TransformOverlayer.m in Sources */,
 				2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */,
 				53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */,
 				53BF59331B8452BA007C3089 /* ZXHShapeBoxController.m in Sources */,
-				6031AACB1B5E1E5400C432D3 /* ImageEditViewController.m in Sources */,
 				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
+				2DD2950E1C28E73E001FF223 /* UIImage+Resize.m in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,
@@ -806,7 +801,6 @@
 				535DA0F81B70492900E117FF /* WDColorWell.m in Sources */,
 				537343941B70535F00CDCC82 /* WDColorSourceView.m in Sources */,
 				5373439D1B7085F800CDCC82 /* WDInsetView.m in Sources */,
-				5353072C1B7C960500877D76 /* ZXHMockNavBar.m in Sources */,
 				2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

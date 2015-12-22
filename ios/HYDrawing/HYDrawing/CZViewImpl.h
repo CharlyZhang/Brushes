@@ -25,7 +25,7 @@ public:
     ~CZViewImpl();
     void setCanvas(CZCanvas* c);
     void setPaiting(CZPainting* p);
-    void draw();
+    void drawView();
     
     CZRect& getFrame();
     

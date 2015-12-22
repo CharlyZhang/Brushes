@@ -11,7 +11,6 @@
 #import "BottomBarView.h"
 #import "HYMenuViewController.h"
 #import "DDPopoverBackgroundView.h"
-#import "ImageEditViewController.h"
 #import "Macro.h"
 #import "WDColorPickerController.h"
 #import "ZXHLayersViewController.h"
@@ -21,24 +20,23 @@
 #import "ZXHShapeBoxController.h"
 #import "ZXHCanvasBackgroundController.h"
 #import "ZXHPaintingListController.h"
-#import "TransformOverlayerView.h"
+#import "TransformOverlayer.h"
 #import "SettingViewController.h"
 #import "BrushSizePannelView.h"
 #import "MBProgressHUD.h"
 #import "PaintingManager.h"
+#import "UIImage+Resize.h"
 
 extern NSString *CZActivePaintColorDidChange;
-extern NSString *CZActiveLayerTransformChange;
 extern NSString* LayersCountChange;
 
 @interface HYDrawingViewController ()<
-BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate,ImageEditViewControllerDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
+BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
 SettingViewControllerDelegate>
 {
     UIPopoverController *popoverController_;
     BottomBarView *bottomBarView;
     BrushSizePannelView *brushSizePannelView;
-    ImageEditViewController *imageEditViewController;
     UIPopoverController *layersPopoverController;
     UIPopoverController *picturePopoverController;
     UIPopoverController *menuPopoverController;
@@ -58,6 +56,8 @@ SettingViewControllerDelegate>
     BottomBarButtonType activeButton;
     
     MBProgressHUD       *hud;
+    
+    TransformOverlayer *transformOverlayer;
     
 }
 
@@ -146,7 +146,7 @@ SettingViewControllerDelegate>
         SettingViewController *settingCtrl =  [[SettingViewController alloc]init];
         settingCtrl.delegate = self;
         _settingPopoverController = [[UIPopoverController alloc] initWithContentViewController:settingCtrl];
-        _settingPopoverController.backgroundColor = UIPopoverBorderColor;
+        _settingPopoverController.backgroundColor = kBorderColor;
     }
     
     return _settingPopoverController;
@@ -157,7 +157,7 @@ SettingViewControllerDelegate>
     [super viewDidLoad];
     
     // 导航栏橙色背景
-    //    self.navigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
+    //    self.navigationController.navigationBar.barTintColor = kBackgroundColor;
     
     /**
      *  navBar 图片色 iOS7
@@ -176,7 +176,7 @@ SettingViewControllerDelegate>
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingPopoverController:)];
     
     // 图片
-    pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(tapPicture:)];
+    pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
@@ -209,7 +209,6 @@ SettingViewControllerDelegate>
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
-    [nc addObserver:self selector:@selector(transformOverlayerChanged:) name:CZActiveLayerTransformChange object:nil];
     
     NSLog(@"Home path is %@",NSHomeDirectory());
 }
@@ -259,14 +258,23 @@ SettingViewControllerDelegate>
     
     [_settingPopoverController dismissPopoverAnimated:YES];
     
-    TransformOverlayerView *transformOverlayerView = [[TransformOverlayerView alloc] initWithFrame:self.view.bounds];
-    transformOverlayerView.delegate = self;
-    [self.view addSubview:transformOverlayerView];
+    float canvasScale = [[HYBrushCore sharedInstance] getCanvasScale];
+    float screenScale = [[UIScreen mainScreen] scale];
+    transformOverlayer = [[TransformOverlayer alloc] initWithFrame:self.view.bounds title:@"图层变换" scaleFactor:screenScale / canvasScale];
+    
+    __weak HYDrawingViewController *weakSelf = self;
+    transformOverlayer.cancelBlock = ^{ [weakSelf cancelLayerTransformation];   };
+    transformOverlayer.acceptBlock = ^{ [weakSelf transformActiveLayer];    };
+    
+    [self.view addSubview:transformOverlayer];
     
     [[HYBrushCore sharedInstance]setActiveLayerLinearInterprolation:YES];
     
     [self displayToolView:NO];
     
+    [transformOverlayer addTarget:self action:@selector(layerTransformChanged:)
+                forControlEvents:UIControlEventValueChanged];
+
     return YES;
 }
 
@@ -296,20 +304,20 @@ SettingViewControllerDelegate>
     [(ZXHPaintingListController*)_listPopoverController.contentViewController refreshData];
 }
 
-
 -(void)hiddenNavBar{
     self.navigationController.navigationBar.hidden = NO;
 }
 
+#pragma mark - Actions
 // --- 视频
--(void)tapVideo:(id)sender{
+- (void)tapVideo:(id)sender{
     
 }
 
 - (void)tapMenu:(id)sender{
     HYMenuViewController *menuViewController = [[HYMenuViewController alloc]init];
     UINavigationController *menuNavigationController = [[UINavigationController alloc]initWithRootViewController:menuViewController];
-    menuNavigationController.navigationBar.barTintColor = UIPopoverBackgroundColor;
+    menuNavigationController.navigationBar.barTintColor = kBackgroundColor;
     menuNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
     menuPopoverController = [[UIPopoverController alloc]initWithContentViewController:menuNavigationController];
@@ -324,36 +332,30 @@ SettingViewControllerDelegate>
     [menuPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-#pragma mark 弹出相册图片选择
-- (void)tapPicture:(UIBarButtonItem*)sender{
+- (void)showPhotoBrowser:(UIBarButtonItem*) sender {
+    if ([self shouldDismissPopoverForClassController:[UIImagePickerController class] insideNavController:NO]) {
+        [self hidePopovers];
+        return;
+    }
     
-    UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
-    UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    picker.sourceType = sourcheType;
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
-    picturePopoverController = [[UIPopoverController alloc]initWithContentViewController:picker];
-    [picturePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
-    //    if (iOS(8.0)) {
-    //        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-    //            [self presentViewController:picker animated:YES completion:nil];
-    //        }];
-    //    }
-    //    else{
-    //        [self presentViewController:picker animated:YES completion:nil];
-    //    }
-    
-    //    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-    //                                  initWithTitle:nil
-    //                                  delegate:self
-    //                                  cancelButtonTitle:nil
-    //                                  destructiveButtonTitle:nil
-    //                                  otherButtonTitles:@"拍照", @"从手机相册选取",nil];
-    //    [actionSheet showInView:self.view];
+    [self showController:picker fromBarButtonItem:sender animated:YES];
 }
 
+- (void) showColorPicker:(id)sender {
+    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
+        [self hidePopovers];
+        return;
+    }
+    
+    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
+}
 
--(void)camera{
+-(void)camera {
     
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType =     UIImagePickerControllerSourceTypeCamera
@@ -371,7 +373,7 @@ SettingViewControllerDelegate>
     }
     
 }
--(void)photoAlbum{
+-(void)photoAlbum {
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     picker.sourceType = sourcheType;
@@ -387,7 +389,7 @@ SettingViewControllerDelegate>
     }
 }
 
-#pragma mark - HYDrawingViewController Methods
+#pragma mark - HYDrawingViewController
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
     subview.translatesAutoresizingMaskIntoConstraints = NO;
@@ -410,36 +412,104 @@ SettingViewControllerDelegate>
     return constraints;
 }
 
-- (void) showColorPicker:(id)sender
-{
-    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
-        [self hidePopovers];
-        return;
-    }
-    
-    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
-}
-
-
-
 - (void) paintColorChanged:(NSNotification *)aNotification
 {
     WDColor *newPaintColor = [aNotification userInfo][@"pickedColor"];
     [self.colorPickerController setColor:newPaintColor];
 }
 
-- (void)transformOverlayerChanged:(NSNotification*)aNotification
+#pragma mark Layer Transform
+- (void) layerTransformChanged:(TransformOverlayer *)sender
 {
-    CGFloat a = [[aNotification userInfo][@"a"] floatValue];
-    CGFloat b = [[aNotification userInfo][@"b"] floatValue];
-    CGFloat c = [[aNotification userInfo][@"c"] floatValue];
-    CGFloat d = [[aNotification userInfo][@"d"] floatValue];
-    CGFloat tx = [[aNotification userInfo][@"tx"] floatValue];
-    CGFloat ty = [[aNotification userInfo][@"ty"] floatValue];
-    
-    CGAffineTransform trans = CGAffineTransformMake(a, b, c, d, tx, ty);
+    CGAffineTransform trans = sender.alignedTransform;
     [[HYBrushCore sharedInstance] setActiveLayerTransform: trans];
+    
 }
+
+- (void) cancelLayerTransformation
+{
+//    if (!self.controller.runningOnPhone) {
+//        [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
+//                         animations:^{ transformOverlay_.alpha = 0.0f; }
+//                         completion:^(BOOL finished) {
+//                             [transformOverlay_ removeFromSuperview];
+//                             transformOverlay_ = nil;
+//                             
+//                             [self.controller showInterface];
+//                         }];
+//    } else
+    {
+        [transformOverlayer removeFromSuperview];
+        transformOverlayer = nil;
+        [self updateLayersView];
+        [self displayToolView:YES];
+    }
+    
+    [[HYBrushCore sharedInstance] setActiveLayerTransform:CGAffineTransformIdentity];
+    [[HYBrushCore sharedInstance] setActiveLayerLinearInterprolation:NO];
+}
+
+- (void) transformActiveLayer
+{
+//    if (transformOverlay_.horizontalFlip) {
+//        changeDocument(self.painting, [WDModifyLayer modifyLayer:self.painting.activeLayer withOperation:WDFlipLayerHorizontal]);
+//    }
+//    
+//    if (transformOverlay_.verticalFlip) {
+//        changeDocument(self.painting, [WDModifyLayer modifyLayer:self.painting.activeLayer withOperation:WDFlipLayerVertical]);
+//    }
+    
+//    // only change the doc if the transform actually changed
+//    if (!CGAffineTransformIsIdentity(rawLayerTransform)) {
+//        changeDocument(self.painting, [WDTransformLayer transformLayer:self.painting.activeLayer transform:rawLayerTransform]);
+//    }
+    
+    [[HYBrushCore sharedInstance] renderActiveLayerWithTransform:transformOverlayer.alignedTransform];
+    [self cancelLayerTransformation];
+}
+
+#pragma mark Photo Placement
+- (void)photoTransformChanged:(TransformOverlayer *)sender
+{
+    CGAffineTransform trans = sender.alignedTransform;
+    [[HYBrushCore sharedInstance] setPhotoTransform: trans];
+}
+
+- (void) cancelPhotoPlacement
+{
+//    if (!self.controller.runningOnPhone) {
+//        [UIView animateWithDuration:UINavigationControllerHideShowBarDuration
+//                         animations:^{ transformOverlay_.alpha = 0.0f; }
+//                         completion:^(BOOL finished) {
+//                             [transformOverlay_ removeFromSuperview];
+//                             transformOverlay_ = nil;
+//                             
+//                             [self.controller showInterface];
+//                         }];
+//    } else
+    {
+        [transformOverlayer removeFromSuperview];
+        transformOverlayer = nil;
+        [self updateLayersView];
+        [self displayToolView:YES];
+    }
+    
+    [[HYBrushCore sharedInstance]endPhotoPlacement:NO];
+}
+
+- (void) placePhoto
+{
+    
+    {
+        [transformOverlayer removeFromSuperview];
+        transformOverlayer = nil;
+        [self updateLayersView];
+        [self displayToolView:YES];
+    }
+    
+    [[HYBrushCore sharedInstance]endPhotoPlacement:YES];
+}
+
 
 - (void)dealloc
 {
@@ -514,7 +584,7 @@ SettingViewControllerDelegate>
 #pragma mark 形状选择弹出
 -(void)didSelectedShape:(UIImage*)img{
     [_shapeBoxPopoverController dismissPopoverAnimated:YES];
-    [self showImageEditViewWithImage:img];
+   // [self showImageEditViewWithImage:img];
 }
 
 -(void)showShapeBoxPopoverController:(UIButton*)sender{
@@ -566,13 +636,11 @@ SettingViewControllerDelegate>
     [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
-
 #pragma mark 显示裁剪视图
 -(void)showCliperView{
     CliperView *cliper = [[CliperView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:cliper];
 }
-
 
 
 #pragma mark 图层弹出视图
@@ -636,13 +704,13 @@ SettingViewControllerDelegate>
     }
 }
 
-#pragma mark BrushSizePannelViewDelegate Method
+#pragma mark BrushSizePannelViewDelegate
 - (void)brushSizePannelView:(BrushSizePannelView *)brushSizePannelView valueChanged:(float)value
 {
     [[HYBrushCore sharedInstance] setActiveBrushSize:value];
 }
 
-#pragma mark PaintingListControllerDelegate Method
+#pragma mark PaintingListControllerDelegate
 - (void)paintingListController:(ZXHPaintingListController *)paintingListCtrl didSelectAt:(NSInteger)index
 {
     if (!hud) {
@@ -665,25 +733,60 @@ SettingViewControllerDelegate>
     
 }
 
-#pragma mark - 选择相册图片
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    [picturePopoverController dismissPopoverAnimated:YES];
-    
-    [self showImageEditViewWithImage:info[@"UIImagePickerControllerOriginalImage"]];
+#pragma mark UIImagePickerControllerDelegate
+
+- (void) dismissImagePicker:(UIImagePickerController *)picker {
+//    if (self.runningOnPhone) {
+//        [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+//    } else {
+        [popoverController_ dismissPopoverAnimated:YES];
+        popoverController_ = nil;
+//    }
 }
 
-#pragma mark 图像变换
--(void)showImageEditViewWithImage:(UIImage*)img{
-    imageEditViewController = [ImageEditViewController new];
-    imageEditViewController.delegate = self;
-    imageEditViewController.originalImg = img;
-    imageEditViewController.view.frame = self.view.frame;
-    imageEditViewController.view.backgroundColor = [UIColor clearColor];
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+    [self dismissImagePicker:picker];
+    
+    CGSize imageSize = image.size;
+    if (imageSize.width > imageSize.height) {
+        if (imageSize.width > 2048) {
+            imageSize.height = (imageSize.height / imageSize.width) * 2048;
+            imageSize.width = 2048;
+        }
+    } else {
+        if (imageSize.height > 2048) {
+            imageSize.width = (imageSize.width / imageSize.height) * 2048;
+            imageSize.height = 2048;
+        }
+    }
+
+    image = [image resizedImage:imageSize interpolationQuality:kCGInterpolationHigh];
+
+    // create transform overlayer of image
+    float canvasScale = [[HYBrushCore sharedInstance] getCanvasScale];
+    float screenScale = [[UIScreen mainScreen] scale];
+    transformOverlayer = [[TransformOverlayer alloc] initWithFrame:self.view.bounds title:@"图片插入" scaleFactor:screenScale / canvasScale];
+    
+    __weak HYDrawingViewController *weakSelf = self;
+    transformOverlayer.cancelBlock = ^{ [weakSelf cancelPhotoPlacement];    };
+    transformOverlayer.acceptBlock = ^{ [weakSelf placePhoto];  };
+    
+    [transformOverlayer addTarget:self action:@selector(photoTransformChanged:)
+                 forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:transformOverlayer];
+    
+    [[HYBrushCore sharedInstance]setActiveLayerLinearInterprolation:YES];
+    [[HYBrushCore sharedInstance]beginPhotoPlacement:image withTransform:[transformOverlayer configureInitialPhotoTransform:image]];
     
     [self displayToolView:NO];
-    
-    [self.view addSubview:imageEditViewController.view];
 }
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissImagePicker:picker];
+}
+
 
 #pragma mark CanvasViewDelegate Methods
 
@@ -711,8 +814,7 @@ SettingViewControllerDelegate>
 
 #pragma mark - Private Methods
 
-- (void)displayBrushSizePannel:(BOOL) flag
-{
+- (void)displayBrushSizePannel:(BOOL) flag {
     if (!flag)
     {
         [brushSizePannelView setAlpha:0.0f];

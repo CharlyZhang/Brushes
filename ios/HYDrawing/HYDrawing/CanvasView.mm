@@ -369,43 +369,13 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     [EAGLContext setCurrentContext:context];
     self.fbo->begin();
     
-    glClearColor(0.f, 0.f, 0.f, 0.f);
-    glClear(GL_COLOR_BUFFER_BIT );
-    
-    CZMat4 effectiveProj = ptrCanvas->getTransformMatrix();
-    CZMat4 finalMat = projMat * effectiveProj;
-    
-    [self drawWhiteBackground: &finalMat];
-    
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    
-    self.ptrPainting->blit(finalMat);
+    ptrCanvas->draw();
     
     glBindRenderbuffer(GL_RENDERBUFFER, self.fbo->getRenderBufferId());
     [context presentRenderbuffer:GL_RENDERBUFFER];
     LOG_DEBUG("drawView\n");
 }
 
-- (void) drawWhiteBackground:(CZMat4*)proj
-{
-    if (!self.ptrPainting) {
-        LOG_ERROR("ptrPainting is NULL!]\n");
-        return ;
-    }
-    
-    CZShader *shader = self.ptrPainting->getShader("simple");
-    
-    shader->begin();
-    
-    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, *proj);
-    glUniform4f(shader->getUniformLocation("color"), 1, 1, 1, 1);
-    
-    GL_BIND_VERTEXARRAY(self.ptrPainting->getQuadVAO());
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    
-    GL_BIND_VERTEXARRAY(0);
-}
 
 #pragma mark Private Method
 

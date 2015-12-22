@@ -169,7 +169,27 @@
     else    return nil;
 }
 
-///绘制图片
+#pragma mark -
+///图片编辑
+- (void) beginPhotoPlacement:(UIImage*) photo withTransform:(CGAffineTransform) trans
+{
+    CZImage *photoImg = [self producedFromImage:photo];
+    CZAffineTransform photoTrans = CZAffineTransform(trans.a, trans.b, trans.c, trans.d, trans.tx, trans.ty);
+    canvas->beginPlacePhoto(photoImg, photoTrans);
+}
+
+- (BOOL) setPhotoTransform:(CGAffineTransform)trans
+{
+    CZAffineTransform photoTrans = CZAffineTransform(trans.a, trans.b, trans.c, trans.d, trans.tx, trans.ty);
+    canvas->setPhotoTransform(photoTrans);
+    return YES;
+}
+
+- (void) endPhotoPlacement:(BOOL) renderToLayer
+{
+    canvas->endPlacePhoto(renderToLayer);
+}
+
 - (NSInteger) renderImage:(UIImage*)image withTransform:(CGAffineTransform)transform newLayer:(BOOL)flag
 {
     int ret = painting->getActiveLayerIndex();
@@ -179,45 +199,21 @@
         if (ret < 0) return (NSInteger)ret;
     }
     
-    CGImageRef img = image.CGImage;
+    CZImage *brushImg = [self producedFromImage:image];
     
-    //数据源提供者
-    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
-    // provider’s data.
-    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
     
-    //宽，高，data
-    size_t width = CGImageGetWidth(img);
-    size_t height = CGImageGetHeight(img);
-    
-    CZImage *brushImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
-    
-    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
-    
-    if (alphaInfo == kCGImageAlphaNone ||
-        alphaInfo == kCGImageAlphaNoneSkipLast ||
-        alphaInfo == kCGImageAlphaNoneSkipFirst){
-        brushImg->hasAlpha = false;
-    }
-    else {
-        brushImg->hasAlpha = true;
-    }
-
-    CFRelease(inBitmapData);
-//    
-    //////
     CZSize paintingSize = painting->getDimensions();
 
     
     CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
-    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(width/2.0), -(height/2.0));
+    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(brushImg->width/2.0), -(brushImg->height/2.0));
     CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((paintingSize.width/2.0), (paintingSize.height/2.0));
 //    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((width/2.0), (height/2.0));
     
     CZAffineTransform trans = CZAffineTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
     
 
-    trans = (trans_adjust * trans_flip * trans_center) * trans;
+   // trans = (trans_adjust * trans_flip * trans_center) * trans;
     
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
@@ -225,6 +221,7 @@
     return (NSInteger)ret;
 }
 
+#pragma mark -
 ///操作图层
 - (BOOL) setActiveLayerTransform:(CGAffineTransform)transform
 {
@@ -253,31 +250,7 @@
 ///绘制背景
 - (void) renderBackground:(UIImage*)image
 {
-    CGImageRef img = image.CGImage;
-    
-    //数据源提供者
-    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
-    // provider’s data.
-    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
-    
-    //宽，高，data
-    size_t width = CGImageGetWidth(img);
-    size_t height = CGImageGetHeight(img);
-    
-    CZImage *backgroundImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
-    
-    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
-    
-    if (alphaInfo == kCGImageAlphaNone ||
-        alphaInfo == kCGImageAlphaNoneSkipLast ||
-        alphaInfo == kCGImageAlphaNoneSkipFirst){
-        backgroundImg->hasAlpha = false;
-    }
-    else {
-        backgroundImg->hasAlpha = true;
-    }
-    
-    CFRelease(inBitmapData);
+    CZImage* backgroundImg = [self producedFromImage:image];
     
     CZSize paintingSize = painting->getDimensions();
     CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
@@ -310,7 +283,7 @@
                                              colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
     CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
     
-    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationDownMirrored];
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
     
     CGImageRelease(imageRef);
     CGContextRelease(ctx);
@@ -417,29 +390,7 @@
 - (void)setActiveBrushwatercolorPenStamp
 {
     UIImage *image = [UIImage imageNamed:@"watercolorPen.png"];
-    CGImageRef img = image.CGImage;
-    
-    //数据源提供者
-    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
-    // provider’s data.
-    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
-    
-    //宽，高，data
-    size_t width = CGImageGetWidth(img);
-    size_t height = CGImageGetHeight(img);
-    
-    CZImage *stampImage = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
-    
-    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
-    
-    if (alphaInfo == kCGImageAlphaNone ||
-        alphaInfo == kCGImageAlphaNoneSkipLast ||
-        alphaInfo == kCGImageAlphaNoneSkipFirst){
-        stampImage->hasAlpha = false;
-    }
-    else {
-        stampImage->hasAlpha = true;
-    }
+    CZImage *stampImage = [self producedFromImage:image];
     
     CZActiveState *activeState = CZActiveState::getInstance();
     
@@ -467,6 +418,57 @@
         LOG_ERROR("Active Brush is NULL\n");
     
     return 1.0f;
+}
+
+///画板
+- (float) getCanvasScale
+{
+    return canvas->getScale();
+}
+
+- (CGPoint) convertToPainting:(CGPoint)pt
+{
+    CZ2DPoint p(pt.x, pt.y);
+    CZ2DPoint po = canvas->transformToPainting(p);
+    return CGPointMake(po.x, po.y);
+}
+
+- (CGSize) getPaintingSize
+{
+    CZSize size = painting->getDimensions();
+    return CGSizeMake(size.width, size.height);
+}
+
+#pragma mark - Private
+- (CZImage*)producedFromImage:(UIImage*)image
+{
+    CGImageRef img = image.CGImage;
+    
+    //数据源提供者
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    // provider’s data.
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    //宽，高，data
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    
+    CZImage *retImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
+    
+    if (alphaInfo == kCGImageAlphaNone ||
+        alphaInfo == kCGImageAlphaNoneSkipLast ||
+        alphaInfo == kCGImageAlphaNoneSkipFirst){
+        retImg->hasAlpha = false;
+    }
+    else {
+        retImg->hasAlpha = true;
+    }
+    
+    CFRelease(inBitmapData);
+    
+    return retImg;
 }
 
 /// 析构

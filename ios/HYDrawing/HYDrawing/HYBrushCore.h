@@ -44,7 +44,11 @@
 - (void) setActiveStatePaintColorAtIndex:(NSInteger)index;
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index;
 
-///绘制图片
+///图片编辑
+- (void) beginPhotoPlacement:(UIImage*) photo withTransform:(CGAffineTransform)trans;
+- (BOOL) setPhotoTransform:(CGAffineTransform)transform;
+- (void) endPhotoPlacement:(BOOL) renderToLayer;
+
 - (NSInteger) renderImage:(UIImage*)image withTransform:(CGAffineTransform)trans newLayer:(BOOL)flag;
                                                                         ///<如果成功，返回插入图片所在图层的序号，否则返回负数
 ///操作图层
@@ -74,5 +78,10 @@
 ///笔触大小
 - (void) setActiveBrushSize:(float) value;
 - (float) getActiveBrushSize;
+
+///画板
+- (float) getCanvasScale;
+- (CGPoint) convertToPainting:(CGPoint)pt;
+- (CGSize) getPaintingSize;
 
 @end

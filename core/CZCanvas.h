@@ -15,10 +15,13 @@
 #include "basic/CZRect.h"
 #include "basic/CZ2DPoint.h"
 #include "basic/CZMat4.h"
+#include "basic/CZImage.h"
 #include "basic/CZAffineTransform.h"
+
 
 class CZPainting;
 class CZCanvas;
+class CZTexture;
 
 /// protocol CZView
 class CZView
@@ -27,7 +30,7 @@ public:
     virtual ~CZView(){  ptrCanvas = nullptr; };
     virtual void setCanvas(CZCanvas* c) = 0;
     virtual void setPaiting(CZPainting* p) = 0;
-    virtual void draw() = 0;
+    virtual void drawView() = 0;
     
     virtual CZRect& getFrame() = 0;
 protected:
@@ -48,16 +51,25 @@ public:
     /// Methods for CanvasView
     void setScale(float s);
     float getScale();
+    void setCanvasFrame(const CZRect &frame);
     void rebuildViewTransformAndRedraw(bool flag);
     CZ2DPoint transformToPainting(const CZ2DPoint &pt);
     void pinchBegin(CZ2DPoint &pt);
     void pinchChanged(CZ2DPoint &pt, bool touchCountChanged = false);
+    void draw();
+    
+    /// Methods for photo placement
+    void beginPlacePhoto(CZImage *photo, CZAffineTransform &trans);
+    void setPhotoTransform(CZAffineTransform &trans);
+    int endPlacePhoto(bool renderTozLayer = true);
     
     CZMat4 getTransformMatrix();
 
 private:
 	/// 在一定区域绘制视图
 	void drawViewInRect(CZRect &rect);
+    void drawWhiteBackground(CZMat4& proj);
+    void renderPhoto(CZMat4 &proj, CZAffineTransform &transform);
     
 public:
 	CZPainting *ptrPainting;
@@ -66,6 +78,12 @@ public:
 private:
 	CZRect visibleRect;
 	CZView *view;
+    CZRect canvasFrame;                           ///< canvas frame, base on view's frame
+    CZMat4 projMat;
+    bool photoPlacementMode;
+    CZTexture *photoTexture;
+    CZAffineTransform photoTransform;
+    CZImage *photoImage;                         ///< for rendering to layer
     
     CZ2DPoint                 userSpacePivot;
     CZ2DPoint                 deviceSpacePivot;
