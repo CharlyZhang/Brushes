@@ -89,6 +89,7 @@
 
 - (void)addNewPainting: (UIButton*) button {
     if ([[PaintingManager sharedInstance] createNewPainting]) {
+        [[HYBrushCore sharedInstance]draw];
         [tbView reloadData];
         currentSelectedIndex = [PaintingManager sharedInstance].activePaintingIndex;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];

@@ -179,7 +179,7 @@ SettingViewControllerDelegate>
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
-    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(tapMenu:)];
+    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(showShareController:)];
     
     
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
@@ -242,7 +242,7 @@ SettingViewControllerDelegate>
     [self.settingPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-#pragma mark SettingViewControllerDelegate Methods
+#pragma mark SettingViewControllerDelegate
 
 - (BOOL) settingViewControllerSavePainting:(SettingViewController *)settingController {
     //[[HYBrushCore sharedInstance] saveCurrentPainting];
@@ -282,19 +282,20 @@ SettingViewControllerDelegate>
     return YES;
 }
 
-#pragma mark 作品列表弹出
+#pragma mark - Actions
+
 -(void)showListPopoverController:(UIBarButtonItem*)sender{
     
     UIImage *image = [UIImage imageNamed:@"list_popover_bg"];
     
     if (!_listPopoverController) {
-       
+        
         ZXHPaintingListController *listVC = [[ZXHPaintingListController alloc]init];
         listVC.delegate = self;
         listVC.preferredContentSize = CGSizeMake(image.size.width, image.size.height-10);
         _listPopoverController = [[UIPopoverController alloc]initWithContentViewController:listVC];
         
-       
+        
     }
     
     _listPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
@@ -308,17 +309,12 @@ SettingViewControllerDelegate>
     [(ZXHPaintingListController*)_listPopoverController.contentViewController refreshData];
 }
 
--(void)hiddenNavBar{
-    self.navigationController.navigationBar.hidden = NO;
-}
 
-#pragma mark - Actions
-// --- 视频
 - (void)tapVideo:(id)sender{
     
 }
 
-- (void)tapMenu:(id)sender{
+- (void)showShareController:(id)sender{
     HYMenuViewController *menuViewController = [[HYMenuViewController alloc]init];
     UINavigationController *menuNavigationController = [[UINavigationController alloc]initWithRootViewController:menuViewController];
     menuNavigationController.navigationBar.barTintColor = kBackgroundColor;
@@ -348,15 +344,6 @@ SettingViewControllerDelegate>
     picker.delegate = self;
     
     [self showController:picker fromBarButtonItem:sender animated:YES];
-}
-
-- (void) showColorPicker:(id)sender {
-    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
-        [self hidePopovers];
-        return;
-    }
-    
-    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
 
 -(void)camera {
@@ -565,6 +552,15 @@ SettingViewControllerDelegate>
     activeButton = (BottomBarButtonType)button.tag;
     [self displayBrushSizePannel:YES];
     
+}
+
+- (void) showColorPicker:(id)sender {
+    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
+        [self hidePopovers];
+        return;
+    }
+    
+    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
 
 - (void)showCanvasBackgroundPopoverController:(UIButton*)sender {

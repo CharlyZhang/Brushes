@@ -116,6 +116,9 @@
     else if ([self getPaintingNumber] <= 0) {
         ptrActivePainting = new CZPainting(CZSize(width,height));
         ret = ptrActivePainting;
+        activePaintingName = self.defaultFileName;
+        [self saveActivePainting];
+        [self refreshData];
     }
     else {
         activePaintingName = [paintingNames objectAtIndex:0];
@@ -132,11 +135,11 @@
         LOG_ERROR("Painting manager has not been initialized!\n");
         return NO;
     }
+    [self saveActivePainting];
     
     if(!ptrActivePainting->restore()) return NO;
     activePaintingName = self.defaultFileName;
     [self saveActivePainting];
-    [self refreshData];
     
     return YES;
 }
@@ -171,7 +174,10 @@
 - (BOOL) saveActivePainting
 {
     if (ptrActivePainting) {
-        return CZFileManager::getInstance()->savePainting(ptrActivePainting, [[self filePathofName:activePaintingName] UTF8String]);
+        BOOL ret = NO;
+        ret = CZFileManager::getInstance()->savePainting(ptrActivePainting, [[self filePathofName:activePaintingName] UTF8String]);
+        [self refreshData];
+        return ret;
     }
     return NO;
 }
