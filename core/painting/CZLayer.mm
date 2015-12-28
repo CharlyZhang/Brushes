@@ -1003,6 +1003,8 @@ bool CZLayer::fill(CZColor &c, CZ2DPoint &p)
     
     delete img;
     
+    clearThumbnailImage();
+    
     return true;
 }
 

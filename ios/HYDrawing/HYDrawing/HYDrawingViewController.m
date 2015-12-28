@@ -589,6 +589,34 @@ SettingViewControllerDelegate>
     [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
+-(void)showLayerPopoverController:(UIButton*)sender {
+    if (!_layersViewController) {
+        _layersViewController = [ZXHLayersViewController new];
+    }
+    
+    if (!layersPopoverController) {
+        layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
+    }
+    
+    layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:2];
+    
+    UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
+    [DDPopoverBackgroundView setArrowBase:0];
+    [DDPopoverBackgroundView setArrowHeight:2];
+    [layersPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.y -= 10;
+    
+    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    
+    [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+}
+
 #pragma mark 形状选择弹出
 -(void)didSelectedShape:(UIImage*)img{
     [_shapeBoxPopoverController dismissPopoverAnimated:YES];
@@ -624,37 +652,6 @@ SettingViewControllerDelegate>
 -(void)showCliperView{
     CliperView *cliper = [[CliperView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:cliper];
-}
-
-
-#pragma mark 图层弹出视图
--(void)showLayerPopoverController:(UIButton*)sender{
-    if (!_layersViewController) {
-        _layersViewController = [ZXHLayersViewController new];
-    }
-    
-    if (!layersPopoverController) {
-        layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
-    }
-    
-    layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
-    [DDPopoverBackgroundView setContentInset:2];
-    
-    UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
-    [DDPopoverBackgroundView setBackgroundImage:image];
-    [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
-    [DDPopoverBackgroundView setArrowBase:0];
-    [DDPopoverBackgroundView setArrowHeight:2];
-    [layersPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
-    
-    // 弹出位置
-    CGRect popRect = sender.frame;
-    popRect.origin.y -= 10;
-    
-    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-    
-#pragma mark 观察当前图层数量
-    [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 #pragma mark - WDColorPickerControllerDelegate Methods

@@ -16,21 +16,24 @@ to do:
 
 bug:
 0. 初次启动后的新建绘画没有保存
-1. 填充颜色后，图层缩率图没有立马改变
 2. 触摸其他popover后应该将当前popover消除
 
 ### FIXED:
-1. painting的DIC跳转   
-2. 增加画笔大小调整
-3. 画布变换后的背景图片绘制bug
+1. 画布变换后的背景图片绘制错误bug  
+2. 填充颜色后，图层缩略图没有立马改变bug
+3. 
+4. 
 
 ### UPDATED:
 1. 修改Canvas的底色设置方式
 2. 对screenScale的处理，可提高绘制清晰度
 3. Canvas的绘制部分移入到CZCanvas中
 4. 更新插入图片的编辑方式
+5. 增加画笔大小调整
+6. painting的DIC跳转 
 
 
 
 ### CORE:
 1. CZCanvas不仅仅作为core调用view的接口，同时承担着canvas的实体功能，由view去调用。
+2. CZLayer的背景图片绘制方法
