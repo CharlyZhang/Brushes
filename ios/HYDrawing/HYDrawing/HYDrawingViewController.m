@@ -202,7 +202,7 @@ SettingViewControllerDelegate>
     activeButton = bottomBarView.currentButton.tag;
     
     // brush size pannel
-    brushSizePannelView = [[BrushSizePannelView alloc] initWithFrame:CGRectMake(-82, 500, 246, 58)];
+    brushSizePannelView = [[BrushSizePannelView alloc] initWithFrame:CGRectMake(-132, 450, 346, 58)];
     brushSizePannelView.delegate = self;
     [self.view addSubview:brushSizePannelView];
     [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
@@ -224,8 +224,12 @@ SettingViewControllerDelegate>
     }
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate {
     return NO;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
@@ -356,7 +360,6 @@ SettingViewControllerDelegate>
 }
 
 -(void)camera {
-    
     UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
     UIImagePickerControllerSourceType sourcheType =     UIImagePickerControllerSourceTypeCamera
     ;
@@ -510,15 +513,8 @@ SettingViewControllerDelegate>
     [[HYBrushCore sharedInstance]endPhotoPlacement:YES];
 }
 
+#pragma mark - BottomBarViewDelegate
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark - 底部工具栏按钮
-
-#pragma mark - BottomBarViewDelegate Methods
 - (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
     switch (button.tag) {
         case COLORWHEEL_BTN:        ///< 调色板
@@ -566,19 +562,31 @@ SettingViewControllerDelegate>
             break;
     }
     
-    activeButton = button.tag;
+    activeButton = (BottomBarButtonType)button.tag;
     [self displayBrushSizePannel:YES];
     
 }
 
-#pragma mark - ImageEditViewControllerDelegate
-
-- (void)updateLayersView
-{
-    _layersViewController.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
-    [_layersViewController.tbView reloadData];
+- (void)showCanvasBackgroundPopoverController:(UIButton*)sender {
+    UIImage *image = [UIImage imageNamed:@"canvasBg_bg"];
+    if (!_canvasBackgroundController) {
+        _canvasBackgroundController = [[ZXHCanvasBackgroundController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
+    }
     
-    [self displayToolView:YES];
+    if (!_canvasBgPopoverController) {
+        _canvasBgPopoverController = [[UIPopoverController alloc]initWithContentViewController:_canvasBackgroundController];
+    }
+    
+    _canvasBgPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:0];
+    //
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.x -= popRect.size.width;
+    
+    [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
 #pragma mark 形状选择弹出
@@ -610,31 +618,7 @@ SettingViewControllerDelegate>
     [_shapeBoxPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
-#pragma mark 画布背景选择弹出
 
-// 代理方法
-
--(void)showCanvasBackgroundPopoverController:(UIButton*)sender{
-    UIImage *image = [UIImage imageNamed:@"canvasBg_bg"];
-    if (!_canvasBackgroundController) {
-        _canvasBackgroundController = [[ZXHCanvasBackgroundController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
-    }
-    
-    if (!_canvasBgPopoverController) {
-        _canvasBgPopoverController = [[UIPopoverController alloc]initWithContentViewController:_canvasBackgroundController];
-    }
-    
-    _canvasBgPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
-    [DDPopoverBackgroundView setContentInset:0];
-    //
-    [DDPopoverBackgroundView setBackgroundImage:image];
-    
-    // 弹出位置
-    CGRect popRect = sender.frame;
-    popRect.origin.x -= popRect.size.width;
-    
-    [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-}
 
 #pragma mark 显示裁剪视图
 -(void)showCliperView{
@@ -856,6 +840,15 @@ SettingViewControllerDelegate>
             break;
     }
 }
+
+- (void)updateLayersView
+{
+    _layersViewController.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
+    [_layersViewController.tbView reloadData];
+    
+    [self displayToolView:YES];
+}
+
 
 #pragma mark - Copied directly
 

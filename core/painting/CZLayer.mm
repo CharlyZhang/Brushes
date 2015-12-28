@@ -597,7 +597,7 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     clearThumbnailImage();
 }
 
-void CZLayer::renderBackground(CZImage *img,CZAffineTransform &trans)
+void CZLayer::renderBackground(CZImage *img)
 {
     if (ptrPainting == NULL)
     {
@@ -651,6 +651,8 @@ void CZLayer::renderBackground(CZImage *img,CZAffineTransform &trans)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
     /// render background
+    
+    CZAffineTransform trans = CZAffineTransform::makeIdentity();
     CZUtil::drawRect(rect,trans);
 
     shader->end();

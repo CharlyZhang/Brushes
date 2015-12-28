@@ -61,7 +61,7 @@
     [self createCollectionView];
 }
 
--(void)createCollectionView{
+-(void)createCollectionView {
     UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
     _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 10, preferSize.width, preferSize.height-28) collectionViewLayout:flowLayout];
     

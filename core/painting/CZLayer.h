@@ -83,7 +83,7 @@ public:
 	/// 将图像经过变换后绘制
 	void renderImage(CZImage* img, CZAffineTransform &trans);
     /// render background image
-    void renderBackground(CZImage *img, CZAffineTransform &trans);
+    void renderBackground(CZImage *img);
     /// transform layer
     bool transform(CZAffineTransform &trans, bool undoable);
     

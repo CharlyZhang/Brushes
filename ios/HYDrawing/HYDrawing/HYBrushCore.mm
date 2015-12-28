@@ -252,15 +252,7 @@
 {
     CZImage* backgroundImg = [self producedFromImage:image];
     
-    CZSize paintingSize = painting->getDimensions();
-    CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
-    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(paintingSize.width/2.0), -(paintingSize.height/2.0));
-    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((paintingSize.width/2.0), (paintingSize.height/2.0));
-    
-    CZAffineTransform trans = (trans_adjust * trans_flip * trans_center);
-    
-    
-    painting->getActiveLayer()->renderBackground(backgroundImg,trans);
+    painting->getActiveLayer()->renderBackground(backgroundImg);
     canvas->drawView();
 }
 

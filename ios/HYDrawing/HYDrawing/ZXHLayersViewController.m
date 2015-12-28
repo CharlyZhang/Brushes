@@ -254,7 +254,7 @@ NSString *LayersCountChange = @"LayersCountChange";
 #pragma mark - 创建底部工具栏
 -(void)buildBottomToolBarWithWidth:(CGFloat)w height:(CGFloat)h{
     UIView *bottomToolBar = [[UIView alloc]initWithFrame:CGRectMake(0, h-62, w,44)];
-    bottomToolBar.backgroundColor = kBackgroundColor;
+    bottomToolBar.backgroundColor = kBarColor;
     [self.view addSubview:bottomToolBar];
     
     // 滑动条

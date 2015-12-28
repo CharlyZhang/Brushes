@@ -12,7 +12,7 @@
 @implementation ZXHLayerTopBar
 
 -(void)awakeFromNib{
-    self.backgroundColor = kBackgroundColor;
+    self.backgroundColor = kBarColor;
 }
 
 

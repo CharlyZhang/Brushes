@@ -22,6 +22,7 @@ bug:
 ### FIXED:
 1. painting的DIC跳转   
 2. 增加画笔大小调整
+3. 画布变换后的背景图片绘制bug
 
 ### UPDATED:
 1. 修改Canvas的底色设置方式
