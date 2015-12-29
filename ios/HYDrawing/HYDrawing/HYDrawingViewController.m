@@ -92,44 +92,6 @@ SettingViewControllerDelegate>
     [superview addConstraints:constraints];
 }
 
-
-// 隐藏状态栏
--(BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    // 全透明背景
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.translucent = YES;
-    // 去掉分割线
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    
-}
-
-#pragma mark 判断是否可以绘画
-- (void)showMessageView:(ShowingMessageType)msgType
-{
-    NSLog(@"showMessageView");
-    NSInteger curLayerIndex = [[HYBrushCore sharedInstance]getActiveLayerIndex];
-    BOOL visible = [[HYBrushCore sharedInstance]isVisibleOfLayer:curLayerIndex];
-    BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:curLayerIndex];
-    
-    ZXHEditableTipsView *tipsView = [ZXHEditableTipsView defaultTipsView];
-    tipsView.visible = visible;
-    tipsView.locked = locked;
-    [self.view addSubview:tipsView];
-    [tipsView showTips];
-}
-
--(void)dismissMessageView{
-    NSLog(@"dismissMessageView");
-    [[ZXHEditableTipsView defaultTipsView] dismissTips];
-}
-
-
 #pragma mark - Properties
 
 - (WDColorPickerController*) colorPickerController {
@@ -224,8 +186,23 @@ SettingViewControllerDelegate>
     }
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    // 全透明背景
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.translucent = YES;
+    // 去掉分割线
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    
+}
+
 -(BOOL)shouldAutorotate {
     return NO;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 - (void)dealloc {
@@ -235,6 +212,27 @@ SettingViewControllerDelegate>
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
 //    return  UIInterfaceOrientationLandscapeLeft | UIInterfaceOrientationLandscapeRight;
 //}
+
+#pragma mark 判断是否可以绘画
+- (void)showMessageView:(ShowingMessageType)msgType
+{
+    NSLog(@"showMessageView");
+    NSInteger curLayerIndex = [[HYBrushCore sharedInstance]getActiveLayerIndex];
+    BOOL visible = [[HYBrushCore sharedInstance]isVisibleOfLayer:curLayerIndex];
+    BOOL locked = [[HYBrushCore sharedInstance]isLockedofLayer:curLayerIndex];
+    
+    ZXHEditableTipsView *tipsView = [ZXHEditableTipsView defaultTipsView];
+    tipsView.visible = visible;
+    tipsView.locked = locked;
+    [self.view addSubview:tipsView];
+    [tipsView showTips];
+}
+
+-(void)dismissMessageView{
+    NSLog(@"dismissMessageView");
+    [[ZXHEditableTipsView defaultTipsView] dismissTips];
+}
+
 
 #pragma mark - Setting
 -(void)showSettingPopoverController:(UIBarButtonItem*)sender{
@@ -282,9 +280,9 @@ SettingViewControllerDelegate>
     return YES;
 }
 
-#pragma mark - Actions
+#pragma mark - Top Bar Actions
 
--(void)showListPopoverController:(UIBarButtonItem*)sender{
+-(void)showListPopoverController:(UIBarButtonItem*)sender {
     
     UIImage *image = [UIImage imageNamed:@"list_popover_bg"];
     
@@ -314,6 +312,20 @@ SettingViewControllerDelegate>
     
 }
 
+- (void)showPhotoBrowser:(UIBarButtonItem*) sender {
+    if ([self shouldDismissPopoverForClassController:[UIImagePickerController class] insideNavController:NO]) {
+        [self hidePopovers];
+        return;
+    }
+    
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    
+    [self showController:picker fromBarButtonItem:sender animated:YES];
+}
+
 - (void)showShareController:(id)sender{
     HYMenuViewController *menuViewController = [[HYMenuViewController alloc]init];
     UINavigationController *menuNavigationController = [[UINavigationController alloc]initWithRootViewController:menuViewController];
@@ -332,51 +344,117 @@ SettingViewControllerDelegate>
     [menuPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-- (void)showPhotoBrowser:(UIBarButtonItem*) sender {
-    if ([self shouldDismissPopoverForClassController:[UIImagePickerController class] insideNavController:NO]) {
+#pragma mark - BottomBarViewDelegate
+
+- (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
+    switch (button.tag) {
+        case COLORWHEEL_BTN:        ///< 调色板
+            [self showColorPicker:button];
+            break;
+        case ERASER_BTN:            ///< 橡皮擦
+            [[HYBrushCore sharedInstance]activeEraser];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
+            break;
+        case PENCIL_BTN:            ///< 铅笔
+            [[HYBrushCore sharedInstance]activePencil];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
+            break;
+        case MARKERPEN_BTN:         ///< 马克笔
+            [[HYBrushCore sharedInstance]activeMarker];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
+            break;
+        case COLORBRUSH_BTN:        ///< 水彩笔
+            [[HYBrushCore sharedInstance]activeWaterColorPen];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
+            break;
+        case CRAYON_BTN:
+            [[HYBrushCore sharedInstance]activeCrayon];
+            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
+            break;
+        case BUCKET_BTN:            ///< 倒色桶
+            [[HYBrushCore sharedInstance]activeBucket];
+            break;
+        case SHAPEBOX_BTN:          ///< 图形箱
+            [self showShapeBoxPopoverController:button];
+            break;
+        case EYEDROPPER_BTN:        ///< 取色管
+            [[HYBrushCore sharedInstance]activeColorPicker];
+            break;
+        case LAYERS_BTN:            ///< 图层
+            [self showLayerPopoverController:button];
+            break;
+        case CLIP_BTN:              ///< 裁减
+            //            [self showCliperView];
+            break;
+        case CANVAS_BTN:            ///< 背景图
+            [self showCanvasBackgroundPopoverController:button];
+            break;
+        default:
+            break;
+    }
+    
+    activeButton = (BottomBarButtonType)button.tag;
+    [self displayBrushSizePannel:YES];
+    
+}
+
+- (void) showColorPicker:(id)sender {
+    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
         [self hidePopovers];
         return;
     }
     
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.delegate = self;
-    
-    [self showController:picker fromBarButtonItem:sender animated:YES];
+    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
 }
 
--(void)camera {
-    UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
-    UIImagePickerControllerSourceType sourcheType =     UIImagePickerControllerSourceTypeCamera
-    ;
-    picker.sourceType = sourcheType;
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    if (iOS(8.0)) {
-        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-            [self presentViewController:picker animated:YES completion:nil];
-        }];
-    }
-    else{
-        [self presentViewController:picker animated:YES completion:nil];
+- (void)showCanvasBackgroundPopoverController:(UIButton*)sender {
+    UIImage *image = [UIImage imageNamed:@"canvasBg_bg"];
+    if (!_canvasBackgroundController) {
+        _canvasBackgroundController = [[ZXHCanvasBackgroundController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
     }
     
+    if (!_canvasBgPopoverController) {
+        _canvasBgPopoverController = [[UIPopoverController alloc]initWithContentViewController:_canvasBackgroundController];
+    }
+    
+    _canvasBgPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:0];
+    //
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.x -= popRect.size.width;
+    
+    [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
--(void)photoAlbum {
-    UIImagePickerController  *picker = [[UIImagePickerController alloc]init];
-    UIImagePickerControllerSourceType sourcheType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    picker.sourceType = sourcheType;
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    if (iOS(8.0)) {
-        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
-            [self presentViewController:picker animated:YES completion:nil];
-        }];
+
+-(void)showLayerPopoverController:(UIButton*)sender {
+    if (!_layersViewController) {
+        _layersViewController = [ZXHLayersViewController new];
     }
-    else{
-        [self presentViewController:picker animated:YES completion:nil];
+    
+    if (!layersPopoverController) {
+        layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
     }
+    
+    layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
+    [DDPopoverBackgroundView setContentInset:2];
+    
+    UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
+    [DDPopoverBackgroundView setBackgroundImage:image];
+    [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
+    [DDPopoverBackgroundView setArrowBase:0];
+    [DDPopoverBackgroundView setArrowHeight:2];
+    [layersPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
+    
+    // 弹出位置
+    CGRect popRect = sender.frame;
+    popRect.origin.y -= 10;
+    
+    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    
+    [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 #pragma mark - HYDrawingViewController
@@ -500,119 +578,6 @@ SettingViewControllerDelegate>
     [[HYBrushCore sharedInstance]endPhotoPlacement:YES];
 }
 
-#pragma mark - BottomBarViewDelegate
-
-- (void)bottomBarView:(BottomBarView*)bottomBarView forButtonAction:(UIButton*)button {
-    switch (button.tag) {
-        case COLORWHEEL_BTN:        ///< 调色板
-            [self showColorPicker:button];
-            break;
-        case ERASER_BTN:            ///< 橡皮擦
-            [[HYBrushCore sharedInstance]activeEraser];
-            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
-            break;
-        case PENCIL_BTN:            ///< 铅笔
-            [[HYBrushCore sharedInstance]activePencil];
-            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
-            break;
-        case MARKERPEN_BTN:         ///< 马克笔
-            [[HYBrushCore sharedInstance]activeMarker];
-            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
-            break;
-        case COLORBRUSH_BTN:        ///< 水彩笔
-            [[HYBrushCore sharedInstance]activeWaterColorPen];
-            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
-            break;
-        case CRAYON_BTN:
-            [[HYBrushCore sharedInstance]activeCrayon];
-            [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
-            break;
-        case BUCKET_BTN:            ///< 倒色桶
-            [[HYBrushCore sharedInstance]activeBucket];
-            break;
-        case SHAPEBOX_BTN:          ///< 图形箱
-            [self showShapeBoxPopoverController:button];
-            break;
-        case EYEDROPPER_BTN:        ///< 取色管
-            [[HYBrushCore sharedInstance]activeColorPicker];
-            break;
-        case LAYERS_BTN:            ///< 图层
-            [self showLayerPopoverController:button];
-            break;
-        case CLIP_BTN:              ///< 裁减
-            //            [self showCliperView];
-            break;
-        case CANVAS_BTN:            ///< 背景图
-            [self showCanvasBackgroundPopoverController:button];
-            break;
-        default:
-            break;
-    }
-    
-    activeButton = (BottomBarButtonType)button.tag;
-    [self displayBrushSizePannel:YES];
-    
-}
-
-- (void) showColorPicker:(id)sender {
-    if ([self shouldDismissPopoverForClassController:[WDColorPickerController class] insideNavController:NO]) {
-        [self hidePopovers];
-        return;
-    }
-    
-    [self showController:self.colorPickerController fromBarButtonItem:sender animated:NO];
-}
-
-- (void)showCanvasBackgroundPopoverController:(UIButton*)sender {
-    UIImage *image = [UIImage imageNamed:@"canvasBg_bg"];
-    if (!_canvasBackgroundController) {
-        _canvasBackgroundController = [[ZXHCanvasBackgroundController alloc]initWithPreferredContentSize:CGSizeMake(image.size.width, image.size.height)];
-    }
-    
-    if (!_canvasBgPopoverController) {
-        _canvasBgPopoverController = [[UIPopoverController alloc]initWithContentViewController:_canvasBackgroundController];
-    }
-    
-    _canvasBgPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
-    [DDPopoverBackgroundView setContentInset:0];
-    //
-    [DDPopoverBackgroundView setBackgroundImage:image];
-    
-    // 弹出位置
-    CGRect popRect = sender.frame;
-    popRect.origin.x -= popRect.size.width;
-    
-    [_canvasBgPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-}
-
--(void)showLayerPopoverController:(UIButton*)sender {
-    if (!_layersViewController) {
-        _layersViewController = [ZXHLayersViewController new];
-    }
-    
-    if (!layersPopoverController) {
-        layersPopoverController = [[UIPopoverController alloc]initWithContentViewController:_layersViewController];
-    }
-    
-    layersPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];
-    [DDPopoverBackgroundView setContentInset:2];
-    
-    UIImage *image = [UIImage imageNamed:@"layers_popover_bg"];
-    [DDPopoverBackgroundView setBackgroundImage:image];
-    [DDPopoverBackgroundView setBackgroundImageCornerRadius:1.f];
-    [DDPopoverBackgroundView setArrowBase:0];
-    [DDPopoverBackgroundView setArrowHeight:2];
-    [layersPopoverController setPopoverContentSize:CGSizeMake(image.size.width, image.size.height-30)];
-    
-    // 弹出位置
-    CGRect popRect = sender.frame;
-    popRect.origin.y -= 10;
-    
-    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-    
-    [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-}
-
 #pragma mark 形状选择弹出
 -(void)didSelectedShape:(UIImage*)img{
     [_shapeBoxPopoverController dismissPopoverAnimated:YES];
@@ -666,20 +631,6 @@ SettingViewControllerDelegate>
     bottomBarView.colorWheelButton.color = color;
 }
 
-#pragma mark UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    switch (buttonIndex) {
-        case 0:
-            [self camera];
-            break;
-        case 1:
-            [self photoAlbum];
-            break;
-            
-        default:
-            break;
-    }
-}
 
 #pragma mark BrushSizePannelViewDelegate
 - (void)brushSizePannelView:(BrushSizePannelView *)brushSizePannelView valueChanged:(float)value

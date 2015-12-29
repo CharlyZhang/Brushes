@@ -144,6 +144,22 @@ void CZCanvas::pinchChanged(CZ2DPoint &pt,  bool touchCountChanged /* = false */
     deviceSpacePivot = CZ2DPoint(pt.x + correction.x, pt.y + correction.y);
 }
 
+void CZCanvas::resetTransform()
+{
+    if (!ptrPainting)
+    {
+        LOG_ERROR("ptrPainting is NULL\n");
+        return;
+    }
+    
+    deviceSpacePivot = CZ2DPoint(canvasFrame.size.width / 2.f, canvasFrame.size.height / 2.f);
+
+    CZSize size = ptrPainting->getDimensions();
+    userSpacePivot = CZ2DPoint(size.width / 2.0f, size.height / 2.0f);
+    
+    rebuildViewTransformAndRedraw(true);
+}
+
 // 
 void CZCanvas::draw()
 {

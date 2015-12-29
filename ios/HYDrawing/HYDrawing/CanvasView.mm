@@ -176,6 +176,11 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     
     [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
     
+    UITapGestureRecognizer *double2TapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDouble2TapGesture:)];
+    double2TapGesture.numberOfTapsRequired = 2;
+    double2TapGesture.numberOfTouchesRequired = 2;
+    [self addGestureRecognizer:double2TapGesture];
+    
     // Create a pinch recognizer to scale the canvas
     UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc]
                                               initWithTarget:self action:@selector(handlePinchGesture:)];
@@ -346,6 +351,12 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     [self.delegate displayToolView:isBarVisible];
 }
 
+- (void)handleDouble2TapGesture:(UITapGestureRecognizer*)sender
+{
+    LOG_DEBUG("double 2 tap\n");
+    self.trueCanvasScale = 1.f;
+    ptrCanvas->resetTransform();
+}
 
 - (void)setPainting:(void*)painting
 {

@@ -56,6 +56,7 @@ public:
     CZ2DPoint transformToPainting(const CZ2DPoint &pt);
     void pinchBegin(CZ2DPoint &pt);
     void pinchChanged(CZ2DPoint &pt, bool touchCountChanged = false);
+    void resetTransform();
     void draw();
     
     /// Methods for photo placement
