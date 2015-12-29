@@ -30,6 +30,10 @@
 
 - (BOOL) createNewPainting;
 
+- (BOOL) deletePaintingAt:(NSInteger)index;
+
+- (BOOL) saveActivePainting;
+
 /// get inital painting when lauching app
 - (void*) getInitialPainting;
 

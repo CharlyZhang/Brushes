@@ -30,6 +30,7 @@ bug:
 4. 更新插入图片的编辑方式
 5. 增加画笔大小调整
 6. painting的DIC跳转 
+7. painting的删除
 
 
 

@@ -144,6 +144,43 @@
     return YES;
 }
 
+- (BOOL) deletePaintingAt:(NSInteger)index
+{
+    if (index < 0 || index >= paintingNames.count) {
+        LOG_ERROR("index is out of range\n");
+        return NO;
+    }
+    
+    activePaintingName = [paintingNames objectAtIndex:index];
+    CZFileManager::getInstance()->removePainting([[self filePathofName:activePaintingName]UTF8String]);
+    
+    if (paintingNames.count == 1) {
+        if(!ptrActivePainting->restore()) return NO;
+        activePaintingName = self.defaultFileName;
+        [self saveActivePainting];
+        [self refreshData];
+    }
+    else {
+        if (index == paintingNames.count-1)  index--;
+        [self refreshData];
+        activePaintingName = [paintingNames objectAtIndex:index];
+        CZFileManager::getInstance()->loadPainting([[self filePathofName:activePaintingName]UTF8String], ptrActivePainting);
+    }
+    
+    return YES;
+}
+
+- (BOOL) saveActivePainting
+{
+    if (ptrActivePainting) {
+        BOOL ret = NO;
+        ret = CZFileManager::getInstance()->savePainting(ptrActivePainting, [[self filePathofName:activePaintingName] UTF8String]);
+        [self refreshData];
+        return ret;
+    }
+    return NO;
+}
+
 - (void)refreshData
 {
     paintingNames = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:DOCUMENT_DIR error:nil] pathsMatchingExtensions:[NSArray arrayWithObjects:PAINTING_FILE_EXTENTION,nil]];
@@ -171,15 +208,5 @@
     return [DOCUMENT_DIR stringByAppendingPathComponent:filename];
 }
 
-- (BOOL) saveActivePainting
-{
-    if (ptrActivePainting) {
-        BOOL ret = NO;
-        ret = CZFileManager::getInstance()->savePainting(ptrActivePainting, [[self filePathofName:activePaintingName] UTF8String]);
-        [self refreshData];
-        return ret;
-    }
-    return NO;
-}
 
 @end

@@ -12,7 +12,7 @@
 #import "PaintingManager.h"
 #import "HYBrushCore.h"
 
-@interface ZXHPaintingListController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ZXHPaintingListController ()<UITableViewDataSource,UITableViewDelegate,PaintingListCellDelegate>
 
 @end
 
@@ -106,6 +106,7 @@
 // 复用
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ZXHPaintingListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PaintingListCell"];
+    cell.delegate = self;
     
     if (!isListEditing) {
         cell.btnDelete.hidden = YES;
@@ -122,6 +123,7 @@
     cell.imgView.image = kImage(@"defaultPaintingImage");
     cell.nameLabel.text = [[PaintingManager sharedInstance]getPaintingNameAt:indexPath.row];
     cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"list_cell_selectedBg"]];
+    cell.cellIdx = indexPath.row;
     
     return cell;
 }
@@ -148,4 +150,23 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];
     [tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
+
+- (void)paintingListCellDeleteItem:(ZXHPaintingListCell *)paintingListCell
+{
+    [[PaintingManager sharedInstance]deletePaintingAt:paintingListCell.cellIdx];
+    [[HYBrushCore sharedInstance] draw];
+    
+    // 删除选中行
+    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:paintingListCell.cellIdx inSection:0];
+    [tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
+    
+    [tbView reloadData];
+    
+    currentSelectedIndex = [PaintingManager sharedInstance].activePaintingIndex;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];
+    [tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+
+}
+
 @end

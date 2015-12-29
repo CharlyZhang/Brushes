@@ -210,3 +210,23 @@ bool CZFileManager::loadPainting(const char* filepath, CZPainting* painting)
     
     return true;
 }
+
+bool CZFileManager::removePainting(const char* filepath)
+{
+    if (filepath == nullptr)
+    {
+        LOG_ERROR("urlStr is NULL\n");
+        return nullptr;
+    }
+    
+    if (remove(filepath) == 0)
+    {
+        LOG_INFO("Removed %s.\n",filepath);
+        return true;
+    }
+    else
+    {
+        LOG_ERROR("remove failed\n");
+        return false;
+    }
+}

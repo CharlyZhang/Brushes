@@ -245,7 +245,7 @@ SettingViewControllerDelegate>
 #pragma mark SettingViewControllerDelegate
 
 - (BOOL) settingViewControllerSavePainting:(SettingViewController *)settingController {
-    //[[HYBrushCore sharedInstance] saveCurrentPainting];
+    [[PaintingManager sharedInstance]saveActivePainting];
     [_settingPopoverController dismissPopoverAnimated:YES];
     
     return YES;

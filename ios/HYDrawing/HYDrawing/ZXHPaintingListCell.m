@@ -17,6 +17,7 @@
     [self setBorderStyleWithColor:kCommenCyanColor];
     
     self.backgroundColor = [UIColor clearColor];
+    [self.btnDelete addTarget:self action:@selector(deletePainting:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)setBorderStyleWithColor:(UIColor*)color{
@@ -26,6 +27,10 @@
     self.imgView.layer.borderColor = color.CGColor;
     
     self.nameLabel.backgroundColor = kColor(255, 255, 255, 0.5);
+}
+
+- (void)deletePainting:(UIButton*)sender {
+    [self.delegate paintingListCellDeleteItem:self];
 }
 
 @end

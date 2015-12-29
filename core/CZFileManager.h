@@ -29,6 +29,8 @@ public:
     
     bool loadPainting(const char* filepath, CZPainting* painting);
     
+    bool removePainting(const char* filepath);
+    
 private:
     CZFileManager();
     ~CZFileManager();
