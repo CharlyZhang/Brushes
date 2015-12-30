@@ -205,11 +205,11 @@ void CZCanvas::setPhotoTransform(CZAffineTransform &trans)
     drawView();
 }
 
-int CZCanvas::endPlacePhoto(bool renderTozLayer /* = true */)
+int CZCanvas::endPlacePhoto(bool renderToLayer /* = true */)
 {
     int ret = ptrPainting->getActiveLayerIndex();
     
-    if (renderTozLayer)
+    if (renderToLayer)
     {
         ret = ptrPainting->addNewLayer();
         if (ret < 0)

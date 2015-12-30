@@ -62,7 +62,7 @@ public:
     /// Methods for photo placement
     void beginPlacePhoto(CZImage *photo, CZAffineTransform &trans);
     void setPhotoTransform(CZAffineTransform &trans);
-    int endPlacePhoto(bool renderTozLayer = true);
+    int endPlacePhoto(bool renderToLayer = true);
     
     CZMat4 getTransformMatrix();
 
