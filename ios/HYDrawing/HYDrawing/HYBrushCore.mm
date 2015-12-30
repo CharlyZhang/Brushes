@@ -436,16 +436,24 @@
 {
     CGImageRef img = image.CGImage;
     
-    //数据源提供者
-    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
-    // provider’s data.
-    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
-    
-    //宽，高，data
     size_t width = CGImageGetWidth(img);
     size_t height = CGImageGetHeight(img);
     
-    CZImage *retImg = new CZImage(width,height,RGBA_BYTE,CFDataGetBytePtr(inBitmapData));
+    size_t rowByteSize = width *  4;
+    unsigned char *data = new unsigned char[height * rowByteSize];
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(data, width, height, 8, rowByteSize,
+                                                 colorSpaceRef,
+                                                 kCGImageAlphaPremultipliedLast);
+    CGContextSetBlendMode(context, kCGBlendModeCopy);
+    CGContextDrawImage(context, CGRectMake(0.0, 0.0, width, height), img);
+    CGContextRelease(context);
+    
+    CGColorSpaceRelease(colorSpaceRef);
+    CZImage *retImg = new CZImage((int)width,(int)height,RGBA_BYTE,data);
+    delete [] data;
+    
     
     CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(img);
     
@@ -457,8 +465,6 @@
     else {
         retImg->hasAlpha = true;
     }
-    
-    CFRelease(inBitmapData);
     
     return retImg;
 }
