@@ -12,7 +12,6 @@
 		2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49061D1B78ACA900158F1C /* HYBrushCore.mm */; };
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
 		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
-		2D4906371B7F297600158F1C /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906361B7F297600158F1C /* ReadMe.md */; };
 		2D7C5D051C1528D600E1A81D /* TransformOverlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D041C1528D600E1A81D /* TransformOverlayer.m */; };
 		2D7C5D081C15292D00E1A81D /* BrushSizePannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C5D071C15292D00E1A81D /* BrushSizePannelView.m */; };
 		2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */; };
@@ -433,7 +432,6 @@
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
 				608042031B57BE1400B3AB52 /* HYDrawingViewController.m */,
-				53BF596B1B847379007C3089 /* shapes */,
 				2D9287331C1E56B3008AEEFB /* Vendor */,
 				2D49062D1B7AE44600158F1C /* Interface */,
 				53851BA21B5CA0F200B6F946 /* Views */,
@@ -460,6 +458,7 @@
 			children = (
 				535306F01B7C326D00877D76 /* Images.xcassets */,
 				53D5906B1B5E025A00E9D2F0 /* Shader */,
+				53BF596B1B847379007C3089 /* shapes */,
 				2D95594B1B859AAD009C9C6C /* watercolorPen.png */,
 				53851B631B57AADE00B6F946 /* Info.plist */,
 				53851B641B57AADE00B6F946 /* main.m */,
@@ -644,7 +643,7 @@
 				TargetAttributes = {
 					53851B5E1B57AADE00B6F946 = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = 7NC252WH29;
+						DevelopmentTeam = JWD48Y236P;
 					};
 					53851B771B57AADE00B6F946 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -782,7 +781,6 @@
 				2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */,
 				53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */,
 				53BF59331B8452BA007C3089 /* ZXHShapeBoxController.m in Sources */,
-				2D4906371B7F297600158F1C /* ReadMe.md in Sources */,
 				2DD2950E1C28E73E001FF223 /* UIImage+Resize.m in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
@@ -941,13 +939,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.founder.HYDrawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "75f6acbb-7bd2-4968-b7f1-377c012694a6";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 			};
 			name = Debug;
@@ -956,13 +955,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Founder Electronics Co Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Founder Electronics Co Ltd";
 				INFOPLIST_FILE = HYDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.founder.HYDrawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "75f6acbb-7bd2-4968-b7f1-377c012694a6";
 				USER_HEADER_SEARCH_PATHS = ../../core;
 			};
 			name = Release;

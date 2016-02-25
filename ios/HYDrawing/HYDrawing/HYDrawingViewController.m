@@ -34,7 +34,7 @@ extern NSString* LayersCountChange;
 BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
 SettingViewControllerDelegate>
 {
-    UIPopoverController *popoverController_;
+    UIPopoverController *popoverController;
     BottomBarView *bottomBarView;
     BrushSizePannelView *brushSizePannelView;
     UIPopoverController *layersPopoverController;
@@ -49,10 +49,10 @@ SettingViewControllerDelegate>
     // 背景图选择
     UIPopoverController *_canvasBgPopoverController;
     ZXHCanvasBackgroundController *_canvasBackgroundController;
-    // 列表
-    UIPopoverController *_listPopoverController;
     
     ///
+    UIPopoverController *_listPopoverController;
+    
     BottomBarButtonType activeButton;
     
     MBProgressHUD       *hud;
@@ -330,8 +330,8 @@ SettingViewControllerDelegate>
     //    if (self.runningOnPhone) {
     //        [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     //    } else {
-    [popoverController_ dismissPopoverAnimated:YES];
-    popoverController_ = nil;
+    [popoverController dismissPopoverAnimated:YES];
+    popoverController = nil;
     //    }
 }
 
@@ -489,7 +489,7 @@ SettingViewControllerDelegate>
 #pragma mark WDColorPickerControllerDelegate
 - (void) dismissViewController:(UIViewController *)viewController
 {
-    if (popoverController_) {
+    if (popoverController) {
         [self hidePopovers];
     } else {
         [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -797,19 +797,19 @@ SettingViewControllerDelegate>
 
 - (BOOL) shouldDismissPopoverForClassController:(Class)controllerClass insideNavController:(BOOL)insideNav
 {
-    if (!popoverController_) {
+    if (!popoverController) {
         return NO;
     }
     
-    if (insideNav && [popoverController_.contentViewController isKindOfClass:[UINavigationController class]]) {
-        NSArray *viewControllers = [(UINavigationController *)popoverController_.contentViewController viewControllers];
+    if (insideNav && [popoverController.contentViewController isKindOfClass:[UINavigationController class]]) {
+        NSArray *viewControllers = [(UINavigationController *)popoverController.contentViewController viewControllers];
         
         for (UIViewController *viewController in viewControllers) {
             if ([viewController isKindOfClass:controllerClass]) {
                 return YES;
             }
         }
-    } else if ([popoverController_.contentViewController isKindOfClass:controllerClass]) {
+    } else if ([popoverController.contentViewController isKindOfClass:controllerClass]) {
         return YES;
     }
     
@@ -825,46 +825,46 @@ SettingViewControllerDelegate>
 {
     [self hidePopovers];
     
-    popoverController_ = [[UIPopoverController alloc] initWithContentViewController:controller];
-    popoverController_.delegate = self;
+    popoverController = [[UIPopoverController alloc] initWithContentViewController:controller];
+    popoverController.delegate = self;
     
     //    NSMutableArray *passthroughs = [NSMutableArray arrayWithObjects:self.topBar, self.bottomBar, nil];
     //    if (self.isEditing) {
     //        [passthroughs addObject:self.canvas];
     //    }
-    //    popoverController_.passthroughViews = passthroughs;
+    //    popoverController.passthroughViews = passthroughs;
     //
     if ([sender isKindOfClass:[UIBarButtonItem class]]) {
-        [popoverController_ presentPopoverFromBarButtonItem:sender
+        [popoverController presentPopoverFromBarButtonItem:sender
                                    permittedArrowDirections:UIPopoverArrowDirectionAny
                                                    animated:YES];
     } else {
-        [popoverController_ presentPopoverFromRect:CGRectInset(((UIView *) sender).bounds, 10, 10)
+        [popoverController presentPopoverFromRect:CGRectInset(((UIView *) sender).bounds, 10, 10)
                                             inView:sender
                           permittedArrowDirections:(UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown)
                                           animated:YES];
     }
     
-    return popoverController_;
+    return popoverController;
 }
 
 - (BOOL) popoverVisible
 {
-    return popoverController_ ? YES : NO;
+    return popoverController ? YES : NO;
 }
 
 - (void) hidePopovers
 {
-    if (popoverController_) {
-        [popoverController_ dismissPopoverAnimated:NO];
-        popoverController_ = nil;
+    if (popoverController) {
+        [popoverController dismissPopoverAnimated:NO];
+        popoverController = nil;
     }
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
-    if (popoverController == popoverController_) {
-        popoverController_ = nil;
+    if (popoverController == popoverController) {
+        popoverController = nil;
     }
 }
 

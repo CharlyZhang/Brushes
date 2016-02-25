@@ -201,19 +201,8 @@
     
     CZImage *brushImg = [self producedFromImage:image];
     
-    
-    CZSize paintingSize = painting->getDimensions();
-
-    
-    CZAffineTransform trans_flip = CZAffineTransform::makeFromScale(1, -1);
-    CZAffineTransform trans_adjust = CZAffineTransform::makeFromTranslation(-(brushImg->width/2.0), -(brushImg->height/2.0));
-    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((paintingSize.width/2.0), (paintingSize.height/2.0));
-//    CZAffineTransform trans_center = CZAffineTransform::makeFromTranslation((width/2.0), (height/2.0));
-    
     CZAffineTransform trans = CZAffineTransform(transform.a,transform.b,transform.c,transform.d,transform.tx,transform.ty);
-    
 
-   // trans = (trans_adjust * trans_flip * trans_center) * trans;
     
     painting->getActiveLayer()->renderImage(brushImg, trans);
     canvas->drawView();
