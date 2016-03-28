@@ -479,9 +479,10 @@ SettingViewControllerDelegate>
     
     // 弹出位置
     CGRect popRect = sender.frame;
+    popRect.origin.x -= (image.size.width/2.f);
     popRect.origin.y -= 10;
     
-    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    [layersPopoverController presentPopoverFromRect:popRect inView:bottomBarView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     
     [_layersViewController addObserver:self forKeyPath:@"layersCount" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
@@ -660,20 +661,24 @@ SettingViewControllerDelegate>
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {
     subview.translatesAutoresizingMaskIntoConstraints = NO;
+    float padding = (superview.frame.size.width - subview.frame.size.width) /2.f;
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subview);
-    NSDictionary *metrics = @{@"vHeight":@(103),@"hPadding":@(11)};
+    NSDictionary *metrics = @{@"vHeight":@(103),@"hPadding":@(padding)};
     
     NSArray *constraints = [NSLayoutConstraint
                             constraintsWithVisualFormat:@"H:|-hPadding-[subview]-hPadding-|"
                             options:0
                             metrics:metrics
                             views:viewsDictionary];
+
     constraints = [constraints arrayByAddingObjectsFromArray:
                    [NSLayoutConstraint
                     constraintsWithVisualFormat:@"V:[subview(vHeight)]|"
                     options:0
                     metrics:metrics
                     views:viewsDictionary]];
+    
+    
     [superview addConstraints:constraints];
     
     return constraints;

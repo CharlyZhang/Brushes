@@ -201,6 +201,7 @@
         /// add subviews
         UIImageView *backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bottom_bar"]];
         [self addSubview:backgroundView];
+        self.frame = CGRectMake(0, 0,backgroundView.frame.size.width,backgroundView.frame.size.height);
         
         self.colorWheelButton.color = color;
         [self addSubview:self.colorWheelButton];
