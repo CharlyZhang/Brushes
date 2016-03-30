@@ -430,7 +430,7 @@
 {
     CZLayer *layer = painting->getActiveLayer();
     BOOL result = layer->undoAction();
-    canvas->draw();
+    canvas->drawView();
     return result;
 }
 
@@ -438,7 +438,7 @@
 {
     CZLayer *layer = painting->getActiveLayer();
     BOOL result = layer->redoAction();
-    canvas->draw();
+    canvas->drawView();
     return result;
 }
 

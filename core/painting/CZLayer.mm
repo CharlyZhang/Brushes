@@ -544,9 +544,9 @@ void CZLayer::renderImage(CZImage* img, CZAffineTransform &trans)
     
     /// register undo fragment
     CZRect rect(0,0,img->width,img->height);
-    // TO DO:
-//    CZRect newRect = trans.applyToRect(rect);
-//    registerUndoInRect(newRect);
+   
+    CZRect newRect = trans.applyToRect(rect);
+    registerUndoInRect(newRect);
     
     bool hasAlpha = img->hasAlpha;
     

@@ -45,7 +45,7 @@ public:
 
 	/// 设置绘制
 	bool setPaiting(CZPainting* p);
-	/// 绘制视图
+	/// 绘制视图  draw the view
 	void drawView();
     
     /// Methods for CanvasView
