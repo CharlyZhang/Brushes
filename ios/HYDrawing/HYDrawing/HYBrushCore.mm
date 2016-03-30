@@ -420,6 +420,28 @@
     return CGSizeMake(size.width, size.height);
 }
 
+/// undo & redo
+- (BOOL) canUndo
+{
+    return YES;
+}
+
+- (BOOL) undo
+{
+    CZLayer *layer = painting->getActiveLayer();
+    BOOL result = layer->undoAction();
+    canvas->draw();
+    return result;
+}
+
+- (BOOL) redo
+{
+    CZLayer *layer = painting->getActiveLayer();
+    BOOL result = layer->redoAction();
+    canvas->draw();
+    return result;
+}
+
 #pragma mark - Private
 - (CZImage*)producedFromImage:(UIImage*)image
 {

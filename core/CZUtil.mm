@@ -181,20 +181,21 @@ void CZUtil::CZCheckGLError_(const char *file, int line)
         const GLubyte* sError = gluErrorString(glErr);
         
         if (sError)
-            LOG_INFO("GL Error #%d (%s) in File %s at line: %d\n",glErr,gluErrorString(glErr),file,line);
+            printf("GL Error #%d (%s) in File %s at line: %d\n",glErr,gluErrorString(glErr),file,line);
         else
-            LOG_INFO("GL Error #%d (no message available) in File %s at line: %d\n",glErr,file,line);
+            printf("GL Error #%d (no message available) in File %s at line: %d\n",glErr,file,line);
         
 #elif USE_OPENGL_ES
+        printf("GL Error in File %s at line: %d\n",file,line);
         switch (glErr) {
             case GL_INVALID_ENUM:
-                LOG_ERROR("GL Error: Enum argument is out of range\n");
+                printf("GL Error: Enum argument is out of range\n");
                 break;
             case GL_INVALID_VALUE:
-                LOG_ERROR("GL Error: Numeric value is out of range\n");
+                printf("GL Error: Numeric value is out of range\n");
                 break;
             case GL_INVALID_OPERATION:
-                LOG_ERROR("GL Error: Operation illegal in current state\n");
+                printf("GL Error: Operation illegal in current state\n");
                 break;
                 //        case GL_STACK_OVERFLOW:
                 //            NSLog(@"GL Error: Command would cause a stack overflow");
@@ -203,7 +204,7 @@ void CZUtil::CZCheckGLError_(const char *file, int line)
                 //            NSLog(@"GL Error: Command would cause a stack underflow");
                 //            break;
             case GL_OUT_OF_MEMORY:
-                LOG_ERROR("GL Error: Not enough memory to execute command\n");
+                printf("GL Error: Not enough memory to execute command\n");
                 break;
             case GL_NO_ERROR:
                 if (1) {
@@ -211,7 +212,7 @@ void CZUtil::CZCheckGLError_(const char *file, int line)
                 }
                 break;
             default:
-                LOG_ERROR("Unknown GL Error\n");
+                printf("Unknown GL Error\n");
                 break;
         }
 #endif

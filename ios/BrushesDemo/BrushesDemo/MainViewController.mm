@@ -8,6 +8,8 @@
 
 #import "MainViewController.h"
 #include "BrushesCore.h"
+#import "CZViewImpl.h"
+#include "PaintingManager.h"
 #include "stamp/CZBristleGenerator.h"
 #include "EAGLView.h"
 #import "LayersTableViewController.h"
@@ -18,6 +20,7 @@
 @interface MainViewController ()<UIPickerViewDelegate, UIPickerViewDataSource>
 //<UITextFieldDelegate>
 {
+    CZViewImpl *viewImpl;
     CZCanvas *canvas;
     CZPainting *painting;
     
@@ -98,12 +101,16 @@
 //    [self.view addSubview:glView];
 //    [glView release];
     
+    CZActiveState::getInstance()->mainScreenScale = 2.f;
 
     CGSize size = [UIScreen mainScreen].bounds.size;
-    canvas = new CZCanvas(CZRect(0,0,size.height,size.width-BOTTOM_OFFSET));
-    painting = new CZPainting(CZSize(size.height,size.width-BOTTOM_OFFSET));
+    viewImpl = new CZViewImpl(CZRect(0,0,size.width,size.height-BOTTOM_OFFSET));
+    canvas = new CZCanvas(viewImpl);
+    [[PaintingManager sharedInstance] initializeWithWidth:size.width height:size.height-BOTTOM_OFFSET scale:2.f];
+    painting = (CZPainting*)[[PaintingManager sharedInstance] getInitialPainting];
     canvas->setPaiting(painting);
-    [self.view insertSubview:(UIView*)canvas->getView() atIndex:0];
+    
+    [self.view insertSubview:(UIView*)viewImpl->realView atIndex:0];
     
     [self setBrushSize:10.0];
     [self updatePaintColor];

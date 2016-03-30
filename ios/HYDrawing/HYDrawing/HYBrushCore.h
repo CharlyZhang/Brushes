@@ -84,4 +84,9 @@
 - (CGPoint) convertToPainting:(CGPoint)pt;
 - (CGSize) getPaintingSize;
 
+/// undo & redo
+- (BOOL) canUndo;
+- (BOOL) undo;
+- (BOOL) redo;
+
 @end

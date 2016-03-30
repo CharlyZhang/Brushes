@@ -657,6 +657,17 @@ SettingViewControllerDelegate>
     }
 }
 
+#pragma mark - Actions
+- (IBAction)undo:(UIButton *)sender {
+    [[HYBrushCore sharedInstance] undo];
+}
+
+- (IBAction)redo:(UIButton *)sender {
+    [[HYBrushCore sharedInstance] redo];
+}
+
+
+
 #pragma mark - Private Methods
 
 - (NSArray *)constrainSubview:(UIView *)subview toMatchWithSuperview:(UIView *)superview {

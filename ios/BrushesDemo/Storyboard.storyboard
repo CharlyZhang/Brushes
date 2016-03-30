@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="Si0-FH-ERo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="Si0-FH-ERo">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -178,6 +178,20 @@
                                     <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u2A-d2-MFs">
+                                <rect key="frame" x="26" y="629" width="35" height="30"/>
+                                <state key="normal" title="undo"/>
+                                <connections>
+                                    <action selector="undoButtonAction:" destination="Si0-FH-ERo" eventType="touchUpInside" id="QVv-Uf-bOt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8dt-A7-B8q">
+                                <rect key="frame" x="86" y="629" width="32" height="30"/>
+                                <state key="normal" title="redo"/>
+                                <connections>
+                                    <action selector="redoButtonAction:" destination="Si0-FH-ERo" eventType="touchUpInside" id="5FH-k3-EKS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -191,8 +205,10 @@
                         <outlet property="bSize" destination="HCW-Mf-MRX" id="Y9d-4Z-B5p"/>
                         <outlet property="itentity" destination="yJ5-G7-ltA" id="Fvw-8g-aYf"/>
                         <outlet property="jitter" destination="VWx-5u-7uP" id="E5s-iX-Ozt"/>
+                        <outlet property="redoButton" destination="8dt-A7-B8q" id="uhN-5k-LTF"/>
                         <outlet property="scatter" destination="ow8-4Z-wuK" id="E7r-W4-vha"/>
                         <outlet property="spacing" destination="xcd-Zk-E6v" id="f61-VI-cDL"/>
+                        <outlet property="undoButton" destination="u2A-d2-MFs" id="MQs-Q0-avw"/>
                         <outlet property="weight" destination="tbc-EQ-Jbm" id="LZ7-02-pCw"/>
                     </connections>
                 </viewController>
@@ -201,9 +217,4 @@
             <point key="canvasLocation" x="298" y="1056"/>
         </scene>
     </scenes>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
-    </simulatedMetricsContainer>
 </document>
