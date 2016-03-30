@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2D0E591E1C0803CD00ECD812 /* ZXHLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BBAC8C1B785177006D11EF /* ZXHLayersViewController.m */; };
 		2D0E59211C08065A00ECD812 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D0E59201C08065A00ECD812 /* SettingViewController.m */; };
+		2D47C8B81CABBF4000AE30B1 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D47C8B71CABBF4000AE30B1 /* Actions.m */; };
 		2D49061E1B78ACA900158F1C /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49061D1B78ACA900158F1C /* HYBrushCore.mm */; };
 		2D49062C1B7AE0F800158F1C /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D49062B1B7AE0F800158F1C /* CZViewImpl.mm */; };
 		2D4906331B7F234900158F1C /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4906321B7F234900158F1C /* CanvasView.mm */; };
@@ -132,6 +133,8 @@
 /* Begin PBXFileReference section */
 		2D0E591F1C08065A00ECD812 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Controllers/SettingViewController.h; sourceTree = "<group>"; };
 		2D0E59201C08065A00ECD812 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Controllers/SettingViewController.m; sourceTree = "<group>"; };
+		2D47C8B61CABBF4000AE30B1 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Actions.h; path = Models/Actions.h; sourceTree = "<group>"; };
+		2D47C8B71CABBF4000AE30B1 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Actions.m; path = Models/Actions.m; sourceTree = "<group>"; };
 		2D49061C1B78ACA900158F1C /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
 		2D49061D1B78ACA900158F1C /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
 		2D4906291B7ADCCF00158F1C /* CZViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZViewImpl.h; sourceTree = "<group>"; };
@@ -316,6 +319,8 @@
 			children = (
 				2D92872A1C1BE37B008AEEFB /* PaintingManager.h */,
 				2D92872B1C1BE37B008AEEFB /* PaintingManager.mm */,
+				2D47C8B61CABBF4000AE30B1 /* Actions.h */,
+				2D47C8B71CABBF4000AE30B1 /* Actions.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				53BF592F1B842E25007C3089 /* ClipRegionView.m in Sources */,
 				53BF59331B8452BA007C3089 /* ZXHShapeBoxController.m in Sources */,
 				2DD2950E1C28E73E001FF223 /* UIImage+Resize.m in Sources */,
+				2D47C8B81CABBF4000AE30B1 /* Actions.m in Sources */,
 				2D4906331B7F234900158F1C /* CanvasView.mm in Sources */,
 				60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */,
 				535DA0E91B6F80ED00E117FF /* WDSwatches.m in Sources */,

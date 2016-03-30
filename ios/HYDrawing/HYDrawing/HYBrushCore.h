@@ -85,8 +85,7 @@
 - (CGSize) getPaintingSize;
 
 /// undo & redo
-- (BOOL) canUndo;
-- (BOOL) undo;
-- (BOOL) redo;
+- (BOOL) undoPaintingOfLayer:(NSInteger)idx;
+- (BOOL) redoPaintingOfLayer:(NSInteger)idx;
 
 @end

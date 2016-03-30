@@ -20,6 +20,7 @@
 #define kMaxZoom 16
 
 NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
+NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 
 ////////////////////CanvasView////////////////////
 @interface CanvasView()
@@ -274,7 +275,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         LOG_ERROR("ptrCanvas is null\n");
         return ;
     }
-
+    
     CGPoint p = [sender locationInView:sender.view];
     CGFloat height = self.bounds.size.height;
     CZ2DPoint pt(p.x,height-p.y);
@@ -292,6 +293,7 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
         activeState->getActiveTool()->moveEnd(pt);
+        [[NSNotificationCenter defaultCenter] postNotificationName:CZCanvasDirtyNotification object:nil];
     }
     else if (sender.state == UIGestureRecognizerStateCancelled) {
         LOG_DEBUG("gesture canceled!\n");
@@ -328,6 +330,8 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
         CZColor color = activeState->getPaintColor();
         layer->fill(color, pt);     /// TO DO:
         [self drawView];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CZCanvasDirtyNotification object:nil];
     }
     else if (activeState->colorPickMode) {
         CZColor pickedColor = self.ptrPainting->pickColor(pt.x, pt.y);
@@ -340,6 +344,8 @@ NSString *CZActivePaintColorDidChange = @"CZActivePaintColorDidChange";
     else {
         activeState->getActiveTool()->moveBegin(pt);
         activeState->getActiveTool()->moveEnd(pt);
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CZCanvasDirtyNotification object:nil];
     }
     
 }

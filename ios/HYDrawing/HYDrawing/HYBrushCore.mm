@@ -426,17 +426,21 @@
     return YES;
 }
 
-- (BOOL) undo
+- (BOOL) undoPaintingOfLayer:(NSInteger)idx
 {
-    CZLayer *layer = painting->getActiveLayer();
+    CZLayer *layer = painting->getLayer((int)idx);
+    if (layer == nullptr) return NO;
+    
     BOOL result = layer->undoAction();
     canvas->drawView();
     return result;
 }
 
-- (BOOL) redo
+- (BOOL) redoPaintingOfLayer:(NSInteger)idx
 {
-    CZLayer *layer = painting->getActiveLayer();
+    CZLayer *layer = painting->getLayer((int)idx);
+    if (layer == nullptr) return NO;
+    
     BOOL result = layer->redoAction();
     canvas->drawView();
     return result;

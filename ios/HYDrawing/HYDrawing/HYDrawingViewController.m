@@ -25,10 +25,12 @@
 #import "BrushSizePannelView.h"
 #import "MBProgressHUD.h"
 #import "PaintingManager.h"
+#import "Actions.h"
 #import "UIImage+Resize.h"
 
 extern NSString *CZActivePaintColorDidChange;
 extern NSString* LayersCountChange;
+extern NSString *CZCanvasDirtyNotification;
 
 @interface HYDrawingViewController ()<
 BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
@@ -59,16 +61,19 @@ SettingViewControllerDelegate>
     
     TransformOverlayer *transformOverlayer;
     
+    // undo & redo
+    Actions *preAction;
+    
 }
+
+@property (weak, nonatomic) IBOutlet UIButton *undoButton;
+@property (weak, nonatomic) IBOutlet UIButton *redoButton;
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
 @property (nonatomic,strong) UIPopoverController *settingPopoverController;                 //< seting popover controller
 @end
 
 @implementation HYDrawingViewController
-{
-    
-}
 
 #pragma mark - Properties
 
@@ -120,13 +125,20 @@ SettingViewControllerDelegate>
     UIBarButtonItem *listItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
     self.navigationItem.leftBarButtonItem = listItem;
     
+//    UIBarButtonItem *undoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"undo"] style:UIBarButtonItemStylePlain target:self action:@selector(un:)];
+//    self.navigationItem.leftBarButtonItem = listItem;
+//    
+//    UIBarButtonItem *redoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
+//    self.navigationItem.leftBarButtonItem = listItem;
+    
+    
     // 视频
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
     
     // Setting
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSetting:)];
     
-    // 图片
+    /Users/charlyzhang/Git/Brush/ios/HYDrawing/HYDrawing/Images.xcassets/redo.imageset/Contents.json// 图片
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
@@ -158,8 +170,13 @@ SettingViewControllerDelegate>
     [self.view addSubview:brushSizePannelView];
     [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
     
+    // undo & redo
+    self.undoButton.enabled = NO;
+    self.redoButton.enabled = NO;
+    
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
+    [nc addObserver:self selector:@selector(handleCanvasDirtyNotificaton) name:CZCanvasDirtyNotification object:nil];
     
     NSLog(@"Home path is %@",NSHomeDirectory());
 }
@@ -658,15 +675,42 @@ SettingViewControllerDelegate>
 }
 
 #pragma mark - Actions
+
 - (IBAction)undo:(UIButton *)sender {
-    [[HYBrushCore sharedInstance] undo];
+    self.undoButton.enabled = NO;
+    self.redoButton.enabled = YES;
+    
+    switch (preAction.type) {
+        case kCanvasChanging:
+            [[HYBrushCore sharedInstance] undoPaintingOfLayer:preAction.activeLayerIdx];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (IBAction)redo:(UIButton *)sender {
-    [[HYBrushCore sharedInstance] redo];
+    self.undoButton.enabled = YES;
+    self.redoButton.enabled = NO;
+    
+    switch (preAction.type) {
+        case kCanvasChanging:
+            [[HYBrushCore sharedInstance] redoPaintingOfLayer:preAction.activeLayerIdx];
+            break;
+            
+        default:
+            break;
+    }
 }
 
-
+- (void) handleCanvasDirtyNotificaton {
+    self.undoButton.enabled = YES;
+    self.redoButton.enabled = NO;
+    if (preAction == nil || preAction.type != kCanvasChanging) {
+        preAction = [Actions createCanvasChangingAction:[[HYBrushCore sharedInstance]getActiveLayerIndex]];
+    }
+}
 
 #pragma mark - Private Methods
 
@@ -877,9 +921,9 @@ SettingViewControllerDelegate>
     }
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController1
 {
-    if (popoverController == popoverController) {
+    if (popoverController1 == popoverController) {
         popoverController = nil;
     }
 }

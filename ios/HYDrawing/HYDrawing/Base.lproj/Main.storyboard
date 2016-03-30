@@ -59,6 +59,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="m6c-qD-x84"/>
+                    <connections>
+                        <outlet property="redoButton" destination="StP-Hr-lZg" id="MtG-7H-VC2"/>
+                        <outlet property="undoButton" destination="edw-sS-IaA" id="zcd-ju-z82"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y85-FJ-Pe2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
