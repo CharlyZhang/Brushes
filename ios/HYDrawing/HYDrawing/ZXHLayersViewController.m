@@ -11,8 +11,10 @@
 #import "LayersCell.h"
 #import "HYBrushCore.h"
 #import "ZXHEditableTipsView.h"
+#import "Actions.h"
 
 NSString *LayersCountChange = @"LayersCountChange";
+NSString *LayersOperation = @"LayersOperation";
 
 @interface ZXHLayersViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
@@ -31,9 +33,9 @@ NSString *LayersCountChange = @"LayersCountChange";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    self.layersCount = [[HYBrushCore sharedInstance]getLayersNumber];
     [_tbView reloadData];
     
-    // 设置当前选中图层
     _curLayerIndex = [[HYBrushCore sharedInstance] getActiveLayerIndex];
     [self selectRowAtIndexPath:_curLayerIndex];
 }
@@ -109,6 +111,10 @@ NSString *LayersCountChange = @"LayersCountChange";
         return;
     }
     
+    Actions *action = [Actions createDeletingLayerAction:_curLayerIndex];
+    NSDictionary *info = @{@"Action":action};
+    [[NSNotificationCenter defaultCenter]postNotificationName:LayersOperation object:nil userInfo:info];
+    
     // 选中下一行
     if (_curLayerIndex == self.layersCount-1) {
         _curLayerIndex --;
@@ -149,6 +155,10 @@ NSString *LayersCountChange = @"LayersCountChange";
         // 复制图层
         [[HYBrushCore sharedInstance] duplicateActiveLayer];
         [self createNewLayer];
+        
+//        Actions *action = [Actions createAddingLayerAction:_curLayerIndex];
+//        NSDictionary *info = @{@"Action":action};
+//        [[NSNotificationCenter defaultCenter]postNotificationName:LayersOperation object:nil userInfo:info];
     }
 }
 
@@ -160,7 +170,7 @@ NSString *LayersCountChange = @"LayersCountChange";
     [_tbView insertRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationNone];
     
     NSMutableArray *arr = [NSMutableArray new];
-    for (NSInteger i=0; i<self.layersCount; i++) {
+    for (NSInteger i=0; i<_curLayerIndex; i++) {
         NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
         [arr addObject:index];
     }
@@ -179,6 +189,10 @@ NSString *LayersCountChange = @"LayersCountChange";
         // 添加图层
         [[HYBrushCore sharedInstance] addNewLayer];
         [self createNewLayer];
+        
+        Actions *action = [Actions createAddingLayerAction:_curLayerIndex];
+        NSDictionary *info = @{@"Action":action};
+        [[NSNotificationCenter defaultCenter]postNotificationName:LayersOperation object:nil userInfo:info];
     }
 }
 

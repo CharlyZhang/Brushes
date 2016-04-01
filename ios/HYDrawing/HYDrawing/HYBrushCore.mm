@@ -335,7 +335,8 @@
     int layersNum = painting->getLayersNumber();
     
     CZLayer *layer = painting->getLayer(layersNum - 1 - int(index));
-    return layer->isVisible();
+    if (layer) return layer->isVisible();
+    else       return NO;
 }
 - (void) setLocked:(BOOL)locked ofLayer:(NSInteger) index
 {

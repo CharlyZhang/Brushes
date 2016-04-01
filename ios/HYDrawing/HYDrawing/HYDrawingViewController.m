@@ -31,6 +31,7 @@
 extern NSString *CZActivePaintColorDidChange;
 extern NSString* LayersCountChange;
 extern NSString *CZCanvasDirtyNotification;
+extern NSString *LayersOperation;
 
 @interface HYDrawingViewController ()<
 BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
@@ -172,6 +173,7 @@ SettingViewControllerDelegate>
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
     [nc addObserver:self selector:@selector(handleCanvasDirtyNotificaton) name:CZCanvasDirtyNotification object:nil];
+    [nc addObserver:self selector:@selector(handleLayersOperationNotification:) name:LayersOperation object:nil];
     
     NSLog(@"Home path is %@",NSHomeDirectory());
 }
@@ -681,7 +683,13 @@ SettingViewControllerDelegate>
         case kCanvasChanging:
             [[HYBrushCore sharedInstance] undoPaintingOfLayer:preAction.activeLayerIdx];
             break;
-            
+        case kAddingLayer:
+            [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];
+            [[HYBrushCore sharedInstance] deleteActiveLayer];
+            break;
+        case kDeletingLayer:
+            [[HYBrushCore sharedInstance] restoreDeletedLayer];
+            break;
         default:
             break;
     }
@@ -697,7 +705,14 @@ SettingViewControllerDelegate>
         case kCanvasChanging:
             [[HYBrushCore sharedInstance] redoPaintingOfLayer:preAction.activeLayerIdx];
             break;
-            
+        case kAddingLayer:
+            [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];
+            [[HYBrushCore sharedInstance] addNewLayer];
+            break;
+        case kDeletingLayer:
+            [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];
+            [[HYBrushCore sharedInstance] deleteActiveLayer];
+            break;
         default:
             break;
     }
@@ -712,6 +727,15 @@ SettingViewControllerDelegate>
     if (preAction == nil || preAction.type != kCanvasChanging) {
         preAction = [Actions createCanvasChangingAction:[[HYBrushCore sharedInstance]getActiveLayerIndex]];
     }
+}
+
+- (void) handleLayersOperationNotification:(NSNotification*) notification {
+    undoItem.enabled = YES;
+    redoItem.enabled = NO;
+    undoItem.image = [UIImage imageNamed:@"undo"];
+    redoItem.image = [UIImage imageNamed:@"redo_n"];
+    
+    preAction = [notification userInfo][@"Action"];
 }
 
 #pragma mark - Private Methods

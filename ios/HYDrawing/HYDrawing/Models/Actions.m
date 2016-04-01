@@ -23,8 +23,15 @@
     return newAction;
 }
 
-+ (Actions*) createAddingLayerAction {
-    return nil;
++ (Actions*) createAddingLayerAction:(NSInteger) newLayerIdx {
+    Actions *newAction = [[Actions alloc]initWithType:kAddingLayer];
+    newAction.activeLayerIdx = newLayerIdx;
+    return newAction;
 }
 
++ (Actions*) createDeletingLayerAction:(NSInteger) layerIdx {
+    Actions *newAction = [[Actions alloc]initWithType:kDeletingLayer];
+    newAction.activeLayerIdx = layerIdx;
+    return newAction;
+}
 @end
