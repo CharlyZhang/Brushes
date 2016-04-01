@@ -34,4 +34,11 @@
     newAction.activeLayerIdx = layerIdx;
     return newAction;
 }
+
++ (Actions*) createDuplicatingLayerAction:(NSInteger) layerIdx {
+    Actions *newAction = [[Actions alloc]initWithType:kDuplicatingLayer];
+    newAction.activeLayerIdx = layerIdx;
+    return newAction;
+}
+
 @end

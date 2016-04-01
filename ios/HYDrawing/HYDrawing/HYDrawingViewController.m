@@ -684,6 +684,7 @@ SettingViewControllerDelegate>
             [[HYBrushCore sharedInstance] undoPaintingOfLayer:preAction.activeLayerIdx];
             break;
         case kAddingLayer:
+        case kDuplicatingLayer:
             [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];
             [[HYBrushCore sharedInstance] deleteActiveLayer];
             break;
@@ -708,6 +709,10 @@ SettingViewControllerDelegate>
         case kAddingLayer:
             [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];
             [[HYBrushCore sharedInstance] addNewLayer];
+            break;
+        case kDuplicatingLayer:
+            [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];
+            [[HYBrushCore sharedInstance] duplicateActiveLayer];
             break;
         case kDeletingLayer:
             [[HYBrushCore sharedInstance] setActiveLayer:preAction.activeLayerIdx];

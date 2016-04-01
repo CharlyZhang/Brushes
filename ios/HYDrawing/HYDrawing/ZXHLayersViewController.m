@@ -156,9 +156,9 @@ NSString *LayersOperation = @"LayersOperation";
         [[HYBrushCore sharedInstance] duplicateActiveLayer];
         [self createNewLayer];
         
-//        Actions *action = [Actions createAddingLayerAction:_curLayerIndex];
-//        NSDictionary *info = @{@"Action":action};
-//        [[NSNotificationCenter defaultCenter]postNotificationName:LayersOperation object:nil userInfo:info];
+        Actions *action = [Actions createDuplicatingLayerAction:_curLayerIndex];
+        NSDictionary *info = @{@"Action":action};
+        [[NSNotificationCenter defaultCenter]postNotificationName:LayersOperation object:nil userInfo:info];
     }
 }
 

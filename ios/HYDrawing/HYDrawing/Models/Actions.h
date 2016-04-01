@@ -11,7 +11,8 @@
 typedef enum ActionType {
     kCanvasChanging,
     kAddingLayer,
-    kDeletingLayer
+    kDeletingLayer,
+    kDuplicatingLayer
 } ActionType;
 
 @interface Actions : NSObject
@@ -22,5 +23,6 @@ typedef enum ActionType {
 + (Actions*) createCanvasChangingAction:(NSInteger) layerIdx;
 + (Actions*) createAddingLayerAction:(NSInteger) newLayerIdx;
 + (Actions*) createDeletingLayerAction:(NSInteger) layerIdx;
++ (Actions*) createDuplicatingLayerAction:(NSInteger) layerIdx;
 
 @end
