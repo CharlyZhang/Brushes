@@ -63,11 +63,9 @@ SettingViewControllerDelegate>
     
     // undo & redo
     Actions *preAction;
+    UIBarButtonItem *undoItem, *redoItem;
     
 }
-
-@property (weak, nonatomic) IBOutlet UIButton *undoButton;
-@property (weak, nonatomic) IBOutlet UIButton *redoButton;
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
 @property (nonatomic,strong) UIPopoverController *settingPopoverController;                 //< seting popover controller
@@ -125,12 +123,13 @@ SettingViewControllerDelegate>
     UIBarButtonItem *listItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
     self.navigationItem.leftBarButtonItem = listItem;
     
-//    UIBarButtonItem *undoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"undo"] style:UIBarButtonItemStylePlain target:self action:@selector(un:)];
-//    self.navigationItem.leftBarButtonItem = listItem;
-//    
-//    UIBarButtonItem *redoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
-//    self.navigationItem.leftBarButtonItem = listItem;
+    // undo & redo
+    undoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"undo_n"] style:UIBarButtonItemStylePlain target:self action:@selector(undo:)];
     
+    redoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"redo_n"] style:UIBarButtonItemStylePlain target:self action:@selector(redo:)];
+
+    undoItem.enabled = NO;
+    redoItem.enabled = NO;
     
     // 视频
     UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
@@ -138,14 +137,14 @@ SettingViewControllerDelegate>
     // Setting
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSetting:)];
     
-    /Users/charlyzhang/Git/Brush/ios/HYDrawing/HYDrawing/Images.xcassets/redo.imageset/Contents.json// 图片
+    // 图片
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
     UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(showShareController:)];
     
     
-    self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem];
+    self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem,redoItem, undoItem];
     
     self.view.opaque = YES;
     self.view.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1];
@@ -169,10 +168,6 @@ SettingViewControllerDelegate>
     brushSizePannelView.delegate = self;
     [self.view addSubview:brushSizePannelView];
     [brushSizePannelView setBrushSize:[[HYBrushCore sharedInstance]getActiveBrushSize]];
-    
-    // undo & redo
-    self.undoButton.enabled = NO;
-    self.redoButton.enabled = NO;
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(paintColorChanged:) name:CZActivePaintColorDidChange object:nil];
@@ -676,9 +671,11 @@ SettingViewControllerDelegate>
 
 #pragma mark - Actions
 
-- (IBAction)undo:(UIButton *)sender {
-    self.undoButton.enabled = NO;
-    self.redoButton.enabled = YES;
+- (void)undo:(UIBarButtonItem *)sender {
+    undoItem.enabled = NO;
+    redoItem.enabled = YES;
+    undoItem.image = [UIImage imageNamed:@"undo_n"];
+    redoItem.image = [UIImage imageNamed:@"redo"];
     
     switch (preAction.type) {
         case kCanvasChanging:
@@ -690,9 +687,11 @@ SettingViewControllerDelegate>
     }
 }
 
-- (IBAction)redo:(UIButton *)sender {
-    self.undoButton.enabled = YES;
-    self.redoButton.enabled = NO;
+- (void)redo:(UIBarButtonItem *)sender {
+    undoItem.enabled = YES;
+    redoItem.enabled = NO;
+    undoItem.image = [UIImage imageNamed:@"undo"];
+    redoItem.image = [UIImage imageNamed:@"redo_n"];
     
     switch (preAction.type) {
         case kCanvasChanging:
@@ -705,8 +704,11 @@ SettingViewControllerDelegate>
 }
 
 - (void) handleCanvasDirtyNotificaton {
-    self.undoButton.enabled = YES;
-    self.redoButton.enabled = NO;
+    undoItem.enabled = YES;
+    redoItem.enabled = NO;
+    undoItem.image = [UIImage imageNamed:@"undo"];
+    redoItem.image = [UIImage imageNamed:@"redo_n"];
+    
     if (preAction == nil || preAction.type != kCanvasChanging) {
         preAction = [Actions createCanvasChangingAction:[[HYBrushCore sharedInstance]getActiveLayerIndex]];
     }
