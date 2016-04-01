@@ -83,6 +83,9 @@ public:
 	///		\note 当layer被锁住的时候不能被删除 
 	bool deleteActiveLayer();
     
+    /// restore last deleted layer
+    bool restoreDeletedLayer();
+    
     ///
     int duplicateActiveLayer();
 
@@ -173,5 +176,8 @@ private:
 	GLUINT quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
 	CZFbo					*fbo;			
 	CZTexture				*brushStampTex;	///< 画刷笔触纹理
+    
+    CZLayer                 *lastDeletedLayer;  ///< for undo the operation of `layer-deleteing`
+    int                     lastDeletedLayerIdx;
 };
 #endif

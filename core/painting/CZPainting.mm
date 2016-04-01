@@ -55,6 +55,8 @@ CZPainting::CZPainting(const CZSize &size, bool addDefaultLayer /* = true */)
     /// add the default blank layer
     if(addDefaultLayer) activeLayerInd = addNewLayer();
     else                activeLayerInd = -1;
+    
+    lastDeletedLayer = nullptr;
 }
 CZPainting::~CZPainting()
 {
@@ -82,6 +84,7 @@ CZPainting::~CZPainting()
     if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
     if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
     if (fbo) { delete fbo; fbo = NULL;}
+    if (lastDeletedLayer) { delete lastDeletedLayer; lastDeletedLayer = nullptr;}
     
     CZCheckGLError();
     
@@ -334,6 +337,9 @@ int CZPainting::addNewLayer()
 ///		\note 当layer被锁住的时候不能被删除
 bool CZPainting::deleteActiveLayer()
 {
+    // \note deleting is not allowed when there exist only one layer, for `restoreDeletedLayer`
+    if (layers.size() <= 1) return false;
+    
     CZLayer* layer = layers.at(activeLayerInd);
     bool needsAddDefaultLayer = false;
     
@@ -342,6 +348,8 @@ bool CZPainting::deleteActiveLayer()
         LOG_ERROR("activeLayer is locked\n");
         return false;
     }
+    
+    lastDeletedLayerIdx = activeLayerInd;
     
     if (layers.size()> 1)
     {
@@ -355,7 +363,8 @@ bool CZPainting::deleteActiveLayer()
     for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
         if(*itr == layer)
         {
-            delete layer;
+            delete lastDeletedLayer;
+            lastDeletedLayer = layer;
             layers.erase(itr);
             break;
         }
@@ -366,6 +375,19 @@ bool CZPainting::deleteActiveLayer()
         activeLayerInd = addNewLayer();
     }
     
+    return true;
+}
+
+/// undo last deleted layer
+bool CZPainting::restoreDeletedLayer()
+{
+    if (lastDeletedLayer == nullptr) return false;
+    
+    layers.insert(layers.begin()+lastDeletedLayerIdx,lastDeletedLayer);
+    
+    activeLayerInd = lastDeletedLayerIdx;
+    
+    lastDeletedLayer = nullptr;
     return true;
 }
 
@@ -622,7 +644,7 @@ bool CZPainting::restore(bool addDefaultLayer /* = true */)
     for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)    delete *itr;
     layers.clear();
     activeLayerInd = -1;
-    
+    if (lastDeletedLayer) { delete lastDeletedLayer; lastDeletedLayer = nullptr;}
     if(addDefaultLayer) addNewLayer();
     
     glContext->setAsCurrent();

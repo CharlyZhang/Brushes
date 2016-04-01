@@ -315,6 +315,13 @@
     return ret;
 };
 
+- (BOOL) restoreDeletedLayer
+{
+    BOOL ret = painting->restoreDeletedLayer();
+    canvas->drawView();
+    return ret;
+}
+
 - (void) setVisibility:(BOOL)visible ofLayer:(NSInteger) index
 {
     int layersNum = painting->getLayersNumber();

@@ -67,6 +67,7 @@
 - (NSInteger) getActiveLayerIndex;
 - (BOOL) moveLayerFrom:(NSInteger)fromIdx to:(NSInteger)toIdx;         ///<如果成功，会将toIdx设置为当前图层
 - (BOOL) deleteActiveLayer;
+- (BOOL) restoreDeletedLayer;
 - (void) setVisibility:(BOOL)visible ofLayer:(NSInteger)index;
 - (BOOL) isVisibleOfLayer:(NSInteger)index;
 - (void) setLocked:(BOOL)locked ofLayer:(NSInteger)index;
@@ -87,5 +88,6 @@
 /// undo & redo
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;
 - (BOOL) redoPaintingOfLayer:(NSInteger)idx;
+- (BOOL) undo;
 
 @end
