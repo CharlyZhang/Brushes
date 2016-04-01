@@ -369,7 +369,10 @@
 
 - (BOOL) clearLayer:(NSInteger)index
 {
-    CZLayer *layer = painting->getActiveLayer();
+    int layersNum = painting->getLayersNumber();
+    
+    CZLayer *layer = painting->getLayer(int(layersNum - 1 - index));
+    
     BOOL ret = layer->clear();
     canvas->drawView();
     return ret;
@@ -436,7 +439,9 @@
 
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx
 {
-    CZLayer *layer = painting->getLayer((int)idx);
+    int layersNum = painting->getLayersNumber();
+    CZLayer *layer = painting->getLayer(int(layersNum - 1 - idx));
+    
     if (layer == nullptr) return NO;
     
     BOOL result = layer->undoAction();
@@ -446,7 +451,9 @@
 
 - (BOOL) redoPaintingOfLayer:(NSInteger)idx
 {
-    CZLayer *layer = painting->getLayer((int)idx);
+    int layersNum = painting->getLayersNumber();
+    CZLayer *layer = painting->getLayer(int(layersNum - 1 - idx));
+    
     if (layer == nullptr) return NO;
     
     BOOL result = layer->redoAction();

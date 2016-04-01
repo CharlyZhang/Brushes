@@ -88,6 +88,5 @@
 /// undo & redo
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;
 - (BOOL) redoPaintingOfLayer:(NSInteger)idx;
-- (BOOL) undo;
 
 @end

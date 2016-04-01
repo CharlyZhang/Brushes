@@ -308,7 +308,11 @@ SettingViewControllerDelegate>
 }
 
 - (BOOL) settingViewControllerClearLayer:(SettingViewController *)settingController {
-    [[HYBrushCore sharedInstance]clearLayer:0];
+    NSInteger currentLayerIdx = [[HYBrushCore sharedInstance]getActiveLayerIndex];
+    [[HYBrushCore sharedInstance]clearLayer:currentLayerIdx];
+    Actions *action = [Actions createCanvasChangingAction:currentLayerIdx];
+    NSDictionary *userInfo = @{@"Action":action};
+    [[NSNotificationCenter defaultCenter]postNotificationName:CZCanvasDirtyNotification object:nil userInfo:userInfo];
     [_settingPopoverController dismissPopoverAnimated:YES];
     
     return YES;
@@ -732,6 +736,8 @@ SettingViewControllerDelegate>
     if (preAction == nil || preAction.type != kCanvasChanging) {
         preAction = [Actions createCanvasChangingAction:[[HYBrushCore sharedInstance]getActiveLayerIndex]];
     }
+    else
+        preAction.activeLayerIdx = [[HYBrushCore sharedInstance]getActiveLayerIndex];
 }
 
 - (void) handleLayersOperationNotification:(NSNotification*) notification {
