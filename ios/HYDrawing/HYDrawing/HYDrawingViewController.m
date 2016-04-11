@@ -27,6 +27,7 @@
 #import "PaintingManager.h"
 #import "Actions.h"
 #import "UIImage+Resize.h"
+#import "ZXHResourcePicturesController.h"
 
 extern NSString *CZActivePaintColorDidChange;
 extern NSString* LayersCountChange;
@@ -52,6 +53,9 @@ SettingViewControllerDelegate>
     // 背景图选择
     UIPopoverController *_canvasBgPopoverController;
     ZXHCanvasBackgroundController *_canvasBackgroundController;
+	
+	/*2016-04-11 在线图片资源*/
+	ZXHResourcePicturesController *_resourcePicturesController;
     
     ///
     UIPopoverController *_listPopoverController;
@@ -122,7 +126,10 @@ SettingViewControllerDelegate>
     
     // Painting List
     UIBarButtonItem *listItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
-    self.navigationItem.leftBarButtonItem = listItem;
+	
+	// 图片资源
+	UIBarButtonItem *resourceItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_button_resource"] style:UIBarButtonItemStylePlain target:self action:@selector(toResourcePicturesVC)];
+	self.navigationItem.leftBarButtonItems = @[listItem, resourceItem];
     
     // undo & redo
     undoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"undo_n"] style:UIBarButtonItemStylePlain target:self action:@selector(undo:)];
@@ -187,6 +194,12 @@ SettingViewControllerDelegate>
     // 去掉分割线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     
+}
+
+#pragma mark 图片资源
+-(void)toResourcePicturesVC{
+	_resourcePicturesController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ZXHResourcePicturesController"];
+	[self presentViewController:_resourcePicturesController animated:YES completion:nil];
 }
 
 -(BOOL)shouldAutorotate {
