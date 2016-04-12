@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZXHResourceContentController.h"
 
-@interface ZXHResourcePicturesController : UISplitViewController
+@protocol ResourceImageSelectDelegate <NSObject>
+
+-(void)didSelectImage: (UIImage*)image;
+
+@end
+
+
+@interface ZXHResourcePicturesController : UIViewController<ImageSelectDelegate>
+
+@property(nonatomic, weak)id delegate;
 
 @end

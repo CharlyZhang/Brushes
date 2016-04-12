@@ -36,7 +36,7 @@ extern NSString *LayersOperation;
 
 @interface HYDrawingViewController ()<
 BottomBarViewDelegate,UIPopoverControllerDelegate,WDColorPickerControllerDelegate,CanvasViewDelegate, BrushSizePannelViewDelegate, PaintingListControllerDelegate,
-SettingViewControllerDelegate>
+SettingViewControllerDelegate, ResourceImageSelectDelegate>
 {
     UIPopoverController *popoverController;
     BottomBarView *bottomBarView;
@@ -198,8 +198,15 @@ SettingViewControllerDelegate>
 
 #pragma mark 图片资源
 -(void)toResourcePicturesVC{
-	_resourcePicturesController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ZXHResourcePicturesController"];
-	[self presentViewController:_resourcePicturesController animated:YES completion:nil];
+	_resourcePicturesController = [ZXHResourcePicturesController new];
+	_resourcePicturesController.delegate = self;
+	[self.navigationController pushViewController:_resourcePicturesController animated:true];
+}
+
+// delegate method -- .png
+-(void)didSelectImage:(UIImage *)image{
+//	[[UIApplication sharedApplication].keyWindow addSubview:[[UIImageView alloc] initWithImage:image]];
+	[self showImageTransform:image];
 }
 
 -(BOOL)shouldAutorotate {
@@ -230,8 +237,6 @@ SettingViewControllerDelegate>
         listVC.delegate = self;
         listVC.preferredContentSize = CGSizeMake(image.size.width, image.size.height-10);
         _listPopoverController = [[UIPopoverController alloc]initWithContentViewController:listVC];
-        
-        
     }
     
     _listPopoverController.popoverBackgroundViewClass =[DDPopoverBackgroundView class];

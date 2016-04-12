@@ -12,17 +12,20 @@
 
 @interface ResourcePictureCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@property (weak, nonatomic) IBOutlet UIButton *downloadBtn;
+@property (weak, nonatomic) IBOutlet UIView *maskView;
 
 @end
 
+@protocol ImageSelectDelegate <NSObject>
 
-@protocol ResourcePicturesDelegate <NSObject>
-
--(void)changePictures:(NSArray*) urls;
--(void)setTitle:(NSString*) title navTitle:(NSString*)navTitle;
+-(void)didSelectImage: (UIImage*)image;
 
 @end
+
 
 @interface ZXHResourceContentController : UIViewController
+
+@property(nonatomic, weak)id delegate;
 
 @end

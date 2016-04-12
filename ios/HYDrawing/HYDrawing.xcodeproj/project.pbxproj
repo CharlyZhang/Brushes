@@ -129,6 +129,7 @@
 		8092432B1CBB85C400E78800 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243191CBB85C400E78800 /* UIImageView+HighlightedWebCache.m */; };
 		8092432C1CBB85C400E78800 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8092431B1CBB85C400E78800 /* UIImageView+WebCache.m */; };
 		8092432D1CBB85C400E78800 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8092431D1CBB85C400E78800 /* UIView+WebCacheOperation.m */; };
+		809243351CBCC95200E78800 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243341CBCC95200E78800 /* DownloadManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -355,6 +356,8 @@
 		8092431B1CBB85C400E78800 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		8092431C1CBB85C400E78800 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		8092431D1CBB85C400E78800 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		809243331CBCC95200E78800 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
+		809243341CBCC95200E78800 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -512,6 +515,8 @@
 				60216AE91B589440009186F4 /* Macro.h */,
 				2DD2950C1C28E73E001FF223 /* UIImage+Resize.h */,
 				2DD2950D1C28E73E001FF223 /* UIImage+Resize.m */,
+				809243331CBCC95200E78800 /* DownloadManager.h */,
+				809243341CBCC95200E78800 /* DownloadManager.m */,
 				53851B661B57AADE00B6F946 /* AppDelegate.h */,
 				53851B671B57AADE00B6F946 /* AppDelegate.m */,
 				608042021B57BE1400B3AB52 /* HYDrawingViewController.h */,
@@ -981,6 +986,7 @@
 				809243201CBB85C400E78800 /* SDImageCache.m in Sources */,
 				809243241CBB85C400E78800 /* SDWebImageDownloaderOperation.m in Sources */,
 				535DA0F81B70492900E117FF /* WDColorWell.m in Sources */,
+				809243351CBCC95200E78800 /* DownloadManager.m in Sources */,
 				537343941B70535F00CDCC82 /* WDColorSourceView.m in Sources */,
 				5373439D1B7085F800CDCC82 /* WDInsetView.m in Sources */,
 				2D92872C1C1BE37B008AEEFB /* PaintingManager.mm in Sources */,

@@ -18,10 +18,18 @@
 
 @end
 
+//protocol
+@protocol ResourcePicturesDelegate <NSObject>
+
+-(void)changePictures:(NSArray*) urls;
+-(void)setTitle:(NSString*) title;
+
+@end
 
 // vc
 @interface ZXHResourceListController : UITableViewController
 
 @property(nonatomic,weak) id delegate;
+@property(nonatomic,strong)NSArray *dataSource;
 
 @end
