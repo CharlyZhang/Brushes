@@ -14,7 +14,6 @@
 @implementation ResourceListModel
 -(instancetype)init{
 	if (self = [super init]) {
-		_chapts = [NSMutableArray new];
 		_isOn = NO;
 	}
 	return self;
@@ -22,7 +21,9 @@
 
 -(void)setValue:(id)value forUndefinedKey:(NSString *)key{
 	if ([key isEqualToString:@"chapters"]) {
-		[_chapts addObject:value];
+		_chapts = [NSArray arrayWithArray: value];
+		
+		NSLog(@"chapters: %ld",_chapts.count);
 	}
 }
 @end
@@ -84,12 +85,18 @@
 // load data
 -(void)loadData{
 	
-	NSURL *url = [NSURL URLWithString:@"https://dn-huiyun.qbox.me/chengzimeishu.json"];
+	NSURL *url = [NSURL URLWithString:@"http://172.19.42.53:8509/123/ceshi.php"];
 	AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+	manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+	
 	[manager GET:url.absoluteString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 		
-		NSArray *content = responseObject[0][@"content"];
-		[_navTitleButton setTitle:responseObject[0][@"publisher"] forState:UIControlStateNormal];
+//		NSLog(@"responseObject: %@",responseObject);
+		
+		NSArray *json = (NSArray*)responseObject;
+		NSArray *content = json[0][@"content"];
+		
+		[_navTitleButton setTitle:json[0][@"publisher"] forState:UIControlStateNormal];
 		
 		for (NSDictionary *dic in content) {
 			ResourceListModel* model = [ResourceListModel new];
@@ -103,8 +110,8 @@
 		model.isOn = YES;
 		[_listVC.tableView reloadData];
 		
-		[_listVC.delegate changePictures: model.chapts[0][@"images"]];
-		[_listVC.delegate setTitle:model.chapts[0][@"chapter"]];
+		NSDictionary *chapter = model.chapts[0];
+		[_listVC.delegate changePictures: chapter[@"images"] title:chapter[@"name"]];
 		
 	} failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 		NSLog(@"initData Error: %@",error);

@@ -886,8 +886,8 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
         }
     }
     
-    image = [image resizedImage:imageSize interpolationQuality:kCGInterpolationHigh];
-    
+//    image = [image resizedImage:imageSize interpolationQuality:kCGInterpolationHigh];
+	
     // create transform overlayer of image
     float canvasScale = [[HYBrushCore sharedInstance] getCanvasScale];
     float screenScale = [[UIScreen mainScreen] scale];

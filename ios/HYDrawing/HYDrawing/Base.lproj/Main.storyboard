@@ -108,7 +108,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BXq-l3-I7a">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BXq-l3-I7a">
                                 <rect key="frame" x="640" y="14" width="98" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="98" id="Qfs-dv-D7l"/>
@@ -124,7 +124,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g8g-eF-zbP">
                                 <rect key="frame" x="20" y="50" width="728" height="910"/>
                                 <color key="backgroundColor" red="0.9963650107383728" green="0.98480135202407837" blue="0.92753249406814575" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="oAg-7R-EO9">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="15" id="oAg-7R-EO9">
                                     <size key="itemSize" width="114" height="90"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -144,6 +144,9 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79N-As-6XD">
                                                     <rect key="frame" x="0.0" y="0.0" width="114" height="90"/>
                                                     <subviews>
+                                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RlW-XJ-Rch">
+                                                            <rect key="frame" x="39" y="26" width="37" height="37"/>
+                                                        </activityIndicatorView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOb-pu-qoY">
                                                             <rect key="frame" x="33" y="28" width="48" height="35"/>
                                                             <state key="normal" image="res_btn_download"/>
@@ -152,6 +155,8 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="qOb-pu-qoY" firstAttribute="centerY" secondItem="79N-As-6XD" secondAttribute="centerY" id="Dx5-Ic-Kyo"/>
+                                                        <constraint firstItem="RlW-XJ-Rch" firstAttribute="centerX" secondItem="79N-As-6XD" secondAttribute="centerX" id="KHX-I7-yUj"/>
+                                                        <constraint firstItem="RlW-XJ-Rch" firstAttribute="centerY" secondItem="79N-As-6XD" secondAttribute="centerY" id="WAt-zQ-cOZ"/>
                                                         <constraint firstItem="qOb-pu-qoY" firstAttribute="centerX" secondItem="79N-As-6XD" secondAttribute="centerX" id="yOO-7B-mNl"/>
                                                     </constraints>
                                                 </view>
@@ -172,6 +177,7 @@
                                         <connections>
                                             <outlet property="downloadBtn" destination="qOb-pu-qoY" id="r3B-uW-xld"/>
                                             <outlet property="imgView" destination="D14-gW-dUW" id="Dw7-zP-9bp"/>
+                                            <outlet property="indicator" destination="RlW-XJ-Rch" id="mn9-eg-K9p"/>
                                             <outlet property="maskView" destination="79N-As-6XD" id="eHt-02-Vje"/>
                                         </connections>
                                     </collectionViewCell>

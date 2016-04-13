@@ -12,8 +12,9 @@
 @end
 
 @implementation ResourceListCell
+
 -(void)awakeFromNib{
-	self.textLabel.textColor = [UIColor grayColor];
+	self.textLabel.textColor = [UIColor colorWithRed:106/255.0 green:106/255.0 blue:106/255.0 alpha:1];
 	self.backgroundColor = [UIColor colorWithRed:254/255.0 green:251/255.0 blue:234/255.0 alpha:1];
 }
 
@@ -30,7 +31,9 @@
 
 
 @implementation ZXHResourceListController
-
+{
+	NSIndexPath *_lastSelectedIndexPath;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,6 +41,8 @@
 	//hide seperator line
 	self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 //	NSLog(@"frame: %@", NSStringFromCGSize(self.preferredContentSize));
+	
+	_lastSelectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
 
@@ -61,13 +66,24 @@
 	NSArray *chapts = ((ResourceListModel*)_dataSource[indexPath.section]).chapts;
 	NSDictionary *chapter = chapts[indexPath.row];
 	
-	cell.textLabel.text = chapter[@"chapter"];
-	if (indexPath.row ==0 && indexPath.section==0) {
-		[tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionTop];
+	cell.textLabel.text = chapter[@"name"];
+	
+	// 注意!!! selectedBackgroundView 非 backgroundColor
+	if (_lastSelectedIndexPath == indexPath) {
+		cell.textLabel.textColor = [UIColor whiteColor];
+		
+		UIView *bgView = [UIView new];
+		bgView.backgroundColor = [UIColor colorWithRed:242/255.0 green:177/255.0 blue:74/255.0 alpha:1];
+		cell.selectedBackgroundView = bgView;
+		[tableView selectRowAtIndexPath:indexPath animated:false scrollPosition:UITableViewScrollPositionNone];
+	}else{
+		cell.textLabel.textColor = [UIColor colorWithRed:106/255.0 green:106/255.0 blue:106/255.0 alpha:1];
+		cell.selectedBackgroundView = [UIView new];
 	}
 	
     return cell;
 }
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
 	return 50;
@@ -124,44 +140,23 @@
 
 // 选中
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	ResourceListCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-	if (cell.selected) {
-		return;
+	if (_lastSelectedIndexPath != indexPath) {
+		
+		// 切换数据
+		[self changePictures:indexPath];
+		
+		_lastSelectedIndexPath = indexPath;
+		[self.tableView reloadData];
 	}
-	
-	[self selectCell:indexPath];
-	
-	// 切换数据
-	[self changePictures:indexPath];
-	
-	NSLog(@"%d", cell.selected);
 }
+
 
 -(void)changePictures: (NSIndexPath*)indexPath{
 	NSArray *chapts = ((ResourceListModel*)_dataSource[indexPath.section]).chapts;
 	NSDictionary *chapter = chapts[indexPath.row];
-	[self.delegate changePictures:chapter[@"images"]];
-	[self.delegate setTitle:chapter[@"chapter"]];
+	[self.delegate changePictures: chapter[@"images"] title: chapter[@"name"]];
 }
 
--(void)selectCell:(NSIndexPath*) indexPath{
-	ResourceListCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-	if (cell.selected) {
-		return;
-	}
-	
-	cell.textLabel.textColor = [UIColor whiteColor];
-	
-	UIView *bgView = [UIView new];
-	bgView.backgroundColor = [UIColor colorWithRed:242/255.0 green:177/255.0 blue:74/255.0 alpha:1];
-	cell.selectedBackgroundView = bgView;
-
-}
-
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-	ResourceListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-	cell.textLabel.textColor = [UIColor grayColor];
-}
 
 
 @end

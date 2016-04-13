@@ -27,8 +27,8 @@
 @implementation ZXHResourceContentController
 {
 	NSArray *_images;
-	NSOperationQueue *_downloadQueue;
-	NSMutableArray *_operationList;
+	NSString *_recordsPath;
+	NSMutableDictionary *_queueList;
 }
 
 static NSString * const reuseIdentifier = @"ResourcePictureCell";
@@ -36,21 +36,41 @@ static NSString * const reuseIdentifier = @"ResourcePictureCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	_downloadQueue = [NSOperationQueue new];
-	_downloadQueue.maxConcurrentOperationCount = 1;
-	_operationList = [NSMutableArray new];
+	_queueList = [NSMutableDictionary new];
+	_recordsPath = [NSHomeDirectory() stringByAppendingString:@"/Documents/downloads.plist"];
+	if (![[NSFileManager defaultManager]fileExistsAtPath:_recordsPath]) {
+		[[NSFileManager defaultManager]createFileAtPath:_recordsPath contents:nil attributes:nil];
+		NSLog(@"downloads.plist created");
+		[@{} writeToFile:_recordsPath atomically:true];
+	}
 }
 
 
--(void)changePictures:(NSArray *)images{
-	NSLog(@"hello: %@",images);
+-(void)changePictures:(NSArray *)images title:(NSString *)title{
 	_images = images;
+	_titleLabel.text = title;
+	if (![_queueList valueForKey:title]) {
+		NSOperationQueue *queue = [NSOperationQueue new];
+		[_queueList setValue:queue forKey:title];
+		_btnDownloadAll.enabled = true;
+	}
+	
+	[self checkDownloadAll];
 	[_collectionView reloadData];
 }
 
--(void)setTitle:(NSString *)title{
-	_titleLabel.text = title;
+// check download all
+-(void)checkDownloadAll{
+	_btnDownloadAll.enabled = false;
+	NSDictionary *root = [NSDictionary dictionaryWithContentsOfFile:_recordsPath];
+	for (NSDictionary *d in _images) {
+		if (![root valueForKey:d[@"url"]]) {
+			_btnDownloadAll.enabled = true;
+			break;
+		}
+	}
 }
+
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -68,54 +88,76 @@ static NSString * const reuseIdentifier = @"ResourcePictureCell";
 	[cell.downloadBtn addTarget:self action:@selector(download:) forControlEvents:UIControlEventTouchUpInside];
 	cell.downloadBtn.tag = 1000+indexPath.item;
 	
+	if ([self isImageDownload:_images[indexPath.item][@"url"]]) {
+		cell.maskView.hidden = true;
+//		NSLog(@"%@ downloaded: ",_images[indexPath.item][@"name"]);
+	}else{
+		cell.maskView.hidden = false;
+		cell.downloadBtn.hidden = false;
+	}
+//	NSLog(@"%ld : %@",indexPath.item, _images[indexPath.item][@"name"]);
+	cell.indicator.hidden = true;
+	
     return cell;
+}
+
+// check cell
+-(BOOL)isImageDownload: (NSString*)url{
+	NSMutableDictionary *root = [NSMutableDictionary dictionaryWithContentsOfFile:_recordsPath];
+	if ([root valueForKey:url]) {
+		return YES;
+	}
+	return NO;
 }
 
 //download
 - (void)download:(UIButton *)sender {
 	NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag-1000 inSection:0];
 	[self downloading:indexPath];
-	
 }
 
 -(void)downloading: (NSIndexPath*)indexPath{
+	NSLog(@"downloading: %ld",indexPath.item);
 	ResourcePictureCell *cell = (ResourcePictureCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
 	cell.downloadBtn.hidden = true;
-	UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-	indicator.tag = indexPath.item + 10000;
-	indicator.center = cell.downloadBtn.center;
-	[cell.maskView addSubview:indicator];
+	cell.indicator.hidden = false;
+	[cell.indicator startAnimating];
 	
 	[self startDownloadImageWithIndexPath: indexPath];
 }
 
 // startDownload
 -(void)startDownloadImageWithIndexPath: (NSIndexPath*)indexPath{
-	ResourcePictureCell *cell = (ResourcePictureCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
 	NSURL *URL = [NSURL URLWithString:_images[indexPath.item][@"url"]];
 	AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-	UIActivityIndicatorView *indicator = [cell.maskView viewWithTag:indexPath.item + 10000];
 	
 	NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:[NSURLRequest requestWithURL:URL] progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+		NSString *type = [[[response suggestedFilename]componentsSeparatedByString:@"."] lastObject];
+		NSString *imgName = [[_images[indexPath.item][@"url"] componentsSeparatedByString:@"file="] lastObject];
 		NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-//		return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-		NSString *fileType = [[[response suggestedFilename]componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"."]] lastObject];
-		return [documentsDirectoryURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",_images[indexPath.item][@"name"],fileType]];
+		
+		return [documentsDirectoryURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",imgName,type]];
 		
 	} completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
 		if (error) {
-			cell.maskView.hidden = false;
-			cell.downloadBtn.hidden = false;
-			[indicator stopAnimating];
 			NSLog(@"下载失败: %@",[error description]);
 			return;
 		}
 		NSLog(@"File downloaded to: %@", filePath);
-		cell.maskView.hidden = true;
-		[indicator stopAnimating];
+		// 存储下载记录
+		[self saveDownloadRecord:indexPath filePath:filePath.relativePath];
+		[self.collectionView reloadData];
 	}];
 	[downloadTask resume];
-	[indicator startAnimating];
+}
+
+//save records
+-(void)saveDownloadRecord: (NSIndexPath*)indexPath filePath: (NSString*)path{
+	NSMutableDictionary *root = [NSMutableDictionary dictionaryWithContentsOfFile:_recordsPath];
+	[root setValue:@{@"name": _images[indexPath.item][@"name"],
+					 @"path": path}
+			forKey:_images[indexPath.item][@"url"]];
+	[root writeToFile:_recordsPath atomically:true];
 }
 
 - (IBAction)downloadAll:(UIButton *)sender {
@@ -123,24 +165,32 @@ static NSString * const reuseIdentifier = @"ResourcePictureCell";
 	
 	for (int i=0; i<_images.count; i++) {
 		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-		NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^{
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[self downloading:indexPath];
-			});
-		}];
-		[_downloadQueue addOperation:op];
+		NSDictionary *dic = _images[indexPath.item];
+		NSMutableDictionary *root = [NSMutableDictionary dictionaryWithContentsOfFile:_recordsPath];
+		// 没有下载过的
+		if (![root valueForKey:dic[@"url"]]) {
+			NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^{
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self downloading:indexPath];
+				});
+			}];
+			NSOperationQueue *q = [_queueList valueForKey:_titleLabel.text];
+			[q addOperation:op];
+		}
 	}
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-	NSString *document = [NSHomeDirectory() stringByAppendingString:@"/Documents"];
-	NSString *name = [[_images[indexPath.item][@"url"]componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] lastObject];
-	NSString *type = [[name componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"."]] lastObject];
-	NSString *filePath = [NSString stringWithFormat:@"%@/%@.%@",document,_images[indexPath.item][@"name"],type];
-	NSLog(@"filePath: %@",filePath);
+	NSString *url = _images[indexPath.item][@"url"];
+	NSDictionary *root = [NSDictionary dictionaryWithContentsOfFile:_recordsPath];
+	// 已下载
+	if ([root valueForKey:url]) {
+		NSDictionary *dic = [root valueForKey:url];
+		NSString *path = [dic valueForKey:@"path"];
+		UIImage *img = [UIImage imageWithContentsOfFile:path];
+		[self.delegate didSelectImage:img];
+	}
 	
-	UIImage *img = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/pic.jpg",document]];
-	[self.delegate didSelectImage:img];
 }
 
 @end

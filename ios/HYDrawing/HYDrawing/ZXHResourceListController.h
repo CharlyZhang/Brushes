@@ -13,7 +13,7 @@
 @interface ResourceListModel : NSObject
 
 @property(nonatomic, strong)NSString *grade;
-@property(nonatomic, strong)NSMutableArray *chapts;
+@property(nonatomic, strong)NSArray *chapts;
 @property(nonatomic, assign)BOOL isOn;
 
 @end
@@ -21,8 +21,7 @@
 //protocol
 @protocol ResourcePicturesDelegate <NSObject>
 
--(void)changePictures:(NSArray*) urls;
--(void)setTitle:(NSString*) title;
+-(void)changePictures: (NSArray*)images title: (NSString*)title;
 
 @end
 
