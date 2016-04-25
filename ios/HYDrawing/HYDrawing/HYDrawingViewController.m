@@ -47,6 +47,14 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     // 图层
     ZXHLayersViewController *_layersViewController;
     UIBarButtonItem *pictureItem;
+	
+	// Setting
+	UIBarButtonItem *settingItem;
+	// Video
+	UIBarButtonItem *videoItem;
+	// Share
+	UIBarButtonItem *shareItem;
+	
     // 图形
     ZXHShapeBoxController *_shapeBoxController;
     UIPopoverController *_shapeBoxPopoverController;
@@ -140,16 +148,16 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     redoItem.enabled = NO;
     
     // 视频
-    UIBarButtonItem *videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
-    
-    // Setting
-    UIBarButtonItem *settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSetting:)];
+    videoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"video"] style:UIBarButtonItemStylePlain target:self action:@selector(tapVideo:)];
+	
+	// 操作
+    settingItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStylePlain target:self action:@selector(showSetting:)];
     
     // 图片
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
-    UIBarButtonItem *shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action:@selector(showShareController:)];
+    shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action: nil];
     
     
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem,redoItem, undoItem];
@@ -164,11 +172,23 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
     
-    // bottom bar view
+#pragma mark - bottom bar view
     bottomBarView = [[BottomBarView alloc]initWithWellColor:[[HYBrushCore sharedInstance]getActiveStatePaintColor]];
     bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
-    [self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
+	if (iOS(8.0)) {
+		
+		[self constrainSubview:bottomBarView toMatchWithSuperview:self.view];
+	}else{
+		
+		CGRect frame = bottomBarView.frame;
+		
+		frame.origin.y = CGRectGetWidth([UIScreen mainScreen].bounds) - 103;
+		frame.origin.x = (CGRectGetHeight(self.view.bounds) - frame.size.width) / 2;
+		
+		bottomBarView.frame = frame;
+	}
+	
     activeButton = (BottomBarButtonType) bottomBarView.currentButton.tag;
     
     // brush size pannel

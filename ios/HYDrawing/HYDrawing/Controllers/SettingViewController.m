@@ -82,12 +82,11 @@
     self.tableView.layer.cornerRadius = CORNER_RADIUS;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.scrollEnabled = NO;
-    
-    self.popoverPresentationController.backgroundColor = kBorderColor;
-    
+	
     itemTitles = [NSArray arrayWithObjects:@"保存绘制",@"清空图层",@"变换图层", nil];
-    
-    self.preferredContentSize = CGSizeMake(CELL_WIDTH, CELL_HEIGHT*itemTitles.count + BORDER_WIDTH);
+	
+	self.preferredContentSize = CGSizeMake(CELL_WIDTH, CELL_HEIGHT*itemTitles.count + BORDER_WIDTH);
+	
 }
 
 

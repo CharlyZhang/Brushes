@@ -43,6 +43,8 @@
 //	NSLog(@"frame: %@", NSStringFromCGSize(self.preferredContentSize));
 	
 	_lastSelectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+	
+	[self.tableView setExclusiveTouch:YES];
 }
 
 
@@ -68,17 +70,15 @@
 	
 	cell.textLabel.text = chapter[@"name"];
 	
+	
 	// 注意!!! selectedBackgroundView 非 backgroundColor
 	if (_lastSelectedIndexPath == indexPath) {
 		cell.textLabel.textColor = [UIColor whiteColor];
-		
-		UIView *bgView = [UIView new];
-		bgView.backgroundColor = [UIColor colorWithRed:242/255.0 green:177/255.0 blue:74/255.0 alpha:1];
-		cell.selectedBackgroundView = bgView;
+		cell.backgroundColor = [UIColor colorWithRed:242/255.0 green:177/255.0 blue:74/255.0 alpha:1];
 		[tableView selectRowAtIndexPath:indexPath animated:false scrollPosition:UITableViewScrollPositionNone];
 	}else{
 		cell.textLabel.textColor = [UIColor colorWithRed:106/255.0 green:106/255.0 blue:106/255.0 alpha:1];
-		cell.selectedBackgroundView = [UIView new];
+		cell.backgroundColor = [UIColor whiteColor];
 	}
 	
     return cell;
