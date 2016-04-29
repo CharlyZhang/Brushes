@@ -9,9 +9,9 @@
 #ifndef _BRUSHESCORE_H_
 #define _BRUSHESCORE_H_
 
-#include "basic/CZSize.h"
-#include "basic/CZRect.h"
-#include "basic/CZAffineTransform.h"
+#include "CZSize.h"
+#include "CZRect.h"
+#include "CZAffineTransform.h"
 
 #include "brush/CZBrush.h"
 

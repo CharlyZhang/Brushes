@@ -1,0 +1,819 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		608FEAD71CD2769F000E82E6 /* Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 608FEAD81CD2769F000E82E6 /* Build configuration list for PBXAggregateTarget "Universal" */;
+			buildPhases = (
+				608FEADB1CD276E4000E82E6 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Universal;
+			productName = Universal;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		608FE8131CD1BD58000E82E6 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8011CD1BD58000E82E6 /* Actions.m */; };
+		608FE8141CD1BD58000E82E6 /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8031CD1BD58000E82E6 /* CanvasView.mm */; };
+		608FE8151CD1BD58000E82E6 /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8051CD1BD58000E82E6 /* CZViewImpl.mm */; };
+		608FE8161CD1BD58000E82E6 /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8071CD1BD58000E82E6 /* HYBrushCore.mm */; };
+		608FE8171CD1BD58000E82E6 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8091CD1BD58000E82E6 /* PaintingManager.mm */; };
+		608FE8E21CD1CB95000E82E6 /* Shaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8C31CD1CB95000E82E6 /* Shaders.m */; };
+		608FE8E31CD1CB95000E82E6 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8C51CD1CB95000E82E6 /* UIView+Additions.m */; };
+		608FE8E41CD1CB95000E82E6 /* WDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8C71CD1CB95000E82E6 /* WDColor.m */; };
+		608FE8E51CD1CB95000E82E6 /* WDColorComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8C91CD1CB95000E82E6 /* WDColorComparator.m */; };
+		608FE8E61CD1CB95000E82E6 /* WDColorIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8CB1CD1CB95000E82E6 /* WDColorIndicator.m */; };
+		608FE8E71CD1CB95000E82E6 /* WDColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8CD1CD1CB95000E82E6 /* WDColorPickerController.m */; };
+		608FE8E81CD1CB95000E82E6 /* WDColorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8CF1CD1CB95000E82E6 /* WDColorSlider.m */; };
+		608FE8E91CD1CB95000E82E6 /* WDColorSourceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8D11CD1CB95000E82E6 /* WDColorSourceView.m */; };
+		608FE8EA1CD1CB95000E82E6 /* WDColorSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8D31CD1CB95000E82E6 /* WDColorSquare.m */; };
+		608FE8EB1CD1CB95000E82E6 /* WDColorWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8D51CD1CB95000E82E6 /* WDColorWell.m */; };
+		608FE8EC1CD1CB95000E82E6 /* WDColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8D71CD1CB95000E82E6 /* WDColorWheel.m */; };
+		608FE8ED1CD1CB95000E82E6 /* WDDragChip.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8D91CD1CB95000E82E6 /* WDDragChip.m */; };
+		608FE8EE1CD1CB95000E82E6 /* WDInsetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8DB1CD1CB95000E82E6 /* WDInsetView.m */; };
+		608FE8EF1CD1CB95000E82E6 /* WDShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8DD1CD1CB95000E82E6 /* WDShader.m */; };
+		608FE8F01CD1CB95000E82E6 /* WDSwatches.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8DF1CD1CB95000E82E6 /* WDSwatches.m */; };
+		608FE8F11CD1CB95000E82E6 /* WDUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 608FE8E11CD1CB95000E82E6 /* WDUtilities.m */; };
+		608FEAA41CD2712C000E82E6 /* CZ2DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA291CD2712C000E82E6 /* CZ2DPoint.cpp */; };
+		608FEAA51CD2712C000E82E6 /* CZ3DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA2B1CD2712C000E82E6 /* CZ3DPoint.cpp */; };
+		608FEAA61CD2712C000E82E6 /* CZAffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA2D1CD2712C000E82E6 /* CZAffineTransform.cpp */; };
+		608FEAA71CD2712C000E82E6 /* CZColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA2F1CD2712C000E82E6 /* CZColor.cpp */; };
+		608FEAA81CD2712C000E82E6 /* CZImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA311CD2712C000E82E6 /* CZImage.cpp */; };
+		608FEAA91CD2712C000E82E6 /* CZMat4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA331CD2712C000E82E6 /* CZMat4.cpp */; };
+		608FEAAA1CD2712C000E82E6 /* CZProperty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA351CD2712C000E82E6 /* CZProperty.cpp */; };
+		608FEAAB1CD2712C000E82E6 /* CZRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA371CD2712C000E82E6 /* CZRandom.cpp */; };
+		608FEAAC1CD2712C000E82E6 /* CZRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA391CD2712C000E82E6 /* CZRect.cpp */; };
+		608FEAAD1CD2712C000E82E6 /* CZSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA3B1CD2712C000E82E6 /* CZSize.cpp */; };
+		608FEAAE1CD2712C000E82E6 /* CZBrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA3E1CD2712C000E82E6 /* CZBrush.cpp */; };
+		608FEAB01CD2712C000E82E6 /* CZBrushPreview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA421CD2712C000E82E6 /* CZBrushPreview.mm */; };
+		608FEAB11CD2712C000E82E6 /* CZActiveState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA441CD2712C000E82E6 /* CZActiveState.cpp */; };
+		608FEAB21CD2712C000E82E6 /* CZCanvas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA491CD2712C000E82E6 /* CZCanvas.mm */; };
+		608FEAB41CD2712C000E82E6 /* CZColorBalance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA4B1CD2712C000E82E6 /* CZColorBalance.cpp */; };
+		608FEAB51CD2712C000E82E6 /* CZFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA4E1CD2712C000E82E6 /* CZFileManager.cpp */; };
+		608FEAB61CD2712C000E82E6 /* CZHueSaturation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA501CD2712C000E82E6 /* CZHueSaturation.cpp */; };
+		608FEAB71CD2712C000E82E6 /* CZNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA521CD2712C000E82E6 /* CZNotificationCenter.cpp */; };
+		608FEAB91CD2712C000E82E6 /* CZUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA571CD2712C000E82E6 /* CZUtil.mm */; };
+		608FEABB1CD2712C000E82E6 /* CZFbo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA6E1CD2712C000E82E6 /* CZFbo.mm */; };
+		608FEABD1CD2712C000E82E6 /* CZGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA711CD2712C000E82E6 /* CZGLContext.mm */; };
+		608FEABF1CD2712C000E82E6 /* CZShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA741CD2712C000E82E6 /* CZShader.mm */; };
+		608FEAC11CD2712C000E82E6 /* CZTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA771CD2712C000E82E6 /* CZTexture.mm */; };
+		608FEAC31CD2712C000E82E6 /* CZLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA7C1CD2712C000E82E6 /* CZLayer.mm */; };
+		608FEAC51CD2712C000E82E6 /* CZPainting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA7F1CD2712C000E82E6 /* CZPainting.mm */; };
+		608FEAC61CD2712C000E82E6 /* CZBezierNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA811CD2712C000E82E6 /* CZBezierNode.cpp */; };
+		608FEAC71CD2712C000E82E6 /* CZBezierSegment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA831CD2712C000E82E6 /* CZBezierSegment.cpp */; };
+		608FEAC91CD2712C000E82E6 /* CZPath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA871CD2712C000E82E6 /* CZPath.mm */; };
+		608FEACA1CD2712C000E82E6 /* CZFileCoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA8D1CD2712C000E82E6 /* CZFileCoder.cpp */; };
+		608FEACB1CD2712C000E82E6 /* CZTypedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA8F1CD2712C000E82E6 /* CZTypedData.cpp */; };
+		608FEACD1CD2712C000E82E6 /* CZBristleGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA941CD2712C000E82E6 /* CZBristleGenerator.mm */; };
+		608FEACE1CD2712C000E82E6 /* CZRoundGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA951CD2712C000E82E6 /* CZRoundGenerator.cpp */; };
+		608FEAD01CD2712C000E82E6 /* CZSpiralGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA991CD2712C000E82E6 /* CZSpiralGenerator.mm */; };
+		608FEAD21CD2712C000E82E6 /* CZStampGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA9C1CD2712C000E82E6 /* CZStampGenerator.mm */; };
+		608FEAD31CD2712C000E82E6 /* CZEraserTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEA9E1CD2712C000E82E6 /* CZEraserTool.cpp */; };
+		608FEAD41CD2712C000E82E6 /* CZFreehandTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEAA01CD2712C000E82E6 /* CZFreehandTool.cpp */; };
+		608FEAD51CD2712C000E82E6 /* CZTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEAA21CD2712C000E82E6 /* CZTool.cpp */; };
+		608FEADD1CD27AD3000E82E6 /* CanvasView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 608FE8021CD1BD58000E82E6 /* CanvasView.h */; };
+		608FEADE1CD27ADF000E82E6 /* HYBrushCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 608FE8061CD1BD58000E82E6 /* HYBrushCore.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		608FE71E1CD1B604000E82E6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				608FEADE1CD27ADF000E82E6 /* HYBrushCore.h in CopyFiles */,
+				608FEADD1CD27AD3000E82E6 /* CanvasView.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		608FE7201CD1B604000E82E6 /* libBrush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBrush.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		608FE8001CD1BD58000E82E6 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Actions.h; sourceTree = "<group>"; };
+		608FE8011CD1BD58000E82E6 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actions.m; sourceTree = "<group>"; };
+		608FE8021CD1BD58000E82E6 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
+		608FE8031CD1BD58000E82E6 /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
+		608FE8041CD1BD58000E82E6 /* CZViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZViewImpl.h; sourceTree = "<group>"; };
+		608FE8051CD1BD58000E82E6 /* CZViewImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZViewImpl.mm; sourceTree = "<group>"; };
+		608FE8061CD1BD58000E82E6 /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
+		608FE8071CD1BD58000E82E6 /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
+		608FE8081CD1BD58000E82E6 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
+		608FE8091CD1BD58000E82E6 /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaintingManager.mm; sourceTree = "<group>"; };
+		608FE8BF1CD1CB95000E82E6 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
+		608FE8C01CD1CB95000E82E6 /* colorPicker.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = colorPicker.fsh; sourceTree = "<group>"; };
+		608FE8C11CD1CB95000E82E6 /* ColorPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPicker.xib; sourceTree = "<group>"; };
+		608FE8C21CD1CB95000E82E6 /* Shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shaders.h; sourceTree = "<group>"; };
+		608FE8C31CD1CB95000E82E6 /* Shaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shaders.m; sourceTree = "<group>"; };
+		608FE8C41CD1CB95000E82E6 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
+		608FE8C51CD1CB95000E82E6 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
+		608FE8C61CD1CB95000E82E6 /* WDColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColor.h; sourceTree = "<group>"; };
+		608FE8C71CD1CB95000E82E6 /* WDColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColor.m; sourceTree = "<group>"; };
+		608FE8C81CD1CB95000E82E6 /* WDColorComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorComparator.h; sourceTree = "<group>"; };
+		608FE8C91CD1CB95000E82E6 /* WDColorComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorComparator.m; sourceTree = "<group>"; };
+		608FE8CA1CD1CB95000E82E6 /* WDColorIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorIndicator.h; sourceTree = "<group>"; };
+		608FE8CB1CD1CB95000E82E6 /* WDColorIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorIndicator.m; sourceTree = "<group>"; };
+		608FE8CC1CD1CB95000E82E6 /* WDColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorPickerController.h; sourceTree = "<group>"; };
+		608FE8CD1CD1CB95000E82E6 /* WDColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorPickerController.m; sourceTree = "<group>"; };
+		608FE8CE1CD1CB95000E82E6 /* WDColorSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSlider.h; sourceTree = "<group>"; };
+		608FE8CF1CD1CB95000E82E6 /* WDColorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSlider.m; sourceTree = "<group>"; };
+		608FE8D01CD1CB95000E82E6 /* WDColorSourceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSourceView.h; sourceTree = "<group>"; };
+		608FE8D11CD1CB95000E82E6 /* WDColorSourceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSourceView.m; sourceTree = "<group>"; };
+		608FE8D21CD1CB95000E82E6 /* WDColorSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSquare.h; sourceTree = "<group>"; };
+		608FE8D31CD1CB95000E82E6 /* WDColorSquare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSquare.m; sourceTree = "<group>"; };
+		608FE8D41CD1CB95000E82E6 /* WDColorWell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorWell.h; sourceTree = "<group>"; };
+		608FE8D51CD1CB95000E82E6 /* WDColorWell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorWell.m; sourceTree = "<group>"; };
+		608FE8D61CD1CB95000E82E6 /* WDColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorWheel.h; sourceTree = "<group>"; };
+		608FE8D71CD1CB95000E82E6 /* WDColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorWheel.m; sourceTree = "<group>"; };
+		608FE8D81CD1CB95000E82E6 /* WDDragChip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDDragChip.h; sourceTree = "<group>"; };
+		608FE8D91CD1CB95000E82E6 /* WDDragChip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDDragChip.m; sourceTree = "<group>"; };
+		608FE8DA1CD1CB95000E82E6 /* WDInsetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDInsetView.h; sourceTree = "<group>"; };
+		608FE8DB1CD1CB95000E82E6 /* WDInsetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDInsetView.m; sourceTree = "<group>"; };
+		608FE8DC1CD1CB95000E82E6 /* WDShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDShader.h; sourceTree = "<group>"; };
+		608FE8DD1CD1CB95000E82E6 /* WDShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDShader.m; sourceTree = "<group>"; };
+		608FE8DE1CD1CB95000E82E6 /* WDSwatches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDSwatches.h; sourceTree = "<group>"; };
+		608FE8DF1CD1CB95000E82E6 /* WDSwatches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDSwatches.m; sourceTree = "<group>"; };
+		608FE8E01CD1CB95000E82E6 /* WDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDUtilities.h; sourceTree = "<group>"; };
+		608FE8E11CD1CB95000E82E6 /* WDUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDUtilities.m; sourceTree = "<group>"; };
+		608FEA291CD2712C000E82E6 /* CZ2DPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZ2DPoint.cpp; sourceTree = "<group>"; };
+		608FEA2A1CD2712C000E82E6 /* CZ2DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZ2DPoint.h; sourceTree = "<group>"; };
+		608FEA2B1CD2712C000E82E6 /* CZ3DPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZ3DPoint.cpp; sourceTree = "<group>"; };
+		608FEA2C1CD2712C000E82E6 /* CZ3DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZ3DPoint.h; sourceTree = "<group>"; };
+		608FEA2D1CD2712C000E82E6 /* CZAffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZAffineTransform.cpp; sourceTree = "<group>"; };
+		608FEA2E1CD2712C000E82E6 /* CZAffineTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZAffineTransform.h; sourceTree = "<group>"; };
+		608FEA2F1CD2712C000E82E6 /* CZColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZColor.cpp; sourceTree = "<group>"; };
+		608FEA301CD2712C000E82E6 /* CZColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZColor.h; sourceTree = "<group>"; };
+		608FEA311CD2712C000E82E6 /* CZImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZImage.cpp; sourceTree = "<group>"; };
+		608FEA321CD2712C000E82E6 /* CZImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZImage.h; sourceTree = "<group>"; };
+		608FEA331CD2712C000E82E6 /* CZMat4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZMat4.cpp; sourceTree = "<group>"; };
+		608FEA341CD2712C000E82E6 /* CZMat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZMat4.h; sourceTree = "<group>"; };
+		608FEA351CD2712C000E82E6 /* CZProperty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZProperty.cpp; sourceTree = "<group>"; };
+		608FEA361CD2712C000E82E6 /* CZProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZProperty.h; sourceTree = "<group>"; };
+		608FEA371CD2712C000E82E6 /* CZRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZRandom.cpp; sourceTree = "<group>"; };
+		608FEA381CD2712C000E82E6 /* CZRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZRandom.h; sourceTree = "<group>"; };
+		608FEA391CD2712C000E82E6 /* CZRect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZRect.cpp; sourceTree = "<group>"; };
+		608FEA3A1CD2712C000E82E6 /* CZRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZRect.h; sourceTree = "<group>"; };
+		608FEA3B1CD2712C000E82E6 /* CZSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZSize.cpp; sourceTree = "<group>"; };
+		608FEA3C1CD2712C000E82E6 /* CZSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZSize.h; sourceTree = "<group>"; };
+		608FEA3E1CD2712C000E82E6 /* CZBrush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBrush.cpp; sourceTree = "<group>"; };
+		608FEA3F1CD2712C000E82E6 /* CZBrush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBrush.h; sourceTree = "<group>"; };
+		608FEA411CD2712C000E82E6 /* CZBrushPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBrushPreview.h; sourceTree = "<group>"; };
+		608FEA421CD2712C000E82E6 /* CZBrushPreview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZBrushPreview.mm; sourceTree = "<group>"; };
+		608FEA441CD2712C000E82E6 /* CZActiveState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZActiveState.cpp; sourceTree = "<group>"; };
+		608FEA451CD2712C000E82E6 /* CZActiveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZActiveState.h; sourceTree = "<group>"; };
+		608FEA461CD2712C000E82E6 /* CZBrushCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBrushCell.h; sourceTree = "<group>"; };
+		608FEA471CD2712C000E82E6 /* CZBrushController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBrushController.h; sourceTree = "<group>"; };
+		608FEA481CD2712C000E82E6 /* CZCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZCanvas.h; sourceTree = "<group>"; };
+		608FEA491CD2712C000E82E6 /* CZCanvas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZCanvas.mm; sourceTree = "<group>"; };
+		608FEA4B1CD2712C000E82E6 /* CZColorBalance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZColorBalance.cpp; sourceTree = "<group>"; };
+		608FEA4C1CD2712C000E82E6 /* CZColorBalance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZColorBalance.h; sourceTree = "<group>"; };
+		608FEA4D1CD2712C000E82E6 /* CZDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZDefine.h; sourceTree = "<group>"; };
+		608FEA4E1CD2712C000E82E6 /* CZFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZFileManager.cpp; sourceTree = "<group>"; };
+		608FEA4F1CD2712C000E82E6 /* CZFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZFileManager.h; sourceTree = "<group>"; };
+		608FEA501CD2712C000E82E6 /* CZHueSaturation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZHueSaturation.cpp; sourceTree = "<group>"; };
+		608FEA511CD2712C000E82E6 /* CZHueSaturation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZHueSaturation.h; sourceTree = "<group>"; };
+		608FEA521CD2712C000E82E6 /* CZNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZNotificationCenter.cpp; sourceTree = "<group>"; };
+		608FEA531CD2712C000E82E6 /* CZNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZNotificationCenter.h; sourceTree = "<group>"; };
+		608FEA541CD2712C000E82E6 /* CZUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZUndoManager.h; sourceTree = "<group>"; };
+		608FEA561CD2712C000E82E6 /* CZUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZUtil.h; sourceTree = "<group>"; };
+		608FEA571CD2712C000E82E6 /* CZUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZUtil.mm; sourceTree = "<group>"; };
+		608FEA591CD2712C000E82E6 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; };
+		608FEA5A1CD2712C000E82E6 /* basicColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicColor.frag; sourceTree = "<group>"; };
+		608FEA5B1CD2712C000E82E6 /* basicWithCoord.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicWithCoord.vert; sourceTree = "<group>"; };
+		608FEA5C1CD2712C000E82E6 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.frag; sourceTree = "<group>"; };
+		608FEA5D1CD2712C000E82E6 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vert; sourceTree = "<group>"; };
+		608FEA5E1CD2712C000E82E6 /* blitWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithEraseMask.frag; sourceTree = "<group>"; };
+		608FEA5F1CD2712C000E82E6 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithMask.frag; sourceTree = "<group>"; };
+		608FEA601CD2712C000E82E6 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.frag; sourceTree = "<group>"; };
+		608FEA611CD2712C000E82E6 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.vert; sourceTree = "<group>"; };
+		608FEA621CD2712C000E82E6 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithEraseMask.frag; sourceTree = "<group>"; };
+		608FEA631CD2712C000E82E6 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithMask.frag; sourceTree = "<group>"; };
+		608FEA661CD2712C000E82E6 /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = nonPremultipliedBlit.frag; sourceTree = "<group>"; };
+		608FEA671CD2712C000E82E6 /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = radialFade.frag; sourceTree = "<group>"; };
+		608FEA681CD2712C000E82E6 /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.frag; sourceTree = "<group>"; };
+		608FEA691CD2712C000E82E6 /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.vert; sourceTree = "<group>"; };
+		608FEA6A1CD2712C000E82E6 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
+		608FEA6D1CD2712C000E82E6 /* CZFbo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZFbo.h; sourceTree = "<group>"; };
+		608FEA6E1CD2712C000E82E6 /* CZFbo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZFbo.mm; sourceTree = "<group>"; };
+		608FEA701CD2712C000E82E6 /* CZGLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZGLContext.h; sourceTree = "<group>"; };
+		608FEA711CD2712C000E82E6 /* CZGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZGLContext.mm; sourceTree = "<group>"; };
+		608FEA731CD2712C000E82E6 /* CZShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZShader.h; sourceTree = "<group>"; };
+		608FEA741CD2712C000E82E6 /* CZShader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZShader.mm; sourceTree = "<group>"; };
+		608FEA761CD2712C000E82E6 /* CZTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTexture.h; sourceTree = "<group>"; };
+		608FEA771CD2712C000E82E6 /* CZTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZTexture.mm; sourceTree = "<group>"; };
+		608FEA781CD2712C000E82E6 /* glDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glDef.h; sourceTree = "<group>"; };
+		608FEA7B1CD2712C000E82E6 /* CZLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZLayer.h; sourceTree = "<group>"; };
+		608FEA7C1CD2712C000E82E6 /* CZLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZLayer.mm; sourceTree = "<group>"; };
+		608FEA7E1CD2712C000E82E6 /* CZPainting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZPainting.h; sourceTree = "<group>"; };
+		608FEA7F1CD2712C000E82E6 /* CZPainting.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZPainting.mm; sourceTree = "<group>"; };
+		608FEA811CD2712C000E82E6 /* CZBezierNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBezierNode.cpp; sourceTree = "<group>"; };
+		608FEA821CD2712C000E82E6 /* CZBezierNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBezierNode.h; sourceTree = "<group>"; };
+		608FEA831CD2712C000E82E6 /* CZBezierSegment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBezierSegment.cpp; sourceTree = "<group>"; };
+		608FEA841CD2712C000E82E6 /* CZBezierSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBezierSegment.h; sourceTree = "<group>"; };
+		608FEA861CD2712C000E82E6 /* CZPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZPath.h; sourceTree = "<group>"; };
+		608FEA871CD2712C000E82E6 /* CZPath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZPath.mm; sourceTree = "<group>"; };
+		608FEA891CD2712C000E82E6 /* CZCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZCoder.h; sourceTree = "<group>"; };
+		608FEA8A1CD2712C000E82E6 /* CZCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZCoding.h; sourceTree = "<group>"; };
+		608FEA8B1CD2712C000E82E6 /* CZDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZDataProvider.h; sourceTree = "<group>"; };
+		608FEA8C1CD2712C000E82E6 /* CZDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZDecoder.h; sourceTree = "<group>"; };
+		608FEA8D1CD2712C000E82E6 /* CZFileCoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZFileCoder.cpp; sourceTree = "<group>"; };
+		608FEA8E1CD2712C000E82E6 /* CZFileCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZFileCoder.h; sourceTree = "<group>"; };
+		608FEA8F1CD2712C000E82E6 /* CZTypedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZTypedData.cpp; sourceTree = "<group>"; };
+		608FEA901CD2712C000E82E6 /* CZTypedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTypedData.h; sourceTree = "<group>"; };
+		608FEA931CD2712C000E82E6 /* CZBristleGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBristleGenerator.h; sourceTree = "<group>"; };
+		608FEA941CD2712C000E82E6 /* CZBristleGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZBristleGenerator.mm; sourceTree = "<group>"; };
+		608FEA951CD2712C000E82E6 /* CZRoundGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZRoundGenerator.cpp; sourceTree = "<group>"; };
+		608FEA961CD2712C000E82E6 /* CZRoundGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZRoundGenerator.h; sourceTree = "<group>"; };
+		608FEA981CD2712C000E82E6 /* CZSpiralGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZSpiralGenerator.h; sourceTree = "<group>"; };
+		608FEA991CD2712C000E82E6 /* CZSpiralGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZSpiralGenerator.mm; sourceTree = "<group>"; };
+		608FEA9B1CD2712C000E82E6 /* CZStampGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZStampGenerator.h; sourceTree = "<group>"; };
+		608FEA9C1CD2712C000E82E6 /* CZStampGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZStampGenerator.mm; sourceTree = "<group>"; };
+		608FEA9E1CD2712C000E82E6 /* CZEraserTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZEraserTool.cpp; sourceTree = "<group>"; };
+		608FEA9F1CD2712C000E82E6 /* CZEraserTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZEraserTool.h; sourceTree = "<group>"; };
+		608FEAA01CD2712C000E82E6 /* CZFreehandTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZFreehandTool.cpp; sourceTree = "<group>"; };
+		608FEAA11CD2712C000E82E6 /* CZFreehandTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZFreehandTool.h; sourceTree = "<group>"; };
+		608FEAA21CD2712C000E82E6 /* CZTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZTool.cpp; sourceTree = "<group>"; };
+		608FEAA31CD2712C000E82E6 /* CZTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTool.h; sourceTree = "<group>"; };
+		608FEAD61CD274EA000E82E6 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = tool/BrushesCore.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		608FE71D1CD1B604000E82E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		608FE7171CD1B604000E82E6 = {
+			isa = PBXGroup;
+			children = (
+				608FE7FF1CD1BD58000E82E6 /* src */,
+				608FE8BE1CD1CB95000E82E6 /* ColorPicker */,
+				608FEA271CD2712C000E82E6 /* core */,
+				608FE7211CD1B604000E82E6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		608FE7211CD1B604000E82E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				608FE7201CD1B604000E82E6 /* libBrush.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		608FE7FF1CD1BD58000E82E6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				608FE8001CD1BD58000E82E6 /* Actions.h */,
+				608FE8011CD1BD58000E82E6 /* Actions.m */,
+				608FE8021CD1BD58000E82E6 /* CanvasView.h */,
+				608FE8031CD1BD58000E82E6 /* CanvasView.mm */,
+				608FE8041CD1BD58000E82E6 /* CZViewImpl.h */,
+				608FE8051CD1BD58000E82E6 /* CZViewImpl.mm */,
+				608FE8061CD1BD58000E82E6 /* HYBrushCore.h */,
+				608FE8071CD1BD58000E82E6 /* HYBrushCore.mm */,
+				608FE8081CD1BD58000E82E6 /* PaintingManager.h */,
+				608FE8091CD1BD58000E82E6 /* PaintingManager.mm */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		608FE8BE1CD1CB95000E82E6 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				608FE8BF1CD1CB95000E82E6 /* blit.vsh */,
+				608FE8C01CD1CB95000E82E6 /* colorPicker.fsh */,
+				608FE8C11CD1CB95000E82E6 /* ColorPicker.xib */,
+				608FE8C21CD1CB95000E82E6 /* Shaders.h */,
+				608FE8C31CD1CB95000E82E6 /* Shaders.m */,
+				608FE8C41CD1CB95000E82E6 /* UIView+Additions.h */,
+				608FE8C51CD1CB95000E82E6 /* UIView+Additions.m */,
+				608FE8C61CD1CB95000E82E6 /* WDColor.h */,
+				608FE8C71CD1CB95000E82E6 /* WDColor.m */,
+				608FE8C81CD1CB95000E82E6 /* WDColorComparator.h */,
+				608FE8C91CD1CB95000E82E6 /* WDColorComparator.m */,
+				608FE8CA1CD1CB95000E82E6 /* WDColorIndicator.h */,
+				608FE8CB1CD1CB95000E82E6 /* WDColorIndicator.m */,
+				608FE8CC1CD1CB95000E82E6 /* WDColorPickerController.h */,
+				608FE8CD1CD1CB95000E82E6 /* WDColorPickerController.m */,
+				608FE8CE1CD1CB95000E82E6 /* WDColorSlider.h */,
+				608FE8CF1CD1CB95000E82E6 /* WDColorSlider.m */,
+				608FE8D01CD1CB95000E82E6 /* WDColorSourceView.h */,
+				608FE8D11CD1CB95000E82E6 /* WDColorSourceView.m */,
+				608FE8D21CD1CB95000E82E6 /* WDColorSquare.h */,
+				608FE8D31CD1CB95000E82E6 /* WDColorSquare.m */,
+				608FE8D41CD1CB95000E82E6 /* WDColorWell.h */,
+				608FE8D51CD1CB95000E82E6 /* WDColorWell.m */,
+				608FE8D61CD1CB95000E82E6 /* WDColorWheel.h */,
+				608FE8D71CD1CB95000E82E6 /* WDColorWheel.m */,
+				608FE8D81CD1CB95000E82E6 /* WDDragChip.h */,
+				608FE8D91CD1CB95000E82E6 /* WDDragChip.m */,
+				608FE8DA1CD1CB95000E82E6 /* WDInsetView.h */,
+				608FE8DB1CD1CB95000E82E6 /* WDInsetView.m */,
+				608FE8DC1CD1CB95000E82E6 /* WDShader.h */,
+				608FE8DD1CD1CB95000E82E6 /* WDShader.m */,
+				608FE8DE1CD1CB95000E82E6 /* WDSwatches.h */,
+				608FE8DF1CD1CB95000E82E6 /* WDSwatches.m */,
+				608FE8E01CD1CB95000E82E6 /* WDUtilities.h */,
+				608FE8E11CD1CB95000E82E6 /* WDUtilities.m */,
+			);
+			path = ColorPicker;
+			sourceTree = SOURCE_ROOT;
+		};
+		608FEA271CD2712C000E82E6 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA581CD2712C000E82E6 /* glsl */,
+				608FEA281CD2712C000E82E6 /* basic */,
+				608FEA3D1CD2712C000E82E6 /* brush */,
+				608FEA6B1CD2712C000E82E6 /* graphic */,
+				608FEA791CD2712C000E82E6 /* painting */,
+				608FEA801CD2712C000E82E6 /* path */,
+				608FEA881CD2712C000E82E6 /* serialization */,
+				608FEA911CD2712C000E82E6 /* stamp */,
+				608FEA9D1CD2712C000E82E6 /* tool */,
+				608FEAD61CD274EA000E82E6 /* BrushesCore.h */,
+				608FEA441CD2712C000E82E6 /* CZActiveState.cpp */,
+				608FEA451CD2712C000E82E6 /* CZActiveState.h */,
+				608FEA461CD2712C000E82E6 /* CZBrushCell.h */,
+				608FEA471CD2712C000E82E6 /* CZBrushController.h */,
+				608FEA481CD2712C000E82E6 /* CZCanvas.h */,
+				608FEA491CD2712C000E82E6 /* CZCanvas.mm */,
+				608FEA4B1CD2712C000E82E6 /* CZColorBalance.cpp */,
+				608FEA4C1CD2712C000E82E6 /* CZColorBalance.h */,
+				608FEA4D1CD2712C000E82E6 /* CZDefine.h */,
+				608FEA4E1CD2712C000E82E6 /* CZFileManager.cpp */,
+				608FEA4F1CD2712C000E82E6 /* CZFileManager.h */,
+				608FEA501CD2712C000E82E6 /* CZHueSaturation.cpp */,
+				608FEA511CD2712C000E82E6 /* CZHueSaturation.h */,
+				608FEA521CD2712C000E82E6 /* CZNotificationCenter.cpp */,
+				608FEA531CD2712C000E82E6 /* CZNotificationCenter.h */,
+				608FEA541CD2712C000E82E6 /* CZUndoManager.h */,
+				608FEA561CD2712C000E82E6 /* CZUtil.h */,
+				608FEA571CD2712C000E82E6 /* CZUtil.mm */,
+			);
+			name = core;
+			path = ColorPicker/core;
+			sourceTree = "<group>";
+		};
+		608FEA281CD2712C000E82E6 /* basic */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA291CD2712C000E82E6 /* CZ2DPoint.cpp */,
+				608FEA2A1CD2712C000E82E6 /* CZ2DPoint.h */,
+				608FEA2B1CD2712C000E82E6 /* CZ3DPoint.cpp */,
+				608FEA2C1CD2712C000E82E6 /* CZ3DPoint.h */,
+				608FEA2D1CD2712C000E82E6 /* CZAffineTransform.cpp */,
+				608FEA2E1CD2712C000E82E6 /* CZAffineTransform.h */,
+				608FEA2F1CD2712C000E82E6 /* CZColor.cpp */,
+				608FEA301CD2712C000E82E6 /* CZColor.h */,
+				608FEA311CD2712C000E82E6 /* CZImage.cpp */,
+				608FEA321CD2712C000E82E6 /* CZImage.h */,
+				608FEA331CD2712C000E82E6 /* CZMat4.cpp */,
+				608FEA341CD2712C000E82E6 /* CZMat4.h */,
+				608FEA351CD2712C000E82E6 /* CZProperty.cpp */,
+				608FEA361CD2712C000E82E6 /* CZProperty.h */,
+				608FEA371CD2712C000E82E6 /* CZRandom.cpp */,
+				608FEA381CD2712C000E82E6 /* CZRandom.h */,
+				608FEA391CD2712C000E82E6 /* CZRect.cpp */,
+				608FEA3A1CD2712C000E82E6 /* CZRect.h */,
+				608FEA3B1CD2712C000E82E6 /* CZSize.cpp */,
+				608FEA3C1CD2712C000E82E6 /* CZSize.h */,
+			);
+			path = basic;
+			sourceTree = "<group>";
+		};
+		608FEA3D1CD2712C000E82E6 /* brush */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA3E1CD2712C000E82E6 /* CZBrush.cpp */,
+				608FEA3F1CD2712C000E82E6 /* CZBrush.h */,
+				608FEA411CD2712C000E82E6 /* CZBrushPreview.h */,
+				608FEA421CD2712C000E82E6 /* CZBrushPreview.mm */,
+			);
+			path = brush;
+			sourceTree = "<group>";
+		};
+		608FEA581CD2712C000E82E6 /* glsl */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA591CD2712C000E82E6 /* basic.vert */,
+				608FEA5A1CD2712C000E82E6 /* basicColor.frag */,
+				608FEA5B1CD2712C000E82E6 /* basicWithCoord.vert */,
+				608FEA5C1CD2712C000E82E6 /* blit.frag */,
+				608FEA5D1CD2712C000E82E6 /* blit.vert */,
+				608FEA5E1CD2712C000E82E6 /* blitWithEraseMask.frag */,
+				608FEA5F1CD2712C000E82E6 /* blitWithMask.frag */,
+				608FEA601CD2712C000E82E6 /* brush.frag */,
+				608FEA611CD2712C000E82E6 /* brush.vert */,
+				608FEA621CD2712C000E82E6 /* compositeWithEraseMask.frag */,
+				608FEA631CD2712C000E82E6 /* compositeWithMask.frag */,
+				608FEA661CD2712C000E82E6 /* nonPremultipliedBlit.frag */,
+				608FEA671CD2712C000E82E6 /* radialFade.frag */,
+				608FEA681CD2712C000E82E6 /* simple.frag */,
+				608FEA691CD2712C000E82E6 /* simple.vert */,
+				608FEA6A1CD2712C000E82E6 /* unPremultipliedBlit.frag */,
+			);
+			path = glsl;
+			sourceTree = "<group>";
+		};
+		608FEA6B1CD2712C000E82E6 /* graphic */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA6D1CD2712C000E82E6 /* CZFbo.h */,
+				608FEA6E1CD2712C000E82E6 /* CZFbo.mm */,
+				608FEA701CD2712C000E82E6 /* CZGLContext.h */,
+				608FEA711CD2712C000E82E6 /* CZGLContext.mm */,
+				608FEA731CD2712C000E82E6 /* CZShader.h */,
+				608FEA741CD2712C000E82E6 /* CZShader.mm */,
+				608FEA761CD2712C000E82E6 /* CZTexture.h */,
+				608FEA771CD2712C000E82E6 /* CZTexture.mm */,
+				608FEA781CD2712C000E82E6 /* glDef.h */,
+			);
+			path = graphic;
+			sourceTree = "<group>";
+		};
+		608FEA791CD2712C000E82E6 /* painting */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA7B1CD2712C000E82E6 /* CZLayer.h */,
+				608FEA7C1CD2712C000E82E6 /* CZLayer.mm */,
+				608FEA7E1CD2712C000E82E6 /* CZPainting.h */,
+				608FEA7F1CD2712C000E82E6 /* CZPainting.mm */,
+			);
+			path = painting;
+			sourceTree = "<group>";
+		};
+		608FEA801CD2712C000E82E6 /* path */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA811CD2712C000E82E6 /* CZBezierNode.cpp */,
+				608FEA821CD2712C000E82E6 /* CZBezierNode.h */,
+				608FEA831CD2712C000E82E6 /* CZBezierSegment.cpp */,
+				608FEA841CD2712C000E82E6 /* CZBezierSegment.h */,
+				608FEA861CD2712C000E82E6 /* CZPath.h */,
+				608FEA871CD2712C000E82E6 /* CZPath.mm */,
+			);
+			path = path;
+			sourceTree = "<group>";
+		};
+		608FEA881CD2712C000E82E6 /* serialization */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA891CD2712C000E82E6 /* CZCoder.h */,
+				608FEA8A1CD2712C000E82E6 /* CZCoding.h */,
+				608FEA8B1CD2712C000E82E6 /* CZDataProvider.h */,
+				608FEA8C1CD2712C000E82E6 /* CZDecoder.h */,
+				608FEA8D1CD2712C000E82E6 /* CZFileCoder.cpp */,
+				608FEA8E1CD2712C000E82E6 /* CZFileCoder.h */,
+				608FEA8F1CD2712C000E82E6 /* CZTypedData.cpp */,
+				608FEA901CD2712C000E82E6 /* CZTypedData.h */,
+			);
+			path = serialization;
+			sourceTree = "<group>";
+		};
+		608FEA911CD2712C000E82E6 /* stamp */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA931CD2712C000E82E6 /* CZBristleGenerator.h */,
+				608FEA941CD2712C000E82E6 /* CZBristleGenerator.mm */,
+				608FEA951CD2712C000E82E6 /* CZRoundGenerator.cpp */,
+				608FEA961CD2712C000E82E6 /* CZRoundGenerator.h */,
+				608FEA981CD2712C000E82E6 /* CZSpiralGenerator.h */,
+				608FEA991CD2712C000E82E6 /* CZSpiralGenerator.mm */,
+				608FEA9B1CD2712C000E82E6 /* CZStampGenerator.h */,
+				608FEA9C1CD2712C000E82E6 /* CZStampGenerator.mm */,
+			);
+			path = stamp;
+			sourceTree = "<group>";
+		};
+		608FEA9D1CD2712C000E82E6 /* tool */ = {
+			isa = PBXGroup;
+			children = (
+				608FEA9E1CD2712C000E82E6 /* CZEraserTool.cpp */,
+				608FEA9F1CD2712C000E82E6 /* CZEraserTool.h */,
+				608FEAA01CD2712C000E82E6 /* CZFreehandTool.cpp */,
+				608FEAA11CD2712C000E82E6 /* CZFreehandTool.h */,
+				608FEAA21CD2712C000E82E6 /* CZTool.cpp */,
+				608FEAA31CD2712C000E82E6 /* CZTool.h */,
+			);
+			path = tool;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		608FE71F1CD1B604000E82E6 /* Brush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 608FE7291CD1B604000E82E6 /* Build configuration list for PBXNativeTarget "Brush" */;
+			buildPhases = (
+				608FE71C1CD1B604000E82E6 /* Sources */,
+				608FE71D1CD1B604000E82E6 /* Frameworks */,
+				608FE71E1CD1B604000E82E6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Brush;
+			productName = Brush;
+			productReference = 608FE7201CD1B604000E82E6 /* libBrush.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		608FE7181CD1B604000E82E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "李雷川";
+				TargetAttributes = {
+					608FE71F1CD1B604000E82E6 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					608FEAD71CD2769F000E82E6 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 608FE71B1CD1B604000E82E6 /* Build configuration list for PBXProject "Brush" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 608FE7171CD1B604000E82E6;
+			productRefGroup = 608FE7211CD1B604000E82E6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				608FE71F1CD1B604000E82E6 /* Brush */,
+				608FEAD71CD2769F000E82E6 /* Universal */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		608FEADB1CD276E4000E82E6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target Brush ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target Brush -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 -arch x86_64  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		608FE71C1CD1B604000E82E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				608FEAA91CD2712C000E82E6 /* CZMat4.cpp in Sources */,
+				608FEAD01CD2712C000E82E6 /* CZSpiralGenerator.mm in Sources */,
+				608FEABF1CD2712C000E82E6 /* CZShader.mm in Sources */,
+				608FEAC91CD2712C000E82E6 /* CZPath.mm in Sources */,
+				608FEAB91CD2712C000E82E6 /* CZUtil.mm in Sources */,
+				608FEAC51CD2712C000E82E6 /* CZPainting.mm in Sources */,
+				608FEAD21CD2712C000E82E6 /* CZStampGenerator.mm in Sources */,
+				608FEAAD1CD2712C000E82E6 /* CZSize.cpp in Sources */,
+				608FEAA61CD2712C000E82E6 /* CZAffineTransform.cpp in Sources */,
+				608FE8161CD1BD58000E82E6 /* HYBrushCore.mm in Sources */,
+				608FE8171CD1BD58000E82E6 /* PaintingManager.mm in Sources */,
+				608FEAD41CD2712C000E82E6 /* CZFreehandTool.cpp in Sources */,
+				608FEABB1CD2712C000E82E6 /* CZFbo.mm in Sources */,
+				608FE8EF1CD1CB95000E82E6 /* WDShader.m in Sources */,
+				608FEAD51CD2712C000E82E6 /* CZTool.cpp in Sources */,
+				608FEACA1CD2712C000E82E6 /* CZFileCoder.cpp in Sources */,
+				608FE8E21CD1CB95000E82E6 /* Shaders.m in Sources */,
+				608FEACE1CD2712C000E82E6 /* CZRoundGenerator.cpp in Sources */,
+				608FE8151CD1BD58000E82E6 /* CZViewImpl.mm in Sources */,
+				608FEAB51CD2712C000E82E6 /* CZFileManager.cpp in Sources */,
+				608FE8EB1CD1CB95000E82E6 /* WDColorWell.m in Sources */,
+				608FEAAC1CD2712C000E82E6 /* CZRect.cpp in Sources */,
+				608FEAD31CD2712C000E82E6 /* CZEraserTool.cpp in Sources */,
+				608FEAB41CD2712C000E82E6 /* CZColorBalance.cpp in Sources */,
+				608FE8131CD1BD58000E82E6 /* Actions.m in Sources */,
+				608FE8F11CD1CB95000E82E6 /* WDUtilities.m in Sources */,
+				608FE8141CD1BD58000E82E6 /* CanvasView.mm in Sources */,
+				608FEABD1CD2712C000E82E6 /* CZGLContext.mm in Sources */,
+				608FE8E91CD1CB95000E82E6 /* WDColorSourceView.m in Sources */,
+				608FEAC71CD2712C000E82E6 /* CZBezierSegment.cpp in Sources */,
+				608FEAA51CD2712C000E82E6 /* CZ3DPoint.cpp in Sources */,
+				608FE8EC1CD1CB95000E82E6 /* WDColorWheel.m in Sources */,
+				608FEAB71CD2712C000E82E6 /* CZNotificationCenter.cpp in Sources */,
+				608FEAB21CD2712C000E82E6 /* CZCanvas.mm in Sources */,
+				608FE8E81CD1CB95000E82E6 /* WDColorSlider.m in Sources */,
+				608FEAB61CD2712C000E82E6 /* CZHueSaturation.cpp in Sources */,
+				608FEAB11CD2712C000E82E6 /* CZActiveState.cpp in Sources */,
+				608FE8E31CD1CB95000E82E6 /* UIView+Additions.m in Sources */,
+				608FEAAB1CD2712C000E82E6 /* CZRandom.cpp in Sources */,
+				608FE8ED1CD1CB95000E82E6 /* WDDragChip.m in Sources */,
+				608FE8EA1CD1CB95000E82E6 /* WDColorSquare.m in Sources */,
+				608FE8E61CD1CB95000E82E6 /* WDColorIndicator.m in Sources */,
+				608FE8E51CD1CB95000E82E6 /* WDColorComparator.m in Sources */,
+				608FE8EE1CD1CB95000E82E6 /* WDInsetView.m in Sources */,
+				608FE8F01CD1CB95000E82E6 /* WDSwatches.m in Sources */,
+				608FEAC31CD2712C000E82E6 /* CZLayer.mm in Sources */,
+				608FEAA41CD2712C000E82E6 /* CZ2DPoint.cpp in Sources */,
+				608FEAC61CD2712C000E82E6 /* CZBezierNode.cpp in Sources */,
+				608FEAC11CD2712C000E82E6 /* CZTexture.mm in Sources */,
+				608FEAA71CD2712C000E82E6 /* CZColor.cpp in Sources */,
+				608FEAB01CD2712C000E82E6 /* CZBrushPreview.mm in Sources */,
+				608FEACD1CD2712C000E82E6 /* CZBristleGenerator.mm in Sources */,
+				608FE8E41CD1CB95000E82E6 /* WDColor.m in Sources */,
+				608FEAAA1CD2712C000E82E6 /* CZProperty.cpp in Sources */,
+				608FEAAE1CD2712C000E82E6 /* CZBrush.cpp in Sources */,
+				608FEAA81CD2712C000E82E6 /* CZImage.cpp in Sources */,
+				608FEACB1CD2712C000E82E6 /* CZTypedData.cpp in Sources */,
+				608FE8E71CD1CB95000E82E6 /* WDColorPickerController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		608FE7271CD1B604000E82E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		608FE7281CD1B604000E82E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		608FE72A1CD1B604000E82E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ADDRESS_SANITIZER_CONTAINER_OVERFLOW = NO;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		608FE72B1CD1B604000E82E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ADDRESS_SANITIZER_CONTAINER_OVERFLOW = NO;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		608FEAD91CD2769F000E82E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		608FEADA1CD2769F000E82E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		608FE71B1CD1B604000E82E6 /* Build configuration list for PBXProject "Brush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				608FE7271CD1B604000E82E6 /* Debug */,
+				608FE7281CD1B604000E82E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		608FE7291CD1B604000E82E6 /* Build configuration list for PBXNativeTarget "Brush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				608FE72A1CD1B604000E82E6 /* Debug */,
+				608FE72B1CD1B604000E82E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		608FEAD81CD2769F000E82E6 /* Build configuration list for PBXAggregateTarget "Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				608FEAD91CD2769F000E82E6 /* Debug */,
+				608FEADA1CD2769F000E82E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 608FE7181CD1B604000E82E6 /* Project object */;
+}

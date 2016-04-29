@@ -40,36 +40,25 @@
 		2D1B25CF1ADF1B36006841C3 /* CZStampGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.mm */; };
 		2D1B25D11ADF1E08006841C3 /* CZLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25D01ADF1E08006841C3 /* CZLayer.mm */; };
 		2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
-		2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53C1A0C9196003724D4 /* XCTest.framework */; };
-		2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
-		2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53F1A0C9196003724D4 /* UIKit.framework */; };
-		2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */; };
-		2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D2BE5471A0C9196003724D4 /* InfoPlist.strings */; };
 		2D4F336F1AE3F7B40067D7A6 /* CZCanvas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DFE46CA1C04535800EBA03C /* CZTypedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46C91C04535800EBA03C /* CZTypedData.cpp */; };
 		2DFE46CD1C045D7A00EBA03C /* CZFileCoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46CB1C045D7A00EBA03C /* CZFileCoder.cpp */; };
 		2DFE46D01C04644B00EBA03C /* CZFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46CE1C04644B00EBA03C /* CZFileManager.cpp */; };
 		53ED4D3F1B66408200735078 /* CZBristleGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */; };
+		608FE7E41CD1BB50000E82E6 /* BrushesCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */; };
+		608FE7E51CD1BBA1000E82E6 /* CZCanvas.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D1B255D1ADF01F2006841C3 /* CZCanvas.h */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		2D2BE5411A0C9196003724D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D2BE5231A0C9196003724D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D2BE52A1A0C9196003724D4;
-			remoteInfo = BrushesCore;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		2D2BE5291A0C9196003724D4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				608FE7E51CD1BBA1000E82E6 /* CZCanvas.h in CopyFiles */,
+				608FE7E41CD1BB50000E82E6 /* BrushesCore.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,11 +141,6 @@
 		2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBrushesCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D2BE52E1A0C9196003724D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2D2BE5321A0C9196003724D4 /* BrushesCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BrushesCore-Prefix.pch"; sourceTree = "<group>"; };
-		2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrushesCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D2BE53C1A0C9196003724D4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		2D2BE53F1A0C9196003724D4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrushesCoreTests-Info.plist"; sourceTree = "<group>"; };
-		2D2BE5481A0C9196003724D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZCanvas.mm; path = ../../../core/CZCanvas.mm; sourceTree = "<group>"; };
 		2D4F33701AE3FAA10067D7A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = ../../../core/BrushesCore.h; sourceTree = "<group>"; };
@@ -194,17 +178,6 @@
 			files = (
 				2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */,
 				2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D2BE5381A0C9196003724D4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */,
-				2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */,
-				2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */,
-				2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +317,6 @@
 			isa = PBXGroup;
 			children = (
 				2D2BE5301A0C9196003724D4 /* BrushesCore */,
-				2D2BE5441A0C9196003724D4 /* BrushesCoreTests */,
 				2D2BE52D1A0C9196003724D4 /* Frameworks */,
 				2D2BE52C1A0C9196003724D4 /* Products */,
 			);
@@ -354,7 +326,6 @@
 			isa = PBXGroup;
 			children = (
 				2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */,
-				2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -364,8 +335,6 @@
 			children = (
 				2D4F33701AE3FAA10067D7A6 /* UIKit.framework */,
 				2D2BE52E1A0C9196003724D4 /* Foundation.framework */,
-				2D2BE53C1A0C9196003724D4 /* XCTest.framework */,
-				2D2BE53F1A0C9196003724D4 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -382,6 +351,7 @@
 				2D1B258B1ADF01F2006841C3 /* serialization */,
 				2D1B258F1ADF01F2006841C3 /* stamp */,
 				2D1B25941ADF01F2006841C3 /* tool */,
+				2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */,
 				2D1B25581ADF01F2006841C3 /* CZActiveState.cpp */,
 				2D1B25591ADF01F2006841C3 /* CZActiveState.h */,
 				2D1B255A1ADF01F2006841C3 /* CZBrushCell.h */,
@@ -401,7 +371,6 @@
 				2DFE46CE1C04644B00EBA03C /* CZFileManager.cpp */,
 				2DFE46CF1C04644B00EBA03C /* CZFileManager.h */,
 				2D2BE5311A0C9196003724D4 /* Supporting Files */,
-				2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */,
 			);
 			path = BrushesCore;
 			sourceTree = "<group>";
@@ -410,23 +379,6 @@
 			isa = PBXGroup;
 			children = (
 				2D2BE5321A0C9196003724D4 /* BrushesCore-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		2D2BE5441A0C9196003724D4 /* BrushesCoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				2D2BE5451A0C9196003724D4 /* Supporting Files */,
-			);
-			path = BrushesCoreTests;
-			sourceTree = "<group>";
-		};
-		2D2BE5451A0C9196003724D4 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */,
-				2D2BE5471A0C9196003724D4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -475,24 +427,6 @@
 			productReference = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		2D2BE53A1A0C9196003724D4 /* BrushesCoreTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D2BE5511A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCoreTests" */;
-			buildPhases = (
-				2D2BE5371A0C9196003724D4 /* Sources */,
-				2D2BE5381A0C9196003724D4 /* Frameworks */,
-				2D2BE5391A0C9196003724D4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D2BE5421A0C9196003724D4 /* PBXTargetDependency */,
-			);
-			name = BrushesCoreTests;
-			productName = BrushesCoreTests;
-			productReference = 2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -515,21 +449,9 @@
 			projectRoot = "";
 			targets = (
 				2D2BE52A1A0C9196003724D4 /* BrushesCore */,
-				2D2BE53A1A0C9196003724D4 /* BrushesCoreTests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		2D2BE5391A0C9196003724D4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2D2BE5271A0C9196003724D4 /* Sources */ = {
@@ -576,33 +498,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D2BE5371A0C9196003724D4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		2D2BE5421A0C9196003724D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D2BE52A1A0C9196003724D4 /* BrushesCore */;
-			targetProxy = 2D2BE5411A0C9196003724D4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		2D2BE5471A0C9196003724D4 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2D2BE5481A0C9196003724D4 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		2D2BE54C1A0C9196003724D4 /* Debug */ = {
@@ -680,12 +576,13 @@
 		2D2BE54F1A0C9196003724D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DSTROOT = /tmp/BrushesCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				PROVISIONING_PROFILE = "68d04376-96a1-4bf2-a198-f850fea628a0";
 				SKIP_INSTALL = YES;
 				SYMROOT = build;
 			};
@@ -694,51 +591,14 @@
 		2D2BE5501A0C9196003724D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DSTROOT = /tmp/BrushesCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
+				PROVISIONING_PROFILE = "000aceba-9908-4eab-a38e-aca833f1c3e8";
 				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		2D2BE5521A0C9196003724D4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		2D2BE5531A0C9196003724D4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
-				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -759,15 +619,6 @@
 			buildConfigurations = (
 				2D2BE54F1A0C9196003724D4 /* Debug */,
 				2D2BE5501A0C9196003724D4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2D2BE5511A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCoreTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D2BE5521A0C9196003724D4 /* Debug */,
-				2D2BE5531A0C9196003724D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
