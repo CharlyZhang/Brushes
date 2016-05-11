@@ -20,6 +20,9 @@
 ///初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s;
 
+///设置glsl所在文件夹
+- (void) setGLSLDirectory:(const char*) glslDir;
+
 ///获得绘制视图
 - (CanvasView*) getPaintingView;
 

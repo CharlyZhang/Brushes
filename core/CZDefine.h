@@ -3,7 +3,17 @@
 
 #include <stdio.h>
 
-#define GLSL_DIR	"../../core/glsl/"
+#define DEFAULT_GLSL_DIR	"../../core/glsl/"
+
+#if defined(__APPLE__)
+//# import <OpenGLES/ES1/gl.h>
+//# import <OpenGLES/ES1/glext.h>
+# import <OpenGLES/ES2/gl.h>
+# import <OpenGLES/ES2/glext.h>
+# define GL_GEN_VERTEXARRAY(n,arr)  glGenVertexArraysOES(n, arr)
+# define GL_BIND_VERTEXARRAY(id)    glBindVertexArrayOES(id)
+# define GL_DEL_VERTEXARRAY(n,arr)  glDeleteVertexArraysOES(n,arr)
+#endif
 
 #ifndef NULL
 # define NULL       0

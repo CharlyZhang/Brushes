@@ -11,6 +11,7 @@
 #include "BrushesCore.h"
 #include "PaintingManager.h"
 #import <QuartzCore/QuartzCore.h>
+#include <string>
 
 @interface HYBrushCore()
 {
@@ -41,6 +42,9 @@
     CZActiveState::getInstance()->setActiveBrush(kPencil);
     CZActiveState::getInstance()->mainScreenScale = s;
     
+    /// set the default glsl directory
+    [self setGLSLDirectory:[[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"] UTF8String]];
+    
     viewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(viewImpl);
     
@@ -51,6 +55,18 @@
     
     self.hasInitialized = YES;
     return YES;
+}
+
+///设置glsl所在文件夹
+- (void) setGLSLDirectory:(const char*) glslDir
+{
+    if (glslDir == NULL)
+    {
+        LOG_WARN("glslDir is NULL\n");
+        return;
+    }
+    
+    CZShader::glslDirectory = std::string(glslDir);
 }
 
 ///获得绘制视图
