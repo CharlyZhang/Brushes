@@ -81,6 +81,10 @@
 		608FEAD51CD2712C000E82E6 /* CZTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 608FEAA21CD2712C000E82E6 /* CZTool.cpp */; };
 		608FEADD1CD27AD3000E82E6 /* CanvasView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 608FE8021CD1BD58000E82E6 /* CanvasView.h */; };
 		608FEADE1CD27ADF000E82E6 /* HYBrushCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 608FE8061CD1BD58000E82E6 /* HYBrushCore.h */; };
+		8011D2BC1CE05E3300FE129C /* PaintingManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 608FE8081CD1BD58000E82E6 /* PaintingManager.h */; };
+		8018C9BF1CE3070200F54269 /* WDColor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 608FE8C61CD1CB95000E82E6 /* WDColor.h */; };
+		805A0EA41CE3193500A24DC4 /* TransformOverlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 805A0EA31CE3193500A24DC4 /* TransformOverlayer.m */; };
+		805A0EA51CE3193C00A24DC4 /* TransformOverlayer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 805A0EA21CE3193500A24DC4 /* TransformOverlayer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -90,6 +94,9 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				805A0EA51CE3193C00A24DC4 /* TransformOverlayer.h in CopyFiles */,
+				8018C9BF1CE3070200F54269 /* WDColor.h in CopyFiles */,
+				8011D2BC1CE05E3300FE129C /* PaintingManager.h in CopyFiles */,
 				608FEADE1CD27ADF000E82E6 /* HYBrushCore.h in CopyFiles */,
 				608FEADD1CD27AD3000E82E6 /* CanvasView.h in CopyFiles */,
 			);
@@ -244,6 +251,9 @@
 		608FEAA21CD2712C000E82E6 /* CZTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZTool.cpp; sourceTree = "<group>"; };
 		608FEAA31CD2712C000E82E6 /* CZTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTool.h; sourceTree = "<group>"; };
 		608FEAD61CD274EA000E82E6 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = tool/BrushesCore.h; sourceTree = "<group>"; };
+		805A0EA21CE3193500A24DC4 /* TransformOverlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformOverlayer.h; sourceTree = "<group>"; };
+		805A0EA31CE3193500A24DC4 /* TransformOverlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransformOverlayer.m; sourceTree = "<group>"; };
+		805A0EA61CE3197A00A24DC4 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +288,9 @@
 		608FE7FF1CD1BD58000E82E6 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				805A0EA61CE3197A00A24DC4 /* Macro.h */,
+				805A0EA21CE3193500A24DC4 /* TransformOverlayer.h */,
+				805A0EA31CE3193500A24DC4 /* TransformOverlayer.m */,
 				608FE8001CD1BD58000E82E6 /* Actions.h */,
 				608FE8011CD1BD58000E82E6 /* Actions.m */,
 				608FE8021CD1BD58000E82E6 /* CanvasView.h */,
@@ -634,6 +647,7 @@
 				608FE8E61CD1CB95000E82E6 /* WDColorIndicator.m in Sources */,
 				608FE8E51CD1CB95000E82E6 /* WDColorComparator.m in Sources */,
 				608FE8EE1CD1CB95000E82E6 /* WDInsetView.m in Sources */,
+				805A0EA41CE3193500A24DC4 /* TransformOverlayer.m in Sources */,
 				608FE8F01CD1CB95000E82E6 /* WDSwatches.m in Sources */,
 				608FEAC31CD2712C000E82E6 /* CZLayer.mm in Sources */,
 				608FEAA41CD2712C000E82E6 /* CZ2DPoint.cpp in Sources */,
@@ -812,6 +826,7 @@
 				608FEADA1CD2769F000E82E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

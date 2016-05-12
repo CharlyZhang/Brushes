@@ -17,6 +17,8 @@
 
 + (HYBrushCore*) sharedInstance;
 
+/// 初始化 - 修改
+- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s path: (NSString*)path;
 ///初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s;
 

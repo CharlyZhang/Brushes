@@ -70,7 +70,9 @@ bool CZFileManager::savePainting(CZPainting *painting, const char * filepath)
         img->saveToFile(fp);
         delete img;
     }
-    
+	
+	printf(filepath);
+	
     fclose(fp);
     
     return true;
@@ -135,6 +137,8 @@ CZPainting* CZFileManager::createPainting(const char* filepath, float w, float h
     newPainting->setActiveLayer(activeLayerInd);
     
     fclose(fp);
+	
+	LOG("create: ", filepath);
     
     return newPainting;
 }
