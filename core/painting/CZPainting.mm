@@ -12,7 +12,7 @@
 #include "CZPainting.h"
 #include "../CZUtil.h"
 #include "../CZCanvas.h"
-#include "../graphic/glDef.h"
+#include "../graphic/CZGLdef.h"
 
 using namespace  std;
 
@@ -540,7 +540,7 @@ CZTexture* CZPainting::generateTexture(CZImage* img /* = NULL */)
 }
 
 /// ·µ»ØquadVAO
-GLUINT CZPainting::getQuadVAO()
+GLuint CZPainting::getQuadVAO()
 {
     if(!quadVAO)
     {

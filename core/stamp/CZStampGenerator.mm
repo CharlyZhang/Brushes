@@ -16,7 +16,7 @@
 #include "../CZUtil.h"
 #include "../basic/CZ3DPoint.h"
 #include "../graphic/CZGLContext.h"
-#include "../graphic/glDef.h"
+#include "../graphic/CZGLdef.h"
 #include <stdlib.h>				// for rand()
 
 #define kSmallStampSize 64

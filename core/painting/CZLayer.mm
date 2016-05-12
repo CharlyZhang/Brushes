@@ -13,9 +13,11 @@
 #include "../CZUtil.h"
 #include "CZPainting.h"
 #include "../CZActiveState.h"
-#include "../graphic/glDef.h"
+#include "../CZDefine.h"
+#include "../graphic/CZGLdef.h"
 #include "CZTypedData.h"
 #include <string>
+#include <OpenGLES/EAGL.h>      // for `MAX`
 
 #define MAX_THUMBNAIL_DIMMENSION 360
 

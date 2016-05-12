@@ -15,7 +15,7 @@
 #include "../brush/CZBrush.h"
 #include "../CZUtil.h"
 #include "CZBezierSegment.h"
-#include "../graphic/glDef.h"
+#include "../graphic/CZGLdef.h"
 #include <cmath>			//for fabs()...
  
 using namespace std;
@@ -256,7 +256,7 @@ CZRect CZPath::drawData()
 		}
 	}
 	
-#if USE_OPENGL_ES
+#ifdef USE_OPENGL_ES
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &vertexD[0].x);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].s);
@@ -267,7 +267,7 @@ CZRect CZPath::drawData()
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
 	#endif
 
-	#if USE_OPENGL
+#ifdef USE_OPENGL
 		
 	/*	// 对于opengl属性数组形式， 顶点位置必须通过以下方式导入
 		glEnableClientState (GL_VERTEX_ARRAY);

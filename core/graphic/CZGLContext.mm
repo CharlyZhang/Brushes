@@ -2,11 +2,12 @@
 
 #include "CZGLContext.h"
 #include "../CZUtil.h"
-#include "glDef.h"
+#include "CZGLdef.h"
+#include <OpenGLES/EAGL.h>
 
 struct CZGLContext::Impl
 {
-#if USE_OPENGL_ES
+#if defined(__APPLE__)
     EAGLContext *realContext;
     Impl()
     {
@@ -33,7 +34,7 @@ CZGLContext::~CZGLContext()
 
 bool CZGLContext::setAsCurrent()
 {
-#if USE_OPENGL_ES
+#if defined(__APPLE__)
     if (!impl->realContext || ![EAGLContext setCurrentContext:impl->realContext]) {
         LOG_ERROR("context cannot be set as current!\n");
         return false;
@@ -55,7 +56,7 @@ bool CZGLContext::setAsCurrent()
 
 void* CZGLContext::getRealContext()
 {
-#if USE_OPENGL_ES
+#if defined(__APPLE__)
     return (void*)impl->realContext;
 #endif
 }

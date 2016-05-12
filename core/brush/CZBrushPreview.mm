@@ -15,7 +15,7 @@
 #include "../path/CZPath.h"
 #include "../basic/CZ2DPoint.h"
 #include "../stamp/CZStampGenerator.h"
-#include "../graphic/glDef.h"
+#include "../graphic/CZGLdef.h"
 #include "../CZUtil.h"
 #include "CZBrush.h"
 

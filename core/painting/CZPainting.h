@@ -22,6 +22,7 @@
 #include "../path/CZPath.h"
 #include "../brush/CZBrush.h"
 #include "../serialization/CZCoding.h"
+#include "../graphic/CZGLdef.h"
 #include "../graphic/CZGLContext.h"
 #include "../graphic/CZShader.h"
 #include "../graphic/CZTexture.h"
@@ -115,7 +116,7 @@ public:
 	CZTexture* generateTexture(CZImage* img = NULL);
 
 	/// 返回quadVAO
-	GLUINT getQuadVAO();
+	GLuint getQuadVAO();
 	
 	/// 获取范围
 	CZSize& getDimensions();
@@ -173,7 +174,7 @@ private:
 	CZBrush					*ptrLastBrush;	///< 上一把画刷
 	CZGLContext				*glContext;		///< gl上下文
 	std::map<std::string,CZShader*>	shaders;///< 着色器
-	GLUINT quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
+	GLuint quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
 	CZFbo					*fbo;			
 	CZTexture				*brushStampTex;	///< 画刷笔触纹理
     

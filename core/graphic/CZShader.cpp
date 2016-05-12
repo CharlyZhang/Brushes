@@ -12,7 +12,7 @@
 #include "CZShader.h"
 #include "CZDefine.h"
 #include "CZUtil.h"
-//#include "CZLog.h"
+#include "CZGLdef.h"
 
 using namespace std;
 
@@ -242,7 +242,7 @@ bool CZShader::textFileRead(const char *_fn, GLchar *&_shader)
 /// init OpenGL extension
 bool CZShader::initOpenGLExtensions()
 {
-#if USE_OPENGL
+#ifdef USE_OPENGL
     if (extensionsInit) return true;
     extensionsInit = true;
     
@@ -264,7 +264,7 @@ bool CZShader::initOpenGLExtensions()
 /// whether GLSL supported
 bool CZShader::hasGLSLSupport()
 {
-#if USE_OPENGL
+#ifdef USE_OPENGL
     if (useGLSL) return true;							///< already initialized and GLSL is available
     useGLSL = true;
     

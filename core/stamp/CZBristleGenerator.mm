@@ -14,7 +14,7 @@
 #include "../brush/CZBrush.h"
 #include "../basic/CZ2DPoint.h"
 #include "../graphic/CZGLContext.h"
-#include "../graphic/glDef.h"
+#include "../graphic/CZGLdef.h"
 #include <map>
 #include <string>
 

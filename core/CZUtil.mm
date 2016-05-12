@@ -13,7 +13,7 @@
 #include "path/CZBezierSegment.h"
 #include "basic/CZ3DPoint.h"
 #include "CZDefine.h"
-#include "graphic/glDef.h"
+#include "graphic/CZGLdef.h"
 
 using namespace std;
 
@@ -177,7 +177,7 @@ void CZUtil::CZCheckGLError_(const char *file, int line)
     while (glErr != GL_NO_ERROR)
     {
         
-#if USE_OPENGL
+#ifdef USE_OPENGL
         const GLubyte* sError = gluErrorString(glErr);
         
         if (sError)
@@ -185,7 +185,7 @@ void CZUtil::CZCheckGLError_(const char *file, int line)
         else
             printf("GL Error #%d (no message available) in File %s at line: %d\n",glErr,file,line);
         
-#elif USE_OPENGL_ES
+#elif defined(USE_OPENGL_ES)
         printf("GL Error in File %s at line: %d\n",file,line);
         switch (glErr) {
             case GL_INVALID_ENUM:

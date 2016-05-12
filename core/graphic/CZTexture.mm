@@ -12,7 +12,7 @@
 #include "CZTexture.h"
 #include "../CZDefine.h"
 #include "../CZUtil.h"
-#include "glDef.h"
+#include "CZGLdef.h"
 
 static bool powerOf2(int x)
 {
@@ -37,7 +37,7 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     glGenTextures (1, &texId);
     glBindTexture(GL_TEXTURE_2D, texId);
     
-#if USE_OPENGL
+#ifdef USE_OPENGL
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -64,7 +64,7 @@ CZTexture::CZTexture(int width_, int height_, StorageMode mode_ /* = DEFAULT_STO
     }
     
     glBindTexture(GL_TEXTURE_2D, 0);
-#elif USE_OPENGL_ES
+#elif defined(USE_OPENGL_ES)
     /// painting 里的生成纹理
     // Set up filter and wrap modes for this texture object
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
