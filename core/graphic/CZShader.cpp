@@ -10,9 +10,8 @@
 ///  \note
 #include <cstdlib>
 #include "CZShader.h"
-#include "CZDefine.h"
-#include "CZUtil.h"
-#include "CZGLdef.h"
+#include "../CZDefine.h"
+#include "../CZUtil.h"
 
 using namespace std;
 

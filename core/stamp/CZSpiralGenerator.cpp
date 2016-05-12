@@ -14,8 +14,7 @@
 #include "../basic/CZAffineTransform.h"
 #include "../path/CZBezierNode.h"
 #include "../CZUtil.h"
-#include "../graphic/CZGLContext.h"
-#include "../graphic/glDef.h"
+#include "../CZDefine.h"
 #include <cmath>
 
 using namespace std;
@@ -59,22 +58,14 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		return;
 	}
 
-	CZShader *shader = getShader("basicColor");
-	if (shader == NULL)
-	{
-		ptrGLContext->setAsCurrent();
-		vector<string> attributes, uniforms;
-		attributes.push_back("inPosition");
-		uniforms.push_back("mvpMat");
-		uniforms.push_back("intensity");
-		shader = new CZShader("basic","basicColor",attributes,uniforms);
+	vector<string> attributes, uniforms;
+	attributes.push_back("inPosition");
+	uniforms.push_back("mvpMat");
+	uniforms.push_back("intensity");
+	CZShader shader("basic","basicColor",attributes,uniforms);
+	shader.begin();
 
-		shaders.insert(make_pair("basicColor",shader));
-	}
-
-	shader->begin();
-
-	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
+	glUniformMatrix4fv(shader.getUniformLocation("mvpMat"),1,GL_FALSE,projMat);
 
 	float dim = baseDimension - 20;
 
@@ -88,12 +79,12 @@ void CZSpiralGenerator::renderStamp(CZRandom* randomizer)
 		radius -= 2;
 
 		GLfloat c = randomizer->nextFloat();
-		glUniform1f(shader->getUniformLocation("intensity"),c);
+		glUniform1f(shader.getUniformLocation("intensity"),c);
 
 		drawSpiral(center,radius,randomizer);
 	}
 
-	shader->end();
+	shader.end();
 }
 
 /// 绘制螺旋线
@@ -152,12 +143,12 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 	vector<CZ3DPoint> points;
 	CZUtil::flattenNodes2Points(nodes,false,points);
 
-	int n = points.size();
+	int n = (int)points.size();
 
 	GLfloat w = randomizer->nextFloat()*9 +1;			///< 线大小原来是10以内
 	glLineWidth(w);
 
-#if USE_OPENGL
+#ifdef USE_OPENGL
 	//glEnable(GL_LINE_SMOOTH);		///< 个人感觉还是不启用抗锯齿来得好
 	glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
 
@@ -184,7 +175,7 @@ void CZSpiralGenerator::drawSpiral(const CZ2DPoint &center_, float radius_,CZRan
 
 	//glDisable(GL_LINE_SMOOTH);
 
-#elif USE_OPENGL_ES
+#elif defined(USE_OPENGL_ES)
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(CZ3DPoint), &points[0].x);
 	glEnableVertexAttribArray(0);
 	glDrawArrays(GL_LINE_STRIP, 0, n);

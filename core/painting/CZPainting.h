@@ -22,7 +22,6 @@
 #include "../path/CZPath.h"
 #include "../brush/CZBrush.h"
 #include "../serialization/CZCoding.h"
-#include "../graphic/CZGLdef.h"
 #include "../graphic/CZGLContext.h"
 #include "../graphic/CZShader.h"
 #include "../graphic/CZTexture.h"

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "tool/CZLog.h"
+#include "graphic/CZGLdef.h"
 
 #define DEFAULT_GLSL_DIR	"../../core/glsl/"
 

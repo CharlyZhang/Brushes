@@ -8,7 +8,6 @@
 # import <OpenGLES/ES2/gl.h>
 # import <OpenGLES/ES2/glext.h>
 
-/// functions
 # define GL_GEN_VERTEXARRAY(n,arr)	glGenVertexArraysOES(n, arr)
 # define GL_BIND_VERTEXARRAY(id)	glBindVertexArrayOES(id)
 # define GL_DEL_VERTEXARRAY(n,arr)	glDeleteVertexArraysOES(n,arr)
@@ -25,12 +24,11 @@
 # define USE_OPENGL
 
 //// Android
-#else
+#elif defined(__ANDROID__)
 # include <GLES2/gl2.h>
 # define GL_GLEXT_PROTOTYPES
 # include <GLES2/gl2ext.h>
 
-/// functions
 # define GL_GEN_VERTEXARRAY(n,arr)
 # define GL_BIND_VERTEXARRAY(id)
 # define GL_DEL_VERTEXARRAY(n,arr)
@@ -60,7 +58,6 @@
 # define DEFAULT_STORAGEMODE		RGBA_BYTE
 
 /// functions
-
 # define GL_DRAW_BUF(arr)
 # define GL_PUSH_ATTR(arr)
 # define GL_POP_ATTR()

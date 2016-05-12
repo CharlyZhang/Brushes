@@ -30,27 +30,27 @@
 		2D1B25BB1ADF01F2006841C3 /* CZTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25991ADF01F2006841C3 /* CZTool.cpp */; };
 		2D1B25BD1ADF0252006841C3 /* CZFbo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25BC1ADF0252006841C3 /* CZFbo.mm */; };
 		2D1B25BF1ADF0267006841C3 /* CZGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25BE1ADF0267006841C3 /* CZGLContext.mm */; };
-		2D1B25C31ADF02BD006841C3 /* CZTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C21ADF02BD006841C3 /* CZTexture.mm */; };
-		2D1B25C51ADF03F0006841C3 /* CZUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C41ADF03F0006841C3 /* CZUtil.mm */; };
-		2D1B25C71ADF1A9D006841C3 /* CZBrushPreview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C61ADF1A9D006841C3 /* CZBrushPreview.mm */; };
-		2D1B25C91ADF1AD5006841C3 /* CZPainting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C81ADF1AD5006841C3 /* CZPainting.mm */; };
-		2D1B25CB1ADF1AF2006841C3 /* CZPath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CA1ADF1AF2006841C3 /* CZPath.mm */; };
-		2D1B25CD1ADF1B1A006841C3 /* CZSpiralGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.mm */; };
-		2D1B25CF1ADF1B36006841C3 /* CZStampGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.mm */; };
-		2D1B25D11ADF1E08006841C3 /* CZLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25D01ADF1E08006841C3 /* CZLayer.mm */; };
+		2D1B25C31ADF02BD006841C3 /* CZTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C21ADF02BD006841C3 /* CZTexture.cpp */; };
+		2D1B25C51ADF03F0006841C3 /* CZUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C41ADF03F0006841C3 /* CZUtil.cpp */; };
+		2D1B25C71ADF1A9D006841C3 /* CZBrushPreview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C61ADF1A9D006841C3 /* CZBrushPreview.cpp */; };
+		2D1B25C91ADF1AD5006841C3 /* CZPainting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25C81ADF1AD5006841C3 /* CZPainting.cpp */; };
+		2D1B25CB1ADF1AF2006841C3 /* CZPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CA1ADF1AF2006841C3 /* CZPath.cpp */; };
+		2D1B25CD1ADF1B1A006841C3 /* CZSpiralGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.cpp */; };
+		2D1B25CF1ADF1B36006841C3 /* CZStampGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.cpp */; };
+		2D1B25D11ADF1E08006841C3 /* CZLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B25D01ADF1E08006841C3 /* CZLayer.cpp */; };
 		2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
 		2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53C1A0C9196003724D4 /* XCTest.framework */; };
 		2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
 		2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53F1A0C9196003724D4 /* UIKit.framework */; };
 		2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */; };
 		2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D2BE5471A0C9196003724D4 /* InfoPlist.strings */; };
-		2D4F336F1AE3F7B40067D7A6 /* CZCanvas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */; };
+		2D4F336F1AE3F7B40067D7A6 /* CZCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F336E1AE3F7B40067D7A6 /* CZCanvas.cpp */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DF596331CE35D1600FD1462 /* CZShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DF596321CE35D1600FD1462 /* CZShader.cpp */; };
 		2DFE46CA1C04535800EBA03C /* CZTypedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46C91C04535800EBA03C /* CZTypedData.cpp */; };
 		2DFE46CD1C045D7A00EBA03C /* CZFileCoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46CB1C045D7A00EBA03C /* CZFileCoder.cpp */; };
 		2DFE46D01C04644B00EBA03C /* CZFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DFE46CE1C04644B00EBA03C /* CZFileManager.cpp */; };
-		53ED4D3F1B66408200735078 /* CZBristleGenerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */; };
+		53ED4D3F1B66408200735078 /* CZBristleGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 53ED4D3E1B66408200735078 /* CZBristleGenerator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,14 +140,14 @@
 		2D1B259A1ADF01F2006841C3 /* CZTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTool.h; sourceTree = "<group>"; };
 		2D1B25BC1ADF0252006841C3 /* CZFbo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZFbo.mm; sourceTree = "<group>"; };
 		2D1B25BE1ADF0267006841C3 /* CZGLContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZGLContext.mm; sourceTree = "<group>"; };
-		2D1B25C21ADF02BD006841C3 /* CZTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZTexture.mm; sourceTree = "<group>"; };
-		2D1B25C41ADF03F0006841C3 /* CZUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZUtil.mm; path = ../../../core/CZUtil.mm; sourceTree = "<group>"; };
-		2D1B25C61ADF1A9D006841C3 /* CZBrushPreview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZBrushPreview.mm; sourceTree = "<group>"; };
-		2D1B25C81ADF1AD5006841C3 /* CZPainting.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZPainting.mm; sourceTree = "<group>"; };
-		2D1B25CA1ADF1AF2006841C3 /* CZPath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZPath.mm; sourceTree = "<group>"; };
-		2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZSpiralGenerator.mm; sourceTree = "<group>"; };
-		2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZStampGenerator.mm; sourceTree = "<group>"; };
-		2D1B25D01ADF1E08006841C3 /* CZLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZLayer.mm; sourceTree = "<group>"; };
+		2D1B25C21ADF02BD006841C3 /* CZTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZTexture.cpp; sourceTree = "<group>"; };
+		2D1B25C41ADF03F0006841C3 /* CZUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZUtil.cpp; path = ../../../core/CZUtil.cpp; sourceTree = "<group>"; };
+		2D1B25C61ADF1A9D006841C3 /* CZBrushPreview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBrushPreview.cpp; sourceTree = "<group>"; };
+		2D1B25C81ADF1AD5006841C3 /* CZPainting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZPainting.cpp; sourceTree = "<group>"; };
+		2D1B25CA1ADF1AF2006841C3 /* CZPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZPath.cpp; sourceTree = "<group>"; };
+		2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZSpiralGenerator.cpp; sourceTree = "<group>"; };
+		2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZStampGenerator.cpp; sourceTree = "<group>"; };
+		2D1B25D01ADF1E08006841C3 /* CZLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZLayer.cpp; sourceTree = "<group>"; };
 		2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBrushesCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D2BE52E1A0C9196003724D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2D2BE5321A0C9196003724D4 /* BrushesCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BrushesCore-Prefix.pch"; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 		2D2BE53F1A0C9196003724D4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrushesCoreTests-Info.plist"; sourceTree = "<group>"; };
 		2D2BE5481A0C9196003724D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CZCanvas.mm; path = ../../../core/CZCanvas.mm; sourceTree = "<group>"; };
+		2D4F336E1AE3F7B40067D7A6 /* CZCanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZCanvas.cpp; path = ../../../core/CZCanvas.cpp; sourceTree = "<group>"; };
 		2D4F33701AE3FAA10067D7A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2D4F33721AE5DDF00067D7A6 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = ../../../core/BrushesCore.h; sourceTree = "<group>"; };
 		2D8F24F81B4E03A300D1B5DF /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		2DFE46CE1C04644B00EBA03C /* CZFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZFileManager.cpp; path = ../../../core/CZFileManager.cpp; sourceTree = "<group>"; };
 		2DFE46CF1C04644B00EBA03C /* CZFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZFileManager.h; path = ../../../core/CZFileManager.h; sourceTree = "<group>"; };
 		53ED4D3D1B66408200735078 /* CZBristleGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZBristleGenerator.h; sourceTree = "<group>"; };
-		53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZBristleGenerator.mm; sourceTree = "<group>"; };
+		53ED4D3E1B66408200735078 /* CZBristleGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZBristleGenerator.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,7 +245,7 @@
 			children = (
 				2D1B25541ADF01F2006841C3 /* CZBrush.cpp */,
 				2D1B25551ADF01F2006841C3 /* CZBrush.h */,
-				2D1B25C61ADF1A9D006841C3 /* CZBrushPreview.mm */,
+				2D1B25C61ADF1A9D006841C3 /* CZBrushPreview.cpp */,
 				2D1B25571ADF01F2006841C3 /* CZBrushPreview.h */,
 			);
 			name = brush;
@@ -261,7 +261,7 @@
 				2D1B25781ADF01F2006841C3 /* CZGLContext.h */,
 				2DF596321CE35D1600FD1462 /* CZShader.cpp */,
 				2D1B257A1ADF01F2006841C3 /* CZShader.h */,
-				2D1B25C21ADF02BD006841C3 /* CZTexture.mm */,
+				2D1B25C21ADF02BD006841C3 /* CZTexture.cpp */,
 				2D1B257C1ADF01F2006841C3 /* CZTexture.h */,
 				2D1B257D1ADF01F2006841C3 /* CZGLdef.h */,
 			);
@@ -272,9 +272,9 @@
 		2D1B257F1ADF01F2006841C3 /* painting */ = {
 			isa = PBXGroup;
 			children = (
-				2D1B25D01ADF1E08006841C3 /* CZLayer.mm */,
+				2D1B25D01ADF1E08006841C3 /* CZLayer.cpp */,
 				2D1B25811ADF01F2006841C3 /* CZLayer.h */,
-				2D1B25C81ADF1AD5006841C3 /* CZPainting.mm */,
+				2D1B25C81ADF1AD5006841C3 /* CZPainting.cpp */,
 				2D1B25831ADF01F2006841C3 /* CZPainting.h */,
 			);
 			name = painting;
@@ -288,7 +288,7 @@
 				2D1B25861ADF01F2006841C3 /* CZBezierNode.h */,
 				2D1B25871ADF01F2006841C3 /* CZBezierSegment.cpp */,
 				2D1B25881ADF01F2006841C3 /* CZBezierSegment.h */,
-				2D1B25CA1ADF1AF2006841C3 /* CZPath.mm */,
+				2D1B25CA1ADF1AF2006841C3 /* CZPath.cpp */,
 				2D1B258A1ADF01F2006841C3 /* CZPath.h */,
 			);
 			name = path;
@@ -315,12 +315,12 @@
 			isa = PBXGroup;
 			children = (
 				53ED4D3D1B66408200735078 /* CZBristleGenerator.h */,
-				53ED4D3E1B66408200735078 /* CZBristleGenerator.mm */,
+				53ED4D3E1B66408200735078 /* CZBristleGenerator.cpp */,
 				2D0A065F1AEF2A7F00BD46E8 /* CZRoundGenerator.cpp */,
 				2D0A065B1AEF2A3E00BD46E8 /* CZRoundGenerator.h */,
-				2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.mm */,
+				2D1B25CC1ADF1B1A006841C3 /* CZSpiralGenerator.cpp */,
 				2D1B25911ADF01F2006841C3 /* CZSpiralGenerator.h */,
-				2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.mm */,
+				2D1B25CE1ADF1B36006841C3 /* CZStampGenerator.cpp */,
 				2D1B25931ADF01F2006841C3 /* CZStampGenerator.h */,
 			);
 			name = stamp;
@@ -388,7 +388,7 @@
 				2D1B25591ADF01F2006841C3 /* CZActiveState.h */,
 				2D1B255A1ADF01F2006841C3 /* CZBrushCell.h */,
 				2D1B255B1ADF01F2006841C3 /* CZBrushController.h */,
-				2D4F336E1AE3F7B40067D7A6 /* CZCanvas.mm */,
+				2D4F336E1AE3F7B40067D7A6 /* CZCanvas.cpp */,
 				2D1B255D1ADF01F2006841C3 /* CZCanvas.h */,
 				2D1B255E1ADF01F2006841C3 /* CZColorBalance.cpp */,
 				2D1B255F1ADF01F2006841C3 /* CZColorBalance.h */,
@@ -398,7 +398,7 @@
 				2D1B25641ADF01F2006841C3 /* CZNotificationCenter.cpp */,
 				2D1B25651ADF01F2006841C3 /* CZNotificationCenter.h */,
 				2D1B25661ADF01F2006841C3 /* CZUndoManager.h */,
-				2D1B25C41ADF03F0006841C3 /* CZUtil.mm */,
+				2D1B25C41ADF03F0006841C3 /* CZUtil.cpp */,
 				2D1B25681ADF01F2006841C3 /* CZUtil.h */,
 				2DFE46CE1C04644B00EBA03C /* CZFileManager.cpp */,
 				2DFE46CF1C04644B00EBA03C /* CZFileManager.h */,
@@ -539,15 +539,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D1B25A01ADF01F2006841C3 /* CZMat4.cpp in Sources */,
-				2D1B25CD1ADF1B1A006841C3 /* CZSpiralGenerator.mm in Sources */,
+				2D1B25CD1ADF1B1A006841C3 /* CZSpiralGenerator.cpp in Sources */,
 				2D1B25B51ADF01F2006841C3 /* CZBezierSegment.cpp in Sources */,
 				2D1B259E1ADF01F2006841C3 /* CZColor.cpp in Sources */,
 				2D1B25A51ADF01F2006841C3 /* CZBrush.cpp in Sources */,
 				2DF596331CE35D1600FD1462 /* CZShader.cpp in Sources */,
-				53ED4D3F1B66408200735078 /* CZBristleGenerator.mm in Sources */,
+				53ED4D3F1B66408200735078 /* CZBristleGenerator.cpp in Sources */,
 				2D1B259D1ADF01F2006841C3 /* CZAffineTransform.cpp in Sources */,
 				2D1B25BD1ADF0252006841C3 /* CZFbo.mm in Sources */,
-				2D1B25CB1ADF1AF2006841C3 /* CZPath.mm in Sources */,
+				2D1B25CB1ADF1AF2006841C3 /* CZPath.cpp in Sources */,
 				2D1B25A71ADF01F2006841C3 /* CZActiveState.cpp in Sources */,
 				2D1B25B91ADF01F2006841C3 /* CZEraserTool.cpp in Sources */,
 				2D1B25A41ADF01F2006841C3 /* CZSize.cpp in Sources */,
@@ -555,23 +555,23 @@
 				2DFE46CA1C04535800EBA03C /* CZTypedData.cpp in Sources */,
 				2D1B25BB1ADF01F2006841C3 /* CZTool.cpp in Sources */,
 				2D1B259C1ADF01F2006841C3 /* CZ3DPoint.cpp in Sources */,
-				2D4F336F1AE3F7B40067D7A6 /* CZCanvas.mm in Sources */,
-				2D1B25C91ADF1AD5006841C3 /* CZPainting.mm in Sources */,
+				2D4F336F1AE3F7B40067D7A6 /* CZCanvas.cpp in Sources */,
+				2D1B25C91ADF1AD5006841C3 /* CZPainting.cpp in Sources */,
 				2D1B25A31ADF01F2006841C3 /* CZRect.cpp in Sources */,
 				2D0A06601AEF2A7F00BD46E8 /* CZRoundGenerator.cpp in Sources */,
 				2D1B25B41ADF01F2006841C3 /* CZBezierNode.cpp in Sources */,
 				2D1B25A11ADF01F2006841C3 /* CZProperty.cpp in Sources */,
-				2D1B25D11ADF1E08006841C3 /* CZLayer.mm in Sources */,
+				2D1B25D11ADF1E08006841C3 /* CZLayer.cpp in Sources */,
 				2D1B259B1ADF01F2006841C3 /* CZ2DPoint.cpp in Sources */,
 				2D1B25A91ADF01F2006841C3 /* CZColorBalance.cpp in Sources */,
 				2DFE46CD1C045D7A00EBA03C /* CZFileCoder.cpp in Sources */,
 				2D1B25AA1ADF01F2006841C3 /* CZHueSaturation.cpp in Sources */,
 				2DFE46D01C04644B00EBA03C /* CZFileManager.cpp in Sources */,
-				2D1B25CF1ADF1B36006841C3 /* CZStampGenerator.mm in Sources */,
-				2D1B25C71ADF1A9D006841C3 /* CZBrushPreview.mm in Sources */,
-				2D1B25C31ADF02BD006841C3 /* CZTexture.mm in Sources */,
+				2D1B25CF1ADF1B36006841C3 /* CZStampGenerator.cpp in Sources */,
+				2D1B25C71ADF1A9D006841C3 /* CZBrushPreview.cpp in Sources */,
+				2D1B25C31ADF02BD006841C3 /* CZTexture.cpp in Sources */,
 				2D1B25AB1ADF01F2006841C3 /* CZNotificationCenter.cpp in Sources */,
-				2D1B25C51ADF03F0006841C3 /* CZUtil.mm in Sources */,
+				2D1B25C51ADF03F0006841C3 /* CZUtil.cpp in Sources */,
 				2D1B25BA1ADF01F2006841C3 /* CZFreehandTool.cpp in Sources */,
 				2D1B25BF1ADF0267006841C3 /* CZGLContext.mm in Sources */,
 				2D1B259F1ADF01F2006841C3 /* CZImage.cpp in Sources */,

@@ -15,7 +15,6 @@
 #include "basic/CZMat4.h"
 #include "CZActiveState.h"
 #include "CZUtil.h"
-#include "graphic/CZGLdef.h"
 #include "graphic/CZTexture.h"
 
 /// implemention of CZCanvas

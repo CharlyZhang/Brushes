@@ -10,7 +10,6 @@
 ///  \note
 #include "CZFbo.h"
 #include "../CZDefine.h"
-#include "CZGLdef.h"
 
 #if defined(__APPLE__)
 # include <QuartzCore/QuartzCore.h>

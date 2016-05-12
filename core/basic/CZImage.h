@@ -13,7 +13,6 @@
 #define _CZIMAGE_H_
 
 #include "../CZDefine.h"
-#include "../graphic/CZGLdef.h"
 #include "CZRect.h"
 #include <stdio.h>
 
