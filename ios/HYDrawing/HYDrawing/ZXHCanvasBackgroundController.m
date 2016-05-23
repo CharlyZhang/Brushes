@@ -106,7 +106,7 @@
 #pragma mark <UICollectionViewDelegate>
 // 选中item
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [[HYBrushCore sharedInstance]renderBackground:_dataSource[indexPath.item]];
+    [[HYBrushCore sharedInstance]renderBackgroundInFixedLayer:_dataSource[indexPath.item]];
 }
 
 @end

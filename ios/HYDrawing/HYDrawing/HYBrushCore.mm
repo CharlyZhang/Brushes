@@ -18,6 +18,7 @@
     CZViewImpl *viewImpl;
     CZCanvas *canvas;
     CZPainting *painting;
+    BOOL hasInsertedBackgroundLayer;
 }
 @end
 
@@ -54,6 +55,7 @@
     [self setActiveBrushwatercolorPenStamp ];
     
     self.hasInitialized = YES;
+    hasInsertedBackgroundLayer = NO;
     return YES;
 }
 
@@ -258,6 +260,26 @@
     CZImage* backgroundImg = [self producedFromImage:image];
     
     painting->getActiveLayer()->renderBackground(backgroundImg);
+    canvas->drawView();
+}
+
+- (void) renderBackgroundInFixedLayer:(UIImage*)image
+{
+    int originalIdx = painting->getActiveLayerIndex();
+    
+    if(!hasInsertedBackgroundLayer)
+    {
+        int fixedIdx = painting->addNewLayer();
+        painting->moveLayer(fixedIdx, 0);
+        hasInsertedBackgroundLayer = YES;
+    }
+    
+    painting->setActiveLayer(0);
+    
+    CZImage* backgroundImg = [self producedFromImage:image];
+    painting->getActiveLayer()->renderBackground(backgroundImg);
+    painting->setActiveLayer(originalIdx);
+    
     canvas->drawView();
 }
 

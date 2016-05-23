@@ -60,6 +60,7 @@
 - (BOOL) setActiveLayerLinearInterprolation:(BOOL)flag;
 ///绘制背景
 - (void) renderBackground:(UIImage*)image;
+- (void) renderBackgroundInFixedLayer:(UIImage*)image;
 
 ///图层
 - (NSInteger) getLayersNumber;
