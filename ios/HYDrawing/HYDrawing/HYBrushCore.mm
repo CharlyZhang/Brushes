@@ -447,6 +447,26 @@
     return CGSizeMake(size.width, size.height);
 }
 
+- (UIImage*) getThumbnailOfPainting
+{
+    CZImage *thumbImage = painting->thumbnailImage();
+    if (!thumbImage)    return nil;
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(thumbImage->data, thumbImage->width, thumbImage->height, 8, thumbImage->width*4,
+                                             colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(imageRef);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpaceRef);
+    
+    delete thumbImage;
+    return ret;
+}
+
 /// undo & redo
 - (BOOL) canUndo
 {

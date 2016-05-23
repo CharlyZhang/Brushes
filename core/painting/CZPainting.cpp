@@ -12,6 +12,9 @@
 #include "CZPainting.h"
 #include "../CZUtil.h"
 #include "../CZCanvas.h"
+#include "../CZActiveState.h"
+
+#define MAX_THUMBNAIL_DIMMENSION 360
 
 using namespace  std;
 
@@ -121,8 +124,8 @@ CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor /*= NU
     /// 获得运行所需要的数据
     int w = size.width;
     int h = size.height;
-    CZMat4 projection;
-    projection.SetOrtho(0,w,0,h,-1.0f,1.0f);
+    CZMat4 projection,effectiveProj;
+    projection.SetOrtho(0,dimensions.width,0,dimensions.height,-1.0f,1.0f);
     
     /// 开始绘制
     glContext->setAsCurrent();
@@ -191,6 +194,34 @@ CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
     fbo->end();
     
     return ret;
+}
+
+/// produce thumbnail image
+CZImage* CZPainting::thumbnailImage()
+{
+    float aspectRatio = dimensions.width / dimensions.height;
+    
+    GLuint width,height;
+    
+    // figure out the width and height of the thumbnail
+    if (aspectRatio > 1.0)
+    {
+        width = (GLuint) MAX_THUMBNAIL_DIMMENSION;
+        height = floorf(1.0 / aspectRatio * width);
+    }
+    else
+    {
+        height = (GLuint) MAX_THUMBNAIL_DIMMENSION;
+        width = floorf(aspectRatio * height);
+    }
+    
+    float s = CZActiveState::getInstance()->mainScreenScale;
+    width *= s;
+    height *= s;
+    
+    CZSize size(width,height);
+    CZImage *thumbnailImg = imageWithSize(size);
+    return thumbnailImg;
 }
 
 /// 绘制一条轨迹（绘制到纹理）

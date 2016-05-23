@@ -87,6 +87,7 @@
 - (float) getCanvasScale;
 - (CGPoint) convertToPainting:(CGPoint)pt;
 - (CGSize) getPaintingSize;
+- (UIImage*) getThumbnailOfPainting;
 
 /// undo & redo
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;

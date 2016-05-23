@@ -120,7 +120,12 @@
         cell.nameLabelRightCons.constant = 10;
     }
     
-    cell.imgView.image = kImage(@"defaultPaintingImage");
+    if (indexPath.row == currentSelectedIndex) {
+        cell.imageView.image = [[HYBrushCore sharedInstance] getThumbnailOfPainting];
+    }
+    else {
+        cell.imgView.image = kImage(@"defaultPaintingImage");
+    }
     cell.nameLabel.text = [[PaintingManager sharedInstance]getPaintingNameAt:indexPath.row];
     cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"list_cell_selectedBg"]];
     cell.cellIdx = indexPath.row;
