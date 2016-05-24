@@ -7,14 +7,7 @@
 //
 
 #import "CanvasView.h"
-#include "painting/CZPainting.h"
-#include "basic/CZMat4.h"
-#include "CZCanvas.h"
-
-#include "CZActiveState.h"
-#include "tool/CZFreehandTool.h"
-#include "graphic/CZGLdef.h"
-#include "CZUtil.h"
+#include "BrushesCore.h"
 #import "WDColor.h"
 
 #define kMaxZoom 16

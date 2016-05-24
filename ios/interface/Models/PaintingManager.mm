@@ -8,7 +8,6 @@
 
 #import "PaintingManager.h"
 #include "BrushesCore.h"
-#include "CZFileManager.h"
 
 #define DOCUMENT_DIR            [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
 #define PAINTING_FILE_EXTENTION @"painting"
