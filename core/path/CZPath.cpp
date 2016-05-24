@@ -15,7 +15,6 @@
 #include "../brush/CZBrush.h"
 #include "../CZUtil.h"
 #include "CZBezierSegment.h"
-#include "../graphic/glDef.h"
 #include <cmath>			//for fabs()...
  
 using namespace std;
@@ -171,9 +170,11 @@ typedef struct
 ///
 CZRect CZPath::drawData()
 {
-	int iPointSize = points.size();
+	size_t iPointSize = points.size();
+    CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
+    if (iPointSize <= 0) return dataBounds;
+    
 	vertexData *vertexD = new vertexData[iPointSize * 4 + (iPointSize - 1) * 2];
-	CZRect dataBounds = CZRect(0.0f,0.0f,0.0f,0.0f);
 
 	int n = 0;
 	for (int i = 0; i < iPointSize; i++) 
@@ -254,18 +255,18 @@ CZRect CZPath::drawData()
 		}
 	}
 	
-#if USE_OPENGL_ES
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &data[0].x);
+#ifdef USE_OPENGL_ES
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), &vertexD[0].x);
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].s);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].s);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &data[0].a);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_TRUE, sizeof(vertexData), &vertexD[0].a);
 		glEnableVertexAttribArray(2);
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, n);
 	#endif
 
-	#if USE_OPENGL
+#ifdef USE_OPENGL
 		
 	/*	// 对于opengl属性数组形式， 顶点位置必须通过以下方式导入
 		glEnableClientState (GL_VERTEX_ARRAY);
@@ -395,7 +396,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 
 		int sign = ptrBrush->weightDynamics.value >= 0 ? 0:1;
 		float p = sign ? pressure : (1.0f - pressure);
-		float brushSize = CZUtil::Max(1, weight - fabs(ptrBrush->weightDynamics.value) * p * weight);
+		float brushSize = CZUtil::Max(1.0f, weight - fabs(ptrBrush->weightDynamics.value) * p * weight);
 
 		float rotationalScatter = randomizer->nextFloat() * ptrBrush->rotationalScatter.value * M_PI * 2;
 		float angleOffset = ptrBrush->angle.value * (M_PI / 180.0f);

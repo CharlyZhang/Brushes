@@ -16,8 +16,8 @@
 #include "../CZDefine.h"
 
 #define kMaxError                   10.0f
-#define kSpeedFactor                3
-#define kBezierInterpolationSteps   5
+#define kSpeedFactor                3.0f
+#define kBezierInterpolationSteps   5.0f
 
 using namespace  std;
 

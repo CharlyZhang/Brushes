@@ -10,9 +10,8 @@
 ///  \note
 #include "CZFbo.h"
 #include "../CZDefine.h"
-#include "glDef.h"
 
-#if USE_OPENGL_ES
+#if defined(__APPLE__)
 # include <QuartzCore/QuartzCore.h>
 #endif
 
@@ -110,7 +109,7 @@ void CZFbo::setRenderBufferWithContext(void* ctx, void* layer)
     glBindFramebuffer(GL_FRAMEBUFFER, fboId);
     //…Í«ÎªÊ÷∆ª∫≥Â«¯
     glBindRenderbuffer(GL_RENDERBUFFER,renderId);
-#if	USE_OPENGL_ES
+#if defined(__APPLE__)
     [(EAGLContext*)ctx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)layer];
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
@@ -156,7 +155,7 @@ void CZFbo::showTextureOnScreen(int x,int y,int width_ /*= 128*/,int height_ /*=
         LOG_ERROR("Tex is NULL \n");
         return;
     }
-#if USE_OPENGL
+#if defined(_WIN32)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
@@ -268,7 +267,7 @@ int CZFbo::checkFramebufferStatus()
             LOG_ERROR("Framebuffer incomplete, incomplete attachment\n");
             break;
             
-#if USE_OPENGL
+#ifdef USE_OPENGL
         case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
             LOG_ERROR("Framebuffer incomplete, attached images must have same dimensions\n");
             break;

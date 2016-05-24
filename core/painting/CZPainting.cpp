@@ -12,43 +12,53 @@
 #include "CZPainting.h"
 #include "../CZUtil.h"
 #include "../CZCanvas.h"
-#include "../graphic/glDef.h"
+#include "../CZActiveState.h"
+
+#define MAX_THUMBNAIL_DIMMENSION 360
 
 using namespace  std;
 
 const int iMaxLayerNumber = 10;		///< 支持的最大图层数目
 
 
-CZPainting::CZPainting(const CZSize &size)
+static std::string CZActiveLayerKey = "activeLayer";
+static std::string CZWidthKey = "width";
+static std::string CZHeightKey = "height";
+static std::string CZLayersKey = "layers";
+
+CZPainting::CZPainting(const CZSize &size, bool addDefaultLayer /* = true */)
 {
-	flattenMode = false;
-
-	colors.clear();
-	brushPtrs.clear();
-	layers.clear();
-	undoBrushPtrs.clear();
-	strokeCount = 0;
-
-	activeLayerInd = -1;
-	ptrActivePath = NULL;
-	ptrLastBrush = NULL;
-	ptrCanvas = NULL;
-	uuid = CZUtil::generateUUID();
-
-	/// set up gl context
-	glContext = new CZGLContext;
-	glContext->setAsCurrent();
-	loadShaders();
-	fbo = new CZFbo;
-	quadVAO = quadVBO = 0;
-	activePaintTexture = NULL;
-	brushStampTex = NULL;
-
-	/// set the dimesion
-	setDimensions(size);
-
-	/// add the default blank layer
-	activeLayerInd = addNewLayer();
+    flattenMode = false;
+    
+    colors.clear();
+    brushPtrs.clear();
+    layers.clear();
+    undoBrushPtrs.clear();
+    strokeCount = 0;
+    
+    activeLayerInd = -1;
+    ptrActivePath = NULL;
+    ptrLastBrush = NULL;
+    ptrCanvas = NULL;
+    uuid = CZUtil::generateUUID();
+    
+    /// set up gl context
+    glContext = new CZGLContext;
+    glContext->setAsCurrent();
+    loadShaders();
+    fbo = new CZFbo;
+    quadVAO = quadVBO = 0;
+    activePaintTexture = NULL;
+    brushStampTex = NULL;
+    
+    /// set the dimesion
+    setDimensions(size);
+    
+    /// add the default blank layer
+    if(addDefaultLayer) activeLayerInd = addNewLayer();
+    else                activeLayerInd = -1;
+    
+    lastDeletedLayer = nullptr;
 }
 CZPainting::~CZPainting()
 {
@@ -76,6 +86,7 @@ CZPainting::~CZPainting()
     if (activePaintTexture) { delete activePaintTexture; activePaintTexture = NULL;}
     if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
     if (fbo) { delete fbo; fbo = NULL;}
+    if (lastDeletedLayer) { delete lastDeletedLayer; lastDeletedLayer = nullptr;}
     
     CZCheckGLError();
     
@@ -91,12 +102,12 @@ void CZPainting::blit(CZMat4 &projection)
         return;
     }
     
-	for (int idx = 0; idx < layers.size(); idx++)
-	{
-		CZLayer *layer = layers.at(idx);
-		if (!layer->isVisible()) continue;
-
-		if (activeLayerInd == idx && ptrActivePath)
+    for (int idx = 0; idx < layers.size(); idx++)
+    {
+        CZLayer *layer = layers.at(idx);
+        if (!layer->isVisible()) continue;
+        
+        if (activeLayerInd == idx && ptrActivePath)
         {
             if (ptrActivePath->action == CZPathActionErase)
                 layer->blit(projection,activePaintTexture);
@@ -113,8 +124,8 @@ CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor /*= NU
     /// 获得运行所需要的数据
     int w = size.width;
     int h = size.height;
-    CZMat4 projection;
-    projection.SetOrtho(0,w,0,h,-1.0f,1.0f);
+    CZMat4 projection,effectiveProj;
+    projection.SetOrtho(0,dimensions.width,0,dimensions.height,-1.0f,1.0f);
     
     /// 开始绘制
     glContext->setAsCurrent();
@@ -185,55 +196,84 @@ CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
     return ret;
 }
 
+/// produce thumbnail image
+CZImage* CZPainting::thumbnailImage()
+{
+    float aspectRatio = dimensions.width / dimensions.height;
+    
+    GLuint width,height;
+    
+    // figure out the width and height of the thumbnail
+    if (aspectRatio > 1.0)
+    {
+        width = (GLuint) MAX_THUMBNAIL_DIMMENSION;
+        height = floorf(1.0 / aspectRatio * width);
+    }
+    else
+    {
+        height = (GLuint) MAX_THUMBNAIL_DIMMENSION;
+        width = floorf(aspectRatio * height);
+    }
+    
+    float s = CZActiveState::getInstance()->mainScreenScale;
+    width *= s;
+    height *= s;
+    
+    CZSize size(width,height);
+    CZImage *thumbnailImg = imageWithSize(size);
+    return thumbnailImg;
+}
+
 /// 绘制一条轨迹（绘制到纹理）
 CZRect CZPainting::paintStroke(CZPath *path_, CZRandom *randomizer, bool clearBuffer /* = false */)
 {
-	if (path_ == NULL || randomizer == NULL)
-	{
-		LOG_ERROR("either path or randomizer is null!\n");
-		return CZRect();
-	}
-
-	ptrActivePath = path_;
-
-	glContext->setAsCurrent();
-
-	fbo->setTexture(activePaintTexture);
-
-	// 开启fbo
-	fbo->begin();
-
-	if (clearBuffer) 
-	{
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
-	}
-
-	configureBrush(path_->ptrBrush);
-
-	// use shader program
-	CZShader *shader = shaders["brush"];
-	shader->begin();
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, brushStampTex->texId);
-
-	glUniform1i(shader->getUniformLocation("texture"),0);
-	glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projMat);
-	CZCheckGLError();
-
-	/// 绘制轨迹
-	CZRect pathBounds = path_->paint(randomizer);
-
-	shader->end();
-
-	// 关闭启fbo
-	fbo->end();
-
-	if(ptrCanvas)   ptrCanvas->drawView();
-	else            LOG_ERROR("ptrCanvas is NULL!\n");
-
-	return pathBounds;
+    if (path_ == NULL || randomizer == NULL)
+    {
+        LOG_ERROR("either path or randomizer is null!\n");
+        return CZRect();
+    }
+    
+    ptrActivePath = path_;
+    
+    glContext->setAsCurrent();
+    
+    fbo->setTexture(activePaintTexture);
+    
+    // 开启fbo
+    fbo->begin();
+    
+    if (clearBuffer)
+    {
+        glClearColor(0, 0, 0, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+    
+    configureBrush(path_->ptrBrush);
+    
+    // use shader program
+    CZShader *shader = shaders["brush"];
+    shader->begin();
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, brushStampTex->texId);
+    
+    glUniform1i(shader->getUniformLocation("texture"),0);
+    glUniformMatrix4fv(shader->getUniformLocation("mvpMat"), 1, GL_FALSE, projMat);
+    CZCheckGLError();
+    
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    /// 绘制轨迹
+    CZRect pathBounds = path_->paint(randomizer);
+    
+    shader->end();
+    
+    // 关闭启fbo
+    fbo->end();
+    
+    if(ptrCanvas)   ptrCanvas->drawView();
+    else            LOG_ERROR("ptrCanvas is NULL!\n");
+    
+    return pathBounds;
 }
 
 /// 设置范围
@@ -246,7 +286,7 @@ void CZPainting::setDimensions(const CZSize &size)
     
     glContext->setAsCurrent();
     if(activePaintTexture) delete activePaintTexture;
-    activePaintTexture = new CZTexture(size.width,size.height);
+    activePaintTexture = generateTexture();
 }
 
 /// 设置当前激活图层
@@ -263,7 +303,7 @@ int CZPainting::setActiveLayer(int idx)
         return oldIndex;
     }
     
-   activeLayerInd = idx;
+    activeLayerInd = idx;
     
     return oldIndex;
     
@@ -279,18 +319,29 @@ CZLayer *CZPainting::layerWithUID(unsigned int uid_)
     return NULL;
 }
 
+CZLayer *CZPainting::getLayer(int idx)
+{
+    if (idx < 0 || idx >= layers.size())
+    {
+        LOG_ERROR("idx is out of range\n");
+        return NULL;
+    }
+    
+    return layers[idx];
+}
+
 /// 添加新图层
-/// 
+///
 ///		\ret		 - 在所有图层中的序号。超过最大层数：-1，生成图层失败：-2
 int CZPainting::addNewLayer()
 {
-	if(layers.size() > iMaxLayerNumber)
-	{
-		LOG_ERROR("painting has reached the max number of Layers\n");
-		return -1;
-	}
-
-	CZLayer *layer = new CZLayer(this);
+    if(layers.size() > iMaxLayerNumber)
+    {
+        LOG_ERROR("painting has reached the max number of Layers\n");
+        return -1;
+    }
+    
+    CZLayer *layer = new CZLayer(this);
     if(layer == NULL)
     {
         LOG_ERROR("create layer failed\n");
@@ -298,97 +349,146 @@ int CZPainting::addNewLayer()
     }
     
     int newIdx = activeLayerInd + 1;
-	if(newIdx < 0 || newIdx > layers.size())
-	{
-		LOG_ERROR("newIdx is out of range\n");
-		return -1;
-	}
+    if(newIdx < 0 || newIdx > layers.size())
+    {
+        LOG_ERROR("newIdx is out of range\n");
+        return -1;
+    }
     
-	layers.insert(layers.begin()+newIdx,layer);
+    layers.insert(layers.begin()+newIdx,layer);
     
-	activeLayerInd = newIdx;
+    activeLayerInd = newIdx;
     
     return newIdx;
 }
 
 /// 删除图层
-/// 
-///		\note 当layer被锁住的时候不能被删除 
+///
+///		\note 当layer被锁住的时候不能被删除
 bool CZPainting::deleteActiveLayer()
 {
-	CZLayer* layer = layers.at(activeLayerInd);
-	bool needsAddDefaultLayer = false;
+    // \note deleting is not allowed when there exist only one layer, for `restoreDeletedLayer`
+    if (layers.size() <= 1) return false;
+    
+    CZLayer* layer = layers.at(activeLayerInd);
+    bool needsAddDefaultLayer = false;
+    
+    if(layer->isLocked())
+    {
+        LOG_ERROR("activeLayer is locked\n");
+        return false;
+    }
+    
+    lastDeletedLayerIdx = activeLayerInd;
+    
+    if (layers.size()> 1)
+    {
+        // choose another layer to be active before we remove it
+        if (activeLayerInd >= 1)	activeLayerInd --;
+        else						activeLayerInd = 0;
+    }
+    else needsAddDefaultLayer = true;
+    
+    // do this before decrementing index
+    for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
+        if(*itr == layer)
+        {
+            delete lastDeletedLayer;
+            lastDeletedLayer = layer;
+            layers.erase(itr);
+            break;
+        }
+    
+    if (needsAddDefaultLayer)
+    {
+        activeLayerInd = -1;
+        activeLayerInd = addNewLayer();
+    }
+    
+    return true;
+}
 
-	if(layer->isLocked())
-	{
-		LOG_ERROR("activeLayer is locked\n");
-		return false;
-	}
+/// undo last deleted layer
+bool CZPainting::restoreDeletedLayer()
+{
+    if (lastDeletedLayer == nullptr) return false;
+    
+    layers.insert(layers.begin()+lastDeletedLayerIdx,lastDeletedLayer);
+    
+    activeLayerInd = lastDeletedLayerIdx;
+    
+    lastDeletedLayer = nullptr;
+    return true;
+}
 
-	if (layers.size()> 1)
-	{
-		// choose another layer to be active before we remove it
-		if (activeLayerInd >= 1)	activeLayerInd --;
-		else						activeLayerInd = 0;
-	}
-	else needsAddDefaultLayer = true;
-
-	// do this before decrementing index
-	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
-		if(*itr == layer)	
-		{
-			delete layer;
-			layers.erase(itr);
-			break;
-		}
-
-	if (needsAddDefaultLayer) 
-	{
-		activeLayerInd = -1;
-		activeLayerInd = addNewLayer();
-	}
-
-	return true;
+///
+int CZPainting::duplicateActiveLayer()
+{
+    if(layers.size() > iMaxLayerNumber)
+    {
+        LOG_ERROR("painting has reached the max number of Layers\n");
+        return -1;
+    }
+    
+    CZLayer *layer = layers[activeLayerInd]->duplicate();
+    if(layer == NULL)
+    {
+        LOG_ERROR("duplicate layer failed\n");
+        return -2;
+    }
+    
+    int newIdx = activeLayerInd + 1;
+    if(newIdx < 0 || newIdx > layers.size())
+    {
+        LOG_ERROR("newIdx is out of range\n");
+        return -1;
+    }
+    
+    layers.insert(layers.begin()+newIdx,layer);
+    
+    activeLayerInd = newIdx;
+    
+    return newIdx;
 }
 
 /// 移动图层
-/// 
+///
 ///		\param fromIdx - 需要移动的图层序号
 ///		\param toIdx   - 移动到的位置
 bool CZPainting::moveLayer(int fromIdx, int toIdx)
 {
-	if(fromIdx >= layers.size() || fromIdx < 0 ||
-		toIdx  >= layers.size() || toIdx < 0)
-	{
-		LOG_ERROR("idx out of range!\n");
-		return false;
-	}
-
-	if(fromIdx == toIdx) return true;
-
-	CZLayer *layer = layers.at(fromIdx);
-
-	/// remove from original pos
-	for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
-		if(*itr == layer)	
-		{
-			layers.erase(itr);
-			break;
-		}
-	/// move to the destination pos
-	layers.insert(layers.begin()+toIdx,layer);
-
-	activeLayerInd = toIdx;
-
-	return true;
-	
+    if(fromIdx >= layers.size() || fromIdx < 0 ||
+       toIdx  >= layers.size() || toIdx < 0)
+    {
+        LOG_ERROR("idx out of range!\n");
+        return false;
+    }
+    
+    if(fromIdx == toIdx) return true;
+    
+    CZLayer *layer = layers.at(fromIdx);
+    
+    /// remove from original pos
+    for(vector<CZLayer*>::iterator itr=layers.begin(); itr!=layers.end(); itr++)
+        if(*itr == layer)
+        {
+            layers.erase(itr);
+            break;
+        }
+    /// move to the destination pos
+    layers.insert(layers.begin()+toIdx,layer);
+    
+    activeLayerInd = toIdx;
+    
+    return true;
+    
 }
 
 /// 向下合并当前图层
 ///
 ///		\ret - 是否合并成功
 bool CZPainting::mergeActiveLayerDown()
-{   
+{
     /// in case the active layer is at bottom
     if(activeLayerInd <= 0)
     {
@@ -412,7 +512,7 @@ bool CZPainting::mergeActiveLayerDown()
         return false;
     }
     
-	CZLayer *activeLayer = layers.at(activeLayerInd);
+    CZLayer *activeLayer = layers.at(activeLayerInd);
     bool ret = bottomLayer->merge(activeLayer);
     deleteActiveLayer();
     
@@ -438,6 +538,12 @@ CZLayer* CZPainting::getActiveLayer()
     return layers.at(activeLayerInd);
 }
 
+/// get layer number
+int CZPainting::getLayersNumber()
+{
+    return (int)layers.size();
+}
+
 /// 获取着色器
 CZShader* CZPainting::getShader(string name)
 {
@@ -455,12 +561,16 @@ CZShader* CZPainting::getShader(string name)
 CZTexture* CZPainting::generateTexture(CZImage* img /* = NULL */)
 {
     glContext->setAsCurrent();
-    if (img)	return CZTexture::produceFromImage(img);
-    else		return new CZTexture(dimensions.width,dimensions.height);
+    CZTexture *ret = NULL;
+    if (img)	ret = CZTexture::produceFromImage(img);
+    else		ret = new CZTexture(dimensions.width,dimensions.height);
+    
+    ret->enableLinearInterprolation(false);
+    return ret;
 }
 
 /// 返回quadVAO
-GLUINT CZPainting::getQuadVAO()
+GLuint CZPainting::getQuadVAO()
 {
     if(!quadVAO)
     {
@@ -517,14 +627,102 @@ CZGLContext *CZPainting::getGLContext()
 /// set canvas
 bool CZPainting::setCanvas(CZCanvas* c)
 {
-	ptrCanvas = c;
-	return true;
+    ptrCanvas = c;
+    return true;
 }
 
+bool CZPainting::shouldPreventPaint()
+{
+    CZLayer *layer = getActiveLayer();
+//    printf("isLocked:%d isVisible:%d",layer->isLocked(),layer->isVisible());
+    return layer->isLocked() || !layer->isVisible();
+}
+
+/// pick the color
+CZColor CZPainting::pickColor(int x, int y)
+{
+    if (x<0 || x>= dimensions.width || y<0 || y>= dimensions.height) {
+        LOG_WARN("position(%d,%d) is out of dimensions of painting.\n",x,y);
+        return CZColor::blackColor();
+    }
+    
+    glContext->setAsCurrent();
+    
+    fbo->setColorRenderBuffer(dimensions.width, dimensions.height);
+    
+    fbo->begin();
+    
+    // 用背景颜色清除缓存
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT );
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    
+    blit(projMat);
+    
+    CZColor ret = fbo->getColor(x, y);
+    
+    fbo->end();
+    
+    return ret;
+}
+
+/// restore the painting
+bool CZPainting::restore(bool addDefaultLayer /* = true */)
+{
+    for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)    delete *itr;
+    layers.clear();
+    activeLayerInd = -1;
+    if (lastDeletedLayer) { delete lastDeletedLayer; lastDeletedLayer = nullptr;}
+    if(addDefaultLayer) addNewLayer();
+    
+    glContext->setAsCurrent();
+    fbo->setTexture(activePaintTexture);
+    fbo->begin();
+    
+    glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    fbo->end();
+    
+    if (addDefaultLayer)
+    {
+        CZLayer *layer = getActiveLayer();
+        return layer->clear();
+    }
+    
+    return true;
+}
 
 /// 实现CZCoding接口
-void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/){};
-void CZPainting::encode(CZCoder *coder_, bool deep /*= false*/){};
+void CZPainting::update(CZDecoder *decoder_, bool deep /*= false*/)
+{
+    
+};
+void CZPainting::encode(CZCoder *coder_, bool deep /*= false*/)
+{
+    if(coder_ == nullptr)
+    {
+        LOG_ERROR("coder is NULL\n");
+        return;
+    }
+    coder_->encodeUint((unsigned int)activeLayerInd, CZActiveLayerKey);
+    coder_->encodeFloat(dimensions.width, CZWidthKey);
+    coder_->encodeFloat(dimensions.height, CZHeightKey);
+    if (deep)
+    {
+        // layers
+        vector<CZCoding*> tempArray;
+        for (vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)
+        {
+            tempArray.push_back(*itr);
+        }
+        
+        coder_->encodeArray(tempArray, CZLayersKey);
+    }
+    
+};
 
 void CZPainting::loadShaders()
 {
@@ -584,14 +782,14 @@ void CZPainting::loadShaders()
     
     shader = new CZShader("blit","blitWithMask",attributes,uniforms);
     shaders.insert(make_pair("blitWithMask",shader));
-	
-	/// 将图层和擦除轨迹输出
-	uniforms.pop_back();
-	uniforms.pop_back();
-
-	shader = new CZShader("blit","blitWithEraseMask",attributes,uniforms);
-	shaders.insert(make_pair("blitWithEraseMask",shader));
-
+    
+    /// 将图层和擦除轨迹输出
+    uniforms.pop_back();
+    uniforms.pop_back();
+    
+    shader = new CZShader("blit","blitWithEraseMask",attributes,uniforms);
+    shaders.insert(make_pair("blitWithEraseMask",shader));
+    
     /// 将图层纹理绘制出来
     uniforms.clear();
     uniforms.push_back("mvpMat");
@@ -638,6 +836,15 @@ void CZPainting::loadShaders()
     shader = new CZShader("blit","unPremultipliedBlit",attributes,uniforms);
     shaders.insert(make_pair("unPremultipliedBlit", shader));
     
+    /// simple blit
+    attributes.clear();
+    attributes.push_back("inPosition");
+    uniforms.clear();
+    uniforms.push_back("mvpMat");
+    uniforms.push_back("color");
+    shader = new CZShader("simple","simple",attributes,uniforms);
+    shaders.insert(make_pair("simple", shader));
+    
     CZCheckGLError();
 }
 
@@ -650,9 +857,9 @@ void CZPainting::configureBrush(CZBrush* brush_)
         
         if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
         
-        CZStampGenerator *gen = brush_->getGenerator();
-        CZImage *img = gen->getStamp(false);
+        CZImage *img = brush_->getStampImage();
         glContext->setAsCurrent();
-        brushStampTex = CZTexture::produceFromImage(img);		///< get the normal stamp;
+        brushStampTex = CZTexture::produceFromImage(img);
+        
     }
 }

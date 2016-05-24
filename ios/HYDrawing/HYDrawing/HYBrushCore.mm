@@ -11,12 +11,14 @@
 #include "BrushesCore.h"
 #include "PaintingManager.h"
 #import <QuartzCore/QuartzCore.h>
+#include <string>
 
 @interface HYBrushCore()
 {
     CZViewImpl *viewImpl;
     CZCanvas *canvas;
     CZPainting *painting;
+    BOOL hasInsertedBackgroundLayer;
 }
 @end
 
@@ -41,6 +43,9 @@
     CZActiveState::getInstance()->setActiveBrush(kPencil);
     CZActiveState::getInstance()->mainScreenScale = s;
     
+    /// set the default glsl directory
+    [self setGLSLDirectory:[[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"] UTF8String]];
+    
     viewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(viewImpl);
     
@@ -50,7 +55,20 @@
     [self setActiveBrushwatercolorPenStamp ];
     
     self.hasInitialized = YES;
+    hasInsertedBackgroundLayer = NO;
     return YES;
+}
+
+///设置glsl所在文件夹
+- (void) setGLSLDirectory:(const char*) glslDir
+{
+    if (glslDir == NULL)
+    {
+        LOG_WARN("glslDir is NULL\n");
+        return;
+    }
+    
+    CZShader::glslDirectory = std::string(glslDir);
 }
 
 ///获得绘制视图
@@ -245,6 +263,27 @@
     canvas->drawView();
 }
 
+- (void) renderBackgroundInFixedLayer:(UIImage*)image
+{
+    int originalIdx = painting->getActiveLayerIndex();
+    
+    if(!hasInsertedBackgroundLayer)
+    {
+        int fixedIdx = painting->addNewLayer();
+        painting->moveLayer(fixedIdx, 0);
+        originalIdx = fixedIdx;
+        hasInsertedBackgroundLayer = YES;
+    }
+    
+    painting->setActiveLayer(0);
+    
+    CZImage* backgroundImg = [self producedFromImage:image];
+    painting->getActiveLayer()->renderBackground(backgroundImg);
+    painting->setActiveLayer(originalIdx);
+    
+    canvas->drawView();
+}
+
 - (NSInteger) getLayersNumber
 {
     return NSInteger(painting->getLayersNumber());
@@ -429,6 +468,26 @@
 {
     CZSize size = painting->getDimensions();
     return CGSizeMake(size.width, size.height);
+}
+
+- (UIImage*) getThumbnailOfPainting
+{
+    CZImage *thumbImage = painting->thumbnailImage();
+    if (!thumbImage)    return nil;
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(thumbImage->data, thumbImage->width, thumbImage->height, 8, thumbImage->width*4,
+                                             colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(imageRef);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpaceRef);
+    
+    delete thumbImage;
+    return ret;
 }
 
 /// undo & redo

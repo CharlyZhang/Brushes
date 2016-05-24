@@ -20,6 +20,9 @@
 ///初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s;
 
+///设置glsl所在文件夹
+- (void) setGLSLDirectory:(const char*) glslDir;
+
 ///获得绘制视图
 - (CanvasView*) getPaintingView;
 
@@ -57,6 +60,7 @@
 - (BOOL) setActiveLayerLinearInterprolation:(BOOL)flag;
 ///绘制背景
 - (void) renderBackground:(UIImage*)image;
+- (void) renderBackgroundInFixedLayer:(UIImage*)image;
 
 ///图层
 - (NSInteger) getLayersNumber;
@@ -84,6 +88,7 @@
 - (float) getCanvasScale;
 - (CGPoint) convertToPainting:(CGPoint)pt;
 - (CGSize) getPaintingSize;
+- (UIImage*) getThumbnailOfPainting;
 
 /// undo & redo
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;

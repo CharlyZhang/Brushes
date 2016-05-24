@@ -13,7 +13,7 @@
 
 #include "CZActiveState.h"
 #include "tool/CZFreehandTool.h"
-#include "graphic/glDef.h"
+#include "graphic/CZGLdef.h"
 #include "CZUtil.h"
 #import "WDColor.h"
 

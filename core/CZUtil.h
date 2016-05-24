@@ -36,6 +36,8 @@ public:
 	/// 取最大最小值
 	static inline float Max(float a, float b)	{ return a>b ? a:b;}
 	static inline float Min(float a, float b)	{ return a<b ? a:b;}
+    static inline int32_t Max(int32_t a, int32_t b)	{ return a>b ? a:b;}
+    static inline int32_t Min(int32_t a, int32_t b)	{ return a<b ? a:b;}
 	/// 规范化
 	static inline float Clamp(float min, float max, float value) {return (value < min) ? min : (value > max) ? max : value;}
 	/// 取随机数[0,1]

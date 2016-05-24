@@ -50,6 +50,8 @@ public:
 	CZImage *imageWithSize(CZSize &size, CZColor *backgroundColor = NULL);
 	/// 生成当前状态的图像
 	CZImage *imageForCurrentState(CZColor *backgroundColor);
+    /// produce thumbnail of default size
+    CZImage *thumbnailImage();
 	
 	/// 设置范围（让render的范围与其保持一致）
 	void setDimensions(const CZSize &size);
@@ -115,7 +117,7 @@ public:
 	CZTexture* generateTexture(CZImage* img = NULL);
 
 	/// 返回quadVAO
-	GLUINT getQuadVAO();
+	GLuint getQuadVAO();
 	
 	/// 获取范围
 	CZSize& getDimensions();
@@ -173,7 +175,7 @@ private:
 	CZBrush					*ptrLastBrush;	///< 上一把画刷
 	CZGLContext				*glContext;		///< gl上下文
 	std::map<std::string,CZShader*>	shaders;///< 着色器
-	GLUINT quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
+	GLuint quadVAO,quadVBO;					///< 绘制矩形的VAO、VBO
 	CZFbo					*fbo;			
 	CZTexture				*brushStampTex;	///< 画刷笔触纹理
     
