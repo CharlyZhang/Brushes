@@ -39,13 +39,6 @@
 			remoteGlobalIDString = 2D2BE52B1A0C9196003724D4;
 			remoteInfo = BrushesCore;
 		};
-		2D63C8221B45243D0024AF37 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D63C81B1B45243C0024AF37 /* BrushesCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2D2BE53B1A0C9196003724D4;
-			remoteInfo = BrushesCoreTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -165,7 +158,6 @@
 			isa = PBXGroup;
 			children = (
 				2D63C8211B45243D0024AF37 /* libBrushesCore.a */,
-				2D63C8231B45243D0024AF37 /* BrushesCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,6 +206,7 @@
 		2D63C7DE1B451F4E0024AF37 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Founder;
 				TargetAttributes = {
@@ -257,13 +250,6 @@
 			fileType = archive.ar;
 			path = libBrushesCore.a;
 			remoteRef = 2D63C8201B45243D0024AF37 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2D63C8231B45243D0024AF37 /* BrushesCoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = BrushesCoreTests.xctest;
-			remoteRef = 2D63C8221B45243D0024AF37 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

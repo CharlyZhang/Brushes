@@ -110,7 +110,7 @@ void CZFbo::setRenderBufferWithContext(void* ctx, void* layer)
     //…Í«ÎªÊ÷∆ª∫≥Â«¯
     glBindRenderbuffer(GL_RENDERBUFFER,renderId);
 #if defined(__APPLE__)
-    [(EAGLContext*)ctx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)layer];
+    [(__bridge EAGLContext*)ctx renderbufferStorage:GL_RENDERBUFFER fromDrawable:(__bridge CAEAGLLayer*)layer];
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
 #endif

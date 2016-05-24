@@ -104,17 +104,15 @@
 		53D590871B5E02CA00E9D2F0 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 53D590791B5E02CA00E9D2F0 /* unPremultipliedBlit.frag */; };
 		60216AE81B588A21009186F4 /* HYMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60216AE71B588A21009186F4 /* HYMenuViewController.m */; };
 		608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 608042031B57BE1400B3AB52 /* HYDrawingViewController.m */; };
+		60B1B8C71CF45F7A00C99E92 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242F31CBB854F00E78800 /* AFURLResponseSerialization.m */; };
+		60B1B8CA1CF45F7E00C99E92 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242F51CBB854F00E78800 /* AFURLSessionManager.m */; };
+		60B1B8CB1CF45F8D00C99E92 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242EF1CBB854F00E78800 /* AFSecurityPolicy.m */; };
 		809242DE1CBB416300E78800 /* ZXHResourcePicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242DD1CBB416300E78800 /* ZXHResourcePicturesController.m */; };
 		809242E31CBB4A7700E78800 /* ZXHResourceListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242E21CBB4A7700E78800 /* ZXHResourceListController.m */; };
 		809242E61CBB4AAF00E78800 /* ZXHResourceContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242E51CBB4AAF00E78800 /* ZXHResourceContentController.m */; };
 		809242F61CBB854F00E78800 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242EA1CBB854F00E78800 /* AFHTTPSessionManager.m */; };
 		809242F71CBB854F00E78800 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242ED1CBB854F00E78800 /* AFNetworkReachabilityManager.m */; };
-		809242F81CBB854F00E78800 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242EF1CBB854F00E78800 /* AFSecurityPolicy.m */; };
 		809242F91CBB854F00E78800 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242F11CBB854F00E78800 /* AFURLRequestSerialization.m */; };
-		809242FA1CBB854F00E78800 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242F31CBB854F00E78800 /* AFURLResponseSerialization.m */; };
-		809242FB1CBB854F00E78800 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242F51CBB854F00E78800 /* AFURLSessionManager.m */; };
-		8092431E1CBB85C400E78800 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 809242FE1CBB85C400E78800 /* MKAnnotationView+WebCache.m */; };
-		8092431F1CBB85C400E78800 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243001CBB85C400E78800 /* NSData+ImageContentType.m */; };
 		809243201CBB85C400E78800 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243021CBB85C400E78800 /* SDImageCache.m */; };
 		809243211CBB85C400E78800 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243041CBB85C400E78800 /* SDWebImageCompat.m */; };
 		809243221CBB85C400E78800 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243061CBB85C400E78800 /* SDWebImageDecoder.m */; };
@@ -125,9 +123,7 @@
 		809243271CBB85C400E78800 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243111CBB85C400E78800 /* UIButton+WebCache.m */; };
 		809243281CBB85C400E78800 /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243131CBB85C400E78800 /* UIImage+GIF.m */; };
 		809243291CBB85C400E78800 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243151CBB85C400E78800 /* UIImage+MultiFormat.m */; };
-		8092432A1CBB85C400E78800 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243171CBB85C400E78800 /* UIImage+WebP.m */; };
 		8092432B1CBB85C400E78800 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243191CBB85C400E78800 /* UIImageView+HighlightedWebCache.m */; };
-		8092432C1CBB85C400E78800 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8092431B1CBB85C400E78800 /* UIImageView+WebCache.m */; };
 		8092432D1CBB85C400E78800 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8092431D1CBB85C400E78800 /* UIView+WebCacheOperation.m */; };
 		809243351CBCC95200E78800 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 809243341CBCC95200E78800 /* DownloadManager.m */; };
 /* End PBXBuildFile section */
@@ -934,6 +930,8 @@
 				809243291CBB85C400E78800 /* UIImage+MultiFormat.m in Sources */,
 				537343A31B7086A300CDCC82 /* Shaders.m in Sources */,
 				809242DE1CBB416300E78800 /* ZXHResourcePicturesController.m in Sources */,
+				60B1B8CA1CF45F7E00C99E92 /* AFURLSessionManager.m in Sources */,
+				60B1B8CB1CF45F8D00C99E92 /* AFSecurityPolicy.m in Sources */,
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
 				809243281CBB85C400E78800 /* UIImage+GIF.m in Sources */,
 				809242F71CBB854F00E78800 /* AFNetworkReachabilityManager.m in Sources */,
@@ -963,6 +961,7 @@
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				538CA68D1B8AE83B0050A39A /* ZXHPaintingListCell.m in Sources */,
 				2DCD5C001CF44F620083BC43 /* HYBrushCore.mm in Sources */,
+				60B1B8C71CF45F7A00C99E92 /* AFURLResponseSerialization.m in Sources */,
 				535DA0EC1B7047BE00E117FF /* WDColorComparator.m in Sources */,
 				2D0E59211C08065A00ECD812 /* SettingViewController.m in Sources */,
 				608042041B57BE1400B3AB52 /* HYDrawingViewController.m in Sources */,

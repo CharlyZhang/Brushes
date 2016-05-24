@@ -15,7 +15,7 @@ struct CZGLContext::Impl
     }
     ~Impl()
     {
-        if(realContext) [realContext release ];
+        //if(realContext) [realContext release ];
         realContext = NULL;
         [EAGLContext setCurrentContext:nil];
     }
@@ -57,6 +57,6 @@ bool CZGLContext::setAsCurrent()
 void* CZGLContext::getRealContext()
 {
 #if defined(__APPLE__)
-    return (void*)impl->realContext;
+    return (__bridge void*)impl->realContext;
 #endif
 }

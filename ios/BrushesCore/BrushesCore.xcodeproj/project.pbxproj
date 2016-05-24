@@ -6,13 +6,22 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		60B1B8CC1CF45FF800C99E92 /* Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 60B1B8CD1CF45FF800C99E92 /* Build configuration list for PBXAggregateTarget "Universal" */;
+			buildPhases = (
+				60B1B8D01CF4600100C99E92 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Universal;
+			productName = Universal;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
-		2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53C1A0C9196003724D4 /* XCTest.framework */; };
-		2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52E1A0C9196003724D4 /* Foundation.framework */; };
-		2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE53F1A0C9196003724D4 /* UIKit.framework */; };
-		2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */; };
-		2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2D2BE5471A0C9196003724D4 /* InfoPlist.strings */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DCD5C1B1CF451390083BC43 /* CZ2DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C071CF451390083BC43 /* CZ2DPoint.cpp */; };
 		2DCD5C1C1CF451390083BC43 /* CZ3DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C091CF451390083BC43 /* CZ3DPoint.cpp */; };
@@ -51,25 +60,44 @@
 		2DCD5C801CF452030083BC43 /* CZHueSaturation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C741CF452030083BC43 /* CZHueSaturation.cpp */; };
 		2DCD5C811CF452030083BC43 /* CZNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C761CF452030083BC43 /* CZNotificationCenter.cpp */; };
 		2DCD5C821CF452030083BC43 /* CZUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C791CF452030083BC43 /* CZUtil.cpp */; };
+		60B1B8E31CF4647400C99E92 /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8D91CF4647400C99E92 /* CanvasView.mm */; };
+		60B1B8E41CF4647400C99E92 /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8DB1CF4647400C99E92 /* CZViewImpl.mm */; };
+		60B1B8E51CF4647400C99E92 /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8DD1CF4647400C99E92 /* HYBrushCore.mm */; };
+		60B1B8E61CF4647400C99E92 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8E01CF4647400C99E92 /* Actions.m */; };
+		60B1B8E71CF4647400C99E92 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8E21CF4647400C99E92 /* PaintingManager.mm */; };
+		60B1B9BC1CF464FB00C99E92 /* Shaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B96B1CF464FB00C99E92 /* Shaders.m */; };
+		60B1B9BD1CF464FB00C99E92 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B96D1CF464FB00C99E92 /* UIView+Additions.m */; };
+		60B1B9BE1CF464FB00C99E92 /* WDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B96F1CF464FB00C99E92 /* WDColor.m */; };
+		60B1B9BF1CF464FB00C99E92 /* WDColorComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9711CF464FB00C99E92 /* WDColorComparator.m */; };
+		60B1B9C01CF464FB00C99E92 /* WDColorIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9731CF464FB00C99E92 /* WDColorIndicator.m */; };
+		60B1B9C11CF464FB00C99E92 /* WDColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9751CF464FB00C99E92 /* WDColorPickerController.m */; };
+		60B1B9C21CF464FB00C99E92 /* WDColorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9771CF464FB00C99E92 /* WDColorSlider.m */; };
+		60B1B9C31CF464FB00C99E92 /* WDColorSourceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9791CF464FB00C99E92 /* WDColorSourceView.m */; };
+		60B1B9C41CF464FB00C99E92 /* WDColorSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B97B1CF464FB00C99E92 /* WDColorSquare.m */; };
+		60B1B9C51CF464FB00C99E92 /* WDColorWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B97D1CF464FB00C99E92 /* WDColorWell.m */; };
+		60B1B9C61CF464FB00C99E92 /* WDColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B97F1CF464FB00C99E92 /* WDColorWheel.m */; };
+		60B1B9C71CF464FB00C99E92 /* WDDragChip.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9811CF464FB00C99E92 /* WDDragChip.m */; };
+		60B1B9C81CF464FB00C99E92 /* WDInsetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9831CF464FB00C99E92 /* WDInsetView.m */; };
+		60B1B9C91CF464FB00C99E92 /* WDShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9851CF464FB00C99E92 /* WDShader.m */; };
+		60B1B9CA1CF464FB00C99E92 /* WDSwatches.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9871CF464FB00C99E92 /* WDSwatches.m */; };
+		60B1B9CB1CF464FB00C99E92 /* WDUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9891CF464FB00C99E92 /* WDUtilities.m */; };
+		60B1B9CC1CF466DB00C99E92 /* WDColor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B96E1CF464FB00C99E92 /* WDColor.h */; };
+		60B1B9CD1CF466E300C99E92 /* HYBrushCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B8DC1CF4647400C99E92 /* HYBrushCore.h */; };
+		60B1B9CE1CF466E800C99E92 /* CanvasView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B8D81CF4647400C99E92 /* CanvasView.h */; };
+		60B1B9CF1CF466F400C99E92 /* PaintingManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B8E11CF4647400C99E92 /* PaintingManager.h */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		2D2BE5411A0C9196003724D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D2BE5231A0C9196003724D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D2BE52A1A0C9196003724D4;
-			remoteInfo = BrushesCore;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		2D2BE5291A0C9196003724D4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				60B1B9CF1CF466F400C99E92 /* PaintingManager.h in CopyFiles */,
+				60B1B9CE1CF466E800C99E92 /* CanvasView.h in CopyFiles */,
+				60B1B9CD1CF466E300C99E92 /* HYBrushCore.h in CopyFiles */,
+				60B1B9CC1CF466DB00C99E92 /* WDColor.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +107,6 @@
 		2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBrushesCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D2BE52E1A0C9196003724D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2D2BE5321A0C9196003724D4 /* BrushesCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BrushesCore-Prefix.pch"; sourceTree = "<group>"; };
-		2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrushesCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D2BE53C1A0C9196003724D4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2D2BE53F1A0C9196003724D4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		2D2BE5461A0C9196003724D4 /* BrushesCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrushesCoreTests-Info.plist"; sourceTree = "<group>"; };
@@ -170,6 +197,51 @@
 		2DCD5C781CF452030083BC43 /* CZUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZUndoManager.h; path = ../../../core/src/CZUndoManager.h; sourceTree = "<group>"; };
 		2DCD5C791CF452030083BC43 /* CZUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZUtil.cpp; path = ../../../core/src/CZUtil.cpp; sourceTree = "<group>"; };
 		2DCD5C7A1CF452030083BC43 /* CZUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZUtil.h; path = ../../../core/src/CZUtil.h; sourceTree = "<group>"; };
+		60B1B8D81CF4647400C99E92 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
+		60B1B8D91CF4647400C99E92 /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
+		60B1B8DA1CF4647400C99E92 /* CZViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZViewImpl.h; sourceTree = "<group>"; };
+		60B1B8DB1CF4647400C99E92 /* CZViewImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZViewImpl.mm; sourceTree = "<group>"; };
+		60B1B8DC1CF4647400C99E92 /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
+		60B1B8DD1CF4647400C99E92 /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
+		60B1B8DF1CF4647400C99E92 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Actions.h; sourceTree = "<group>"; };
+		60B1B8E01CF4647400C99E92 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actions.m; sourceTree = "<group>"; };
+		60B1B8E11CF4647400C99E92 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
+		60B1B8E21CF4647400C99E92 /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaintingManager.mm; sourceTree = "<group>"; };
+		60B1B8E91CF464FB00C99E92 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
+		60B1B8EA1CF464FB00C99E92 /* colorPicker.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = colorPicker.fsh; sourceTree = "<group>"; };
+		60B1B8EB1CF464FB00C99E92 /* ColorPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPicker.xib; sourceTree = "<group>"; };
+		60B1B96A1CF464FB00C99E92 /* Shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shaders.h; sourceTree = "<group>"; };
+		60B1B96B1CF464FB00C99E92 /* Shaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shaders.m; sourceTree = "<group>"; };
+		60B1B96C1CF464FB00C99E92 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
+		60B1B96D1CF464FB00C99E92 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
+		60B1B96E1CF464FB00C99E92 /* WDColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColor.h; sourceTree = "<group>"; };
+		60B1B96F1CF464FB00C99E92 /* WDColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColor.m; sourceTree = "<group>"; };
+		60B1B9701CF464FB00C99E92 /* WDColorComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorComparator.h; sourceTree = "<group>"; };
+		60B1B9711CF464FB00C99E92 /* WDColorComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorComparator.m; sourceTree = "<group>"; };
+		60B1B9721CF464FB00C99E92 /* WDColorIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorIndicator.h; sourceTree = "<group>"; };
+		60B1B9731CF464FB00C99E92 /* WDColorIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorIndicator.m; sourceTree = "<group>"; };
+		60B1B9741CF464FB00C99E92 /* WDColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorPickerController.h; sourceTree = "<group>"; };
+		60B1B9751CF464FB00C99E92 /* WDColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorPickerController.m; sourceTree = "<group>"; };
+		60B1B9761CF464FB00C99E92 /* WDColorSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSlider.h; sourceTree = "<group>"; };
+		60B1B9771CF464FB00C99E92 /* WDColorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSlider.m; sourceTree = "<group>"; };
+		60B1B9781CF464FB00C99E92 /* WDColorSourceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSourceView.h; sourceTree = "<group>"; };
+		60B1B9791CF464FB00C99E92 /* WDColorSourceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSourceView.m; sourceTree = "<group>"; };
+		60B1B97A1CF464FB00C99E92 /* WDColorSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSquare.h; sourceTree = "<group>"; };
+		60B1B97B1CF464FB00C99E92 /* WDColorSquare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSquare.m; sourceTree = "<group>"; };
+		60B1B97C1CF464FB00C99E92 /* WDColorWell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorWell.h; sourceTree = "<group>"; };
+		60B1B97D1CF464FB00C99E92 /* WDColorWell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorWell.m; sourceTree = "<group>"; };
+		60B1B97E1CF464FB00C99E92 /* WDColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorWheel.h; sourceTree = "<group>"; };
+		60B1B97F1CF464FB00C99E92 /* WDColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorWheel.m; sourceTree = "<group>"; };
+		60B1B9801CF464FB00C99E92 /* WDDragChip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDDragChip.h; sourceTree = "<group>"; };
+		60B1B9811CF464FB00C99E92 /* WDDragChip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDDragChip.m; sourceTree = "<group>"; };
+		60B1B9821CF464FB00C99E92 /* WDInsetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDInsetView.h; sourceTree = "<group>"; };
+		60B1B9831CF464FB00C99E92 /* WDInsetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDInsetView.m; sourceTree = "<group>"; };
+		60B1B9841CF464FB00C99E92 /* WDShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDShader.h; sourceTree = "<group>"; };
+		60B1B9851CF464FB00C99E92 /* WDShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDShader.m; sourceTree = "<group>"; };
+		60B1B9861CF464FB00C99E92 /* WDSwatches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDSwatches.h; sourceTree = "<group>"; };
+		60B1B9871CF464FB00C99E92 /* WDSwatches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDSwatches.m; sourceTree = "<group>"; };
+		60B1B9881CF464FB00C99E92 /* WDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDUtilities.h; sourceTree = "<group>"; };
+		60B1B9891CF464FB00C99E92 /* WDUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,17 +251,6 @@
 			files = (
 				2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */,
 				2D2BE52F1A0C9196003724D4 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D2BE5381A0C9196003724D4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D2BE53D1A0C9196003724D4 /* XCTest.framework in Frameworks */,
-				2D2BE5401A0C9196003724D4 /* UIKit.framework in Frameworks */,
-				2D2BE53E1A0C9196003724D4 /* Foundation.framework in Frameworks */,
-				2D2BE5431A0C9196003724D4 /* libBrushesCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +390,8 @@
 		2D2BE5221A0C9196003724D4 = {
 			isa = PBXGroup;
 			children = (
+				60B1B8E81CF464FB00C99E92 /* ColorPicker */,
+				60B1B8D71CF4647400C99E92 /* interface */,
 				2D2BE5301A0C9196003724D4 /* BrushesCore */,
 				2D2BE5441A0C9196003724D4 /* BrushesCoreTests */,
 				2D2BE52D1A0C9196003724D4 /* Frameworks */,
@@ -340,7 +403,6 @@
 			isa = PBXGroup;
 			children = (
 				2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */,
-				2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -416,6 +478,75 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		60B1B8D71CF4647400C99E92 /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				60B1B8D81CF4647400C99E92 /* CanvasView.h */,
+				60B1B8D91CF4647400C99E92 /* CanvasView.mm */,
+				60B1B8DA1CF4647400C99E92 /* CZViewImpl.h */,
+				60B1B8DB1CF4647400C99E92 /* CZViewImpl.mm */,
+				60B1B8DC1CF4647400C99E92 /* HYBrushCore.h */,
+				60B1B8DD1CF4647400C99E92 /* HYBrushCore.mm */,
+				60B1B8DE1CF4647400C99E92 /* Models */,
+			);
+			name = interface;
+			path = ../interface;
+			sourceTree = "<group>";
+		};
+		60B1B8DE1CF4647400C99E92 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				60B1B8DF1CF4647400C99E92 /* Actions.h */,
+				60B1B8E01CF4647400C99E92 /* Actions.m */,
+				60B1B8E11CF4647400C99E92 /* PaintingManager.h */,
+				60B1B8E21CF4647400C99E92 /* PaintingManager.mm */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		60B1B8E81CF464FB00C99E92 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				60B1B8E91CF464FB00C99E92 /* blit.vsh */,
+				60B1B8EA1CF464FB00C99E92 /* colorPicker.fsh */,
+				60B1B8EB1CF464FB00C99E92 /* ColorPicker.xib */,
+				60B1B96A1CF464FB00C99E92 /* Shaders.h */,
+				60B1B96B1CF464FB00C99E92 /* Shaders.m */,
+				60B1B96C1CF464FB00C99E92 /* UIView+Additions.h */,
+				60B1B96D1CF464FB00C99E92 /* UIView+Additions.m */,
+				60B1B96E1CF464FB00C99E92 /* WDColor.h */,
+				60B1B96F1CF464FB00C99E92 /* WDColor.m */,
+				60B1B9701CF464FB00C99E92 /* WDColorComparator.h */,
+				60B1B9711CF464FB00C99E92 /* WDColorComparator.m */,
+				60B1B9721CF464FB00C99E92 /* WDColorIndicator.h */,
+				60B1B9731CF464FB00C99E92 /* WDColorIndicator.m */,
+				60B1B9741CF464FB00C99E92 /* WDColorPickerController.h */,
+				60B1B9751CF464FB00C99E92 /* WDColorPickerController.m */,
+				60B1B9761CF464FB00C99E92 /* WDColorSlider.h */,
+				60B1B9771CF464FB00C99E92 /* WDColorSlider.m */,
+				60B1B9781CF464FB00C99E92 /* WDColorSourceView.h */,
+				60B1B9791CF464FB00C99E92 /* WDColorSourceView.m */,
+				60B1B97A1CF464FB00C99E92 /* WDColorSquare.h */,
+				60B1B97B1CF464FB00C99E92 /* WDColorSquare.m */,
+				60B1B97C1CF464FB00C99E92 /* WDColorWell.h */,
+				60B1B97D1CF464FB00C99E92 /* WDColorWell.m */,
+				60B1B97E1CF464FB00C99E92 /* WDColorWheel.h */,
+				60B1B97F1CF464FB00C99E92 /* WDColorWheel.m */,
+				60B1B9801CF464FB00C99E92 /* WDDragChip.h */,
+				60B1B9811CF464FB00C99E92 /* WDDragChip.m */,
+				60B1B9821CF464FB00C99E92 /* WDInsetView.h */,
+				60B1B9831CF464FB00C99E92 /* WDInsetView.m */,
+				60B1B9841CF464FB00C99E92 /* WDShader.h */,
+				60B1B9851CF464FB00C99E92 /* WDShader.m */,
+				60B1B9861CF464FB00C99E92 /* WDSwatches.h */,
+				60B1B9871CF464FB00C99E92 /* WDSwatches.m */,
+				60B1B9881CF464FB00C99E92 /* WDUtilities.h */,
+				60B1B9891CF464FB00C99E92 /* WDUtilities.m */,
+			);
+			name = ColorPicker;
+			path = ../ColorPicker;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -436,24 +567,6 @@
 			productReference = 2D2BE52B1A0C9196003724D4 /* libBrushesCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		2D2BE53A1A0C9196003724D4 /* BrushesCoreTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D2BE5511A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCoreTests" */;
-			buildPhases = (
-				2D2BE5371A0C9196003724D4 /* Sources */,
-				2D2BE5381A0C9196003724D4 /* Frameworks */,
-				2D2BE5391A0C9196003724D4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D2BE5421A0C9196003724D4 /* PBXTargetDependency */,
-			);
-			name = BrushesCoreTests;
-			productName = BrushesCoreTests;
-			productReference = 2D2BE53B1A0C9196003724D4 /* BrushesCoreTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -462,6 +575,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = CharlyZhang;
+				TargetAttributes = {
+					60B1B8CC1CF45FF800C99E92 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
 			};
 			buildConfigurationList = 2D2BE5261A0C9196003724D4 /* Build configuration list for PBXProject "BrushesCore" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -476,47 +594,64 @@
 			projectRoot = "";
 			targets = (
 				2D2BE52A1A0C9196003724D4 /* BrushesCore */,
-				2D2BE53A1A0C9196003724D4 /* BrushesCoreTests */,
+				60B1B8CC1CF45FF800C99E92 /* Universal */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		2D2BE5391A0C9196003724D4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* Begin PBXShellScriptBuildPhase section */
+		60B1B8D01CF4600100C99E92 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D2BE5491A0C9196003724D4 /* InfoPlist.strings in Resources */,
+			);
+			inputPaths = (
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target BrushesCore ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target BrushesCore -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 -arch x86_64  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
 		};
-/* End PBXResourcesBuildPhase section */
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2D2BE5271A0C9196003724D4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60B1B9BF1CF464FB00C99E92 /* WDColorComparator.m in Sources */,
 				2DCD5C371CF451670083BC43 /* CZTexture.cpp in Sources */,
 				2DCD5C211CF451390083BC43 /* CZProperty.cpp in Sources */,
 				2DCD5C7D1CF452030083BC43 /* CZCanvas.cpp in Sources */,
 				2DCD5C221CF451390083BC43 /* CZRandom.cpp in Sources */,
+				60B1B9CA1CF464FB00C99E92 /* WDSwatches.m in Sources */,
 				2DCD5C291CF451500083BC43 /* CZBrush.cpp in Sources */,
 				2DCD5C351CF451670083BC43 /* CZGLContext.mm in Sources */,
+				60B1B8E41CF4647400C99E92 /* CZViewImpl.mm in Sources */,
+				60B1B8E61CF4647400C99E92 /* Actions.m in Sources */,
 				2DCD5C1B1CF451390083BC43 /* CZ2DPoint.cpp in Sources */,
 				2DCD5C361CF451670083BC43 /* CZShader.cpp in Sources */,
+				60B1B9CB1CF464FB00C99E92 /* WDUtilities.m in Sources */,
 				2DCD5C821CF452030083BC43 /* CZUtil.cpp in Sources */,
+				60B1B9C11CF464FB00C99E92 /* WDColorPickerController.m in Sources */,
 				2DCD5C651CF451CD0083BC43 /* CZFreehandTool.cpp in Sources */,
 				2DCD5C341CF451670083BC43 /* CZFbo.mm in Sources */,
 				2DCD5C3D1CF4517B0083BC43 /* CZPainting.cpp in Sources */,
 				2DCD5C7B1CF452030083BC43 /* CZActiveState.cpp in Sources */,
+				60B1B9C71CF464FB00C99E92 /* WDDragChip.m in Sources */,
+				60B1B8E71CF4647400C99E92 /* PaintingManager.mm in Sources */,
 				2DCD5C231CF451390083BC43 /* CZRect.cpp in Sources */,
+				60B1B9C91CF464FB00C99E92 /* WDShader.m in Sources */,
 				2DCD5C1D1CF451390083BC43 /* CZAffineTransform.cpp in Sources */,
 				2DCD5C1E1CF451390083BC43 /* CZColor.cpp in Sources */,
 				2DCD5C3C1CF4517B0083BC43 /* CZLayer.cpp in Sources */,
 				2DCD5C5B1CF451B90083BC43 /* CZSpiralGenerator.cpp in Sources */,
 				2DCD5C241CF451390083BC43 /* CZSize.cpp in Sources */,
+				60B1B9C51CF464FB00C99E92 /* WDColorWell.m in Sources */,
+				60B1B8E51CF4647400C99E92 /* HYBrushCore.mm in Sources */,
 				2DCD5C2A1CF451500083BC43 /* CZBrushPreview.cpp in Sources */,
+				60B1B9BE1CF464FB00C99E92 /* WDColor.m in Sources */,
 				2DCD5C4F1CF451A40083BC43 /* CZFileCoder.cpp in Sources */,
 				2DCD5C801CF452030083BC43 /* CZHueSaturation.cpp in Sources */,
 				2DCD5C461CF4518F0083BC43 /* CZPath.cpp in Sources */,
@@ -524,35 +659,29 @@
 				2DCD5C591CF451B90083BC43 /* CZBristleGenerator.cpp in Sources */,
 				2DCD5C7E1CF452030083BC43 /* CZColorBalance.cpp in Sources */,
 				2DCD5C201CF451390083BC43 /* CZMat4.cpp in Sources */,
+				60B1B9C01CF464FB00C99E92 /* WDColorIndicator.m in Sources */,
 				2DCD5C501CF451A40083BC43 /* CZTypedData.cpp in Sources */,
+				60B1B9C41CF464FB00C99E92 /* WDColorSquare.m in Sources */,
+				60B1B9BD1CF464FB00C99E92 /* UIView+Additions.m in Sources */,
 				2DCD5C451CF4518F0083BC43 /* CZBezierSegment.cpp in Sources */,
+				60B1B9C31CF464FB00C99E92 /* WDColorSourceView.m in Sources */,
 				2DCD5C641CF451CD0083BC43 /* CZEraserTool.cpp in Sources */,
 				2DCD5C1C1CF451390083BC43 /* CZ3DPoint.cpp in Sources */,
 				2DCD5C7F1CF452030083BC43 /* CZFileManager.cpp in Sources */,
 				2DCD5C441CF4518F0083BC43 /* CZBezierNode.cpp in Sources */,
+				60B1B9BC1CF464FB00C99E92 /* Shaders.m in Sources */,
 				2DCD5C1F1CF451390083BC43 /* CZImage.cpp in Sources */,
+				60B1B9C61CF464FB00C99E92 /* WDColorWheel.m in Sources */,
 				2DCD5C5C1CF451B90083BC43 /* CZStampGenerator.cpp in Sources */,
 				2DCD5C661CF451CD0083BC43 /* CZTool.cpp in Sources */,
+				60B1B9C21CF464FB00C99E92 /* WDColorSlider.m in Sources */,
+				60B1B8E31CF4647400C99E92 /* CanvasView.mm in Sources */,
 				2DCD5C5A1CF451B90083BC43 /* CZRoundGenerator.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D2BE5371A0C9196003724D4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				60B1B9C81CF464FB00C99E92 /* WDInsetView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		2D2BE5421A0C9196003724D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D2BE52A1A0C9196003724D4 /* BrushesCore */;
-			targetProxy = 2D2BE5411A0C9196003724D4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2D2BE5471A0C9196003724D4 /* InfoPlist.strings */ = {
@@ -641,6 +770,7 @@
 		2D2BE54F1A0C9196003724D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/BrushesCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
@@ -655,6 +785,7 @@
 		2D2BE5501A0C9196003724D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/BrushesCore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
@@ -665,41 +796,17 @@
 			};
 			name = Release;
 		};
-		2D2BE5521A0C9196003724D4 /* Debug */ = {
+		60B1B8CE1CF45FF800C99E92 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
-		2D2BE5531A0C9196003724D4 /* Release */ = {
+		60B1B8CF1CF45FF800C99E92 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "BrushesCore/BrushesCore-Prefix.pch";
-				INFOPLIST_FILE = "BrushesCoreTests/BrushesCoreTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35cdd2d2-bb8c-483f-94fa-19e6ce115a97";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -724,14 +831,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D2BE5511A0C9196003724D4 /* Build configuration list for PBXNativeTarget "BrushesCoreTests" */ = {
+		60B1B8CD1CF45FF800C99E92 /* Build configuration list for PBXAggregateTarget "Universal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2D2BE5521A0C9196003724D4 /* Debug */,
-				2D2BE5531A0C9196003724D4 /* Release */,
+				60B1B8CE1CF45FF800C99E92 /* Debug */,
+				60B1B8CF1CF45FF800C99E92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
