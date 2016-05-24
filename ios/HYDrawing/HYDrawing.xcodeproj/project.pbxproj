@@ -954,7 +954,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = ../../core;
+				USER_HEADER_SEARCH_PATHS = ../../core/src;
 			};
 			name = Debug;
 		};
@@ -971,7 +971,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = ../../core;
+				USER_HEADER_SEARCH_PATHS = ../../core/src;
 			};
 			name = Release;
 		};

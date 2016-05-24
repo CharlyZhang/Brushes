@@ -34,6 +34,11 @@ bug:
 7. painting的删除
 8. 增加画布变幻复原的手势（双指双击）
 
+- 2016-05-24
+    1. 将interface相关的代码独立出来，放在本项目外
+    2. 将core中的代码与glsl分开
+    3. 删除陈旧代码（CZRender，CZCanvas_original...）
+
 
 
 ### CORE:
