@@ -271,6 +271,7 @@
     {
         int fixedIdx = painting->addNewLayer();
         painting->moveLayer(fixedIdx, 0);
+        originalIdx = fixedIdx;
         hasInsertedBackgroundLayer = YES;
     }
     
