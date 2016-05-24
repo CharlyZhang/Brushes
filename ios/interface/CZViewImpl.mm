@@ -7,7 +7,6 @@
 //
 
 #include "CZViewImpl.h"
-#include "CZDefine.h"
 
 ////////////////////CanvasView////////////////////
 CZViewImpl::CZViewImpl(const CZRect& rect)

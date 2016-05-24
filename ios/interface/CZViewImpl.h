@@ -11,7 +11,7 @@
 #ifndef __HYDrawing__CZViewImpl__
 #define __HYDrawing__CZViewImpl__
 
-#include "CZCanvas.h"
+#include "BrushesCore.h"
 #import "CanvasView.h"
 
 /// CZView, ∆ΩÃ®œ‡πÿµƒ ”Õº
