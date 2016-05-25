@@ -149,10 +149,10 @@
 }
 
 ///获取当前绘制颜色
-- (WDColor*)getActiveStatePaintColor
+- (UIColor*)getActiveStatePaintColor
 {
     CZColor myColor = CZActiveState::getInstance()->getPaintColor();
-    WDColor *ret = [WDColor colorWithRed: myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
+    UIColor *ret = [UIColor colorWithRed:myColor.red green:myColor.green blue:myColor.blue alpha:myColor.alpha];
     return ret;
 }
 ///设置当前绘制颜色
@@ -165,10 +165,12 @@
 }
 
 ///设置挑选颜色
-- (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSInteger)index
+- (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSInteger)index
 {
     if(color){
-        CZColor *c = new CZColor(color.red,color.green,color.blue,color.alpha);
+        CGFloat r,g,b,a;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+        CZColor *c = new CZColor(r,g,b,a);
         CZActiveState::getInstance()->setSwatch(c, (int)index);
     }
     else {
@@ -180,10 +182,10 @@
     CZActiveState::getInstance()->setPaintColorAsSwatch(int(index));
 }
 
-- (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index
+- (UIColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index
 {
     CZColor *c = CZActiveState::getInstance()->getSwatch((int)index);
-    if (c)  return [WDColor colorWithRed:c->red green:c->green blue:c->blue alpha:c->alpha];
+    if (c)  return [UIColor colorWithRed:c->red green:c->green blue:c->blue alpha:c->alpha];
     else    return nil;
 }
 

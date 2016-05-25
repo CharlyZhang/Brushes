@@ -173,7 +173,10 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     [self.view insertSubview:canvasView atIndex:0];
     
 #pragma mark - bottom bar view
-    bottomBarView = [[BottomBarView alloc]initWithWellColor:[[HYBrushCore sharedInstance]getActiveStatePaintColor]];
+    UIColor *activeColor = [[HYBrushCore sharedInstance]getActiveStatePaintColor];
+    CGFloat r,g,b,a;
+    [activeColor getRed:&r green:&g blue:&b alpha:&a];
+    bottomBarView = [[BottomBarView alloc]initWithWellColor:[WDColor colorWithRed:r green:g blue:b alpha:a]];
     bottomBarView.delegate = self;
     [self.view addSubview:bottomBarView];
 	if (iOS(8.0)) {

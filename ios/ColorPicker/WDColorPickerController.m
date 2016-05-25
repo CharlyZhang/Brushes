@@ -42,7 +42,7 @@
 
 - (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSUInteger)index
 {
-    [[HYBrushCore sharedInstance]setActiveStateSwatchColor:color atIndex:index];
+    [[HYBrushCore sharedInstance]setActiveStateSwatchColor:[color UIColor]  atIndex:index];
 }
 
 - (void) setActiveStatePaintColorAtIndex:(NSUInteger)index

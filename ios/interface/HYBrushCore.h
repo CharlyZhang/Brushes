@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WDColor.h"
 
 @class CanvasView;
 
@@ -39,13 +38,13 @@
 - (void) activeColorPicker;
 
 ///当前绘制颜色
-- (WDColor*) getActiveStatePaintColor;
+- (UIColor*) getActiveStatePaintColor;
 - (void) setActiveStateColor:(UIColor*)color;
 
 ///快速颜色
-- (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSInteger)index;
+- (void) setActiveStateSwatchColor:(UIColor*)color atIndex:(NSInteger)index;
 - (void) setActiveStatePaintColorAtIndex:(NSInteger)index;
-- (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index;
+- (UIColor*) getColorFromActiveStateSwatchAtIndex:(NSInteger)index;
 
 ///图片编辑
 - (void) beginPhotoPlacement:(UIImage*) photo withTransform:(CGAffineTransform)trans;

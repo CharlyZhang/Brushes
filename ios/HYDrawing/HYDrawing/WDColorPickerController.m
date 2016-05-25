@@ -42,7 +42,7 @@
 
 - (void) setActiveStateSwatchColor:(WDColor*)color atIndex:(NSUInteger)index
 {
-    [[HYBrushCore sharedInstance]setActiveStateSwatchColor:color atIndex:index];
+    [[HYBrushCore sharedInstance]setActiveStateSwatchColor:[color UIColor]atIndex:index];
 }
 
 - (void) setActiveStatePaintColorAtIndex:(NSUInteger)index
@@ -52,7 +52,10 @@
 
 - (WDColor*) getColorFromActiveStateSwatchAtIndex:(NSUInteger)index
 {
-    return [[HYBrushCore sharedInstance]getColorFromActiveStateSwatchAtIndex:index];
+    UIColor *color = [[HYBrushCore sharedInstance]getColorFromActiveStateSwatchAtIndex:index];
+    CGFloat r,g,b,a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    return [WDColor colorWithRed:r green:g blue:b alpha:a];
 }
 
 - (void) takeColorFromComparator:(id)sender
@@ -166,7 +169,10 @@
     self.alphaSlider.mode = WDColorSliderModeAlpha;
     [alphaSlider_ addTarget:self action:@selector(takeAlphaFrom:) forControlEvents:dragEvents];
     
-    self.initialColor = [[HYBrushCore sharedInstance] getActiveStatePaintColor];
+    UIColor *activeColor = [[HYBrushCore sharedInstance] getActiveStatePaintColor];
+    CGFloat r,g,b,a;
+    [activeColor getRed:&r green:&g blue:&b alpha:&a];
+    self.initialColor = [WDColor colorWithRed:r green:g blue:b alpha:a];
 }
 
 - (void) viewWillAppear:(BOOL)animated
