@@ -35,6 +35,26 @@
     return brushCore_;
 }
 
+/// 初始化 - 修改
+- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s path: (NSString*)path
+{
+    /// CZActiveState Initializaiton comes first, for it will help other initial work
+    CZActiveState::getInstance()->setEraseMode(false);
+    CZActiveState::getInstance()->setActiveBrush(kPencil);
+    CZActiveState::getInstance()->mainScreenScale = s;
+    
+    viewImpl = new CZViewImpl(CZRect(0,0,w,h));
+    canvas = new CZCanvas(viewImpl);
+    
+    [[PaintingManager sharedInstance] initializeWithWidth:w height:h scale:s];
+    painting = (CZPainting*)[[PaintingManager sharedInstance] getInitialPaintingWithPath:path];
+    canvas->setPaiting(painting);
+    
+    self.hasInitialized = YES;
+    return YES;
+}
+
+
 /// 初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s
 {

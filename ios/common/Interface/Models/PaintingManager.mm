@@ -8,6 +8,7 @@
 
 #import "PaintingManager.h"
 #include "BrushesCore.h"
+#include "CZFileManager.h"
 
 #define DOCUMENT_DIR            [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
 #define PAINTING_FILE_EXTENTION @"painting"
@@ -41,6 +42,89 @@
     return paintingManager_;
 }
 
+/// 对外接口-最新
+-(BOOL) loadPaintingWithPath: (NSString*)path{
+    if (!self.hasInitialized) {
+        LOG_ERROR("Painting manager has not been initialized!\n");
+        return NO;
+    }
+    
+    CZFileManager::getInstance()->loadPainting([path UTF8String], ptrActivePainting);
+    
+    return YES;
+}
+
+-(BOOL) createNewPaintingWithPath: (NSString*)path{
+    if (!self.hasInitialized) {
+        LOG_ERROR("Painting manager has not been initialized!\n");
+        return NO;
+    }
+    [self saveActivePaintingWithPath:path];
+    
+    return YES;
+}
+
+-(BOOL) deletePaintingWithPath: (NSString*)path{
+    BOOL ret = CZFileManager::getInstance()->removePainting([path UTF8String]);
+    return ret;
+}
+
+-(BOOL) saveActivePaintingWithPath: (NSString*)path{
+    if (ptrActivePainting) {
+        BOOL ret = CZFileManager::getInstance()->savePainting(ptrActivePainting, [path UTF8String]);
+        [self refreshData];
+        return ret;
+    }
+    return NO;
+}
+
+-(UIImage*) previewImageOfPaintingWithPath: (NSString*)path{
+    CZPainting *painting = CZFileManager::getInstance()->createPainting([path UTF8String],width,height);
+    
+    CZSize size(width, height);
+    CZImage *czImage = painting->imageWithSize(size, NULL);
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(czImage->data, czImage->width, czImage->height, 8, czImage->width*4,
+                                             colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(imageRef);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpaceRef);
+    
+    return nil;
+}
+
+
+// 文件路径
+- (NSString*) paintingFilePathAt: (NSInteger)index{
+    return [self filePathofName: activePaintingName];
+}
+
+// 预览图
+-(UIImage *)previewImageOfPaintingAt:(NSInteger)index{
+    NSString *paintingName = [paintingNames objectAtIndex:index];
+    CZPainting *painting = CZFileManager::getInstance()->createPainting([[self filePathofName:paintingName] UTF8String],width,height);
+    
+    CZSize size(width, height);
+    CZImage *czImage = painting->imageWithSize(size, NULL);
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(czImage->data, czImage->width, czImage->height, 8, czImage->width*4,
+                                             colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(imageRef);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpaceRef);
+    
+    return ret;
+}
 
 /// 初始化
 - (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s
@@ -89,6 +173,24 @@
     return YES;
 }
 
+-(void*) getInitialPaintingWithPath: (NSString*)path{
+    if (!self.hasInitialized) {
+        LOG_ERROR("Painting manager has not been initialized!\n");
+        return nil;
+    }
+    
+    [self refreshData];
+    
+    void *ret = nullptr;
+    
+    ptrActivePainting = new CZPainting(CZSize(width,height));
+    ret = ptrActivePainting;
+    [self saveActivePaintingWithPath:path];
+    [self refreshData];
+    
+    return ret;
+}
+
 /// get inital painting when lauching app
 - (void*) getInitialPainting
 {
@@ -100,6 +202,15 @@
     [self refreshData];
     
     void *ret = nullptr;
+    
+    ptrActivePainting = new CZPainting(CZSize(width,height));
+    ret = ptrActivePainting;
+    activePaintingName = self.defaultFileName;
+    [self saveActivePainting];
+    [self refreshData];
+    
+    return ret;
+    
     
     NSString *URLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"lauchPaintingUrl"];
     
@@ -196,9 +307,9 @@
     BOOL isDir;
     while ([fm fileExistsAtPath: [self filePathofName:_defaultFileName] isDirectory:&isDir]) {
         defaultFileNo ++;
-         _defaultFileName = [NSString stringWithFormat:@"%@ %d.%@",PAINTING_DEFAULT_NAME, defaultFileNo, PAINTING_FILE_EXTENTION];
+        _defaultFileName = [NSString stringWithFormat:@"%@ %d.%@",PAINTING_DEFAULT_NAME, defaultFileNo, PAINTING_FILE_EXTENTION];
     }
-            
+    
     return _defaultFileName;
 }
 

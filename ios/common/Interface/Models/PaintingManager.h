@@ -6,6 +6,7 @@
 //  Copyright © 2015年 Founder. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 @interface PaintingManager : NSObject
@@ -34,7 +35,18 @@
 
 - (BOOL) saveActivePainting;
 
+// 生成预览图
+- (UIImage*) previewImageOfPaintingAt: (NSInteger)index;
+
 /// get inital painting when lauching app
 - (void*) getInitialPainting;
+
+/// 对外接口-最新
+-(void*) getInitialPaintingWithPath: (NSString*)path;
+-(BOOL) loadPaintingWithPath: (NSString*)path;
+-(BOOL) createNewPaintingWithPath: (NSString*)path;
+-(BOOL) deletePaintingWithPath: (NSString*)path;
+-(BOOL) saveActivePaintingWithPath: (NSString*)path;
+-(UIImage*) previewImageOfPaintingWithPath: (NSString*)path;
 
 @end
