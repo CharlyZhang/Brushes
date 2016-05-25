@@ -29,6 +29,7 @@
 		2D3D07341CF58D2400775308 /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D072C1CF58D2400775308 /* HYBrushCore.mm */; };
 		2D3D07351CF58D2400775308 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D072F1CF58D2400775308 /* Actions.m */; };
 		2D3D07361CF58D2400775308 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07311CF58D2400775308 /* PaintingManager.mm */; };
+		2D3D07661CF5927F00775308 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07631CF5927F00775308 /* UIImage+Resize.m */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DCD5C1B1CF451390083BC43 /* CZ2DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C071CF451390083BC43 /* CZ2DPoint.cpp */; };
 		2DCD5C1C1CF451390083BC43 /* CZ3DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C091CF451390083BC43 /* CZ3DPoint.cpp */; };
@@ -103,6 +104,8 @@
 		2D3D072F1CF58D2400775308 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actions.m; sourceTree = "<group>"; };
 		2D3D07301CF58D2400775308 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
 		2D3D07311CF58D2400775308 /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaintingManager.mm; sourceTree = "<group>"; };
+		2D3D07621CF5927F00775308 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		2D3D07631CF5927F00775308 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		2D4F33701AE3FAA10067D7A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2DCD5C071CF451390083BC43 /* CZ2DPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZ2DPoint.cpp; path = ../src/basic/CZ2DPoint.cpp; sourceTree = "<group>"; };
 		2DCD5C081CF451390083BC43 /* CZ2DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CZ2DPoint.h; path = ../src/basic/CZ2DPoint.h; sourceTree = "<group>"; };
@@ -427,6 +430,7 @@
 		2D3D07171CF58CE000775308 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2D3D07611CF5927F00775308 /* Additions */,
 				2D3D07261CF58D2400775308 /* Interface */,
 				2D3D071D1CF58CFA00775308 /* Views */,
 			);
@@ -469,6 +473,16 @@
 				2D3D07311CF58D2400775308 /* PaintingManager.mm */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		2D3D07611CF5927F00775308 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				2D3D07621CF5927F00775308 /* UIImage+Resize.h */,
+				2D3D07631CF5927F00775308 /* UIImage+Resize.m */,
+			);
+			name = Additions;
+			path = ../common/Additions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -558,6 +572,7 @@
 				2D3D07341CF58D2400775308 /* HYBrushCore.mm in Sources */,
 				2DCD5C341CF451670083BC43 /* CZFbo.mm in Sources */,
 				2D3D07331CF58D2400775308 /* CZViewImpl.mm in Sources */,
+				2D3D07661CF5927F00775308 /* UIImage+Resize.m in Sources */,
 				2DCD5C3D1CF4517B0083BC43 /* CZPainting.cpp in Sources */,
 				2DCD5C7B1CF452030083BC43 /* CZActiveState.cpp in Sources */,
 				2DCD5C231CF451390083BC43 /* CZRect.cpp in Sources */,

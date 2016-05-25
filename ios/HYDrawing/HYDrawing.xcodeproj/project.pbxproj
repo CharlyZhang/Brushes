@@ -27,8 +27,6 @@
 		2D3D06B31CF5893A00775308 /* WDShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D069F1CF5893A00775308 /* WDShader.m */; };
 		2D3D06B41CF5893A00775308 /* WDSwatches.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06A11CF5893A00775308 /* WDSwatches.m */; };
 		2D3D06B51CF5893A00775308 /* WDUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06A31CF5893A00775308 /* WDUtilities.m */; };
-		2D3D06BD1CF589AA00775308 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06BA1CF589AA00775308 /* UIImage+Resize.m */; };
-		2D3D06BE1CF589AA00775308 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06BC1CF589AA00775308 /* UIView+Additions.m */; };
 		2D3D06C21CF58A5600775308 /* DDPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06C11CF58A5600775308 /* DDPopoverBackgroundView.m */; };
 		2D3D06E41CF58A7400775308 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06C41CF58A7400775308 /* MKAnnotationView+WebCache.m */; };
 		2D3D06E51CF58A7400775308 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D06C61CF58A7400775308 /* NSData+ImageContentType.m */; };
@@ -76,6 +74,7 @@
 		2D3D075B1CF58F2E00775308 /* thumb7.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07491CF58F2E00775308 /* thumb7.png */; };
 		2D3D075C1CF58F2E00775308 /* thumb8.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D074A1CF58F2E00775308 /* thumb8.png */; };
 		2D3D075D1CF58F2E00775308 /* watercolorPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D074B1CF58F2E00775308 /* watercolorPen.png */; };
+		2D3D076F1CF5934800775308 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D076E1CF5934800775308 /* UIView+Additions.m */; };
 		2D9287381C1E57CC008AEEFB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */; };
 		2D9287421C2010D5008AEEFB /* ChangeLog.md in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287411C2010D5008AEEFB /* ChangeLog.md */; };
 		2D9287491C214F38008AEEFB /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D9287471C214F38008AEEFB /* simple.frag */; };
@@ -178,10 +177,6 @@
 		2D3D06A11CF5893A00775308 /* WDSwatches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WDSwatches.m; path = ../../common/ColorPicker/WDSwatches.m; sourceTree = "<group>"; };
 		2D3D06A21CF5893A00775308 /* WDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WDUtilities.h; path = ../../common/ColorPicker/WDUtilities.h; sourceTree = "<group>"; };
 		2D3D06A31CF5893A00775308 /* WDUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WDUtilities.m; path = ../../common/ColorPicker/WDUtilities.m; sourceTree = "<group>"; };
-		2D3D06B91CF589AA00775308 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Resize.h"; path = "../../common/Additions/UIImage+Resize.h"; sourceTree = "<group>"; };
-		2D3D06BA1CF589AA00775308 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Resize.m"; path = "../../common/Additions/UIImage+Resize.m"; sourceTree = "<group>"; };
-		2D3D06BB1CF589AA00775308 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Additions.h"; path = "../../common/Additions/UIView+Additions.h"; sourceTree = "<group>"; };
-		2D3D06BC1CF589AA00775308 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Additions.m"; path = "../../common/Additions/UIView+Additions.m"; sourceTree = "<group>"; };
 		2D3D06C01CF58A5600775308 /* DDPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPopoverBackgroundView.h; sourceTree = "<group>"; };
 		2D3D06C11CF58A5600775308 /* DDPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPopoverBackgroundView.m; sourceTree = "<group>"; };
 		2D3D06C31CF58A7400775308 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKAnnotationView+WebCache.h"; path = "HYDrawing/Vendor/SDWebImage/MKAnnotationView+WebCache.h"; sourceTree = SOURCE_ROOT; };
@@ -258,6 +253,8 @@
 		2D3D07491CF58F2E00775308 /* thumb7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb7.png; sourceTree = "<group>"; };
 		2D3D074A1CF58F2E00775308 /* thumb8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumb8.png; sourceTree = "<group>"; };
 		2D3D074B1CF58F2E00775308 /* watercolorPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = watercolorPen.png; path = Resources/watercolorPen.png; sourceTree = "<group>"; };
+		2D3D076D1CF5934800775308 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Additions.h"; path = "../../common/ColorPicker/UIView+Additions.h"; sourceTree = "<group>"; };
+		2D3D076E1CF5934800775308 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Additions.m"; path = "../../common/ColorPicker/UIView+Additions.m"; sourceTree = "<group>"; };
 		2D4906361B7F297600158F1C /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 		2D9287361C1E57CC008AEEFB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Vendor/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		2D9287371C1E57CC008AEEFB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Vendor/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
@@ -352,17 +349,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2D3D06B81CF5899D00775308 /* Additions */ = {
-			isa = PBXGroup;
-			children = (
-				2D3D06B91CF589AA00775308 /* UIImage+Resize.h */,
-				2D3D06BA1CF589AA00775308 /* UIImage+Resize.m */,
-				2D3D06BB1CF589AA00775308 /* UIView+Additions.h */,
-				2D3D06BC1CF589AA00775308 /* UIView+Additions.m */,
-			);
-			name = Additions;
-			sourceTree = "<group>";
-		};
 		2D3D06BF1CF58A5600775308 /* DDPopoverBackgroundView */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,6 +434,8 @@
 		535DA0E31B6F808D00E117FF /* ColorPicker */ = {
 			isa = PBXGroup;
 			children = (
+				2D3D076D1CF5934800775308 /* UIView+Additions.h */,
+				2D3D076E1CF5934800775308 /* UIView+Additions.m */,
 				2D3D06831CF5893A00775308 /* blit.vsh */,
 				2D3D06841CF5893A00775308 /* colorPicker.fsh */,
 				2D3D06851CF5893A00775308 /* ColorPicker.xib */,
@@ -511,7 +499,6 @@
 			isa = PBXGroup;
 			children = (
 				2D3D07371CF58ECD00775308 /* Resources */,
-				2D3D06B81CF5899D00775308 /* Additions */,
 				60216AE91B589440009186F4 /* Macro.h */,
 				809243331CBCC95200E78800 /* DownloadManager.h */,
 				809243341CBCC95200E78800 /* DownloadManager.m */,
@@ -884,12 +871,12 @@
 				2D3D06AD1CF5893A00775308 /* WDColorSourceView.m in Sources */,
 				53851B681B57AADE00B6F946 /* AppDelegate.m in Sources */,
 				809242E31CBB4A7700E78800 /* ZXHResourceListController.m in Sources */,
+				2D3D076F1CF5934800775308 /* UIView+Additions.m in Sources */,
 				2D3D06AF1CF5893A00775308 /* WDColorWell.m in Sources */,
 				2D3D07141CF58BC400775308 /* CliperView.m in Sources */,
 				809242DE1CBB416300E78800 /* ZXHResourcePicturesController.m in Sources */,
 				2D3D06B11CF5893A00775308 /* WDDragChip.m in Sources */,
 				2D3D06EA1CF58A7400775308 /* SDWebImageDownloaderOperation.m in Sources */,
-				2D3D06BE1CF589AA00775308 /* UIView+Additions.m in Sources */,
 				2D3D06E51CF58A7400775308 /* NSData+ImageContentType.m in Sources */,
 				2D3D06EC1CF58A7400775308 /* SDWebImagePrefetcher.m in Sources */,
 				53851B651B57AADE00B6F946 /* main.m in Sources */,
@@ -916,7 +903,6 @@
 				2D3D07121CF58BC400775308 /* CliperMenuView.m in Sources */,
 				2D3D06AE1CF5893A00775308 /* WDColorSquare.m in Sources */,
 				2D3D06AA1CF5893A00775308 /* WDColorIndicator.m in Sources */,
-				2D3D06BD1CF589AA00775308 /* UIImage+Resize.m in Sources */,
 				535306F41B7C3BFD00877D76 /* ZXHLayerTopBar.m in Sources */,
 				538CA68D1B8AE83B0050A39A /* ZXHPaintingListCell.m in Sources */,
 				2D0E59211C08065A00ECD812 /* SettingViewController.m in Sources */,
