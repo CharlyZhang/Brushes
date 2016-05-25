@@ -8,7 +8,7 @@
 
 #import "TransformOverlayer.h"
 #import "HYBrushCore.h"
-#import "Macro.h"
+#import "ViewDefine.h"
 
 #define NAVBAR_HEIGHT       64
 #define NAVBAR_BTN_HEIGHT   30

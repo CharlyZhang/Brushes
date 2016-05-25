@@ -910,7 +910,7 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
             imageSize.height = 2048;
         }
     }
-    
+    // TO DO:
 //    image = [image resizedImage:imageSize interpolationQuality:kCGInterpolationHigh];
 	
     // create transform overlayer of image
