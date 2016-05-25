@@ -65,23 +65,6 @@
 		60B1B8E51CF4647400C99E92 /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8DD1CF4647400C99E92 /* HYBrushCore.mm */; };
 		60B1B8E61CF4647400C99E92 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8E01CF4647400C99E92 /* Actions.m */; };
 		60B1B8E71CF4647400C99E92 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B8E21CF4647400C99E92 /* PaintingManager.mm */; };
-		60B1B9BC1CF464FB00C99E92 /* Shaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B96B1CF464FB00C99E92 /* Shaders.m */; };
-		60B1B9BD1CF464FB00C99E92 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B96D1CF464FB00C99E92 /* UIView+Additions.m */; };
-		60B1B9BE1CF464FB00C99E92 /* WDColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B96F1CF464FB00C99E92 /* WDColor.m */; };
-		60B1B9BF1CF464FB00C99E92 /* WDColorComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9711CF464FB00C99E92 /* WDColorComparator.m */; };
-		60B1B9C01CF464FB00C99E92 /* WDColorIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9731CF464FB00C99E92 /* WDColorIndicator.m */; };
-		60B1B9C11CF464FB00C99E92 /* WDColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9751CF464FB00C99E92 /* WDColorPickerController.m */; };
-		60B1B9C21CF464FB00C99E92 /* WDColorSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9771CF464FB00C99E92 /* WDColorSlider.m */; };
-		60B1B9C31CF464FB00C99E92 /* WDColorSourceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9791CF464FB00C99E92 /* WDColorSourceView.m */; };
-		60B1B9C41CF464FB00C99E92 /* WDColorSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B97B1CF464FB00C99E92 /* WDColorSquare.m */; };
-		60B1B9C51CF464FB00C99E92 /* WDColorWell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B97D1CF464FB00C99E92 /* WDColorWell.m */; };
-		60B1B9C61CF464FB00C99E92 /* WDColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B97F1CF464FB00C99E92 /* WDColorWheel.m */; };
-		60B1B9C71CF464FB00C99E92 /* WDDragChip.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9811CF464FB00C99E92 /* WDDragChip.m */; };
-		60B1B9C81CF464FB00C99E92 /* WDInsetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9831CF464FB00C99E92 /* WDInsetView.m */; };
-		60B1B9C91CF464FB00C99E92 /* WDShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9851CF464FB00C99E92 /* WDShader.m */; };
-		60B1B9CA1CF464FB00C99E92 /* WDSwatches.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9871CF464FB00C99E92 /* WDSwatches.m */; };
-		60B1B9CB1CF464FB00C99E92 /* WDUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B1B9891CF464FB00C99E92 /* WDUtilities.m */; };
-		60B1B9CC1CF466DB00C99E92 /* WDColor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B96E1CF464FB00C99E92 /* WDColor.h */; };
 		60B1B9CD1CF466E300C99E92 /* HYBrushCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B8DC1CF4647400C99E92 /* HYBrushCore.h */; };
 		60B1B9CE1CF466E800C99E92 /* CanvasView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B8D81CF4647400C99E92 /* CanvasView.h */; };
 		60B1B9CF1CF466F400C99E92 /* PaintingManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 60B1B8E11CF4647400C99E92 /* PaintingManager.h */; };
@@ -97,7 +80,6 @@
 				60B1B9CF1CF466F400C99E92 /* PaintingManager.h in CopyFiles */,
 				60B1B9CE1CF466E800C99E92 /* CanvasView.h in CopyFiles */,
 				60B1B9CD1CF466E300C99E92 /* HYBrushCore.h in CopyFiles */,
-				60B1B9CC1CF466DB00C99E92 /* WDColor.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,41 +189,6 @@
 		60B1B8E01CF4647400C99E92 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actions.m; sourceTree = "<group>"; };
 		60B1B8E11CF4647400C99E92 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
 		60B1B8E21CF4647400C99E92 /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaintingManager.mm; sourceTree = "<group>"; };
-		60B1B8E91CF464FB00C99E92 /* blit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vsh; sourceTree = "<group>"; };
-		60B1B8EA1CF464FB00C99E92 /* colorPicker.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = colorPicker.fsh; sourceTree = "<group>"; };
-		60B1B8EB1CF464FB00C99E92 /* ColorPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPicker.xib; sourceTree = "<group>"; };
-		60B1B96A1CF464FB00C99E92 /* Shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shaders.h; sourceTree = "<group>"; };
-		60B1B96B1CF464FB00C99E92 /* Shaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shaders.m; sourceTree = "<group>"; };
-		60B1B96C1CF464FB00C99E92 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
-		60B1B96D1CF464FB00C99E92 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
-		60B1B96E1CF464FB00C99E92 /* WDColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColor.h; sourceTree = "<group>"; };
-		60B1B96F1CF464FB00C99E92 /* WDColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColor.m; sourceTree = "<group>"; };
-		60B1B9701CF464FB00C99E92 /* WDColorComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorComparator.h; sourceTree = "<group>"; };
-		60B1B9711CF464FB00C99E92 /* WDColorComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorComparator.m; sourceTree = "<group>"; };
-		60B1B9721CF464FB00C99E92 /* WDColorIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorIndicator.h; sourceTree = "<group>"; };
-		60B1B9731CF464FB00C99E92 /* WDColorIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorIndicator.m; sourceTree = "<group>"; };
-		60B1B9741CF464FB00C99E92 /* WDColorPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorPickerController.h; sourceTree = "<group>"; };
-		60B1B9751CF464FB00C99E92 /* WDColorPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorPickerController.m; sourceTree = "<group>"; };
-		60B1B9761CF464FB00C99E92 /* WDColorSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSlider.h; sourceTree = "<group>"; };
-		60B1B9771CF464FB00C99E92 /* WDColorSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSlider.m; sourceTree = "<group>"; };
-		60B1B9781CF464FB00C99E92 /* WDColorSourceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSourceView.h; sourceTree = "<group>"; };
-		60B1B9791CF464FB00C99E92 /* WDColorSourceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSourceView.m; sourceTree = "<group>"; };
-		60B1B97A1CF464FB00C99E92 /* WDColorSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorSquare.h; sourceTree = "<group>"; };
-		60B1B97B1CF464FB00C99E92 /* WDColorSquare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorSquare.m; sourceTree = "<group>"; };
-		60B1B97C1CF464FB00C99E92 /* WDColorWell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorWell.h; sourceTree = "<group>"; };
-		60B1B97D1CF464FB00C99E92 /* WDColorWell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorWell.m; sourceTree = "<group>"; };
-		60B1B97E1CF464FB00C99E92 /* WDColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDColorWheel.h; sourceTree = "<group>"; };
-		60B1B97F1CF464FB00C99E92 /* WDColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDColorWheel.m; sourceTree = "<group>"; };
-		60B1B9801CF464FB00C99E92 /* WDDragChip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDDragChip.h; sourceTree = "<group>"; };
-		60B1B9811CF464FB00C99E92 /* WDDragChip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDDragChip.m; sourceTree = "<group>"; };
-		60B1B9821CF464FB00C99E92 /* WDInsetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDInsetView.h; sourceTree = "<group>"; };
-		60B1B9831CF464FB00C99E92 /* WDInsetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDInsetView.m; sourceTree = "<group>"; };
-		60B1B9841CF464FB00C99E92 /* WDShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDShader.h; sourceTree = "<group>"; };
-		60B1B9851CF464FB00C99E92 /* WDShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDShader.m; sourceTree = "<group>"; };
-		60B1B9861CF464FB00C99E92 /* WDSwatches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDSwatches.h; sourceTree = "<group>"; };
-		60B1B9871CF464FB00C99E92 /* WDSwatches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDSwatches.m; sourceTree = "<group>"; };
-		60B1B9881CF464FB00C99E92 /* WDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDUtilities.h; sourceTree = "<group>"; };
-		60B1B9891CF464FB00C99E92 /* WDUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDUtilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -390,7 +337,6 @@
 		2D2BE5221A0C9196003724D4 = {
 			isa = PBXGroup;
 			children = (
-				60B1B8E81CF464FB00C99E92 /* ColorPicker */,
 				60B1B8D71CF4647400C99E92 /* interface */,
 				2D2BE5301A0C9196003724D4 /* BrushesCore */,
 				2D2BE5441A0C9196003724D4 /* BrushesCoreTests */,
@@ -504,49 +450,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		60B1B8E81CF464FB00C99E92 /* ColorPicker */ = {
-			isa = PBXGroup;
-			children = (
-				60B1B8E91CF464FB00C99E92 /* blit.vsh */,
-				60B1B8EA1CF464FB00C99E92 /* colorPicker.fsh */,
-				60B1B8EB1CF464FB00C99E92 /* ColorPicker.xib */,
-				60B1B96A1CF464FB00C99E92 /* Shaders.h */,
-				60B1B96B1CF464FB00C99E92 /* Shaders.m */,
-				60B1B96C1CF464FB00C99E92 /* UIView+Additions.h */,
-				60B1B96D1CF464FB00C99E92 /* UIView+Additions.m */,
-				60B1B96E1CF464FB00C99E92 /* WDColor.h */,
-				60B1B96F1CF464FB00C99E92 /* WDColor.m */,
-				60B1B9701CF464FB00C99E92 /* WDColorComparator.h */,
-				60B1B9711CF464FB00C99E92 /* WDColorComparator.m */,
-				60B1B9721CF464FB00C99E92 /* WDColorIndicator.h */,
-				60B1B9731CF464FB00C99E92 /* WDColorIndicator.m */,
-				60B1B9741CF464FB00C99E92 /* WDColorPickerController.h */,
-				60B1B9751CF464FB00C99E92 /* WDColorPickerController.m */,
-				60B1B9761CF464FB00C99E92 /* WDColorSlider.h */,
-				60B1B9771CF464FB00C99E92 /* WDColorSlider.m */,
-				60B1B9781CF464FB00C99E92 /* WDColorSourceView.h */,
-				60B1B9791CF464FB00C99E92 /* WDColorSourceView.m */,
-				60B1B97A1CF464FB00C99E92 /* WDColorSquare.h */,
-				60B1B97B1CF464FB00C99E92 /* WDColorSquare.m */,
-				60B1B97C1CF464FB00C99E92 /* WDColorWell.h */,
-				60B1B97D1CF464FB00C99E92 /* WDColorWell.m */,
-				60B1B97E1CF464FB00C99E92 /* WDColorWheel.h */,
-				60B1B97F1CF464FB00C99E92 /* WDColorWheel.m */,
-				60B1B9801CF464FB00C99E92 /* WDDragChip.h */,
-				60B1B9811CF464FB00C99E92 /* WDDragChip.m */,
-				60B1B9821CF464FB00C99E92 /* WDInsetView.h */,
-				60B1B9831CF464FB00C99E92 /* WDInsetView.m */,
-				60B1B9841CF464FB00C99E92 /* WDShader.h */,
-				60B1B9851CF464FB00C99E92 /* WDShader.m */,
-				60B1B9861CF464FB00C99E92 /* WDSwatches.h */,
-				60B1B9871CF464FB00C99E92 /* WDSwatches.m */,
-				60B1B9881CF464FB00C99E92 /* WDUtilities.h */,
-				60B1B9891CF464FB00C99E92 /* WDUtilities.m */,
-			);
-			name = ColorPicker;
-			path = ../ColorPicker;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -620,38 +523,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60B1B9BF1CF464FB00C99E92 /* WDColorComparator.m in Sources */,
 				2DCD5C371CF451670083BC43 /* CZTexture.cpp in Sources */,
 				2DCD5C211CF451390083BC43 /* CZProperty.cpp in Sources */,
 				2DCD5C7D1CF452030083BC43 /* CZCanvas.cpp in Sources */,
 				2DCD5C221CF451390083BC43 /* CZRandom.cpp in Sources */,
-				60B1B9CA1CF464FB00C99E92 /* WDSwatches.m in Sources */,
 				2DCD5C291CF451500083BC43 /* CZBrush.cpp in Sources */,
 				2DCD5C351CF451670083BC43 /* CZGLContext.mm in Sources */,
 				60B1B8E41CF4647400C99E92 /* CZViewImpl.mm in Sources */,
 				60B1B8E61CF4647400C99E92 /* Actions.m in Sources */,
 				2DCD5C1B1CF451390083BC43 /* CZ2DPoint.cpp in Sources */,
 				2DCD5C361CF451670083BC43 /* CZShader.cpp in Sources */,
-				60B1B9CB1CF464FB00C99E92 /* WDUtilities.m in Sources */,
 				2DCD5C821CF452030083BC43 /* CZUtil.cpp in Sources */,
-				60B1B9C11CF464FB00C99E92 /* WDColorPickerController.m in Sources */,
 				2DCD5C651CF451CD0083BC43 /* CZFreehandTool.cpp in Sources */,
 				2DCD5C341CF451670083BC43 /* CZFbo.mm in Sources */,
 				2DCD5C3D1CF4517B0083BC43 /* CZPainting.cpp in Sources */,
 				2DCD5C7B1CF452030083BC43 /* CZActiveState.cpp in Sources */,
-				60B1B9C71CF464FB00C99E92 /* WDDragChip.m in Sources */,
 				60B1B8E71CF4647400C99E92 /* PaintingManager.mm in Sources */,
 				2DCD5C231CF451390083BC43 /* CZRect.cpp in Sources */,
-				60B1B9C91CF464FB00C99E92 /* WDShader.m in Sources */,
 				2DCD5C1D1CF451390083BC43 /* CZAffineTransform.cpp in Sources */,
 				2DCD5C1E1CF451390083BC43 /* CZColor.cpp in Sources */,
 				2DCD5C3C1CF4517B0083BC43 /* CZLayer.cpp in Sources */,
 				2DCD5C5B1CF451B90083BC43 /* CZSpiralGenerator.cpp in Sources */,
 				2DCD5C241CF451390083BC43 /* CZSize.cpp in Sources */,
-				60B1B9C51CF464FB00C99E92 /* WDColorWell.m in Sources */,
 				60B1B8E51CF4647400C99E92 /* HYBrushCore.mm in Sources */,
 				2DCD5C2A1CF451500083BC43 /* CZBrushPreview.cpp in Sources */,
-				60B1B9BE1CF464FB00C99E92 /* WDColor.m in Sources */,
 				2DCD5C4F1CF451A40083BC43 /* CZFileCoder.cpp in Sources */,
 				2DCD5C801CF452030083BC43 /* CZHueSaturation.cpp in Sources */,
 				2DCD5C461CF4518F0083BC43 /* CZPath.cpp in Sources */,
@@ -659,25 +554,17 @@
 				2DCD5C591CF451B90083BC43 /* CZBristleGenerator.cpp in Sources */,
 				2DCD5C7E1CF452030083BC43 /* CZColorBalance.cpp in Sources */,
 				2DCD5C201CF451390083BC43 /* CZMat4.cpp in Sources */,
-				60B1B9C01CF464FB00C99E92 /* WDColorIndicator.m in Sources */,
 				2DCD5C501CF451A40083BC43 /* CZTypedData.cpp in Sources */,
-				60B1B9C41CF464FB00C99E92 /* WDColorSquare.m in Sources */,
-				60B1B9BD1CF464FB00C99E92 /* UIView+Additions.m in Sources */,
 				2DCD5C451CF4518F0083BC43 /* CZBezierSegment.cpp in Sources */,
-				60B1B9C31CF464FB00C99E92 /* WDColorSourceView.m in Sources */,
 				2DCD5C641CF451CD0083BC43 /* CZEraserTool.cpp in Sources */,
 				2DCD5C1C1CF451390083BC43 /* CZ3DPoint.cpp in Sources */,
 				2DCD5C7F1CF452030083BC43 /* CZFileManager.cpp in Sources */,
 				2DCD5C441CF4518F0083BC43 /* CZBezierNode.cpp in Sources */,
-				60B1B9BC1CF464FB00C99E92 /* Shaders.m in Sources */,
 				2DCD5C1F1CF451390083BC43 /* CZImage.cpp in Sources */,
-				60B1B9C61CF464FB00C99E92 /* WDColorWheel.m in Sources */,
 				2DCD5C5C1CF451B90083BC43 /* CZStampGenerator.cpp in Sources */,
 				2DCD5C661CF451CD0083BC43 /* CZTool.cpp in Sources */,
-				60B1B9C21CF464FB00C99E92 /* WDColorSlider.m in Sources */,
 				60B1B8E31CF4647400C99E92 /* CanvasView.mm in Sources */,
 				2DCD5C5A1CF451B90083BC43 /* CZRoundGenerator.cpp in Sources */,
-				60B1B9C81CF464FB00C99E92 /* WDInsetView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,6 +725,7 @@
 				60B1B8CF1CF45FF800C99E92 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

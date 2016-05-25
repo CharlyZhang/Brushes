@@ -890,8 +890,10 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
 
 - (void) paintColorChanged:(NSNotification *)aNotification
 {
-    WDColor *newPaintColor = [aNotification userInfo][@"pickedColor"];
-    [self.colorPickerController setColor:newPaintColor];
+    UIColor *pickedColor = [aNotification userInfo][@"pickedColor"];
+    CGFloat r,g,b,a;
+    [pickedColor getRed:&r green:&g blue:&b alpha:&a];
+    [self.colorPickerController setColor:[WDColor colorWithRed:r green:g blue:b alpha:a]];
 }
 
 - (void) showImageTransform:(UIImage*)image

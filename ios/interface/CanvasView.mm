@@ -8,7 +8,6 @@
 
 #import "CanvasView.h"
 #include "BrushesCore.h"
-#import "WDColor.h"
 
 #define kMaxZoom 16
 
@@ -329,7 +328,7 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
     else if (activeState->colorPickMode) {
         CZColor pickedColor = self.ptrPainting->pickColor(pt.x, pt.y);
         
-        WDColor *pColor = [WDColor colorWithRed:pickedColor.red green:pickedColor.green blue:pickedColor.blue alpha:pickedColor.alpha];
+        UIColor *pColor = [UIColor colorWithRed:pickedColor.red green:pickedColor.green blue:pickedColor.blue alpha:pickedColor.alpha];
         activeState->setPaintColor(pickedColor);
         NSDictionary *userInfo = @{@"pickedColor": pColor};
         [[NSNotificationCenter defaultCenter] postNotificationName:CZActivePaintColorDidChange object:nil userInfo:userInfo];
