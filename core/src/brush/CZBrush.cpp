@@ -16,17 +16,17 @@
 #include "../CZUtil.h"
 #include "CZBrushPreview.h"
 
-static char *CZGeneratorKey = "generator";
-static char *CZWeightKey = "weight";
-static char *CZIntensityKey = "intensity";
-static char *CZAngleKey = "angle";
-static char *CZSpacingKey = "spacing";
-static char *CZRotationalScatterKey = "rotationalScatter";
-static char *CZPositionalScatterKey = "positionalScatter";
-static char *CZAngleDynamicsKey = "angleDynamics";
-static char *CZWeightDynamicsKey = "weightDynamics";
-static char *CZIntensityDynamicsKey = "intensityDynamics";
-static char *CZUUIDKey = "uuid";
+static const char *CZGeneratorKey = "generator";
+static const char *CZWeightKey = "weight";
+static const char *CZIntensityKey = "intensity";
+static const char *CZAngleKey = "angle";
+static const char *CZSpacingKey = "spacing";
+static const char *CZRotationalScatterKey = "rotationalScatter";
+static const char *CZPositionalScatterKey = "positionalScatter";
+static const char *CZAngleDynamicsKey = "angleDynamics";
+static const char *CZWeightDynamicsKey = "weightDynamics";
+static const char *CZIntensityDynamicsKey = "intensityDynamics";
+//static const char *CZUUIDKey = "uuid";
 
 
 CZBrush::CZBrush(CZStampGenerator *gen_ /*= NULL*/)

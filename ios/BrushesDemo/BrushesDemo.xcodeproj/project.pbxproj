@@ -8,6 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		2D1B25E51ADF27CD006841C3 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		2D3D07A71CF597EE00775308 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07951CF597EE00775308 /* basic.vert */; };
+		2D3D07A81CF597EE00775308 /* basicColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07961CF597EE00775308 /* basicColor.frag */; };
+		2D3D07A91CF597EE00775308 /* basicWithCoord.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07971CF597EE00775308 /* basicWithCoord.vert */; };
+		2D3D07AA1CF597EE00775308 /* blit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07981CF597EE00775308 /* blit.frag */; };
+		2D3D07AB1CF597EE00775308 /* blit.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07991CF597EE00775308 /* blit.vert */; };
+		2D3D07AC1CF597EE00775308 /* blitWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D079A1CF597EE00775308 /* blitWithEraseMask.frag */; };
+		2D3D07AD1CF597EE00775308 /* blitWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D079B1CF597EE00775308 /* blitWithMask.frag */; };
+		2D3D07AE1CF597EE00775308 /* brush.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D079C1CF597EE00775308 /* brush.frag */; };
+		2D3D07AF1CF597EE00775308 /* brush.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D079D1CF597EE00775308 /* brush.vert */; };
+		2D3D07B01CF597EE00775308 /* compositeWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D079E1CF597EE00775308 /* compositeWithEraseMask.frag */; };
+		2D3D07B11CF597EE00775308 /* compositeWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D079F1CF597EE00775308 /* compositeWithMask.frag */; };
+		2D3D07B21CF597EE00775308 /* fillCircle.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A01CF597EE00775308 /* fillCircle.frag */; };
+		2D3D07B31CF597EE00775308 /* fillCircle.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A11CF597EE00775308 /* fillCircle.vert */; };
+		2D3D07B41CF597EE00775308 /* nonPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A21CF597EE00775308 /* nonPremultipliedBlit.frag */; };
+		2D3D07B51CF597EE00775308 /* radialFade.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A31CF597EE00775308 /* radialFade.frag */; };
+		2D3D07B61CF597EE00775308 /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A41CF597EE00775308 /* simple.frag */; };
+		2D3D07B71CF597EE00775308 /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A51CF597EE00775308 /* simple.vert */; };
+		2D3D07B81CF597EE00775308 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A61CF597EE00775308 /* unPremultipliedBlit.frag */; };
 		2D47C74C1CAB766A00AE30B1 /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D47C74B1CAB766A00AE30B1 /* CanvasView.mm */; };
 		2D47C74F1CAB76F900AE30B1 /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D47C74E1CAB76F900AE30B1 /* CZViewImpl.mm */; };
 		2D47C7531CAB786700AE30B1 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D47C7521CAB786700AE30B1 /* PaintingManager.mm */; };
@@ -33,24 +51,6 @@
 		2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */; };
 		2DC7D0E61AE9D585007DB4C7 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2DCD5BE21CF44B020083BC43 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD01CF44B020083BC43 /* basic.vert */; };
-		2DCD5BE31CF44B020083BC43 /* basicColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD11CF44B020083BC43 /* basicColor.frag */; };
-		2DCD5BE41CF44B020083BC43 /* basicWithCoord.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD21CF44B020083BC43 /* basicWithCoord.vert */; };
-		2DCD5BE51CF44B020083BC43 /* blit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD31CF44B020083BC43 /* blit.frag */; };
-		2DCD5BE61CF44B020083BC43 /* blit.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD41CF44B020083BC43 /* blit.vert */; };
-		2DCD5BE71CF44B020083BC43 /* blitWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD51CF44B020083BC43 /* blitWithEraseMask.frag */; };
-		2DCD5BE81CF44B020083BC43 /* blitWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD61CF44B020083BC43 /* blitWithMask.frag */; };
-		2DCD5BE91CF44B020083BC43 /* brush.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD71CF44B020083BC43 /* brush.frag */; };
-		2DCD5BEA1CF44B020083BC43 /* brush.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD81CF44B020083BC43 /* brush.vert */; };
-		2DCD5BEB1CF44B020083BC43 /* compositeWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BD91CF44B020083BC43 /* compositeWithEraseMask.frag */; };
-		2DCD5BEC1CF44B020083BC43 /* compositeWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BDA1CF44B020083BC43 /* compositeWithMask.frag */; };
-		2DCD5BED1CF44B020083BC43 /* fillCircle.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BDB1CF44B020083BC43 /* fillCircle.frag */; };
-		2DCD5BEE1CF44B020083BC43 /* fillCircle.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BDC1CF44B020083BC43 /* fillCircle.vert */; };
-		2DCD5BEF1CF44B020083BC43 /* nonPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BDD1CF44B020083BC43 /* nonPremultipliedBlit.frag */; };
-		2DCD5BF01CF44B020083BC43 /* radialFade.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BDE1CF44B020083BC43 /* radialFade.frag */; };
-		2DCD5BF11CF44B020083BC43 /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BDF1CF44B020083BC43 /* simple.frag */; };
-		2DCD5BF21CF44B020083BC43 /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BE01CF44B020083BC43 /* simple.vert */; };
-		2DCD5BF31CF44B020083BC43 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD5BE11CF44B020083BC43 /* unPremultipliedBlit.frag */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +65,24 @@
 
 /* Begin PBXFileReference section */
 		2D1B25E41ADF27CD006841C3 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../BrushesCore/build/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
+		2D3D07951CF597EE00775308 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; };
+		2D3D07961CF597EE00775308 /* basicColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicColor.frag; sourceTree = "<group>"; };
+		2D3D07971CF597EE00775308 /* basicWithCoord.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicWithCoord.vert; sourceTree = "<group>"; };
+		2D3D07981CF597EE00775308 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.frag; sourceTree = "<group>"; };
+		2D3D07991CF597EE00775308 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vert; sourceTree = "<group>"; };
+		2D3D079A1CF597EE00775308 /* blitWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithEraseMask.frag; sourceTree = "<group>"; };
+		2D3D079B1CF597EE00775308 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithMask.frag; sourceTree = "<group>"; };
+		2D3D079C1CF597EE00775308 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.frag; sourceTree = "<group>"; };
+		2D3D079D1CF597EE00775308 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.vert; sourceTree = "<group>"; };
+		2D3D079E1CF597EE00775308 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithEraseMask.frag; sourceTree = "<group>"; };
+		2D3D079F1CF597EE00775308 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithMask.frag; sourceTree = "<group>"; };
+		2D3D07A01CF597EE00775308 /* fillCircle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fillCircle.frag; sourceTree = "<group>"; };
+		2D3D07A11CF597EE00775308 /* fillCircle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fillCircle.vert; sourceTree = "<group>"; };
+		2D3D07A21CF597EE00775308 /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = nonPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2D3D07A31CF597EE00775308 /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = radialFade.frag; sourceTree = "<group>"; };
+		2D3D07A41CF597EE00775308 /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.frag; sourceTree = "<group>"; };
+		2D3D07A51CF597EE00775308 /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.vert; sourceTree = "<group>"; };
+		2D3D07A61CF597EE00775308 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2D47C74A1CAB766A00AE30B1 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
 		2D47C74B1CAB766A00AE30B1 /* CanvasView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CanvasView.mm; sourceTree = "<group>"; };
 		2D47C74D1CAB76F900AE30B1 /* CZViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZViewImpl.h; sourceTree = "<group>"; };
@@ -103,24 +121,6 @@
 		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		2DC7D0E41AE9D585007DB4C7 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
-		2DCD5BD01CF44B020083BC43 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic.vert; path = ../../../../core/glsl/basic.vert; sourceTree = "<group>"; };
-		2DCD5BD11CF44B020083BC43 /* basicColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basicColor.frag; path = ../../../../core/glsl/basicColor.frag; sourceTree = "<group>"; };
-		2DCD5BD21CF44B020083BC43 /* basicWithCoord.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basicWithCoord.vert; path = ../../../../core/glsl/basicWithCoord.vert; sourceTree = "<group>"; };
-		2DCD5BD31CF44B020083BC43 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.frag; path = ../../../../core/glsl/blit.frag; sourceTree = "<group>"; };
-		2DCD5BD41CF44B020083BC43 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blit.vert; path = ../../../../core/glsl/blit.vert; sourceTree = "<group>"; };
-		2DCD5BD51CF44B020083BC43 /* blitWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blitWithEraseMask.frag; path = ../../../../core/glsl/blitWithEraseMask.frag; sourceTree = "<group>"; };
-		2DCD5BD61CF44B020083BC43 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = blitWithMask.frag; path = ../../../../core/glsl/blitWithMask.frag; sourceTree = "<group>"; };
-		2DCD5BD71CF44B020083BC43 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = brush.frag; path = ../../../../core/glsl/brush.frag; sourceTree = "<group>"; };
-		2DCD5BD81CF44B020083BC43 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = brush.vert; path = ../../../../core/glsl/brush.vert; sourceTree = "<group>"; };
-		2DCD5BD91CF44B020083BC43 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = compositeWithEraseMask.frag; path = ../../../../core/glsl/compositeWithEraseMask.frag; sourceTree = "<group>"; };
-		2DCD5BDA1CF44B020083BC43 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = compositeWithMask.frag; path = ../../../../core/glsl/compositeWithMask.frag; sourceTree = "<group>"; };
-		2DCD5BDB1CF44B020083BC43 /* fillCircle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fillCircle.frag; path = ../../../../core/glsl/fillCircle.frag; sourceTree = "<group>"; };
-		2DCD5BDC1CF44B020083BC43 /* fillCircle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = fillCircle.vert; path = ../../../../core/glsl/fillCircle.vert; sourceTree = "<group>"; };
-		2DCD5BDD1CF44B020083BC43 /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = nonPremultipliedBlit.frag; path = ../../../../core/glsl/nonPremultipliedBlit.frag; sourceTree = "<group>"; };
-		2DCD5BDE1CF44B020083BC43 /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = radialFade.frag; path = ../../../../core/glsl/radialFade.frag; sourceTree = "<group>"; };
-		2DCD5BDF1CF44B020083BC43 /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = simple.frag; path = ../../../../core/glsl/simple.frag; sourceTree = "<group>"; };
-		2DCD5BE01CF44B020083BC43 /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = simple.vert; path = ../../../../core/glsl/simple.vert; sourceTree = "<group>"; };
-		2DCD5BE11CF44B020083BC43 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = unPremultipliedBlit.frag; path = ../../../../core/glsl/unPremultipliedBlit.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +149,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D3D07941CF597EE00775308 /* glsl */ = {
+			isa = PBXGroup;
+			children = (
+				2D3D07951CF597EE00775308 /* basic.vert */,
+				2D3D07961CF597EE00775308 /* basicColor.frag */,
+				2D3D07971CF597EE00775308 /* basicWithCoord.vert */,
+				2D3D07981CF597EE00775308 /* blit.frag */,
+				2D3D07991CF597EE00775308 /* blit.vert */,
+				2D3D079A1CF597EE00775308 /* blitWithEraseMask.frag */,
+				2D3D079B1CF597EE00775308 /* blitWithMask.frag */,
+				2D3D079C1CF597EE00775308 /* brush.frag */,
+				2D3D079D1CF597EE00775308 /* brush.vert */,
+				2D3D079E1CF597EE00775308 /* compositeWithEraseMask.frag */,
+				2D3D079F1CF597EE00775308 /* compositeWithMask.frag */,
+				2D3D07A01CF597EE00775308 /* fillCircle.frag */,
+				2D3D07A11CF597EE00775308 /* fillCircle.vert */,
+				2D3D07A21CF597EE00775308 /* nonPremultipliedBlit.frag */,
+				2D3D07A31CF597EE00775308 /* radialFade.frag */,
+				2D3D07A41CF597EE00775308 /* simple.frag */,
+				2D3D07A51CF597EE00775308 /* simple.vert */,
+				2D3D07A61CF597EE00775308 /* unPremultipliedBlit.frag */,
+			);
+			name = glsl;
+			path = ../../../core/glsl;
+			sourceTree = "<group>";
+		};
 		2D47C7501CAB785900AE30B1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,31 +182,6 @@
 				2D47C7521CAB786700AE30B1 /* PaintingManager.mm */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		2D78068F1A10BB8A003F7479 /* shader */ = {
-			isa = PBXGroup;
-			children = (
-				2DCD5BD01CF44B020083BC43 /* basic.vert */,
-				2DCD5BD11CF44B020083BC43 /* basicColor.frag */,
-				2DCD5BD21CF44B020083BC43 /* basicWithCoord.vert */,
-				2DCD5BD31CF44B020083BC43 /* blit.frag */,
-				2DCD5BD41CF44B020083BC43 /* blit.vert */,
-				2DCD5BD51CF44B020083BC43 /* blitWithEraseMask.frag */,
-				2DCD5BD61CF44B020083BC43 /* blitWithMask.frag */,
-				2DCD5BD71CF44B020083BC43 /* brush.frag */,
-				2DCD5BD81CF44B020083BC43 /* brush.vert */,
-				2DCD5BD91CF44B020083BC43 /* compositeWithEraseMask.frag */,
-				2DCD5BDA1CF44B020083BC43 /* compositeWithMask.frag */,
-				2DCD5BDB1CF44B020083BC43 /* fillCircle.frag */,
-				2DCD5BDC1CF44B020083BC43 /* fillCircle.vert */,
-				2DCD5BDD1CF44B020083BC43 /* nonPremultipliedBlit.frag */,
-				2DCD5BDE1CF44B020083BC43 /* radialFade.frag */,
-				2DCD5BDF1CF44B020083BC43 /* simple.frag */,
-				2DCD5BE01CF44B020083BC43 /* simple.vert */,
-				2DCD5BE11CF44B020083BC43 /* unPremultipliedBlit.frag */,
-			);
-			path = shader;
 			sourceTree = "<group>";
 		};
 		2DB759291A10B938009E05B8 = {
@@ -222,6 +223,7 @@
 		2DB7593B1A10B938009E05B8 /* BrushesDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2D3D07941CF597EE00775308 /* glsl */,
 				2D47C7501CAB785900AE30B1 /* Models */,
 				2D47C74D1CAB76F900AE30B1 /* CZViewImpl.h */,
 				2D47C74E1CAB76F900AE30B1 /* CZViewImpl.mm */,
@@ -229,7 +231,6 @@
 				2D47C74B1CAB766A00AE30B1 /* CanvasView.mm */,
 				2DC7D0E41AE9D585007DB4C7 /* EAGLView.h */,
 				2DC7D0E51AE9D585007DB4C7 /* EAGLView.mm */,
-				2D78068F1A10BB8A003F7479 /* shader */,
 				2DB759441A10B938009E05B8 /* BrushesAppDelegate.h */,
 				2DB759451A10B938009E05B8 /* BrushesAppDelegate.m */,
 				2DB759641A10B9DA009E05B8 /* MainViewController.h */,
@@ -355,32 +356,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD5BE31CF44B020083BC43 /* basicColor.frag in Resources */,
+				2D3D07A81CF597EE00775308 /* basicColor.frag in Resources */,
 				2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */,
-				2DCD5BEB1CF44B020083BC43 /* compositeWithEraseMask.frag in Resources */,
-				2DCD5BE51CF44B020083BC43 /* blit.frag in Resources */,
-				2DCD5BE21CF44B020083BC43 /* basic.vert in Resources */,
-				2DCD5BEF1CF44B020083BC43 /* nonPremultipliedBlit.frag in Resources */,
+				2D3D07B01CF597EE00775308 /* compositeWithEraseMask.frag in Resources */,
+				2D3D07AA1CF597EE00775308 /* blit.frag in Resources */,
+				2D3D07A71CF597EE00775308 /* basic.vert in Resources */,
+				2D3D07B41CF597EE00775308 /* nonPremultipliedBlit.frag in Resources */,
 				2D63C8831B452A6E0024AF37 /* Shader.vert in Resources */,
-				2DCD5BF21CF44B020083BC43 /* simple.vert in Resources */,
-				2DCD5BF31CF44B020083BC43 /* unPremultipliedBlit.frag in Resources */,
+				2D3D07B71CF597EE00775308 /* simple.vert in Resources */,
+				2D3D07B81CF597EE00775308 /* unPremultipliedBlit.frag in Resources */,
 				2DB759401A10B938009E05B8 /* InfoPlist.strings in Resources */,
 				2D63C8651B452A0A0024AF37 /* checkerplate.png in Resources */,
 				2DB759481A10B938009E05B8 /* Images.xcassets in Resources */,
-				2DCD5BE41CF44B020083BC43 /* basicWithCoord.vert in Resources */,
-				2DCD5BF11CF44B020083BC43 /* simple.frag in Resources */,
-				2DCD5BED1CF44B020083BC43 /* fillCircle.frag in Resources */,
+				2D3D07A91CF597EE00775308 /* basicWithCoord.vert in Resources */,
+				2D3D07B61CF597EE00775308 /* simple.frag in Resources */,
+				2D3D07B21CF597EE00775308 /* fillCircle.frag in Resources */,
 				2D8F24CE1B4A4AFF00D1B5DF /* Storyboard.storyboard in Resources */,
-				2DCD5BEE1CF44B020083BC43 /* fillCircle.vert in Resources */,
+				2D3D07B31CF597EE00775308 /* fillCircle.vert in Resources */,
 				2D8F24EC1B4BC82C00D1B5DF /* profile.jpg in Resources */,
-				2DCD5BF01CF44B020083BC43 /* radialFade.frag in Resources */,
+				2D3D07B51CF597EE00775308 /* radialFade.frag in Resources */,
 				2D63C8821B452A6E0024AF37 /* Shader.frag in Resources */,
-				2DCD5BE91CF44B020083BC43 /* brush.frag in Resources */,
-				2DCD5BEA1CF44B020083BC43 /* brush.vert in Resources */,
-				2DCD5BEC1CF44B020083BC43 /* compositeWithMask.frag in Resources */,
-				2DCD5BE61CF44B020083BC43 /* blit.vert in Resources */,
-				2DCD5BE81CF44B020083BC43 /* blitWithMask.frag in Resources */,
-				2DCD5BE71CF44B020083BC43 /* blitWithEraseMask.frag in Resources */,
+				2D3D07AE1CF597EE00775308 /* brush.frag in Resources */,
+				2D3D07AF1CF597EE00775308 /* brush.vert in Resources */,
+				2D3D07B11CF597EE00775308 /* compositeWithMask.frag in Resources */,
+				2D3D07AB1CF597EE00775308 /* blit.vert in Resources */,
+				2D3D07AD1CF597EE00775308 /* blitWithMask.frag in Resources */,
+				2D3D07AC1CF597EE00775308 /* blitWithEraseMask.frag in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

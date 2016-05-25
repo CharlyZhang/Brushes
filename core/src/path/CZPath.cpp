@@ -25,8 +25,8 @@ CZPath::CZPath(vector<CZBezierNode> *nodes_ /* = NULL */)
 
 	if(nodes_ != NULL)
 	{
-		int n = nodes_->size();
-		for(int i=0; i<n; i++) nodes.push_back((*nodes_)[i]);
+		size_t n = nodes_->size();
+		for(size_t i=0; i<n; i++) nodes.push_back((*nodes_)[i]);
 	}
 }
 CZPath::~CZPath()
@@ -59,8 +59,8 @@ void CZPath::setNodes(const vector<CZBezierNode> &nodes_)
 {
 	nodes.clear();
 
-	int n = nodes_.size();
-	for(int i=0; i<n; i++) nodes.push_back(nodes_[i]);
+	size_t n = nodes_.size();
+	for(size_t i=0; i<n; i++) nodes.push_back(nodes_[i]);
 }
 
 /// 获得所有控制点
@@ -437,7 +437,7 @@ void CZPath::paintBetweenPoints(const CZ3DPoint &lastLocation, const CZ3DPoint &
 ///		/return				- 离散后得到的绘制点数目
 unsigned int CZPath::flattenNodes2Points(const vector<CZBezierNode> &nodes, bool closed, vector<CZ3DPoint> &points)
 {
-	int numNodes = nodes.size();
+	size_t numNodes = nodes.size();
 
 	points.clear();
 
@@ -448,7 +448,7 @@ unsigned int CZPath::flattenNodes2Points(const vector<CZBezierNode> &nodes, bool
 		return 1;
 	}
 
-	int numSegs = closed ? numNodes : numNodes - 1;
+	size_t numSegs = closed ? numNodes : numNodes - 1;
 
 	CZBezierSegment   *segment = NULL;
 	for (int i = 0; i < numSegs; i++) 
@@ -461,7 +461,7 @@ unsigned int CZPath::flattenNodes2Points(const vector<CZBezierNode> &nodes, bool
 		delete segment;
 	}
 
-	return points.size();
+	return (unsigned int)points.size();
 }
 
 /// 实现coding 接口

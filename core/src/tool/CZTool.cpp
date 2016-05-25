@@ -165,7 +165,7 @@ void CZTool::moveEnd(CZ2DPoint &p_)
     }
     
 	CZColor     color = CZActiveState::getInstance()->getPaintColor();
-	CZBrush     *ptrBrush = CZActiveState::getInstance()->getActiveBrush();
+//	CZBrush     *ptrBrush = CZActiveState::getInstance()->getActiveBrush();
 	//CZCanvas    canvas;// = (WDCanvas *) recognizer.view;
 	//CZPainting  painting(size);// = canvas.painting;
 

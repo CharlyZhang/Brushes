@@ -30,6 +30,12 @@
 		2D3D07351CF58D2400775308 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D072F1CF58D2400775308 /* Actions.m */; };
 		2D3D07361CF58D2400775308 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07311CF58D2400775308 /* PaintingManager.mm */; };
 		2D3D07661CF5927F00775308 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07631CF5927F00775308 /* UIImage+Resize.m */; };
+		2D3D07B91CF5985500775308 /* UIImage+Resize.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07621CF5927F00775308 /* UIImage+Resize.h */; };
+		2D3D07BA1CF5985500775308 /* HYBrushCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D072B1CF58D2400775308 /* HYBrushCore.h */; };
+		2D3D07BB1CF5985500775308 /* PaintingManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07301CF58D2400775308 /* PaintingManager.h */; };
+		2D3D07BC1CF5993200775308 /* CanvasView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07271CF58D2400775308 /* CanvasView.h */; };
+		2D3D07BD1CF5993200775308 /* BrushSizePannelView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D071E1CF58CFA00775308 /* BrushSizePannelView.h */; };
+		2D3D07BE1CF5993200775308 /* TransformOverlayer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07201CF58CFA00775308 /* TransformOverlayer.h */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DCD5C1B1CF451390083BC43 /* CZ2DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C071CF451390083BC43 /* CZ2DPoint.cpp */; };
 		2DCD5C1C1CF451390083BC43 /* CZ3DPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C091CF451390083BC43 /* CZ3DPoint.cpp */; };
@@ -73,10 +79,16 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		2D2BE5291A0C9196003724D4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				2D3D07BC1CF5993200775308 /* CanvasView.h in CopyFiles */,
+				2D3D07BD1CF5993200775308 /* BrushSizePannelView.h in CopyFiles */,
+				2D3D07BE1CF5993200775308 /* TransformOverlayer.h in CopyFiles */,
+				2D3D07B91CF5985500775308 /* UIImage+Resize.h in CopyFiles */,
+				2D3D07BA1CF5985500775308 /* HYBrushCore.h in CopyFiles */,
+				2D3D07BB1CF5985500775308 /* PaintingManager.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +523,7 @@
 		2D2BE5231A0C9196003724D4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = CharlyZhang;
 				TargetAttributes = {
 					60B1B8CC1CF45FF800C99E92 = {
@@ -638,6 +650,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

@@ -208,7 +208,7 @@ bool CZActiveState::setPainting(CZPainting *p)
 ///		\param idx - 添加的画刷类型序号，当idx为负数时随机化序号
 CZStampGenerator * CZActiveState::getGenerator(int idx /* = -1*/)
 {
-	int genNum = generators.size();
+	size_t genNum = generators.size();
 	if (genNum > 0 && idx < genNum)
 	{
 		if(idx < 0)	idx = rand() % genNum;
@@ -251,7 +251,7 @@ int CZActiveState::setUpGenerators()
 	generators["round"] = new CZRoundGenerator(stampGLContext);
 	generators["bristle"] = new CZBristleGenerator(stampGLContext);
 
-	return generators.size();
+	return (int)generators.size();
 }
 
 /// 初始化画刷

@@ -480,7 +480,7 @@ void CZImage::modifyArea(CZImage * &backupImg,CZRect rect, float fillColor[])
 			}
 		}
 
-		delete [] data;
+		delete [] (unsigned char*)data;
 		data = (void*)newData;
 		width = w; height = h;
 		
@@ -514,7 +514,7 @@ void CZImage::modifyArea(CZImage * &backupImg,CZRect rect, float fillColor[])
 
 		LOG_DEBUG("new step is %ld\n",step);
 
-		delete [] data;
+		delete [] (float*)data;
 		data = (void*)newData;
 		width = w; height = h;
 

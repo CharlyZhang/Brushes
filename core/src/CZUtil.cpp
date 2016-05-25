@@ -282,7 +282,7 @@ bool CZUtil::loadBMP(char* fileName,unsigned char* &buf,long &width,long &height
     long rowIdx;
     long row_size = width*3;
     
-    long widthDW = WIDTHBYTES(width * 24);
+//    long widthDW = WIDTHBYTES(width * 24);
     
     buf = (unsigned char*)malloc(height*row_size*sizeof(unsigned char));
     
