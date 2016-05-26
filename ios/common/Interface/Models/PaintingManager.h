@@ -35,11 +35,11 @@
 
 - (BOOL) saveActivePainting;
 
-// 生成预览图
-- (UIImage*) previewImageOfPaintingAt: (NSInteger)index;
-
 /// get inital painting when lauching app
 - (void*) getInitialPainting;
+
+// 生成预览图
+- (UIImage*) previewImageOfPaintingAt: (NSInteger)index;
 
 /// 对外接口-最新
 -(void*) getInitialPaintingWithPath: (NSString*)path;

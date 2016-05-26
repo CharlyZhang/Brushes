@@ -39,6 +39,9 @@ bug:
     2. 将core中的代码与glsl分开
     3. 删除陈旧代码（CZRender，CZCanvas_original...）
 
+- 2016-05-26
+    1. 完善内核的封装，将平台相关的中间层和某些组件封装到库里
+    2. 将画布管理功能集成进HYBrushCore，剔除PaintingManager单例
 
 
 ### CORE:

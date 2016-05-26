@@ -74,6 +74,8 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
     
     _trueCanvasScale = 1.f;         /// can't set by self.trueCanvasScale when ptrCanvas == null
 
+    ptrCanvas = nullptr;
+    
     return self;
 }
 
@@ -124,7 +126,7 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 - (void)setCanvas:(void *)canvas
 {
     if (canvas == nullptr) {
-        LOG_ERROR("param 'canvas' is NULL\n");
+        LOG_INFO("param 'canvas' is NULL\n");
         return;
     }
     
@@ -184,19 +186,20 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 
 - (void) handlePinchGesture:(UIPinchGestureRecognizer *)sender
 {
+    if(ptrCanvas == nullptr)
+    {
+        LOG_ERROR("ptrCanvas is null \n");
+        return;
+    }
+    
     if (sender.state == UIGestureRecognizerStateBegan) {
 //        [controller_ hidePopovers];
         
         CGPoint flipped = [sender locationInView:self];
         
-        if (ptrCanvas) {
-            CGFloat height = self.bounds.size.height;
-            CZ2DPoint pt(flipped.x,height-flipped.y);
-            ptrCanvas->pinchBegin(pt);
-        }
-        else {
-            LOG_ERROR("ptrCanvas is null\n");
-        }
+        CGFloat height = self.bounds.size.height;
+        CZ2DPoint pt(flipped.x,height-flipped.y);
+        ptrCanvas->pinchBegin(pt);
         
         lastTouchCount = sender.numberOfTouches;
                 
@@ -210,22 +213,17 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
        
         CGPoint flipped = [sender locationInView:self];
         
-        if (ptrCanvas) {
-            CGFloat height = self.bounds.size.height;
-            CZ2DPoint pt(flipped.x,height-flipped.y);
-            
-            if (sender.numberOfTouches != lastTouchCount){
-                ptrCanvas->pinchChanged(pt,true);
-                lastTouchCount = sender.numberOfTouches;
-            }
-            else
-                ptrCanvas->pinchChanged(pt);
-            
-            [self scaleBy:sender.scale / previousScale];
+        CGFloat height = self.bounds.size.height;
+        CZ2DPoint pt(flipped.x,height-flipped.y);
+        
+        if (sender.numberOfTouches != lastTouchCount){
+            ptrCanvas->pinchChanged(pt,true);
+            lastTouchCount = sender.numberOfTouches;
         }
-        else {
-            LOG_ERROR("ptrCanvas is null\n");
-        }
+        else
+            ptrCanvas->pinchChanged(pt);
+        
+        [self scaleBy:sender.scale / previousScale];
         
     }
     else if (sender.state == UIGestureRecognizerStateEnded) {
@@ -245,6 +243,13 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
     LOG_DEBUG("pan\n");
+    
+    if(ptrCanvas == nullptr)
+    {
+        LOG_ERROR("ptrCanvas is null \n");
+        return;
+    }
+    
     CZActiveState *activeState = CZActiveState::getInstance();
     
     if (activeState->colorFillMode || activeState->colorPickMode) return;
@@ -295,6 +300,12 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 - (void)handleTapGesture:(UITapGestureRecognizer*)sender
 {
     LOG_DEBUG("tap\n");
+    
+    if(ptrCanvas == nullptr)
+    {
+        LOG_ERROR("ptrCanvas is null \n");
+        return;
+    }
     
     if (self.ptrPainting->shouldPreventPaint()) {
         CZLayer *layer = self.ptrPainting->getActiveLayer();
@@ -353,7 +364,7 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 {
     LOG_DEBUG("double 2 tap\n");
     self.trueCanvasScale = 1.f;
-    ptrCanvas->resetTransform();
+    if(ptrCanvas) ptrCanvas->resetTransform();
 }
 
 - (void)setPainting:(void*)painting

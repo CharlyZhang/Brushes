@@ -16,17 +16,16 @@
 
 + (HYBrushCore*) sharedInstance;
 
-/// 初始化 - 修改
-- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s path: (NSString*)path;
 ///初始化
-- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s;
+- (BOOL) initializeWithScreenScale:(float)s GLSLDirectory:(NSString*) glslDir;
 
-///设置glsl所在文件夹
-- (void) setGLSLDirectory:(const char*) glslDir;
+///新建绘制视图
+- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h storePath:(NSString*)path;
+- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h;
 
-///获得绘制视图
-- (CanvasView*) getPaintingView;
-
+///释放资源
+- (BOOL) releaseResource;
+   
 /// 绘制
 - (void) draw;
 
@@ -94,6 +93,8 @@
 /// undo & redo
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;
 - (BOOL) redoPaintingOfLayer:(NSInteger)idx;
+
+#pragma mark - Painting Manager
 
 
 #pragma mark - ！Adjust Brush Stamp

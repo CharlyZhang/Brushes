@@ -167,8 +167,9 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     
     /// 初始画板
     
-    [[HYBrushCore sharedInstance]initializeWithWidth:kScreenW height:kScreenH scale:[UIScreen mainScreen].scale];
-    CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
+    [[HYBrushCore sharedInstance] initializeWithScreenScale: [UIScreen mainScreen].scale
+                                              GLSLDirectory:[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"]];
+    CanvasView *canvasView = [[HYBrushCore sharedInstance] createPaintingWithWidth:kScreenW height:kScreenH];
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
     

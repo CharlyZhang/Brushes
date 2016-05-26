@@ -15,7 +15,11 @@ CZViewImpl::CZViewImpl(const CZRect& rect)
     realView = [[CanvasView alloc]initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
 }
 
-CZViewImpl::~CZViewImpl() {}
+CZViewImpl::~CZViewImpl()
+{
+    realView.canvas = nullptr;
+    [realView setPaiting:nil];
+}
 
 void CZViewImpl::setCanvas(CZCanvas* c)
 {

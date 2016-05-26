@@ -9,16 +9,17 @@
 #import "HYBrushCore.h"
 #import "CZViewImpl.h"
 #include "BrushesCore.h"
-#include "PaintingManager.h"
 #import <QuartzCore/QuartzCore.h>
 #include <string>
 
+#define DOCUMENT_DIR            [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+
 @interface HYBrushCore()
 {
-    CZViewImpl *viewImpl;
+    CZViewImpl *ptrViewImpl;
     CZCanvas *canvas;
     CZPainting *painting;
-    BOOL hasInsertedBackgroundLayer;
+    BOOL hasInsertedBackgroundLayer;        //< for the case that insert background image on a fixed layer
 }
 @end
 
@@ -35,67 +36,85 @@
     return brushCore_;
 }
 
-/// 初始化 - 修改
-- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s path: (NSString*)path
+- (instancetype) init
 {
-    /// CZActiveState Initializaiton comes first, for it will help other initial work
-    CZActiveState::getInstance()->setEraseMode(false);
-    CZActiveState::getInstance()->setActiveBrush(kPencil);
-    CZActiveState::getInstance()->mainScreenScale = s;
+    if (self = [super init])
+    {
+        ptrViewImpl = nullptr;
+        canvas = nullptr;
+        painting = nullptr;
+    }
     
-    viewImpl = new CZViewImpl(CZRect(0,0,w,h));
-    canvas = new CZCanvas(viewImpl);
-    
-    [[PaintingManager sharedInstance] initializeWithWidth:w height:h scale:s];
-    painting = (CZPainting*)[[PaintingManager sharedInstance] getInitialPaintingWithPath:path];
-    canvas->setPaiting(painting);
-    
-    self.hasInitialized = YES;
-    return YES;
+    return self;
 }
 
-
 /// 初始化
-- (BOOL) initializeWithWidth:(float)w height:(float)h scale:(float)s
+- (BOOL) initializeWithScreenScale:(float)s GLSLDirectory:(NSString*) glslDir
 {
+    if(!glslDir) return NO;
+    
     /// CZActiveState Initializaiton comes first, for it will help other initial work
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
     CZActiveState::getInstance()->mainScreenScale = s;
     
-    /// set the default glsl directory
-    [self setGLSLDirectory:[[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"] UTF8String]];
-    
-    viewImpl = new CZViewImpl(CZRect(0,0,w,h));
-    canvas = new CZCanvas(viewImpl);
-    
-    [[PaintingManager sharedInstance] initializeWithWidth:w height:h scale:s];
-    painting = (CZPainting*)[[PaintingManager sharedInstance] getInitialPainting];
-    canvas->setPaiting(painting);
-    [self setActiveBrushwatercolorPenStamp ];
+    CZShader::glslDirectory = std::string([glslDir UTF8String]);
     
     self.hasInitialized = YES;
     hasInsertedBackgroundLayer = NO;
     return YES;
 }
 
-///设置glsl所在文件夹
-- (void) setGLSLDirectory:(const char*) glslDir
+///新建绘制视图
+- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h storePath:(NSString*)path
 {
-    if (glslDir == NULL)
-    {
-        LOG_WARN("glslDir is NULL\n");
-        return;
-    }
+    // TO DO: save previous painting
     
-    CZShader::glslDirectory = std::string(glslDir);
+    if (![self releaseResource]) return nullptr;
+    
+    float scale = CZActiveState::getInstance()->mainScreenScale;
+    ptrViewImpl = new CZViewImpl(CZRect(0,0,w,h));
+    canvas = new CZCanvas(ptrViewImpl);
+    
+    painting = new CZPainting(CZSize(w*scale,w*scale));
+    
+    // TO DO: save current painting
+    canvas->setPaiting(painting);
+    
+    // activate water color pen
+    [self setActiveBrushwatercolorPenStamp ];
+    
+    return ptrViewImpl->realView;
+}
+
+- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h
+{
+    // TO DO: add defaultPaintingName
+    NSString *defaultPaintingPath = DOCUMENT_DIR;
+    return [self createPaintingWithWidth:w height:h storePath:defaultPaintingPath];
 }
 
 ///获得绘制视图
 - (CanvasView*) getPaintingView
 {
-    if (!viewImpl) return nil;
-    return viewImpl->realView;
+    if (!ptrViewImpl) return nil;
+    return ptrViewImpl->realView;
+}
+
+///释放资源
+- (BOOL) releaseResource
+{
+    if (canvas) {
+        delete canvas;
+        canvas = nullptr;
+    }
+    
+    if (painting) {
+        delete painting;
+        painting = nullptr;
+    }
+    
+    return YES;
 }
 
 /// 绘制
@@ -722,14 +741,6 @@
 
 /// 析构
 - (void) dealloc {
-    if (canvas) {
-        delete canvas;
-        canvas = NULL;
-    }
-    
-    if (painting) {
-        delete painting;
-        painting = NULL;
-    }
+    [self releaseResource];
 }
 @end
