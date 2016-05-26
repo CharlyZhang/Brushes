@@ -522,6 +522,155 @@
     return result;
 }
 
+#pragma mark - !Adjust Brush Stamp
+
+- (BOOL) setIntentity4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->intensity.value = v;
+    return YES;
+}
+
+- (float) intentity4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->intensity.value;
+}
+
+- (BOOL) setAngle4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->angle.value = v;
+    return YES;
+}
+
+- (float) angle4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->angle.value;
+}
+
+- (BOOL) setSpacing4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->spacing.value = v;
+    return YES;
+}
+
+- (float) spacing4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->spacing.value;
+}
+
+- (BOOL) setDynamicIntensity4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->intensityDynamics.value = v;
+    return YES;
+}
+
+- (float) dynamicIntensity4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->intensityDynamics.value;
+}
+
+- (BOOL) setJitter4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->rotationalScatter.value = v;
+    return YES;
+}
+
+- (float) jitter4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->rotationalScatter.value;
+}
+
+- (BOOL) setScatter4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->positionalScatter.value = v;
+    return YES;
+}
+
+- (float) scatter4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->positionalScatter.value;
+}
+
+- (BOOL) setDynamicWeight4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->weightDynamics.value = v;
+    return YES;
+}
+
+- (float) dynamicWeight4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->weightDynamics.value;
+}
+
+- (BOOL) setDynamicAngle4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    brush->angleDynamics.value = v;
+    return YES;
+}
+
+- (float) dynamicAngle4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    return brush->angleDynamics.value;
+}
+
+- (BOOL) setBristleDentity4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CZBristleGenerator *gen = dynamic_cast<CZBristleGenerator *>(brush->getGenerator());
+    if (!gen) return NO;
+    
+    gen->bristleDensity.value = v;
+    gen->propertiesChanged();
+    painting->clearLastBrush();
+    return YES;
+    
+}
+
+- (float) bristleDentity4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CZBristleGenerator *gen = dynamic_cast<CZBristleGenerator *>(brush->getGenerator());
+    if (!gen) return 0.0f;
+    
+    return gen->bristleDensity.value;
+}
+
+- (BOOL) setBristleSize4ActiveBrush:(float)v
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CZBristleGenerator *gen = dynamic_cast<CZBristleGenerator *>(brush->getGenerator());
+    if (!gen) return NO;
+    
+    gen->bristleSize.value = v;
+    gen->propertiesChanged();
+    painting->clearLastBrush();
+    return YES;
+}
+
+- (float) bristleSize4ActiveBrush
+{
+    CZBrush *brush = CZActiveState::getInstance()->getActiveBrush();
+    CZBristleGenerator *gen = dynamic_cast<CZBristleGenerator *>(brush->getGenerator());
+    if (!gen) return 0.0f;
+    
+    return gen->bristleSize.value;
+}
+
 #pragma mark - Private
 - (CZImage*)producedFromImage:(UIImage*)image
 {

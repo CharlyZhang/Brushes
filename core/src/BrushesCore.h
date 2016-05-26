@@ -29,6 +29,9 @@
 
 #include "graphic/CZGLdef.h"
 
-
+#include "stamp/CZStampGenerator.h"
+#include "stamp/CZSpiralGenerator.h"
+#include "stamp/CZRoundGenerator.h"
+#include "stamp/CZBristleGenerator.h"
 
 #endif

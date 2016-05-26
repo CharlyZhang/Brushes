@@ -93,4 +93,18 @@
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;
 - (BOOL) redoPaintingOfLayer:(NSInteger)idx;
 
+
+#pragma mark - ！Adjust Brush Stamp
+
+@property (assign,nonatomic) float intentity4ActiveBrush;
+@property (assign,nonatomic) float angle4ActiveBrush;
+@property (assign,nonatomic) float spacing4ActiveBrush;
+@property (assign,nonatomic) float dynamicIntensity4ActiveBrush;
+@property (assign,nonatomic) float jitter4ActiveBrush;
+@property (assign,nonatomic) float scatter4ActiveBrush;
+@property (assign,nonatomic) float dynamicAngle4ActiveBrush;
+@property (assign,nonatomic) float dynamicWeight4ActiveBrush;
+@property (assign,nonatomic) float bristleDentity4ActiveBrush;
+@property (assign,nonatomic) float bristleSize4ActiveBrush;
+
 @end
