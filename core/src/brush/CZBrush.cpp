@@ -80,7 +80,7 @@ CZImage* CZBrush::getStampImage()
 	{
 		if (generator)
 		{
-			if(stampImage == NULL)	stampImage = generator->getStamp();
+			if(stampImage == NULL) stampImage = generator->getStamp()->copy();
 		}
 		else
 		{

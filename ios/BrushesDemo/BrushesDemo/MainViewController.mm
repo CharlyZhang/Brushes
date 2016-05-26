@@ -40,6 +40,17 @@
 @property (retain, nonatomic) IBOutlet UITextField *DweightTF;
 @property (retain, nonatomic) IBOutlet UITextField *DintentityTF;
 
+@property (weak, nonatomic) IBOutlet UISlider *brushSizeSlider;
+@property (weak, nonatomic) IBOutlet UISlider *bDensitySlider;
+@property (weak, nonatomic) IBOutlet UISlider *bSizeSlider;
+@property (weak, nonatomic) IBOutlet UISlider *DangleSlider;
+@property (weak, nonatomic) IBOutlet UISlider *DweightSlider;
+@property (weak, nonatomic) IBOutlet UISlider *DintentitySlider;
+@property (weak, nonatomic) IBOutlet UISlider *jitterSlider;
+@property (weak, nonatomic) IBOutlet UISlider *scatterSlider;
+@property (weak, nonatomic) IBOutlet UISlider *intentitySlider;
+@property (weak, nonatomic) IBOutlet UISlider *angleSlider;
+@property (weak, nonatomic) IBOutlet UISlider *spacingSlider;
 
 @property (assign, nonatomic) UISwitch *colorFillSwitcher;
 @property (assign, nonatomic) NSInteger layersNumber;
@@ -115,6 +126,7 @@
     _brushSize = size;
     [coreInstance setActiveBrushSize:size];
     self.weightTF.text = [NSString stringWithFormat:@"大小:%0.2f",size];
+    self.brushSizeSlider.value = size;
 }
 
 - (void) setSpacing:(float)spacing
@@ -122,6 +134,7 @@
     _spacing = spacing;
     [coreInstance setSpacing4ActiveBrush:spacing];
     self.spacingTF.text = [NSString stringWithFormat:@"spacing:%0.2f",spacing];
+    self.spacingSlider.value = spacing;
 }
 
 - (void) setAngle:(float)angle
@@ -129,6 +142,7 @@
     _angle = angle;
     [coreInstance setAngle4ActiveBrush:angle];
     self.angleTF.text = [NSString stringWithFormat:@"angle:%0.2f",angle];
+    self.angleSlider.value = angle;
 }
 
 - (void) setIntentity:(float)intentity
@@ -136,6 +150,7 @@
     _intentity = intentity;
     [coreInstance setIntentity4ActiveBrush:intentity];
     self.itentityTF.text = [NSString stringWithFormat:@"intentity:%0.2f",intentity];
+    self.intentitySlider.value = intentity;
 }
 
 - (void) setJitter:(float)jitter
@@ -143,6 +158,7 @@
     _jitter = jitter;
     [coreInstance setJitter4ActiveBrush:jitter];
     self.jitterTF.text = [NSString stringWithFormat:@"jitter:%0.2f",jitter];
+    self.jitterSlider.value = jitter;
 }
 
 - (void) setScatter:(float)scatter
@@ -150,6 +166,7 @@
     _scatter = scatter;
     [coreInstance setScatter4ActiveBrush:scatter];
     self.scatterTF.text = [NSString stringWithFormat:@"scatter:%0.2f",scatter];
+    self.scatterSlider.value = scatter;
 }
 
 - (void) setDynamicAngle:(float)dynamicAngle
@@ -157,6 +174,7 @@
     _dynamicAngle = dynamicAngle;
     [coreInstance setDynamicAngle4ActiveBrush:dynamicAngle];
     self.DangleTF.text = [NSString stringWithFormat:@"Dangle:%0.2f",dynamicAngle];
+    self.DangleSlider.value = dynamicAngle;
 }
 
 - (void) setDynamicWeight:(float)dynamicWeight
@@ -164,6 +182,7 @@
     _dynamicWeight = dynamicWeight;
     [coreInstance setDynamicWeight4ActiveBrush:dynamicWeight];
     self.DweightTF.text = [NSString stringWithFormat:@"Dangle:%0.2f",dynamicWeight];
+    self.DweightSlider.value = dynamicWeight;
 }
 
 - (void) setDynamicIntentity:(float)dynamicIntentity
@@ -171,6 +190,7 @@
     _dynamicIntentity = dynamicIntentity;
     [coreInstance setDynamicIntensity4ActiveBrush:dynamicIntentity];
     self.DintentityTF.text = [NSString stringWithFormat:@"Dintentity:%0.2f",dynamicIntentity];
+    self.DintentitySlider.value = dynamicIntentity;
 }
 
 - (void) setBristleDensity:(float)bristleDensity
@@ -178,6 +198,7 @@
     _bristleDensity = bristleDensity;
     [coreInstance setBristleDentity4ActiveBrush:bristleDensity];
     self.bDensityTF.text = [NSString stringWithFormat:@"bDensity:%0.2f",bristleDensity];
+    self.bDensitySlider.value = bristleDensity;
 }
 
 - (void) setBristleSize:(float)bristleSize
@@ -185,6 +206,7 @@
     _bristleSize = bristleSize;
     [coreInstance setBristleSize4ActiveBrush:bristleSize];
     self.bSizeTF.text = [NSString stringWithFormat:@"bSize:%0.2f",bristleSize];
+    self.bSizeSlider.value = bristleSize;
 }
 
 #pragma mark - Actions

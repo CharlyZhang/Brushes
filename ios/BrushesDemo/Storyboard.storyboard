@@ -18,15 +18,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DxC-6X-tUQ">
-                                <rect key="frame" x="133" y="700" width="227" height="31"/>
+                                <rect key="frame" x="133" y="700" width="217" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="Y7c-dI-38G"/>
-                                </connections>
-                            </slider>
-                            <slider opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="360" translatesAutoresizingMaskIntoConstraints="NO" id="PHI-Tb-rCg">
-                                <rect key="frame" x="484" y="738" width="186" height="31"/>
-                                <connections>
-                                    <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="AQ2-os-mfe"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DWK-Rt-fjZ">
@@ -36,13 +30,13 @@
                                 </connections>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="keE-Ip-N4g">
-                                <rect key="frame" x="133" y="738" width="227" height="31"/>
+                                <rect key="frame" x="133" y="738" width="217" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="y7p-cF-eLC"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="C8C-mV-3aD">
-                                <rect key="frame" x="484" y="700" width="186" height="31"/>
+                                <rect key="frame" x="474" y="700" width="186" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="kLl-Dq-YV9"/>
                                 </connections>
@@ -54,7 +48,7 @@
                                 </connections>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Zr8-ni-wW3">
-                                <rect key="frame" x="133" y="624" width="227" height="31"/>
+                                <rect key="frame" x="133" y="624" width="217" height="31"/>
                                 <connections>
                                     <action selector="sizeSlider:" destination="Si0-FH-ERo" eventType="valueChanged" id="u8y-K6-Vtx"/>
                                 </connections>
@@ -64,14 +58,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <slider opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sTg-gJ-fUq">
+                                <rect key="frame" x="786" y="624" width="220" height="31"/>
+                                <connections>
+                                    <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="rA2-1P-PP9"/>
+                                </connections>
+                            </slider>
                             <slider opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jeh-Oj-2XU">
-                                <rect key="frame" x="484" y="624" width="186" height="31"/>
+                                <rect key="frame" x="474" y="624" width="186" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="pTf-gr-A1f"/>
                                 </connections>
                             </slider>
                             <slider opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9qa-lO-F3a">
-                                <rect key="frame" x="484" y="662" width="186" height="31"/>
+                                <rect key="frame" x="474" y="662" width="186" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="EDF-Wu-ylg"/>
                                 </connections>
@@ -88,7 +88,7 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="SzF-sB-t9b">
-                                <rect key="frame" x="133" y="662" width="227" height="31"/>
+                                <rect key="frame" x="133" y="662" width="217" height="31"/>
                                 <connections>
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="dRi-Dg-1Xd"/>
                                 </connections>
@@ -114,12 +114,12 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="spacing:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cE2-1g-Lcr">
-                                <rect key="frame" x="674" y="738" width="112" height="30"/>
+                                <rect key="frame" x="666" y="738" width="120" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="angle:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ou6-0u-8yz">
-                                <rect key="frame" x="366" y="738" width="112" height="30"/>
+                                <rect key="frame" x="356" y="738" width="112" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -134,17 +134,17 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="scatter:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vn0-aE-H3l">
-                                <rect key="frame" x="366" y="700" width="112" height="30"/>
+                                <rect key="frame" x="356" y="700" width="112" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="bDensity:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F84-Fy-mR7">
-                                <rect key="frame" x="366" y="624" width="112" height="30"/>
+                                <rect key="frame" x="356" y="624" width="112" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="bSize:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ipU-wt-d6f">
-                                <rect key="frame" x="674" y="624" width="112" height="30"/>
+                                <rect key="frame" x="666" y="624" width="120" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -154,19 +154,19 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Dweight:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7NA-Sb-r1x">
-                                <rect key="frame" x="366" y="662" width="112" height="30"/>
+                                <rect key="frame" x="356" y="662" width="112" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Dintentity:0.00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kIZ-51-Ece">
-                                <rect key="frame" x="674" y="662" width="112" height="30"/>
+                                <rect key="frame" x="666" y="662" width="120" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <slider opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sTg-gJ-fUq">
-                                <rect key="frame" x="786" y="624" width="220" height="31"/>
+                            <slider opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="360" translatesAutoresizingMaskIntoConstraints="NO" id="PHI-Tb-rCg">
+                                <rect key="frame" x="474" y="738" width="186" height="31"/>
                                 <connections>
-                                    <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="rA2-1P-PP9"/>
+                                    <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="AQ2-os-mfe"/>
                                 </connections>
                             </slider>
                         </subviews>
@@ -174,16 +174,27 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="DangleSlider" destination="SzF-sB-t9b" id="xa1-5T-umK"/>
                         <outlet property="DangleTF" destination="sab-MC-mY6" id="02s-oM-A0C"/>
+                        <outlet property="DintentitySlider" destination="JbF-RJ-dBA" id="A0Z-js-fXM"/>
                         <outlet property="DintentityTF" destination="kIZ-51-Ece" id="512-cW-OTd"/>
+                        <outlet property="DweightSlider" destination="9qa-lO-F3a" id="9GL-26-Bqk"/>
                         <outlet property="DweightTF" destination="7NA-Sb-r1x" id="Yfx-Bl-qq3"/>
+                        <outlet property="angleSlider" destination="PHI-Tb-rCg" id="wIM-I3-s69"/>
                         <outlet property="angleTF" destination="Ou6-0u-8yz" id="VHK-26-eNl"/>
+                        <outlet property="bDensitySlider" destination="Jeh-Oj-2XU" id="lXS-bi-D2e"/>
                         <outlet property="bDensityTF" destination="F84-Fy-mR7" id="VJ5-IV-q2z"/>
+                        <outlet property="bSizeSlider" destination="sTg-gJ-fUq" id="mCo-yK-och"/>
                         <outlet property="bSizeTF" destination="ipU-wt-d6f" id="P26-57-NSi"/>
+                        <outlet property="brushSizeSlider" destination="Zr8-ni-wW3" id="SVj-3N-NbJ"/>
+                        <outlet property="intentitySlider" destination="keE-Ip-N4g" id="XVU-tg-mqy"/>
                         <outlet property="itentityTF" destination="NPp-SP-rCU" id="Amj-Ht-BSF"/>
+                        <outlet property="jitterSlider" destination="DxC-6X-tUQ" id="aoW-gZ-L2g"/>
                         <outlet property="jitterTF" destination="osy-Qk-qRb" id="tug-Qm-QaE"/>
                         <outlet property="redoButton" destination="8dt-A7-B8q" id="uhN-5k-LTF"/>
+                        <outlet property="scatterSlider" destination="C8C-mV-3aD" id="o9F-BG-YM3"/>
                         <outlet property="scatterTF" destination="Vn0-aE-H3l" id="4UO-5I-F0B"/>
+                        <outlet property="spacingSlider" destination="DWK-Rt-fjZ" id="BR5-vB-ybt"/>
                         <outlet property="spacingTF" destination="cE2-1g-Lcr" id="YNB-ZP-aYj"/>
                         <outlet property="undoButton" destination="u2A-d2-MFs" id="MQs-Q0-avw"/>
                         <outlet property="weightTF" destination="tbc-EQ-Jbm" id="685-po-OCK"/>

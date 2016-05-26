@@ -636,6 +636,7 @@
     
     gen->bristleDensity.value = v;
     gen->propertiesChanged();
+    brush->generatorChanged(gen);
     painting->clearLastBrush();
     return YES;
     
@@ -658,6 +659,7 @@
     
     gen->bristleSize.value = v;
     gen->propertiesChanged();
+    brush->generatorChanged(gen);
     painting->clearLastBrush();
     return YES;
 }
