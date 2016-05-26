@@ -8,11 +8,23 @@
 
 import UIKit
 
+let BOTTOM_OFFSET = 108 as Float
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let coreInstance = HYBrushCore.sharedInstance();
+        let width = Float(UIScreen.mainScreen().bounds.size.width);
+        let height = Float(UIScreen.mainScreen().bounds.size.height);
+        coreInstance.initializeWithWidth(width, height:height-BOTTOM_OFFSET, scale:Float(UIScreen.mainScreen().scale));
+        
+        let canvasView = coreInstance.getPaintingView();
+        
+        self.view.insertSubview(canvasView, atIndex:0);
+        
     }
 
     override func didReceiveMemoryWarning() {

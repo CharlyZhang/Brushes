@@ -7,21 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D3D08851CF6D91E00775308 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D3D08841CF6D91E00775308 /* libBrushesCore.a */; };
+		2D3D08881CF6DF0F00775308 /* Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08871CF6DF0F00775308 /* Test.mm */; };
+		2D3D08891CF6E11400775308 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C7EF1B451F4E0024AF37 /* Main.storyboard */; };
+		2D3D08951CF6E2A200775308 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08581CF6D59800775308 /* basic.vert */; };
+		2D3D08961CF6E2A200775308 /* basicColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08591CF6D59800775308 /* basicColor.frag */; };
+		2D3D08971CF6E2A200775308 /* basicWithCoord.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D085A1CF6D59800775308 /* basicWithCoord.vert */; };
+		2D3D08981CF6E2A200775308 /* blit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D085B1CF6D59800775308 /* blit.frag */; };
+		2D3D08991CF6E2A200775308 /* blit.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D085C1CF6D59800775308 /* blit.vert */; };
+		2D3D089A1CF6E2A200775308 /* blitWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D085D1CF6D59800775308 /* blitWithEraseMask.frag */; };
+		2D3D089B1CF6E2A200775308 /* blitWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D085E1CF6D59800775308 /* blitWithMask.frag */; };
+		2D3D089C1CF6E2A200775308 /* brush.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D085F1CF6D59800775308 /* brush.frag */; };
+		2D3D089D1CF6E2A200775308 /* brush.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08601CF6D59800775308 /* brush.vert */; };
+		2D3D089E1CF6E2A200775308 /* compositeWithEraseMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08611CF6D59800775308 /* compositeWithEraseMask.frag */; };
+		2D3D089F1CF6E2A200775308 /* compositeWithMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08621CF6D59800775308 /* compositeWithMask.frag */; };
+		2D3D08A01CF6E2A200775308 /* fillCircle.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08631CF6D59800775308 /* fillCircle.frag */; };
+		2D3D08A11CF6E2A200775308 /* fillCircle.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08641CF6D59800775308 /* fillCircle.vert */; };
+		2D3D08A21CF6E2A200775308 /* nonPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08651CF6D59800775308 /* nonPremultipliedBlit.frag */; };
+		2D3D08A31CF6E2A200775308 /* radialFade.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08661CF6D59800775308 /* radialFade.frag */; };
+		2D3D08A41CF6E2A200775308 /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08671CF6D59800775308 /* simple.frag */; };
+		2D3D08A51CF6E2A200775308 /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08681CF6D59800775308 /* simple.vert */; };
+		2D3D08A61CF6E2A200775308 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08691CF6D59800775308 /* unPremultipliedBlit.frag */; };
 		2D63C7EC1B451F4E0024AF37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C7EB1B451F4E0024AF37 /* AppDelegate.swift */; };
 		2D63C7EE1B451F4E0024AF37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C7ED1B451F4E0024AF37 /* ViewController.swift */; };
-		2D63C7F11B451F4E0024AF37 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C7EF1B451F4E0024AF37 /* Main.storyboard */; };
-		2D63C7F31B451F4E0024AF37 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C7F21B451F4E0024AF37 /* Images.xcassets */; };
-		2D63C7F61B451F4E0024AF37 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C7F41B451F4E0024AF37 /* LaunchScreen.xib */; };
 		2D63C8021B451F4E0024AF37 /* Brush_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C8011B451F4E0024AF37 /* Brush_swiftTests.swift */; };
-		2D63C80C1B4520990024AF37 /* OpenGLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C80B1B4520990024AF37 /* OpenGLView.swift */; };
-		2D63C8141B4522000024AF37 /* libBrush_wraper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C8131B4522000024AF37 /* libBrush_wraper.mm */; };
 		2D63C8161B4523760024AF37 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D63C8151B4523760024AF37 /* GLKit.framework */; };
 		2D63C8181B4523830024AF37 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D63C8171B4523830024AF37 /* QuartzCore.framework */; };
 		2D63C81A1B45238D0024AF37 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D63C8191B45238D0024AF37 /* OpenGLES.framework */; };
-		2D63C85B1B4525720024AF37 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D63C8211B45243D0024AF37 /* libBrushesCore.a */; };
-		2D63C85F1B45299B0024AF37 /* checkerplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C85E1B45299B0024AF37 /* checkerplate.png */; };
-		2D63C8621B4529BB0024AF37 /* Shader.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C8601B4529BB0024AF37 /* Shader.frag */; };
-		2D63C8631B4529BB0024AF37 /* Shader.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C8611B4529BB0024AF37 /* Shader.vert */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,16 +44,37 @@
 			remoteGlobalIDString = 2D63C7E51B451F4E0024AF37;
 			remoteInfo = Brush_swift;
 		};
-		2D63C8201B45243D0024AF37 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D63C81B1B45243C0024AF37 /* BrushesCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2D2BE52B1A0C9196003724D4;
-			remoteInfo = BrushesCore;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D3D08581CF6D59800775308 /* basic.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basic.vert; sourceTree = "<group>"; };
+		2D3D08591CF6D59800775308 /* basicColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicColor.frag; sourceTree = "<group>"; };
+		2D3D085A1CF6D59800775308 /* basicWithCoord.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicWithCoord.vert; sourceTree = "<group>"; };
+		2D3D085B1CF6D59800775308 /* blit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.frag; sourceTree = "<group>"; };
+		2D3D085C1CF6D59800775308 /* blit.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blit.vert; sourceTree = "<group>"; };
+		2D3D085D1CF6D59800775308 /* blitWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithEraseMask.frag; sourceTree = "<group>"; };
+		2D3D085E1CF6D59800775308 /* blitWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blitWithMask.frag; sourceTree = "<group>"; };
+		2D3D085F1CF6D59800775308 /* brush.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.frag; sourceTree = "<group>"; };
+		2D3D08601CF6D59800775308 /* brush.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = brush.vert; sourceTree = "<group>"; };
+		2D3D08611CF6D59800775308 /* compositeWithEraseMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithEraseMask.frag; sourceTree = "<group>"; };
+		2D3D08621CF6D59800775308 /* compositeWithMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = compositeWithMask.frag; sourceTree = "<group>"; };
+		2D3D08631CF6D59800775308 /* fillCircle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fillCircle.frag; sourceTree = "<group>"; };
+		2D3D08641CF6D59800775308 /* fillCircle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fillCircle.vert; sourceTree = "<group>"; };
+		2D3D08651CF6D59800775308 /* nonPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = nonPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2D3D08661CF6D59800775308 /* radialFade.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = radialFade.frag; sourceTree = "<group>"; };
+		2D3D08671CF6D59800775308 /* simple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.frag; sourceTree = "<group>"; };
+		2D3D08681CF6D59800775308 /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.vert; sourceTree = "<group>"; };
+		2D3D08691CF6D59800775308 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
+		2D3D087C1CF6D70C00775308 /* Brush_swift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Brush_swift-Bridging-Header.h"; sourceTree = "<group>"; };
+		2D3D087E1CF6D91E00775308 /* BrushSizePannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrushSizePannelView.h; sourceTree = "<group>"; };
+		2D3D087F1CF6D91E00775308 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
+		2D3D08801CF6D91E00775308 /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
+		2D3D08811CF6D91E00775308 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
+		2D3D08821CF6D91E00775308 /* TransformOverlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformOverlayer.h; sourceTree = "<group>"; };
+		2D3D08831CF6D91E00775308 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		2D3D08841CF6D91E00775308 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../../BrushesCore/build/Debug-universal/libBrushesCore.a"; sourceTree = "<group>"; };
+		2D3D08861CF6DF0F00775308 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		2D3D08871CF6DF0F00775308 /* Test.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Test.mm; sourceTree = "<group>"; };
 		2D63C7E61B451F4E0024AF37 /* Brush_swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brush_swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D63C7EA1B451F4E0024AF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D63C7EB1B451F4E0024AF37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,17 +85,9 @@
 		2D63C7FB1B451F4E0024AF37 /* Brush_swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Brush_swiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D63C8001B451F4E0024AF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D63C8011B451F4E0024AF37 /* Brush_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brush_swiftTests.swift; sourceTree = "<group>"; };
-		2D63C80B1B4520990024AF37 /* OpenGLView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGLView.swift; sourceTree = "<group>"; };
-		2D63C8111B4522000024AF37 /* Brush_swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Brush_swift-Bridging-Header.h"; sourceTree = "<group>"; };
-		2D63C8121B4522000024AF37 /* libBrush_wraper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libBrush_wraper.h; sourceTree = "<group>"; };
-		2D63C8131B4522000024AF37 /* libBrush_wraper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = libBrush_wraper.mm; sourceTree = "<group>"; };
 		2D63C8151B4523760024AF37 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		2D63C8171B4523830024AF37 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2D63C8191B45238D0024AF37 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		2D63C81B1B45243C0024AF37 /* BrushesCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrushesCore.xcodeproj; path = ../BrushesCore/BrushesCore.xcodeproj; sourceTree = "<group>"; };
-		2D63C85E1B45299B0024AF37 /* checkerplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerplate.png; path = ../../common/checkerplate.png; sourceTree = "<group>"; };
-		2D63C8601B4529BB0024AF37 /* Shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.frag; path = ../../common/shader/Shader.frag; sourceTree = "<group>"; };
-		2D63C8611B4529BB0024AF37 /* Shader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.vert; path = ../../common/shader/Shader.vert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,10 +95,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D63C85B1B4525720024AF37 /* libBrushesCore.a in Frameworks */,
 				2D63C81A1B45238D0024AF37 /* OpenGLES.framework in Frameworks */,
 				2D63C8181B4523830024AF37 /* QuartzCore.framework in Frameworks */,
 				2D63C8161B4523760024AF37 /* GLKit.framework in Frameworks */,
+				2D3D08851CF6D91E00775308 /* libBrushesCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,10 +112,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D3D084D1CF6D4E600775308 /* BrushCore */ = {
+			isa = PBXGroup;
+			children = (
+				2D3D08571CF6D59800775308 /* glsl */,
+				2D3D087D1CF6D91E00775308 /* include */,
+				2D3D08841CF6D91E00775308 /* libBrushesCore.a */,
+			);
+			name = BrushCore;
+			sourceTree = "<group>";
+		};
+		2D3D08571CF6D59800775308 /* glsl */ = {
+			isa = PBXGroup;
+			children = (
+				2D3D08581CF6D59800775308 /* basic.vert */,
+				2D3D08591CF6D59800775308 /* basicColor.frag */,
+				2D3D085A1CF6D59800775308 /* basicWithCoord.vert */,
+				2D3D085B1CF6D59800775308 /* blit.frag */,
+				2D3D085C1CF6D59800775308 /* blit.vert */,
+				2D3D085D1CF6D59800775308 /* blitWithEraseMask.frag */,
+				2D3D085E1CF6D59800775308 /* blitWithMask.frag */,
+				2D3D085F1CF6D59800775308 /* brush.frag */,
+				2D3D08601CF6D59800775308 /* brush.vert */,
+				2D3D08611CF6D59800775308 /* compositeWithEraseMask.frag */,
+				2D3D08621CF6D59800775308 /* compositeWithMask.frag */,
+				2D3D08631CF6D59800775308 /* fillCircle.frag */,
+				2D3D08641CF6D59800775308 /* fillCircle.vert */,
+				2D3D08651CF6D59800775308 /* nonPremultipliedBlit.frag */,
+				2D3D08661CF6D59800775308 /* radialFade.frag */,
+				2D3D08671CF6D59800775308 /* simple.frag */,
+				2D3D08681CF6D59800775308 /* simple.vert */,
+				2D3D08691CF6D59800775308 /* unPremultipliedBlit.frag */,
+			);
+			name = glsl;
+			path = ../../../core/glsl;
+			sourceTree = "<group>";
+		};
+		2D3D087D1CF6D91E00775308 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				2D3D087E1CF6D91E00775308 /* BrushSizePannelView.h */,
+				2D3D087F1CF6D91E00775308 /* CanvasView.h */,
+				2D3D08801CF6D91E00775308 /* HYBrushCore.h */,
+				2D3D08811CF6D91E00775308 /* PaintingManager.h */,
+				2D3D08821CF6D91E00775308 /* TransformOverlayer.h */,
+				2D3D08831CF6D91E00775308 /* UIImage+Resize.h */,
+			);
+			name = include;
+			path = "../../BrushesCore/build/Debug-universal/include";
+			sourceTree = "<group>";
+		};
 		2D63C7DD1B451F4E0024AF37 = {
 			isa = PBXGroup;
 			children = (
-				2D63C81B1B45243C0024AF37 /* BrushesCore.xcodeproj */,
 				2D63C8191B45238D0024AF37 /* OpenGLES.framework */,
 				2D63C8171B4523830024AF37 /* QuartzCore.framework */,
 				2D63C8151B4523760024AF37 /* GLKit.framework */,
@@ -112,16 +186,13 @@
 		2D63C7E81B451F4E0024AF37 /* Brush_swift */ = {
 			isa = PBXGroup;
 			children = (
-				2D63C80B1B4520990024AF37 /* OpenGLView.swift */,
+				2D3D084D1CF6D4E600775308 /* BrushCore */,
 				2D63C7EB1B451F4E0024AF37 /* AppDelegate.swift */,
 				2D63C7ED1B451F4E0024AF37 /* ViewController.swift */,
 				2D63C7EF1B451F4E0024AF37 /* Main.storyboard */,
 				2D63C7F21B451F4E0024AF37 /* Images.xcassets */,
 				2D63C7F41B451F4E0024AF37 /* LaunchScreen.xib */,
 				2D63C7E91B451F4E0024AF37 /* Supporting Files */,
-				2D63C8121B4522000024AF37 /* libBrush_wraper.h */,
-				2D63C8131B4522000024AF37 /* libBrush_wraper.mm */,
-				2D63C8111B4522000024AF37 /* Brush_swift-Bridging-Header.h */,
 			);
 			path = Brush_swift;
 			sourceTree = "<group>";
@@ -129,10 +200,10 @@
 		2D63C7E91B451F4E0024AF37 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2D63C8601B4529BB0024AF37 /* Shader.frag */,
-				2D63C8611B4529BB0024AF37 /* Shader.vert */,
-				2D63C85E1B45299B0024AF37 /* checkerplate.png */,
+				2D3D087C1CF6D70C00775308 /* Brush_swift-Bridging-Header.h */,
 				2D63C7EA1B451F4E0024AF37 /* Info.plist */,
+				2D3D08861CF6DF0F00775308 /* Test.h */,
+				2D3D08871CF6DF0F00775308 /* Test.mm */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -152,14 +223,6 @@
 				2D63C8001B451F4E0024AF37 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		2D63C81C1B45243C0024AF37 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2D63C8211B45243D0024AF37 /* libBrushesCore.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,11 +270,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Founder;
 				TargetAttributes = {
 					2D63C7E51B451F4E0024AF37 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = JWD48Y236P;
 					};
 					2D63C7FA1B451F4E0024AF37 = {
 						CreatedOnToolsVersion = 6.1;
@@ -230,12 +294,6 @@
 			mainGroup = 2D63C7DD1B451F4E0024AF37;
 			productRefGroup = 2D63C7E71B451F4E0024AF37 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 2D63C81C1B45243C0024AF37 /* Products */;
-					ProjectRef = 2D63C81B1B45243C0024AF37 /* BrushesCore.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				2D63C7E51B451F4E0024AF37 /* Brush_swift */,
@@ -244,27 +302,30 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		2D63C8211B45243D0024AF37 /* libBrushesCore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libBrushesCore.a;
-			remoteRef = 2D63C8201B45243D0024AF37 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		2D63C7E41B451F4E0024AF37 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D63C8621B4529BB0024AF37 /* Shader.frag in Resources */,
-				2D63C7F11B451F4E0024AF37 /* Main.storyboard in Resources */,
-				2D63C7F61B451F4E0024AF37 /* LaunchScreen.xib in Resources */,
-				2D63C7F31B451F4E0024AF37 /* Images.xcassets in Resources */,
-				2D63C85F1B45299B0024AF37 /* checkerplate.png in Resources */,
-				2D63C8631B4529BB0024AF37 /* Shader.vert in Resources */,
+				2D3D08A01CF6E2A200775308 /* fillCircle.frag in Resources */,
+				2D3D08891CF6E11400775308 /* Main.storyboard in Resources */,
+				2D3D08981CF6E2A200775308 /* blit.frag in Resources */,
+				2D3D08A61CF6E2A200775308 /* unPremultipliedBlit.frag in Resources */,
+				2D3D08A41CF6E2A200775308 /* simple.frag in Resources */,
+				2D3D089B1CF6E2A200775308 /* blitWithMask.frag in Resources */,
+				2D3D089E1CF6E2A200775308 /* compositeWithEraseMask.frag in Resources */,
+				2D3D08A11CF6E2A200775308 /* fillCircle.vert in Resources */,
+				2D3D08961CF6E2A200775308 /* basicColor.frag in Resources */,
+				2D3D08951CF6E2A200775308 /* basic.vert in Resources */,
+				2D3D089D1CF6E2A200775308 /* brush.vert in Resources */,
+				2D3D089F1CF6E2A200775308 /* compositeWithMask.frag in Resources */,
+				2D3D08A31CF6E2A200775308 /* radialFade.frag in Resources */,
+				2D3D08971CF6E2A200775308 /* basicWithCoord.vert in Resources */,
+				2D3D08991CF6E2A200775308 /* blit.vert in Resources */,
+				2D3D08A51CF6E2A200775308 /* simple.vert in Resources */,
+				2D3D089C1CF6E2A200775308 /* brush.frag in Resources */,
+				2D3D089A1CF6E2A200775308 /* blitWithEraseMask.frag in Resources */,
+				2D3D08A21CF6E2A200775308 /* nonPremultipliedBlit.frag in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,10 +343,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D3D08881CF6DF0F00775308 /* Test.mm in Sources */,
 				2D63C7EE1B451F4E0024AF37 /* ViewController.swift in Sources */,
-				2D63C80C1B4520990024AF37 /* OpenGLView.swift in Sources */,
 				2D63C7EC1B451F4E0024AF37 /* AppDelegate.swift in Sources */,
-				2D63C8141B4522000024AF37 /* libBrush_wraper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +407,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -411,12 +472,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
+				GCC_INPUT_FILETYPE = automatic;
 				INFOPLIST_FILE = Brush_swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "../BrushesCore/build/Debug-universal/**";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.founder.Brush-swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "996d68d1-7df3-411e-93da-d9d99561950b";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brush_swift/Brush_swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				USER_HEADER_SEARCH_PATHS = ../../core;
+				USER_HEADER_SEARCH_PATHS = "../BrushesCore/build/Debug-universal/**";
 			};
 			name = Debug;
 		};
@@ -425,11 +491,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: LI Leichuan (YK29UXBS4P)";
+				GCC_INPUT_FILETYPE = automatic;
 				INFOPLIST_FILE = Brush_swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "../BrushesCore/build/Debug-universal/**";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.founder.Brush-swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "996d68d1-7df3-411e-93da-d9d99561950b";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brush_swift/Brush_swift-Bridging-Header.h";
-				USER_HEADER_SEARCH_PATHS = ../../core;
+				USER_HEADER_SEARCH_PATHS = "../BrushesCore/build/Debug-universal/**";
 			};
 			name = Release;
 		};
@@ -447,6 +518,7 @@
 				);
 				INFOPLIST_FILE = Brush_swiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Founder.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Brush_swift.app/Brush_swift";
 			};
@@ -462,6 +534,7 @@
 				);
 				INFOPLIST_FILE = Brush_swiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Founder.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Brush_swift.app/Brush_swift";
 			};
