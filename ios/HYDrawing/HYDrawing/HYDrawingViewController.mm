@@ -24,7 +24,7 @@
 #import "SettingViewController.h"
 #import "BrushSizePannelView.h"
 #import "MBProgressHUD.h"
-#import "PaintingManager.h"
+#import "PaintingNameManager.h"
 #import "Actions.h"
 #import "UIImage+Resize.h"
 #import "ZXHResourcePicturesController.h"
@@ -157,7 +157,7 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
-    shareItem = [[UIBarButtonItem alloc]g:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action: nil];
+    shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action: nil];
     
     
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem,redoItem, undoItem];
@@ -171,9 +171,31 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
                                                                         Height:kScreenH
                                                                    ScreenScale:[UIScreen mainScreen].scale
                                               GLSLDirectory:[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"]];
-//     [[HYBrushCore sharedInstance] createPaintingWithWidth:kScreenW height:];
+    
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
+    
+    NSString *URLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"lauchPaintingUrl"];
+    // if app launched from another app
+    if (URLString) {
+        URLString = [URLString substringFromIndex:7];       // strip the "file://"
+        NSString *defaultFilePath = [PaintingNameManager sharedInstance].newDefaultFilePath;
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lauchPaintingUrl"];
+        [[HYBrushCore sharedInstance] createPaintingFromUrl:URLString At:defaultFilePath];
+    }
+    else {
+        NSArray *paintingNames = [[PaintingNameManager sharedInstance] allNames];
+        if(paintingNames.count > 0)
+        {
+            NSString *dPath = [[PaintingNameManager sharedInstance] pathOfDefaultName:[paintingNames objectAtIndex:0]];
+            [[HYBrushCore sharedInstance] loadActivePaintingFrom:dPath];
+        }
+        else
+        {
+            NSString *defaultFilePath = [PaintingNameManager sharedInstance].newDefaultFilePath;
+            [[HYBrushCore sharedInstance] createPaintingAt:defaultFilePath];
+        }
+    }
     
 #pragma mark - bottom bar view
     UIColor *activeColor = [[HYBrushCore sharedInstance]getActiveStatePaintColor];
@@ -320,7 +342,7 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
 
 #pragma mark PaintingListControllerDelegate
 
-- (void)paintingListController:(ZXHPaintingListController *)paintingListCtrl didSelectAt:(NSInteger)index
+- (void)paintingListController:(ZXHPaintingListController *)paintingListCtrl loadPaintingFrom:(NSString*)path
 {
     if (!hud) {
         hud = [[MBProgressHUD alloc]initWithView:self.view];
@@ -332,7 +354,7 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     
     [self.view setUserInteractionEnabled:NO];
     [hud showAnimated:YES whileExecutingBlock:^{
-        [[PaintingManager sharedInstance]loadPaintingAt:index];
+        [[HYBrushCore sharedInstance] loadActivePaintingFrom:path];
     } completionBlock:^ {
         NSLog(@"finish loading");
         [self.view setUserInteractionEnabled:YES];
@@ -345,7 +367,7 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
 #pragma mark SettingViewControllerDelegate
 
 - (BOOL) settingViewControllerSavePainting:(SettingViewController *)settingController {
-    [[PaintingManager sharedInstance]saveActivePainting];
+    [[HYBrushCore sharedInstance]saveActivePainting];
     [_settingPopoverController dismissPopoverAnimated:YES];
     
     return YES;

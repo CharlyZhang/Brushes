@@ -27,12 +27,9 @@
 		2D3D07321CF58D2400775308 /* CanvasView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07281CF58D2400775308 /* CanvasView.mm */; };
 		2D3D07331CF58D2400775308 /* CZViewImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D072A1CF58D2400775308 /* CZViewImpl.mm */; };
 		2D3D07341CF58D2400775308 /* HYBrushCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D072C1CF58D2400775308 /* HYBrushCore.mm */; };
-		2D3D07351CF58D2400775308 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D072F1CF58D2400775308 /* Actions.m */; };
-		2D3D07361CF58D2400775308 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07311CF58D2400775308 /* PaintingManager.mm */; };
 		2D3D07661CF5927F00775308 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D07631CF5927F00775308 /* UIImage+Resize.m */; };
 		2D3D07B91CF5985500775308 /* UIImage+Resize.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07621CF5927F00775308 /* UIImage+Resize.h */; };
 		2D3D07BA1CF5985500775308 /* HYBrushCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D072B1CF58D2400775308 /* HYBrushCore.h */; };
-		2D3D07BB1CF5985500775308 /* PaintingManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07301CF58D2400775308 /* PaintingManager.h */; };
 		2D3D07BC1CF5993200775308 /* CanvasView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07271CF58D2400775308 /* CanvasView.h */; };
 		2D3D07BD1CF5993200775308 /* BrushSizePannelView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D071E1CF58CFA00775308 /* BrushSizePannelView.h */; };
 		2D3D07BE1CF5993200775308 /* TransformOverlayer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D07201CF58CFA00775308 /* TransformOverlayer.h */; };
@@ -66,6 +63,9 @@
 		2D3D08491CF6894800775308 /* CZEraserTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08251CF6894800775308 /* CZEraserTool.cpp */; };
 		2D3D084A1CF6894800775308 /* CZFreehandTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08271CF6894800775308 /* CZFreehandTool.cpp */; };
 		2D3D084B1CF6894800775308 /* CZTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D082A1CF6894800775308 /* CZTool.cpp */; };
+		2D3D08B01CF846D300775308 /* Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08AD1CF846D300775308 /* Actions.m */; };
+		2D3D08B11CF846D300775308 /* PaintingNameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08AF1CF846D300775308 /* PaintingNameManager.m */; };
+		2D3D08B21CF846FF00775308 /* PaintingNameManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D3D08AE1CF846D300775308 /* PaintingNameManager.h */; };
 		2D4F33711AE3FAA10067D7A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D4F33701AE3FAA10067D7A6 /* UIKit.framework */; };
 		2DCD5C7B1CF452030083BC43 /* CZActiveState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C681CF452030083BC43 /* CZActiveState.cpp */; };
 		2DCD5C7D1CF452030083BC43 /* CZCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD5C6D1CF452030083BC43 /* CZCanvas.cpp */; };
@@ -83,12 +83,12 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				2D3D08B21CF846FF00775308 /* PaintingNameManager.h in CopyFiles */,
 				2D3D07BC1CF5993200775308 /* CanvasView.h in CopyFiles */,
 				2D3D07BD1CF5993200775308 /* BrushSizePannelView.h in CopyFiles */,
 				2D3D07BE1CF5993200775308 /* TransformOverlayer.h in CopyFiles */,
 				2D3D07B91CF5985500775308 /* UIImage+Resize.h in CopyFiles */,
 				2D3D07BA1CF5985500775308 /* HYBrushCore.h in CopyFiles */,
-				2D3D07BB1CF5985500775308 /* PaintingManager.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,10 +112,6 @@
 		2D3D072A1CF58D2400775308 /* CZViewImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CZViewImpl.mm; sourceTree = "<group>"; };
 		2D3D072B1CF58D2400775308 /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
 		2D3D072C1CF58D2400775308 /* HYBrushCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HYBrushCore.mm; sourceTree = "<group>"; };
-		2D3D072E1CF58D2400775308 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Actions.h; sourceTree = "<group>"; };
-		2D3D072F1CF58D2400775308 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actions.m; sourceTree = "<group>"; };
-		2D3D07301CF58D2400775308 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
-		2D3D07311CF58D2400775308 /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaintingManager.mm; sourceTree = "<group>"; };
 		2D3D07621CF5927F00775308 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		2D3D07631CF5927F00775308 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		2D3D07E11CF6894800775308 /* CZ2DPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZ2DPoint.cpp; sourceTree = "<group>"; };
@@ -184,6 +180,10 @@
 		2D3D08291CF6894800775308 /* CZLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZLog.h; sourceTree = "<group>"; };
 		2D3D082A1CF6894800775308 /* CZTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CZTool.cpp; sourceTree = "<group>"; };
 		2D3D082B1CF6894800775308 /* CZTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZTool.h; sourceTree = "<group>"; };
+		2D3D08AC1CF846D300775308 /* Actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Actions.h; sourceTree = "<group>"; };
+		2D3D08AD1CF846D300775308 /* Actions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actions.m; sourceTree = "<group>"; };
+		2D3D08AE1CF846D300775308 /* PaintingNameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingNameManager.h; sourceTree = "<group>"; };
+		2D3D08AF1CF846D300775308 /* PaintingNameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingNameManager.m; sourceTree = "<group>"; };
 		2D4F33701AE3FAA10067D7A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2DCD5C671CF452030083BC43 /* BrushesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushesCore.h; path = ../../../core/src/BrushesCore.h; sourceTree = "<group>"; };
 		2DCD5C681CF452030083BC43 /* CZActiveState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CZActiveState.cpp; path = ../../../core/src/CZActiveState.cpp; sourceTree = "<group>"; };
@@ -312,6 +312,7 @@
 		2D3D07171CF58CE000775308 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2D3D08AB1CF846D300775308 /* Models */,
 				2D3D07611CF5927F00775308 /* Additions */,
 				2D3D07261CF58D2400775308 /* Interface */,
 				2D3D071D1CF58CFA00775308 /* Views */,
@@ -340,21 +341,9 @@
 				2D3D072A1CF58D2400775308 /* CZViewImpl.mm */,
 				2D3D072B1CF58D2400775308 /* HYBrushCore.h */,
 				2D3D072C1CF58D2400775308 /* HYBrushCore.mm */,
-				2D3D072D1CF58D2400775308 /* Models */,
 			);
 			name = Interface;
 			path = ../common/Interface;
-			sourceTree = "<group>";
-		};
-		2D3D072D1CF58D2400775308 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				2D3D072E1CF58D2400775308 /* Actions.h */,
-				2D3D072F1CF58D2400775308 /* Actions.m */,
-				2D3D07301CF58D2400775308 /* PaintingManager.h */,
-				2D3D07311CF58D2400775308 /* PaintingManager.mm */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		2D3D07611CF5927F00775308 /* Additions */ = {
@@ -497,6 +486,18 @@
 			path = ../../../core/src/tool;
 			sourceTree = "<group>";
 		};
+		2D3D08AB1CF846D300775308 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2D3D08AC1CF846D300775308 /* Actions.h */,
+				2D3D08AD1CF846D300775308 /* Actions.m */,
+				2D3D08AE1CF846D300775308 /* PaintingNameManager.h */,
+				2D3D08AF1CF846D300775308 /* PaintingNameManager.m */,
+			);
+			name = Models;
+			path = ../common/Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -591,6 +592,7 @@
 				2D3D07661CF5927F00775308 /* UIImage+Resize.m in Sources */,
 				2D3D08391CF6894800775308 /* CZFbo.mm in Sources */,
 				2D3D08371CF6894800775308 /* CZBrushPreview.cpp in Sources */,
+				2D3D08B11CF846D300775308 /* PaintingNameManager.m in Sources */,
 				2D3D08401CF6894800775308 /* CZBezierNode.cpp in Sources */,
 				2D3D08491CF6894800775308 /* CZEraserTool.cpp in Sources */,
 				2DCD5C7B1CF452030083BC43 /* CZActiveState.cpp in Sources */,
@@ -601,15 +603,14 @@
 				2D3D083F1CF6894800775308 /* CZPainting.cpp in Sources */,
 				2D3D08461CF6894800775308 /* CZRoundGenerator.cpp in Sources */,
 				2D3D084A1CF6894800775308 /* CZFreehandTool.cpp in Sources */,
-				2D3D07361CF58D2400775308 /* PaintingManager.mm in Sources */,
 				2D3D084B1CF6894800775308 /* CZTool.cpp in Sources */,
 				2D3D07251CF58CFA00775308 /* TransformOverlayer.m in Sources */,
 				2DCD5C801CF452030083BC43 /* CZHueSaturation.cpp in Sources */,
 				2D3D08441CF6894800775308 /* CZTypedData.cpp in Sources */,
 				2D3D082E1CF6894800775308 /* CZAffineTransform.cpp in Sources */,
 				2D3D082C1CF6894800775308 /* CZ2DPoint.cpp in Sources */,
+				2D3D08B01CF846D300775308 /* Actions.m in Sources */,
 				2D3D083E1CF6894800775308 /* CZLayer.cpp in Sources */,
-				2D3D07351CF58D2400775308 /* Actions.m in Sources */,
 				2D3D08411CF6894800775308 /* CZBezierSegment.cpp in Sources */,
 				2DCD5C811CF452030083BC43 /* CZNotificationCenter.cpp in Sources */,
 				2DCD5C7E1CF452030083BC43 /* CZColorBalance.cpp in Sources */,

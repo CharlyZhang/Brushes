@@ -9,10 +9,12 @@
 #import "ZXHPaintingListController.h"
 #import "Macro.h"
 #import "ZXHPaintingListCell.h"
-#import "PaintingManager.h"
 #import "HYBrushCore.h"
+#import "PaintingNameManager.h"
 
 @interface ZXHPaintingListController ()<UITableViewDataSource,UITableViewDelegate,PaintingListCellDelegate>
+
+@property (nonatomic, strong) NSString* defaultFileName;
 
 @end
 
@@ -24,6 +26,8 @@
     CGSize preferredSize;
     BOOL isListEditing;
     NSInteger currentSelectedIndex;
+    NSArray *paintingNames;
+    NSMutableDictionary *thumbnailsMap;
 }
 
 - (void)viewDidLoad {
@@ -34,7 +38,10 @@
     
     [self createUI];
     
-    currentSelectedIndex = [PaintingManager sharedInstance].activePaintingIndex;
+    paintingNames = [[PaintingNameManager sharedInstance] allNames];
+    NSString *activeName = [HYBrushCore sharedInstance].activePaintingName;
+    currentSelectedIndex = [paintingNames indexOfObject:activeName];
+    thumbnailsMap = [[NSMutableDictionary alloc]init];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];
     [tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
@@ -88,19 +95,17 @@
 }
 
 - (void)addNewPainting: (UIButton*) button {
-    if ([[PaintingManager sharedInstance] createNewPainting]) {
+    NSString *newFilePath = [[PaintingNameManager sharedInstance] newDefaultFilePath];
+    if ([[HYBrushCore sharedInstance] createPaintingAt: newFilePath]) {
         [[HYBrushCore sharedInstance]draw];
-        [tbView reloadData];
-        currentSelectedIndex = [PaintingManager sharedInstance].activePaintingIndex;
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];
-        [tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+        [self refreshData];
     }
 }
 
 #pragma mark 表格回调
 // 行数
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[PaintingManager sharedInstance]getPaintingNumber];
+    return paintingNames.count;
 }
 
 // 复用
@@ -120,13 +125,16 @@
         cell.nameLabelRightCons.constant = 10;
     }
     
-    if (indexPath.row == currentSelectedIndex) {
-        cell.imageView.image = [[HYBrushCore sharedInstance] getThumbnailOfPainting];
+    NSString *pName = [paintingNames objectAtIndex:indexPath.row];
+    UIImage *image = [thumbnailsMap objectForKey:pName];
+    if (!image){
+        NSString *tPath = [[PaintingNameManager sharedInstance]pathOfDefaultName:pName];
+        image = [[HYBrushCore sharedInstance] getThumbnailOfPaintingAt:tPath];
+        [thumbnailsMap setObject:image forKey:pName];
     }
-    else {
-        cell.imgView.image = kImage(@"defaultPaintingImage");
-    }
-    cell.nameLabel.text = [[PaintingManager sharedInstance]getPaintingNameAt:indexPath.row];
+    
+    cell.imageView.image = image;
+    cell.nameLabel.text = pName;
     cell.selectedBackgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"list_cell_selectedBg"]];
     cell.cellIdx = indexPath.row;
     
@@ -136,9 +144,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ZXHPaintingListCell *cell = (ZXHPaintingListCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell setBorderStyleWithColor:kCommenSkinColor];
+    
     if (indexPath.row != currentSelectedIndex) {
         currentSelectedIndex = indexPath.row;
-        [self.delegate paintingListController:self didSelectAt:currentSelectedIndex];
+        
+        NSString *activePaintingPath = [[PaintingNameManager sharedInstance] pathOfDefaultName:[paintingNames objectAtIndex:currentSelectedIndex]];
+        
+        [self.delegate paintingListController:self loadPaintingFrom:activePaintingPath];
     }
 }
 
@@ -150,28 +162,47 @@
 
 - (void)refreshData
 {
-    [[PaintingManager sharedInstance]refreshData];
+    paintingNames = [[PaintingNameManager sharedInstance] allNames];
+    
     [tbView reloadData];
+    
+    NSString *activeName = [HYBrushCore sharedInstance].activePaintingName;
+    currentSelectedIndex = [paintingNames indexOfObject:activeName];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];
     [tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (void)paintingListCellDeleteItem:(ZXHPaintingListCell *)paintingListCell
 {
-    [[PaintingManager sharedInstance]deletePaintingAt:paintingListCell.cellIdx];
+    NSString *activePaintingName = [paintingNames objectAtIndex:paintingListCell.cellIdx];
+    NSString *activePaintingPath = [[PaintingNameManager sharedInstance] pathOfDefaultName:activePaintingName];
+    [[HYBrushCore sharedInstance] removePaintingAt:activePaintingPath];
+    
+    if (paintingNames.count == 1) {
+        activePaintingPath = [[PaintingNameManager sharedInstance]newDefaultFilePath];
+        if (![[HYBrushCore sharedInstance] createPaintingAt:activePaintingPath])
+        {
+            NSLog(@"create new painting failed!");
+            return;
+        };
+        [self refreshData];
+    }
+    else {
+        NSUInteger index = paintingListCell.cellIdx;
+        if (index == paintingNames.count-1)  index--;
+        [self refreshData];
+        activePaintingName = [paintingNames objectAtIndex:index];
+        activePaintingPath = [[PaintingNameManager sharedInstance] pathOfDefaultName:activePaintingName];
+        [[HYBrushCore sharedInstance] createPaintingAt:activePaintingPath];
+    }
+    
     [[HYBrushCore sharedInstance] draw];
     
     // 删除选中行
     NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:paintingListCell.cellIdx inSection:0];
     [tbView deleteRowsAtIndexPaths:@[curIndexPath] withRowAnimation:UITableViewRowAnimationTop];
     
-    [tbView reloadData];
-    
-    currentSelectedIndex = [PaintingManager sharedInstance].activePaintingIndex;
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:currentSelectedIndex inSection:0];
-    [tbView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-
+    [self refreshData];
 }
 
 @end

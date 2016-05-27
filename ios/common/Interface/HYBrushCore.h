@@ -13,14 +13,21 @@
 @interface HYBrushCore : NSObject
 
 @property (nonatomic) BOOL hasInitialized;
+@property (nonatomic, strong) NSString* activePaintingName;
 
 + (HYBrushCore*) sharedInstance;
 
 ///初始化
 - (CanvasView*) initializeWithWidth:(float)w Height:(float)h ScreenScale:(float)s GLSLDirectory:(NSString*) glslDir;
 
-///新建画布
+///画布管理
 - (BOOL) createPaintingAt:(NSString*)path;
+- (BOOL) createPaintingFromUrl:(NSString*)url At:(NSString*)path;
+- (BOOL) loadActivePaintingFrom:(NSString*) path;
+- (BOOL) saveActivePaintingTo:(NSString*) path;
+- (BOOL) saveActivePainting;
+- (BOOL) removePaintingAt:(NSString*) path;
+- (UIImage*) getThumbnailOfPaintingAt:(NSString*) path;
 
 ///恢复内核（释放资源）
 - (BOOL) restoreCore;
@@ -83,7 +90,7 @@
 - (void) setActiveBrushSize:(float) value;
 - (float) getActiveBrushSize;
 
-///画板
+///当前画布
 - (float) getCanvasScale;
 - (CGPoint) convertToPainting:(CGPoint)pt;
 - (CGSize) getPaintingSize;
@@ -92,9 +99,6 @@
 /// undo & redo
 - (BOOL) undoPaintingOfLayer:(NSInteger)idx;
 - (BOOL) redoPaintingOfLayer:(NSInteger)idx;
-
-#pragma mark - Painting Manager
-
 
 #pragma mark - ！Adjust Brush Stamp
 

@@ -76,70 +76,6 @@ bool CZFileManager::savePainting(CZPainting *painting, const char * filepath)
     return true;
 }
 
-CZPainting* CZFileManager::createPainting(const char* filepath, float w, float h)
-{
-    if (filepath == nullptr)
-    {
-        LOG_ERROR("urlStr is NULL\n");
-        return nullptr;
-    }
-    
-    // open file
-    FILE *fp = fopen(filepath, "rb");
-    
-    if (fp == NULL)
-    {
-        LOG_WARN("file open failed\n");
-        return nullptr;
-    }
-    
-    int activeLayerInd;
-    float width,height;
-    fread((void*)&activeLayerInd, sizeof(int), 1, fp);
-    fread((void*)&width, sizeof(float), 1, fp);
-    fread((void*)&height, sizeof(float), 1, fp);
-    
-    if (width != w || height != h)
-    {
-        /// TO DO:
-        LOG_ERROR("dimension doesn't match!\n");
-        fclose(fp);
-        return nullptr;
-    }
-    
-    CZPainting *newPainting = new CZPainting(CZSize(w,h),false);
-    
-    // layers
-    int layersNum;
-    fread((void*)&layersNum, sizeof(int), 1, fp);
-    for (int i = 0; i <  layersNum; i++ )
-    {
-        newPainting->addNewLayer();
-        CZLayer *layer = newPainting->getActiveLayer();
-        
-        bool temp;
-        fread((void*)&temp, sizeof(bool), 1, fp);
-        layer->setVisiblility(temp);
-        fread((void*)&temp, sizeof(bool), 1, fp);
-        layer->setLocked(temp);
-        
-        float opacity;
-        fread((void*)&opacity, sizeof(float), 1, fp);
-        layer->setOpacity(opacity);
-        
-        // image
-        CZImage *img = CZImage::createFromFile(fp);
-        layer->setImage(img);
-    }
-    
-    newPainting->setActiveLayer(activeLayerInd);
-    
-    fclose(fp);
-    
-    return newPainting;
-}
-
-
 bool CZFileManager::loadPainting(const char* filepath, CZPainting* painting)
 {
     if (filepath == nullptr)
@@ -159,7 +95,7 @@ bool CZFileManager::loadPainting(const char* filepath, CZPainting* painting)
     
     if (fp == NULL)
     {
-        LOG_WARN("file open failed\n");
+        LOG_WARN("no such a file exists\n");
         return nullptr;
     }
     

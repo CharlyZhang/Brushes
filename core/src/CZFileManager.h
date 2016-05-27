@@ -25,8 +25,6 @@ public:
     
     bool savePainting(CZPainting *painting, const char *filepath);
     
-    CZPainting* createPainting(const char* filepath, float w, float h);
-    
     bool loadPainting(const char* filepath, CZPainting* painting);
     
     bool removePainting(const char* filepath);

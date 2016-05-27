@@ -20,6 +20,7 @@
     CZCanvas *canvas;
     CZPainting *painting;
     float width,height;
+    NSString *paintingStorePath;
     BOOL hasInsertedBackgroundLayer;        //< for the case that insert background image on a fixed layer
 }
 @end
@@ -64,7 +65,7 @@
     
     ptrViewImpl = new CZViewImpl(CZRect(0,0,w,h));
     canvas = new CZCanvas(ptrViewImpl);
-    painting = new CZPainting(CZSize(w*s,w*s));
+    painting = new CZPainting(CZSize(w*s,h*s));
     canvas->setPaiting(painting);
     
     [self setActiveBrushwatercolorPenStamp ];
@@ -74,24 +75,154 @@
     return ptrViewImpl->realView;
 }
 
-
-///新建画布
+///画布管理
 - (BOOL) createPaintingAt:(NSString*)path
 {
-//    // TO DO: save previous painting
-//    
-//    if (![self restoreCore]) return nullptr;
-//    
-//    float scale = CZActiveState::getInstance()->mainScreenScale;
-//    ptrViewImpl = new CZViewImpl(CZRect(0,0,w,h));
-//    canvas = new CZCanvas(ptrViewImpl);
-//    
-//    painting = new CZPainting(CZSize(w*scale,w*scale));
-//    
-//    // TO DO: save current painting
-//    canvas->setPaiting(painting);
+    if(!self.hasInitialized)
+    {
+        LOG_ERROR("The brush core has not ben initialized!\n");
+        return NO;
+    }
     
-    return YES;
+    // save previous painting
+    if(paintingStorePath) [self saveActivePaintingTo:paintingStorePath];
+    
+    if(!painting->restore())
+    {
+        LOG_ERROR("Painting restores failed!\n");
+        return NO;
+    }
+    
+    paintingStorePath = path;
+    
+    // save current painting
+    return [self saveActivePaintingTo:paintingStorePath];
+}
+
+- (BOOL) createPaintingFromUrl:(NSString*)url At:(NSString*)path
+{
+    if(!self.hasInitialized)
+    {
+        LOG_ERROR("The brush core has not ben initialized!\n");
+        return NO;
+    }
+    
+    // save previous painting
+    if(paintingStorePath) [self saveActivePaintingTo:paintingStorePath];
+    
+    // create from url
+    if(![self loadActivePaintingFrom:url])
+    {
+        LOG_ERROR("There's no painting in that url!\n");
+        return NO;
+    }
+    
+    paintingStorePath = path;
+    
+    // save current painting
+    return [self saveActivePaintingTo:paintingStorePath];
+}
+
+- (BOOL) loadActivePaintingFrom:(NSString*) path
+{
+    if (!self.hasInitialized) {
+        LOG_ERROR("Brush core has not been initialized!\n");
+        return NO;
+    }
+    
+    if (!path) {
+        LOG_ERROR("painting path is NULL!\n");
+        return NO;
+    }
+    
+    // save previous painting
+    if(paintingStorePath) [self saveActivePaintingTo:paintingStorePath];
+    paintingStorePath = path;
+    
+    return CZFileManager::getInstance()->loadPainting([path UTF8String], painting);
+}
+
+- (BOOL) saveActivePaintingTo:(NSString*) path
+{
+    if (!self.hasInitialized) {
+        LOG_ERROR("Brush core has not been initialized!\n");
+        return NO;
+    }
+    
+    if (!path) {
+        LOG_ERROR("path is NULL!\n");
+        return NO;
+    }
+    
+    paintingStorePath = path;
+    
+    if (painting) {
+        BOOL ret = CZFileManager::getInstance()->savePainting(painting, [path UTF8String]);
+        return ret;
+    }
+    
+    return NO;
+}
+
+- (BOOL) saveActivePainting
+{
+    if(!paintingStorePath) return NO;
+    return [self saveActivePaintingTo:paintingStorePath];
+}
+
+- (BOOL) removePaintingAt:(NSString*) path
+{
+    if (!self.hasInitialized) {
+        LOG_ERROR("Brush core has not been initialized!\n");
+        return NO;
+    }
+    
+    if (!path) {
+        LOG_ERROR("path is NULL!\n");
+        return NO;
+    }
+    BOOL ret = CZFileManager::getInstance()->removePainting([path UTF8String]);
+    return ret;
+}
+
+- (UIImage*) getThumbnailOfPaintingAt:(NSString*) path
+{
+    if(!self.hasInitialized)
+    {
+        LOG_ERROR("Brush core has not been initialized!\n");
+        return nil;
+    }
+    
+    float s = CZActiveState::getInstance()->mainScreenScale;
+    CZPainting *tPainting = new CZPainting(CZSize(width*s,height*s));
+    CZFileManager::getInstance()->loadPainting([path UTF8String],tPainting);
+    
+    CZImage *thumbImage = tPainting->thumbnailImage();
+    if (!thumbImage)
+    {
+        delete tPainting;
+        return nil;
+    }
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(thumbImage->data, thumbImage->width, thumbImage->height, 8, thumbImage->width*4,
+                                             colorSpaceRef, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage(ctx);
+    
+    UIImage *ret = [[UIImage alloc] initWithCGImage:imageRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    
+    CGImageRelease(imageRef);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpaceRef);
+    
+    delete thumbImage;
+    delete tPainting;
+    return ret;
+}
+
+- (NSString*) activePaintingName
+{
+    return [paintingStorePath lastPathComponent];
 }
 
 ///恢复内核（释放资源）
@@ -107,6 +238,7 @@
         painting = nullptr;
     }
     
+    self.hasInitialized = NO;
     return YES;
 }
 

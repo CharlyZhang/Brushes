@@ -12,7 +12,7 @@
 
 @protocol PaintingListControllerDelegate <NSObject>
 
-- (void) paintingListController:(ZXHPaintingListController*)paintingListCtrl didSelectAt:(NSInteger)index;
+- (void) paintingListController:(ZXHPaintingListController*)paintingListCtrl loadPaintingFrom:(NSString*)path;
 
 @end
 
