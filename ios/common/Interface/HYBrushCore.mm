@@ -19,6 +19,7 @@
     CZViewImpl *ptrViewImpl;
     CZCanvas *canvas;
     CZPainting *painting;
+    float width,height;
     BOOL hasInsertedBackgroundLayer;        //< for the case that insert background image on a fixed layer
 }
 @end
@@ -48,61 +49,53 @@
     return self;
 }
 
-/// 初始化
-- (BOOL) initializeWithScreenScale:(float)s GLSLDirectory:(NSString*) glslDir
+///初始化
+- (CanvasView*) initializeWithWidth:(float)w Height:(float)h ScreenScale:(float)s GLSLDirectory:(NSString*) glslDir
 {
-    if(!glslDir) return NO;
+    if(!glslDir || !glslDir) return nil;
+    width = w;
+    height = h;
+    CZShader::glslDirectory = std::string([glslDir UTF8String]);
     
     /// CZActiveState Initializaiton comes first, for it will help other initial work
     CZActiveState::getInstance()->setEraseMode(false);
     CZActiveState::getInstance()->setActiveBrush(kPencil);
     CZActiveState::getInstance()->mainScreenScale = s;
     
-    CZShader::glslDirectory = std::string([glslDir UTF8String]);
+    ptrViewImpl = new CZViewImpl(CZRect(0,0,w,h));
+    canvas = new CZCanvas(ptrViewImpl);
+    painting = new CZPainting(CZSize(w*s,w*s));
+    canvas->setPaiting(painting);
+    
+    [self setActiveBrushwatercolorPenStamp ];
     
     self.hasInitialized = YES;
     hasInsertedBackgroundLayer = NO;
+    return ptrViewImpl->realView;
+}
+
+
+///新建画布
+- (BOOL) createPaintingAt:(NSString*)path
+{
+//    // TO DO: save previous painting
+//    
+//    if (![self restoreCore]) return nullptr;
+//    
+//    float scale = CZActiveState::getInstance()->mainScreenScale;
+//    ptrViewImpl = new CZViewImpl(CZRect(0,0,w,h));
+//    canvas = new CZCanvas(ptrViewImpl);
+//    
+//    painting = new CZPainting(CZSize(w*scale,w*scale));
+//    
+//    // TO DO: save current painting
+//    canvas->setPaiting(painting);
+    
     return YES;
 }
 
-///新建绘制视图
-- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h storePath:(NSString*)path
-{
-    // TO DO: save previous painting
-    
-    if (![self releaseResource]) return nullptr;
-    
-    float scale = CZActiveState::getInstance()->mainScreenScale;
-    ptrViewImpl = new CZViewImpl(CZRect(0,0,w,h));
-    canvas = new CZCanvas(ptrViewImpl);
-    
-    painting = new CZPainting(CZSize(w*scale,w*scale));
-    
-    // TO DO: save current painting
-    canvas->setPaiting(painting);
-    
-    // activate water color pen
-    [self setActiveBrushwatercolorPenStamp ];
-    
-    return ptrViewImpl->realView;
-}
-
-- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h
-{
-    // TO DO: add defaultPaintingName
-    NSString *defaultPaintingPath = DOCUMENT_DIR;
-    return [self createPaintingWithWidth:w height:h storePath:defaultPaintingPath];
-}
-
-///获得绘制视图
-- (CanvasView*) getPaintingView
-{
-    if (!ptrViewImpl) return nil;
-    return ptrViewImpl->realView;
-}
-
-///释放资源
-- (BOOL) releaseResource
+///恢复内核（释放资源）
+- (BOOL) restoreCore
 {
     if (canvas) {
         delete canvas;
@@ -741,6 +734,6 @@
 
 /// 析构
 - (void) dealloc {
-    [self releaseResource];
+    [self restoreCore];
 }
 @end

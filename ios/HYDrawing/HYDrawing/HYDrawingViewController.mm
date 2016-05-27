@@ -157,7 +157,7 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     pictureItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"picture"] style:UIBarButtonItemStylePlain target:self action:@selector(showPhotoBrowser:)];
     
     // 分享
-    shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action: nil];
+    shareItem = [[UIBarButtonItem alloc]g:[UIImage imageNamed:@"share"] style:UIBarButtonItemStylePlain target:self action: nil];
     
     
     self.navigationItem.rightBarButtonItems = @[shareItem,pictureItem,settingItem,videoItem,redoItem, undoItem];
@@ -167,9 +167,11 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     
     /// 初始画板
     
-    [[HYBrushCore sharedInstance] initializeWithScreenScale: [UIScreen mainScreen].scale
+    CanvasView *canvasView = [[HYBrushCore sharedInstance] initializeWithWidth:kScreenW
+                                                                        Height:kScreenH
+                                                                   ScreenScale:[UIScreen mainScreen].scale
                                               GLSLDirectory:[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"]];
-    CanvasView *canvasView = [[HYBrushCore sharedInstance] createPaintingWithWidth:kScreenW height:kScreenH];
+//     [[HYBrushCore sharedInstance] createPaintingWithWidth:kScreenW height:];
     canvasView.delegate = self;
     [self.view insertSubview:canvasView atIndex:0];
     

@@ -18,7 +18,7 @@ CZViewImpl::CZViewImpl(const CZRect& rect)
 CZViewImpl::~CZViewImpl()
 {
     realView.canvas = nullptr;
-    [realView setPaiting:nil];
+    [realView setPainting:nil];
 }
 
 void CZViewImpl::setCanvas(CZCanvas* c)

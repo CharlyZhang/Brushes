@@ -17,14 +17,13 @@
 + (HYBrushCore*) sharedInstance;
 
 ///初始化
-- (BOOL) initializeWithScreenScale:(float)s GLSLDirectory:(NSString*) glslDir;
+- (CanvasView*) initializeWithWidth:(float)w Height:(float)h ScreenScale:(float)s GLSLDirectory:(NSString*) glslDir;
 
-///新建绘制视图
-- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h storePath:(NSString*)path;
-- (CanvasView*) createPaintingWithWidth:(float)w height:(float)h;
+///新建画布
+- (BOOL) createPaintingAt:(NSString*)path;
 
-///释放资源
-- (BOOL) releaseResource;
+///恢复内核（释放资源）
+- (BOOL) restoreCore;
    
 /// 绘制
 - (void) draw;
