@@ -193,14 +193,17 @@
         return nil;
     }
     
-    float s = CZActiveState::getInstance()->mainScreenScale;
-    CZPainting *tPainting = new CZPainting(CZSize(width*s,height*s));
-    CZFileManager::getInstance()->loadPainting([path UTF8String],tPainting);
+    // !!! just the first layer will be rendered, if create another painting.
+    BOOL isActivePainting = YES;
+    if (![path isEqualToString:paintingStorePath]) {
+        CZFileManager::getInstance()->loadPainting([path UTF8String], painting);
+        isActivePainting = NO;
+    }
     
-    CZImage *thumbImage = tPainting->thumbnailImage();
+    CZImage *thumbImage = painting->thumbnailImage(isActivePainting);
     if (!thumbImage)
     {
-        delete tPainting;
+        if(!isActivePainting) CZFileManager::getInstance()->loadPainting([paintingStorePath UTF8String],painting);
         return nil;
     }
     
@@ -216,7 +219,8 @@
     CGColorSpaceRelease(colorSpaceRef);
     
     delete thumbImage;
-    delete tPainting;
+    if(!isActivePainting) CZFileManager::getInstance()->loadPainting([paintingStorePath UTF8String],painting);
+    
     return ret;
 }
 

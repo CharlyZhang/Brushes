@@ -200,7 +200,7 @@ CZImage *CZPainting::imageForCurrentState(CZSize &size, CZColor *backgroundColor
 }
 
 /// produce thumbnail image
-CZImage* CZPainting::thumbnailImage()
+CZImage* CZPainting::thumbnailImage(bool addPaintingPath /* = false*/)
 {
     float aspectRatio = dimensions.width / dimensions.height;
     
@@ -223,7 +223,9 @@ CZImage* CZPainting::thumbnailImage()
     height *= s;
     
     CZSize size(width,height);
-    CZImage *thumbnailImg = imageForCurrentState(size);
+    CZImage *thumbnailImg = nullptr;
+    if(addPaintingPath) thumbnailImg = imageForCurrentState(size);
+    else                thumbnailImg = imageWithSize(size);
     return thumbnailImg;
 }
 

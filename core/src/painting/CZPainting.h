@@ -51,7 +51,7 @@ public:
 	/// 生成当前状态的图像
 	CZImage *imageForCurrentState(CZSize &size, CZColor *backgroundColor = NULL);
     /// produce thumbnail of default size
-    CZImage *thumbnailImage();
+    CZImage *thumbnailImage(bool addPaintingPath = false);
 	
 	/// 设置范围（让render的范围与其保持一致）
 	void setDimensions(const CZSize &size);
