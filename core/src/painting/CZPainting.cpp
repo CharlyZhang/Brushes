@@ -124,7 +124,7 @@ CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor /*= NU
     /// 获得运行所需要的数据
     int w = size.width;
     int h = size.height;
-    CZMat4 projection,effectiveProj;
+    CZMat4 projection;
     projection.SetOrtho(0,dimensions.width,0,dimensions.height,-1.0f,1.0f);
     
     /// 开始绘制
@@ -158,11 +158,14 @@ CZImage *CZPainting::imageWithSize(CZSize &size, CZColor *backgroundColor /*= NU
 }
 
 /// 生成当前状态的图像
-CZImage *CZPainting::imageForCurrentState(CZColor *backgroundColor)
+CZImage *CZPainting::imageForCurrentState(CZSize &size, CZColor *backgroundColor)
 {
+    int w = size.width;
+    int h = size.height;
+    
     glContext->setAsCurrent();
     
-    fbo->setColorRenderBuffer(dimensions.width, dimensions.height);
+    fbo->setColorRenderBuffer(w, h);
     
     fbo->begin();
     
@@ -220,7 +223,7 @@ CZImage* CZPainting::thumbnailImage()
     height *= s;
     
     CZSize size(width,height);
-    CZImage *thumbnailImg = imageWithSize(size);
+    CZImage *thumbnailImg = imageForCurrentState(size);
     return thumbnailImg;
 }
 

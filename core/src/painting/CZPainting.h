@@ -49,7 +49,7 @@ public:
 	/// 生成所有图层的图像（不包括当前绘制的笔画）
 	CZImage *imageWithSize(CZSize &size, CZColor *backgroundColor = NULL);
 	/// 生成当前状态的图像
-	CZImage *imageForCurrentState(CZColor *backgroundColor);
+	CZImage *imageForCurrentState(CZSize &size, CZColor *backgroundColor = NULL);
     /// produce thumbnail of default size
     CZImage *thumbnailImage();
 	

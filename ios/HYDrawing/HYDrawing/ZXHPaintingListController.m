@@ -127,7 +127,7 @@
     
     NSString *pName = [paintingNames objectAtIndex:indexPath.row];
     UIImage *image = [thumbnailsMap objectForKey:pName];
-    if (!image){
+    if (!image || currentSelectedIndex == indexPath.row){
         NSString *tPath = [[PaintingNameManager sharedInstance]pathOfDefaultName:pName];
         image = [[HYBrushCore sharedInstance] getThumbnailOfPaintingAt:tPath];
         [thumbnailsMap setObject:image forKey:pName];
