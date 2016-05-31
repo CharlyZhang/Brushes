@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2D3D08851CF6D91E00775308 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D3D08841CF6D91E00775308 /* libBrushesCore.a */; };
-		2D3D08881CF6DF0F00775308 /* Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08871CF6DF0F00775308 /* Test.mm */; };
 		2D3D08891CF6E11400775308 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D63C7EF1B451F4E0024AF37 /* Main.storyboard */; };
 		2D3D08951CF6E2A200775308 /* basic.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08581CF6D59800775308 /* basic.vert */; };
 		2D3D08961CF6E2A200775308 /* basicColor.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08591CF6D59800775308 /* basicColor.frag */; };
@@ -28,6 +27,7 @@
 		2D3D08A41CF6E2A200775308 /* simple.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08671CF6D59800775308 /* simple.frag */; };
 		2D3D08A51CF6E2A200775308 /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08681CF6D59800775308 /* simple.vert */; };
 		2D3D08A61CF6E2A200775308 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D08691CF6D59800775308 /* unPremultipliedBlit.frag */; };
+		2D3D08CD1CFD7A6000775308 /* Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08871CF6DF0F00775308 /* Test.mm */; };
 		2D63C7EC1B451F4E0024AF37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C7EB1B451F4E0024AF37 /* AppDelegate.swift */; };
 		2D63C7EE1B451F4E0024AF37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C7ED1B451F4E0024AF37 /* ViewController.swift */; };
 		2D63C8021B451F4E0024AF37 /* Brush_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D63C8011B451F4E0024AF37 /* Brush_swiftTests.swift */; };
@@ -69,12 +69,12 @@
 		2D3D087E1CF6D91E00775308 /* BrushSizePannelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrushSizePannelView.h; sourceTree = "<group>"; };
 		2D3D087F1CF6D91E00775308 /* CanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasView.h; sourceTree = "<group>"; };
 		2D3D08801CF6D91E00775308 /* HYBrushCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrushCore.h; sourceTree = "<group>"; };
-		2D3D08811CF6D91E00775308 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingManager.h; sourceTree = "<group>"; };
 		2D3D08821CF6D91E00775308 /* TransformOverlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformOverlayer.h; sourceTree = "<group>"; };
 		2D3D08831CF6D91E00775308 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		2D3D08841CF6D91E00775308 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../../BrushesCore/build/Debug-universal/libBrushesCore.a"; sourceTree = "<group>"; };
 		2D3D08861CF6DF0F00775308 /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
 		2D3D08871CF6DF0F00775308 /* Test.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Test.mm; sourceTree = "<group>"; };
+		2D3D08CC1CFD77BB00775308 /* PaintingNameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingNameManager.h; sourceTree = "<group>"; };
 		2D63C7E61B451F4E0024AF37 /* Brush_swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brush_swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D63C7EA1B451F4E0024AF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D63C7EB1B451F4E0024AF37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,10 +151,10 @@
 		2D3D087D1CF6D91E00775308 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				2D3D08CC1CFD77BB00775308 /* PaintingNameManager.h */,
 				2D3D087E1CF6D91E00775308 /* BrushSizePannelView.h */,
 				2D3D087F1CF6D91E00775308 /* CanvasView.h */,
 				2D3D08801CF6D91E00775308 /* HYBrushCore.h */,
-				2D3D08811CF6D91E00775308 /* PaintingManager.h */,
 				2D3D08821CF6D91E00775308 /* TransformOverlayer.h */,
 				2D3D08831CF6D91E00775308 /* UIImage+Resize.h */,
 			);
@@ -343,7 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D3D08881CF6DF0F00775308 /* Test.mm in Sources */,
+				2D3D08CD1CFD7A6000775308 /* Test.mm in Sources */,
 				2D63C7EE1B451F4E0024AF37 /* ViewController.swift in Sources */,
 				2D63C7EC1B451F4E0024AF37 /* AppDelegate.swift in Sources */,
 			);

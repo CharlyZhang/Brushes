@@ -19,9 +19,7 @@ class ViewController: UIViewController {
         let coreInstance = HYBrushCore.sharedInstance();
         let width = Float(UIScreen.mainScreen().bounds.size.width);
         let height = Float(UIScreen.mainScreen().bounds.size.height);
-        coreInstance.initializeWithWidth(width, height:height-BOTTOM_OFFSET, scale:Float(UIScreen.mainScreen().scale));
-        
-        let canvasView = coreInstance.getPaintingView();
+        let canvasView = coreInstance.initializeWithWidth(width, height: height-BOTTOM_OFFSET, screenScale: Float(UIScreen.mainScreen().scale), GLSLDirectory: NSBundle.mainBundle().bundlePath.stringByAppendingString("/"));
         
         self.view.insertSubview(canvasView, atIndex:0);
         
