@@ -169,6 +169,13 @@
                                     <action selector="adjustProperty:" destination="Si0-FH-ERo" eventType="valueChanged" id="AQ2-os-mfe"/>
                                 </connections>
                             </slider>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d63-xi-dR8">
+                                <rect key="frame" x="4" y="0.0" width="39" height="30"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="close:" destination="Si0-FH-ERo" eventType="touchUpInside" id="qJq-gf-XJ7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

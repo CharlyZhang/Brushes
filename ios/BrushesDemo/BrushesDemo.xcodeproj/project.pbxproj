@@ -26,7 +26,7 @@
 		2D3D07B71CF597EE00775308 /* simple.vert in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A51CF597EE00775308 /* simple.vert */; };
 		2D3D07B81CF597EE00775308 /* unPremultipliedBlit.frag in Resources */ = {isa = PBXBuildFile; fileRef = 2D3D07A61CF597EE00775308 /* unPremultipliedBlit.frag */; };
 		2D3D07C01CF6836A00775308 /* libBrushesCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D3D07BF1CF6836A00775308 /* libBrushesCore.a */; };
-		2D47C7531CAB786700AE30B1 /* PaintingManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D47C7521CAB786700AE30B1 /* PaintingManager.mm */; };
+		2D3D08C41CFD1BDF00775308 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D3D08C31CFD1BDF00775308 /* MainViewController.mm */; };
 		2D7806881A10BAE1003F7479 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D7806871A10BAE1003F7479 /* OpenGLES.framework */; };
 		2D8F24CE1B4A4AFF00D1B5DF /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F24CD1B4A4AFF00D1B5DF /* Storyboard.storyboard */; };
 		2D8F24F71B4CD0F600D1B5DF /* LayersTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2D8F24F61B4CD0F600D1B5DF /* LayersTableViewController.mm */; };
@@ -42,7 +42,6 @@
 		2DB759511A10B938009E05B8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB759391A10B938009E05B8 /* UIKit.framework */; };
 		2DB759591A10B939009E05B8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759571A10B939009E05B8 /* InfoPlist.strings */; };
 		2DB7595B1A10B939009E05B8 /* BrushesDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB7595A1A10B939009E05B8 /* BrushesDemoTests.m */; };
-		2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB759651A10B9DA009E05B8 /* MainViewController.mm */; };
 		2DC7CFDA1AE5FDA8007DB4C7 /* BrushesDemoTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -76,8 +75,8 @@
 		2D3D07A51CF597EE00775308 /* simple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.vert; sourceTree = "<group>"; };
 		2D3D07A61CF597EE00775308 /* unPremultipliedBlit.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = unPremultipliedBlit.frag; sourceTree = "<group>"; };
 		2D3D07BF1CF6836A00775308 /* libBrushesCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBrushesCore.a; path = "../../../../Library/Developer/Xcode/DerivedData/Brush-aaqrbtesbhnegmdwiqexjsogzzww/Build/Products/Debug-iphoneos/libBrushesCore.a"; sourceTree = "<group>"; };
-		2D47C7511CAB786700AE30B1 /* PaintingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaintingManager.h; path = Models/PaintingManager.h; sourceTree = "<group>"; };
-		2D47C7521CAB786700AE30B1 /* PaintingManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PaintingManager.mm; path = Models/PaintingManager.mm; sourceTree = "<group>"; };
+		2D3D08C21CFD1BDF00775308 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		2D3D08C31CFD1BDF00775308 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 		2D613BB31B55F1B200DD4899 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = ReadMe.md; path = ../../ReadMe.md; sourceTree = "<group>"; };
 		2D63C8CF1B46516D0024AF37 /* memo.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = memo.md; path = ../../memo.md; sourceTree = "<group>"; };
 		2D7806871A10BAE1003F7479 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -100,8 +99,6 @@
 		2DB759561A10B939009E05B8 /* BrushesDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BrushesDemoTests-Info.plist"; sourceTree = "<group>"; };
 		2DB759581A10B939009E05B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2DB7595A1A10B939009E05B8 /* BrushesDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrushesDemoTests.m; sourceTree = "<group>"; };
-		2DB759641A10B9DA009E05B8 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		2DB759651A10B9DA009E05B8 /* MainViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,15 +153,6 @@
 			path = ../../../core/glsl;
 			sourceTree = "<group>";
 		};
-		2D47C7501CAB785900AE30B1 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				2D47C7511CAB786700AE30B1 /* PaintingManager.h */,
-				2D47C7521CAB786700AE30B1 /* PaintingManager.mm */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
 		2DB759291A10B938009E05B8 = {
 			isa = PBXGroup;
 			children = (
@@ -203,11 +191,10 @@
 			isa = PBXGroup;
 			children = (
 				2D3D07941CF597EE00775308 /* glsl */,
-				2D47C7501CAB785900AE30B1 /* Models */,
-				2DB759641A10B9DA009E05B8 /* MainViewController.h */,
-				2DB759651A10B9DA009E05B8 /* MainViewController.mm */,
 				2D8F24F51B4CD0F600D1B5DF /* LayersTableViewController.h */,
 				2D8F24F61B4CD0F600D1B5DF /* LayersTableViewController.mm */,
+				2D3D08C21CFD1BDF00775308 /* MainViewController.h */,
+				2D3D08C31CFD1BDF00775308 /* MainViewController.mm */,
 				2DB759471A10B938009E05B8 /* Images.xcassets */,
 				2D8F24CD1B4A4AFF00D1B5DF /* Storyboard.storyboard */,
 				2DB7593C1A10B938009E05B8 /* Supporting Files */,
@@ -366,9 +353,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DB759421A10B938009E05B8 /* main.m in Sources */,
-				2DB759661A10B9DA009E05B8 /* MainViewController.mm in Sources */,
 				2DB759461A10B938009E05B8 /* BrushesAppDelegate.m in Sources */,
-				2D47C7531CAB786700AE30B1 /* PaintingManager.mm in Sources */,
+				2D3D08C41CFD1BDF00775308 /* MainViewController.mm in Sources */,
 				2D8F24F71B4CD0F600D1B5DF /* LayersTableViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

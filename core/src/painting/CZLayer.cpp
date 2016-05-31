@@ -70,6 +70,8 @@ CZLayer::~CZLayer()
     if(hueSaturation) { delete hueSaturation; hueSaturation = NULL;}
     if(uuid)	{	delete []uuid; uuid = NULL;	}
     clearThumbnailImage();
+    if (undoFragment) { delete undoFragment; undoFragment = NULL; }
+    if (redoFragment) { delete redoFragment; redoFragment = NULL; } 
 }
 
 /// Í¼²ãµÄÍ¼ÏñÊý¾Ý

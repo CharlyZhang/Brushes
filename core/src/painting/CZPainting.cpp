@@ -87,7 +87,7 @@ CZPainting::~CZPainting()
     if (brushStampTex) { delete brushStampTex; brushStampTex = NULL;}
     if (fbo) { delete fbo; fbo = NULL;}
     if (lastDeletedLayer) { delete lastDeletedLayer; lastDeletedLayer = nullptr;}
-    
+    if (uuid)	{	delete []uuid; uuid = NULL;	}
     CZCheckGLError();
     
     delete glContext;

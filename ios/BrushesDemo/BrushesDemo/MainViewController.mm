@@ -9,7 +9,6 @@
 #import "MainViewController.h"
 #import "HYBrushCore.h"
 #import "CanvasView.h"
-#import "PaintingManager.h"
 #import "LayersTableViewController.h"
 
 #import <CoreGraphics/CoreGraphics.h>
@@ -83,8 +82,11 @@
     CGSize size = [UIScreen mainScreen].bounds.size;
     
     coreInstance = [HYBrushCore sharedInstance];
-    [coreInstance initializeWithWidth:size.width height:size.height-BOTTOM_OFFSET scale:[UIScreen mainScreen].scale];
-    CanvasView *canvasView = [[HYBrushCore sharedInstance] getPaintingView];
+    CanvasView *canvasView = [coreInstance initializeWithWidth:size.width
+                                                        Height:size.height-BOTTOM_OFFSET
+                                                   ScreenScale:[UIScreen mainScreen].scale
+                                                 GLSLDirectory:[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"]];
+
     [self.view insertSubview:canvasView atIndex:0];
     
     self.brushSize = 10.0f;
@@ -210,6 +212,13 @@
 }
 
 #pragma mark - Actions
+
+- (IBAction)close:(UIButton *)sender {
+    CanvasView *canvasView = [[self.view subviews] objectAtIndex:0];
+    [canvasView removeFromSuperview];
+    [coreInstance restoreCore];
+}
+
 - (IBAction)clearButton:(UIButton *)sender {
     NSInteger activeLayerIdx = [coreInstance getActiveLayerIndex];
     [coreInstance clearLayer:activeLayerIdx];
