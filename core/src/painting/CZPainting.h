@@ -38,6 +38,11 @@ class CZCanvas;
 class CZPainting :public CZCoding
 {
 public:
+    typedef enum Type {
+        kNormalPainting = 0,        //< normal type
+        kFixedBGLayerPainting       //< the painting with a fixed layer for background
+    } Type;
+    
 	CZPainting(const CZSize &size, bool addDefaultLayer = true);
 	~CZPainting();
 	
@@ -53,6 +58,10 @@ public:
     /// produce thumbnail of default size
     CZImage *thumbnailImage(bool addPaintingPath = false);
 	
+    /// Type
+    void setType(Type t) { type = t;};
+    Type getType() { return type; };
+    
 	/// 设置范围（让render的范围与其保持一致）
 	void setDimensions(const CZSize &size);
 	/// set canvas
@@ -157,6 +166,7 @@ public:
 	CZTexture *activePaintTexture;			///< 绘制用的纹理
 
 private:
+    Type type;
 	CZSize dimensions;				///< 绘制范围
     CZRect bounds;
 	CZPath *ptrActivePath;			///< 激活的路径，此处仅为引用

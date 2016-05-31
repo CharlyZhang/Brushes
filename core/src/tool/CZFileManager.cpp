@@ -44,6 +44,9 @@ bool CZFileManager::savePainting(CZPainting *painting, const char * filepath)
         return false;
     }
     
+    CZPainting::Type type = painting->getType();
+    fwrite((void*)&type, sizeof(CZPainting::Type), 1, fp);
+    
     int activeLayerInd = painting->getActiveLayerIndex();
     fwrite((void*)&activeLayerInd, sizeof(int), 1, fp);
     CZSize size = painting->getDimensions();
@@ -99,8 +102,10 @@ bool CZFileManager::loadPainting(const char* filepath, CZPainting* painting)
         return nullptr;
     }
     
+    CZPainting::Type type;
     int activeLayerInd;
     float width,height;
+    fread((void*)&type, sizeof(CZPainting::Type), 1, fp);
     fread((void*)&activeLayerInd, sizeof(int), 1, fp);
     fread((void*)&width, sizeof(float), 1, fp);
     fread((void*)&height, sizeof(float), 1, fp);
@@ -115,6 +120,8 @@ bool CZFileManager::loadPainting(const char* filepath, CZPainting* painting)
     }
     
     painting->restore(false);
+    
+    painting->setType(type);
     
     // layers
     int layersNum;

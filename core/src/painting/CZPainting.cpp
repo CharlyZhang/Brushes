@@ -28,6 +28,8 @@ static std::string CZLayersKey = "layers";
 
 CZPainting::CZPainting(const CZSize &size, bool addDefaultLayer /* = true */)
 {
+    type = kNormalPainting;
+    
     flattenMode = false;
     
     colors.clear();
@@ -676,6 +678,8 @@ CZColor CZPainting::pickColor(int x, int y)
 /// restore the painting
 bool CZPainting::restore(bool addDefaultLayer /* = true */)
 {
+    type = kNormalPainting;
+    
     for(vector<CZLayer*>::iterator itr = layers.begin(); itr != layers.end(); itr++)    delete *itr;
     layers.clear();
     activeLayerInd = -1;

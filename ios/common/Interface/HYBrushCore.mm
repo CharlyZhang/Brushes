@@ -93,6 +93,8 @@
         return NO;
     }
     
+    hasInsertedBackgroundLayer = NO;
+    
     paintingStorePath = path;
     
     // save current painting
@@ -139,7 +141,9 @@
     if(paintingStorePath) [self saveActivePaintingTo:paintingStorePath];
     paintingStorePath = path;
     
-    return CZFileManager::getInstance()->loadPainting([path UTF8String], painting);
+    BOOL ret = CZFileManager::getInstance()->loadPainting([path UTF8String], painting);
+    if(ret) hasInsertedBackgroundLayer = (painting->getType() == CZPainting::kFixedBGLayerPainting);
+    return ret;
 }
 
 - (BOOL) saveActivePaintingTo:(NSString*) path
@@ -443,6 +447,7 @@
         painting->moveLayer(fixedIdx, 0);
         originalIdx = fixedIdx;
         hasInsertedBackgroundLayer = YES;
+        painting->setType(CZPainting::kFixedBGLayerPainting);
     }
     
     painting->setActiveLayer(0);
