@@ -132,12 +132,15 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
      */
     self.navigationController.navigationBar.tintColor = [UIColor lightGrayColor];
     
+    // close
+    UIBarButtonItem *closeItem = [[UIBarButtonItem alloc]initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(closeBrush:)];
+    
     // Painting List
     UIBarButtonItem *listItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
 	
 	// 图片资源
 	UIBarButtonItem *resourceItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_button_resource"] style:UIBarButtonItemStylePlain target:self action:@selector(toResourcePicturesVC)];
-	self.navigationItem.leftBarButtonItems = @[listItem, resourceItem];
+	self.navigationItem.leftBarButtonItems = @[closeItem,listItem, resourceItem];
     
     // undo & redo
     undoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"undo_n"] style:UIBarButtonItemStylePlain target:self action:@selector(undo:)];
@@ -274,6 +277,12 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
 //}
 
 #pragma mark - Top Bar Actions
+
+-(void)closeBrush:(UIBarButtonItem*)sender {
+    CanvasView *canvasView = [[self.view subviews]objectAtIndex:0];
+    [canvasView removeFromSuperview];
+    [[HYBrushCore sharedInstance]restoreCore];
+}
 
 -(void)showPaintingList:(UIBarButtonItem*)sender {
     

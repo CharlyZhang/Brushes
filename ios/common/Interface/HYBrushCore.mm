@@ -452,6 +452,7 @@
     painting->setActiveLayer(originalIdx);
     
     canvas->drawView();
+    delete backgroundImg;
 }
 
 - (NSInteger) getLayersNumber
