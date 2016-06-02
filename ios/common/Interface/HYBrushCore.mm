@@ -247,6 +247,7 @@
     }
     
     self.hasInitialized = NO;
+    paintingStorePath = nil;
     return YES;
 }
 

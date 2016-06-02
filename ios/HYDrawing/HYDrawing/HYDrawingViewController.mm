@@ -78,6 +78,9 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     Actions *preAction;
     UIBarButtonItem *undoItem, *redoItem;
     
+    // test saving and loading
+    BOOL isClosed;
+    
 }
 
 @property (nonatomic,strong) WDColorPickerController* colorPickerController;
@@ -134,13 +137,15 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
     
     // close
     UIBarButtonItem *closeItem = [[UIBarButtonItem alloc]initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(closeBrush:)];
+    // close
+    UIBarButtonItem *loadItem = [[UIBarButtonItem alloc]initWithTitle:@"Load" style:UIBarButtonItemStylePlain target:self action:@selector(loadBrush:)];
     
     // Painting List
     UIBarButtonItem *listItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu"] style:UIBarButtonItemStylePlain target:self action:@selector(showPaintingList:)];
 	
 	// 图片资源
 	UIBarButtonItem *resourceItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_button_resource"] style:UIBarButtonItemStylePlain target:self action:@selector(toResourcePicturesVC)];
-	self.navigationItem.leftBarButtonItems = @[closeItem,listItem, resourceItem];
+	self.navigationItem.leftBarButtonItems = @[closeItem,loadItem,listItem, resourceItem];
     
     // undo & redo
     undoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"undo_n"] style:UIBarButtonItemStylePlain target:self action:@selector(undo:)];
@@ -279,9 +284,30 @@ SettingViewControllerDelegate, ResourceImageSelectDelegate>
 #pragma mark - Top Bar Actions
 
 -(void)closeBrush:(UIBarButtonItem*)sender {
+    if(isClosed) return;
     CanvasView *canvasView = [[self.view subviews]objectAtIndex:0];
     [canvasView removeFromSuperview];
+    [[HYBrushCore sharedInstance]saveActivePainting];
     [[HYBrushCore sharedInstance]restoreCore];
+    isClosed = YES;
+}
+
+-(void)loadBrush:(UIBarButtonItem*)sender {
+    if (!isClosed) return;
+    
+    CanvasView *canvasView = [[HYBrushCore sharedInstance] initializeWithWidth:kScreenW
+                                                                        Height:kScreenH
+                                                                   ScreenScale:[UIScreen mainScreen].scale
+                                                                 GLSLDirectory:[[[NSBundle mainBundle]bundlePath] stringByAppendingString:@"/"]];
+    
+    canvasView.delegate = self;
+    [self.view insertSubview:canvasView atIndex:0];
+    
+    NSArray *paintingNames = [[PaintingNameManager sharedInstance] allNames];
+    NSString *dPath = [[PaintingNameManager sharedInstance] pathOfDefaultName:[paintingNames objectAtIndex:0]];
+    [[HYBrushCore sharedInstance] loadActivePaintingFrom:dPath];
+    
+    isClosed = NO;
 }
 
 -(void)showPaintingList:(UIBarButtonItem*)sender {
