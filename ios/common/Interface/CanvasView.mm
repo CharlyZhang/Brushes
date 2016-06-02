@@ -92,9 +92,6 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
 {
     CGSize size = self.bounds.size;
     projMat.SetOrtho(0,size.width, 0, size.height, -1.0f, 1.0f);
-    [EAGLContext setCurrentContext:context];
-    if(self.fbo)
-        self.fbo->setRenderBufferWithContext((__bridge void*)context, (__bridge void*)self.layer);
     [self drawView];
 }
 
@@ -105,6 +102,7 @@ NSString *CZCanvasDirtyNotification = @"CZCanvasDirtyNotification";
     if (!_fbo && context) {
         [EAGLContext setCurrentContext:context];
         _fbo = new CZFbo;
+        _fbo->setRenderBufferWithContext((__bridge void*)context, (__bridge void*)self.layer);
     }
     
     return _fbo;
