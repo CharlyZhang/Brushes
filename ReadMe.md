@@ -1,4 +1,7 @@
 #Brushes
+
+> This repo has been deprecated and the project has been migrated to **[BrushCore](https://github.com/CharlyZhang/BrushCore)**
+
 研究了sprang的[Brushes](https://github.com/sprang/Brushes)项目，将其主要思想用c++编写，实现跨平台画笔库。
 目前初步完成了windows和ios平台上的绘制demo。
 
